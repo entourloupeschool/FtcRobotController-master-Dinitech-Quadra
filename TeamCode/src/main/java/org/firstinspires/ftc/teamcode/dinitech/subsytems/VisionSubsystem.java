@@ -1,0 +1,431 @@
+package org.firstinspires.ftc.teamcode.dinitech.subsytems;
+
+import com.acmerobotics.roadrunner.Pose2d;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CX;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FX;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA1_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_POSITION;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_RESOLUTION;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_AT_SAMPLES;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_BEARING_AT_134_INCHES_RANGE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_BEARING_AT_50_INCHES_RANGE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.STREAM_FORMAT;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.USE_WEBCAM;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_ROBOT_X;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_ROBOT_Y;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_ROBOT_YAW;
+
+import com.arcrobotics.ftclib.command.SubsystemBase;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.opencv.ImageRegion;
+import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
+
+import java.util.List;
+import java.util.Locale;
+
+/**
+ * A command-based subsystem that manages the robot's vision capabilities.
+ * <p>
+ * This subsystem handles the initialization and operation of a {@link VisionPortal},
+ * which can be configured with multiple processors. It is designed to support both
+ * AprilTag detection for localization and color detection for game-specific logic.
+ * <p>
+ * Key features:
+ * <ul>
+ *     <li>Manages an {@link AprilTagProcessor} for detecting AprilTags and estimating robot pose.</li>
+ *     <li>Manages a {@link PredominantColorProcessor} for identifying object colors.</li>
+ *     <li>Uses a running average filter to smooth AprilTag pose data, providing more stable localization.</li>
+ *     <li>Dynamically adjusts AprilTag decimation to optimize performance based on distance.</li>
+ *     <li>Caches game-specific information, like the randomized color order from setup tags.</li>
+ * </ul>
+ */
+public class VisionSubsystem extends SubsystemBase {
+    public final Telemetry telemetry;
+    public VisionPortal.Builder builder = null;
+    public AprilTagProcessor aprilTagProcessor;
+    public PredominantColorProcessor colorProcessor;
+
+    private final RunningAverage robotPoseXSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage robotPoseYSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage robotPoseYawSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage rangeToAprilTagSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage cameraBearingSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage confidenceAprilTagSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private boolean hasCurrentATDetections = false;
+
+    private String[] cachedColorsOrder = new String[0];
+    private boolean hasDetectedColorOrder = false;
+
+    private int currentDecimation = 1;
+
+    /**
+     * Constructs a new VisionSubsystem.
+     *
+     * @param hardwareMap The robot's hardware map.
+     * @param telemetry   The telemetry object for logging.
+     */
+    public VisionSubsystem(HardwareMap hardwareMap, final Telemetry telemetry) {
+        this.builder = new VisionPortal.Builder();
+        this.aprilTagProcessor = null;
+        this.colorProcessor = null;
+
+        if (USE_WEBCAM) {
+            builder.setCamera(hardwareMap.get(WebcamName.class, CAMERA1_NAME))
+                    .setStreamFormat(STREAM_FORMAT)
+                    .setCameraResolution(CAMERA_RESOLUTION)
+                    .enableLiveView(false);
+        } else {
+            builder.setCamera(BuiltinCameraDirection.BACK);
+        }
+
+        this.telemetry = telemetry;
+
+        addAprilTagProcessor();
+        buildVisionPortal();
+    }
+
+    /**
+     * Builds the VisionPortal after processors have been added.
+     */
+    public void buildVisionPortal() {
+        if (builder != null) {
+            builder.build();
+        }
+    }
+
+    /**
+     * Adds the AprilTag processor to the VisionPortal builder.
+     */
+    public void addAprilTagProcessor() {
+        aprilTagProcessor = new AprilTagProcessor.Builder()
+                .setLensIntrinsics(FX, FY, CX, CY)
+                .setTagLibrary(AprilTagGameDatabase.getDecodeTagLibrary())
+                .setDrawCubeProjection(true)
+                .setDrawAxes(true)
+                .setCameraPose(CAMERA_POSITION, CAMERA_ORIENTATION)
+                .build();
+
+        setAprilTagDetectionDecimation(getCurrentDecimation());
+        builder.addProcessor(aprilTagProcessor);
+    }
+
+    /**
+     * Adds the color processor to the VisionPortal builder.
+     *
+     * @param size The size of the region of interest for color analysis.
+     */
+    public void addColorProcessor(final double size) {
+        colorProcessor = new PredominantColorProcessor.Builder()
+                .setRoi(ImageRegion.asUnityCenterCoordinates(-size, size, size, -size))
+                .setSwatches(
+                        PredominantColorProcessor.Swatch.ARTIFACT_GREEN,
+                        PredominantColorProcessor.Swatch.ARTIFACT_PURPLE)
+                .build();
+
+        builder.addProcessor(colorProcessor);
+    }
+
+    /**
+     * Updates the cached AprilTag detection data.
+     * <p>
+     * If new detections are available, this method adds them to the running average filters
+     * to provide smoothed pose and bearing information.
+     */
+    public void updateAprilTagDetections() {
+        if (aprilTagProcessor != null) {
+            List<AprilTagDetection> detections = aprilTagProcessor.getDetections();
+            hasCurrentATDetections = !detections.isEmpty();
+
+            if (hasCurrentATDetections) {
+                AprilTagDetection detection = detections.get(0);
+
+                if (detection.metadata != null) {
+                    if (detection.id == 20 || detection.id == 24) {
+                        robotPoseXSamples.add(detection.robotPose.getPosition().x);
+                        robotPoseYSamples.add(detection.robotPose.getPosition().y);
+                        robotPoseYawSamples.add(detection.robotPose.getOrientation().getYaw(AngleUnit.RADIANS));
+                        cameraBearingSamples.add(detection.ftcPose.bearing);
+                        rangeToAprilTagSamples.add(detection.ftcPose.range);
+                        confidenceAprilTagSamples.add(detection.decisionMargin);
+                    } else if (!hasDetectedColorOrder) {
+                        if (detection.id == 21) {
+                            cachedColorsOrder = new String[] { "g", "p", "p" };
+                            hasDetectedColorOrder = true;
+                        } else if (detection.id == 22) {
+                            cachedColorsOrder = new String[] { "p", "g", "p" };
+                            hasDetectedColorOrder = true;
+                        } else if (detection.id == 23) {
+                            cachedColorsOrder = new String[] { "p", "p", "g" };
+                            hasDetectedColorOrder = true;
+                        }
+                    }
+                } else {
+                    hasCurrentATDetections = false;
+                }
+            }
+        } else {
+            hasCurrentATDetections = false;
+        }
+    }
+
+    /**
+     * A zero-allocation circular buffer for calculating a running average.
+     */
+    private static class RunningAverage {
+        private final double[] samples;
+        private int index = 0;
+        private int count = 0;
+        private double runningSum = 0;
+
+        public RunningAverage(int size) {
+            this.samples = new double[size];
+        }
+
+        public void add(double value) {
+            runningSum -= samples[index];
+            samples[index] = value;
+            runningSum += value;
+            index = (index + 1) % samples.length;
+            if (count < samples.length) {
+                count++;
+            }
+        }
+
+        public Double getAverage() {
+            return count == 0 ? null : runningSum / count;
+        }
+
+        public boolean isEmpty() {
+            return count == 0;
+        }
+
+        public int size() {
+            return count;
+        }
+    }
+
+    /**
+     * Gets the averaged robot pose X coordinate from AprilTag detections.
+     *
+     * @return The averaged X coordinate in inches, or null if no data is available.
+     */
+    public Double getRobotPoseX() {
+        return robotPoseXSamples.getAverage();
+    }
+
+    /**
+     * Gets the averaged robot pose Y coordinate from AprilTag detections.
+     *
+     * @return The averaged Y coordinate in inches, or null if no data is available.
+     */
+    public Double getRobotPoseY() {
+        return robotPoseYSamples.getAverage();
+    }
+
+    /**
+     * Gets the averaged robot yaw from AprilTag detections.
+     *
+     * @return The averaged yaw in radians, or null if no data is available.
+     */
+    public Double getRobotPoseYaw() {
+        return robotPoseYawSamples.getAverage();
+    }
+
+    /**
+     * Gets the averaged range to the detected AprilTag.
+     *
+     * @return The averaged range in inches, or null if no data is available.
+     */
+    public Double getRangeToAprilTag() {
+        return rangeToAprilTagSamples.getAverage();
+    }
+
+    /**
+     * Gets the averaged bearing from the camera to the AprilTag.
+     *
+     * @return The averaged bearing in degrees, or null if no data is available.
+     */
+    public Double getCameraBearing() {
+        return cameraBearingSamples.getAverage();
+    }
+
+    /**
+     * Calculates the bearing from the robot's center to the AprilTag, compensating for camera offset.
+     *
+     * @return The corrected bearing in degrees.
+     */
+    public double getRobotCenterBearing(){
+        Double cameraBearing = getCameraBearing();
+        Double range = getRangeToAprilTag();
+        if (cameraBearing == null || range == null) return 0.0; // Or handle error appropriately
+        return cameraBearing - getLinearInterpolationOffsetBearing(range);
+    }
+
+    /**
+     * Checks if the last update cycle found any AprilTag detections.
+     *
+     * @return True if detections were found, false otherwise.
+     */
+    public boolean getHasCurrentAprilTagDetections() {
+        return hasCurrentATDetections;
+    }
+
+    public void setHasCurrentAprilTagDetections(boolean newHasCurrentATDetections) {
+        hasCurrentATDetections = newHasCurrentATDetections;
+    }
+
+    /**
+     * Checks if there is any cached pose data from AprilTag detections.
+     *
+     * @return True if at least one pose sample has been collected.
+     */
+    public boolean hasCachedPoseData() {
+        return !robotPoseXSamples.isEmpty();
+    }
+
+    /**
+     * Gets the latest estimated robot pose from the averaged AprilTag data.
+     *
+     * @return A {@link Pose2d} representing the estimated robot pose.
+     */
+    public Pose2d getLatestRobotPoseEstimationFromAT() {
+        Double x = getRobotPoseX();
+        Double y = getRobotPoseY();
+        Double yaw = getRobotPoseYaw();
+
+        return new Pose2d(
+                x != null ? x : 0.0,
+                y != null ? y : 0.0,
+                yaw != null ? yaw : 0.0);
+    }
+
+    private void setAprilTagDetectionDecimation(int dec) {
+        if (aprilTagProcessor != null) {
+            aprilTagProcessor.setDecimation((float) dec);
+        }
+    }
+
+    /**
+     * Dynamically optimizes the AprilTag processor's decimation based on the range to the tag.
+     * This balances detection range and processing rate.
+     */
+    public void optimizeDecimation() {
+        if (aprilTagProcessor == null) return;
+        
+        Double rangeToAprilTag = getRangeToAprilTag();
+        if (rangeToAprilTag == null) return;
+
+        int optimalDecimation = (int) Math.round(4.0 - 3.0 * (rangeToAprilTag - 35) / 45.0);
+        optimalDecimation = Math.max(1, Math.min(4, optimalDecimation));
+        
+        if (optimalDecimation != currentDecimation) {
+            setCurrentDecimation(optimalDecimation);
+            setAprilTagDetectionDecimation(optimalDecimation);
+        }
+    }
+
+    public int getCurrentDecimation(){
+        return currentDecimation;
+    }
+    
+    public void setCurrentDecimation(int newDecimation){
+        currentDecimation = newDecimation;
+    }
+
+    /**
+     * Calculates a bearing offset using linear interpolation based on range.
+     * This helps correct for parallax error due to camera placement.
+     * @param range The range to the target.
+     * @return The calculated bearing offset.
+     */
+    public static double getLinearInterpolationOffsetBearing(double range) {
+        if (range <= 50) {
+            return OFFSET_BEARING_AT_50_INCHES_RANGE;
+        } else if (range <= 134) {
+            // Linear interpolation between the two known points
+            return OFFSET_BEARING_AT_50_INCHES_RANGE + (range - 50) * 
+                   (OFFSET_BEARING_AT_134_INCHES_RANGE - OFFSET_BEARING_AT_50_INCHES_RANGE) / (134 - 50);
+        } else {
+            // Extrapolate beyond 134 inches, though this may be less accurate
+            return OFFSET_BEARING_AT_134_INCHES_RANGE;
+        }
+    }
+
+    @Override
+    public void periodic() {
+        printTelemetry(telemetry);
+    }
+
+    private void printTelemetry(final Telemetry telemetry) {
+        if (builder == null) {
+            telemetry.addLine("VisionPortal Builder is null");
+            return;
+        }
+        if (aprilTagProcessor != null) aprilTagProcessorTelemetry();
+        if (colorProcessor != null) colorProcessorTelemetry();
+        if (aprilTagProcessor == null && colorProcessor == null) telemetry.addData("Vision", "No processors added");
+    }
+
+    private void aprilTagProcessorTelemetry() {
+        telemetry.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
+
+        if (hasCachedPoseData()) {
+            telemetry.addData("X Offset", "%.2f", getRobotPoseX() - OFFSET_ROBOT_X);
+            telemetry.addData("Y Offset", "%.2f", getRobotPoseY() - OFFSET_ROBOT_Y);
+            telemetry.addData("Yaw Offset (deg)", "%.2f", Math.toDegrees(getRobotPoseYaw()) + OFFSET_ROBOT_YAW);
+            telemetry.addData("Bearing Offset", "%.2f", getRobotCenterBearing());
+            telemetry.addData("Range", "%.2f", getRangeToAprilTag());
+        } else {
+            telemetry.addData("AprilTag Pose Data", "No sample data");
+        }
+
+        telemetry.addData("Decimation", getCurrentDecimation());
+
+        if (hasDetectedColorOrder) {
+            telemetry.addData("Artifact Color Order", String.join(", ", cachedColorsOrder));
+        }
+    }
+
+    private void colorProcessorTelemetry() {
+        PredominantColorProcessor.Result result = colorProcessor.getAnalysis();
+        telemetry.addData("Predominant Color", result != null ? result.closestSwatch : "No analysis");
+    }
+
+    /**
+     * Gets the cached color order determined at the start of the match.
+     *
+     * @return An array of strings representing the color order (e.g., ["g", "p", "p"]), or an empty array if not yet detected.
+     */
+    public String[] getColorsOrder() {
+        return cachedColorsOrder;
+    }
+
+    /**
+     * Checks if the color order has been detected and cached.
+     *
+     * @return True if the color order is available, false otherwise.
+     */
+    public boolean hasColorOrder() {
+        return hasDetectedColorOrder;
+    }
+
+    /**
+     * Resets the cached color order.
+     */
+    public void resetColorOrder() {
+        cachedColorsOrder = new String[0];
+        hasDetectedColorOrder = false;
+    }
+}
