@@ -1,7 +1,7 @@
 # 🤖 Dinitech #24042 - FTC DECODE (2025-2026)
 
 Welcome to the official robot software repository for **Team Dinitech #24042**. We are currently competing in the **FIRST Tech Challenge (FTC) DECODE** season.
-The DiniTech team from Amédée Gordini High School is participating in the Top Fab competition, a international digital design and manufacturing challenge. 🗿 Passionate about innovation and prototyping, we apply our 3D and engineering skills to a concrete and ambitious project. 👊 Our goal: to showcase the excellence and expertise of the vocational track.
+The DiniTech team from Amédée Gordini High School, Annecy, France, is participating in the Top Fab competition, a international digital design and manufacturing challenge. 🗿 Passionate about innovation and prototyping, we apply our 3D and engineering skills to a concrete and ambitious project. 👊 Our goal: to showcase the excellence and expertise of the vocational track.
 
 ---
 
@@ -18,3 +18,4 @@ Our software architecture is built on top of the industry-standard FTC libraries
 Stay updated with our progress, matches, and reveals:
 *   🎥 **YouTube**: [Dinitech Channel](https://www.youtube.com/channel/UCaTOewE9eect9wCToUA1e8g)
 *   📸 **Instagram**: [@dinitech.first](https://www.instagram.com/dinitech.first/)
+*   🏫 **High School**: [Lycée Professionnel Amédée Gordini](https://amedee-gordini.ent.auvergnerhonealpes.fr/)
