@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" width="250" alt="Dinitech Logo">
+</p>
+
 # 🤖 Dinitech #25042 - FTC DECODE (2025-2026)
 
 This is the Gornetix software repository of **Team Dinitech #25042 from 🇫🇷**. We are currently competing in the **FIRST Tech Challenge (FTC) DECODE** season. 
