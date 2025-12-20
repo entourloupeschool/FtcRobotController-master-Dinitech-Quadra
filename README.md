@@ -1,6 +1,6 @@
-# 🤖 Dinitech - FTC DECODE (2025-2026)
+# 🤖 Dinitech #24042 - FTC DECODE (2025-2026)
 
-Welcome to the official robot software repository for **Team Dinitech**. We are currently competing in the **FIRST Tech Challenge (FTC) DECODE** season.
+Welcome to the official robot software repository for **Team Dinitech #24042**. We are currently competing in the **FIRST Tech Challenge (FTC) DECODE** season.
 
 ---
 
