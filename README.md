@@ -2,14 +2,12 @@
   <img src="assets/logo.png" width="250" alt="Dinitech Logo">
 </p>
 
-# Dinitech #25042 - FTC DECODE (2025-2026)
-
-This is the Gornetix software repository of **Team Dinitech #25042 from 🇫🇷**. We are currently competing in the **FIRST Tech Challenge (FTC) DECODE** season. 
-
----
+# Dinitech #25042 from 🇫🇷 - FTC DECODE (2025-2026)
 
 We are team DiniTech from Amédée Gordini High School, Annecy, France. We are participating in the Top Fab competition, a international digital design and manufacturing challenge. 🗿 Passionate about innovation and prototyping, we apply our 3D and engineering skills to a concrete and ambitious project. 👊 Our goal: to showcase the excellence and expertise of the vocational track.
 
+---
+###This is the Gornetix software repository.
 ---
 
 ### 🚀 Tech Stack
