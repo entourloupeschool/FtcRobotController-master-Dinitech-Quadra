@@ -27,10 +27,6 @@ public class DinitechRobotBase extends CommandOpMode {
      */
     @Override
     public void initialize() {
-        // CRITICAL: Reset the CommandScheduler to clear all button bindings and
-        // commands
-        // from previous OpMode runs. Without this, button bindings accumulate across
-        // different OpModes, causing "ghost" commands to execute.
         CommandScheduler.getInstance().reset();
 
         timer.reset();
@@ -63,29 +59,29 @@ public class DinitechRobotBase extends CommandOpMode {
      * Call telemetry update once per cycle
      */
     public void postCycle() {
-        telemetry.addData("hz ", getFrequency());
-        timer.reset();
-
         for (LynxModule hub : hubs) {
             hub.clearBulkCache();
         }
-//
-//        if (voltageSensor.getVoltage() < 8.5) {
-//            throw new RuntimeException("voltage too low" + voltageSensor.getVoltage());
-//        }
+
+        telemetry.addData("hz ", getFrequency());
+        timer.reset();
+        //
+        // if (voltageSensor.getVoltage() < 8.5) {
+        // throw new RuntimeException("voltage too low" + voltageSensor.getVoltage());
+        // }
 
         telemetry.update();
     }
 
-    public ElapsedTime getTimer(){
+    public ElapsedTime getTimer() {
         return timer;
     }
 
-    public double getElapsedTime(){
+    public double getElapsedTime() {
         return timer.seconds();
     }
 
-    public double getFrequency(){
+    public double getFrequency() {
         return 1 / getElapsedTime();
     }
 
