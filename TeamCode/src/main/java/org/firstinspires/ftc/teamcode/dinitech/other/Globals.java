@@ -189,21 +189,14 @@ public class Globals {
         public static double CAMERA_POSITION_X = -9.0;
         public static double CAMERA_POSITION_Y = 0.0;
         public static double CAMERA_POSITION_Z = 43.0;
-        public static Position CAMERA_POSITION = new Position(
-                        DistanceUnit.CM,
-                        CAMERA_POSITION_X, CAMERA_POSITION_Y, CAMERA_POSITION_Z, 0);
 
         public static double OFFSET_ROBOT_X = 16.0;
         public static double OFFSET_ROBOT_Y = 16.5;
         public static double OFFSET_ROBOT_YAW = Math.PI + ANGLE_RADIANS_BLUE_GOAL;
 
-
         public static final double CAMERA_ORIENTATION_YAW = 0;
-        public static final double CAMERA_ORIENTATION_PITCH = 0;
+        public static final double CAMERA_ORIENTATION_PITCH = -90; // https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_localization/apriltag-localization.html
         public static final double CAMERA_ORIENTATION_ROLL = 0;
-        public static final YawPitchRollAngles CAMERA_ORIENTATION = new YawPitchRollAngles(
-                        AngleUnit.DEGREES,
-                        CAMERA_ORIENTATION_YAW, CAMERA_ORIENTATION_PITCH, CAMERA_ORIENTATION_ROLL, 0);
         public static final boolean USE_WEBCAM = true; // true for webcam, false for phone camera
         // Choose a camera resolution. Not all cameras support all resolutions.
         public static final int CAMERA_WIDTH = 640;// 1280; // 640;

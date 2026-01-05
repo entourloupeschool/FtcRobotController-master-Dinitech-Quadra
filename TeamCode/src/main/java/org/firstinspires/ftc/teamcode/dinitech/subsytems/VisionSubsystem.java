@@ -2,13 +2,18 @@ package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_PITCH;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_ROLL;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_YAW;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_POSITION_X;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_POSITION_Y;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_POSITION_Z;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CX;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FX;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA1_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_POSITION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_RESOLUTION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_AT_SAMPLES;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_BEARING_AT_134_INCHES_RANGE;
@@ -25,6 +30,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
@@ -116,7 +124,14 @@ public class VisionSubsystem extends SubsystemBase {
                 .setTagLibrary(AprilTagGameDatabase.getDecodeTagLibrary())
                 .setDrawCubeProjection(true)
                 .setDrawAxes(true)
-                .setCameraPose(CAMERA_POSITION, CAMERA_ORIENTATION)
+                .setCameraPose(
+                        new Position(
+                                DistanceUnit.CM,
+                                CAMERA_POSITION_X, CAMERA_POSITION_Y, CAMERA_POSITION_Z, 0
+                        ), new YawPitchRollAngles(
+                                AngleUnit.DEGREES,
+                                CAMERA_ORIENTATION_YAW, CAMERA_ORIENTATION_PITCH, CAMERA_ORIENTATION_ROLL, 0
+                        ))
                 .setLensIntrinsics(FX, FY, CX, CY)
                 .build();
 
@@ -336,9 +351,7 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     private void setAprilTagDetectionDecimation(int dec) {
-        if (aprilTagProcessor != null) {
-            aprilTagProcessor.setDecimation((float) dec);
-        }
+        aprilTagProcessor.setDecimation((float) dec);
     }
 
     /**
@@ -416,7 +429,6 @@ public class VisionSubsystem extends SubsystemBase {
             telemetry.addData("Range", "%.2f", getRangeToAprilTag());
             telemetry.addData("XftcPose", "%.2f", getXFtcPose());
             telemetry.addData("YftcPose", "%.2f", getYFtcPose());
-
         } else {
             telemetry.addData("AprilTag Pose Data", "No sample data");
         }
