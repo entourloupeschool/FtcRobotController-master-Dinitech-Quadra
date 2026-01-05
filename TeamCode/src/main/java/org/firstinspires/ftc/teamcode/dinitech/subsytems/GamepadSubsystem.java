@@ -118,8 +118,8 @@ public class GamepadSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        printGamepadWrapperTelemetry(1, driver, telemetry);
-        printGamepadWrapperTelemetry(2, operator, telemetry);
+//        printGamepadWrapperTelemetry(1, driver, telemetry);
+//        printGamepadWrapperTelemetry(2, operator, telemetry);
     }
 
     private void printGamepadWrapperTelemetry(int gamepadID, GamepadWrapper gamepadWrapper, final Telemetry telemetry){

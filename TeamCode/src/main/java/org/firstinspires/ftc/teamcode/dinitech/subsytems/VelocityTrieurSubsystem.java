@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DISTANCE_MAR
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAGNETIC_ON_MOULIN_POSITION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_TELE_INCREMENT;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -290,7 +291,7 @@ public class VelocityTrieurSubsystem extends SubsystemBase {
     }
 
     public void setIsFull(boolean newIsFull) {
-        isFull = newIsFirstore;
+        isFull = newIsFull;
     }
 
     public boolean getIsFull() {

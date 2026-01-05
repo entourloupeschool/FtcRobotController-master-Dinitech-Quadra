@@ -13,11 +13,11 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_RESOL
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_AT_SAMPLES;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_BEARING_AT_134_INCHES_RANGE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_BEARING_AT_50_INCHES_RANGE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_ROBOT_YAW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.STREAM_FORMAT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.USE_WEBCAM;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_ROBOT_X;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_ROBOT_Y;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_ROBOT_YAW;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
@@ -63,6 +63,9 @@ public class VisionSubsystem extends SubsystemBase {
     private final RunningAverage rangeToAprilTagSamples = new RunningAverage(NUMBER_AT_SAMPLES);
     private final RunningAverage cameraBearingSamples = new RunningAverage(NUMBER_AT_SAMPLES);
     private final RunningAverage confidenceAprilTagSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage ftcPoseXSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage ftcPoseYSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+
     private boolean hasCurrentATDetections = false;
 
     private String[] cachedColorsOrder = new String[0];
@@ -110,11 +113,11 @@ public class VisionSubsystem extends SubsystemBase {
      */
     public void addAprilTagProcessor() {
         aprilTagProcessor = new AprilTagProcessor.Builder()
-                .setLensIntrinsics(FX, FY, CX, CY)
                 .setTagLibrary(AprilTagGameDatabase.getDecodeTagLibrary())
                 .setDrawCubeProjection(true)
                 .setDrawAxes(true)
                 .setCameraPose(CAMERA_POSITION, CAMERA_ORIENTATION)
+                .setLensIntrinsics(FX, FY, CX, CY)
                 .build();
 
         setAprilTagDetectionDecimation(getCurrentDecimation());
@@ -159,6 +162,8 @@ public class VisionSubsystem extends SubsystemBase {
                         cameraBearingSamples.add(detection.ftcPose.bearing);
                         rangeToAprilTagSamples.add(detection.ftcPose.range);
                         confidenceAprilTagSamples.add(detection.decisionMargin);
+                        ftcPoseXSamples.add(detection.ftcPose.x);
+                        ftcPoseYSamples.add(detection.ftcPose.y);
                     } else if (!hasDetectedColorOrder) {
                         if (detection.id == 21) {
                             cachedColorsOrder = new String[] { "g", "p", "p" };
@@ -274,6 +279,25 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     /**
+     * Gets the averaged XftcPose from AprilTag detections.
+     *
+     * @return The averaged XftcPose in inches, or null if no data is available.
+     */
+    public Double getXFtcPose(){
+        return ftcPoseXSamples.getAverage();
+    }
+
+    /**
+     * Gets the averaged YftcPose from AprilTag detections.
+     *
+     * @return The averaged YftcPose in inches, or null if no data is available.
+     */
+    public Double getYFtcPose(){
+        return ftcPoseYSamples.getAverage();
+    }
+
+
+    /**
      * Checks if the last update cycle found any AprilTag detections.
      *
      * @return True if detections were found, false otherwise.
@@ -382,11 +406,17 @@ public class VisionSubsystem extends SubsystemBase {
         telemetry.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
 
         if (hasCachedPoseData()) {
+            telemetry.addData("X", "%.2f", getRobotPoseX());
             telemetry.addData("X Offset", "%.2f", getRobotPoseX() - OFFSET_ROBOT_X);
+            telemetry.addData("Y", "%.2f", getRobotPoseY());
             telemetry.addData("Y Offset", "%.2f", getRobotPoseY() - OFFSET_ROBOT_Y);
+            telemetry.addData("Yaw (rad)", "%.2f", getRobotPoseYaw());
             telemetry.addData("Yaw Offset (deg)", "%.2f", Math.toDegrees(getRobotPoseYaw()) + OFFSET_ROBOT_YAW);
-            telemetry.addData("Bearing Offset", "%.2f", getRobotCenterBearing());
+            telemetry.addData("Bearing", "%.2f", getRobotCenterBearing());
             telemetry.addData("Range", "%.2f", getRangeToAprilTag());
+            telemetry.addData("XftcPose", "%.2f", getXFtcPose());
+            telemetry.addData("YftcPose", "%.2f", getYFtcPose());
+
         } else {
             telemetry.addData("AprilTag Pose Data", "No sample data");
         }

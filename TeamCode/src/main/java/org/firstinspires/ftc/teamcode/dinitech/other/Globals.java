@@ -18,7 +18,6 @@ public class Globals {
         /**
          * Tests variables
          */
-        public static double INCREMENT_CHAR_MOULIN = 0.01;
         public static final double TEST_CIRCLE_RADIUS = 10.0;
         public static final double TEST_CONSTRAINTS = 1.0;
 
@@ -73,7 +72,7 @@ public class Globals {
         public static final double TELE_DRIVE_POWER = 0.3;
         public static final double TELE_DRIVE_POWER_TRIGGER_SCALE = 1 - TELE_DRIVE_POWER;
         public static final int DRIVER_POWER_SCALER_TO_THE_POWER = 3;
-        public static double SLOW_DRIVE_SCALE = 0.3;
+        public static final double SLOW_DRIVE_SCALE = 0.3;
 
         public static final double MAX_WHEEL_VELOCITY = 50.0;
         public static final double MIN_PROFILE_ACCELERATION = -30;
@@ -99,29 +98,29 @@ public class Globals {
         public static final int MOTOR_TICKS_PER_REV = 288;
         public static final int RAPPORT_TRANSMISSION = 8; // pignon 18 dents ; courronne 144 dents // rapport de
                                                           // transmission : 144/8 = 8;
-        public static int INTERVALLE_TICKS_MOULIN = 240;//384;// MOTOR_TICKS_PER_REV * RAPPORT_TRANSMISSION /
+        public static final int INTERVALLE_TICKS_MOULIN = 240;//384;// MOTOR_TICKS_PER_REV * RAPPORT_TRANSMISSION /
                                                               // Moulin.TOTAL_POSITIONS;
         public static final double POWER_MOULIN_ROTATION = 1;
         public static final int MOULIN_POSITION_TOLERANCE = 3;
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * MOULIN_POSITION_TOLERANCE;
-        public static int MOULIN_ROTATE_SPEED_CALIBRATION = 7;
+        public static final int MOULIN_ROTATE_SPEED_CALIBRATION = 7;
         public static final int TRIEUR_TIME_BETWEEN_SHOTS = 5; // milliseconds
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.8;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 20; // Ticks to back off when over-current detected
 
         //PIDF MOULIN (TURRET)
-        public static double P_MOULIN_AGGRESSIVE = 2.231813;
-        public static double I_MOULIN_AGGRESSIVE = 11.941806;
-        public static double D_MOULIN_AGGRESSIVE = 0.008558;
-        public static double F_MOULIN_AGGRESSIVE = 0.178335;
-        public static double ADJUST_CONSTANT = 0.0005;
+        public static final double P_MOULIN_AGGRESSIVE = 2.231813;
+        public static final double I_MOULIN_AGGRESSIVE = 11.941806;
+        public static final double D_MOULIN_AGGRESSIVE = 0.008558;
+        public static final double F_MOULIN_AGGRESSIVE = 0.178335;
+        public static final double ADJUST_CONSTANT = 0.0005;
 
         //FF COEF
-        public static double kS_MOULIN_AGGRESSIVE = 0;
-        public static double kV_MOULIN_AGGRESSIVE = 0;
-        public static double kA_MOULIN_AGGRESSIVE = 0;
+        public static final double kS_MOULIN_AGGRESSIVE = 0;
+        public static final double kV_MOULIN_AGGRESSIVE = 0;
+        public static final double kA_MOULIN_AGGRESSIVE = 0;
 
         /**
          * *******Shooter
@@ -129,16 +128,16 @@ public class Globals {
         public static final String SHOOTER_MOTOR_NAME = "shooter";
         public static final double MAX_SHOOT_SPEED = 2540; // Ticks per second.
         public static final double SPEED_MARGIN = 10;
-        public static double SPEED_INCREMENT_SHOOTER = 10;
+        public static final double SPEED_INCREMENT_SHOOTER = 10;
         public static final double MAX_RANGE_TO_SHOOT = 120;
         public static final double MIN_RANGE_TO_SHOOT = 30;
-        public static double TELE_SHOOTER_SCALER = 20;
+        public static final double TELE_SHOOTER_SCALER = 20;
         public static final double SPEED_MARGIN_VISION_SHOOT = SPEED_MARGIN;
-        public static double ACCELERATION_SCALE_SHOOTER = 100;
-        public static double P_SHOOTER_VELOCITY_AGGRESSIVE = 2.807486;
-        public static double I_SHOOTER_VELOCITY_AGGRESSIVE = 0;
-        public static double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;
-        public static double F_SHOOTER_VELOCITY_AGGRESSIVE = 13.272119;
+        public static final double ACCELERATION_SCALE_SHOOTER = 100;
+        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 2.807486;
+        public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 0;
+        public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;
+        public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 13.272119;
 
         /**
          * *******Chargeur
@@ -158,7 +157,7 @@ public class Globals {
         public static final String CS4_NAME = "cs4";
         public static final String MAGNETIC_SWITCH_NAME = "m_s";
         public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
-        public static int OFFSET_MAGNETIC_POS = 12;
+        public static final int OFFSET_MAGNETIC_POS = 12;
         public static final double DETECT_PURPLE_RED_RGB = 0.694;
         public static final double DETECT_PURPLE_GREEN_RGB = 0.612;
         public static final double DETECT_PURPLE_BLUE_RGB = 0.851;
@@ -176,27 +175,27 @@ public class Globals {
         public static final double PURPLE_HUE_LOWER = 180;
         public static final double PURPLE_HUE_HIGHER = 260;
         public static final float GAIN_DETECTION = 20;
-        public static int SAMPLE_SIZE_TEST = 2;
+        public static final int SAMPLE_SIZE_TEST = 2;
 
         /**
          ******** Vision
          */
         public static final String CAMERA1_NAME = "CamColor";
-        public static final double FX = 0.0;// 516.3798424;//1;
+        public static double FX = 516.3798424;//0.0;// 516.3798424;//1;
                                             // https://github.com/jdhs-ftc/2025/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/atag/AprilTagLocalizer.kt
-        public static final double FY = 0.0;// 515.8231389; //1;
-        public static final double CX = 0.0;// 328.1776587; //1;
-        public static final double CY = 0.0;// 237.3745503; //1;
-        public static final double CAMERA_POSITION_X = -9.0;
-        public static final double CAMERA_POSITION_Y = 0.0;
-        public static final double CAMERA_POSITION_Z = 43.0;
-        public static final Position CAMERA_POSITION = new Position(
+        public static double FY = 515.8231389;//0.0;// 515.8231389; //1;
+        public static double CX = 328.1776587;// 0.0;// 328.1776587; //1;
+        public static double CY = 237.3745503;//0.0;// 237.3745503; //1;
+        public static double CAMERA_POSITION_X = -9.0;
+        public static double CAMERA_POSITION_Y = 0.0;
+        public static double CAMERA_POSITION_Z = 43.0;
+        public static Position CAMERA_POSITION = new Position(
                         DistanceUnit.CM,
                         CAMERA_POSITION_X, CAMERA_POSITION_Y, CAMERA_POSITION_Z, 0);
 
-        public static final double OFFSET_ROBOT_X = 16.0;
-        public static final double OFFSET_ROBOT_Y = 16.5;
-        public static final double OFFSET_ROBOT_YAW = Math.PI + ANGLE_RADIANS_BLUE_GOAL;
+        public static double OFFSET_ROBOT_X = 16.0;
+        public static double OFFSET_ROBOT_Y = 16.5;
+        public static double OFFSET_ROBOT_YAW = Math.PI + ANGLE_RADIANS_BLUE_GOAL;
 
 
         public static final double CAMERA_ORIENTATION_YAW = 0;
@@ -214,12 +213,13 @@ public class Globals {
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.
         public static final VisionPortal.StreamFormat STREAM_FORMAT = VisionPortal.StreamFormat.MJPEG; // Or YUY2
 
-        public static final double CLAMP_BEARING = 62;
+        public static double CLAMP_BEARING = 62;
         public static final double OFFSET_BEARING_AT_50_INCHES_RANGE = -6.5;
         public static final double OFFSET_BEARING_AT_134_INCHES_RANGE = -2.8;
-        public static final int NUMBER_AT_SAMPLES = 3;
-        public static final int NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED = 1;
-        public static final double MIN_LINEAR = 0.05;
+        public static double SCALER_OFFSET_AT_TO_X_BASKET = 0.01;
+        public static int NUMBER_AT_SAMPLES = 3;
+        public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED = 1;
+        public static double MIN_LINEAR = 0.005;
 
         public static double pickCustomPowerFunc(double x, int funcNumber) {
                 switch (funcNumber) {
