@@ -63,8 +63,6 @@ public class MoulinToPosition extends CommandBase {
      */
     @Override
     public void end(boolean interrupted) {
-        trieurSubsystem.setMoulinPower(0);
-
         // If the command was interrupted before completion, reset the motor's target
         // to its current position to prevent further movement.
         if (interrupted) {

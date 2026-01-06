@@ -546,7 +546,7 @@ public class TrieurSubsystem extends SubsystemBase {
      * This should be called periodically.
      */
     private void powerMoulinIfNeeded() {
-        if (isMoulinBusy()) {
+        if (isMoulinTargetStabilized()) {
             setNewRegister(false);
             setNewcoloredRegister(false);
 

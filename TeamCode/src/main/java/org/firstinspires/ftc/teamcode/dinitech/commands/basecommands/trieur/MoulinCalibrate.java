@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CALIBRATION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_CALIBRATION_ROTATION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
 
 import com.arcrobotics.ftclib.command.CommandBase;
@@ -38,7 +39,7 @@ public class MoulinCalibrate extends CommandBase {
      */
     @Override
     public void initialize() {
-        trieurSubsystem.setMoulinPower(POWER_MOULIN_ROTATION);
+        trieurSubsystem.setMoulinPower(POWER_MOULIN_CALIBRATION_ROTATION);
     }
 
     /**
@@ -48,10 +49,6 @@ public class MoulinCalibrate extends CommandBase {
     @Override
     public void execute() {
         trieurSubsystem.incrementMoulinTargetPosition(MOULIN_ROTATE_SPEED_CALIBRATION);
-        if (trieurSubsystem.isMagneticSwitch()) {
-            // Apply a small offset to stop precisely on the calibration point
-            trieurSubsystem.incrementMoulinTargetPosition(OFFSET_MAGNETIC_POS);
-        }
     }
 
     /**
@@ -72,8 +69,7 @@ public class MoulinCalibrate extends CommandBase {
      */
     @Override
     public void end(boolean interrupted) {
-        trieurSubsystem.resetTargetMoulinMotor();
-        trieurSubsystem.setMoulinPower(0);
-        // The subsystem should now handle resetting the logical position based on the calibration.
+        // Apply a small offset to stop precisely on the calibration point
+        trieurSubsystem.incrementMoulinTargetPosition(OFFSET_MAGNETIC_POS);
     }
 }
