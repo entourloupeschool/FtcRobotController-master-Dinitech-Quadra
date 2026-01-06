@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BASKET_Y_OFFSET;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_PITCH;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_ROLL;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_YAW;
@@ -289,15 +290,17 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public double getRobotCenterBearing(){
-        return getCameraBearing() - getLinearInterpolationOffsetBearing(getRangeToAprilTag());
+        double cameraBearing = getCameraBearing();
+
+        return cameraBearing - getSignedLinearInterpolationOffsetBearing(getRangeToAprilTag(), Math.signum(cameraBearing));
     }
 
     public double getRobotCenterBasketBearing(){
+        Double cameraBearing = getCameraBearing();
         Double range = getRangeToAprilTag();
 
-        double cameraBearingCorrected = getCameraBearing() - getLinearInterpolationOffsetBearing(range);
-
-        return cameraBearingCorrected + getXFtcPose() / range * SCALER_OFFSET_AT_TO_X_BASKET;
+        return cameraBearing + getSignedLinearInterpolationOffsetBearing(range + BASKET_Y_OFFSET, Math.signum(cameraBearing));
+//        return cameraBearingCorrected + getXFtcPose() / range * SCALER_OFFSET_AT_TO_X_BASKET;
     }
 
     /**
@@ -404,21 +407,22 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     /**
-     * Calculates a bearing offset using linear interpolation based on range.
+     * Calculates a signed linear interpolation bearing offset using linear interpolation based on range.
      * This helps correct for parallax error due to camera placement.
      * @param range The range to the target.
+     * @param sign the sign of the bearing offset.
      * @return The calculated bearing offset.
      */
-    public static double getLinearInterpolationOffsetBearing(double range) {
+    public static double getSignedLinearInterpolationOffsetBearing(double range, double sign) {
         if (range <= MIN_RANGE_VISION) {
-            return OFFSET_BEARING_AT_40_INCHES_RANGE;
+            return sign * OFFSET_BEARING_AT_40_INCHES_RANGE;
         } else if (range <= MAX_RANGE_VISION) {
             // Linear interpolation between the two known points
-            return OFFSET_BEARING_AT_40_INCHES_RANGE + (range - MIN_RANGE_VISION) *
-                   (OFFSET_BEARING_AT_140_INCHES_RANGE - OFFSET_BEARING_AT_40_INCHES_RANGE) / DIFFERENCE_RANGE_VISION;
+            return sign * (OFFSET_BEARING_AT_40_INCHES_RANGE + (range - MIN_RANGE_VISION) *
+                   (OFFSET_BEARING_AT_140_INCHES_RANGE - OFFSET_BEARING_AT_40_INCHES_RANGE) / DIFFERENCE_RANGE_VISION);
         } else {
             // Extrapolate beyond 134 inches, though this may be less accurate
-            return OFFSET_BEARING_AT_140_INCHES_RANGE;
+            return sign * OFFSET_BEARING_AT_140_INCHES_RANGE;
         }
     }
 

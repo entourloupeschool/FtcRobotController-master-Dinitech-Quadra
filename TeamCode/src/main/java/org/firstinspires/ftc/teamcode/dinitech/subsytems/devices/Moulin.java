@@ -379,7 +379,8 @@ public class Moulin {
      * @return True if the motor is not busy, speed is low, and is within tolerance.
      */
     public boolean isTargetStabilized() {
-        return !isBusy() && Math.abs(getSpeed()) < 10 && getRemainingDistance() <= MOULIN_POSITION_TOLERANCE;
+//        return !isBusy() && Math.abs(getSpeed()) < 10 && Math.abs(getRemainingDistance()) <= MOULIN_POSITION_TOLERANCE;
+        return !isBusy() && Math.abs(getSpeed()) < 10;
     }
 
     /**

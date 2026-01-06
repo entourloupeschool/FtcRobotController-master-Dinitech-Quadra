@@ -216,6 +216,7 @@ public class Globals {
     public static final double OFFSET_BEARING_AT_40_INCHES_RANGE = -7.18; // DEGREES
         public static final double OFFSET_BEARING_AT_140_INCHES_RANGE = -1.47; //DEGREES
         public static double SCALER_OFFSET_AT_TO_X_BASKET = 0.000001;
+        public static double BASKET_Y_OFFSET = 8;
         public static int NUMBER_AT_SAMPLES = 3;
         public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED = 1;
         public static double MIN_LINEAR = 0.005;
