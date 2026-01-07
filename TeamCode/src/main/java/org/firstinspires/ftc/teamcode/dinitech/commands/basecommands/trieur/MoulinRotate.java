@@ -39,7 +39,6 @@ public class MoulinRotate extends CommandBase {
     @Override
     public void initialize() {
         trieurSubsystem.incrementMoulinTargetPosition(MOULIN_ROTATE_SPEED_CONTINUOUS);
-        trieurSubsystem.setMoulinPower(POWER_MOULIN_ROTATION);
     }
 
     /**
@@ -60,8 +59,6 @@ public class MoulinRotate extends CommandBase {
      */
     @Override
     public void end(boolean interrupted) {
-        trieurSubsystem.setMoulinPower(0);
-
         // If the command ended naturally due to over-current, schedule a correction command.
         if (!interrupted && trieurSubsystem.isMoulinOverCurrent()) {
             new MoulinCorrectOverCurrent(trieurSubsystem, this).schedule();

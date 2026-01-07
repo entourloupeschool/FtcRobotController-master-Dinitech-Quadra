@@ -53,8 +53,6 @@ public class TrieurDebut extends DinitechRobotBase {
         register(gamepadSubsystem);
 
         visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
-        visionSubsystem.addAprilTagProcessor();
-        visionSubsystem.buildVisionPortal();
         register(visionSubsystem);
         visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
 

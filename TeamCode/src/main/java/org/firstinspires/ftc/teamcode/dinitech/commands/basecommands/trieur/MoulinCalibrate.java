@@ -49,6 +49,10 @@ public class MoulinCalibrate extends CommandBase {
     @Override
     public void execute() {
         trieurSubsystem.incrementMoulinTargetPosition(MOULIN_ROTATE_SPEED_CALIBRATION);
+
+        if (trieurSubsystem.isMagneticSwitch()) {
+            trieurSubsystem.resetTargetMoulinMotor();
+        }
     }
 
     /**

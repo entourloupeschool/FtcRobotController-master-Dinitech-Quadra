@@ -33,8 +33,8 @@ public class MoulinNextNext extends MoulinToPosition {
     public void initialize() {
         // Calculate the target position two steps forward from the current state.
         int currentPosition = trieurSubsystem.getMoulinPosition();
-        moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPosition, 2);
-        makeShort = false; // Always rotate forward.
+        super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPosition, 2);
+        super.makeShort = false; // Always rotate forward.
 
         // Call the parent's initialize() to start the movement.
         super.initialize();

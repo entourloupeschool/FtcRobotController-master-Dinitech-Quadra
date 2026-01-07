@@ -28,10 +28,6 @@ public class BasicAprilTagDetection extends DinitechRobotBase {
         super.initialize();
 
         visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
-        // Add processors as needed (or don't add them)
-        visionSubsystem.addAprilTagProcessor();
-        // Build the portal after adding processors
-        visionSubsystem.buildVisionPortal();
         register(visionSubsystem);
     }
 

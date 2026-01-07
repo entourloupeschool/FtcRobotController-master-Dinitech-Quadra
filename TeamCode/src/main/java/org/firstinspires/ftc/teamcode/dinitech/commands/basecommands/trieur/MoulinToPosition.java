@@ -43,7 +43,6 @@ public class MoulinToPosition extends CommandBase {
     @Override
     public void initialize() {
         trieurSubsystem.rotateToMoulinPosition(moulinTargetPosition, makeShort);
-        trieurSubsystem.setMoulinPower(POWER_MOULIN_ROTATION);
     }
 
     /**
@@ -63,8 +62,6 @@ public class MoulinToPosition extends CommandBase {
      */
     @Override
     public void end(boolean interrupted) {
-        trieurSubsystem.setMoulinPower(0);
-
         // If the command was interrupted before completion, reset the motor's target
         // to its current position to prevent further movement.
         if (interrupted) {

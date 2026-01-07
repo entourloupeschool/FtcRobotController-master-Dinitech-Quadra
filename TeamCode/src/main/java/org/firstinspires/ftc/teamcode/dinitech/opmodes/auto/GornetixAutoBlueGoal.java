@@ -35,8 +35,6 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                 super.initialize();
 
                 visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
-                visionSubsystem.addAprilTagProcessor();
-                visionSubsystem.buildVisionPortal();
                 register(visionSubsystem);
                 visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
 

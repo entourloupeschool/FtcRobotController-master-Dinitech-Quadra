@@ -111,23 +111,14 @@ public class VisionSubsystem extends SubsystemBase {
 
         this.telemetry = telemetry;
 
-        addAprilTagProcessor();
-        buildVisionPortal();
-    }
-
-    /**
-     * Builds the VisionPortal after processors have been added.
-     */
-    public void buildVisionPortal() {
-        if (builder != null) {
-            builder.build();
-        }
+        builder.addProcessor(getAprilTagProcessor());
+        builder.build();
     }
 
     /**
      * Adds the AprilTag processor to the VisionPortal builder.
      */
-    public void addAprilTagProcessor() {
+    public AprilTagProcessor getAprilTagProcessor() {
         aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setTagLibrary(AprilTagGameDatabase.getDecodeTagLibrary())
                 .setDrawCubeProjection(true)
@@ -144,7 +135,8 @@ public class VisionSubsystem extends SubsystemBase {
                 .build();
 
         setAprilTagDetectionDecimation(getDecimation());
-        builder.addProcessor(aprilTagProcessor);
+
+        return aprilTagProcessor;
     }
 
     /**
@@ -290,17 +282,31 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public double getRobotCenterBearing(){
-        double cameraBearing = getCameraBearing();
-
-        return cameraBearing - getSignedLinearInterpolationOffsetBearing(getRangeToAprilTag(), Math.signum(cameraBearing));
+        double cameraBearingInverted = getCameraBearing();
+        cameraBearingInverted *= -1;
+        return cameraBearingInverted - getLinearInterpolationOffsetBearing(getRangeToAprilTag());
     }
 
-    public double getRobotCenterBasketBearing(){
-        Double cameraBearing = getCameraBearing();
+    public double getNormalizedClampedRobotCenterBasketBearing(){
+        // Invert the camera bearing because the robot's rotation direction is opposite
+        // to the bearing's sign (e.g., a positive bearing requires a negative rotation).
+        double invertedCameraBearing = -getCameraBearing();
+
         Double range = getRangeToAprilTag();
 
-        return cameraBearing + getSignedLinearInterpolationOffsetBearing(range + BASKET_Y_OFFSET, Math.signum(cameraBearing));
-//        return cameraBearingCorrected + getXFtcPose() / range * SCALER_OFFSET_AT_TO_X_BASKET;
+        // Simple add the camera sideway : allways negative because  camera is always on the left of the center of the robot so it needs to slightly tilt to the the left (negative power)
+        double cameraSidewayOffset = invertedCameraBearing - getLinearInterpolationOffsetBearing(range);
+
+        // Normalize the bearing within a clamped range to get a -1 to 1 value for the power function
+        double normalizedClampedBearing = Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, cameraSidewayOffset)) / CLAMP_BEARING;
+
+        // Invert the X-pose to align with the desired rotation direction.
+        // A positive X-pose (left of the AprilTag) should result in a left turn (negative value).
+        double robotXFtcPose = -getXFtcPose();
+
+        normalizedClampedBearing += robotXFtcPose / (range + BASKET_Y_OFFSET) * SCALER_OFFSET_AT_TO_X_BASKET;
+
+        return normalizedClampedBearing;
     }
 
     /**
@@ -309,13 +315,8 @@ public class VisionSubsystem extends SubsystemBase {
      * @return The corrected bearing in degrees.
      */
     public double getAutoAimPower(){
-        double basketCorrected = getRobotCenterBasketBearing();
-
-        // Normalize the bearing within a clamped range to get a -1 to 1 value for the power function
-        double normalizedClampedBearing = Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, basketCorrected)) / CLAMP_BEARING;
-
         // Calculate the auto-aim rotation power from the bearing (sign preserving)
-        return -pickCustomPowerFunc(normalizedClampedBearing, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
+        return pickCustomPowerFunc(getNormalizedClampedRobotCenterBasketBearing(), NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
     }
 
     /**
@@ -407,22 +408,21 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     /**
-     * Calculates a signed linear interpolation bearing offset using linear interpolation based on range.
+     * Calculates linear interpolation bearing offset using linear interpolation based on range.
      * This helps correct for parallax error due to camera placement.
      * @param range The range to the target.
-     * @param sign the sign of the bearing offset.
      * @return The calculated bearing offset.
      */
-    public static double getSignedLinearInterpolationOffsetBearing(double range, double sign) {
+    public static double getLinearInterpolationOffsetBearing(double range) {
         if (range <= MIN_RANGE_VISION) {
-            return sign * OFFSET_BEARING_AT_40_INCHES_RANGE;
+            return OFFSET_BEARING_AT_40_INCHES_RANGE;
         } else if (range <= MAX_RANGE_VISION) {
             // Linear interpolation between the two known points
-            return sign * (OFFSET_BEARING_AT_40_INCHES_RANGE + (range - MIN_RANGE_VISION) *
+            return (OFFSET_BEARING_AT_40_INCHES_RANGE + (range - MIN_RANGE_VISION) *
                    (OFFSET_BEARING_AT_140_INCHES_RANGE - OFFSET_BEARING_AT_40_INCHES_RANGE) / DIFFERENCE_RANGE_VISION);
         } else {
             // Extrapolate beyond 134 inches, though this may be less accurate
-            return sign * OFFSET_BEARING_AT_140_INCHES_RANGE;
+            return OFFSET_BEARING_AT_140_INCHES_RANGE;
         }
     }
 
@@ -445,17 +445,14 @@ public class VisionSubsystem extends SubsystemBase {
         telemetry.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
 
         if (hasCachedPoseData()) {
-            telemetry.addData("X", "%.2f", getRobotPoseX());
-            telemetry.addData("X Offset", "%.2f", getRobotPoseX() - OFFSET_ROBOT_X);
-            telemetry.addData("Y", "%.2f", getRobotPoseY());
-            telemetry.addData("Y Offset", "%.2f", getRobotPoseY() - OFFSET_ROBOT_Y);
+//            telemetry.addData("X", "%.2f", getRobotPoseX());
+//            telemetry.addData("Y", "%.2f", getRobotPoseY());
             telemetry.addData("Yaw (rad)", "%.2f", getRobotPoseYaw());
-            telemetry.addData("Yaw Offset (deg)", "%.2f", Math.toDegrees(getRobotPoseYaw()) + OFFSET_ROBOT_YAW);
-            telemetry.addData("Camera Bearing", "%.2f", getCameraBearing());
-            telemetry.addData("Robot Center Bearing", "%.2f", getRobotCenterBearing());
-            telemetry.addData("Range", "%.2f", getRangeToAprilTag());
-            telemetry.addData("XftcPose", "%.2f", getXFtcPose());
-            telemetry.addData("YftcPose", "%.2f", getYFtcPose());
+//            telemetry.addData("Camera Bearing", "%.2f", getCameraBearing());
+//            telemetry.addData("Robot Center Bearing", "%.2f", getRobotCenterBearing());
+//            telemetry.addData("Range", "%.2f", getRangeToAprilTag());
+//            telemetry.addData("XftcPose", "%.2f", getXFtcPose());
+            telemetry.addData("Should Be 0", "%.2f", getNormalizedClampedRobotCenterBasketBearing());
         } else {
             telemetry.addData("AprilTag Pose Data", "No sample data");
         }

@@ -120,6 +120,8 @@ public class GamepadSubsystem extends SubsystemBase {
     public void periodic() {
 //        printGamepadWrapperTelemetry(1, driver, telemetry);
 //        printGamepadWrapperTelemetry(2, operator, telemetry);
+//        telemetry.addData("rightX", driver.getRightX()); // gives -1 when left and 1 when right
+
     }
 
     private void printGamepadWrapperTelemetry(int gamepadID, GamepadWrapper gamepadWrapper, final Telemetry telemetry){

@@ -23,8 +23,6 @@ public class BasicColorDetectionCamera extends DinitechRobotBase {
         visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
         // Add processors as needed (or don't add them)
         visionSubsystem.addColorProcessor(10);
-        // Build the portal after adding processors
-        visionSubsystem.buildVisionPortal();
         register(visionSubsystem);
     }
 

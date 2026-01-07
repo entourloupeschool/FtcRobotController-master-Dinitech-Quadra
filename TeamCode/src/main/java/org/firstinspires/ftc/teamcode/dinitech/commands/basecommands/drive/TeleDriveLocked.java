@@ -69,26 +69,9 @@ public class TeleDriveLocked extends CommandBase {
      */
     private void withCurrentDetection() {
         double rightX = driver.getRightX();
-//        double robotCenterBearing = visionSubsystem.getRobotCenterBearing();
-//        double robotRange = visionSubsystem.getRangeToAprilTag();
-//        double offsetSideways = visionSubsystem.getXFtcPose();
-//
-//        // Normalize the bearing within a clamped range to get a -1 to 1 value for the power function
-//        double normalizedClampedBearing = Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, robotCenterBearing)) / CLAMP_BEARING;
-//
-//        // Calculate the auto-aim rotation power from the bearing
-//        double autoAimPower = -pickCustomPowerFunc(normalizedClampedBearing, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
-//
-//        // Add the offset to the auto-aim power
-//        autoAimPower += offsetSideways/robotRange * SCALER_OFFSET_AT_TO_X_BASKET;
-
-        double autoAimPower = visionSubsystem.getAutoAimPower();
-
-        // Allow the driver to override the auto-aim with the right stick
-        double rotationPower = autoAimPower * (1 - Math.abs(rightX)) + rightX;
 
         // Execute the drive command with the combined rotation power
-        driveSubsystem.teleDrive(driver.getLeftX(), driver.getLeftY(), rotationPower,
+        driveSubsystem.teleDrive(driver.getLeftX(), driver.getLeftY(), visionSubsystem.getAutoAimPower() * (1 - Math.abs(rightX)) + rightX,
                 driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
     }
 }

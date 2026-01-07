@@ -101,12 +101,12 @@ public class Globals {
         public static int INTERVALLE_TICKS_MOULIN = 240;//384;// MOTOR_TICKS_PER_REV * RAPPORT_TRANSMISSION /
                                                               // Moulin.TOTAL_POSITIONS;
         public static final double POWER_MOULIN_ROTATION = 1;
-    public static double POWER_MOULIN_CALIBRATION_ROTATION = POWER_MOULIN_ROTATION;
+        public static double POWER_MOULIN_CALIBRATION_ROTATION = POWER_MOULIN_ROTATION;
 
-    public static final int MOULIN_POSITION_TOLERANCE = 2;
+        public static final int MOULIN_POSITION_TOLERANCE = 2;
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * MOULIN_POSITION_TOLERANCE;
-        public static int MOULIN_ROTATE_SPEED_CALIBRATION = 4;
+        public static int MOULIN_ROTATE_SPEED_CALIBRATION = 10;
         public static final int TRIEUR_TIME_BETWEEN_SHOTS = 5; // milliseconds
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.8;
@@ -159,7 +159,7 @@ public class Globals {
         public static final String CS4_NAME = "cs4";
         public static final String MAGNETIC_SWITCH_NAME = "m_s";
         public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
-        public static int OFFSET_MAGNETIC_POS = 12;
+        public static int OFFSET_MAGNETIC_POS = 40;
         public static final double DETECT_PURPLE_RED_RGB = 0.694;
         public static final double DETECT_PURPLE_GREEN_RGB = 0.612;
         public static final double DETECT_PURPLE_BLUE_RGB = 0.851;
@@ -210,12 +210,12 @@ public class Globals {
 
         public static double CLAMP_BEARING = 62;
         public static final double MIN_RANGE_VISION = 40; //INCHES
-    public static final double MAX_RANGE_VISION = 140; //INCHES
-    public static final double DIFFERENCE_RANGE_VISION = MAX_RANGE_VISION - MIN_RANGE_VISION;
+        public static final double MAX_RANGE_VISION = 140; //INCHES
+        public static final double DIFFERENCE_RANGE_VISION = MAX_RANGE_VISION - MIN_RANGE_VISION;
 
-    public static final double OFFSET_BEARING_AT_40_INCHES_RANGE = -7.18; // DEGREES
+        public static final double OFFSET_BEARING_AT_40_INCHES_RANGE = -7.18; // DEGREES
         public static final double OFFSET_BEARING_AT_140_INCHES_RANGE = -1.47; //DEGREES
-        public static double SCALER_OFFSET_AT_TO_X_BASKET = 0.000001;
+        public static double SCALER_OFFSET_AT_TO_X_BASKET = 0.1;
         public static double BASKET_Y_OFFSET = 8;
         public static int NUMBER_AT_SAMPLES = 3;
         public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED = 1;
@@ -224,18 +224,16 @@ public class Globals {
 
         public static double pickCustomPowerFunc(double x, int funcNumber) {
                 switch (funcNumber) {
-                        case 1:
-                                return customPowerFunc(x);
-                        case 2:
-                                return customPowerFunc2(x);
-                        case 3:
-                                return customPowerFunc3(x);
-                        case 4:
-                                return customPowerFunc4(x);
-                        case 5:
-                                return customLinearFunc(x);
-                        default:
-                                return customPowerFunc(x);
+                    case 2:
+                            return customPowerFunc2(x);
+                    case 3:
+                            return customPowerFunc3(x);
+                    case 4:
+                            return customPowerFunc4(x);
+                    case 5:
+                            return customLinearFunc(x);
+                    default:
+                            return customPowerFunc(x);
                 }
         }
 
