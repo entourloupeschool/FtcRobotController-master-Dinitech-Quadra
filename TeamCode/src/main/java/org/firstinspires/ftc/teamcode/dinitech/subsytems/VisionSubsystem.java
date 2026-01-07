@@ -447,10 +447,10 @@ public class VisionSubsystem extends SubsystemBase {
         if (hasCachedPoseData()) {
 //            telemetry.addData("X", "%.2f", getRobotPoseX());
 //            telemetry.addData("Y", "%.2f", getRobotPoseY());
-            telemetry.addData("Yaw (rad)", "%.2f", getRobotPoseYaw());
+//            telemetry.addData("Yaw (rad)", "%.2f", getRobotPoseYaw());
 //            telemetry.addData("Camera Bearing", "%.2f", getCameraBearing());
 //            telemetry.addData("Robot Center Bearing", "%.2f", getRobotCenterBearing());
-//            telemetry.addData("Range", "%.2f", getRangeToAprilTag());
+            telemetry.addData("Range", "%.2f", getRangeToAprilTag());
 //            telemetry.addData("XftcPose", "%.2f", getXFtcPose());
             telemetry.addData("Should Be 0", "%.2f", getNormalizedClampedRobotCenterBasketBearing());
         } else {

@@ -79,6 +79,8 @@ public class TrieurSubsystem extends SubsystemBase {
 
         clearAllStoredColors();
         setWentRecalibrationOpposite(true);
+        
+        setMoulinPower(POWER_MOULIN_ROTATION);
     }
 
     /**
@@ -545,10 +547,8 @@ public class TrieurSubsystem extends SubsystemBase {
      * Manages power to the moulin motor and triggers recalibration when necessary.
      * This should be called periodically.
      */
-    private void powerMoulinIfNeeded() {
+    private void moulinLogic() {
         if (isMoulinTargetStabilized()) {
-            setMoulinPower(0);
-
             setNewRegister(false);
             setNewcoloredRegister(false);
 
@@ -557,8 +557,6 @@ public class TrieurSubsystem extends SubsystemBase {
                 setWentRecalibrationOpposite(false);
             }
         } else {
-            setMoulinPower(POWER_MOULIN_ROTATION);
-
             if (getMoulinPosition() != MAGNETIC_ON_MOULIN_POSITION) {
                 setWentRecalibrationOpposite(true);
             }
@@ -616,7 +614,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        powerMoulinIfNeeded();
+        moulinLogic();
         printMagneticTelemetry(telemetry);
         printMoulinTelemetry(telemetry);
     }

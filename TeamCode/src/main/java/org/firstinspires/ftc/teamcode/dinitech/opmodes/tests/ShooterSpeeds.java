@@ -9,18 +9,18 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.ToggleChargeur;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.TeleDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleSlowDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleVisionDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.DefaultGamepadCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.TeleShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.ToggleMaxShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.ToggleVisionShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinAntiRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNext;
-
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.TeleDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.ToggleMaxShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.ToggleTrappe;
@@ -30,7 +30,6 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticArtefact
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
@@ -41,17 +40,17 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechMecanumDrive;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-@TeleOp(name = "GornetixTeleOp - Dinitech", group = "TeleOp")
+@TeleOp(name = "LanceurSpeeds - Dinitech", group = "Test")
 public class ShooterSpeeds extends DinitechRobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private GamepadWrapper m_Driver;
     private GamepadWrapper m_Operator;
-        private TrieurSubsystem trieurSubsystem;
-        private VisionSubsystem visionSubsystem;
+    private TrieurSubsystem trieurSubsystem;
+    private VisionSubsystem visionSubsystem;
 
-        private ShooterSubsystem shooterSubsystem;
-        private ChargeurSubsystem chargeurSubsystem;
-        private DriveSubsystem driveSubsystem;
+    private ShooterSubsystem shooterSubsystem;
+    private ChargeurSubsystem chargeurSubsystem;
+    private DriveSubsystem driveSubsystem;
 
         /**
          * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -120,7 +119,7 @@ public class ShooterSpeeds extends DinitechRobotBase {
             m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
             m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
             m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem, gamepadSubsystem));
-            m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, shooterSubsystem));
+//            m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, shooterSubsystem));
 
             m_Driver.bump_left.whenPressed(new ToggleSlowDrive(driveSubsystem, gamepadSubsystem));
             m_Driver.bump_right
@@ -136,22 +135,22 @@ public class ShooterSpeeds extends DinitechRobotBase {
             m_Operator.bump_right.whileHeld(new MoulinRotate(trieurSubsystem));
             m_Operator.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem));
 
-            m_Operator.right_stick_button.whenPressed(new ToggleVisionShooter(shooterSubsystem, visionSubsystem, gamepadSubsystem));
+//            m_Operator.right_stick_button.whenPressed(new ToggleVisionShooter(shooterSubsystem, visionSubsystem, gamepadSubsystem));
 
-            m_Operator.cross.whenPressed(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
-            m_Operator.square.whenPressed(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
-            m_Operator.triangle.whenPressed(new ArtefactPickAway(trieurSubsystem, gamepadSubsystem));
+//            m_Operator.cross.whenPressed(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
+//            m_Operator.square.whenPressed(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
+//            m_Operator.triangle.whenPressed(new ArtefactPickAway(trieurSubsystem, gamepadSubsystem));
             m_Operator.circle.toggleWhenPressed(new AutomaticArtefactPickAway(trieurSubsystem,
                             chargeurSubsystem, gamepadSubsystem));
 
 
 //                 Automatic trigger: when trieur becomes full, spin up shooter to max speed and
 //                 Moulin Motif Ready
-            new Trigger(trieurSubsystem::getIsFull)
-                    .whenActive(new ParallelCommandGroup(new ReadyMotif(trieurSubsystem, visionSubsystem,
-                            gamepadSubsystem),
-                            new VisionShooter(shooterSubsystem, visionSubsystem, false)
-                    ));
+//            new Trigger(trieurSubsystem::getIsFull)
+//                    .whenActive(new ParallelCommandGroup(new ReadyMotif(trieurSubsystem, visionSubsystem,
+//                            gamepadSubsystem),
+//                            new VisionShooter(shooterSubsystem, visionSubsystem, false)
+//                    ));
 
                 // Example trigger usage (you can uncomment and add commands as needed)
         }

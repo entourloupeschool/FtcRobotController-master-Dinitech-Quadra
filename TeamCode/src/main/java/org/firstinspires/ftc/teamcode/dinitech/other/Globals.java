@@ -132,7 +132,9 @@ public class Globals {
         public static final double SPEED_MARGIN = 10;
         public static final double SPEED_INCREMENT_SHOOTER = 10;
         public static final double MAX_RANGE_TO_SHOOT = 120;
-        public static final double MIN_RANGE_TO_SHOOT = 30;
+        public static final double MIN_RANGE_TO_SHOOT = 40;
+
+        public static final double DIFF_MIN_MAX_RANGE_TO_SHOOT = MAX_RANGE_TO_SHOOT - MIN_RANGE_TO_SHOOT;
         public static final double TELE_SHOOTER_SCALER = 20;
         public static final double SPEED_MARGIN_VISION_SHOOT = SPEED_MARGIN;
         public static final double ACCELERATION_SCALE_SHOOTER = 100;
@@ -140,6 +142,29 @@ public class Globals {
         public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 0;
         public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;
         public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 13.272119;
+
+        public static final double MIN_RANGE_SHOOTER_SPEED = 1420;
+        public static final double MAX_RANGE_SHOOTER_SPEED = 2500;
+
+        public static final double DIFF_MIN_MAX_RANGE_SHOOTER_SPEED = MAX_RANGE_SHOOTER_SPEED - MIN_RANGE_SHOOTER_SPEED;
+
+
+    /**
+         * Applies a linear function to get speed from range
+         *
+         * @param range The range value, positive.
+         * @return The speed value, also positive
+         */
+        public static double linearSpeedFromRange(double range) {
+            if (range < MIN_RANGE_TO_SHOOT) {
+                return MIN_RANGE_SHOOTER_SPEED;
+            } else if (range > MAX_RANGE_TO_SHOOT) {
+                return MAX_RANGE_SHOOTER_SPEED;
+            } else {
+                return MIN_RANGE_SHOOTER_SPEED + DIFF_MIN_MAX_RANGE_TO_SHOOT
+                                * (range - MIN_RANGE_TO_SHOOT) / DIFF_MIN_MAX_RANGE_SHOOTER_SPEED;
+            }
+        }
 
         /**
          * *******Chargeur

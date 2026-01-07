@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_RANGE_TO
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_SHOOT_SPEED;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MIN_RANGE_TO_SHOOT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_VISION_SHOOT;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedFromRange;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
@@ -73,19 +74,21 @@ public class VisionShooter extends CommandBase {
                 : visionSubsystem.hasCachedPoseData();
 
         if (hasData) {
-            // Calculate which speed level (0-9) based on range
-            // Clamp range to [0, MAX_RANGE_TO_SHOOT] to ensure valid speed level
-            double clampedRange = Math.max(MIN_RANGE_TO_SHOOT, Math.min(visionSubsystem.getRangeToAprilTag(), MAX_RANGE_TO_SHOOT)) - MIN_RANGE_TO_SHOOT;
-            int speedLevel = (int) ((clampedRange / (MAX_RANGE_TO_SHOOT - MIN_RANGE_TO_SHOOT)) * (NUM_SPEED_LEVELS - 1));
+//            // Calculate which speed level (0-9) based on range
+//            // Clamp range to [0, MAX_RANGE_TO_SHOOT] to ensure valid speed level
+//            double clampedRange = Math.max(MIN_RANGE_TO_SHOOT, Math.min(visionSubsystem.getRangeToAprilTag(), MAX_RANGE_TO_SHOOT)) - MIN_RANGE_TO_SHOOT;
+//            int speedLevel = (int) ((clampedRange / (MAX_RANGE_TO_SHOOT - MIN_RANGE_TO_SHOOT)) * (NUM_SPEED_LEVELS - 1));
+//
+//            // Only update velocity if speed level has changed
+//            if (speedLevel != currentSpeedLevel) {
+//                currentSpeedLevel = speedLevel;
+//
+//                // Calculate actual speed for this level
+//                targetShooterSpeed = MAX_SHOOT_SPEED * (double) speedLevel / (NUM_SPEED_LEVELS - 1);
+//                shooterSubsystem.setVelocity(targetShooterSpeed);
+//            }
 
-            // Only update velocity if speed level has changed
-            if (speedLevel != currentSpeedLevel) {
-                currentSpeedLevel = speedLevel;
-
-                // Calculate actual speed for this level
-                targetShooterSpeed = MAX_SHOOT_SPEED * (double) speedLevel / (NUM_SPEED_LEVELS - 1);
-                shooterSubsystem.setVelocity(targetShooterSpeed);
-            }
+            shooterSubsystem.setVelocity(linearSpeedFromRange(visionSubsystem.getRangeToAprilTag()));
         }
     }
 }
