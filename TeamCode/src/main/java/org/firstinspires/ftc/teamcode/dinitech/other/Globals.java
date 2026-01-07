@@ -128,7 +128,7 @@ public class Globals {
          * *******Shooter
          */
         public static final String SHOOTER_MOTOR_NAME = "shooter";
-        public static final double MAX_SHOOT_SPEED = 2540; // Ticks per second.
+        public static final double MAX_SHOOT_SPEED = 3540; // Ticks per second.
         public static final double SPEED_MARGIN = 20;
         public static final double SPEED_INCREMENT_SHOOTER = 10;
         public static final double MAX_RANGE_TO_SHOOT = 133;
@@ -236,16 +236,31 @@ public class Globals {
         public static double CLAMP_BEARING = 62;
         public static final double MIN_RANGE_VISION = 40; //INCHES
         public static final double MAX_RANGE_VISION = 140; //INCHES
-        public static final double DIFFERENCE_RANGE_VISION = MAX_RANGE_VISION - MIN_RANGE_VISION;
+
+        public static final double DIFF_RANGE_VISION = MAX_RANGE_VISION - MIN_RANGE_VISION;
 
         public static final double OFFSET_BEARING_AT_40_INCHES_RANGE = -7.18; // DEGREES
         public static final double OFFSET_BEARING_AT_140_INCHES_RANGE = -1.47; //DEGREES
+        public static final double DIFF_OFFSET_BEARING_AT = OFFSET_BEARING_AT_140_INCHES_RANGE - OFFSET_BEARING_AT_40_INCHES_RANGE;
         public static double SCALER_OFFSET_AT_TO_X_BASKET = 0.1;
         public static double BASKET_Y_OFFSET = 8;
         public static int NUMBER_AT_SAMPLES = 3;
         public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED = 1;
         public static double MIN_LINEAR = 0.005;
         public static double CUSTOM_POWER_LOCKED = 0.05;
+
+        public static final double DIFF_A_BEARING = DIFF_OFFSET_BEARING_AT / DIFF_RANGE_VISION;
+        public static final double DIFF_B_BEARING = OFFSET_BEARING_AT_40_INCHES_RANGE - DIFF_A_BEARING * MIN_RANGE_VISION;
+
+        /**
+         * Calculates linear interpolation bearing offset using linear interpolation based on range.
+         * This helps correct for parallax error due to camera placement.
+         * @param range The range to the target.
+         * @return The calculated bearing offset.
+         */
+        public static double getLinearInterpolationOffsetBearing(double range) {
+            return DIFF_A_BEARING * range + DIFF_B_BEARING;
+        }
 
         public static double pickCustomPowerFunc(double x, int funcNumber) {
                 switch (funcNumber) {

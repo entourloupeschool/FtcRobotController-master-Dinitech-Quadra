@@ -135,7 +135,7 @@ public class ShooterSubsystem extends SubsystemBase {
      */
     public void incrementVelocity(double velocityIncrement) {
         double newVelocity = getTargetSpeed() + velocityIncrement;
-        if (newVelocity <= MAX_SHOOT_SPEED && newVelocity >= 0) {
+        if (newVelocity >= 0) {
             setVelocity(newVelocity);
         }
     }

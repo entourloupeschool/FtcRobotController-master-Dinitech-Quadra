@@ -10,6 +10,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdateAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
@@ -50,17 +51,35 @@ public class TeleDriveLocked extends CommandBase {
         addRequirements(driveSubsystem);
     }
 
+    @Override
+    public void initialize() {
+        if (visionSubsystem.getDefaultCommand() != null) {
+            visionSubsystem.getDefaultCommand().cancel();
+        }
+        visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
+//        visionSubsystem.setCameraOn(true);
+    }
+
     /**
      * Switches between locked and normal drive modes based on AprilTag visibility.
      */
     @Override
     public void execute() {
+
         if (visionSubsystem.getHasCurrentAprilTagDetections()) {
             withCurrentDetection();
         } else {
             // Fallback to standard tele-op drive if no tags are visible
             driveSubsystem.teleDrive(driver.getLeftX(), driver.getLeftY(), driver.getRightX(),
                     driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
+        }
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+//        visionSubsystem.setCameraOn(false);
+        if (visionSubsystem.getDefaultCommand() != null) {
+            visionSubsystem.getDefaultCommand().cancel();
         }
     }
 
@@ -71,7 +90,7 @@ public class TeleDriveLocked extends CommandBase {
         double rightX = driver.getRightX();
 
         // Execute the drive command with the combined rotation power
-        driveSubsystem.teleDrive(driver.getLeftX(), driver.getLeftY(), visionSubsystem.getAutoAimPower() * (1 - Math.abs(rightX)) + rightX,
+        driveSubsystem.teleDrive(driver.getLeftX(), driver.getLeftY(), visionSubsystem.getAutoAimPower2() * (1 - Math.abs(rightX)) + rightX,
                 driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
     }
 }

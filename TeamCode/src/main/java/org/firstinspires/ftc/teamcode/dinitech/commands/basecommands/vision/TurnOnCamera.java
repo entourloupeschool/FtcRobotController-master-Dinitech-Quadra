@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * update their positions, and add new data to the running average filters for pose estimation.
  * The command finishes immediately after initiating the update.
  */
-public class UpdateAprilTagsDetections extends CommandBase {
+public class TurnOnCamera extends CommandBase {
     private final VisionSubsystem visionSubsystem;
 
     /**
@@ -20,9 +20,8 @@ public class UpdateAprilTagsDetections extends CommandBase {
      *
      * @param visionSubsystem The vision subsystem to update.
      */
-    public UpdateAprilTagsDetections(VisionSubsystem visionSubsystem){
+    public TurnOnCamera(VisionSubsystem visionSubsystem){
         this.visionSubsystem = visionSubsystem;
-        addRequirements(visionSubsystem);
     }
 
     /**
@@ -30,8 +29,7 @@ public class UpdateAprilTagsDetections extends CommandBase {
      */
     @Override
     public void initialize(){
-        visionSubsystem.optimizeDecimation();
-        visionSubsystem.updateAprilTagDetections();
+//        visionSubsystem.setCameraOn(true);
     }
 
     /**

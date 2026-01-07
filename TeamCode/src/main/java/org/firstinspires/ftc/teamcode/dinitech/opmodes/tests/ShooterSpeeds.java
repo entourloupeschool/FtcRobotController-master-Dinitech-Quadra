@@ -99,7 +99,7 @@ public class ShooterSpeeds extends DinitechRobotBase {
          */
         private void setupGamePadsButtonBindings() {
             gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
-            visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
+//            visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
             driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
             shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 //                shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
@@ -157,7 +157,7 @@ public class ShooterSpeeds extends DinitechRobotBase {
 
         private void customSetupGamePadsButtonBindings(){
             gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
-            visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
+//            visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
             driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
 //            shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 //                shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));

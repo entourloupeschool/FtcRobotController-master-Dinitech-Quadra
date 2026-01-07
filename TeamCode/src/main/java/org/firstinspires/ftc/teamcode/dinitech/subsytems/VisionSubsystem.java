@@ -13,23 +13,18 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_POSIT
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLAMP_BEARING;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CX;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CY;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DIFFERENCE_RANGE_VISION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FX;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA1_NAME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_RESOLUTION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_RANGE_VISION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MIN_RANGE_VISION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_AT_SAMPLES;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_BEARING_AT_140_INCHES_RANGE;
-    import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_BEARING_AT_40_INCHES_RANGE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_ROBOT_YAW;
+
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALER_OFFSET_AT_TO_X_BASKET;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.STREAM_FORMAT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.USE_WEBCAM;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_ROBOT_X;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_ROBOT_Y;
+
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationOffsetBearing;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -49,7 +44,6 @@ import org.firstinspires.ftc.vision.opencv.ImageRegion;
 import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * A command-based subsystem that manages the robot's vision capabilities.
@@ -142,6 +136,7 @@ public class VisionSubsystem extends SubsystemBase {
                                 CAMERA_ORIENTATION_YAW, CAMERA_ORIENTATION_PITCH, CAMERA_ORIENTATION_ROLL, 0
                         ))
                 .setLensIntrinsics(FX, FY, CX, CY)
+                .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
                 .build();
 
         setAprilTagDetectionDecimation(getDecimation());
@@ -318,7 +313,7 @@ public class VisionSubsystem extends SubsystemBase {
         // to the bearing's sign (e.g., a positive bearing requires a negative rotation).
         double invertedCameraBearing = -getCameraBearing();
 
-        Double range = getRangeToAprilTag();
+        double range = getRangeToAprilTag();
 
         // Simple add the camera sideway : allways negative because  camera is always on the left of the center of the robot so it needs to slightly tilt to the the left (negative power)
         double cameraSidewayOffset = invertedCameraBearing - getLinearInterpolationOffsetBearing(range);
@@ -330,7 +325,7 @@ public class VisionSubsystem extends SubsystemBase {
         // A positive X-pose (left of the AprilTag) should result in a left turn (negative value).
         double robotXFtcPose = -getXFtcPose();
 
-        normalizedClampedBearing += robotXFtcPose / (range + BASKET_Y_OFFSET) * SCALER_OFFSET_AT_TO_X_BASKET;
+        normalizedClampedBearing += (robotXFtcPose + CAMERA_POSITION_X) / (range + BASKET_Y_OFFSET) * SCALER_OFFSET_AT_TO_X_BASKET;
 
         return normalizedClampedBearing;
     }
@@ -343,6 +338,18 @@ public class VisionSubsystem extends SubsystemBase {
     public double getAutoAimPower(){
         // Calculate the auto-aim rotation power from the bearing (sign preserving)
         return pickCustomPowerFunc(getNormalizedClampedRobotCenterBasketBearing(), NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
+    }
+
+    public double getAutoAimPower2(){
+        double theta = Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, getCameraBearing()));
+
+        double y = getRangeToAprilTag();
+
+        double xt2 = CAMERA_POSITION_X + (y + BASKET_Y_OFFSET) * Math.sin(theta);
+        double yt2 = (y + BASKET_Y_OFFSET) * Math.cos(theta);
+
+
+        return pickCustomPowerFunc(Math.atan2(xt2, yt2) / (2*Math.PI), NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
     }
 
     /**
@@ -433,25 +440,6 @@ public class VisionSubsystem extends SubsystemBase {
         setAprilTagDetectionDecimation(decimation);
     }
 
-    /**
-     * Calculates linear interpolation bearing offset using linear interpolation based on range.
-     * This helps correct for parallax error due to camera placement.
-     * @param range The range to the target.
-     * @return The calculated bearing offset.
-     */
-    public static double getLinearInterpolationOffsetBearing(double range) {
-        if (range <= MIN_RANGE_VISION) {
-            return OFFSET_BEARING_AT_40_INCHES_RANGE;
-        } else if (range <= MAX_RANGE_VISION) {
-            // Linear interpolation between the two known points
-            return (OFFSET_BEARING_AT_40_INCHES_RANGE + (range - MIN_RANGE_VISION) *
-                   (OFFSET_BEARING_AT_140_INCHES_RANGE - OFFSET_BEARING_AT_40_INCHES_RANGE) / DIFFERENCE_RANGE_VISION);
-        } else {
-            // Extrapolate beyond 134 inches, though this may be less accurate
-            return OFFSET_BEARING_AT_140_INCHES_RANGE;
-        }
-    }
-
     @Override
     public void periodic() {
         printTelemetry(telemetry);
@@ -520,4 +508,5 @@ public class VisionSubsystem extends SubsystemBase {
         cachedColorsOrder = new String[0];
         hasDetectedColorOrder = false;
     }
+
 }

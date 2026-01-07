@@ -32,7 +32,7 @@ public class ToggleVisionShooter extends CommandBase {
         if (shooterSubsystem.isVisionShooting()) {
             shooterSubsystem.setVisionShooting(false);
             // Shooter is running, so stop it
-            shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
+            shooterSubsystem.setVelocity(0);
         } else {
             new Rumble(gamepadSubsystem, 2, 3).schedule();
             shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem, true));

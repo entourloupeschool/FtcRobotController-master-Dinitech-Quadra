@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedF
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdateAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
@@ -41,6 +42,11 @@ public class VisionShooter extends CommandBase {
     public void initialize() {
         currentSpeedLevel = -1; // Reset speed level tracking;
 
+        if (visionSubsystem.getDefaultCommand() != null) {
+            visionSubsystem.getDefaultCommand().cancel();
+        }
+        visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
+
         if (!continuous) {
             // For instant mode, set speed once in initialize
             updateShooterSpeed();
@@ -62,6 +68,13 @@ public class VisionShooter extends CommandBase {
         // Continuous mode never finishes, instant mode finishes when target speed is
         // reached
         return !continuous && shooterSubsystem.isSpeedAround(shooterSubsystem.getTargetSpeed(), SPEED_MARGIN_VISION_SHOOT);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        if (visionSubsystem.getDefaultCommand() != null) {
+            visionSubsystem.getDefaultCommand().cancel();
+        }
     }
 
     /**
