@@ -321,11 +321,7 @@ public class VisionSubsystem extends SubsystemBase {
         // Normalize the bearing within a clamped range to get a -1 to 1 value for the power function
         double normalizedClampedBearing = Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, cameraSidewayOffset)) / CLAMP_BEARING;
 
-        // Invert the X-pose to align with the desired rotation direction.
-        // A positive X-pose (left of the AprilTag) should result in a left turn (negative value).
-        double robotXFtcPose = -getXFtcPose();
-
-        normalizedClampedBearing += (robotXFtcPose + CAMERA_POSITION_X) / (range + BASKET_Y_OFFSET) * SCALER_OFFSET_AT_TO_X_BASKET;
+        normalizedClampedBearing += (getXFtcPose() + CAMERA_POSITION_X) / (range + BASKET_Y_OFFSET) * SCALER_OFFSET_AT_TO_X_BASKET;
 
         return normalizedClampedBearing;
     }
