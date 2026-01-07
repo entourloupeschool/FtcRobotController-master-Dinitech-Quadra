@@ -50,7 +50,7 @@ public class ShootRevolution extends SequentialCommandGroup {
      * @param shooterSubsystem The shooter subsystem.
      * @param shooterCommand   The custom command to run for controlling the shooter.
      */
-    protected ShootRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Command shooterCommand) {
+    public ShootRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Command shooterCommand) {
         this.trieurSubsystem = trieurSubsystem;
         this.shooterSubsystem = shooterSubsystem;
 
@@ -86,7 +86,6 @@ public class ShootRevolution extends SequentialCommandGroup {
         // If the command was cancelled, perform immediate cleanup for safety
         if (interrupted) {
             shooterSubsystem.stopMotor();
-            trieurSubsystem.closeTrappe();
         }
     }
 }

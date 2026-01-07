@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.Rumble;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
@@ -21,8 +22,11 @@ public class ToggleVisionShooter extends CommandBase {
 
     @Override
     public void initialize() {
-        // Cancel any currently running command that uses the shooter subsystem
-        shooterSubsystem.getDefaultCommand().cancel();
+        // Cancel the current default command to allow a new one to be set.
+        if (shooterSubsystem.getDefaultCommand() != null) {
+            shooterSubsystem.getDefaultCommand().cancel();
+        }
+
 
         // Toggle based on actual shooter state
         if (shooterSubsystem.isVisionShooting()) {
@@ -30,6 +34,7 @@ public class ToggleVisionShooter extends CommandBase {
             // Shooter is running, so stop it
             shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
         } else {
+            new Rumble(gamepadSubsystem, 2, 3).schedule();
             shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem, true));
 
         }

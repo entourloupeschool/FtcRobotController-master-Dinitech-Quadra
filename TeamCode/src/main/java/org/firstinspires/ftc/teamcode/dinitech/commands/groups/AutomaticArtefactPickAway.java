@@ -42,8 +42,8 @@ public class AutomaticArtefactPickAway extends ParallelDeadlineGroup {
 
                 // Command 1 (runs in parallel): Manage the intake motor.
                 new StartEndCommand(
-                        () -> chargeurSubsystem.setPower(Globals.CHARGEUR_MOTOR_POWER), // Turn intake on
-                        () -> chargeurSubsystem.setPower(0),                         // Turn intake off when deadline is met
+                        () -> chargeurSubsystem.setChargeurPower(Globals.CHARGEUR_MOTOR_POWER), // Turn intake on
+                        () -> chargeurSubsystem.setChargeurPower(0),                         // Turn intake off when deadline is met
                         chargeurSubsystem
                 ),
 

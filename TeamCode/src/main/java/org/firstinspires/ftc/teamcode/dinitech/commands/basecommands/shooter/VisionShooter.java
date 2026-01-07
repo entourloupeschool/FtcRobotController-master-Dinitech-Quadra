@@ -19,7 +19,6 @@ public class VisionShooter extends CommandBase {
     private final boolean continuous;
 
     private int currentSpeedLevel = -1; // Track current speed level to avoid redundant calls
-    private double targetShooterSpeed = MAX_SHOOT_SPEED;
 
     /**
      * Creates a VisionShooter command that adjusts shooter speed based on AprilTag
@@ -40,7 +39,7 @@ public class VisionShooter extends CommandBase {
 
     @Override
     public void initialize() {
-        currentSpeedLevel = -1; // Reset speed level tracking
+        currentSpeedLevel = -1; // Reset speed level tracking;
 
         if (!continuous) {
             // For instant mode, set speed once in initialize
@@ -62,7 +61,7 @@ public class VisionShooter extends CommandBase {
     public boolean isFinished() {
         // Continuous mode never finishes, instant mode finishes when target speed is
         // reached
-        return !continuous && shooterSubsystem.isSpeedAround(targetShooterSpeed, SPEED_MARGIN_VISION_SHOOT);
+        return !continuous && shooterSubsystem.isSpeedAround(shooterSubsystem.getTargetSpeed(), SPEED_MARGIN_VISION_SHOOT);
     }
 
     /**

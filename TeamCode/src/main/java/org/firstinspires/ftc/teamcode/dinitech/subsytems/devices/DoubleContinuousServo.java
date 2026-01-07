@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  *
  * @see CRServo
  */
-public abstract class DoubleInvertedContinuousServo {
+public abstract class DoubleContinuousServo {
     /** The FTCLib CRServo instance for continuous rotation servo control. */
     private final CRServo servo1;
     private final CRServo servo2;
@@ -23,7 +23,7 @@ public abstract class DoubleInvertedContinuousServo {
      *
      * @param hardwareMap The robot's hardware map.
      */
-    public DoubleInvertedContinuousServo(final HardwareMap hardwareMap, String name1, String name2) {
+    public DoubleContinuousServo(final HardwareMap hardwareMap, String name1, String name2) {
         this.servo1 = new CRServo(hardwareMap, name1);
         this.servo2 = new CRServo(hardwareMap, name2);
     }
@@ -127,6 +127,29 @@ public abstract class DoubleInvertedContinuousServo {
                 return ;
         }
     }
+
+    /**
+     * Inverts the servo's direction.
+     *
+     * @param crsNumber The crs number to set, from 1 to 3. 3 is both.
+     */
+    public void invertDirection(int crsNumber){
+        switch (crsNumber){
+            case 1:
+                setInverted(1, !isInverted(1));
+                break;
+            case 2:
+                setInverted(2, !isInverted(2));
+                break;
+            case 3:
+                setInverted(1, !isInverted(1));
+                setInverted(2, !isInverted(2));
+                break;
+            default:
+                return ;
+        }
+    }
+
 
     /**
      * Gets the achievable maximum speed of the servo in ticks per second.

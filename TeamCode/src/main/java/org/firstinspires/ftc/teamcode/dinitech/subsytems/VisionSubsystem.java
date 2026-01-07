@@ -82,6 +82,16 @@ public class VisionSubsystem extends SubsystemBase {
     private final RunningAverage ftcPoseXSamples = new RunningAverage(NUMBER_AT_SAMPLES);
     private final RunningAverage ftcPoseYSamples = new RunningAverage(NUMBER_AT_SAMPLES);
 
+    // Cached averages (updated via updateCachedAverages())
+    private Double cachedRobotPoseX = null;
+    private Double cachedRobotPoseY = null;
+    private Double cachedRobotPoseYaw = null;
+    private Double cachedRangeToAprilTag = null;
+    private Double cachedCameraBearing = null;
+    private Double cachedConfidence = null;
+    private Double cachedFtcPoseX = null;
+    private Double cachedFtcPoseY = null;
+
     private boolean hasCurrentATDetections = false;
 
     private String[] cachedColorsOrder = new String[0];
@@ -179,6 +189,7 @@ public class VisionSubsystem extends SubsystemBase {
                         confidenceAprilTagSamples.add(detection.decisionMargin);
                         ftcPoseXSamples.add(detection.ftcPose.x);
                         ftcPoseYSamples.add(detection.ftcPose.y);
+                        updateCachedAverages();
                     } else if (!hasDetectedColorOrder) {
                         if (detection.id == 21) {
                             cachedColorsOrder = new String[] { "g", "p", "p" };
@@ -198,6 +209,21 @@ public class VisionSubsystem extends SubsystemBase {
         } else {
             hasCurrentATDetections = false;
         }
+    }
+
+    /**
+     * Updates all cached average values from the running average filters.
+     * Call this after adding new samples to ensure cached values are current.
+     */
+    public void updateCachedAverages() {
+        cachedRobotPoseX = robotPoseXSamples.getAverage();
+        cachedRobotPoseY = robotPoseYSamples.getAverage();
+        cachedRobotPoseYaw = robotPoseYawSamples.getAverage();
+        cachedRangeToAprilTag = rangeToAprilTagSamples.getAverage();
+        cachedCameraBearing = cameraBearingSamples.getAverage();
+        cachedConfidence = confidenceAprilTagSamples.getAverage();
+        cachedFtcPoseX = ftcPoseXSamples.getAverage();
+        cachedFtcPoseY = ftcPoseYSamples.getAverage();
     }
 
     /**
@@ -237,48 +263,48 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     /**
-     * Gets the averaged robot pose X coordinate from AprilTag detections.
+     * Gets the cached averaged robot pose X coordinate from AprilTag detections.
      *
      * @return The averaged X coordinate in inches, or null if no data is available.
      */
     public Double getRobotPoseX() {
-        return robotPoseXSamples.getAverage();
+        return cachedRobotPoseX;
     }
 
     /**
-     * Gets the averaged robot pose Y coordinate from AprilTag detections.
+     * Gets the cached averaged robot pose Y coordinate from AprilTag detections.
      *
      * @return The averaged Y coordinate in inches, or null if no data is available.
      */
     public Double getRobotPoseY() {
-        return robotPoseYSamples.getAverage();
+        return cachedRobotPoseY;
     }
 
     /**
-     * Gets the averaged robot yaw from AprilTag detections.
+     * Gets the cached averaged robot yaw from AprilTag detections.
      *
      * @return The averaged yaw in radians, or null if no data is available.
      */
     public Double getRobotPoseYaw() {
-        return robotPoseYawSamples.getAverage();
+        return cachedRobotPoseYaw;
     }
 
     /**
-     * Gets the averaged range to the detected AprilTag.
+     * Gets the cached averaged range to the detected AprilTag.
      *
      * @return The averaged range in inches, or null if no data is available.
      */
     public Double getRangeToAprilTag() {
-        return rangeToAprilTagSamples.getAverage();
+        return cachedRangeToAprilTag;
     }
 
     /**
-     * Gets the averaged bearing from the camera to the AprilTag.
+     * Gets the cached averaged bearing from the camera to the AprilTag.
      *
      * @return The averaged bearing in degrees, or null if no data is available.
      */
     public Double getCameraBearing() {
-        return cameraBearingSamples.getAverage();
+        return cachedCameraBearing;
     }
 
     public double getRobotCenterBearing(){
@@ -320,21 +346,21 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     /**
-     * Gets the averaged XftcPose from AprilTag detections.
+     * Gets the cached averaged XftcPose from AprilTag detections.
      *
      * @return The averaged XftcPose in inches, or null if no data is available.
      */
     public Double getXFtcPose(){
-        return ftcPoseXSamples.getAverage();
+        return cachedFtcPoseX;
     }
 
     /**
-     * Gets the averaged YftcPose from AprilTag detections.
+     * Gets the cached averaged YftcPose from AprilTag detections.
      *
      * @return The averaged YftcPose in inches, or null if no data is available.
      */
     public Double getYFtcPose(){
-        return ftcPoseYSamples.getAverage();
+        return cachedFtcPoseY;
     }
 
 

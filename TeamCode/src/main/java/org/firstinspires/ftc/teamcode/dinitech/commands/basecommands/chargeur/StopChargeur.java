@@ -14,7 +14,7 @@ public class StopChargeur extends CommandBase {
 
     @Override
     public void initialize(){
-        chargeurSubsystem.setPower(0);
+        chargeurSubsystem.setChargeurPower(0);
     }
 
 

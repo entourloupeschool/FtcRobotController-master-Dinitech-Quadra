@@ -16,7 +16,7 @@ public class MaxPowerChargeur extends CommandBase {
 
     @Override
     public void initialize(){
-        chargeurSubsystem.setPower(CHARGEUR_MOTOR_POWER);
+        chargeurSubsystem.setChargeurPower(CHARGEUR_MOTOR_POWER);
     }
 
     @Override

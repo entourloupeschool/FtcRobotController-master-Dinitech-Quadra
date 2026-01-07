@@ -35,14 +35,6 @@ public class MoulinCalibrate extends CommandBase {
     }
 
     /**
-     * Starts the calibration process by applying power to the moulin motor.
-     */
-    @Override
-    public void initialize() {
-        trieurSubsystem.setMoulinPower(POWER_MOULIN_CALIBRATION_ROTATION);
-    }
-
-    /**
      * Continuously increments the motor's target position to ensure it keeps rotating
      * until the magnetic switch is found.
      */

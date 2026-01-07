@@ -99,10 +99,10 @@ public class GornetixTeleOp extends DinitechRobotBase {
          * Setup GamePads and Buttons and their associated commands.
          */
         private void setupGamePadsButtonBindings() {
-            gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
+//            gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
             visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
             driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
-            shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
+//            shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 //                shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 
 
@@ -117,15 +117,14 @@ public class GornetixTeleOp extends DinitechRobotBase {
             m_Operator.touchpadButton.whenActive(new StopRobot(shooterSubsystem, chargeurSubsystem));
 
             // Driver controls
-            m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
+//            m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
             m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
             m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem, gamepadSubsystem));
-            m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, shooterSubsystem));
+            m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem, false)));
 
             m_Driver.bump_left.whenPressed(new ToggleSlowDrive(driveSubsystem, gamepadSubsystem));
             m_Driver.bump_right
                             .whenPressed(new ToggleVisionDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
-
 
 
             // Operator controls
@@ -174,7 +173,7 @@ public class GornetixTeleOp extends DinitechRobotBase {
             m_Operator.touchpadButton.whenActive(new StopRobot(shooterSubsystem, chargeurSubsystem));
 
             // Driver controls
-            m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
+            m_Driver.circle.whenPressed(new VisionShooter(shooterSubsystem, visionSubsystem, false));
 //            m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
             m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem, gamepadSubsystem));
 
@@ -202,10 +201,10 @@ public class GornetixTeleOp extends DinitechRobotBase {
 
 //                 Automatic trigger: when trieur becomes full, spin up shooter to max speed and
 //                 Moulin Motif Ready
-//            new Trigger(trieurSubsystem::getIsFull)
-//                    .whenActive(new ParallelCommandGroup(new ReadyMotif(trieurSubsystem, visionSubsystem,
-//                            gamepadSubsystem),
-//                            new VisionShooter(shooterSubsystem, visionSubsystem, false)
-//                    ));
+            new Trigger(trieurSubsystem::getIsFull)
+                    .whenActive(new ParallelCommandGroup(new ReadyMotif(trieurSubsystem, visionSubsystem,
+                            gamepadSubsystem),
+                            new VisionShooter(shooterSubsystem, visionSubsystem, false)
+                    ));
         }
 }

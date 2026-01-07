@@ -129,9 +129,9 @@ public class Globals {
          */
         public static final String SHOOTER_MOTOR_NAME = "shooter";
         public static final double MAX_SHOOT_SPEED = 2540; // Ticks per second.
-        public static final double SPEED_MARGIN = 10;
+        public static final double SPEED_MARGIN = 20;
         public static final double SPEED_INCREMENT_SHOOTER = 10;
-        public static final double MAX_RANGE_TO_SHOOT = 120;
+        public static final double MAX_RANGE_TO_SHOOT = 133;
         public static final double MIN_RANGE_TO_SHOOT = 40;
 
         public static final double DIFF_MIN_MAX_RANGE_TO_SHOOT = MAX_RANGE_TO_SHOOT - MIN_RANGE_TO_SHOOT;
@@ -144,34 +144,34 @@ public class Globals {
         public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 13.272119;
 
         public static final double MIN_RANGE_SHOOTER_SPEED = 1420;
-        public static final double MAX_RANGE_SHOOTER_SPEED = 2500;
+        public static final double MAX_RANGE_SHOOTER_SPEED = 1970;
 
         public static final double DIFF_MIN_MAX_RANGE_SHOOTER_SPEED = MAX_RANGE_SHOOTER_SPEED - MIN_RANGE_SHOOTER_SPEED;
+
+        public static final double A_DIFFS = DIFF_MIN_MAX_RANGE_SHOOTER_SPEED / DIFF_MIN_MAX_RANGE_TO_SHOOT;
+        public static final double B_DIFFS = MIN_RANGE_SHOOTER_SPEED - A_DIFFS * MIN_RANGE_TO_SHOOT;
 
 
     /**
          * Applies a linear function to get speed from range
+         * y = a * m + b
          *
          * @param range The range value, positive.
          * @return The speed value, also positive
          */
         public static double linearSpeedFromRange(double range) {
-            if (range < MIN_RANGE_TO_SHOOT) {
-                return MIN_RANGE_SHOOTER_SPEED;
-            } else if (range > MAX_RANGE_TO_SHOOT) {
-                return MAX_RANGE_SHOOTER_SPEED;
-            } else {
-                return MIN_RANGE_SHOOTER_SPEED + DIFF_MIN_MAX_RANGE_TO_SHOOT
-                                * (range - MIN_RANGE_TO_SHOOT) / DIFF_MIN_MAX_RANGE_SHOOTER_SPEED;
-            }
+            return A_DIFFS * range + B_DIFFS;
         }
 
         /**
          * *******Chargeur
          */
         public static final String CHARGEUR_MOTOR_NAME = "chargeur";
-        public static final String CHARGEUR_SERVO_MOTOR_NAME = "chargeur_servo";
-        public static final double CHARGEUR_MOTOR_POWER = 1;
+        public static final String CHARGEUR_SERVO_GAUCHE_MOTOR_NAME = "chargeur_servo_gauche";
+    public static final String CHARGEUR_SERVO_DROITE_MOTOR_NAME = "chargeur_servo_droite";
+
+    public static final double CHARGEUR_MOTOR_POWER = 1;
+    public static double SCALE_CHARGEUR_MOTOR_POWER = 0.4;
         public static final double CHARGEUR_SPEED = 2300;
         public static final double CHARGEUR_INCREMENT = 0.1;
 

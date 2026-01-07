@@ -25,7 +25,7 @@ public class ToggleChargeur extends CommandBase {
         }
 
         // Toggle based on actual shooter state
-        if (chargeurSubsystem.isPowered()) {
+        if (chargeurSubsystem.isMotorPowered()) {
             // Shooter is running, so stop it
             new StopChargeur(chargeurSubsystem).schedule();
         } else {

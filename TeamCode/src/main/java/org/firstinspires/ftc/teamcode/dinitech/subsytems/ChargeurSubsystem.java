@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_MOTOR_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_CHARGEUR_MOTOR_POWER;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -8,6 +9,7 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.ChargeurDoubleServo;
 
 /**
  * A command-based subsystem for controlling the Chargeur (loader/intake) mechanism.
@@ -21,6 +23,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 public class ChargeurSubsystem extends SubsystemBase {
     private final MotorEx motorEx;
+    private final ChargeurDoubleServo chargeurDoubleServo;
     public final Telemetry telemetry;
 
     /**
@@ -33,16 +36,31 @@ public class ChargeurSubsystem extends SubsystemBase {
         this.motorEx = new MotorEx(hardwareMap, CHARGEUR_MOTOR_NAME);
         motorEx.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
         motorEx.setRunMode(Motor.RunMode.RawPower);
+        
+        this.chargeurDoubleServo = new ChargeurDoubleServo(hardwareMap);
 
         this.telemetry = telemetry;
     }
+
+
+
+    public void setChargeurPower(double power){
+        chargeurDoubleServo.setNormalizedSpeed(3, power);
+        setMotorPower(power * SCALE_CHARGEUR_MOTOR_POWER);
+    }
+
+    public void incrementChargeurPower(double increment){
+        chargeurDoubleServo.incrementNormalizedSpeed(3, increment);
+        incrementMotorPower(increment);
+    }
+
 
     /**
      * Sets the power of the intake motor.
      *
      * @param power The power level, from -1.0 (reverse) to 1.0 (forward).
      */
-    public void setPower(double power){
+    public void setMotorPower(double power){
         motorEx.set(power);
     }
 
@@ -51,7 +69,7 @@ public class ChargeurSubsystem extends SubsystemBase {
      *
      * @return The current power level.
      */
-    public double getPower(){
+    public double getMotorPower(){
         return motorEx.get();
     }
 
@@ -60,8 +78,8 @@ public class ChargeurSubsystem extends SubsystemBase {
      *
      * @param powerIncrement The amount to add to the current power.
      */
-    public void incrementPower(double powerIncrement){
-        setPower(getPower() + powerIncrement);
+    public void incrementMotorPower(double powerIncrement){
+        setMotorPower(getMotorPower() + powerIncrement);
     }
 
     /**
@@ -69,7 +87,7 @@ public class ChargeurSubsystem extends SubsystemBase {
      *
      * @return The velocity in ticks per second.
      */
-    public double getSpeed(){
+    public double getMotorSpeed(){
         return motorEx.getVelocity();
     }
 
@@ -78,8 +96,8 @@ public class ChargeurSubsystem extends SubsystemBase {
      *
      * @return True if the absolute power is greater than a small threshold (0.1).
      */
-    public boolean isPowered(){
-        return Math.abs(getPower()) > 0.1;
+    public boolean isMotorPowered(){
+        return Math.abs(getMotorPower()) > 0.1;
     }
 
     /**
@@ -87,7 +105,7 @@ public class ChargeurSubsystem extends SubsystemBase {
      *
      * @return True if the motor is in an over-current state.
      */
-    public boolean shouldStopPower(){
+    public boolean shouldMotorStopPower(){
         return isOverCurrent();
     }
 
@@ -97,8 +115,8 @@ public class ChargeurSubsystem extends SubsystemBase {
      * @param speed The target speed in ticks per second.
      * @return True if the current speed is at or above the target speed.
      */
-    public boolean isAtSpeed(double speed){
-        return getSpeed() >= speed;
+    public boolean isMotorAtSpeed(double speed){
+        return getMotorSpeed() >= speed;
     }
 
     /**
@@ -114,11 +132,11 @@ public class ChargeurSubsystem extends SubsystemBase {
     public void periodic(){
         // Automatically stop the motor if an over-current condition is detected.
         if (isOverCurrent()){
-            setPower(0);
+            setMotorPower(0);
         }
     }
 
     private void printChargeurTelemetry(final Telemetry telemetry){
-        telemetry.addData("Chargeur Power", "%.2f", getPower());
+        telemetry.addData("Chargeur Power", "%.2f", getMotorPower());
     }
 }

@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 
 public class IncrementPowerChargeur extends CommandBase {
     private final ChargeurSubsystem chargeurSubsystem;
-    private double powerIncrement = 0;
+    private final double powerIncrement;
 
     public IncrementPowerChargeur(ChargeurSubsystem chargeurSubsystem, double powerIncrement){
         this.chargeurSubsystem = chargeurSubsystem;
@@ -18,7 +18,7 @@ public class IncrementPowerChargeur extends CommandBase {
 
     @Override
     public void initialize(){
-        chargeurSubsystem.incrementPower(powerIncrement);
+        chargeurSubsystem.incrementChargeurPower(powerIncrement);
     }
 
     @Override

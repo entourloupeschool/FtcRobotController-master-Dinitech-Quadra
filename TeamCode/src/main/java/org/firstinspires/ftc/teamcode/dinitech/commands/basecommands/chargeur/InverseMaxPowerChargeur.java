@@ -19,7 +19,7 @@ public class InverseMaxPowerChargeur extends CommandBase {
         /**
          * Toggle the door state (open/close)
          */
-        chargeurSubsystem.setPower(-CHARGEUR_MOTOR_POWER);
+        chargeurSubsystem.setChargeurPower(-CHARGEUR_MOTOR_POWER);
     }
 
 
