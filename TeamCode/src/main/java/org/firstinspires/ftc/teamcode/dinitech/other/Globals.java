@@ -241,8 +241,8 @@ public class Globals {
         public static final VisionPortal.StreamFormat STREAM_FORMAT = VisionPortal.StreamFormat.MJPEG; // Or YUY2
 
         public static double CLAMP_BEARING = 55;
-        public static final double MIN_RANGE_VISION = 40; //INCHES
-        public static final double MAX_RANGE_VISION = 140; //INCHES
+        public static final double MIN_RANGE_VISION = MIN_RANGE_TO_SHOOT_CM; //CM
+        public static final double MAX_RANGE_VISION = MAX_RANGE_TO_SHOOT_CM; //CM
 
         public static final double DIFF_RANGE_VISION = MAX_RANGE_VISION - MIN_RANGE_VISION;
 
@@ -257,7 +257,6 @@ public class Globals {
         public static double CUSTOM_POWER_LOCKED = 0.05;
 
         public static final double DIFF_A_BEARING = DIFF_OFFSET_BEARING_AT / DIFF_RANGE_VISION;
-        public static final double DIFF_B_BEARING = OFFSET_BEARING_AT_40_INCHES_RANGE - DIFF_A_BEARING * MIN_RANGE_VISION;
 
         /**
          * Calculates linear interpolation bearing offset using linear interpolation based on range.
@@ -266,7 +265,7 @@ public class Globals {
          * @return The calculated bearing offset.
          */
         public static double getLinearInterpolationOffsetBearing(double range) {
-            return DIFF_A_BEARING * range + DIFF_B_BEARING;
+            return DIFF_A_BEARING * range + 1;
         }
 
         public static double pickCustomPowerFunc(double x, int funcNumber) {
