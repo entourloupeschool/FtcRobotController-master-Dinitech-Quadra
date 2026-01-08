@@ -12,8 +12,6 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.To
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleSlowDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleVisionDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.DefaultGamepadCommand;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.TeleShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.ToggleVisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.ToggleVisionTeleStopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinAntiRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
@@ -21,7 +19,6 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.Moul
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNext;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.TeleDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.ToggleMaxShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.ToggleTrappe;
@@ -30,9 +27,8 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ArtefactPickAway;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticArtefactPickAway;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolutionVision;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
@@ -122,7 +118,7 @@ public class GornetixTeleOp extends DinitechRobotBase {
 //            m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
             m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
             m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem, gamepadSubsystem));
-            m_Driver.square.whenPressed(new ShootRevolutionVision(trieurSubsystem, shooterSubsystem, visionSubsystem));
+            m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem, false)));
 
             m_Driver.bump_left.whenPressed(new ToggleSlowDrive(driveSubsystem, gamepadSubsystem));
             m_Driver.bump_right

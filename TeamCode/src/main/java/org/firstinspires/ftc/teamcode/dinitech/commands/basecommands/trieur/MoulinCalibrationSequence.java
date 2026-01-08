@@ -35,6 +35,5 @@ public class MoulinCalibrationSequence extends SequentialCommandGroup {
             new InstantCommand(() -> trieurSubsystem.hardSetMoulinPosition(6), trieurSubsystem),
             new MoulinNext(trieurSubsystem)
         );
-        addRequirements(trieurSubsystem);
     }
 }

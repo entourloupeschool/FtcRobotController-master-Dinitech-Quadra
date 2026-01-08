@@ -57,7 +57,6 @@ public class TeleDriveLocked extends CommandBase {
             visionSubsystem.getDefaultCommand().cancel();
         }
         visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
-//        visionSubsystem.setCameraOn(true);
     }
 
     /**
@@ -75,14 +74,6 @@ public class TeleDriveLocked extends CommandBase {
         }
     }
 
-    @Override
-    public void end(boolean interrupted) {
-//        visionSubsystem.setCameraOn(false);
-        if (visionSubsystem.getDefaultCommand() != null) {
-            visionSubsystem.getDefaultCommand().cancel();
-        }
-    }
-
     /**
      * Executes the driving logic with AprilTag auto-aim enabled.
      */
@@ -90,7 +81,7 @@ public class TeleDriveLocked extends CommandBase {
         double rightX = driver.getRightX();
 
         // Execute the drive command with the combined rotation power
-        driveSubsystem.teleDrive(driver.getLeftX(), driver.getLeftY(), visionSubsystem.getAutoAimPower2() * (1 - Math.abs(rightX)) + rightX,
+        driveSubsystem.teleDrive(driver.getLeftX(), driver.getLeftY(), visionSubsystem.getAutoAimPower() * (1 - Math.abs(rightX)) + rightX,
                 driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
     }
 }

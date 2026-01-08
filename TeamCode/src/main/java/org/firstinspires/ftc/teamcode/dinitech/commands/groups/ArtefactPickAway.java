@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.ContinuousRumbleCustom;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.InstantRumbleCustom;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.Rumble;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNext;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
@@ -38,7 +40,7 @@ public class ArtefactPickAway extends SequentialCommandGroup {
                 // Then, conditionally rotate the moulin if a new artifact was registered
                 new ConditionalCommand(
                         new MoulinNextNext(trieurSubsystem), // Command to run if a new artifact is present
-                        new Rumble(gamepadSubsystem, 3, 1),   // Command to run if no new artifact was registered
+                        new InstantRumbleCustom(gamepadSubsystem, 3, 0.1),   // Command to run if no new artifact was registered
                         trieurSubsystem::hasNewRegister      // The condition to check
                 )
         );

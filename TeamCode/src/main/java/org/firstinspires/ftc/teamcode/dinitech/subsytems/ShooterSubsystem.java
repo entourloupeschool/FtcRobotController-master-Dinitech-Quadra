@@ -7,6 +7,9 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_SHOOT_SP
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_SHOOTER_VELOCITY_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOTER_MOTOR_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kA_SHOOTER_AGGRESSIVE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kS_SHOOTER_AGGRESSIVE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kV_SHOOTER_AGGRESSIVE;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
@@ -74,9 +77,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
         lastTimeStamp = (double) System.nanoTime() / 1E9;
 
-        this.telemetry = telemetry;
+        feedforward = new SimpleMotorFeedforward(kS_SHOOTER_AGGRESSIVE, kV_SHOOTER_AGGRESSIVE, kA_SHOOTER_AGGRESSIVE);
 
-        feedforward = new SimpleMotorFeedforward(0, 0, 0);
+        this.telemetry = telemetry;
     }
 
     /**
@@ -93,8 +96,9 @@ public class ShooterSubsystem extends SubsystemBase {
      */
     public void setVelocity(double velocity) {
         if (velocity >= 0){
-            dcMotorEx.setVelocity(velocity);
             targetSpeed = velocity;
+            dcMotorEx.setVelocity(targetSpeed);
+//            dcMotorEx.setPower(feedforward.calculate(targetSpeed, getRawAcceleration()));
         }
     }
 
@@ -143,10 +147,7 @@ public class ShooterSubsystem extends SubsystemBase {
      * @param velocityIncrement The amount to increment the velocity by.
      */
     public void incrementVelocity(double velocityIncrement) {
-        double newVelocity = getTargetSpeed() + velocityIncrement;
-        if (newVelocity <= MAX_SHOOT_SPEED && newVelocity >= 0) {
-            setVelocity(newVelocity);
-        }
+        setVelocity(getTargetSpeed() + velocityIncrement);
     }
 
     /**
@@ -317,8 +318,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     private void printShooterTelemetry(final Telemetry telemetry) {
-        double velo = getVelocity();
-        telemetry.addData("Shooter Speed (ticks/s)", "%.2f", velo);
+        telemetry.addData("Shooter Speed (ticks/s)", "%.2f", getVelocity());
         telemetry.addData("Target Speed (ticks/s)", "%.2f", getTargetSpeed());
         telemetry.addData("Shooter State", getUsageState());
     }

@@ -134,10 +134,10 @@ public class Globals {
         public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
         public static final double SPEED_MARGIN = 20;
         public static final double SPEED_INCREMENT_SHOOTER = 10;
-        public static final double MAX_RANGE_TO_SHOOT = 133;
-        public static final double MIN_RANGE_TO_SHOOT = 40;
+        public static final double MAX_RANGE_TO_SHOOT_CM = 345;
+        public static final double MIN_RANGE_TO_SHOOT_CM = 97;
 
-        public static final double DIFF_MIN_MAX_RANGE_TO_SHOOT = MAX_RANGE_TO_SHOOT - MIN_RANGE_TO_SHOOT;
+        public static final double DIFF_MIN_MAX_RANGE_TO_SHOOT = MAX_RANGE_TO_SHOOT_CM - MIN_RANGE_TO_SHOOT_CM; // = 93
         public static final double TELE_SHOOTER_SCALER = 20;
         public static final double SPEED_MARGIN_VISION_SHOOT = SPEED_MARGIN;
         public static final double ACCELERATION_SCALE_SHOOTER = 100;
@@ -146,24 +146,28 @@ public class Globals {
         public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;
         public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 13.272119;
 
+        public static double kS_SHOOTER_AGGRESSIVE = 0.001;
+        public static double kV_SHOOTER_AGGRESSIVE = 0.001;
+        public static double kA_SHOOTER_AGGRESSIVE = 0.001;
+
+
         public static final double MIN_RANGE_SHOOTER_SPEED = 1420;
         public static final double MAX_RANGE_SHOOTER_SPEED = 1970;
 
-        public static final double DIFF_MIN_MAX_RANGE_SHOOTER_SPEED = MAX_RANGE_SHOOTER_SPEED - MIN_RANGE_SHOOTER_SPEED;
+        public static final double DIFF_MIN_MAX_RANGE_SHOOTER_SPEED = MAX_RANGE_SHOOTER_SPEED - MIN_RANGE_SHOOTER_SPEED; // = 550;
 
-        public static final double A_DIFFS = DIFF_MIN_MAX_RANGE_SHOOTER_SPEED / DIFF_MIN_MAX_RANGE_TO_SHOOT;
-        public static final double B_DIFFS = MIN_RANGE_SHOOTER_SPEED - A_DIFFS * MIN_RANGE_TO_SHOOT;
+        public static final double A_DIFFS = DIFF_MIN_MAX_RANGE_SHOOTER_SPEED / DIFF_MIN_MAX_RANGE_TO_SHOOT; // = 2.2177
 
 
     /**
          * Applies a linear function to get speed from range
          * y = a * m + b
          *
-         * @param range The range value, positive.
+         * @param rangeCM The range value, positive.
          * @return The speed value, also positive
          */
-        public static double linearSpeedFromRange(double range) {
-            return A_DIFFS * range + B_DIFFS;
+        public static double linearSpeedFromRange(double rangeCM) {
+            return A_DIFFS * rangeCM + 1204.879; //
         }
 
         /**
