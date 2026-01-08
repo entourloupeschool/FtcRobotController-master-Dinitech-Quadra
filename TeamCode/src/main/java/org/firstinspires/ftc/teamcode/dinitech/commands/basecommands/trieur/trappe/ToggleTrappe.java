@@ -26,7 +26,6 @@ public class ToggleTrappe extends CommandBase {
     public ToggleTrappe(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem){
         this.trieurSubsystem = trieurSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
-        addRequirements(trieurSubsystem);
     }
 
     /**

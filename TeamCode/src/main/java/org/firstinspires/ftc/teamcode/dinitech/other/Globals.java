@@ -58,10 +58,13 @@ public class Globals {
          * Gamepads
          */
         public static final double RUMBLE_POWER = 1;
+        public static int RUMBLE_DURATION_1 = 100;
 
-        /**
-         *********************** SUBSYTEMS
-         */
+    public static int RUMBLE_DURATION_2 = 200;
+
+    /**
+     *********************** SUBSYTEMS
+     */
         /**
          ******** Mecanum Drive
          */
@@ -128,7 +131,7 @@ public class Globals {
          * *******Shooter
          */
         public static final String SHOOTER_MOTOR_NAME = "shooter";
-        public static final double MAX_SHOOT_SPEED = 3540; // Ticks per second.
+        public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
         public static final double SPEED_MARGIN = 20;
         public static final double SPEED_INCREMENT_SHOOTER = 10;
         public static final double MAX_RANGE_TO_SHOOT = 133;

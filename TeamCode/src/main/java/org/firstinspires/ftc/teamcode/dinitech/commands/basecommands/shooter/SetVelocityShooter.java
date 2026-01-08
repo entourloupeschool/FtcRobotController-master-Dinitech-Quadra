@@ -15,7 +15,6 @@ public class SetVelocityShooter extends CommandBase {
     public SetVelocityShooter(ShooterSubsystem shooterSubsystem, double ticksPerSecond){
         this.shooterSubsystem = shooterSubsystem;
         this.ticksPerSecond = ticksPerSecond;
-        addRequirements(shooterSubsystem);
     }
 
     @Override

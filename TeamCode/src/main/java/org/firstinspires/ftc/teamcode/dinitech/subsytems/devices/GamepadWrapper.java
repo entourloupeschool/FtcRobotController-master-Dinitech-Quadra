@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_1;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_2;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_POWER;
 
 import com.arcrobotics.ftclib.command.button.Button;
@@ -97,38 +99,37 @@ public class GamepadWrapper {
         touchpadButton = new Trigger(() -> gamepadEx.gamepad.touchpad);
 
         rumbleEffectUp = new Gamepad.RumbleEffect.Builder()
-                .addStep(RUMBLE_POWER/4, RUMBLE_POWER/4, 25)
-                .addStep(0.0, 0.0, 5) 
-                .addStep(RUMBLE_POWER/3, RUMBLE_POWER/3, 25)  
-                .addStep(0.0, 0.0, 5)  
-                .addStep(RUMBLE_POWER/2, RUMBLE_POWER/2, 25)  
-                .addStep(0.0, 0.0, 5)  
-                .addStep(RUMBLE_POWER, RUMBLE_POWER, 100)  
+                .addStep(RUMBLE_POWER/4, RUMBLE_POWER/4, RUMBLE_DURATION_1)
+                .addStep(0.0, 0.0, RUMBLE_DURATION_1/2)
+                .addStep(RUMBLE_POWER/3, RUMBLE_POWER/3, RUMBLE_DURATION_1)
+                .addStep(0.0, 0.0, RUMBLE_DURATION_1/2)
+                .addStep(RUMBLE_POWER/2, RUMBLE_POWER/2, RUMBLE_DURATION_1)
+                .addStep(0.0, 0.0, RUMBLE_DURATION_1/2)
+                .addStep(RUMBLE_POWER, RUMBLE_POWER, RUMBLE_DURATION_1)
                 .build();
 
         rumbleEffectDown = new Gamepad.RumbleEffect.Builder()
-                .addStep(RUMBLE_POWER, RUMBLE_POWER, 50) 
-                .addStep(0.0, 0.0, 5) 
-                .addStep(RUMBLE_POWER/2, RUMBLE_POWER/2, 25)  
-                .addStep(0.0, 0.0, 5)  
-                .addStep(RUMBLE_POWER/3, RUMBLE_POWER/3, 25)  
-                .addStep(0.0, 0.0, 5)  
-                .addStep(RUMBLE_POWER/4, RUMBLE_POWER/4, 25)  
-                .addStep(0.0, 0.0, 5)
+                .addStep(RUMBLE_POWER, RUMBLE_POWER, RUMBLE_DURATION_2)
+                .addStep(0.0, 0.0, RUMBLE_DURATION_2/2)
+                .addStep(RUMBLE_POWER/2, RUMBLE_POWER/2, RUMBLE_DURATION_2)
+                .addStep(0.0, 0.0, RUMBLE_DURATION_2/2)
+                .addStep(RUMBLE_POWER/3, RUMBLE_POWER/3, RUMBLE_DURATION_2)
+                .addStep(0.0, 0.0, RUMBLE_DURATION_2/2)
+                .addStep(RUMBLE_POWER/4, RUMBLE_POWER/4, RUMBLE_DURATION_2)
                 .build();
 
         rumbleEffectSimple = new Gamepad.RumbleEffect.Builder()
-                .addStep(RUMBLE_POWER, RUMBLE_POWER, 100)  //  Rumble both motor 100% for 100 mSec
+                .addStep(RUMBLE_POWER, RUMBLE_POWER, RUMBLE_DURATION_2)  //  Rumble both motor 100% for 100 mSec
                 .build();
 
         rumbleEffectW = new Gamepad.RumbleEffect.Builder()
-                .addStep(RUMBLE_POWER, RUMBLE_POWER, 50)
-                .addStep(0.0, 0.0, 25) 
-                .addStep(RUMBLE_POWER, RUMBLE_POWER, 100)  
-                .addStep(0.0, 0.0, 25)  
-                .addStep(RUMBLE_POWER, RUMBLE_POWER, 100)  
-                .addStep(0.0, 0.0, 25)  
-                .addStep(RUMBLE_POWER, RUMBLE_POWER, 50)  
+                .addStep(RUMBLE_POWER, RUMBLE_POWER, RUMBLE_DURATION_1)
+                .addStep(0.0, 0.0, RUMBLE_DURATION_1/4)
+                .addStep(RUMBLE_POWER, RUMBLE_POWER, RUMBLE_DURATION_1)
+                .addStep(0.0, 0.0, RUMBLE_DURATION_1/4)
+                .addStep(RUMBLE_POWER, RUMBLE_POWER, RUMBLE_DURATION_1)
+                .addStep(0.0, 0.0, RUMBLE_DURATION_1/4)
+                .addStep(RUMBLE_POWER, RUMBLE_POWER, RUMBLE_DURATION_1)
                 .build();
                 
     }

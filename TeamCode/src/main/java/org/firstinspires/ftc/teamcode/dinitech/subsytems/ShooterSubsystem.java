@@ -38,9 +38,18 @@ public class ShooterSubsystem extends SubsystemBase {
     private final Telemetry telemetry;
     private final DcMotor.RunMode runMode = DcMotor.RunMode.RUN_USING_ENCODER;
 
+    /**
+     * Defines the operational state of the shooter.
+     */
+    public enum ShooterUsageState {
+        TELE,   // Controlled by driver
+        VISION, // Controlled by vision auto-aim
+        NONE    // Not in use
+    }
+
     private double targetSpeed = 0;
     private double lastTimeStamp, accel, lastVelo;
-    private boolean visionShooting;
+    private ShooterUsageState usageState;
 
     /**
      * Constructs a new ShooterSubsystem.
@@ -61,7 +70,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 F_SHOOTER_VELOCITY_AGGRESSIVE);
         setVelocity(targetSpeed);
 
-        setVisionShooting(false);
+        setUsageState(ShooterUsageState.NONE);
 
         lastTimeStamp = (double) System.nanoTime() / 1E9;
 
@@ -135,7 +144,7 @@ public class ShooterSubsystem extends SubsystemBase {
      */
     public void incrementVelocity(double velocityIncrement) {
         double newVelocity = getTargetSpeed() + velocityIncrement;
-        if (newVelocity >= 0) {
+        if (newVelocity <= MAX_SHOOT_SPEED && newVelocity >= 0) {
             setVelocity(newVelocity);
         }
     }
@@ -264,12 +273,20 @@ public class ShooterSubsystem extends SubsystemBase {
         return targetSpeed;
     }
 
-    public void setVisionShooting(boolean b) {
-        visionShooting = b;
+    /**
+     * Sets the current usage state of the shooter.
+     * @param state The new ShooterUsageState.
+     */
+    public void setUsageState(ShooterUsageState state) {
+        this.usageState = state;
     }
 
-    public boolean isVisionShooting() {
-        return visionShooting;
+    /**
+     * Gets the current usage state of the shooter.
+     * @return The current ShooterUsageState.
+     */
+    public ShooterUsageState getUsageState() {
+        return usageState;
     }
 
     /**
@@ -302,6 +319,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private void printShooterTelemetry(final Telemetry telemetry) {
         double velo = getVelocity();
         telemetry.addData("Shooter Speed (ticks/s)", "%.2f", velo);
-        telemetry.addData("Target Speed", "%.2f", getTargetSpeed());
+        telemetry.addData("Target Speed (ticks/s)", "%.2f", getTargetSpeed());
+        telemetry.addData("Shooter State", getUsageState());
     }
 }

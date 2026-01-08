@@ -24,7 +24,6 @@ public class IncrementTrappe extends CommandBase {
     public IncrementTrappe(TrieurSubsystem trieurSubsystem, double increment){
         this.trieurSubsystem = trieurSubsystem;
         this.increment = increment;
-        addRequirements(trieurSubsystem);
     }
 
     /**

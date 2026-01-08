@@ -15,7 +15,6 @@ public class ContinuousRumbleCustom extends CommandBase {
         this.gamepadSubsystem = gamepadSubsystem;
         this.gamepadNumber = gamepadNumber;
         this.power = power;
-        addRequirements(gamepadSubsystem);
     }
 
     @Override

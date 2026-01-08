@@ -20,7 +20,6 @@ public class CloseTrappe extends CommandBase {
      */
     public CloseTrappe(TrieurSubsystem trieurSubsystem){
         this.trieurSubsystem = trieurSubsystem;
-        addRequirements(trieurSubsystem);
     }
 
     /**

@@ -40,19 +40,7 @@ public class VisionShooter extends CommandBase {
 
     @Override
     public void initialize() {
-        currentSpeedLevel = -1; // Reset speed level tracking;
-
-        if (visionSubsystem.getDefaultCommand() != null) {
-            visionSubsystem.getDefaultCommand().cancel();
-        }
-        visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
-
-        if (!continuous) {
-            // For instant mode, set speed once in initialize
-            updateShooterSpeed();
-        } else {
-            shooterSubsystem.setVisionShooting(true);
-        }
+        updateShooterSpeed();
     }
 
     @Override
@@ -68,13 +56,6 @@ public class VisionShooter extends CommandBase {
         // Continuous mode never finishes, instant mode finishes when target speed is
         // reached
         return !continuous && shooterSubsystem.isSpeedAround(shooterSubsystem.getTargetSpeed(), SPEED_MARGIN_VISION_SHOOT);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        if (visionSubsystem.getDefaultCommand() != null) {
-            visionSubsystem.getDefaultCommand().cancel();
-        }
     }
 
     /**

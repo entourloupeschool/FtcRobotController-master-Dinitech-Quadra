@@ -90,7 +90,6 @@ public class VisionSubsystem extends SubsystemBase {
 
     private String[] cachedColorsOrder = new String[0];
     private boolean hasDetectedColorOrder = false;
-
     private int decimation = 1;
 
     /**
@@ -198,11 +197,11 @@ public class VisionSubsystem extends SubsystemBase {
                         }
                     }
                 } else {
-                    hasCurrentATDetections = false;
+                    setHasCurrentAprilTagDetections(false);
                 }
             }
         } else {
-            hasCurrentATDetections = false;
+            setHasCurrentAprilTagDetections(false);
         }
     }
 
@@ -303,9 +302,8 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public double getRobotCenterBearing(){
-        double cameraBearingInverted = getCameraBearing();
-        cameraBearingInverted *= -1;
-        return cameraBearingInverted - getLinearInterpolationOffsetBearing(getRangeToAprilTag());
+        double cameraBearing = getCameraBearing();
+        return cameraBearing - getLinearInterpolationOffsetBearing(getRangeToAprilTag());
     }
 
     public double getNormalizedClampedRobotCenterBasketBearing(){
@@ -455,14 +453,14 @@ public class VisionSubsystem extends SubsystemBase {
         telemetry.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
 
         if (hasCachedPoseData()) {
-//            telemetry.addData("X", "%.2f", getRobotPoseX());
-//            telemetry.addData("Y", "%.2f", getRobotPoseY());
-//            telemetry.addData("Yaw (rad)", "%.2f", getRobotPoseYaw());
-//            telemetry.addData("Camera Bearing", "%.2f", getCameraBearing());
-//            telemetry.addData("Robot Center Bearing", "%.2f", getRobotCenterBearing());
-            telemetry.addData("Range", "%.2f", getRangeToAprilTag());
-//            telemetry.addData("XftcPose", "%.2f", getXFtcPose());
-            telemetry.addData("Should Be 0", "%.2f", getNormalizedClampedRobotCenterBasketBearing());
+            telemetry.addData("X (CM)", "%.2f", getRobotPoseX());
+//            telemetry.addData("Y (CM)", "%.2f", getRobotPoseY());
+            telemetry.addData("Yaw (DEGREES)", "%.2f", getRobotPoseYaw());
+            telemetry.addData("Camera Bearing (DEGREES)", "%.2f", getCameraBearing());
+            telemetry.addData("Robot Center Bearing", "%.2f", getRobotCenterBearing());
+            telemetry.addData("Range (CM)", "%.2f", getRangeToAprilTag());
+            telemetry.addData("XftcPose (CM)", "%.2f", getXFtcPose());
+//            telemetry.addData("Should Be 0", "%.2f", getNormalizedClampedRobotCenterBasketBearing());
         } else {
             telemetry.addData("AprilTag Pose Data", "No sample data");
         }

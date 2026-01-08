@@ -1,20 +1,18 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter;
 
-import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.CommandScheduler;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.Rumble;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-public class ToggleVisionShooter extends CommandBase {
+public class ToggleVisionTeleStopShooter extends CommandBase {
     private final ShooterSubsystem shooterSubsystem;
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
 
-    public ToggleVisionShooter(ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
+    public ToggleVisionTeleStopShooter(ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
@@ -29,14 +27,18 @@ public class ToggleVisionShooter extends CommandBase {
 
 
         // Toggle based on actual shooter state
-        if (shooterSubsystem.isVisionShooting()) {
-            shooterSubsystem.setVisionShooting(false);
-            // Shooter is running, so stop it
-            new StopShooter(shooterSubsystem).schedule();
-        } else {
+        if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.VISION) {
+            shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.TELE);
+            shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
+
+        } else if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.NONE){
             new Rumble(gamepadSubsystem, 2, 3).schedule();
+            shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.VISION);
             shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem, true));
 
+        } else {
+            shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.NONE);
+            new StopShooter(shooterSubsystem).schedule();
         }
     }
 

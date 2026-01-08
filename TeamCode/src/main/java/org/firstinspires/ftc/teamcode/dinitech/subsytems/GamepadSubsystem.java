@@ -115,21 +115,21 @@ public class GamepadSubsystem extends SubsystemBase {
                 break;
         }
     }
+//
+//    @Override
+//    public void periodic() {
+////        printGamepadWrapperTelemetry(driver, telemetry);
+////        printGamepadWrapperTelemetry(operator, telemetry);
+////        telemetry.addData("rightX", driver.getRightX()); // gives -1 when left and 1 when right
+//
+//    }
 
-    @Override
-    public void periodic() {
-//        printGamepadWrapperTelemetry(1, driver, telemetry);
-//        printGamepadWrapperTelemetry(2, operator, telemetry);
-//        telemetry.addData("rightX", driver.getRightX()); // gives -1 when left and 1 when right
-
-    }
-
-    private void printGamepadWrapperTelemetry(int gamepadID, GamepadWrapper gamepadWrapper, final Telemetry telemetry){
-        telemetry.addData("Gamepad " + gamepadID, "(" + gamepadWrapper.getGamepadEx().gamepad.type().name() + ")");
-        telemetry.addData("D-Pad Up " + gamepadID, gamepadWrapper.dpad_up.get());
-        telemetry.addData("D-Pad Down " + gamepadID, gamepadWrapper.dpad_down.get());
-        telemetry.addData("D-Pad Left " + gamepadID, gamepadWrapper.dpad_left.get());
-        telemetry.addData("D-Pad Right " + gamepadID, gamepadWrapper.dpad_right.get());
+    private void printGamepadWrapperTelemetry(GamepadWrapper gamepadWrapper, final Telemetry telemetry){
+        telemetry.addData("Gamepad " + 1, "(" + gamepadWrapper.getGamepadEx().gamepad.type().name() + ")");
+        telemetry.addData("D-Pad Up " + 1, gamepadWrapper.dpad_up.get());
+        telemetry.addData("D-Pad Down " + 1, gamepadWrapper.dpad_down.get());
+        telemetry.addData("D-Pad Left " + 1, gamepadWrapper.dpad_left.get());
+        telemetry.addData("D-Pad Right " + 1, gamepadWrapper.dpad_right.get());
     }
 
     private void printGamepadExTelemetry(GamepadEx gamepadEx, final Telemetry telemetry){

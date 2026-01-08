@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.Toggl
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.DefaultGamepadCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.TeleShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.ToggleVisionShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.ToggleVisionTeleStopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinAntiRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNext;
@@ -31,6 +32,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolutionVision;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
@@ -99,8 +101,8 @@ public class GornetixTeleOp extends DinitechRobotBase {
          * Setup GamePads and Buttons and their associated commands.
          */
         private void setupGamePadsButtonBindings() {
-//            gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
-//            visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
+            gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
+            visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
             driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
 //            shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 //                shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
@@ -120,7 +122,7 @@ public class GornetixTeleOp extends DinitechRobotBase {
 //            m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
             m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
             m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem, gamepadSubsystem));
-            m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem, false)));
+            m_Driver.square.whenPressed(new ShootRevolutionVision(trieurSubsystem, shooterSubsystem, visionSubsystem));
 
             m_Driver.bump_left.whenPressed(new ToggleSlowDrive(driveSubsystem, gamepadSubsystem));
             m_Driver.bump_right
@@ -135,7 +137,7 @@ public class GornetixTeleOp extends DinitechRobotBase {
             m_Operator.bump_right.whileHeld(new MoulinRotate(trieurSubsystem));
             m_Operator.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem));
 
-            m_Operator.right_stick_button.whenPressed(new ToggleVisionShooter(shooterSubsystem, visionSubsystem, gamepadSubsystem));
+            m_Operator.right_stick_button.whenPressed(new ToggleVisionTeleStopShooter(shooterSubsystem, visionSubsystem, gamepadSubsystem));
 
             m_Operator.cross.whenPressed(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
             m_Operator.square.whenPressed(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
