@@ -549,7 +549,7 @@ public class TrieurSubsystem extends SubsystemBase {
      */
     private void moulinLogic() {
         if (isMoulinTargetStabilized()) {
-
+            setMoulinPower(0);
             setNewRegister(false);
             setNewcoloredRegister(false);
 
@@ -558,6 +558,8 @@ public class TrieurSubsystem extends SubsystemBase {
                 setWentRecalibrationOpposite(false);
             }
         } else {
+            setMoulinPower(POWER_MOULIN_ROTATION);
+
             if (getMoulinPosition() != MAGNETIC_ON_MOULIN_POSITION) {
                 setWentRecalibrationOpposite(true);
             }

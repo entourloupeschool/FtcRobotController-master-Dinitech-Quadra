@@ -1,35 +1,34 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.tele;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.button.Trigger;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.ToggleChargeur;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.TeleDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleSlowDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleVisionDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.DefaultGamepadCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.TeleShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.ToggleVisionTeleStopShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinAntiRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNext;
-
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.TeleDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.ToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdateAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ArtefactPickAway;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticArtefactPickAway;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticArtefactPickAwayCondition;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
@@ -41,8 +40,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechMecanumDrive;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-@TeleOp(name = "GornetixTeleOp - Dinitech", group = "TeleOp")
-public class GornetixTeleOp extends DinitechRobotBase {
+@Autonomous(name = "RosaceVisionTest - Dinitech", group = "Test")
+public class RosaceVisionTest extends DinitechRobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private GamepadWrapper m_Driver;
     private GamepadWrapper m_Operator;
@@ -68,23 +67,23 @@ public class GornetixTeleOp extends DinitechRobotBase {
                 visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
                 register(visionSubsystem);
 
-                driveSubsystem = new DriveSubsystem(new DinitechMecanumDrive(hardwareMap, BEGIN_POSE),
+                driveSubsystem = new DriveSubsystem(new DinitechMecanumDrive(hardwareMap, visionSubsystem, BEGIN_POSE),
                                 telemetry);
                 register(driveSubsystem);
 
-                trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetry);
-                register(trieurSubsystem);
+//                trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetry);
+//                register(trieurSubsystem);
+//
+//                chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetry);
+//                register(chargeurSubsystem);
+//
+//                shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetry);
+//                register(shooterSubsystem);
 
-                chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetry);
-                register(chargeurSubsystem);
-
-                shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetry);
-                register(shooterSubsystem);
-
-                setupGamePadsButtonBindings();
+//                setupGamePadsButtonBindings();
 //                customSetupGamePadsButtonBindings();
 
-                new MoulinCalibrationSequence(trieurSubsystem).schedule();
+//                new MoulinCalibrationSequence(trieurSubsystem).schedule();
         }
 
         /**

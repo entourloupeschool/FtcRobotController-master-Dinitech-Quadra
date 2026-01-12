@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.ChargeurDoubleS
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name="BasicContinuousServo - Dinitech", group="Test")
+@Disabled
 public class BasicServo extends DinitechRobotBase {
     // Gamepads
     private GamepadWrapper m_Driver, m_Operator;

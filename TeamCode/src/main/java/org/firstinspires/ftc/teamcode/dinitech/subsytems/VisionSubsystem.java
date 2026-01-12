@@ -73,8 +73,8 @@ public class VisionSubsystem extends SubsystemBase {
     private final RunningAverage rangeToAprilTagSamples = new RunningAverage(NUMBER_AT_SAMPLES);
     private final RunningAverage cameraBearingSamples = new RunningAverage(NUMBER_AT_SAMPLES);
     private final RunningAverage confidenceAprilTagSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage ftcPoseXSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage ftcPoseYSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage aTPoseXSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage aTPoseYSamples = new RunningAverage(NUMBER_AT_SAMPLES);
 
     // Cached averages (updated via updateCachedAverages())
     private Double cachedRobotPoseX = null;
@@ -83,8 +83,8 @@ public class VisionSubsystem extends SubsystemBase {
     private Double cachedRangeToAprilTag = null;
     private Double cachedCameraBearing = null;
     private Double cachedConfidence = null;
-    private Double cachedFtcPoseX = null;
-    private Double cachedFtcPoseY = null;
+    private Double cachedXATPose = null;
+    private Double cachedYATPose = null;
 
     private boolean hasCurrentATDetections = false;
 
@@ -181,8 +181,8 @@ public class VisionSubsystem extends SubsystemBase {
                         cameraBearingSamples.add(detection.ftcPose.bearing);
                         rangeToAprilTagSamples.add(detection.ftcPose.range);
                         confidenceAprilTagSamples.add(detection.decisionMargin);
-                        ftcPoseXSamples.add(detection.ftcPose.x);
-                        ftcPoseYSamples.add(detection.ftcPose.y);
+                        aTPoseXSamples.add(detection.ftcPose.x);
+                        aTPoseYSamples.add(detection.ftcPose.y);
                         updateCachedAverages();
                     } else if (!hasDetectedColorOrder) {
                         if (detection.id == 21) {
@@ -216,8 +216,8 @@ public class VisionSubsystem extends SubsystemBase {
         cachedRangeToAprilTag = rangeToAprilTagSamples.getAverage();
         cachedCameraBearing = cameraBearingSamples.getAverage();
         cachedConfidence = confidenceAprilTagSamples.getAverage();
-        cachedFtcPoseX = ftcPoseXSamples.getAverage();
-        cachedFtcPoseY = ftcPoseYSamples.getAverage();
+        cachedXATPose = aTPoseXSamples.getAverage();
+        cachedYATPose = aTPoseYSamples.getAverage();
     }
 
     /**
@@ -302,7 +302,7 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public double getRobotCenterBearing(){
-        double cameraBearing = getCameraBearing();
+        double cameraBearing = -getCameraBearing();
         return cameraBearing - getLinearInterpolationOffsetBearing(getRangeToAprilTag());
     }
 
@@ -319,7 +319,7 @@ public class VisionSubsystem extends SubsystemBase {
         // Normalize the bearing within a clamped range to get a -1 to 1 value for the power function
         double normalizedClampedBearing = Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, cameraSidewayOffset)) / CLAMP_BEARING;
 
-        normalizedClampedBearing += (getXFtcPose() + CAMERA_POSITION_X) / (range + BASKET_Y_OFFSET) * SCALER_OFFSET_AT_TO_X_BASKET;
+        normalizedClampedBearing += (getXATPose() + CAMERA_POSITION_X) / (range + BASKET_Y_OFFSET) * SCALER_OFFSET_AT_TO_X_BASKET;
 
         return normalizedClampedBearing;
     }
@@ -351,8 +351,8 @@ public class VisionSubsystem extends SubsystemBase {
      *
      * @return The averaged XftcPose in inches, or null if no data is available.
      */
-    public Double getXFtcPose(){
-        return cachedFtcPoseX;
+    public Double getXATPose(){
+        return cachedXATPose;
     }
 
     /**
@@ -360,8 +360,8 @@ public class VisionSubsystem extends SubsystemBase {
      *
      * @return The averaged YftcPose in inches, or null if no data is available.
      */
-    public Double getYFtcPose(){
-        return cachedFtcPoseY;
+    public Double getYATPose(){
+        return cachedYATPose;
     }
 
 
@@ -453,13 +453,15 @@ public class VisionSubsystem extends SubsystemBase {
         telemetry.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
 
         if (hasCachedPoseData()) {
-            telemetry.addData("X (CM)", "%.2f", getRobotPoseX());
-//            telemetry.addData("Y (CM)", "%.2f", getRobotPoseY());
+            telemetry.addData("X Robot (CM)", "%.2f", getRobotPoseX());
+            telemetry.addData("Y Robot (CM)", "%.2f", getRobotPoseY());
             telemetry.addData("Yaw (DEGREES)", "%.2f", getRobotPoseYaw());
             telemetry.addData("Camera Bearing (DEGREES)", "%.2f", getCameraBearing());
-            telemetry.addData("Robot Center Bearing", "%.2f", getRobotCenterBearing());
+//            telemetry.addData("Robot Center Bearing", "%.2f", getRobotCenterBearing());
             telemetry.addData("Range (CM)", "%.2f", getRangeToAprilTag());
-            telemetry.addData("XftcPose (CM)", "%.2f", getXFtcPose());
+            telemetry.addData("X AT (CM)", "%.2f", getXATPose());
+            telemetry.addData("Y AT (CM)", "%.2f", getYATPose());
+//            telemetry.addData("Auto Aim Power")
 //            telemetry.addData("Should Be 0", "%.2f", getNormalizedClampedRobotCenterBasketBearing());
         } else {
             telemetry.addData("AprilTag Pose Data", "No sample data");

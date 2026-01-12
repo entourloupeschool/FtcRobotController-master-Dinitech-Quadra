@@ -41,7 +41,7 @@ public class AprilTagLocalizer implements Localizer {
     private Pose2d offset = new Pose2d(0.0, 0.0, 0.0);
 
     // nicer logging
-    private Map<String, Object> cachedValues = new HashMap<>();
+    private final Map<String, Object> cachedValues = new HashMap<>();
 
     public Pose2d getBasePose() {
         return baseLocalizer.getPose();

@@ -2,15 +2,20 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_MOTOR_POWER;
 
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.RepeatCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.StartEndCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
-import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
+
+import java.util.function.BooleanSupplier;
 
 /**
  * A command group that automates the process of picking up artifacts until the sorter is full.
@@ -27,7 +32,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  *     This repeatedly detects and stores artifacts as they are collected by the intake.</li>
  * </ol>
  */
-public class AutomaticArtefactPickAway extends ParallelDeadlineGroup {
+public class AutomaticArtefactPickAwayCondition extends ConditionalCommand {
 
     /**
      * Creates a new AutomaticArtefactPickAway command.
@@ -36,21 +41,19 @@ public class AutomaticArtefactPickAway extends ParallelDeadlineGroup {
      * @param chargeurSubsystem The intake subsystem for running the intake motor.
      * @param gamepadSubsystem  The gamepad subsystem, passed down to child commands for haptic feedback.
      */
-    public AutomaticArtefactPickAway(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem,
-            GamepadSubsystem gamepadSubsystem) {
+    public AutomaticArtefactPickAwayCondition(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem,
+                                              GamepadSubsystem gamepadSubsystem) {
         super(
                 // The deadline for the group: stop when the sorter is full.
-                new WaitUntilCommand(trieurSubsystem::getIsFull),
+                new AutomaticArtefactPickAway(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
 
                 // Command 1 (runs in parallel): Manage the intake motor.
-                new StartEndCommand(
-                        () -> chargeurSubsystem.setChargeurPower(CHARGEUR_MOTOR_POWER), // Turn intake on
-                        () -> chargeurSubsystem.setChargeurPower(0),               // Turn intake off when deadline is met
-                        chargeurSubsystem
-                ),
+                new SequentialCommandGroup(
+                        new MoulinNext(trieurSubsystem),
+                        new AutomaticArtefactPickAway(trieurSubsystem, chargeurSubsystem, gamepadSubsystem)),
 
                 // Command 2 (runs in parallel): Repeatedly detect and store artifacts.
-                new RepeatCommand(new ArtefactPickAway(trieurSubsystem, gamepadSubsystem))
+                () -> Moulin.isStoragePosition(trieurSubsystem.getMoulinPosition())
         );
     }
 }

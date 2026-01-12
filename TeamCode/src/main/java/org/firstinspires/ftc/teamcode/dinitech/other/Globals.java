@@ -120,7 +120,7 @@ public class Globals {
         public static final double I_MOULIN_AGGRESSIVE = 11.941806;
         public static final double D_MOULIN_AGGRESSIVE = 0.008558;
         public static final double F_MOULIN_AGGRESSIVE = 0.178335;
-        public static final double ADJUST_CONSTANT = 0.0005;
+        public static double ADJUST_CONSTANT = 0.005;
 
         //FF COEF
         public static final double kS_MOULIN_AGGRESSIVE = 0;
@@ -137,14 +137,14 @@ public class Globals {
         public static final double MAX_RANGE_TO_SHOOT_CM = 345;
         public static final double MIN_RANGE_TO_SHOOT_CM = 97;
 
-        public static final double DIFF_MIN_MAX_RANGE_TO_SHOOT = MAX_RANGE_TO_SHOOT_CM - MIN_RANGE_TO_SHOOT_CM; // = 93
+        public static final double DIFF_MIN_MAX_RANGE_TO_SHOOT = MAX_RANGE_TO_SHOOT_CM - MIN_RANGE_TO_SHOOT_CM; // = 248;
         public static final double TELE_SHOOTER_SCALER = 20;
         public static final double SPEED_MARGIN_VISION_SHOOT = SPEED_MARGIN;
         public static final double ACCELERATION_SCALE_SHOOTER = 100;
-        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 2.807486;
-        public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 0;
+        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 11;//2.807486;
+        public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 8;
         public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;
-        public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 13.272119;
+        public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 20; //13.272119;
 
         public static double kS_SHOOTER_AGGRESSIVE = 0.001;
         public static double kV_SHOOTER_AGGRESSIVE = 0.001;
@@ -220,8 +220,8 @@ public class Globals {
         public static double FY = 515.8231389;//0.0;// 515.8231389; //1;
         public static double CX = 328.1776587;// 0.0;// 328.1776587; //1;
         public static double CY = 237.3745503;//0.0;// 237.3745503; //1;
-        public static double CAMERA_POSITION_X = -9.0;
-        public static double CAMERA_POSITION_Y = 0.0;
+        public static double CAMERA_POSITION_X = -9.8;
+        public static double CAMERA_POSITION_Y = 2.8;
         public static double CAMERA_POSITION_Z = 43.0;
 
         public static double OFFSET_ROBOT_X = 16.0;
@@ -240,15 +240,15 @@ public class Globals {
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.
         public static final VisionPortal.StreamFormat STREAM_FORMAT = VisionPortal.StreamFormat.MJPEG; // Or YUY2
 
-        public static double CLAMP_BEARING = 55;
+        public static double CLAMP_BEARING = 75;
         public static final double MIN_RANGE_VISION = MIN_RANGE_TO_SHOOT_CM; //CM
         public static final double MAX_RANGE_VISION = MAX_RANGE_TO_SHOOT_CM; //CM
 
-        public static final double DIFF_RANGE_VISION = MAX_RANGE_VISION - MIN_RANGE_VISION;
+        public static final double DIFF_RANGE_VISION = MAX_RANGE_VISION - MIN_RANGE_VISION; // = 248;
 
-        public static final double OFFSET_BEARING_AT_40_INCHES_RANGE = -7.18; // DEGREES
-        public static final double OFFSET_BEARING_AT_140_INCHES_RANGE = -1.47; //DEGREES
-        public static final double DIFF_OFFSET_BEARING_AT = OFFSET_BEARING_AT_140_INCHES_RANGE - OFFSET_BEARING_AT_40_INCHES_RANGE;
+        public static final double OFFSET_BEARING_AT_MIN_RANGE = -3; // DEGREES
+        public static final double OFFSET_BEARING_AT_MAX_RANGE = -1.2; //DEGREES
+        public static final double DIFF_OFFSET_BEARING_AT = OFFSET_BEARING_AT_MAX_RANGE - OFFSET_BEARING_AT_MIN_RANGE; // = -1.8
         public static double SCALER_OFFSET_AT_TO_X_BASKET = 0.1;
         public static double BASKET_Y_OFFSET = 8;
         public static int NUMBER_AT_SAMPLES = 3;
@@ -256,7 +256,7 @@ public class Globals {
         public static double MIN_LINEAR = 0.005;
         public static double CUSTOM_POWER_LOCKED = 0.05;
 
-        public static final double DIFF_A_BEARING = DIFF_OFFSET_BEARING_AT / DIFF_RANGE_VISION;
+        public static final double DIFF_A_BEARING = DIFF_OFFSET_BEARING_AT / DIFF_RANGE_VISION; // = -0.007258064516
 
         /**
          * Calculates linear interpolation bearing offset using linear interpolation based on range.
@@ -265,7 +265,7 @@ public class Globals {
          * @return The calculated bearing offset.
          */
         public static double getLinearInterpolationOffsetBearing(double range) {
-            return DIFF_A_BEARING * range + 1;
+            return DIFF_A_BEARING * range -3.704;
         }
 
         public static double pickCustomPowerFunc(double x, int funcNumber) {

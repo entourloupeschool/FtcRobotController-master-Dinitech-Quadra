@@ -20,6 +20,11 @@ public class TeleShooter extends CommandBase {
     }
 
     @Override
+    public void initialize(){
+        shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.TELE);
+    }
+
+    @Override
     public void execute(){
         double velocityIncrement = - operator.getRightY();
         if (Math.abs(velocityIncrement) > 0.05){

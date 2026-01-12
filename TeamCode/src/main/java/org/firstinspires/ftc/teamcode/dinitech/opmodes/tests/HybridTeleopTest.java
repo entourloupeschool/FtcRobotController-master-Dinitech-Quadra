@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.TeleDriveHybrid;
@@ -31,6 +32,7 @@ import com.acmerobotics.roadrunner.Pose2d;
  * - ~150ms latency (trajectory duration)
  */
 @TeleOp(name = "Hybrid Teleop Test", group = "Test")
+@Disabled
 public class HybridTeleopTest extends DinitechRobotBase {
 
     private DriveSubsystem driveSubsystem;

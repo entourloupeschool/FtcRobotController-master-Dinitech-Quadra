@@ -33,6 +33,12 @@ public class VisionShooter extends CommandBase {
     }
 
     @Override
+    public void initialize(){
+        shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.VISION);
+    }
+
+
+    @Override
     public void execute() {
         // For continuous mode, update speed every cycle
         shooterSubsystem.setVelocity(linearSpeedFromRange(visionSubsystem.getRangeToAprilTag()));

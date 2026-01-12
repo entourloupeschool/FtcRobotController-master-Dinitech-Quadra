@@ -36,8 +36,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
  */
 public class ShooterSubsystem extends SubsystemBase {
     private final DcMotorEx dcMotorEx;
-    private final MotorEx otherMotor;
-    private SimpleMotorFeedforward feedforward;
+    private SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS_SHOOTER_AGGRESSIVE, kV_SHOOTER_AGGRESSIVE, kA_SHOOTER_AGGRESSIVE);
     private final Telemetry telemetry;
     private final DcMotor.RunMode runMode = DcMotor.RunMode.RUN_USING_ENCODER;
 
@@ -62,7 +61,6 @@ public class ShooterSubsystem extends SubsystemBase {
      */
     public ShooterSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         dcMotorEx = hardwareMap.get(DcMotorEx.class, SHOOTER_MOTOR_NAME);
-        otherMotor = new MotorEx(hardwareMap, SHOOTER_MOTOR_NAME);
 
         dcMotorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         dcMotorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -71,13 +69,12 @@ public class ShooterSubsystem extends SubsystemBase {
         setPIDFVelocity(P_SHOOTER_VELOCITY_AGGRESSIVE, I_SHOOTER_VELOCITY_AGGRESSIVE,
                 D_SHOOTER_VELOCITY_AGGRESSIVE,
                 F_SHOOTER_VELOCITY_AGGRESSIVE);
-        setVelocity(targetSpeed);
 
         setUsageState(ShooterUsageState.NONE);
 
         lastTimeStamp = (double) System.nanoTime() / 1E9;
 
-        feedforward = new SimpleMotorFeedforward(kS_SHOOTER_AGGRESSIVE, kV_SHOOTER_AGGRESSIVE, kA_SHOOTER_AGGRESSIVE);
+        setVelocity(0);
 
         this.telemetry = telemetry;
     }
@@ -97,18 +94,17 @@ public class ShooterSubsystem extends SubsystemBase {
     public void setVelocity(double velocity) {
         if (velocity >= 0){
             targetSpeed = velocity;
-            dcMotorEx.setVelocity(targetSpeed);
-//            dcMotorEx.setPower(feedforward.calculate(targetSpeed, getRawAcceleration()));
+            dcMotorEx.setVelocity(velocity);
         }
     }
-
-    public double getTicksPerRev(){
-        return otherMotor.motor.getMotorType().getTicksPerRev();
-    }
-
-    public double getMaxRPM(){
-        return otherMotor.motor.getMotorType().getMaxRPM();
-    }
+//
+//    public double getTicksPerRev(){
+//        return otherMotor.motor.getMotorType().getTicksPerRev();
+//    }
+//
+//    public double getMaxRPM(){
+//        return otherMotor.motor.getMotorType().getMaxRPM();
+//    }
 
     /**
      * Gets the current velocity of the shooter motor.

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
@@ -23,6 +24,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
  * PIDF coefficients for the flywheel shooter system.
  */
 @TeleOp(name = "FlywheelAutoTuner - Dinitech", group = "Test")
+@Disabled
 public class FlywheelAutoTunerOpMode extends DinitechRobotBase {
 
     private GamepadSubsystem gamepadSubsystem;

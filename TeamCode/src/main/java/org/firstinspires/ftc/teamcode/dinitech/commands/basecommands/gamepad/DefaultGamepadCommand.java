@@ -30,7 +30,7 @@ public class DefaultGamepadCommand extends CommandBase {
         gamepadSubsystem.customRumble(customRumbleEffectGp2, 2);
 
         // trappeOpen 1 if trieurSubsysem.isTrappeOpen() is true, else 0
-        double trappeOpen = trieurSubsystem.isTrappeOpen() ? 0.3 : 0;
+        double trappeOpen = trieurSubsystem.isTrappeOpen() ? 0.2 : 0;
 
         Gamepad.RumbleEffect customRumbleEffectGp1 = new Gamepad.RumbleEffect.Builder()
                 .addStep(trappeOpen, 0, RUMBLE_DURATION_1)

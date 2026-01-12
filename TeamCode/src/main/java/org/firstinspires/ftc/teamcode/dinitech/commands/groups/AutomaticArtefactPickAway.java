@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_MOTOR_POWER;
+
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.RepeatCommand;
 import com.arcrobotics.ftclib.command.StartEndCommand;
@@ -42,8 +44,8 @@ public class AutomaticArtefactPickAway extends ParallelDeadlineGroup {
 
                 // Command 1 (runs in parallel): Manage the intake motor.
                 new StartEndCommand(
-                        () -> chargeurSubsystem.setChargeurPower(Globals.CHARGEUR_MOTOR_POWER), // Turn intake on
-                        () -> chargeurSubsystem.setChargeurPower(0),                         // Turn intake off when deadline is met
+                        () -> chargeurSubsystem.setChargeurPower(CHARGEUR_MOTOR_POWER), // Turn intake on
+                        () -> chargeurSubsystem.setChargeurPower(0),               // Turn intake off when deadline is met
                         chargeurSubsystem
                 ),
 

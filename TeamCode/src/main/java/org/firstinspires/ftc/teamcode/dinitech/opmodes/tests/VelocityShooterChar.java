@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_SHOOTER
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
@@ -16,7 +17,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterVelocitySubsyste
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "VelocityShooterChar - Dinitech", group = "Char")
-
+@Disabled
 public class VelocityShooterChar extends DinitechRobotBase {
     // Gamepads
     private GamepadWrapper m_Driver, m_Operator;
