@@ -24,6 +24,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALER_OFFSE
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.STREAM_FORMAT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.USE_WEBCAM;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.cmToInch;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationOffsetBearing;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
 
@@ -398,8 +399,8 @@ public class VisionSubsystem extends SubsystemBase {
         Double yaw = getRobotPoseYaw();
 
         return new Pose2d(
-                x != null ? x : 0.0,
-                y != null ? y : 0.0,
+                x != null ? cmToInch(x) : 0.0,
+                y != null ? cmToInch(y) : 0.0,
                 yaw != null ? yaw : 0.0);
     }
 

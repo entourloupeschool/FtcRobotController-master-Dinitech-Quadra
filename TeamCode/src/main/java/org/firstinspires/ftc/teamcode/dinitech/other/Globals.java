@@ -30,6 +30,7 @@ public class Globals {
         /**
          * Auto Phase globals
          */
+        public static double AUTO_ROBOT_CONSTRAINTS = 0.5;
         public static final double TILE_DIM = 24;
         public static final double HYPOTHENUSE_GOAL = 26.5;
         public static final double ANGLE_RADIANS_BLUE_GOAL = Math.acos(60.95 / 75.30); // 24 inches = 60.95 cm // 26.5 inches = 75.30 cm
@@ -358,6 +359,10 @@ public class Globals {
                         return 0;
                 }
                 return Math.signum(x) * (x * (1 - MIN_LINEAR) + MIN_LINEAR);
+        }
+
+        public static double cmToInch(double cm){
+            return cm * 0.3937007874;
         }
 
 }

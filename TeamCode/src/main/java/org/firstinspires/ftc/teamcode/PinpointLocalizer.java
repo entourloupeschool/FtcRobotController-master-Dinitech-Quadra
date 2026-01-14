@@ -22,7 +22,7 @@ public final class PinpointLocalizer implements Localizer {
 
     public static Params PARAMS = new Params();
 
-    public final GoBildaPinpointDriver driver;
+    public final GoBildaPinpointDriver pinPointDriver;
     public final GoBildaPinpointDriver.EncoderDirection initialParDirection, initialPerpDirection;
 
     private Pose2d txWorldPinpoint;
@@ -31,19 +31,19 @@ public final class PinpointLocalizer implements Localizer {
     public PinpointLocalizer(HardwareMap hardwareMap, double inPerTick, Pose2d initialPose) {
         // TODO: make sure your config has a Pinpoint device with this name
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        driver = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
+        pinPointDriver = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
 
         double mmPerTick = inPerTick * 25.4;
-        driver.setEncoderResolution(1 / mmPerTick, DistanceUnit.MM);
-        driver.setOffsets(mmPerTick * PARAMS.parYTicks, mmPerTick * PARAMS.perpXTicks, DistanceUnit.MM);
+        pinPointDriver.setEncoderResolution(1 / mmPerTick, DistanceUnit.MM);
+        pinPointDriver.setOffsets(mmPerTick * PARAMS.parYTicks, mmPerTick * PARAMS.perpXTicks, DistanceUnit.MM);
 
         // TODO: reverse encoder directions if needed
         initialParDirection = GoBildaPinpointDriver.EncoderDirection.FORWARD;
         initialPerpDirection = GoBildaPinpointDriver.EncoderDirection.REVERSED;
 
-        driver.setEncoderDirections(initialParDirection, initialPerpDirection);
+        pinPointDriver.setEncoderDirections(initialParDirection, initialPerpDirection);
 
-        driver.resetPosAndIMU();
+        pinPointDriver.resetPosAndIMU();
 
         txWorldPinpoint = initialPose;
     }
@@ -60,13 +60,13 @@ public final class PinpointLocalizer implements Localizer {
 
     @Override
     public PoseVelocity2d update() {
-        driver.update();
-        if (Objects.requireNonNull(driver.getDeviceStatus()) == GoBildaPinpointDriver.DeviceStatus.READY) {
-            txPinpointRobot = new Pose2d(driver.getPosX(DistanceUnit.INCH), driver.getPosY(DistanceUnit.INCH), driver.getHeading(UnnormalizedAngleUnit.RADIANS));
-            Vector2d worldVelocity = new Vector2d(driver.getVelX(DistanceUnit.INCH), driver.getVelY(DistanceUnit.INCH));
+        pinPointDriver.update();
+        if (Objects.requireNonNull(pinPointDriver.getDeviceStatus()) == GoBildaPinpointDriver.DeviceStatus.READY) {
+            txPinpointRobot = new Pose2d(pinPointDriver.getPosX(DistanceUnit.INCH), pinPointDriver.getPosY(DistanceUnit.INCH), pinPointDriver.getHeading(UnnormalizedAngleUnit.RADIANS));
+            Vector2d worldVelocity = new Vector2d(pinPointDriver.getVelX(DistanceUnit.INCH), pinPointDriver.getVelY(DistanceUnit.INCH));
             Vector2d robotVelocity = Rotation2d.fromDouble(-txPinpointRobot.heading.log()).times(worldVelocity);
 
-            return new PoseVelocity2d(robotVelocity, driver.getHeadingVelocity(UnnormalizedAngleUnit.RADIANS));
+            return new PoseVelocity2d(robotVelocity, pinPointDriver.getHeadingVelocity(UnnormalizedAngleUnit.RADIANS));
         }
         return new PoseVelocity2d(new Vector2d(0, 0), 0);
     }
