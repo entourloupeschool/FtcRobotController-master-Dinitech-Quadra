@@ -52,12 +52,10 @@ public class ToggleVisionDrive extends CommandBase {
         if (driveSubsystem.getIsATLocked()) {
             // If vision is locked, switch back to normal drive.
             driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
-            driveSubsystem.setIsATLocked(false);
         } else {
             // If not locked, switch to vision-locked drive and provide feedback.
             new Rumble(gamepadSubsystem, 3, 3).schedule();
             driveSubsystem.setDefaultCommand(new TeleDriveLocked(driveSubsystem, visionSubsystem, gamepadSubsystem));
-            driveSubsystem.setIsATLocked(true);
         }
     }
 

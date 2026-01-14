@@ -142,8 +142,8 @@ public class Globals {
         public static final double TELE_SHOOTER_SCALER = 20;
         public static final double SPEED_MARGIN_VISION_SHOOT = SPEED_MARGIN;
         public static final double ACCELERATION_SCALE_SHOOTER = 100;
-        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 11;//2.807486;
-        public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 8;
+        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 15.32;//2.807486;
+        public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 5;
         public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;
         public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 20; //13.272119;
 

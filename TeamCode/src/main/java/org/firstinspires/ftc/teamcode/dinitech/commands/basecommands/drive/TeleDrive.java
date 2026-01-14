@@ -31,6 +31,12 @@ public class TeleDrive extends CommandBase {
         addRequirements(driveSubsystem);
     }
 
+    @Override
+    public void initialize(){
+        driveSubsystem.setIsSlowDrive(false);
+        driveSubsystem.setIsATLocked(false);
+    }
+
     /**
      * Executes the drive command. This method is called repeatedly by the command scheduler.
      */

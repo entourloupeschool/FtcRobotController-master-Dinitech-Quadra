@@ -3,12 +3,11 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ClearMoulinShootingPos;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinToPosition;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.OpenTrappe;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.MaxSpeedShooter;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
@@ -25,31 +24,24 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * This class provides a constructor for default shooter behavior (max speed) and a protected
  * constructor for more advanced use cases, such as vision-based shooter speed control.
  */
-public class ShootMoulinState extends SequentialCommandGroup {
+public class DropMoulinState extends SequentialCommandGroup {
 
     /**
-     * Creates a new ShootMoulinState command with a custom shooter command.
-     * <p>
-     * This protected constructor is intended for subclasses that need to provide a different
-     * shooter behavior, such as a variable speed determined by computer vision.
+     * Creates a new DropMoulinState command.
      *
      * @param trieurSubsystem       The sorter subsystem.
      * @param shooterSubsystem      The shooter subsystem.
      * @param moulinPositionToShoot The target shooting position.
-     * @param shooterCommand        A custom {@link Command} to control the shooter speed.
      */
-    public ShootMoulinState(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem,
-            int moulinPositionToShoot, Command shooterCommand) {
+    public DropMoulinState(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem,
+                           int moulinPositionToShoot, boolean makeShort) {
         addCommands(
-                // Spin up the shooter and rotate the moulin at the same time
-                new ParallelCommandGroup(
-                        shooterCommand,
-                        new MoulinToPosition(trieurSubsystem, moulinPositionToShoot, false)
-                ),
-                // Once both are ready, open the trappe to shoot
-                new OpenTrappe(trieurSubsystem),
-                // Finally, update the sorter's internal state
-                new ClearMoulinShootingPos(trieurSubsystem, moulinPositionToShoot)
+            new MoulinToPosition(trieurSubsystem, moulinPositionToShoot, makeShort),
+            new WaitUntilCommand(shooterSubsystem::isTargetSpeedStabilized),
+            // Once both are ready, open the trappe to shoot
+            new OpenTrappe(trieurSubsystem),
+            // Finally, update the sorter's internal state
+            new ClearMoulinShootingPos(trieurSubsystem, moulinPositionToShoot)
         );
     }
 }

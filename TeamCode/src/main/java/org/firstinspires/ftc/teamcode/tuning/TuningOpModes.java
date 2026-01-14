@@ -76,22 +76,22 @@ public final class TuningOpModes {
 
             @Override
             public void update() {
-                pl.driver.update();
+                pl.pinPointDriver.update();
             }
 
             @Override
             public int getParEncoderPosition() {
-                return pl.driver.getEncoderX();
+                return pl.pinPointDriver.getEncoderX();
             }
 
             @Override
             public int getPerpEncoderPosition() {
-                return pl.driver.getEncoderY();
+                return pl.pinPointDriver.getEncoderY();
             }
 
             @Override
             public float getHeadingVelocity() {
-                return (float) pl.driver.getHeadingVelocity(UnnormalizedAngleUnit.RADIANS);
+                return (float) pl.pinPointDriver.getHeadingVelocity(UnnormalizedAngleUnit.RADIANS);
             }
 
             @Override
@@ -99,7 +99,7 @@ public final class TuningOpModes {
                 parDirection = direction == DcMotorSimple.Direction.FORWARD ?
                         GoBildaPinpointDriver.EncoderDirection.FORWARD :
                         GoBildaPinpointDriver.EncoderDirection.REVERSED;
-                pl.driver.setEncoderDirections(parDirection, perpDirection);
+                pl.pinPointDriver.setEncoderDirections(parDirection, perpDirection);
             }
 
             @Override
@@ -113,7 +113,7 @@ public final class TuningOpModes {
                 perpDirection = direction == DcMotorSimple.Direction.FORWARD ?
                         GoBildaPinpointDriver.EncoderDirection.FORWARD :
                         GoBildaPinpointDriver.EncoderDirection.REVERSED;
-                pl.driver.setEncoderDirections(parDirection, perpDirection);
+                pl.pinPointDriver.setEncoderDirections(parDirection, perpDirection);
             }
 
             @Override

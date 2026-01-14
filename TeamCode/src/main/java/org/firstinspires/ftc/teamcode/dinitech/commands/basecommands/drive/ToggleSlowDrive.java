@@ -38,18 +38,17 @@ public class ToggleSlowDrive extends CommandBase {
      */
     @Override
     public void initialize() {
-        // Cancel the current default command to allow a new one to be set
-        driveSubsystem.getDefaultCommand().cancel();
+        // Cancel the current default command to allow a new one to be set.
+        if (driveSubsystem.getDefaultCommand() != null) {
+            driveSubsystem.getDefaultCommand().cancel();
+        }
 
         if (driveSubsystem.isSlowDrive()) {
             // If currently in slow mode, switch back to normal drive
             driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
-            driveSubsystem.setIsSlowDrive(false);
         } else {
             // If in normal mode, switch to slow drive and provide feedback
-            new Rumble(gamepadSubsystem, 3, 3).schedule(); // Rumble to indicate mode change
             driveSubsystem.setDefaultCommand(new TeleSlowDrive(driveSubsystem, gamepadSubsystem));
-            driveSubsystem.setIsSlowDrive(true);
         }
     }
 

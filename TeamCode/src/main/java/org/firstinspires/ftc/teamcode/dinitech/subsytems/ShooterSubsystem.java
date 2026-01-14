@@ -7,6 +7,8 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_SHOOT_SP
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_SHOOTER_VELOCITY_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOTER_MOTOR_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_VISION_SHOOT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kA_SHOOTER_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kS_SHOOTER_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kV_SHOOTER_AGGRESSIVE;
@@ -185,8 +187,9 @@ public class ShooterSubsystem extends SubsystemBase {
         return Math.abs(getVelocity() - speed) <= margin;
     }
 
-    public boolean isAtTargetSpeed() {
-        return isSpeedEqual(getTargetSpeed());
+
+    public boolean isTargetSpeedStabilized() {
+        return Math.abs(getRawAcceleration()) == 0 && isSpeedAround(getTargetSpeed(), SPEED_MARGIN_VISION_SHOOT);
     }
 
     /**

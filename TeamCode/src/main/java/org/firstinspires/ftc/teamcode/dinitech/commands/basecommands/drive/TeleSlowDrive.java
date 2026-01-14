@@ -31,6 +31,11 @@ public class TeleSlowDrive extends CommandBase {
         addRequirements(driveSubsystem);
     }
 
+    @Override
+    public void initialize(){
+        driveSubsystem.setIsSlowDrive(true);
+    }
+
     /**
      * Executes the slow drive command. This method is called repeatedly by the command scheduler.
      */

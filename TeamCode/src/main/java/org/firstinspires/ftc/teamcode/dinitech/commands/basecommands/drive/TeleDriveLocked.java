@@ -56,7 +56,7 @@ public class TeleDriveLocked extends CommandBase {
         if (visionSubsystem.getDefaultCommand() != null) {
             visionSubsystem.getDefaultCommand().cancel();
         }
-        visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
+        driveSubsystem.setIsATLocked(true);
     }
 
     /**

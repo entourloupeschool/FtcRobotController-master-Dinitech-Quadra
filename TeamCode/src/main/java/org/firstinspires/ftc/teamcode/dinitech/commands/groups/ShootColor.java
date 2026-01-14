@@ -33,8 +33,8 @@ public class ShootColor extends ConditionalCommand {
             GamepadSubsystem gamepadSubsystem, TrieurSubsystem.ArtifactColor inputColor) {
         super(
                 // Command to execute if a matching artifact is found
-                new ShootMoulinState(trieurSubsystem, shooterSubsystem,
-                        trieurSubsystem.getClosestShootingPositionForColor(inputColor)),
+                new DropMoulinState(trieurSubsystem, shooterSubsystem,
+                        trieurSubsystem.getClosestShootingPositionForColor(inputColor), true),
                 // Command to execute if no matching artifact is found
                 new Rumble(gamepadSubsystem, 3, 1),
                 // Condition: Check if a valid shooting position exists for the specified color

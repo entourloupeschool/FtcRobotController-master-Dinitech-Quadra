@@ -31,7 +31,7 @@ public class ShootAny extends ConditionalCommand {
     public ShootAny(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, GamepadSubsystem gamepadSubsystem){
         super(
                 // Command to execute when condition is true (artifact found)
-                new ShootMoulinState(trieurSubsystem, shooterSubsystem, trieurSubsystem.getClosestShootingPositionAnyColor()),
+                new DropMoulinState(trieurSubsystem, shooterSubsystem, trieurSubsystem.getClosestShootingPositionAnyColor(), true),
                 // Command to execute when condition is false (no artifact found)
                 new Rumble(gamepadSubsystem, 3, 1),
                 // Condition to evaluate: checks if there's any available shooting position

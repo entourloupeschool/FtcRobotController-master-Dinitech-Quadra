@@ -39,7 +39,7 @@ public class DriveSubsystem extends SubsystemBase {
     private boolean isATLocked = false;
     private boolean isSlowDrive = false;
 
-    private double lastTeleDriverPowerScale = TELE_DRIVE_POWER;
+    private double lastTeleDriverPowerScale = 1;
 
     /**
      * Constructs a new DriveSubsystem.
