@@ -25,12 +25,11 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.Read
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.ToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdateAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ArtefactPickAway;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticArtefactPickAway;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticArtefactPickAwayCondition;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
+import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassage;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
@@ -103,7 +102,6 @@ public class GornetixTeleOp extends DinitechRobotBase {
             visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
             driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
             shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
-//                shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 
 
             //Overwrite m1 & m2
@@ -140,7 +138,7 @@ public class GornetixTeleOp extends DinitechRobotBase {
             m_Operator.cross.whenPressed(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
             m_Operator.square.whenPressed(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
             m_Operator.triangle.whenPressed(new ArtefactPickAway(trieurSubsystem, gamepadSubsystem));
-            m_Operator.circle.toggleWhenPressed(new AutomaticArtefactPickAwayCondition(trieurSubsystem,
+            m_Operator.circle.toggleWhenPressed(new ModeRamassage(trieurSubsystem,
                             chargeurSubsystem, gamepadSubsystem));
 
 
