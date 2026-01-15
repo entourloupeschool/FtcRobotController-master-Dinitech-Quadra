@@ -33,8 +33,7 @@ public class TeleDrive extends CommandBase {
 
     @Override
     public void initialize(){
-        driveSubsystem.setIsSlowDrive(false);
-        driveSubsystem.setIsATLocked(false);
+        driveSubsystem.setUsageState(DriveSubsystem.DriveUsageState.TELE);
     }
 
     /**

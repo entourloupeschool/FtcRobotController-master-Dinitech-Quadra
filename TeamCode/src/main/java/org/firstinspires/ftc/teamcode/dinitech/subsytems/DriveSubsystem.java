@@ -9,6 +9,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPo
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -38,6 +39,35 @@ public class DriveSubsystem extends SubsystemBase {
 
     private boolean isATLocked = false;
     private boolean isSlowDrive = false;
+
+
+
+    /**
+     * Defines the operational state of the drive.
+     */
+    public enum DriveUsageState {
+        TELE,   // Controlled by driver
+        VISION, // Controlled by vision auto-aim
+        SLOW    // Slow drive mode
+    }
+
+    private DriveUsageState usageState;
+
+    /**
+     * Sets the current usage state of the drive.
+     * @param state The new DriveUsageState.
+     */
+    public void setUsageState(DriveUsageState state) {
+        this.usageState = state;
+    }
+
+    /**
+     * Gets the current usage state of the drive.
+     * @return The current DriveUsageState.
+     */
+    public DriveUsageState getUsageState() {
+        return usageState;
+    }
 
     private double lastTeleDriverPowerScale = 1;
 
@@ -71,6 +101,41 @@ public class DriveSubsystem extends SubsystemBase {
                 new Vector2d(
                         translationY * lastTeleDriverPowerScale,
                         -translationX * lastTeleDriverPowerScale),
+                -rotation * lastTeleDriverPowerScale));
+    }
+
+    /**
+     * Drives the robot based on gamepad inputs with power scaling.
+     *
+     * @param translationX The strafing input, typically from a joystick's X-axis (-1 to 1).
+     * @param translationY The forward/backward input, typically from a joystick's Y-axis (-1 to 1).
+     * @param rotation     The rotational input, typically from another joystick's X-axis (-1 to 1).
+     * @param powerScaler  A scaling factor for power, often from a trigger (0 to 1).
+     */
+    public void fieldCentricTeleDrive(final double translationX, final double translationY, final double rotation,
+                          final double powerScaler) {
+        // Update localizer every cycle to get current heading
+        dinitechMecanumDrive.updatePoseEstimate();
+
+        if (powerScaler != 0) {
+            lastTeleDriverPowerScale = TELE_DRIVE_POWER_TRIGGER_SCALE * pickCustomPowerFunc(powerScaler, 1)
+                    + TELE_DRIVE_POWER;
+        }
+
+        // Get the current robot heading
+        Rotation2d botHeading = dinitechMecanumDrive.localizer.getPose().heading;
+
+        // Create input vector from gamepad (field-centric)
+        Vector2d fieldInput = new Vector2d(
+                translationY * lastTeleDriverPowerScale,
+                -translationX * lastTeleDriverPowerScale);
+
+        // Rotate the field-centric input by the inverse of the bot heading
+        // to convert to robot-centric coordinates
+        Vector2d robotInput = botHeading.inverse().times(fieldInput);
+
+        dinitechMecanumDrive.setDrivePowers(new PoseVelocity2d(
+                robotInput,
                 -rotation * lastTeleDriverPowerScale));
     }
 
@@ -109,25 +174,14 @@ public class DriveSubsystem extends SubsystemBase {
                 -rotation));
     }
 
-    /**
-     * Sets the AprilTag lock state.
-     * @param newIsATLocked The new lock state.
-     */
-    public void setIsATLocked(boolean newIsATLocked) {
-        isATLocked = newIsATLocked;
-    }
-
-    /**
-     * Gets the AprilTag lock state.
-     * @return The current lock state.
-     */
-    public boolean getIsATLocked() {
-        return isATLocked;
+    public void stopAllMotors() {
+        dinitechMecanumDrive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
     }
 
     @Override
     public void periodic() {
         // This method is called periodically by the CommandScheduler.
+        printDriveTelemetry(telemetry);
     }
 
     /**
@@ -135,7 +189,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param telemetry The telemetry object.
      */
     private void printDriveTelemetry(final Telemetry telemetry) {
-
+        telemetry.addData("drive usage state :", usageState);
     }
 
     /**
@@ -162,22 +216,6 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public Pose2d getPose() {
         return getLocalizer().getPose();
-    }
-
-    /**
-     * Checks if the drive is currently in slow mode.
-     * @return True if in slow mode, false otherwise.
-     */
-    public boolean isSlowDrive() {
-        return isSlowDrive;
-    }
-
-    /**
-     * Sets the slow drive mode.
-     * @param slowDrive True to enable slow drive, false to disable.
-     */
-    public void setIsSlowDrive(boolean slowDrive) {
-        isSlowDrive = slowDrive;
     }
 
     /**

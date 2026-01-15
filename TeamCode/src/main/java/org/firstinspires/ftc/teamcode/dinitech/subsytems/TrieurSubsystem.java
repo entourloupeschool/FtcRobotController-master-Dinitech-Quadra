@@ -540,12 +540,19 @@ public class TrieurSubsystem extends SubsystemBase {
                 recalibrateMoulin();
                 setWentRecalibrationOpposite(false);
             }
-        } else {
-            setMoulinPower(POWER_MOULIN_ROTATION);
 
+        } else {
             if (getMoulinPosition() != MAGNETIC_ON_MOULIN_POSITION) {
                 setWentRecalibrationOpposite(true);
             }
+
+            if (isMoulinOverCurrent()) {
+                setMoulinPower(0);
+                telemetry.addLine("Moulin Over Current");
+                return;
+            }
+
+            setMoulinPower(POWER_MOULIN_ROTATION);
         }
     }
 

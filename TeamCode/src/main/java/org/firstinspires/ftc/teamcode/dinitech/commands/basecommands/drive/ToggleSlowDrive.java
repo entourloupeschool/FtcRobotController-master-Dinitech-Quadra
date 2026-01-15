@@ -43,7 +43,7 @@ public class ToggleSlowDrive extends CommandBase {
             driveSubsystem.getDefaultCommand().cancel();
         }
 
-        if (driveSubsystem.isSlowDrive()) {
+        if (driveSubsystem.getUsageState() == DriveSubsystem.DriveUsageState.SLOW) {
             // If currently in slow mode, switch back to normal drive
             driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
         } else {

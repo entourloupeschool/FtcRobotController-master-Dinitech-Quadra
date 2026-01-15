@@ -17,6 +17,7 @@ public class IncrementSpeedShooter extends CommandBase {
     public IncrementSpeedShooter(ShooterSubsystem shooterSubsystem, double velocityIncrement){
         this.shooterSubsystem = shooterSubsystem;
         this.velocityIncrement = velocityIncrement;
+        addRequirements(shooterSubsystem);
     }
 
     @Override

@@ -22,23 +22,22 @@ public class DefaultGamepadCommand extends CommandBase {
         addRequirements(gamepadSubsystem);
     }
 
+
     @Override
     public void execute() {
-        if (shooterSubsystem.getVelocity() > 50){
-            double stabilized = shooterSubsystem.isTargetSpeedStabilized() ? 0.2 : 0;
-
-            Gamepad.RumbleEffect customRumbleEffectGp2 = new Gamepad.RumbleEffect.Builder()
-                    .addStep(0, stabilized, RUMBLE_DURATION_1)
-                    .build();
-            gamepadSubsystem.customRumble(customRumbleEffectGp2, 2);
+        if (shooterSubsystem.getVelocity() > 10){
+            gamepadSubsystem.customRumble(new Gamepad.RumbleEffect.Builder()
+                    .addStep(0, shooterSubsystem.isTargetSpeedStabilized() ? 0.15 : 0, RUMBLE_DURATION_1)
+                    .addStep(0, shooterSubsystem.isTargetSpeedStabilized() ? 0.25 : 0, RUMBLE_DURATION_1)
+                    .build(), 2);
         }
 
+        double trappe = trieurSubsystem.isTrappeOpen() ? 0.15 : 0;
+        if (trappe > 0){
+            gamepadSubsystem.customRumble(new Gamepad.RumbleEffect.Builder()
+                    .addStep(trappe, 0, RUMBLE_DURATION_1)
+                    .build(), 1);
+        }
 
-        // trappeOpen 1 if trieurSubsysem.isTrappeOpen() is true, else 0
-        double trappeOpen = trieurSubsystem.isTrappeOpen() ? 0.2 : 0;
-        Gamepad.RumbleEffect customRumbleEffectGp1 = new Gamepad.RumbleEffect.Builder()
-                .addStep(trappeOpen, 0, RUMBLE_DURATION_1)
-                .build();
-        gamepadSubsystem.customRumble(customRumbleEffectGp1, 1);
     }
 }

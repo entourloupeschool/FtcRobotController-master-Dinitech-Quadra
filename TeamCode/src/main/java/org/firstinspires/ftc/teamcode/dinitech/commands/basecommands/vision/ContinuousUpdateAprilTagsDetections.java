@@ -39,14 +39,4 @@ public class ContinuousUpdateAprilTagsDetections extends CommandBase {
         visionSubsystem.optimizeDecimation();
         visionSubsystem.updateAprilTagDetections();
     }
-
-    /**
-     * This command should run indefinitely as a default command.
-     *
-     * @return Always returns false.
-     */
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
 }

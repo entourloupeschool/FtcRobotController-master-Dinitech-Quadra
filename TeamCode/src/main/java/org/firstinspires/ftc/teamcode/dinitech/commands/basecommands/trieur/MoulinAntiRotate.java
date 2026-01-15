@@ -56,8 +56,8 @@ public class MoulinAntiRotate extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         // If the command ended naturally due to over-current, schedule a correction command.
-        if (!interrupted && trieurSubsystem.isMoulinOverCurrent()) {
-            new MoulinCorrectOverCurrent(trieurSubsystem, this).schedule();
+        if (!interrupted) {
+//            new MoulinCorrectOverCurrent(trieurSubsystem, this).schedule();
         }
     }
 }

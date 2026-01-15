@@ -133,6 +133,7 @@ public class ChargeurSubsystem extends SubsystemBase {
         // Automatically stop the motor if an over-current condition is detected.
         if (isOverCurrent()){
             setMotorPower(0);
+            telemetry.addLine("chargeur motor over current");
         }
     }
 

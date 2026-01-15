@@ -55,7 +55,7 @@ public class MoulinCalibrate extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return trieurSubsystem.isMagneticSwitch() || trieurSubsystem.isMoulinOverCurrent();
+        return trieurSubsystem.isMagneticSwitch();
     }
 
     /**

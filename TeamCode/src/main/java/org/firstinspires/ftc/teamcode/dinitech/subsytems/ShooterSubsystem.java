@@ -24,6 +24,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 
 /**
  * A command-based subsystem for controlling the robot's shooter mechanism.
@@ -71,8 +72,6 @@ public class ShooterSubsystem extends SubsystemBase {
         setPIDFVelocity(P_SHOOTER_VELOCITY_AGGRESSIVE, I_SHOOTER_VELOCITY_AGGRESSIVE,
                 D_SHOOTER_VELOCITY_AGGRESSIVE,
                 F_SHOOTER_VELOCITY_AGGRESSIVE);
-
-        setUsageState(ShooterUsageState.NONE);
 
         lastTimeStamp = (double) System.nanoTime() / 1E9;
 
@@ -262,7 +261,7 @@ public class ShooterSubsystem extends SubsystemBase {
      * Stops the shooter motor by setting its power to zero.
      */
     public void stopMotor() {
-        dcMotorEx.setPower(0);
+        setVelocity(0);
     }
 
     /**
@@ -311,9 +310,10 @@ public class ShooterSubsystem extends SubsystemBase {
     public void periodic() {
         if (isOverCurrent()) {
             stopMotor();
+            telemetry.addLine("shooter motor over current");
         }
 
-//        printShooterTelemetry(telemetry);
+        printShooterTelemetry(telemetry);
     }
 
     private void printShooterTelemetry(final Telemetry telemetry) {

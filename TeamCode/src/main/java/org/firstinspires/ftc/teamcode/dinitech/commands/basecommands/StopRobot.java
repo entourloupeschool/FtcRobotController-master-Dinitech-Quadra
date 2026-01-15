@@ -9,13 +9,14 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 
 /**
  * A Sequential Command Group that stops the robot.
  */
 public class StopRobot extends SequentialCommandGroup {
-    public StopRobot(ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem){
+    public StopRobot(DriveSubsystem driveSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem){
         addCommands(
                 new ParallelCommandGroup(
                         new StopChargeur(chargeurSubsystem),
@@ -24,9 +25,12 @@ public class StopRobot extends SequentialCommandGroup {
                 new InstantCommand(
                         () -> {
                             CommandScheduler.getInstance().cancelAll();}
+                ),
+                new InstantCommand(
+                        driveSubsystem::stopAllMotors
                 )
         );
 
-        addRequirements(chargeurSubsystem, shooterSubsystem);
+        addRequirements(driveSubsystem, chargeurSubsystem, shooterSubsystem);
     }
 }

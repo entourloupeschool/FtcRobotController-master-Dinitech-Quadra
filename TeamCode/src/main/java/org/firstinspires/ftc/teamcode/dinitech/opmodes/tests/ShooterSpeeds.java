@@ -112,8 +112,8 @@ public class ShooterSpeeds extends DinitechRobotBase {
             m_Operator.m2Button.whenPressed(new InstantCommand());
 
             // Full stop robot
-            m_Driver.touchpadButton.whenActive(new StopRobot(shooterSubsystem, chargeurSubsystem));
-            m_Operator.touchpadButton.whenActive(new StopRobot(shooterSubsystem, chargeurSubsystem));
+            m_Driver.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
+            m_Operator.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
 
             // Driver controls
             m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
@@ -169,8 +169,8 @@ public class ShooterSpeeds extends DinitechRobotBase {
             m_Operator.m2Button.whenPressed(new InstantCommand());
 
             // Full stop robot
-            m_Driver.touchpadButton.whenActive(new StopRobot(shooterSubsystem, chargeurSubsystem));
-            m_Operator.touchpadButton.whenActive(new StopRobot(shooterSubsystem, chargeurSubsystem));
+            m_Driver.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
+            m_Operator.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
 
             // Driver controls
             m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));

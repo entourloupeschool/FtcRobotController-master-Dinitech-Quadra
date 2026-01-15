@@ -95,22 +95,22 @@ public class Globals {
          */
         public static final String TRAPPE_SERVO_NAME = "porte";
         public static final double TRAPPE_OPEN_POSITION = 0;
-        public static final double TRAPPE_CLOSE_POSITION = -100;
+        public static final double TRAPPE_CLOSE_POSITION = -130;
         public static final double TRAPPE_TELE_INCREMENT = 0.5;
         public static final String MOULIN_MOTOR_NAME = "moulin";
 
         public static final int MOTOR_TICKS_PER_REV = 288;
         public static final int RAPPORT_TRANSMISSION = 8; // pignon 18 dents ; courronne 144 dents // rapport de
                                                           // transmission : 144/8 = 8;
-        public static int INTERVALLE_TICKS_MOULIN = 240;//384;// MOTOR_TICKS_PER_REV * RAPPORT_TRANSMISSION /
+        public static final int INTERVALLE_TICKS_MOULIN = 240;//384;// MOTOR_TICKS_PER_REV * RAPPORT_TRANSMISSION /
                                                               // Moulin.TOTAL_POSITIONS;
         public static final double POWER_MOULIN_ROTATION = 1;
-        public static double POWER_MOULIN_CALIBRATION_ROTATION = POWER_MOULIN_ROTATION;
+        public static final double POWER_MOULIN_CALIBRATION_ROTATION = POWER_MOULIN_ROTATION;
 
         public static final int MOULIN_POSITION_TOLERANCE = 2;
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * MOULIN_POSITION_TOLERANCE;
-        public static int MOULIN_ROTATE_SPEED_CALIBRATION = 25;
+        public static final int MOULIN_ROTATE_SPEED_CALIBRATION = 20;
         public static final int TRIEUR_TIME_BETWEEN_SHOTS = 5; // milliseconds
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.8;
@@ -121,7 +121,7 @@ public class Globals {
         public static final double I_MOULIN_AGGRESSIVE = 11.941806;
         public static final double D_MOULIN_AGGRESSIVE = 0.008558;
         public static final double F_MOULIN_AGGRESSIVE = 0.178335;
-        public static double ADJUST_CONSTANT = 0.005;
+        public static final double ADJUST_CONSTANT = 0.005;
 
         //FF COEF
         public static final double kS_MOULIN_AGGRESSIVE = 0;
@@ -133,7 +133,7 @@ public class Globals {
          */
         public static final String SHOOTER_MOTOR_NAME = "shooter";
         public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
-        public static final double SPEED_MARGIN = 20;
+        public static final double SPEED_MARGIN = 15;
         public static final double SPEED_INCREMENT_SHOOTER = 10;
         public static final double MAX_RANGE_TO_SHOOT_CM = 345;
         public static final double MIN_RANGE_TO_SHOOT_CM = 97;
@@ -179,7 +179,7 @@ public class Globals {
     public static final String CHARGEUR_SERVO_DROITE_MOTOR_NAME = "chargeur_servo_droite";
 
     public static final double CHARGEUR_MOTOR_POWER = 1;
-    public static double SCALE_CHARGEUR_MOTOR_POWER = 0.4;
+    public static final double SCALE_CHARGEUR_MOTOR_POWER = 0.4;
         public static final double CHARGEUR_SPEED = 2300;
         public static final double CHARGEUR_INCREMENT = 0.1;
 
@@ -192,7 +192,7 @@ public class Globals {
         public static final String CS4_NAME = "cs4";
         public static final String MAGNETIC_SWITCH_NAME = "m_s";
         public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
-        public static int OFFSET_MAGNETIC_POS = 23;
+        public static int OFFSET_MAGNETIC_POS = 35;
         public static final double DETECT_PURPLE_RED_RGB = 0.694;
         public static final double DETECT_PURPLE_GREEN_RGB = 0.612;
         public static final double DETECT_PURPLE_BLUE_RGB = 0.851;
@@ -216,18 +216,18 @@ public class Globals {
          ******** Vision
          */
         public static final String CAMERA1_NAME = "CamColor";
-        public static double FX = 516.3798424;//0.0;// 516.3798424;//1;
+        public static final double FX = 516.3798424;//0.0;// 516.3798424;//1;
                                             // https://github.com/jdhs-ftc/2025/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/atag/AprilTagLocalizer.kt
-        public static double FY = 515.8231389;//0.0;// 515.8231389; //1;
-        public static double CX = 328.1776587;// 0.0;// 328.1776587; //1;
-        public static double CY = 237.3745503;//0.0;// 237.3745503; //1;
+        public static final double FY = 515.8231389;//0.0;// 515.8231389; //1;
+        public static final double CX = 328.1776587;// 0.0;// 328.1776587; //1;
+        public static final double CY = 237.3745503;//0.0;// 237.3745503; //1;
         public static double CAMERA_POSITION_X = -9.8;
         public static double CAMERA_POSITION_Y = 2.8;
         public static double CAMERA_POSITION_Z = 43.0;
 
-        public static double OFFSET_ROBOT_X = 16.0;
-        public static double OFFSET_ROBOT_Y = 16.5;
-        public static double OFFSET_ROBOT_YAW = Math.PI + ANGLE_RADIANS_BLUE_GOAL;
+        public static final double OFFSET_ROBOT_X = 16.0;
+        public static final double OFFSET_ROBOT_Y = 16.5;
+        public static final double OFFSET_ROBOT_YAW = Math.PI + ANGLE_RADIANS_BLUE_GOAL;
 
         public static final double CAMERA_ORIENTATION_YAW = 0;
         public static final double CAMERA_ORIENTATION_PITCH = -90; // https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_localization/apriltag-localization.html

@@ -57,5 +57,6 @@ public class ModeRamassage extends ConditionalCommand {
                 // Condition.
                 () -> Moulin.isStoragePosition(trieurSubsystem.getMoulinPosition())
         );
+
     }
 }

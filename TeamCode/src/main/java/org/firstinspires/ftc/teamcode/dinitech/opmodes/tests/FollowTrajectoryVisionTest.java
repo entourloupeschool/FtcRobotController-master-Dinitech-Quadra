@@ -26,8 +26,8 @@ import java.util.Set;
 @Autonomous(name = "FollowTrajectoryVisionTest - Dinitech", group = "Test")
 public class FollowTrajectoryVisionTest extends DinitechRobotBase {
     private GamepadSubsystem gamepadSubsystem;
-        private VisionSubsystem visionSubsystem;
-        private DriveSubsystem driveSubsystem;
+    private VisionSubsystem visionSubsystem;
+    private DriveSubsystem driveSubsystem;
     private DinitechMecanumDrive drive;
 
     /**
@@ -44,7 +44,7 @@ public class FollowTrajectoryVisionTest extends DinitechRobotBase {
                 register(visionSubsystem);
                 visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
 
-                drive = new DinitechMecanumDrive(hardwareMap, visionSubsystem, BEGIN_POSE);
+                drive = new DinitechMecanumDrive(hardwareMap, BEGIN_POSE);
 
                 driveSubsystem = new DriveSubsystem(drive, telemetry);
                 register(driveSubsystem);

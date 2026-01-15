@@ -33,7 +33,7 @@ public class TeleSlowDrive extends CommandBase {
 
     @Override
     public void initialize(){
-        driveSubsystem.setIsSlowDrive(true);
+        driveSubsystem.setUsageState(DriveSubsystem.DriveUsageState.SLOW);
     }
 
     /**

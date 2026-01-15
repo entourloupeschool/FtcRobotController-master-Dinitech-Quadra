@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.RunCommand;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.Rumble;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -33,13 +34,13 @@ public class ToggleVisionShooter extends CommandBase {
             shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.NONE);
             // Shooter is running, so stop it
             new StopShooter(shooterSubsystem).schedule();
+            shooterSubsystem.setDefaultCommand(new RunCommand(
+                    () -> {},
+                    shooterSubsystem
+            ));
+
         } else {
-            new Rumble(gamepadSubsystem, 2, 3).schedule();
-            shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.VISION);
-
-            shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem, true));
-
-
+            shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem));
         }
     }
 

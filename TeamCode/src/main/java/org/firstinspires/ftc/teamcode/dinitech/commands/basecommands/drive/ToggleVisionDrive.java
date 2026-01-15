@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.Rumble;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdateAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
@@ -15,7 +14,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * <ul>
  *     <li>If the drive is in vision-locked mode, it restores the default command to {@link TeleDrive}
  *     for normal, robot-centric control.</li>
- *     <li>If the drive is in normal mode, it sets the default command to {@link TeleDriveLocked},
+ *     <li>If the drive is in normal mode, it sets the default command to {@link AprilTagLockedTeleDrive},
  *     enabling the vision-assisted auto-aim behavior, and triggers a rumble for haptic feedback.</li>
  * </ul>
  * The command finishes immediately after setting the new default command.
@@ -49,13 +48,13 @@ public class ToggleVisionDrive extends CommandBase {
             driveSubsystem.getDefaultCommand().cancel();
         }
 
-        if (driveSubsystem.getIsATLocked()) {
+        if (driveSubsystem.getUsageState() == DriveSubsystem.DriveUsageState.VISION) {
             // If vision is locked, switch back to normal drive.
             driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
         } else {
             // If not locked, switch to vision-locked drive and provide feedback.
             new Rumble(gamepadSubsystem, 3, 3).schedule();
-            driveSubsystem.setDefaultCommand(new TeleDriveLocked(driveSubsystem, visionSubsystem, gamepadSubsystem));
+            driveSubsystem.setDefaultCommand(new AprilTagLockedTeleDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
         }
     }
 

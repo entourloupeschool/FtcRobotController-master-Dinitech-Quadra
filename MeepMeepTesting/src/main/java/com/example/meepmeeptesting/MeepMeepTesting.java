@@ -11,6 +11,8 @@ import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepTesting {
+    static final Pose2d BEGIN_POSE = new Pose2d(0, 0, 0);
+
     static double botWidthCM = 34.5;
     static double botLengthCM = 38.5;
     static double cmToInch = 1.0 / 2.54;
@@ -42,7 +44,7 @@ public class MeepMeepTesting {
                             .build();
 
 //            myBot.runAction(BlueFromBasket(myBot, BLUE_GOAL_BEGIN_POSE));
-            myBot.runAction(RectangleCouleurs(myBot, new Pose2d(0, 0, Math.PI*1.2)));
+            myBot.runAction(RectangleCouleurs(myBot, BEGIN_POSE));
 
             meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_OFFICIAL)
                             .setBackgroundAlpha(0.95f)

@@ -46,6 +46,9 @@ import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
 import java.util.List;
 
+// Unresolved error:
+// https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/993
+
 /**
  * A command-based subsystem that manages the robot's vision capabilities.
  * <p>
@@ -321,10 +324,10 @@ public class VisionSubsystem extends SubsystemBase {
         // Normalize the bearing within a clamped range to get a -1 to 1 value for the power function
         double normalizedClampedBearing = Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, cameraSidewayOffset)) / CLAMP_BEARING;
 
-        double xATPose = getXATPose();
+//        double xATPose = getXATPose();
 
 //        normalizedClampedBearing += (getXATPose() + CAMERA_POSITION_X) / (range + BASKET_Y_OFFSET) * SCALER_OFFSET_AT_TO_X_BASKET;
-        normalizedClampedBearing += Math.asin(Math.cos(getRobotPoseYaw() / (xATPose + BASKET_Y_OFFSET * BASKET_Y_OFFSET))) / 2;
+//        normalizedClampedBearing -= Math.asin(Math.cos(getRobotPoseYaw() / (xATPose + BASKET_Y_OFFSET * BASKET_Y_OFFSET))) / 2;
 
         return normalizedClampedBearing;
     }

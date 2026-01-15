@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 /**
@@ -18,16 +21,24 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * Because this command never finishes, it ensures that the vision subsystem is always
  * providing the most current data possible.
  */
-public class ContinuousUpdateAprilTagsDetections extends CommandBase {
+public class OnlyUpdateAprilTagsDetections extends CommandBase {
     private final VisionSubsystem visionSubsystem;
+    private final DriveSubsystem driveSubsystem;
+    private final TrieurSubsystem trieurSubsystem;
+    private final ShooterSubsystem shooterSubsystem;
 
     /**
-     * Creates a new ContinuousUpdateAprilTagsDetections command.
+     * Creates a new OnlyUpdateAprilTagsDetections command.
      *
      * @param visionSubsystem The vision subsystem to continuously update.
+*    * @param driveSubsystem The drive subsystem to continuously update.
+     * @param shooterSubsystem The shooter subsystem to continuously update.
      */
-    public ContinuousUpdateAprilTagsDetections(VisionSubsystem visionSubsystem){
+    public OnlyUpdateAprilTagsDetections(VisionSubsystem visionSubsystem, DriveSubsystem driveSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem){
         this.visionSubsystem = visionSubsystem;
+        this.driveSubsystem = driveSubsystem;
+        this.trieurSubsystem = trieurSubsystem;
+        this.shooterSubsystem = shooterSubsystem;
         addRequirements(visionSubsystem);
     }
 
@@ -36,8 +47,10 @@ public class ContinuousUpdateAprilTagsDetections extends CommandBase {
      */
     @Override
     public void execute(){
-        visionSubsystem.optimizeDecimation();
-        visionSubsystem.updateAprilTagDetections();
+        if (trieurSubsystem.getIsFull() || shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.VISION || driveSubsystem.getUsageState() == DriveSubsystem.DriveUsageState.VISION){
+            visionSubsystem.optimizeDecimation();
+            visionSubsystem.updateAprilTagDetections();
+        }
     }
 
     /**

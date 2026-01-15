@@ -106,7 +106,7 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                             new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)),
 
                     // Shoot All
-                    new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem, false)),
+                    new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem)),
 
                     // go to next row of artefacts
                     new ParallelCommandGroup(
