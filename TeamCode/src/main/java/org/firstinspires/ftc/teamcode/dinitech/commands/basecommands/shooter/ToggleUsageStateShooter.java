@@ -30,11 +30,13 @@ public class ToggleVisionTeleStopShooter extends CommandBase {
         if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.VISION) {
             shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.NONE);
             new StopShooter(shooterSubsystem).schedule();
+
         } else if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.TELE){
             shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem, true));
 
         } else {
             shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
+
         }
     }
 
