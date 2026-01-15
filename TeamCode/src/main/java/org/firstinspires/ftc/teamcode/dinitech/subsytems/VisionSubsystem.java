@@ -324,7 +324,7 @@ public class VisionSubsystem extends SubsystemBase {
         double xATPose = getXATPose();
 
 //        normalizedClampedBearing += (getXATPose() + CAMERA_POSITION_X) / (range + BASKET_Y_OFFSET) * SCALER_OFFSET_AT_TO_X_BASKET;
-        normalizedClampedBearing += Math.asin(Math.cos(getRobotPoseYaw() / (xATPose + BASKET_Y_OFFSET * BASKET_Y_OFFSET)));
+        normalizedClampedBearing += Math.asin(Math.cos(getRobotPoseYaw() / (xATPose + BASKET_Y_OFFSET * BASKET_Y_OFFSET))) / 2;
 
         return normalizedClampedBearing;
     }
