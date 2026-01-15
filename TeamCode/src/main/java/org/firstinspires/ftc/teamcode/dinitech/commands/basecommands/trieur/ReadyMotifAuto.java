@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.InstantRumbleCustom;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
@@ -31,39 +32,48 @@ public class ReadyMotifAuto extends MoulinToPosition {
 
     /**
      * Calculates the target position based on the detected color motif and starts the rotation.
-     *
-     * @throws IllegalArgumentException if no color motif has been detected by the vision subsystem.
      */
     @Override
     public void initialize(){
+        // Check if the color order has been detected by the vision system.
         if (!visionSubsystem.hasColorOrder()){
-            throw new IllegalArgumentException("Cannot run ReadyMotifAuto: No color motif detected.");
-        }
+            moulinTargetPosition = 1;
+        } else {
+            // Get the detected color order.
+            String[] colorsOrder = visionSubsystem.getColorsOrder();
 
-        String[] colorsOrder = visionSubsystem.getColorsOrder();
+            // Find the position of the green artifact in the motif (1, 2, or 3).
+            int greenPosition = -1;
+            for (int i = 0; i < colorsOrder.length; i++){
+                if (colorsOrder[i].equals("g")){
+                    greenPosition = i + 1; // positions are 1-indexed
+                    break;
+                }
+            }
 
-        // Find the 1-indexed position of the purple artifact in the motif.
-        int purplePosition = -1;
-        for (int i = 0; i < colorsOrder.length; i++){
-            if (colorsOrder[i].equals("p")){
-                purplePosition = i + 1;
-                break;
+            // Calculate the target position. The logic aligns the moulin based on the
+            // location of the green artifact in the sequence.
+            greenPosition = trieurSubsystem.getClosestShootingPositionForColor(TrieurSubsystem.ArtifactColor.GREEN);
+
+            if (greenPosition == -1){
+                // Fallback if green position is not found.
+                moulinTargetPosition = 1;
+                makeShort = false; // Always rotate forward.
+                super.initialize(); // Execute the rotation.       
+                return;
+            }
+            
+            moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(greenPosition, 1);
+            if (greenPosition == 2){
+                // Adjust if green is the second artifact in the motif.
+                moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(moulinTargetPosition, 3);
+            } else if (greenPosition == 3){
+                // Adjust if green is the third artifact in the motif.
+                moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(moulinTargetPosition, 5);
             }
         }
 
-        // Determine the starting position of the moulin so that a sequence of
-        // "shoot, rotate 2" actions will fire the artifacts in the correct order.
-        moulinTargetPosition = trieurSubsystem.getClosestShootingPositionForColor(TrieurSubsystem.ArtifactColor.PURPLE);
-        if (purplePosition == 2) {
-            // If purple is second, the moulin needs to be 2 steps before the purple shooting position.
-            moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(moulinTargetPosition, 2);
-        } else if (purplePosition == 3) {
-            // If purple is third, the moulin needs to be 4 steps before the purple shooting position.
-            moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(moulinTargetPosition, 4);
-        }
-
-        makeShort = true; // Use the shortest path for efficiency in auto.
-
-        super.initialize();
+        makeShort = false; // Always rotate forward.
+        super.initialize(); // Execute the rotation.
     }
 }

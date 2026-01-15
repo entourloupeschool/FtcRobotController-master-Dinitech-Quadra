@@ -110,7 +110,7 @@ public class Globals {
         public static final int MOULIN_POSITION_TOLERANCE = 2;
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * MOULIN_POSITION_TOLERANCE;
-        public static int MOULIN_ROTATE_SPEED_CALIBRATION = 10;
+        public static int MOULIN_ROTATE_SPEED_CALIBRATION = 25;
         public static final int TRIEUR_TIME_BETWEEN_SHOTS = 5; // milliseconds
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.8;
@@ -192,7 +192,7 @@ public class Globals {
         public static final String CS4_NAME = "cs4";
         public static final String MAGNETIC_SWITCH_NAME = "m_s";
         public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
-        public static int OFFSET_MAGNETIC_POS = 40;
+        public static int OFFSET_MAGNETIC_POS = 23;
         public static final double DETECT_PURPLE_RED_RGB = 0.694;
         public static final double DETECT_PURPLE_GREEN_RGB = 0.612;
         public static final double DETECT_PURPLE_BLUE_RGB = 0.851;
@@ -203,13 +203,13 @@ public class Globals {
         public static final double DETECT_GREEN_BLUE_RGB = 0.2;
         public static final double MARGIN_GREEN_RGB_DETECTION = 0.35;
 
-        public static final double GREEN_HUE_LOWER = 150;
-        public static final double GREEN_HUE_HIGHER = 170;
-        public static final double GREEN_SATURATION_LOWER = 0.58;
-        public static final double GREEN_RED_RGB_HIGHER = 0.014;
-        public static final double PURPLE_HUE_LOWER = 180;
-        public static final double PURPLE_HUE_HIGHER = 260;
-        public static final float GAIN_DETECTION = 20;
+        public static double GREEN_HUE_LOWER = 150;
+        public static double GREEN_HUE_HIGHER = 170;
+        public static double GREEN_SATURATION_LOWER = 0.58;
+        public static double GREEN_RED_RGB_HIGHER = 0.014;
+        public static double PURPLE_HUE_LOWER = 180;
+        public static double PURPLE_HUE_HIGHER = 260;
+        public static float GAIN_DETECTION = 20;
         public static final int SAMPLE_SIZE_TEST = 2;
 
         /**
@@ -241,7 +241,7 @@ public class Globals {
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.
         public static final VisionPortal.StreamFormat STREAM_FORMAT = VisionPortal.StreamFormat.MJPEG; // Or YUY2
 
-        public static double CLAMP_BEARING = 75;
+        public static double CLAMP_BEARING = 80;
         public static final double MIN_RANGE_VISION = MIN_RANGE_TO_SHOOT_CM; //CM
         public static final double MAX_RANGE_VISION = MAX_RANGE_TO_SHOOT_CM; //CM
 

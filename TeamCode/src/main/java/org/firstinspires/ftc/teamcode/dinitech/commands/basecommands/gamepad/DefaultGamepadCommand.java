@@ -24,11 +24,15 @@ public class DefaultGamepadCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double stabilized = shooterSubsystem.isTargetSpeedStabilized() ? 0.2 : 0;
-        Gamepad.RumbleEffect customRumbleEffectGp2 = new Gamepad.RumbleEffect.Builder()
-                .addStep(0, stabilized, RUMBLE_DURATION_1)
-                .build();
-        gamepadSubsystem.customRumble(customRumbleEffectGp2, 2);
+        if (shooterSubsystem.getVelocity() > 50){
+            double stabilized = shooterSubsystem.isTargetSpeedStabilized() ? 0.2 : 0;
+
+            Gamepad.RumbleEffect customRumbleEffectGp2 = new Gamepad.RumbleEffect.Builder()
+                    .addStep(0, stabilized, RUMBLE_DURATION_1)
+                    .build();
+            gamepadSubsystem.customRumble(customRumbleEffectGp2, 2);
+        }
+
 
         // trappeOpen 1 if trieurSubsysem.isTrappeOpen() is true, else 0
         double trappeOpen = trieurSubsystem.isTrappeOpen() ? 0.2 : 0;

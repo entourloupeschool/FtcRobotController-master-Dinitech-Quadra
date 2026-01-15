@@ -44,7 +44,7 @@ public class ReadyMotif extends MoulinToPosition {
         if (!visionSubsystem.hasColorOrder()){
             // Fallback: Rumble and move to a default position if no motif is detected.
             new InstantRumbleCustom(gamepadSubsystem, 3, 0.5).schedule();
-            moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(trieurSubsystem.getClosestShootingPositionForColor(trieurSubsystem.getLastDetectedColor()), 1);
+            moulinTargetPosition = 1;
         } else {
             // Get the detected color order.
             String[] colorsOrder = visionSubsystem.getColorsOrder();
@@ -60,7 +60,18 @@ public class ReadyMotif extends MoulinToPosition {
 
             // Calculate the target position. The logic aligns the moulin based on the
             // location of the green artifact in the sequence.
-            moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(trieurSubsystem.getClosestShootingPositionForColor(TrieurSubsystem.ArtifactColor.GREEN), 1);
+            greenPosition = trieurSubsystem.getClosestShootingPositionForColor(TrieurSubsystem.ArtifactColor.GREEN);
+
+            if (greenPosition == -1){
+                // Fallback if green position is not found.
+                moulinTargetPosition = 1;
+                makeShort = false; // Always rotate forward.
+                super.initialize(); // Execute the rotation.
+                return;
+            }
+
+            moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(greenPosition, 1);
+
             if (greenPosition == 2){
                 // Adjust if green is the second artifact in the motif.
                 moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(moulinTargetPosition, 3);

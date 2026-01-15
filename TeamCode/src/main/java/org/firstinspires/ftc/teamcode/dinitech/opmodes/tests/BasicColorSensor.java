@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TeleOp(name ="BasicColorSensor - Dinitech", group = "Test")
-
 public class BasicColorSensor extends DinitechRobotBase {
     private NormalizedColorSensor colorSensor1;
     // Store the last predominant colors for each sensor
@@ -73,7 +72,7 @@ public class BasicColorSensor extends DinitechRobotBase {
     public void initialize() {
         super.initialize();
 
-        colorSensor1 = hardwareMap.get(NormalizedColorSensor.class, CS2_NAME);
+        colorSensor1 = hardwareMap.get(NormalizedColorSensor.class, CS1_NAME);
     }
 
     /**

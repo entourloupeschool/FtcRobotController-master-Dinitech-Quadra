@@ -310,7 +310,8 @@ public class VisionSubsystem extends SubsystemBase {
     public double getNormalizedClampedRobotCenterBasketBearing(){
         // Invert the camera bearing because the robot's rotation direction is opposite
         // to the bearing's sign (e.g., a positive bearing requires a negative rotation).
-        double invertedCameraBearing = -getCameraBearing();
+        Double cameraBearing = getCameraBearing();
+        double invertedCameraBearing = cameraBearing != null ? -cameraBearing : 0;
 
         double range = getRangeToAprilTag();
 
@@ -320,7 +321,10 @@ public class VisionSubsystem extends SubsystemBase {
         // Normalize the bearing within a clamped range to get a -1 to 1 value for the power function
         double normalizedClampedBearing = Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, cameraSidewayOffset)) / CLAMP_BEARING;
 
-        normalizedClampedBearing += (getXATPose() + CAMERA_POSITION_X) / (range + BASKET_Y_OFFSET) * SCALER_OFFSET_AT_TO_X_BASKET;
+        double xATPose = getXATPose();
+
+//        normalizedClampedBearing += (getXATPose() + CAMERA_POSITION_X) / (range + BASKET_Y_OFFSET) * SCALER_OFFSET_AT_TO_X_BASKET;
+        normalizedClampedBearing += Math.asin(Math.cos(getRobotPoseYaw() / (xATPose + BASKET_Y_OFFSET * BASKET_Y_OFFSET)));
 
         return normalizedClampedBearing;
     }

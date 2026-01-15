@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -9,6 +10,7 @@ import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.MaxSpeedShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.StopShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ClearMoulinShootingPos;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.CloseTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.OpenTrappe;
@@ -63,6 +65,7 @@ public class ShootRevolution extends SequentialCommandGroup {
                 new MoulinRevolution(trieurSubsystem), // Perform a full revolution
                 new WaitCommand(100), // Wait for the last artifact to clear
                 new ParallelCommandGroup( // Clean up
+                        new InstantCommand(trieurSubsystem::clearAllStoredColors),
                         new CloseTrappe(trieurSubsystem),
                         new StopShooter(shooterSubsystem)
                 )

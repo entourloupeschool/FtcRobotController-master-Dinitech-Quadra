@@ -313,7 +313,7 @@ public class ShooterSubsystem extends SubsystemBase {
             stopMotor();
         }
 
-        printShooterTelemetry(telemetry);
+//        printShooterTelemetry(telemetry);
     }
 
     private void printShooterTelemetry(final Telemetry telemetry) {

@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.RepeatCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.StartEndCommand;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.CloseTrappe;
@@ -35,18 +36,24 @@ public class ModeRamassage extends ConditionalCommand {
                          GamepadSubsystem gamepadSubsystem) {
         super(
                 // if condition is true.
-                new ParallelCommandGroup(
-                    new CloseTrappe(trieurSubsystem),
-                    new StopShooter(shooterSubsystem),
-                    new AutomaticArtefactPickAway(trieurSubsystem, chargeurSubsystem, gamepadSubsystem)),
+                new SequentialCommandGroup(
+                        new ParallelCommandGroup(
+                                new CloseTrappe(trieurSubsystem),
+                                new StopShooter(shooterSubsystem)
+                        ),
+                        new AutomaticArtefactPickAway(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                        new StopChargeur(chargeurSubsystem)),
 
                 // if condition is false.
                 new SequentialCommandGroup(
-                    new CloseTrappe(trieurSubsystem),
-                    new StopShooter(shooterSubsystem),
+                    new ParallelCommandGroup(
+                            new CloseTrappe(trieurSubsystem),
+                            new StopShooter(shooterSubsystem)
+                    ),
                     new MoulinNext(trieurSubsystem),
-                    new AutomaticArtefactPickAway(trieurSubsystem, chargeurSubsystem, gamepadSubsystem)),
-
+                    new AutomaticArtefactPickAway(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                    new StopChargeur(chargeurSubsystem)),
+                
                 // Condition.
                 () -> Moulin.isStoragePosition(trieurSubsystem.getMoulinPosition())
         );

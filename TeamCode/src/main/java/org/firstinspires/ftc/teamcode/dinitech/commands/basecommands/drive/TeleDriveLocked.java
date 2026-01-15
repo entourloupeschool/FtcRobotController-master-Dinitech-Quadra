@@ -53,9 +53,6 @@ public class TeleDriveLocked extends CommandBase {
 
     @Override
     public void initialize() {
-        if (visionSubsystem.getDefaultCommand() != null) {
-            visionSubsystem.getDefaultCommand().cancel();
-        }
         driveSubsystem.setIsATLocked(true);
     }
 

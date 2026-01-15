@@ -53,7 +53,7 @@ public class Moulin {
     public static final int TOTAL_POSITIONS = 6;
 
     private final DcMotorEx dcMotorEx;
-    private static int moulinPosition;
+    private int moulinPosition;
 
     public Moulin(final HardwareMap hardwareMap) {
         dcMotorEx = hardwareMap.get(DcMotorEx.class, MOULIN_MOTOR_NAME);
@@ -82,7 +82,11 @@ public class Moulin {
      * Helper method to get the next state in the sequence
      */
     private static int getNextPosition(int pos) {
-        return pos == MAX_POSITION ? MIN_POSITION : pos + 1;
+        if (isValidPosition(pos)){
+            return pos == MAX_POSITION ? MIN_POSITION : pos + 1;
+        } else {
+            throw new IllegalArgumentException("Invalid position to compute next : " + pos);
+        }
     }
 
     /**
@@ -103,7 +107,11 @@ public class Moulin {
      * Helper method to get the previous state in the sequence
      */
     private static int getPreviousPosition(int pos) {
-        return pos == MIN_POSITION ? MAX_POSITION : pos - 1;
+        if (isValidPosition(pos)){
+            return pos == MIN_POSITION ? MAX_POSITION : pos - 1;
+        } else {
+            throw new IllegalArgumentException("Invalid position to compute previous : " + pos);
+        }
     }
 
     /**
@@ -113,6 +121,7 @@ public class Moulin {
      * @return The resulting position.
      */
     public static int getNPreviousPosition(int pos, int n) {
+
         int resultPos = pos;
         for (int i = 0; i < n; i++) {
             resultPos = getPreviousPosition(resultPos);
@@ -174,7 +183,7 @@ public class Moulin {
         }
 
         incrementTargetMotorPosition(newTargetTicks);
-        moulinPosition = targetPos;
+        hardSetPosition(targetPos);
     }
 
     /**
@@ -234,12 +243,12 @@ public class Moulin {
      * @return The closest state to the opposite current position, or -1 if array is
      *         empty
      */
-    public static int getClosestPositionToShoot(int[] possiblePositions) {
+    public static int getClosestPositionToShoot(int currentPosition, int[] possiblePositions) {
         if (possiblePositions == null || possiblePositions.length == 0) {
             return -1;
         }
 
-        int shootingPosition = getOppositePosition(moulinPosition);
+        int shootingPosition = getOppositePosition(currentPosition);
 
         int closestPos = possiblePositions[0];
         int smallestDistance = Math.abs(calculateOptimalStateDifference(shootingPosition, possiblePositions[0]));

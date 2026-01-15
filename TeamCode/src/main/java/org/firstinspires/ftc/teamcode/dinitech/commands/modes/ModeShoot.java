@@ -39,11 +39,9 @@ public class ModeShoot extends SequentialCommandGroup {
     public ModeShoot(DriveSubsystem driveSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem,
                      VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
         super(
-                new ParallelCommandGroup(
-                        new InstantCommand(
-                                () -> {visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));}
-                        ),
-                        new StopChargeur(chargeurSubsystem)),
+                new InstantCommand(
+                        () -> {visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));}
+                ),
                 new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                 new TeleDriveLocked(driveSubsystem, visionSubsystem, gamepadSubsystem),
                 new VisionShooter(shooterSubsystem, visionSubsystem, true)

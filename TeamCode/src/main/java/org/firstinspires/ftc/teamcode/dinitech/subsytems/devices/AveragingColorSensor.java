@@ -115,8 +115,9 @@ public class AveragingColorSensor {
      * @return True if the color is green, false otherwise.
      */
     public boolean isGreen() {
-        return isAverageHueBetween(GREEN_HUE_LOWER, GREEN_HUE_HIGHER) &&
-                getAverageGreen() > getAverageBlue() && getAverageSaturation() > GREEN_SATURATION_LOWER && getAverageRed() < GREEN_RED_RGB_HIGHER;
+        return getAverageRed() > getAverageBlue() && getAverageRed() > getAverageGreen();
+//        return isAverageHueBetween(GREEN_HUE_LOWER, GREEN_HUE_HIGHER) &&
+//                getAverageGreen() > getAverageBlue() && getAverageSaturation() > GREEN_SATURATION_LOWER && getAverageRed() < GREEN_RED_RGB_HIGHER;
     }
 
     /**
@@ -124,7 +125,9 @@ public class AveragingColorSensor {
      * @return True if the color is purple, false otherwise.
      */
     public boolean isPurple() {
-        return isAverageHueBetween(PURPLE_HUE_LOWER, PURPLE_HUE_HIGHER);
+        return getAverageBlue() > getAverageRed() && getAverageBlue() > getAverageGreen();
+
+//        return isAverageHueBetween(PURPLE_HUE_LOWER, PURPLE_HUE_HIGHER);
     }
 
     /**

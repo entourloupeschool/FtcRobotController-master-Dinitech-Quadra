@@ -34,7 +34,9 @@ public class VisionShooter extends CommandBase {
 
     @Override
     public void initialize(){
-        shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.VISION);
+        if (continuous){
+            shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.VISION);
+        }
     }
 
 

@@ -80,7 +80,7 @@ public class TrieurSubsystem extends SubsystemBase {
         clearAllStoredColors();
         setWentRecalibrationOpposite(true);
 
-        setMoulinPower(POWER_MOULIN_ROTATION);
+//        setMoulinPower(POWER_MOULIN_ROTATION);
     }
 
     /**
@@ -235,20 +235,13 @@ public class TrieurSubsystem extends SubsystemBase {
     public void registerArtefact() {
         ArtifactColor detectedColor = detectBottomArtifactColor();
 
-        int moulinCurrentPos = getMoulinPosition();
-        int bottomStoragePos = Moulin.getMoulinStoragePos(moulinCurrentPos);
-
         // Store the color at the current moulin storage Pos
-        setMoulinStoragePositionColor(bottomStoragePos, detectedColor);
+        setMoulinStoragePositionColor(Moulin.getMoulinStoragePos(getMoulinPosition()), detectedColor);
 
         if (detectedColor == ArtifactColor.GREEN || detectedColor == ArtifactColor.PURPLE) {
             setNewcoloredRegister(true);
         }
         setNewRegister(true);
-
-        if (howManyArtifacts() == 3) {
-            setIsFull(true);
-        }
 
         lastDetectedColor = detectedColor;
     }
@@ -292,20 +285,6 @@ public class TrieurSubsystem extends SubsystemBase {
         return ArtifactColor.UNKNOWN;
     }
 
-    /**
-     * Detects the color of the artifact at the mono-sensor position.
-     *
-     * @return The detected artifact color, or UNKNOWN if uncertain.
-     */
-    private ArtifactColor hardDetectMonoArtifactColor() {
-        if (tripleColorSensors.isPurple(3)) {
-            return ArtifactColor.PURPLE;
-        } else if (tripleColorSensors.isGreen(3)) {
-            return ArtifactColor.GREEN;
-        } else {
-            return ArtifactColor.UNKNOWN;
-        }
-    }
 
     /**
      * Sets the color associated with a specific moulin storage position.
@@ -315,6 +294,10 @@ public class TrieurSubsystem extends SubsystemBase {
      */
     public void setMoulinStoragePositionColor(int pos, ArtifactColor color) {
         moulinStoragePositionColors[pos - 1] = color;
+
+        if (howManyArtifacts() == 3) {
+            setIsFull(true);
+        }
     }
 
     /**
@@ -403,7 +386,7 @@ public class TrieurSubsystem extends SubsystemBase {
         }
 
         if (posWithColor.length > 0) {
-            return Moulin.getClosestPositionToShoot(posWithColor);
+            return Moulin.getClosestPositionToShoot(getMoulinPosition(), posWithColor);
         }
         return -1;
     }
@@ -426,7 +409,7 @@ public class TrieurSubsystem extends SubsystemBase {
         
         int[] availablePositions = Arrays.copyOf(anyColorPositions, index);
 
-        return Moulin.getClosestPositionToShoot(availablePositions);
+        return Moulin.getClosestPositionToShoot(getMoulinPosition(), availablePositions);
     }
 
     /**
@@ -618,8 +601,11 @@ public class TrieurSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         moulinLogic();
-        printMagneticTelemetry(telemetry);
-        printMoulinTelemetry(telemetry);
+//        printMagneticTelemetry(telemetry);
+//        printMoulinTelemetry(telemetry);
+        printStoredArtifactsTelemetry(telemetry);
+//        printDistanceTelemetry(telemetry);
+//        printColorTelemetry(telemetry);
     }
 
     private void printTrappeTelemetry(final Telemetry telemetry) {
@@ -633,12 +619,21 @@ public class TrieurSubsystem extends SubsystemBase {
     private void printMoulinTelemetry(final Telemetry telemetry) {
         telemetry.addData("moulin ticks", getMoulinMotorPosition());
         telemetry.addData("moulinTarget", getMoulinMotorTargetPosition());
-        telemetry.addData("moulinSpeed", getMoulinSpeed());
-        telemetry.addData("moulin position", getMoulinPosition());
+//        telemetry.addData("moulinSpeed", getMoulinSpeed());
+//        telemetry.addData("moulin position", getMoulinPosition());
         telemetry.addData("moulin at target", !isMoulinBusy());
     }
 
     private void printColorTelemetry(final Telemetry telemetry) {
+        tripleColorSensors.updateAllSensors();
+
+        for (int i = 1; i <= 3; i++) {
+            telemetry.addData("Blue " + i, String.format("%.4f", tripleColorSensors.getAverageBlue(i)));
+            telemetry.addData("Red " + i, String.format("%.4f", tripleColorSensors.getAverageRed(i)));
+            telemetry.addData("Green " + i, String.format("%.4f",tripleColorSensors.getAverageGreen(i)));
+            telemetry.addData("Hue " + i, String.format("%.4f", tripleColorSensors.getAverageHue(i)));
+            telemetry.addData("Sat " + i, String.format("%.4f", tripleColorSensors.getAverageSaturation(i)));
+        }
         if (tripleColorSensors.isGreen(1)) telemetry.addLine("CS1 Detects Green");
         else if (tripleColorSensors.isPurple(1)) telemetry.addLine("CS1 Detects Purple");
 

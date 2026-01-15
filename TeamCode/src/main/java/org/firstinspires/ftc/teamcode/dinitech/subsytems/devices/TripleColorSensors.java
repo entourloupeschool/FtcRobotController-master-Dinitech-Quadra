@@ -32,7 +32,6 @@ public class TripleColorSensors {
         this.colorSensor1 = new AveragingColorSensor(hardwareMap.get(NormalizedColorSensor.class, CS1_NAME));
         this.colorSensor2 = new AveragingColorSensor(hardwareMap.get(NormalizedColorSensor.class, CS2_NAME));
         this.colorSensor3 = new AveragingColorSensor(hardwareMap.get(NormalizedColorSensor.class, CS3_NAME));
-
     }
 
     /**
@@ -250,6 +249,70 @@ public class TripleColorSensors {
                 return colorSensor2.getSampleCount();
             case 3:
                 return colorSensor3.getSampleCount();
+            default:
+                return 0;
+        }
+    }
+
+    public double getAverageBlue(int sensorNumber) {
+        switch (sensorNumber) {
+            case 1:
+                return colorSensor1.getAverageBlue();
+            case 2:
+                return colorSensor2.getAverageBlue();
+            case 3:
+                return colorSensor3.getAverageBlue();
+            default:
+                return 0;
+        }
+    }
+
+    public double getAverageRed(int sensorNumber) {
+        switch (sensorNumber) {
+            case 1:
+                return colorSensor1.getAverageRed();
+            case 2:
+                return colorSensor2.getAverageRed();
+            case 3:
+                return colorSensor3.getAverageRed();
+            default:
+                return 0;
+        }
+    }
+
+    public double getAverageGreen(int sensorNumber) {
+        switch (sensorNumber) {
+            case 1:
+                return colorSensor1.getAverageGreen();
+            case 2:
+                return colorSensor2.getAverageGreen();
+            case 3:
+                return colorSensor3.getAverageGreen();
+            default:
+                return 0;
+        }
+    }
+    public double getAverageHue(int sensorNumber) {
+        switch (sensorNumber) {
+            case 1:
+                return colorSensor1.getAverageHue();
+            case 2:
+                return colorSensor2.getAverageHue();
+            case 3:
+                return colorSensor3.getAverageHue();
+            default:
+                return 0;
+        }
+    }
+
+    public double getAverageSaturation(int sensorNumber) {
+        switch (sensorNumber) {
+            case 1:
+                return colorSensor1.getAverageSaturation();
+            case 2:
+                return colorSensor2.getAverageSaturation();
+            case 3:
+                return colorSensor3.getAverageSaturation();
             default:
                 return 0;
         }

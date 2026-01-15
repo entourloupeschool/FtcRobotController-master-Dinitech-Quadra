@@ -18,7 +18,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "TrieurChar - Dinitech", group = "Char")
-
 public class TrieurChar extends DinitechRobotBase {
     // Gamepads
     private GamepadWrapper m_Driver, m_Operator;
