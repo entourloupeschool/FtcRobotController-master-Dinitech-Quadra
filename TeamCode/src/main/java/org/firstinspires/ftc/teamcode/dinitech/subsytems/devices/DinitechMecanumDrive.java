@@ -152,7 +152,8 @@ public final class DinitechMecanumDrive {
 
     public final LazyImu lazyImu;
 
-    public final Localizer localizer;
+    /** The localizer used for pose estimation. Can be swapped at runtime for enhanced localization. */
+    public Localizer localizer;
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
 
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
@@ -283,37 +284,6 @@ public final class DinitechMecanumDrive {
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         localizer = new PinpointLocalizer(hardwareMap, PARAMS.inPerTick, pose);
-
-        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
-    }
-
-    /**
-     * Constructs a DinitechMecanumDrive with an AprilTagLocalizer.
-     * @param hardwareMap The robot's hardware map.
-     * @param visionSubsystem The vision subsystem for AprilTag detection.
-     * @param pose The initial pose of the robot.
-     */
-    public DinitechMecanumDrive(HardwareMap hardwareMap, VisionSubsystem visionSubsystem, Pose2d pose) {
-
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        lazyImu = new LazyHardwareMapImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
-                PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
-
-        voltageSensor = hardwareMap.voltageSensor.iterator().next();
-        this.localizer = new AprilTagLocalizer(new PinpointLocalizer(hardwareMap, PARAMS.inPerTick, pose),
-                visionSubsystem);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }

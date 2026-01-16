@@ -36,11 +36,6 @@ public class FieldCentricTeleDrive extends CommandBase {
     private final DriveSubsystem driveSubsystem;
     private final GamepadWrapper driver;
 
-    private double lastTeleDriverPowerScale = TELE_DRIVE_POWER;
-
-    // Store initial heading for field-centric control
-    private double initialHeading = 0.0;
-
     /**
      * Creates a new TeleDriveHybrid command.
      *
@@ -59,6 +54,8 @@ public class FieldCentricTeleDrive extends CommandBase {
      */
     @Override
     public void execute(){
+        // Update localizer every cycle to get current heading
+        driveSubsystem.getDrive().updatePoseEstimate();
         driveSubsystem.fieldCentricTeleDrive(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue());
     }
 

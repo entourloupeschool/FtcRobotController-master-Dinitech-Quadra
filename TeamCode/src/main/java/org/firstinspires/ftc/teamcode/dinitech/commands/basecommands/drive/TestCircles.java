@@ -31,7 +31,7 @@ public class TestCircles extends FollowTrajectory {
     public TestCircles(DriveSubsystem driveSubsystem){
         super(
                 // Build a complex trajectory that traces four circles.
-                driveSubsystem.dinitechMecanumDrive.actionBuilder(driveSubsystem.getPose(), TEST_CONSTRAINTS)
+                driveSubsystem.getDrive().actionBuilder(driveSubsystem.getPose(), TEST_CONSTRAINTS)
                         // Left circle
                         .splineToLinearHeading(LEFT_CIRCLE_CENTER_POSE.times(new Pose2d(new Vector2d(TEST_CIRCLE_RADIUS,0), -Math.PI/2)), Math.PI/2)
                         .splineToLinearHeading(LEFT_CIRCLE_CENTER_POSE.times(new Pose2d(new Vector2d(0,TEST_CIRCLE_RADIUS), -Math.PI)), Math.PI)
@@ -57,7 +57,7 @@ public class TestCircles extends FollowTrajectory {
                         .splineToLinearHeading(BACKWARD_CIRCLE_CENTER_POSE.times(new Pose2d(new Vector2d(0, TEST_CIRCLE_RADIUS), -Math.PI/2)), 0)
                         .splineToLinearHeading(BACKWARD_CIRCLE_CENTER_POSE.times(new Pose2d(new Vector2d(TEST_CIRCLE_RADIUS,0), 0)), -Math.PI/2)
 
-                        .build(), driveSubsystem.getDriveSubsystemSet()
+                        .build(), driveSubsystem
         );
     }
 }

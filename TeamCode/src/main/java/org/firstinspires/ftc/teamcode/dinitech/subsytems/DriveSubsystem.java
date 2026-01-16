@@ -13,6 +13,7 @@ import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Localizer;
@@ -74,13 +75,16 @@ public class DriveSubsystem extends SubsystemBase {
     /**
      * Constructs a new DriveSubsystem.
      *
-     * @param dinitechMecanumDrive The configured {@link DinitechMecanumDrive} instance.
+     * @param hardwareMap         The hardware map for accessing robot hardware.
+     * @param beginPose           The initial pose of the robot.
      * @param telemetry            The telemetry object for logging.
      */
-    public DriveSubsystem(final DinitechMecanumDrive dinitechMecanumDrive, final Telemetry telemetry) {
-        this.dinitechMecanumDrive = dinitechMecanumDrive;
-        this.telemetry = telemetry;
+    public DriveSubsystem(HardwareMap hardwareMap, Pose2d beginPose, final Telemetry telemetry) {
+        this.dinitechMecanumDrive = new DinitechMecanumDrive(hardwareMap, beginPose);
         dinitechMecanumDrive.updatePoseEstimate();
+
+        this.telemetry = telemetry;
+
     }
 
     /**
@@ -114,8 +118,6 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public void fieldCentricTeleDrive(final double translationX, final double translationY, final double rotation,
                           final double powerScaler) {
-        // Update localizer every cycle to get current heading
-        dinitechMecanumDrive.updatePoseEstimate();
 
         if (powerScaler != 0) {
             lastTeleDriverPowerScale = TELE_DRIVE_POWER_TRIGGER_SCALE * pickCustomPowerFunc(powerScaler, 1)
@@ -125,13 +127,13 @@ public class DriveSubsystem extends SubsystemBase {
         // Get the current robot heading
         Rotation2d botHeading = dinitechMecanumDrive.localizer.getPose().heading;
 
-        // Create input vector from gamepad (field-centric)
+        // Create input vector from gamepad (robot-centric)
         Vector2d fieldInput = new Vector2d(
                 translationY * lastTeleDriverPowerScale,
                 -translationX * lastTeleDriverPowerScale);
 
-        // Rotate the field-centric input by the inverse of the bot heading
-        // to convert to robot-centric coordinates
+        // Rotate the robot-centric input by the inverse of the bot heading
+        // to convert to field-centric coordinates
         Vector2d robotInput = botHeading.inverse().times(fieldInput);
 
         dinitechMecanumDrive.setDrivePowers(new PoseVelocity2d(
@@ -209,6 +211,8 @@ public class DriveSubsystem extends SubsystemBase {
     public Localizer getLocalizer() {
         return dinitechMecanumDrive.localizer;
     }
+
+    public DinitechMecanumDrive getDrive(){return dinitechMecanumDrive;}
 
     /**
      * Gets the current pose (position and heading) of the robot.

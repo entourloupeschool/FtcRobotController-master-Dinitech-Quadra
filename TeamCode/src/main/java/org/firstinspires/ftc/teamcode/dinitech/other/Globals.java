@@ -279,6 +279,8 @@ public class Globals {
                             return customPowerFunc4(x);
                     case 5:
                             return customLinearFunc(x);
+                    case 6:
+                        return customPowerFunc5(x);
                     default:
                             return customPowerFunc(x);
                 }
@@ -346,6 +348,21 @@ public class Globals {
 
                 return Math.signum(x)
                                 * (1.4705882353 * shifted3 + absValue * 0.5882352941 + 0.2647058824);
+        }
+
+        /**
+         * Applies a custom function while preserving the sign of the input
+         *
+         * @param x The input value
+         * @return The custom-transformed value with preserved sign
+         */
+        public static double customPowerFunc5(double x) {
+            double absValue = Math.abs(x);
+            double shifted = absValue - 0.405;
+            double shifted7 = shifted * shifted * shifted * shifted * shifted * shifted * shifted;
+
+            return Math.signum(x)
+                    * (224.22 * shifted7 + absValue * 0.07407407407 + 0.4192666667);
         }
 
         /**

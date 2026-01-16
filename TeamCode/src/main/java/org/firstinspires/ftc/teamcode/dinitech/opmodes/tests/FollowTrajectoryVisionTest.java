@@ -28,51 +28,44 @@ public class FollowTrajectoryVisionTest extends DinitechRobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private VisionSubsystem visionSubsystem;
     private DriveSubsystem driveSubsystem;
-    private DinitechMecanumDrive drive;
 
     /**
-         * Initialize the teleop OpMode, gamepads, buttons, and default commands.
-         */
-        @Override
-        public void initialize() {
-                super.initialize();
+     * Initialize the teleop OpMode, gamepads, buttons, and default commands.
+     */
+    @Override
+    public void initialize() {
+        super.initialize();
 
-                gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
-                register(gamepadSubsystem);
+        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+        register(gamepadSubsystem);
 
-                visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
-                register(visionSubsystem);
-                visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
+        visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
+        register(visionSubsystem);
+        visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
 
-                drive = new DinitechMecanumDrive(hardwareMap, BEGIN_POSE);
+        driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE, telemetry);
+        register(driveSubsystem);
 
-                driveSubsystem = new DriveSubsystem(drive, telemetry);
-                register(driveSubsystem);
+        new SequentialCommandGroup(
+                new FollowTrajectory(
+                        RectangleCouleurs(driveSubsystem.getDrive()), driveSubsystem
+                ),
+                new FollowTrajectory(
+                        RectangleCouleurs(driveSubsystem.getDrive()), driveSubsystem
+                )
+        ).schedule();
+    }
 
+    /**
+     * Main OpMode loop. Updates gamepad states.
+     */
+    @Override
+    public void run() {
+            super.run();
+    }
 
-            Set<Subsystem> setDriveSubsystem = new HashSet<Subsystem>();
-            setDriveSubsystem.add(driveSubsystem);
-
-            new SequentialCommandGroup(
-                    new FollowTrajectory(
-                            RectangleCouleurs(drive, drive.localizer.getPose()), setDriveSubsystem
-                    ),
-                    new FollowTrajectory(
-                            RectangleCouleurs(drive, drive.localizer.getPose()), setDriveSubsystem
-                    )
-            ).schedule();
-
-        }
-
-        /**
-         * Main OpMode loop. Updates gamepad states.
-         */
-        @Override
-        public void run() {
-                super.run();
-        }
-
-    public static Action Rosace(DinitechMecanumDrive drive, Pose2d beginPose) {
+    public static Action Rosace(DinitechMecanumDrive drive) {
+        Pose2d beginPose = drive.localizer.getPose();
         TrajectoryActionBuilder builder = drive.actionBuilder(beginPose, AUTO_ROBOT_CONSTRAINTS);
 
         double botLengthCM = 38.5;
@@ -113,7 +106,8 @@ public class FollowTrajectoryVisionTest extends DinitechRobotBase {
         return builder.build();
     }
 
-    public static Action RectangleCouleurs(DinitechMecanumDrive drive, Pose2d beginPose) {
+    public static Action RectangleCouleurs(DinitechMecanumDrive drive) {
+        Pose2d beginPose = drive.localizer.getPose();
         double x_rectangle = 1.55*TILE_DIM;
         double y_rectangle = 1.34*TILE_DIM;
 
