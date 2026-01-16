@@ -67,7 +67,7 @@ public class GornetixTeleOp extends DinitechRobotBase {
                 visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
                 register(visionSubsystem);
 
-                driveSubsystem = new DriveSubsystem(new DinitechMecanumDrive(hardwareMap, BEGIN_POSE),
+                driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE,
                                 telemetry);
                 register(driveSubsystem);
 

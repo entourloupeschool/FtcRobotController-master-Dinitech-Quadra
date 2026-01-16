@@ -212,6 +212,10 @@ public class DriveSubsystem extends SubsystemBase {
         return dinitechMecanumDrive.localizer;
     }
 
+    public void setLocalizer(Localizer localizer) {
+        dinitechMecanumDrive.localizer = localizer;
+    }
+
     public DinitechMecanumDrive getDrive(){return dinitechMecanumDrive;}
 
     /**

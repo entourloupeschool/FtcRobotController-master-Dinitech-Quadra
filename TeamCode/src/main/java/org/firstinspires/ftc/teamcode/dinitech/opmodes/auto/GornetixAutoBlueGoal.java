@@ -66,8 +66,7 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
             register(visionSubsystem);
             visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
 
-            drive = new DinitechMecanumDrive(hardwareMap, visionSubsystem, BEGIN_POSE);
-            driveSubsystem = new DriveSubsystem(drive, telemetry);
+            driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE, telemetry);
             register(driveSubsystem);
 
             setDriveSubsystem.add(driveSubsystem);
@@ -95,14 +94,14 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                             new FollowTrajectory(
                                     drive.actionBuilder(drive.localizer.getPose(), AUTO_ROBOT_CONSTRAINTS)
                                             .strafeToLinearHeading(OBELISK_POSE.position, OBELISK_POSE.heading)
-                                            .build(), setDriveSubsystem)),
+                                            .build(), driveSubsystem)),
 
                     // Shoot close - just rotate since we're already at the right position
                     new ParallelCommandGroup(
                             new FollowTrajectory(
                                     drive.actionBuilder(drive.localizer.getPose(), AUTO_ROBOT_CONSTRAINTS)
                                             .turnTo(CLOSE_SHOOT_POSE.heading)
-                                            .build(), setDriveSubsystem),
+                                            .build(), driveSubsystem),
                             new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)),
 
                     // Shoot All
@@ -115,7 +114,7 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                     drive.actionBuilder(drive.localizer.getPose(), AUTO_ROBOT_CONSTRAINTS)
                                             .strafeToLinearHeading(FIRST_ROW_ARTEFACTS_PREP_POSE.position, FIRST_ROW_ARTEFACTS_PREP_POSE.heading)
                                             .strafeToConstantHeading(new Vector2d(FIRST_ROW_ARTEFACTS_PREP_POSE.position.x, FIRST_ROW_ARTEFACTS_PREP_POSE.position.y - LENGTH_ARTEFACT_ROW))
-                                            .build(), setDriveSubsystem))
+                                            .build(), driveSubsystem))
             ).schedule();
 
     }

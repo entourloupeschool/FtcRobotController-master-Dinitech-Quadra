@@ -43,8 +43,7 @@ public class BasicVisionMecanumDrive extends DinitechRobotBase {
         register(visionSubsystem);
         visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
 
-        mecanumDrive = new DinitechMecanumDrive(hardwareMap, BEGIN_POSE);
-        driveSubsystem = new DriveSubsystem(mecanumDrive, telemetry);
+        driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE, telemetry);
         register(driveSubsystem);
         driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
 

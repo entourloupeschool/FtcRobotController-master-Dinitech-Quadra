@@ -4,8 +4,11 @@ import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.teamcode.AprilTagLocalizer;
+import org.firstinspires.ftc.teamcode.Localizer;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER;
@@ -34,7 +37,10 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPo
  */
 public class FieldCentricTeleDrive extends CommandBase {
     private final DriveSubsystem driveSubsystem;
+    private final VisionSubsystem visionSubsystem;
     private final GamepadWrapper driver;
+
+    private Localizer orinalLocalizer;
 
     /**
      * Creates a new TeleDriveHybrid command.
@@ -42,11 +48,18 @@ public class FieldCentricTeleDrive extends CommandBase {
      * @param driveSubsystem   The drive subsystem to control.
      * @param gamepadSubsystem The gamepad subsystem for accessing driver inputs.
      */
-    public FieldCentricTeleDrive(DriveSubsystem driveSubsystem, GamepadSubsystem gamepadSubsystem) {
+    public FieldCentricTeleDrive(DriveSubsystem driveSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.driveSubsystem = driveSubsystem;
+        this.visionSubsystem = visionSubsystem;
         this.driver = gamepadSubsystem.driver;
 
         addRequirements(driveSubsystem);
+    }
+
+    @Override
+    public void initialize(){
+        orinalLocalizer = driveSubsystem.getLocalizer();
+        driveSubsystem.setLocalizer(new AprilTagLocalizer(orinalLocalizer, visionSubsystem));
     }
 
     /**
@@ -57,6 +70,11 @@ public class FieldCentricTeleDrive extends CommandBase {
         // Update localizer every cycle to get current heading
         driveSubsystem.getDrive().updatePoseEstimate();
         driveSubsystem.fieldCentricTeleDrive(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue());
+    }
+
+    @Override
+    public void end(boolean interrupted){
+        driveSubsystem.setLocalizer(orinalLocalizer);
     }
 
 }

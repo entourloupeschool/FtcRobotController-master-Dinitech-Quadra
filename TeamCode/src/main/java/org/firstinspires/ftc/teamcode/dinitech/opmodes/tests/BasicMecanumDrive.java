@@ -33,7 +33,7 @@ public class BasicMecanumDrive extends DinitechRobotBase {
         super.initialize();
         beginPose = new Pose2d(0, 0, 0);
 
-        driveSubsystem = new DriveSubsystem(new DinitechMecanumDrive(hardwareMap, beginPose), telemetry);
+        driveSubsystem = new DriveSubsystem(hardwareMap, beginPose, telemetry);
         register(driveSubsystem);
 
         gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
