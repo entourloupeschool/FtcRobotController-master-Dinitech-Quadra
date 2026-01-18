@@ -13,6 +13,7 @@ import com.arcrobotics.ftclib.command.Subsystem;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.FollowTrajectory;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.FollowTrajectoryOld;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdateAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
@@ -28,6 +29,9 @@ public class FollowTrajectoryVisionTest extends DinitechRobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private VisionSubsystem visionSubsystem;
     private DriveSubsystem driveSubsystem;
+    private Set<Subsystem> setRequirements = new HashSet<>();
+
+
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -41,17 +45,21 @@ public class FollowTrajectoryVisionTest extends DinitechRobotBase {
 
         visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
         register(visionSubsystem);
-        visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
 
         driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE, telemetry);
         register(driveSubsystem);
 
+        setRequirements.add(driveSubsystem);
+
         new SequentialCommandGroup(
+                new FollowTrajectoryOld(
+                        RectangleCouleurs(driveSubsystem.getDrive()), setRequirements
+                ),
                 new FollowTrajectory(
                         RectangleCouleurs(driveSubsystem.getDrive()), driveSubsystem
                 ),
                 new FollowTrajectory(
-                        RectangleCouleurs(driveSubsystem.getDrive()), driveSubsystem
+                        RectangleCouleurs(driveSubsystem.getDrive()), driveSubsystem, visionSubsystem
                 )
         ).schedule();
     }
@@ -111,16 +119,27 @@ public class FollowTrajectoryVisionTest extends DinitechRobotBase {
         double x_rectangle = 1.55*TILE_DIM;
         double y_rectangle = 1.34*TILE_DIM;
 
-        Pose2d RectangleRouge = new Pose2d(x_rectangle, -y_rectangle, 1.05*Math.PI);
-        Pose2d RectangleBleu = new Pose2d(x_rectangle, y_rectangle, 1.25*Math.PI);
-        Pose2d OpposeRectangleRouge = new Pose2d(-x_rectangle, -y_rectangle, 1.2*Math.PI);
-        Pose2d OpposeRectangleBleu = new Pose2d(-x_rectangle, y_rectangle, 1.45*Math.PI);
+        // Use the starting heading (0) for all waypoints
+        // strafeToLinearHeading with large heading changes (like 1.05*PI from 0) 
+        // causes the robot to spend most time rotating instead of moving
+        double heading = beginPose.heading.toDouble(); // Should be 0
+        
+        Vector2d RectangleRouge = new Vector2d(x_rectangle, -y_rectangle);
+        Vector2d RectangleBleu = new Vector2d(x_rectangle, y_rectangle);
+        Vector2d OpposeRectangleRouge = new Vector2d(-x_rectangle, -y_rectangle);
+        Vector2d OpposeRectangleBleu = new Vector2d(-x_rectangle, y_rectangle);
+        
         TrajectoryActionBuilder builder = drive.actionBuilder(beginPose, AUTO_ROBOT_CONSTRAINTS)
-                .strafeToLinearHeading(RectangleRouge.position, RectangleRouge.heading)
-                .strafeToLinearHeading(RectangleBleu.position, RectangleBleu.heading)
-                .strafeToLinearHeading(OpposeRectangleBleu.position, OpposeRectangleBleu.heading)
-                .strafeToLinearHeading(OpposeRectangleRouge.position, OpposeRectangleRouge.heading)
-                .strafeToLinearHeading(new Vector2d(0, 0), 1.1*Math.PI);
+                // Using strafeToLinearHeading with same heading = effectively strafeTo
+                .strafeToLinearHeading(RectangleRouge, heading)
+                .turnTo(2*Math.PI + 1e-6)
+                .strafeToLinearHeading(RectangleBleu, heading)
+                .turnTo(2*Math.PI + 1e-6)
+                .strafeToLinearHeading(OpposeRectangleBleu, heading)
+                .turnTo(2*Math.PI + 1e-6)
+                .strafeToLinearHeading(OpposeRectangleRouge, heading)
+                .turnTo(2*Math.PI + 1e-6)
+                .strafeToLinearHeading(new Vector2d(0, 0), heading);
 
         return builder.build();
     }

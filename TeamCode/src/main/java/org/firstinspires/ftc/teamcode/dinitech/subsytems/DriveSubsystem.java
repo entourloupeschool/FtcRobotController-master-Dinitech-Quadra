@@ -191,7 +191,13 @@ public class DriveSubsystem extends SubsystemBase {
      * @param telemetry The telemetry object.
      */
     private void printDriveTelemetry(final Telemetry telemetry) {
-        telemetry.addData("drive usage state :", usageState);
+        telemetry.addData("drive usage state", usageState);
+        Pose2d pose = getPose();
+        telemetry.addLine("Robot Pose:");
+        telemetry.addData("x", pose.position.x);
+        telemetry.addData("y", pose.position.y);
+        telemetry.addData("heading", pose.heading.log());
+
     }
 
     /**
@@ -224,6 +230,10 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public Pose2d getPose() {
         return getLocalizer().getPose();
+    }
+
+    public Telemetry getTelemetry(){
+        return telemetry;
     }
 
     /**

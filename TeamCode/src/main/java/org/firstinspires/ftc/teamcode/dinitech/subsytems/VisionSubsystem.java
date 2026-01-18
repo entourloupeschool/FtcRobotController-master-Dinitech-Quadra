@@ -117,12 +117,12 @@ public class VisionSubsystem extends SubsystemBase {
             builder.setCamera(BuiltinCameraDirection.BACK);
         }
 
-        this.telemetry = telemetry;
-
         builder.addProcessor(getAprilTagProcessor());
         builder.build();
 
         this.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(this));
+
+        this.telemetry = telemetry;
     }
 
     /**
@@ -464,6 +464,7 @@ public class VisionSubsystem extends SubsystemBase {
         telemetry.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
 
         if (hasCachedPoseData()) {
+            telemetry.addLine("last detected pose values");
             telemetry.addData("X Robot (CM)", "%.2f", getRobotPoseX());
             telemetry.addData("Y Robot (CM)", "%.2f", getRobotPoseY());
             telemetry.addData("Yaw (DEGREES)", "%.2f", getRobotPoseYaw());
@@ -514,6 +515,20 @@ public class VisionSubsystem extends SubsystemBase {
     public void resetColorOrder() {
         cachedColorsOrder = new String[0];
         hasDetectedColorOrder = false;
+    }
+
+    /**
+     * stopping the camera stream
+     * @param newCameraStream
+     */
+    public void setCameraStream(boolean newCameraStream){
+        if (builder == null) return;
+
+        if (newCameraStream){
+            builder.enableLiveView(true);
+        } else {
+            builder.enableLiveView(false);
+        }
     }
 
 }

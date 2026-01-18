@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.MaxPowerChargeur;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.ToggleChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleSlowDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleVisionDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.DefaultGamepadCommand;
@@ -45,109 +46,109 @@ public class GornetixTeleOp extends DinitechRobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private GamepadWrapper m_Driver;
     private GamepadWrapper m_Operator;
-        private TrieurSubsystem trieurSubsystem;
-        private VisionSubsystem visionSubsystem;
+    private TrieurSubsystem trieurSubsystem;
+    private VisionSubsystem visionSubsystem;
 
-        private ShooterSubsystem shooterSubsystem;
-        private ChargeurSubsystem chargeurSubsystem;
-        private DriveSubsystem driveSubsystem;
+    private ShooterSubsystem shooterSubsystem;
+    private ChargeurSubsystem chargeurSubsystem;
+    private DriveSubsystem driveSubsystem;
 
-        /**
-         * Initialize the teleop OpMode, gamepads, buttons, and default commands.
-         */
-        @Override
-        public void initialize() {
-                super.initialize();
+    /**
+     * Initialize the teleop OpMode, gamepads, buttons, and default commands.
+     */
+    @Override
+    public void initialize() {
+            super.initialize();
 
-                gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
-                register(gamepadSubsystem);
-                m_Driver = gamepadSubsystem.driver;
-                m_Operator = gamepadSubsystem.operator;
+            gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+            register(gamepadSubsystem);
+            m_Driver = gamepadSubsystem.driver;
+            m_Operator = gamepadSubsystem.operator;
 
-                visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
-                register(visionSubsystem);
+            visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
+            register(visionSubsystem);
 
-                driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE,
-                                telemetry);
-                register(driveSubsystem);
+            driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE,
+                            telemetry);
+            register(driveSubsystem);
 
-                trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetry);
-                register(trieurSubsystem);
+            trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetry);
+            register(trieurSubsystem);
 
-                chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetry);
-                register(chargeurSubsystem);
+            chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetry);
+            register(chargeurSubsystem);
 
-                shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetry);
-                register(shooterSubsystem);
+            shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetry);
+            register(shooterSubsystem);
 
-                setupGamePadsButtonBindings();
+            setupGamePadsButtonBindings();
 
-                new MoulinCalibrationSequence(trieurSubsystem).schedule();
-        }
+            new MoulinCalibrationSequence(trieurSubsystem).schedule();
+    }
 
-        /**
-         * Main OpMode loop. Updates gamepad states.
-         */
-        @Override
-        public void run() {
-                super.run();
-        }
+    /**
+     * Main OpMode loop. Updates gamepad states.
+     */
+    @Override
+    public void run() {
+            super.run();
+    }
 
-        /**
-         * Setup GamePads and Buttons and their associated commands.
-         */
-        private void setupGamePadsButtonBindings() {
-            gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
-            visionSubsystem.setDefaultCommand(new OnlyUpdateAprilTagsDetections(visionSubsystem, driveSubsystem, trieurSubsystem, shooterSubsystem));
-            driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
-            shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.NONE);
+    /**
+     * Setup GamePads and Buttons and their associated commands.
+     */
+    private void setupGamePadsButtonBindings() {
+        gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
+        visionSubsystem.setDefaultCommand(new OnlyUpdateAprilTagsDetections(visionSubsystem, driveSubsystem, trieurSubsystem, shooterSubsystem));
+        driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
+        shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.NONE);
 
 
-            //Overwrite m1 & m2
-            m_Driver.m1Button.whenPressed(new InstantCommand());
-            m_Driver.m2Button.whenPressed(new InstantCommand());
-            m_Operator.m1Button.whenPressed(new InstantCommand());
-            m_Operator.m2Button.whenPressed(new InstantCommand());
+        //Overwrite m1 & m2
+        m_Driver.m1Button.whenPressed(new InstantCommand());
+        m_Driver.m2Button.whenPressed(new InstantCommand());
+        m_Operator.m1Button.whenPressed(new InstantCommand());
+        m_Operator.m2Button.whenPressed(new InstantCommand());
 
-            // Full stop robot
-            m_Driver.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
-            m_Operator.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
+        // Full stop robot
+        m_Driver.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
+        m_Operator.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
 
-            // Driver controls
+        // Driver controls
 //            m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
-            m_Driver.cross.whenPressed(new MaxPowerChargeur(chargeurSubsystem));
-            m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem, gamepadSubsystem));
-            m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem)));
+        m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
+        m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem, gamepadSubsystem));
+        m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem)));
 
-            m_Driver.bump_left.whenPressed(new ToggleSlowDrive(driveSubsystem, gamepadSubsystem));
-            m_Driver.bump_right.whenPressed(new ToggleVisionDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
-
-
-            // Operator controls
-            m_Operator.dpad_up.whenPressed(new MoulinRevolution(trieurSubsystem));
-            m_Operator.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
-            m_Operator.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
-
-            m_Operator.bump_right.whileHeld(new MoulinRotate(trieurSubsystem));
-            m_Operator.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem));
-
-            m_Operator.right_stick_button.whenPressed(new ToggleUsageStateShooter(shooterSubsystem, visionSubsystem, gamepadSubsystem));
+        m_Driver.bump_left.whenPressed(new ToggleSlowDrive(driveSubsystem, gamepadSubsystem));
+        m_Driver.bump_right.whenPressed(new ToggleVisionDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
 
 
-            m_Operator.square.whenPressed(new SetVelocityShooter(shooterSubsystem, 1850));
-            m_Operator.cross.whenPressed(new SetVelocityShooter(shooterSubsystem, 1600));
-            m_Operator.triangle.whenPressed(new SetVelocityShooter(shooterSubsystem, 1400));
-            m_Operator.circle.toggleWhenPressed(new ModeRamassage(trieurSubsystem, shooterSubsystem,
-                            chargeurSubsystem, gamepadSubsystem));
+        // Operator controls
+        m_Operator.dpad_up.whenPressed(new MoulinRevolution(trieurSubsystem));
+        m_Operator.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
+        m_Operator.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
 
-            new Trigger(() -> m_Operator.getRightTriggerValue() > 0.2)
-                    .whenActive(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
-            new Trigger(() -> m_Operator.getLeftTriggerValue() > 0.2)
-                    .whenActive(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
+        m_Operator.bump_right.whileHeld(new MoulinRotate(trieurSubsystem));
+        m_Operator.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem));
 
-            new Trigger(trieurSubsystem::getIsFull)
-                    .whenActive(new ModeShoot(driveSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem));
+        m_Operator.right_stick_button.whenPressed(new ToggleUsageStateShooter(shooterSubsystem, visionSubsystem, gamepadSubsystem));
 
-        }
+
+        m_Operator.square.whenPressed(new SetVelocityShooter(shooterSubsystem, 1850));
+        m_Operator.cross.whenPressed(new SetVelocityShooter(shooterSubsystem, 1600));
+        m_Operator.triangle.whenPressed(new SetVelocityShooter(shooterSubsystem, 1400));
+        m_Operator.circle.toggleWhenPressed(new ModeRamassage(trieurSubsystem, shooterSubsystem,
+                        chargeurSubsystem, gamepadSubsystem));
+
+        new Trigger(() -> m_Operator.getRightTriggerValue() > 0.2)
+                .whenActive(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
+        new Trigger(() -> m_Operator.getLeftTriggerValue() > 0.2)
+                .whenActive(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
+
+        new Trigger(trieurSubsystem::getIsFull)
+                .whenActive(new ModeShoot(driveSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem));
+
+    }
 
 }

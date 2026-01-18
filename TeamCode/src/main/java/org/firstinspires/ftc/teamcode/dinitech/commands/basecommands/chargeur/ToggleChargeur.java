@@ -19,9 +19,8 @@ public class ToggleChargeur extends CommandBase {
     @Override
     public void initialize() {
         // Cancel any currently running command that uses the shooter subsystem
-        Command currentCommand = CommandScheduler.getInstance().requiring(chargeurSubsystem);
-        if (currentCommand != null) {
-            currentCommand.cancel();
+        if (chargeurSubsystem.getCurrentCommand() != null) {
+            chargeurSubsystem.getCurrentCommand().cancel();
         }
 
         // Toggle based on actual shooter state

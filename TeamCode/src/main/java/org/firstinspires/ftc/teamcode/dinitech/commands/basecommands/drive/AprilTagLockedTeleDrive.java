@@ -58,7 +58,9 @@ public class AprilTagLockedTeleDrive extends CommandBase {
 
         if (visionSubsystem.getHasCurrentAprilTagDetections()) {
             // Execute the drive command with the combined rotation power
-            driveSubsystem.teleDrive(driver.getLeftX(), driver.getLeftY(), visionSubsystem.getAutoAimPower() * (1 - Math.abs(rightX)) + rightX,
+            double autoAimPower = visionSubsystem.getAutoAimPower();
+            driveSubsystem.getTelemetry().addData("AT Locked :closer to 0", "%.4f", autoAimPower);
+            driveSubsystem.teleDrive(driver.getLeftX(), driver.getLeftY(), autoAimPower * (1 - Math.abs(rightX)) + rightX,
                     driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
         } else {
             // Fallback to standard tele-op drive if no tags are visible

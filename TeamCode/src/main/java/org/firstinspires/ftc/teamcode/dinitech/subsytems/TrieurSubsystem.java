@@ -548,6 +548,9 @@ public class TrieurSubsystem extends SubsystemBase {
 
             if (isMoulinOverCurrent()) {
                 setMoulinPower(0);
+                if (this.getCurrentCommand() != null){
+                    this.getCurrentCommand().cancel();
+                }
                 telemetry.addLine("Moulin Over Current");
                 return;
             }

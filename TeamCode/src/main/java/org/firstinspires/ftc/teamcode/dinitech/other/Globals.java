@@ -30,7 +30,7 @@ public class Globals {
         /**
          * Auto Phase globals
          */
-        public static double AUTO_ROBOT_CONSTRAINTS = 0.5;
+        public static double AUTO_ROBOT_CONSTRAINTS = 0.7;
         public static final double TILE_DIM = 24;
         public static final double HYPOTHENUSE_GOAL = 26.5;
         public static final double ANGLE_RADIANS_BLUE_GOAL = Math.acos(60.95 / 75.30); // 24 inches = 60.95 cm // 26.5 inches = 75.30 cm
@@ -142,10 +142,10 @@ public class Globals {
         public static final double TELE_SHOOTER_SCALER = 20;
         public static final double SPEED_MARGIN_VISION_SHOOT = SPEED_MARGIN;
         public static final double ACCELERATION_SCALE_SHOOTER = 100;
-        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 15.32;//2.807486;
-        public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 5;
+        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 45;//2.807486;
+        public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 1.1;
         public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;
-        public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 20; //13.272119;
+        public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 0; //13.272119;
 
         public static double kS_SHOOTER_AGGRESSIVE = 0.001;
         public static double kV_SHOOTER_AGGRESSIVE = 0.001;
@@ -241,7 +241,7 @@ public class Globals {
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.
         public static final VisionPortal.StreamFormat STREAM_FORMAT = VisionPortal.StreamFormat.MJPEG; // Or YUY2
 
-        public static double CLAMP_BEARING = 80;
+        public static double CLAMP_BEARING = 65;
         public static final double MIN_RANGE_VISION = MIN_RANGE_TO_SHOOT_CM; //CM
         public static final double MAX_RANGE_VISION = MAX_RANGE_TO_SHOOT_CM; //CM
 
@@ -253,7 +253,7 @@ public class Globals {
         public static double SCALER_OFFSET_AT_TO_X_BASKET = 0.1;
         public static double BASKET_Y_OFFSET = 8;
         public static int NUMBER_AT_SAMPLES = 3;
-        public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED = 1;
+        public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED = 4;
         public static double MIN_LINEAR = 0.005;
         public static double CUSTOM_POWER_LOCKED = 0.05;
 

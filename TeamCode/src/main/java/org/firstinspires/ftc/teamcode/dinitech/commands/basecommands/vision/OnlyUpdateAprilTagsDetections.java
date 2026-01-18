@@ -48,8 +48,16 @@ public class OnlyUpdateAprilTagsDetections extends CommandBase {
     @Override
     public void execute(){
         if (trieurSubsystem.getIsFull() || shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.VISION || driveSubsystem.getUsageState() == DriveSubsystem.DriveUsageState.VISION){
+            if (!visionSubsystem.getCameraStream()){
+                visionSubsystem.setCameraStream(true);
+            }
             visionSubsystem.optimizeDecimation();
             visionSubsystem.updateAprilTagDetections();
+        } else {
+            if (visionSubsystem.getCameraStream()){
+                visionSubsystem.setCameraStream(false);
+            }
+            visionSubsystem.setHasCurrentAprilTagDetections(false);
         }
     }
 
