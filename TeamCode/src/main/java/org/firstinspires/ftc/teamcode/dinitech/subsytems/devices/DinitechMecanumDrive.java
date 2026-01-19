@@ -104,8 +104,8 @@ public final class DinitechMecanumDrive {
 
         // drive model parameters
         private final double ticksTraveled = 360760.333;
-        private final double distanceTraveled = 7 * 39.37007874; // 7 m * metersToInch
-        public final double inPerTick = distanceTraveled / ticksTraveled; // = 0.000193444;
+        private final double distanceTraveled = 7 * 39.37007874; // 7 m * metersToInch = 275.59055118
+        public final double inPerTick = distanceTraveled / ticksTraveled; // = 0.0007639158909;
         public final double lateralInPerTick = 0.00016933333;
         public final double trackWidthTicks = 1035974.7139795484;
 

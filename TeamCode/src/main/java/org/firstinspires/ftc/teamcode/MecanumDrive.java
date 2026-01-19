@@ -64,7 +64,7 @@ public final class MecanumDrive {
 
         // drive model parameters
         private final double ticksTraveled = (double) (249178 + 248446) / 2; // = 248812
-        private final double distanceTraveled = 4.80 * 39.37007874; // 4.80 m * metersToInch = 188.96
+        private final double distanceTraveled = 4.80 * 39.37007874; // 4.80 m * metersToInch = 188.976
         public double inPerTick = distanceTraveled / ticksTraveled; // = 0.000765625;
         public double lateralInPerTick = 0.0006481481481;// 0.00016933333;
         public double trackWidthTicks = 1068079.4848455412;// 1035974.7139795484; // (1045403.815333148 + 1034082.0695325453 +
