@@ -46,7 +46,7 @@ public class AprilTagLockedTeleDrive extends CommandBase {
 
     @Override
     public void initialize() {
-        driveSubsystem.setUsageState(DriveSubsystem.DriveUsageState.VISION);
+        driveSubsystem.setDriveUsage(DriveSubsystem.DriveUsage.AIM_LOCKED);
     }
 
     /**
@@ -54,18 +54,17 @@ public class AprilTagLockedTeleDrive extends CommandBase {
      */
     @Override
     public void execute() {
+
         double rightX = driver.getRightX();
 
         if (visionSubsystem.getHasCurrentAprilTagDetections()) {
             // Execute the drive command with the combined rotation power
             double autoAimPower = visionSubsystem.getAutoAimPower();
             driveSubsystem.getTelemetry().addData("AT Locked :closer to 0", "%.4f", autoAimPower);
-            driveSubsystem.teleDrive(driver.getLeftX(), driver.getLeftY(), autoAimPower * (1 - Math.abs(rightX)) + rightX,
-                    driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
+            driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), autoAimPower * (1 - Math.abs(rightX)) + rightX, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER), true);
         } else {
             // Fallback to standard tele-op drive if no tags are visible
-            driveSubsystem.teleDrive(driver.getLeftX(), driver.getLeftY(), rightX,
-                    driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER));
+            driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), rightX, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER), true);
         }
     }
 }

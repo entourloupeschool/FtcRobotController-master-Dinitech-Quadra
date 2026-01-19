@@ -58,8 +58,9 @@ public class FieldCentricTeleDrive extends CommandBase {
 
     @Override
     public void initialize(){
-        orinalLocalizer = driveSubsystem.getLocalizer();
-        driveSubsystem.setLocalizer(new AprilTagLocalizer(orinalLocalizer, visionSubsystem));
+        driveSubsystem.setUsageState(DriveSubsystem.DriveUsageState.FC);
+//        orinalLocalizer = driveSubsystem.getLocalizer();
+//        driveSubsystem.setLocalizer(new AprilTagLocalizer(orinalLocalizer, visionSubsystem));
     }
 
     /**
@@ -68,13 +69,12 @@ public class FieldCentricTeleDrive extends CommandBase {
     @Override
     public void execute(){
         // Update localizer every cycle to get current heading
-        driveSubsystem.getDrive().updatePoseEstimate();
-        driveSubsystem.fieldCentricTeleDrive(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue());
+        driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue(), true);
     }
 
     @Override
     public void end(boolean interrupted){
-        driveSubsystem.setLocalizer(orinalLocalizer);
+//        driveSubsystem.setLocalizer(orinalLocalizer);
     }
 
 }

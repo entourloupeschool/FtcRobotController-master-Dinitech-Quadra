@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
  * and forward/backward motion, the right stick for rotation, and the right trigger for
  * scaling the overall power.
  */
-public class TeleDrive extends CommandBase {
+public class RobotCentricTeleDrive extends CommandBase {
     private final DriveSubsystem driveSubsystem;
     private final GamepadWrapper driver;
 
@@ -24,7 +24,7 @@ public class TeleDrive extends CommandBase {
      * @param driveSubsystem   The drive subsystem to control.
      * @param gamepadSubsystem The gamepad subsystem for accessing driver inputs.
      */
-    public TeleDrive(DriveSubsystem driveSubsystem, GamepadSubsystem gamepadSubsystem) {
+    public RobotCentricTeleDrive(DriveSubsystem driveSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.driveSubsystem = driveSubsystem;
         this.driver = gamepadSubsystem.driver;
 
@@ -41,6 +41,6 @@ public class TeleDrive extends CommandBase {
      */
     @Override
     public void execute(){
-        driveSubsystem.teleDrive(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue());
+        driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue(), false);
     }
 }
