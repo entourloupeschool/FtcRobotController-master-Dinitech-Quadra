@@ -1,18 +1,9 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SAMPLE_SIZE_TEST;
-
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.TeleDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.MaxSpeedShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinAntiRotate;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinPrevious;
@@ -20,19 +11,13 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.Moul
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.StopMoulin;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.UpdateColorSensorsDetections;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdateAprilTagsDetections;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ArtefactPickAway;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticArtefactPickAway;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ColoredArtefactPickAway;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechMecanumDrive;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "TrieurDebut - Dinitech", group = "Test")
@@ -54,7 +39,7 @@ public class TrieurDebut extends DinitechRobotBase {
 
         visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
         register(visionSubsystem);
-        visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
+        visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
         trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetry);
         register(trieurSubsystem);

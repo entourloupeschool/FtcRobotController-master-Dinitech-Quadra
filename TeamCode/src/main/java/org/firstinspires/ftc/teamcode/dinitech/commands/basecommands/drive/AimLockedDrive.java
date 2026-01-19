@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * The auto-aiming rotation power is calculated based on the bearing to the AprilTag,
  * passed through a custom power function to create a smooth response curve.
  */
-public class AprilTagLockedTeleDrive extends CommandBase {
+public class AimLockedDrive extends CommandBase {
     private final DriveSubsystem driveSubsystem;
     private final VisionSubsystem visionSubsystem;
     private final GamepadEx driver;
@@ -35,8 +35,8 @@ public class AprilTagLockedTeleDrive extends CommandBase {
      * @param visionSubsystem  The vision subsystem for AprilTag detection and bearing.
      * @param gamepadSubsystem The gamepad subsystem for driver inputs.
      */
-    public AprilTagLockedTeleDrive(DriveSubsystem driveSubsystem, VisionSubsystem visionSubsystem,
-                                   GamepadSubsystem gamepadSubsystem) {
+    public AimLockedDrive(DriveSubsystem driveSubsystem, VisionSubsystem visionSubsystem,
+                          GamepadSubsystem gamepadSubsystem) {
         this.driveSubsystem = driveSubsystem;
         this.visionSubsystem = visionSubsystem;
         this.driver = gamepadSubsystem.getDriverEx();

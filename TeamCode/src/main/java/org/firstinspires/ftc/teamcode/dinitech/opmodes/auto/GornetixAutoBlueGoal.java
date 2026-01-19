@@ -19,12 +19,10 @@ import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.FollowTrajectory;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.MaxSpeedShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotifAuto;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdateAprilTagsDetections;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassage;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
@@ -64,7 +62,7 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
 
             visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
             register(visionSubsystem);
-            visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
+            visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
             driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE, telemetry);
             register(driveSubsystem);

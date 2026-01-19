@@ -42,32 +42,59 @@ public class DriveSubsystem extends SubsystemBase {
     private boolean isSlowDrive = false;
 
 
+    /**
+     * Defines the operational state of the drive.
+     */
+    public enum DriveReference {
+        Robot,
+        FC
+    }
+
+    private DriveReference driveReference;
+
+    /**
+     * Sets the current reference state of the drive.
+     * @param ref The new DriveUsageState.
+     */
+    public void setDriveReference(DriveReference ref) {
+        this.driveReference = ref;
+    }
+
+    /**
+     * Gets the current reference of the drive.
+     * @return The current DriveReference
+     */
+    public DriveReference getDriveReference() {
+        return driveReference;
+    }
+
 
     /**
      * Defines the operational state of the drive.
      */
-    public enum DriveUsageState {
+    public enum DriveUsage {
         TELE,   // Controlled by driver
-        VISION, // Controlled by vision auto-aim
-        SLOW    // Slow drive mode
+        AIM_LOCKED, // Controlled by vision auto-aim
+        SLOW,    // Slow drive mode
+        BLOCKED // Lock in place
     }
 
-    private DriveUsageState usageState;
+    private DriveUsage driveUsage;
 
     /**
      * Sets the current usage state of the drive.
      * @param state The new DriveUsageState.
      */
-    public void setUsageState(DriveUsageState state) {
-        this.usageState = state;
+    public void setDriveUsage(DriveUsage state) {
+        this.driveUsage = state;
     }
 
     /**
      * Gets the current usage state of the drive.
      * @return The current DriveUsageState.
      */
-    public DriveUsageState getUsageState() {
-        return usageState;
+    public DriveUsage getDriveUsage() {
+        return driveUsage;
     }
 
     private double lastTeleDriverPowerScale = 1;
@@ -95,12 +122,18 @@ public class DriveSubsystem extends SubsystemBase {
      * @param rotation     The rotational input, typically from another joystick's X-axis (-1 to 1).
      * @param powerScaler  A scaling factor for power, often from a trigger (0 to 1).
      */
-    public void teleDrive(final double translationX, final double translationY, final double rotation,
-            final double powerScaler) {
+    public void teleDriveHybrid(final double translationX, final double translationY, final double rotation,
+                          final double powerScaler, boolean fieldCentric) {
         if (powerScaler != 0) {
             lastTeleDriverPowerScale = TELE_DRIVE_POWER_TRIGGER_SCALE * pickCustomPowerFunc(powerScaler, 1)
                     + TELE_DRIVE_POWER;
         }
+
+        if (fieldCentric){
+            this.fieldCentricTeleDrive(translationX * lastTeleDriverPowerScale, translationY * lastTeleDriverPowerScale, rotation * lastTeleDriverPowerScale);
+            return;
+        }
+
         dinitechMecanumDrive.setDrivePowers(new PoseVelocity2d(
                 new Vector2d(
                         translationY * lastTeleDriverPowerScale,
@@ -114,23 +147,16 @@ public class DriveSubsystem extends SubsystemBase {
      * @param translationX The strafing input, typically from a joystick's X-axis (-1 to 1).
      * @param translationY The forward/backward input, typically from a joystick's Y-axis (-1 to 1).
      * @param rotation     The rotational input, typically from another joystick's X-axis (-1 to 1).
-     * @param powerScaler  A scaling factor for power, often from a trigger (0 to 1).
      */
-    public void fieldCentricTeleDrive(final double translationX, final double translationY, final double rotation,
-                          final double powerScaler) {
-
-        if (powerScaler != 0) {
-            lastTeleDriverPowerScale = TELE_DRIVE_POWER_TRIGGER_SCALE * pickCustomPowerFunc(powerScaler, 1)
-                    + TELE_DRIVE_POWER;
-        }
+    public void fieldCentricTeleDrive(final double translationX, final double translationY, final double rotation) {
 
         // Get the current robot heading
         Rotation2d botHeading = dinitechMecanumDrive.localizer.getPose().heading;
 
         // Create input vector from gamepad (robot-centric)
         Vector2d fieldInput = new Vector2d(
-                translationY * lastTeleDriverPowerScale,
-                -translationX * lastTeleDriverPowerScale);
+                translationY,
+                -translationX);
 
         // Rotate the robot-centric input by the inverse of the bot heading
         // to convert to field-centric coordinates
@@ -138,41 +164,6 @@ public class DriveSubsystem extends SubsystemBase {
 
         dinitechMecanumDrive.setDrivePowers(new PoseVelocity2d(
                 robotInput,
-                -rotation * lastTeleDriverPowerScale));
-    }
-
-    /**
-     * Drives the robot at a reduced, fixed speed for precise maneuvering.
-     *
-     * @param translationX The strafing input (-1 to 1).
-     * @param translationY The forward/backward input (-1 to 1).
-     * @param rotation     The rotational input (-1 to 1).
-     * @param powerScaler  (Not used) A scaling factor for power.
-     */
-    public void teleSlowDrive(final double translationX, final double translationY, final double rotation,
-            final double powerScaler) {
-
-        dinitechMecanumDrive.setDrivePowers(new PoseVelocity2d(
-                new Vector2d(
-                        translationY * SLOW_DRIVE_SCALE,
-                        -translationX * SLOW_DRIVE_SCALE),
-                -rotation * SLOW_DRIVE_SCALE));
-    }
-
-    /**
-     * Drives the robot with direct, unscaled power from the gamepad inputs.
-     *
-     * @param translationX The strafing input (-1 to 1).
-     * @param translationY The forward/backward input (-1 to 1).
-     * @param rotation     The rotational input (-1 to 1).
-     * @param powerScaler  (Not used) A scaling factor for power.
-     */
-    public void teleDriveUnscale(final double translationX, final double translationY, final double rotation,
-            final double powerScaler) {
-        dinitechMecanumDrive.setDrivePowers(new PoseVelocity2d(
-                new Vector2d(
-                        translationY,
-                        -translationX),
                 -rotation));
     }
 
@@ -184,6 +175,8 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
         // This method is called periodically by the CommandScheduler.
         printDriveTelemetry(telemetry);
+
+        this.getDrive().updatePoseEstimate();
     }
 
     /**
@@ -191,7 +184,9 @@ public class DriveSubsystem extends SubsystemBase {
      * @param telemetry The telemetry object.
      */
     private void printDriveTelemetry(final Telemetry telemetry) {
-        telemetry.addData("drive usage state", usageState);
+        telemetry.addData("drive usage", driveUsage);
+        telemetry.addData("drive reference", driveReference);
+
         Pose2d pose = getPose();
         telemetry.addLine("Robot Pose:");
         telemetry.addData("x", pose.position.x);
@@ -234,48 +229,5 @@ public class DriveSubsystem extends SubsystemBase {
 
     public Telemetry getTelemetry(){
         return telemetry;
-    }
-
-    /**
-     * Builds a short, field-centric trajectory action for tele-operated control.
-     * <p>
-     * This allows for precise, non-blocking movements relative to the field, where the
-     * left stick controls translation and the right stick controls rotation.
-     *
-     * @param velocityX  The desired X velocity in the field frame (-1 to 1, left stick X).
-     * @param velocityY  The desired Y velocity in the field frame (-1 to 1, left stick Y).
-     * @param rotation   The desired rotational velocity (-1 to 1, right stick X).
-     * @param duration   The duration of the trajectory in seconds.
-     * @return A Road Runner {@link Action} for following the generated trajectory.
-     */
-    public Action buildTeleopTrajectoryAction(double velocityX, double velocityY,
-            double rotation, double duration) {
-        // Get current pose
-        Pose2d currentPose = dinitechMecanumDrive.localizer.getPose();
-
-        // Scale inputs to reasonable velocities (in inches per second for translation)
-        double maxTranslationSpeed = 30.0; // inches per second
-        double maxRotationSpeed = Math.PI; // radians per second
-
-        // FIELD-CENTRIC: Calculate displacement directly in world frame
-        // Left stick Y -> Forward on field (positive Y)
-        // Left stick X -> Strafe right on field (positive X)
-        double worldDeltaX = -velocityX * maxTranslationSpeed * duration; // Strafe (left stick X)
-        double worldDeltaY = velocityY * maxTranslationSpeed * duration; // Forward (left stick Y)
-        double deltaHeading = -rotation * maxRotationSpeed * duration; // Rotation (right stick X)
-
-        // Calculate target position in world frame
-        Vector2d targetPosition = new Vector2d(
-                currentPose.position.x + worldDeltaX,
-                currentPose.position.y + worldDeltaY);
-
-        // Calculate target heading
-        double targetHeading = currentPose.heading.toDouble() + deltaHeading;
-
-        // Build trajectory action with higher constraint scale for responsive teleop
-        return dinitechMecanumDrive.actionBuilder(currentPose, 1.5)
-                .strafeTo(targetPosition)
-                .turnTo(targetHeading)
-                .build();
     }
 }

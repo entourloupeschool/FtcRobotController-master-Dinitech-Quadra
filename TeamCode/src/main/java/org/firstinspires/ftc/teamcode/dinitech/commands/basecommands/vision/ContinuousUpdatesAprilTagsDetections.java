@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * Because this command never finishes, it ensures that the vision subsystem is always
  * providing the most current data possible.
  */
-public class ContinuousUpdateAprilTagsDetections extends CommandBase {
+public class ContinuousUpdatesAprilTagsDetections extends CommandBase {
     private final VisionSubsystem visionSubsystem;
 
     /**
@@ -26,9 +26,14 @@ public class ContinuousUpdateAprilTagsDetections extends CommandBase {
      *
      * @param visionSubsystem The vision subsystem to continuously update.
      */
-    public ContinuousUpdateAprilTagsDetections(VisionSubsystem visionSubsystem){
+    public ContinuousUpdatesAprilTagsDetections(VisionSubsystem visionSubsystem){
         this.visionSubsystem = visionSubsystem;
         addRequirements(visionSubsystem);
+    }
+
+    @Override
+    public void initialize(){
+        visionSubsystem.setUsageState(VisionSubsystem.VisionUsageState.CONTINUOUS);
     }
 
     /**

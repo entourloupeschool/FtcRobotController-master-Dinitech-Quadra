@@ -76,7 +76,7 @@ public class Globals {
         public static final double TELE_DRIVE_POWER = 0.3;
         public static final double TELE_DRIVE_POWER_TRIGGER_SCALE = 1 - TELE_DRIVE_POWER;
         public static final int DRIVER_POWER_SCALER_TO_THE_POWER = 3;
-        public static final double SLOW_DRIVE_SCALE = 0.3;
+        public static final double SLOW_DRIVE_SCALE = 0.1;
 
         public static final double MAX_WHEEL_VELOCITY = 50.0;
         public static final double MIN_PROFILE_ACCELERATION = -30;

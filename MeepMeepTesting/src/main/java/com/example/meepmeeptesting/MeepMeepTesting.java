@@ -61,11 +61,11 @@ public class MeepMeepTesting {
         Pose2d OpposeRectangleRouge = new Pose2d(-x_rectangle, -y_rectangle, 1.2*Math.PI);
         Pose2d OpposeRectangleBleu = new Pose2d(-x_rectangle, y_rectangle, 1.45*Math.PI);
         TrajectoryActionBuilder builder = myBot.getDrive().actionBuilder(beginPose)
-                .strafeToLinearHeading(RectangleRouge.position, RectangleRouge.heading)
-                .strafeToLinearHeading(RectangleBleu.position, RectangleBleu.heading)
-                .strafeToLinearHeading(OpposeRectangleBleu.position, OpposeRectangleBleu.heading)
-                .strafeToLinearHeading(OpposeRectangleRouge.position, OpposeRectangleRouge.heading)
-                .strafeToLinearHeading(new Vector2d(0, 0), Math.PI);
+                .splineToLinearHeading(RectangleRouge, 0)
+                .splineToLinearHeading(RectangleBleu, Math.PI/2)
+                .splineToLinearHeading(OpposeRectangleBleu, Math.PI)
+                .splineToLinearHeading(OpposeRectangleRouge, 3*Math.PI/2)
+                .splineToLinearHeading(new Pose2d(new Vector2d(0, 0), 0), Math.PI);
 
 
         return builder.build();

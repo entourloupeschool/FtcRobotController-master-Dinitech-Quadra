@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * Because this command never finishes, it ensures that the vision subsystem is always
  * providing the most current data possible.
  */
-public class OnlyUpdateAprilTagsDetections extends CommandBase {
+public class OptimizedUpdatesAprilTagsDetections extends CommandBase {
     private final VisionSubsystem visionSubsystem;
     private final DriveSubsystem driveSubsystem;
     private final TrieurSubsystem trieurSubsystem;
@@ -34,13 +34,20 @@ public class OnlyUpdateAprilTagsDetections extends CommandBase {
 *    * @param driveSubsystem The drive subsystem to continuously update.
      * @param shooterSubsystem The shooter subsystem to continuously update.
      */
-    public OnlyUpdateAprilTagsDetections(VisionSubsystem visionSubsystem, DriveSubsystem driveSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem){
+    public OptimizedUpdatesAprilTagsDetections(VisionSubsystem visionSubsystem, DriveSubsystem driveSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem){
         this.visionSubsystem = visionSubsystem;
         this.driveSubsystem = driveSubsystem;
         this.trieurSubsystem = trieurSubsystem;
         this.shooterSubsystem = shooterSubsystem;
+
         addRequirements(visionSubsystem);
     }
+
+    @Override
+    public void initialize(){
+        visionSubsystem.setUsageState(VisionSubsystem.VisionUsageState.OPTIMIZED);
+    }
+
 
     /**
      * Optimizes and updates the AprilTag detections in each execution cycle.
@@ -48,8 +55,7 @@ public class OnlyUpdateAprilTagsDetections extends CommandBase {
     @Override
     public void execute(){
         if (trieurSubsystem.getIsFull() || shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.VISION
-                || driveSubsystem.getUsageState() == DriveSubsystem.DriveUsageState.VISION
-                || driveSubsystem.getUsageState() == DriveSubsystem.DriveUsageState.FC) {
+                || driveSubsystem.getDriveReference() == DriveSubsystem.DriveReference.FC || driveSubsystem.getDriveUsage() == DriveSubsystem.DriveUsage.AIM_LOCKED) {
             if (!visionSubsystem.getAprilTagProcessorEnabled()){
                 visionSubsystem.setAprilTagProcessorEnabled(true);
             }
@@ -58,8 +64,8 @@ public class OnlyUpdateAprilTagsDetections extends CommandBase {
         } else {
             if (visionSubsystem.getAprilTagProcessorEnabled()){
                 visionSubsystem.setAprilTagProcessorEnabled(false);
+                visionSubsystem.setHasCurrentAprilTagDetections(false);
             }
-            visionSubsystem.setHasCurrentAprilTagDetections(false);
         }
     }
 

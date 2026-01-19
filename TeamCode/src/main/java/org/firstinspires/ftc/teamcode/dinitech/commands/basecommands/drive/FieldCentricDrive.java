@@ -1,19 +1,12 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive;
 
-import com.acmerobotics.roadrunner.PoseVelocity2d;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.AprilTagLocalizer;
 import org.firstinspires.ftc.teamcode.Localizer;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER_TRIGGER_SCALE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
 
 /**
  * A field-centric tele-operated drive command.
@@ -35,7 +28,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPo
  * </ol>
  * The right stick still controls rotation as in a normal robot-centric drive.
  */
-public class FieldCentricTeleDrive extends CommandBase {
+public class FieldCentricDrive extends CommandBase {
     private final DriveSubsystem driveSubsystem;
     private final VisionSubsystem visionSubsystem;
     private final GamepadWrapper driver;
@@ -48,7 +41,7 @@ public class FieldCentricTeleDrive extends CommandBase {
      * @param driveSubsystem   The drive subsystem to control.
      * @param gamepadSubsystem The gamepad subsystem for accessing driver inputs.
      */
-    public FieldCentricTeleDrive(DriveSubsystem driveSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
+    public FieldCentricDrive(DriveSubsystem driveSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.driveSubsystem = driveSubsystem;
         this.visionSubsystem = visionSubsystem;
         this.driver = gamepadSubsystem.driver;
@@ -58,7 +51,10 @@ public class FieldCentricTeleDrive extends CommandBase {
 
     @Override
     public void initialize(){
-        driveSubsystem.setUsageState(DriveSubsystem.DriveUsageState.FC);
+        driveSubsystem.setDriveUsage(DriveSubsystem.DriveUsage.TELE);
+        driveSubsystem.setDriveReference(DriveSubsystem.DriveReference.FC);
+
+
 //        orinalLocalizer = driveSubsystem.getLocalizer();
 //        driveSubsystem.setLocalizer(new AprilTagLocalizer(orinalLocalizer, visionSubsystem));
     }

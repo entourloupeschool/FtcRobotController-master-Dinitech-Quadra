@@ -1,17 +1,13 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.TeleDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.RobotCentricDrive;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechMecanumDrive;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 /*
 Very basic usage of mecanum drive
@@ -38,7 +34,7 @@ public class BasicMecanumDrive extends DinitechRobotBase {
 
         gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
 
-        driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
+        driveSubsystem.setDefaultCommand(new RobotCentricDrive(driveSubsystem, gamepadSubsystem));
     }
 
     /**

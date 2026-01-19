@@ -4,10 +4,10 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.TeleDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.RobotCentricDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.TestCircles;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleVisionDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdateAprilTagsDetections;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -41,11 +41,11 @@ public class BasicVisionMecanumDrive extends DinitechRobotBase {
 
         visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
         register(visionSubsystem);
-        visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
+        visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
         driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE, telemetry);
         register(driveSubsystem);
-        driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
+        driveSubsystem.setDefaultCommand(new RobotCentricDrive(driveSubsystem, gamepadSubsystem));
 
         setupGamePadsButtonBindings();
     }

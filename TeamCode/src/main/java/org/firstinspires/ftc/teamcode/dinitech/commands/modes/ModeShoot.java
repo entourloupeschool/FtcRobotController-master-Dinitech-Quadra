@@ -3,10 +3,10 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.modes;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.AprilTagLockedTeleDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.AimLockedDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdateAprilTagsDetections;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -33,10 +33,10 @@ public class ModeShoot extends SequentialCommandGroup {
                      VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
         super(
                 new InstantCommand(
-                        () -> {visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));}
+                        () -> {visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));}
                 ),
                 new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
-                new AprilTagLockedTeleDrive(driveSubsystem, visionSubsystem, gamepadSubsystem),
+                new AimLockedDrive(driveSubsystem, visionSubsystem, gamepadSubsystem),
                 new VisionShooter(shooterSubsystem, visionSubsystem)
         );
     }

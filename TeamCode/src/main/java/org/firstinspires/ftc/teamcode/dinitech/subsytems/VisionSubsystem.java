@@ -20,9 +20,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_RESOL
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_AT_SAMPLES;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALER_OFFSET_AT_TO_X_BASKET;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.STREAM_FORMAT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.USE_WEBCAM;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.cmToInch;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationOffsetBearing;
@@ -31,18 +29,16 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPo
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdateAprilTagsDetections;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.vision.opencv.ImageRegion;
 import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
 
 import java.util.List;
@@ -68,7 +64,8 @@ import java.util.List;
  */
 public class VisionSubsystem extends SubsystemBase {
     public final Telemetry telemetry;
-    public VisionPortal.Builder builder = null;
+    public VisionPortal visionPortal;
+    private boolean cameraStream = false;
     public AprilTagProcessor aprilTagProcessor;
     public PredominantColorProcessor colorProcessor;
 
@@ -97,6 +94,24 @@ public class VisionSubsystem extends SubsystemBase {
     private boolean hasDetectedColorOrder = false;
     private int decimation = 1;
 
+    public void setUsageState(VisionUsageState visionUsageState) {
+        usageState = visionUsageState;
+    }
+
+    public VisionUsageState getUsageState() {
+        return usageState;
+    }
+
+    /**
+     * Defines the operational state of the shooter.
+     */
+    public enum VisionUsageState {
+        CONTINUOUS,   // Continuous updates
+        OPTIMIZED // Optimized updates
+    }
+
+    private VisionSubsystem.VisionUsageState usageState;
+
     /**
      * Constructs a new VisionSubsystem.
      *
@@ -104,66 +119,33 @@ public class VisionSubsystem extends SubsystemBase {
      * @param telemetry   The telemetry object for logging.
      */
     public VisionSubsystem(HardwareMap hardwareMap, final Telemetry telemetry) {
-        this.builder = new VisionPortal.Builder();
-        this.aprilTagProcessor = null;
-        this.colorProcessor = null;
-
-        if (USE_WEBCAM) {
-            builder.setCamera(hardwareMap.get(WebcamName.class, CAMERA1_NAME))
-                    .setStreamFormat(STREAM_FORMAT)
-                    .setCameraResolution(CAMERA_RESOLUTION)
-                    .enableLiveView(false);
-        } else {
-            builder.setCamera(BuiltinCameraDirection.BACK);
-        }
-
-        builder.addProcessor(getAprilTagProcessor());
-        builder.build();
-
-        this.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(this));
-
-        this.telemetry = telemetry;
-    }
-
-    /**
-     * Adds the AprilTag processor to the VisionPortal builder.
-     */
-    public AprilTagProcessor getAprilTagProcessor() {
-        aprilTagProcessor = new AprilTagProcessor.Builder()
+        this.aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setTagLibrary(AprilTagGameDatabase.getDecodeTagLibrary())
-                .setDrawCubeProjection(true)
-                .setDrawAxes(true)
+//                .setDrawCubeProjection(true)
+//                .setDrawAxes(true)
                 .setCameraPose(
                         new Position(
                                 DistanceUnit.CM,
-                                CAMERA_POSITION_X, CAMERA_POSITION_Y, CAMERA_POSITION_Z, 0
-                        ), new YawPitchRollAngles(
+                                CAMERA_POSITION_X, CAMERA_POSITION_Y, CAMERA_POSITION_Z, 0),
+                        new YawPitchRollAngles(
                                 AngleUnit.DEGREES,
-                                CAMERA_ORIENTATION_YAW, CAMERA_ORIENTATION_PITCH, CAMERA_ORIENTATION_ROLL, 0
-                        ))
+                                CAMERA_ORIENTATION_YAW, CAMERA_ORIENTATION_PITCH, CAMERA_ORIENTATION_ROLL, 0))
                 .setLensIntrinsics(FX, FY, CX, CY)
                 .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
                 .build();
 
-        setAprilTagDetectionDecimation(getDecimation());
-
-        return aprilTagProcessor;
-    }
-
-    /**
-     * Adds the color processor to the VisionPortal builder.
-     *
-     * @param size The size of the region of interest for color analysis.
-     */
-    public void addColorProcessor(final double size) {
-        colorProcessor = new PredominantColorProcessor.Builder()
-                .setRoi(ImageRegion.asUnityCenterCoordinates(-size, size, size, -size))
-                .setSwatches(
-                        PredominantColorProcessor.Swatch.ARTIFACT_GREEN,
-                        PredominantColorProcessor.Swatch.ARTIFACT_PURPLE)
+        this.visionPortal = new VisionPortal.Builder()
+                .addProcessor(aprilTagProcessor)
+                .setCamera(hardwareMap.get(WebcamName.class, CAMERA1_NAME))
+                .setStreamFormat(STREAM_FORMAT)
+                .setCameraResolution(CAMERA_RESOLUTION)
+                .setAutoStopLiveView(true)
+                .enableLiveView(false)
                 .build();
 
-        builder.addProcessor(colorProcessor);
+        this.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(this));
+
+        this.telemetry = telemetry;
     }
 
     /**
@@ -447,18 +429,10 @@ public class VisionSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        printTelemetry(telemetry);
+        aprilTagProcessorTelemetry();
+        telemetry.addData("vision usage state", getUsageState());
     }
 
-    private void printTelemetry(final Telemetry telemetry) {
-        if (builder == null) {
-            telemetry.addLine("VisionPortal Builder is null");
-            return;
-        }
-        if (aprilTagProcessor != null) aprilTagProcessorTelemetry();
-        if (colorProcessor != null) colorProcessorTelemetry();
-        if (aprilTagProcessor == null && colorProcessor == null) telemetry.addData("Vision", "No processors added");
-    }
 
     private void aprilTagProcessorTelemetry() {
         telemetry.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
@@ -518,17 +492,36 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     /**
-     * stopping the camera stream
-     * @param newCameraStream
+     * toggle AprilTag processor enabled/disabled.
      */
-    public void setCameraStream(boolean newCameraStream){
-        if (builder == null) return;
+    public void setAprilTagProcessorEnabled(boolean newCameraStream){
+        if (visionPortal == null) return;
 
-        if (newCameraStream){
-            builder.enableLiveView(true);
-        } else {
-            builder.enableLiveView(false);
-        }
+        visionPortal.setProcessorEnabled(aprilTagProcessor, newCameraStream);
     }
 
+    /**
+     * get AprilTag processor enabled/disabled.
+     */
+    public boolean getAprilTagProcessorEnabled(){
+        if (visionPortal == null) return false;
+
+        return visionPortal.getProcessorEnabled(aprilTagProcessor);
+    }
+
+
+
+    public VisionPortal getVisionPortal(){
+        if (visionPortal == null) return null;
+
+        return visionPortal;
+    }
+
+    public void turnCameraOff(){
+        visionPortal.stopStreaming();
+    }
+
+    public void turnCameraOn(){
+        visionPortal.resumeStreaming();
+    }
 }

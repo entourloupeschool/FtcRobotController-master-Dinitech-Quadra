@@ -28,11 +28,14 @@ import java.util.Set;
  */
 public class FollowTrajectory extends CommandBase {
     private final Action action;
-    private final DinitechMecanumDrive drive;
+    private final DriveSubsystem driveSubsystem;
     private final VisionSubsystem visionSubsystem;
     
     private Localizer originalLocalizer;
     private AprilTagLocalizer aprilTagLocalizer;
+
+    private boolean finished = false;
+
 
     /**
      * Creates a new FollowTrajectory command without vision-enhanced localization.
@@ -53,10 +56,8 @@ public class FollowTrajectory extends CommandBase {
      */
     public FollowTrajectory(Action action, DriveSubsystem driveSubsystem, VisionSubsystem visionSubsystem) {
         this.action = action;
-        this.drive = driveSubsystem.getDrive();
+        this.driveSubsystem = driveSubsystem;
         this.visionSubsystem = visionSubsystem;
-
-        addRequirements(driveSubsystem);
     }
 
     /**
@@ -67,11 +68,11 @@ public class FollowTrajectory extends CommandBase {
     public void initialize() {
         if (visionSubsystem != null) {
             // Store the original localizer to restore later
-            originalLocalizer = drive.localizer;
+            originalLocalizer = driveSubsystem.getDrive().localizer;
             
             // Create and set the AprilTagLocalizer with the original as base
             aprilTagLocalizer = new AprilTagLocalizer(originalLocalizer, visionSubsystem);
-            drive.localizer = aprilTagLocalizer;
+            driveSubsystem.getDrive().localizer = aprilTagLocalizer;
         }
     }
 
@@ -88,13 +89,8 @@ public class FollowTrajectory extends CommandBase {
         action.preview(packet.fieldOverlay());
         
         // The run() method of an Action returns true if it is still running and false when it is finished.
-        boolean running = action.run(packet);
+        finished = action.run(packet);
         FtcDashboard.getInstance().sendTelemetryPacket(packet);
-        
-        if (!running) {
-            // End the command when the action is finished.
-            end(false);
-        }
     }
 
     /**
@@ -106,10 +102,15 @@ public class FollowTrajectory extends CommandBase {
     public void end(boolean interrupted) {
         // Restore the original localizer if we swapped it
         if (originalLocalizer != null) {
-            drive.localizer = originalLocalizer;
+            driveSubsystem.getDrive().localizer = originalLocalizer;
             originalLocalizer = null;
             aprilTagLocalizer = null;
         }
+    }
+
+    @Override
+    public Set<Subsystem> getRequirements(){
+        return driveSubsystem.getDriveSubsystemSet();
     }
 
     /**
@@ -120,6 +121,6 @@ public class FollowTrajectory extends CommandBase {
     public boolean isFinished() {
         // This is managed by the call to end() within execute(), but returning false here
         // ensures the command continues scheduling until explicitly ended.
-        return super.isFinished();
+        return finished;
     }
 }

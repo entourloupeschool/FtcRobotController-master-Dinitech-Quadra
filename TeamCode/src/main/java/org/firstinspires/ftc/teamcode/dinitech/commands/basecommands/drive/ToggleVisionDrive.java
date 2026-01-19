@@ -12,9 +12,9 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * <p>
  * When executed, this command checks the AprilTag lock state of the {@link DriveSubsystem}.
  * <ul>
- *     <li>If the drive is in vision-locked mode, it restores the default command to {@link TeleDrive}
+ *     <li>If the drive is in vision-locked mode, it restores the default command to {@link RobotCentricDrive}
  *     for normal, robot-centric control.</li>
- *     <li>If the drive is in normal mode, it sets the default command to {@link AprilTagLockedTeleDrive},
+ *     <li>If the drive is in normal mode, it sets the default command to {@link AimLockedDrive},
  *     enabling the vision-assisted auto-aim behavior, and triggers a rumble for haptic feedback.</li>
  * </ul>
  * The command finishes immediately after setting the new default command.
@@ -48,13 +48,13 @@ public class ToggleVisionDrive extends CommandBase {
             driveSubsystem.getDefaultCommand().cancel();
         }
 
-        if (driveSubsystem.getUsageState() == DriveSubsystem.DriveUsageState.VISION) {
+        if (driveSubsystem.getDriveUsage() == DriveSubsystem.DriveUsage.AIM_LOCKED) {
             // If vision is locked, switch back to normal drive.
-            driveSubsystem.setDefaultCommand(new TeleDrive(driveSubsystem, gamepadSubsystem));
+            driveSubsystem.setDefaultCommand(new FieldCentricDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
         } else {
             // If not locked, switch to vision-locked drive and provide feedback.
             new Rumble(gamepadSubsystem, 3, 3).schedule();
-            driveSubsystem.setDefaultCommand(new AprilTagLockedTeleDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
+            driveSubsystem.setDefaultCommand(new AimLockedDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
         }
     }
 

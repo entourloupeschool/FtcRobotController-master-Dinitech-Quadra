@@ -11,12 +11,12 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 /**
  * A command for controlling the robot's drive base at a reduced speed.
  * <p>
- * This command is similar to {@link RobotCentricTeleDrive} but calls the {@code teleSlowDrive}
+ * This command is similar to {@link RobotCentricDrive} but calls the {@code teleSlowDrive}
  * method on the {@link DriveSubsystem}. This provides a "slow mode" for more precise
  * maneuvering, using a fixed, lower power scale instead of the variable power from
  * the triggers.
  */
-public class FieldCentricTeleSlowDrive extends CommandBase {
+public class SlowDrive extends CommandBase {
     private final DriveSubsystem driveSubsystem;
     private final GamepadWrapper driver;
 
@@ -26,7 +26,7 @@ public class FieldCentricTeleSlowDrive extends CommandBase {
      * @param driveSubsystem   The drive subsystem to control.
      * @param gamepadSubsystem The gamepad subsystem for accessing driver inputs.
      */
-    public FieldCentricTeleSlowDrive(DriveSubsystem driveSubsystem, GamepadSubsystem gamepadSubsystem) {
+    public SlowDrive(DriveSubsystem driveSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.driveSubsystem = driveSubsystem;
         driver = gamepadSubsystem.driver;
 
@@ -35,7 +35,7 @@ public class FieldCentricTeleSlowDrive extends CommandBase {
 
     @Override
     public void initialize(){
-        driveSubsystem.setUsageState(DriveSubsystem.DriveUsageState.SLOW);
+        driveSubsystem.setDriveUsage(DriveSubsystem.DriveUsage.SLOW);
     }
 
     /**

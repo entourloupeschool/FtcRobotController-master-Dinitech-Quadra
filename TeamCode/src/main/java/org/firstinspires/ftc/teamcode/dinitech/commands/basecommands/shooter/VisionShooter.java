@@ -1,13 +1,9 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_RANGE_SHOOTER_SPEED;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_VISION_SHOOT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedFromRange;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdateAprilTagsDetections;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
