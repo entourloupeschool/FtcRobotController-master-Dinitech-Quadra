@@ -60,8 +60,6 @@ public class TrieurSubsystem extends SubsystemBase {
     private boolean newColoredRegister = false;
     private boolean isFull = false;
     private boolean wentRecalibrationOpposite = true;
-    
-    private boolean overCurrentOccurredDuringRotation = false;
 
     /**
      * Constructs a new TrieurSubsystem.
@@ -613,7 +611,7 @@ public class TrieurSubsystem extends SubsystemBase {
         moulinLogic();
 //        printMagneticTelemetry(telemetry);
 //        printMoulinTelemetry(telemetry);
-        printStoredArtifactsTelemetry(telemetry);
+//        printStoredArtifactsTelemetry(telemetry);
 //        printDistanceTelemetry(telemetry);
 //        printColorTelemetry(telemetry);
     }

@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DRIVER_POWER_SCALER_TO_THE_POWER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SLOW_DRIVE_SCALE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER_TRIGGER_SCALE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
 
-import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Rotation2d;
@@ -37,9 +34,6 @@ public class DriveSubsystem extends SubsystemBase {
     public DinitechMecanumDrive dinitechMecanumDrive;
     /** Telemetry for reporting drive status. */
     private final Telemetry telemetry;
-
-    private boolean isATLocked = false;
-    private boolean isSlowDrive = false;
 
 
     /**
