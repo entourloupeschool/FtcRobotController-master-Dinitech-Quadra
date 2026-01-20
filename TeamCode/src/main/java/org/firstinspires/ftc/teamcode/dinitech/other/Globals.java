@@ -77,7 +77,11 @@ public class Globals {
         public static final double TELE_DRIVE_POWER_TRIGGER_SCALE = 1 - TELE_DRIVE_POWER;
         public static final int DRIVER_POWER_SCALER_TO_THE_POWER = 3;
         public static final double SLOW_DRIVE_SCALE = 0.1;
-
+        public static final double THROUGH_BORE_ENCODER_COUNTS_PER_REV = 8192; // https://revrobotics.eu/rev-11-1271/
+        public static final double DEAD_WHEEL_DIAMETER_MM = 50.8; // https://revrobotics.eu/ION-Omni-Wheels/
+        public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
+        public static final double PAR_POD_Y_MM = 65.6;
+        public static final double PERP_POD_X_MM = 75.1;
         public static final double MAX_WHEEL_VELOCITY = 50.0;
         public static final double MIN_PROFILE_ACCELERATION = -30;
         public static final double MAX_PROFILE_ACCELERATION = 50;

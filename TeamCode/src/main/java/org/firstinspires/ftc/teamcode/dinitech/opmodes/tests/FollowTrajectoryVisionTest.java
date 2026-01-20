@@ -119,11 +119,11 @@ public class FollowTrajectoryVisionTest extends DinitechRobotBase {
         
         TrajectoryActionBuilder builder = drive.actionBuilder(beginPose, AUTO_ROBOT_CONSTRAINTS)
                 // Using strafeToLinearHeading with same heading = effectively strafeTo
-                .splineToLinearHeading(RectangleRouge, RectangleRouge.heading)
-                .splineToLinearHeading(RectangleBleu, RectangleBleu.heading)
-                .splineToLinearHeading(OpposeRectangleBleu, OpposeRectangleBleu.heading)
-                .splineToLinearHeading(OpposeRectangleRouge, OpposeRectangleRouge.heading)
-                .splineToLinearHeading(new Pose2d(new Vector2d(0, 0), 0), Math.PI);
+                .strafeToLinearHeading(RectangleRouge.position, RectangleRouge.heading)
+                .strafeToLinearHeading(RectangleBleu.position, RectangleBleu.heading)
+                .strafeToLinearHeading(OpposeRectangleBleu.position, OpposeRectangleBleu.heading)
+                .strafeToLinearHeading(OpposeRectangleRouge.position, OpposeRectangleRouge.heading)
+                .strafeToLinearHeading(new Pose2d(new Vector2d(0, 0), 0).position, Math.PI);
 
         return builder.build();
     }

@@ -149,6 +149,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param rotation     The rotational input, typically from another joystick's X-axis (-1 to 1).
      */
     public void fieldCentricTeleDrive(final double translationX, final double translationY, final double rotation) {
+        this.getDrive().updatePoseEstimate();
 
         // Get the current robot heading
         Rotation2d botHeading = dinitechMecanumDrive.localizer.getPose().heading;
@@ -175,8 +176,6 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
         // This method is called periodically by the CommandScheduler.
         printDriveTelemetry(telemetry);
-
-        this.getDrive().updatePoseEstimate();
     }
 
     /**

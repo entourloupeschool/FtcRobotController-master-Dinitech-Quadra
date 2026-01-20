@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ENCODER_RESOLUTION;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
@@ -42,7 +44,6 @@ public final class PinpointLocalizer implements Localizer {
         initialPerpDirection = GoBildaPinpointDriver.EncoderDirection.REVERSED;
 
         pinPointDriver.setEncoderDirections(initialParDirection, initialPerpDirection);
-        pinPointDriver.setEncoderResolution(8192 / (50.8 * Math.PI), DistanceUnit.MM);
 
         pinPointDriver.resetPosAndIMU();
 
