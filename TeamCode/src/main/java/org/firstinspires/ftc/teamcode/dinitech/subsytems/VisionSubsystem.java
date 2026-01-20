@@ -11,6 +11,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_POSIT
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_POSITION_Y;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_POSITION_Z;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLAMP_BEARING;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CORRECTION_BASKET_OFFSET;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CX;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FX;
@@ -22,6 +23,8 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_CUSTO
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.STREAM_FORMAT;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.aAT_LINE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.bAT_LINE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.cmToInch;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationOffsetBearing;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
@@ -92,7 +95,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     private String[] cachedColorsOrder = new String[0];
     private boolean hasDetectedColorOrder = false;
-    private int decimation = 1;
+    private double decimation = 1;
 
     public void setUsageState(VisionUsageState visionUsageState) {
         usageState = visionUsageState;
@@ -290,31 +293,23 @@ public class VisionSubsystem extends SubsystemBase {
         return cachedCameraBearing;
     }
 
-    public double getRobotCenterBearing(){
-        double cameraBearing = -getCameraBearing();
-        return cameraBearing - getLinearInterpolationOffsetBearing(getRangeToAprilTag());
+    public static double getRobotCenterToAprilTag(double cameraBearing, double rangeToAprilTag){
+        return -cameraBearing + getLinearInterpolationOffsetBearing(rangeToAprilTag);
     }
 
-    public double getNormalizedClampedRobotCenterBasketBearing(){
-        // Invert the camera bearing because the robot's rotation direction is opposite
-        // to the bearing's sign (e.g., a positive bearing requires a negative rotation).
-        Double cameraBearing = getCameraBearing();
-        double invertedCameraBearing = cameraBearing != null ? -cameraBearing : 0;
+    /**
+     * Calculates the signed distance from the robot's center to a line perpendicular to the AprilTag.
+     * Left of the AprilTag is positive, right is ,negative.
+     * @param xRobot
+     * @param yRobot
+     * @return
+     */
+    public static double getSignedDistanceToATLine(double xRobot, double yRobot) {
+        return (aAT_LINE * xRobot - yRobot + bAT_LINE) / Math.sqrt(aAT_LINE + 1);
+    }
 
-        double range = getRangeToAprilTag();
-
-        // Simple add the camera sideway : allways negative because  camera is always on the left of the center of the robot so it needs to slightly tilt to the the left (negative power)
-        double cameraSidewayOffset = invertedCameraBearing - getLinearInterpolationOffsetBearing(range);
-
-        // Normalize the bearing within a clamped range to get a -1 to 1 value for the power function
-        double normalizedClampedBearing = Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, cameraSidewayOffset)) / CLAMP_BEARING;
-
-//        double xATPose = getXATPose();
-
-//        normalizedClampedBearing += (getXATPose() + CAMERA_POSITION_X) / (range + BASKET_Y_OFFSET) * SCALER_OFFSET_AT_TO_X_BASKET;
-//        normalizedClampedBearing -= Math.asin(Math.cos(getRobotPoseYaw() / (xATPose + BASKET_Y_OFFSET * BASKET_Y_OFFSET))) / 2;
-
-        return normalizedClampedBearing;
+    public static double getNormalizedCorrectionWithRange(double signedDistanceToATLine, double rangeToAT) {
+        return signedDistanceToATLine / (CORRECTION_BASKET_OFFSET * rangeToAT);
     }
 
     /**
@@ -323,21 +318,38 @@ public class VisionSubsystem extends SubsystemBase {
      * @return The corrected bearing in degrees.
      */
     public double getAutoAimPower(){
+        double cameraBearing = getCameraBearing() != null ? (double) getCameraBearing() : 0;
+        double xRobot = getRobotPoseX() != null ? getRobotPoseX() : 0;
+        double yRobot = getRobotPoseY() != null ? getRobotPoseY() : 0;
+        double rangeToAT = getRangeToAprilTag() != null ? getRangeToAprilTag() : 50;
+
+        double robotCenterBearing = getRobotCenterToAprilTag(cameraBearing, rangeToAT);
+        double normalizedCorrectionWithRange = getNormalizedCorrectionWithRange(getSignedDistanceToATLine(xRobot, yRobot), rangeToAT);
+
         // Calculate the auto-aim rotation power from the bearing (sign preserving)
-        return pickCustomPowerFunc(getNormalizedClampedRobotCenterBasketBearing(), NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
+        return pickCustomPowerFunc(Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, robotCenterBearing - normalizedCorrectionWithRange)) / CLAMP_BEARING, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
     }
 
-    public double getAutoAimPower2(){
-        double theta = Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, getCameraBearing()));
-
-        double y = getRangeToAprilTag();
-
-        double xt2 = CAMERA_POSITION_X + (y + BASKET_Y_OFFSET) * Math.sin(theta);
-        double yt2 = (y + BASKET_Y_OFFSET) * Math.cos(theta);
 
 
-        return pickCustomPowerFunc(Math.atan2(xt2, yt2) / (2*Math.PI), NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
-    }
+
+
+//    public double getAutoAimPower3(){
+//        double cameraBearing = getCameraBearing() != null ? (double) getCameraBearing() : 0;
+//        double rangeToAprilTag = getRangeToAprilTag() != null ? (double) getRangeToAprilTag() : 0;
+//
+//
+//        double l = Math.sqrt(-2 * CAMERA_POSITION_X * rangeToAprilTag * Math.cos(Math.toRadians(90 + cameraBearing)) + CAMERA_POSITION_X * CAMERA_POSITION_X * rangeToAprilTag * rangeToAprilTag);
+//        double phi = Math.asin(Math.sin(Math.toRadians(90 + cameraBearing))/l);
+//        double eps = Math.PI - phi - Math.toRadians(cameraBearing);
+//        double theta = Math.PI/2 - Math.toRadians(cameraBearing);
+//        double V = Math.PI/2 
+//
+//
+//
+//
+//        return pickCustomPowerFunc(beta, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
+//    }
 
     /**
      * Gets the cached averaged XftcPose from AprilTag detections.
@@ -396,7 +408,7 @@ public class VisionSubsystem extends SubsystemBase {
                 yaw != null ? yaw : 0.0);
     }
 
-    private void setAprilTagDetectionDecimation(int dec) {
+    private void setAprilTagDetectionDecimation(double dec) {
         aprilTagProcessor.setDecimation((float) dec);
     }
 
@@ -410,19 +422,18 @@ public class VisionSubsystem extends SubsystemBase {
         Double rangeToAprilTag = getRangeToAprilTag();
         if (rangeToAprilTag == null) return;
 
-        int optimalDecimation = (int) Math.round(4.0 - 3.0 * (rangeToAprilTag - 35) / 45.0);
+        double optimalDecimation = 4.0 - 3.0 * (rangeToAprilTag - 35) / 45.0;
         optimalDecimation = Math.max(1, Math.min(4, optimalDecimation));
         
-        if (optimalDecimation != decimation) {
-            setDecimation(optimalDecimation);
-        }
+        setDecimation(optimalDecimation);
+
     }
 
-    public int getDecimation(){
+    public double getDecimation(){
         return decimation;
     }
     
-    public void setDecimation(int newDecimation){
+    public void setDecimation(double newDecimation){
         decimation = newDecimation;
         setAprilTagDetectionDecimation(decimation);
     }
@@ -441,14 +452,14 @@ public class VisionSubsystem extends SubsystemBase {
             telemetry.addLine("last detected pose values");
             telemetry.addData("X Robot (CM)", "%.2f", getRobotPoseX());
             telemetry.addData("Y Robot (CM)", "%.2f", getRobotPoseY());
-            telemetry.addData("Yaw (DEGREES)", "%.2f", getRobotPoseYaw());
-            telemetry.addData("Camera Bearing (DEGREES)", "%.2f", getCameraBearing());
+//            telemetry.addData("Yaw (DEGREES)", "%.2f", getRobotPoseYaw());
+//            telemetry.addData("Camera Bearing (DEGREES)", "%.2f", getCameraBearing());
 //            telemetry.addData("Robot Center Bearing", "%.2f", getRobotCenterBearing());
-            telemetry.addData("Range (CM)", "%.2f", getRangeToAprilTag());
+//            telemetry.addData("Range (CM)", "%.2f", getRangeToAprilTag());
             telemetry.addData("X AT (CM)", "%.2f", getXATPose());
             telemetry.addData("Y AT (CM)", "%.2f", getYATPose());
-//            telemetry.addData("Auto Aim Power")
-//            telemetry.addData("Should Be 0", "%.2f", getNormalizedClampedRobotCenterBasketBearing());
+//            telemetry.addData("robotCenterBearing", getRobotCenterToAprilTag(getCameraBearing(), getRangeToAprilTag()));
+//            telemetry.addData("normalizedCorrectionWithRange", "%.2f", getNormalizedCorrectionWithRange(getSignedDistanceToATLine(getRobotPoseX(), getRobotPoseY()), getRangeToAprilTag()));
         } else {
             telemetry.addData("AprilTag Pose Data", "No sample data");
         }

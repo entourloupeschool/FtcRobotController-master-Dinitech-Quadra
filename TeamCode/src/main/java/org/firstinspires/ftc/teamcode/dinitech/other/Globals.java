@@ -251,17 +251,21 @@ public class Globals {
 
         public static final double DIFF_RANGE_VISION = MAX_RANGE_VISION - MIN_RANGE_VISION; // = 248;
 
-        public static final double OFFSET_BEARING_AT_MIN_RANGE = -3; // DEGREES
-        public static final double OFFSET_BEARING_AT_MAX_RANGE = -1.2; //DEGREES
-        public static final double DIFF_OFFSET_BEARING_AT = OFFSET_BEARING_AT_MAX_RANGE - OFFSET_BEARING_AT_MIN_RANGE; // = -1.8
-        public static double SCALER_OFFSET_AT_TO_X_BASKET = 0.1;
+        public static final double OFFSET_BEARING_AT_MIN_RANGE = -4.45; // DEGREES
+        public static final double OFFSET_BEARING_AT_MAX_RANGE = -1.8; //DEGREES
+        public static final double DIFF_OFFSET_BEARING_AT = OFFSET_BEARING_AT_MAX_RANGE - OFFSET_BEARING_AT_MIN_RANGE; // = -2.65
+        public static double CORRECTION_BASKET_OFFSET = 0.21;
         public static double BASKET_Y_OFFSET = 8;
         public static int NUMBER_AT_SAMPLES = 3;
         public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED = 4;
         public static double MIN_LINEAR = 0.005;
         public static double CUSTOM_POWER_LOCKED = 0.05;
 
-        public static final double DIFF_A_BEARING = DIFF_OFFSET_BEARING_AT / DIFF_RANGE_VISION; // = -0.007258064516
+        public static final double DIFF_A_BEARING = DIFF_OFFSET_BEARING_AT / DIFF_RANGE_VISION; // = -0.01068548387
+
+        public static double aAT_LINE = 1.4;
+        public static double bAT_LINE = 59;
+
 
         /**
          * Calculates linear interpolation bearing offset using linear interpolation based on range.
@@ -270,7 +274,7 @@ public class Globals {
          * @return The calculated bearing offset.
          */
         public static double getLinearInterpolationOffsetBearing(double range) {
-            return DIFF_A_BEARING * range -3.704;
+            return DIFF_A_BEARING * range -5.4865;
         }
 
         public static double pickCustomPowerFunc(double x, int funcNumber) {
