@@ -43,6 +43,6 @@ public class SlowDrive extends CommandBase {
      */
     @Override
     public void execute(){
-        driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), SLOW_DRIVE_SCALE,true);
+        driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), SLOW_DRIVE_SCALE,driveSubsystem.getDriveReference() == DriveSubsystem.DriveReference.FC);
     }
 }

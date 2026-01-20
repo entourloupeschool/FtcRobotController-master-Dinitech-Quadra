@@ -61,10 +61,10 @@ public class AimLockedDrive extends CommandBase {
             // Execute the drive command with the combined rotation power
             double autoAimPower = visionSubsystem.getAutoAimPower();
             driveSubsystem.getTelemetry().addData("AT Locked :closer to 0", "%.4f", autoAimPower);
-            driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), autoAimPower * (1 - Math.abs(rightX)) + rightX, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER), true);
+            driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), autoAimPower * (1 - Math.abs(rightX)) + rightX, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER), driveSubsystem.getDriveReference() == DriveSubsystem.DriveReference.FC);
         } else {
             // Fallback to standard tele-op drive if no tags are visible
-            driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), rightX, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER), true);
+            driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), rightX, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER), driveSubsystem.getDriveReference() == DriveSubsystem.DriveReference.FC);
         }
     }
 }

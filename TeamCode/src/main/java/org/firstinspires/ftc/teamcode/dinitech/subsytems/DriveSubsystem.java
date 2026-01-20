@@ -46,8 +46,9 @@ public class DriveSubsystem extends SubsystemBase {
      * Defines the operational state of the drive.
      */
     public enum DriveReference {
-        Robot,
-        FC
+        ROBOT,
+        FC,
+        AUTO
     }
 
     private DriveReference driveReference;
@@ -149,8 +150,6 @@ public class DriveSubsystem extends SubsystemBase {
      * @param rotation     The rotational input, typically from another joystick's X-axis (-1 to 1).
      */
     public void fieldCentricTeleDrive(final double translationX, final double translationY, final double rotation) {
-        this.getDrive().updatePoseEstimate();
-
         // Get the current robot heading
         Rotation2d botHeading = dinitechMecanumDrive.localizer.getPose().heading;
 
@@ -174,6 +173,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if (this.getDriveReference() == DriveReference.FC) this.getLocalizer().update();
+
         // This method is called periodically by the CommandScheduler.
         printDriveTelemetry(telemetry);
     }

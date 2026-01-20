@@ -34,7 +34,7 @@ public class RobotCentricDrive extends CommandBase {
     @Override
     public void initialize(){
         driveSubsystem.setDriveUsage(DriveSubsystem.DriveUsage.TELE);
-        driveSubsystem.setDriveReference(DriveSubsystem.DriveReference.Robot);
+        driveSubsystem.setDriveReference(DriveSubsystem.DriveReference.ROBOT);
     }
 
     /**
@@ -42,6 +42,6 @@ public class RobotCentricDrive extends CommandBase {
      */
     @Override
     public void execute(){
-        driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue(), false);
+        driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue(), driveSubsystem.getDriveReference() == DriveSubsystem.DriveReference.FC);
     }
 }

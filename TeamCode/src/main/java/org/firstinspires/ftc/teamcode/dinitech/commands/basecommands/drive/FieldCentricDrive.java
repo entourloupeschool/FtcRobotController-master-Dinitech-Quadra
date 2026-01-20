@@ -65,7 +65,7 @@ public class FieldCentricDrive extends CommandBase {
     @Override
     public void execute(){
         // Update localizer every cycle to get current heading
-        driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue(), true);
+        driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue(), driveSubsystem.getDriveReference() == DriveSubsystem.DriveReference.FC);
     }
 
     @Override
