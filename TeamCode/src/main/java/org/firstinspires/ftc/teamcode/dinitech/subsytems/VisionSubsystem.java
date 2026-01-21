@@ -72,6 +72,7 @@ public class VisionSubsystem extends SubsystemBase {
     public AprilTagProcessor aprilTagProcessor;
     public PredominantColorProcessor colorProcessor;
 
+    private int lastATPositionDetection = -1;
     private final RunningAverage robotPoseXSamples = new RunningAverage(NUMBER_AT_SAMPLES);
     private final RunningAverage robotPoseYSamples = new RunningAverage(NUMBER_AT_SAMPLES);
     private final RunningAverage robotPoseYawSamples = new RunningAverage(NUMBER_AT_SAMPLES);
@@ -167,6 +168,7 @@ public class VisionSubsystem extends SubsystemBase {
 
                 if (detection.metadata != null) {
                     if (detection.id == 20 || detection.id == 24) {
+                        lastATPositionDetection = detection.id;
                         robotPoseXSamples.add(detection.robotPose.getPosition().x);
                         robotPoseYSamples.add(detection.robotPose.getPosition().y);
                         robotPoseYawSamples.add(detection.robotPose.getOrientation().getYaw(AngleUnit.RADIANS));
@@ -337,9 +339,10 @@ public class VisionSubsystem extends SubsystemBase {
 
         double robotCenterBearing = getRobotCenterToAprilTag(cameraBearing, rangeToAT);
         double normalizedCorrectionWithRange = getNormalizedCorrectionWithRange(getSignedDistanceToATLine(xRobot, yRobot), rangeToAT);
+        double teamDependance = lastATPositionDetection == 20 ? normalizedCorrectionWithRange : -normalizedCorrectionWithRange;
 
         // Calculate the auto-aim rotation power from the bearing (sign preserving)
-        return pickCustomPowerFunc(Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, robotCenterBearing - normalizedCorrectionWithRange)) / CLAMP_BEARING, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
+        return pickCustomPowerFunc(Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, robotCenterBearing - teamDependance)) / CLAMP_BEARING, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
     }
 
 
