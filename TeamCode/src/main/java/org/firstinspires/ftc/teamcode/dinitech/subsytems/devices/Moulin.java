@@ -245,7 +245,7 @@ public class Moulin {
      */
     public static int getClosestPositionToShoot(int currentPosition, int[] possiblePositions) {
         if (possiblePositions.length == 0) {
-            return -1;
+            throw new IllegalArgumentException("Trying to find closest position to shoot but possiblePositions is empty");
         }
 
         int shootingPosition = getOppositePosition(currentPosition);

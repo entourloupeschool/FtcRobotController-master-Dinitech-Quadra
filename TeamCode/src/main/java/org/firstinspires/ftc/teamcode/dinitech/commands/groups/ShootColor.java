@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
-import com.arcrobotics.ftclib.command.ConditionalCommand;
+import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.Rumble;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -8,18 +8,27 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 /**
- * A conditional command that attempts to shoot an artifact of a specific color.
+ * A command that attempts to shoot an artifact of a specific color.
  * <p>
  * This command checks if an artifact of the specified color is available in the
  * {@link TrieurSubsystem}.
  * <ul>
- *     <li>If a matching artifact is found, it executes a {@link ShootMoulinState} command to
+ *     <li>If a matching artifact is found, it executes a {@link DropMoulinState} command to
  *     rotate the moulin to the appropriate shooting position and launch the artifact.</li>
  *     <li>If no matching artifact is found, it triggers a {@link Rumble} command to provide
  *     haptic feedback to the driver.</li>
  * </ul>
+ * <p>
+ * The shooting position is evaluated once at initialization time to avoid race conditions.
  */
-public class ShootColor extends ConditionalCommand {
+public class ShootColor extends CommandBase {
+
+    private final TrieurSubsystem trieurSubsystem;
+    private final ShooterSubsystem shooterSubsystem;
+    private final GamepadSubsystem gamepadSubsystem;
+    private final TrieurSubsystem.ArtifactColor inputColor;
+
+    private CommandBase selectedCommand;
 
     /**
      * Creates a new ShootColor command.
@@ -31,13 +40,38 @@ public class ShootColor extends ConditionalCommand {
      */
     public ShootColor(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem,
             GamepadSubsystem gamepadSubsystem, TrieurSubsystem.ArtifactColor inputColor) {
-        super(
-                // Command to execute if a matching artifact is found
-                new DropMoulinState(trieurSubsystem, shooterSubsystem,
-                        trieurSubsystem.getClosestShootingPositionForColor(inputColor), true),
-                // Command to execute if no matching artifact is found
-                new Rumble(gamepadSubsystem, 2, 1),
-                // Condition: Check if a valid shooting position exists for the specified color
-                () -> trieurSubsystem.getClosestShootingPositionForColor(inputColor) > 0);
+        this.trieurSubsystem = trieurSubsystem;
+        this.shooterSubsystem = shooterSubsystem;
+        this.gamepadSubsystem = gamepadSubsystem;
+        this.inputColor = inputColor;
+    }
+
+    @Override
+    public void initialize() {
+        // Evaluate position once at initialization
+        int shootingPosition = trieurSubsystem.getClosestShootingPositionForColor(inputColor);
+
+        if (shootingPosition > 0) {
+            selectedCommand = new DropMoulinState(trieurSubsystem, shooterSubsystem, shootingPosition, true);
+        } else {
+            selectedCommand = new Rumble(gamepadSubsystem, 2, 1);
+        }
+
+        selectedCommand.initialize();
+    }
+
+    @Override
+    public void execute() {
+        selectedCommand.execute();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        selectedCommand.end(interrupted);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return selectedCommand.isFinished();
     }
 }

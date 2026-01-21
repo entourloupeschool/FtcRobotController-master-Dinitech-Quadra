@@ -386,6 +386,7 @@ public class TrieurSubsystem extends SubsystemBase {
         if (posWithColor.length > 0) {
             return Moulin.getClosestPositionToShoot(getMoulinPosition(), posWithColor);
         }
+
         return -1;
     }
 
@@ -610,8 +611,8 @@ public class TrieurSubsystem extends SubsystemBase {
     public void periodic() {
         moulinLogic();
 //        printMagneticTelemetry(telemetry);
-//        printMoulinTelemetry(telemetry);
-        printStoredArtifactsTelemetry(telemetry);
+        printMoulinTelemetry(telemetry);
+//        printStoredArtifactsTelemetry(telemetry);
 //        printDistanceTelemetry(telemetry);
 //        printColorTelemetry(telemetry);
     }
@@ -625,11 +626,18 @@ public class TrieurSubsystem extends SubsystemBase {
     }
 
     private void printMoulinTelemetry(final Telemetry telemetry) {
-        telemetry.addData("moulin ticks", getMoulinMotorPosition());
-        telemetry.addData("moulinTarget", getMoulinMotorTargetPosition());
+//        telemetry.addData("moulin ticks", getMoulinMotorPosition());
+//        telemetry.addData("moulinTarget", getMoulinMotorTargetPosition());
 //        telemetry.addData("moulinSpeed", getMoulinSpeed());
-//        telemetry.addData("moulin position", getMoulinPosition());
-        telemetry.addData("moulin at target", !isMoulinBusy());
+        telemetry.addData("moulin position", getMoulinPosition());
+//        telemetry.addData("moulin at target", !isMoulinBusy());
+        telemetry.addData("shootGreenPos", getClosestShootingPositionForColor(ArtifactColor.GREEN));
+        telemetry.addData("shootPurplePos", getClosestShootingPositionForColor(ArtifactColor.PURPLE));
+        telemetry.addLine("getPosWithColor");
+        int[] posWithColor = getPosWithColor(ArtifactColor.GREEN);
+        for (int k : posWithColor) telemetry.addData("GREEN", k);
+        posWithColor = getPosWithColor(ArtifactColor.PURPLE);
+        for (int j : posWithColor) telemetry.addData("PURPLE", j);
     }
 
     private void printColorTelemetry(final Telemetry telemetry) {
