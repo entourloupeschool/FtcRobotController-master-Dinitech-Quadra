@@ -312,8 +312,10 @@ public class VisionSubsystem extends SubsystemBase {
      * @param yRobot the robot's Y coordinate relative to the field.
      * @return the signed distance.
      */
-    public static double getSignedDistanceToATLine(double xRobot, double yRobot) {
-        return (aAT_LINE * xRobot - yRobot + bAT_LINE) / Math.sqrt(aAT_LINE + 1);
+    public static double getSignedDistanceToATLine(double xRobot, double yRobot, int tagID) {
+        if (tagID == 20) return (yRobot - aAT_LINE * xRobot - bAT_LINE) / Math.sqrt(aAT_LINE * aAT_LINE + 1);
+        else if (tagID == 24) return (yRobot + aAT_LINE * xRobot + bAT_LINE) / Math.sqrt(aAT_LINE * aAT_LINE + 1);
+        else return 0;
     }
 
     /**
@@ -338,11 +340,10 @@ public class VisionSubsystem extends SubsystemBase {
         double rangeToAT = getRangeToAprilTag() != null ? getRangeToAprilTag() : 50;
 
         double robotCenterBearing = getRobotCenterToAprilTag(cameraBearing, rangeToAT);
-        double normalizedCorrectionWithRange = getNormalizedCorrectionWithRange(getSignedDistanceToATLine(xRobot, yRobot), rangeToAT);
-        double teamDependance = lastATPositionDetection == 20 ? normalizedCorrectionWithRange : -normalizedCorrectionWithRange;
+        double normalizedCorrectionWithRange = getNormalizedCorrectionWithRange(getSignedDistanceToATLine(xRobot, yRobot, lastATPositionDetection), rangeToAT);
 
         // Calculate the auto-aim rotation power from the bearing (sign preserving)
-        return pickCustomPowerFunc(Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, robotCenterBearing - teamDependance)) / CLAMP_BEARING, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
+        return pickCustomPowerFunc(Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, robotCenterBearing + normalizedCorrectionWithRange)) / CLAMP_BEARING, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
     }
 
 

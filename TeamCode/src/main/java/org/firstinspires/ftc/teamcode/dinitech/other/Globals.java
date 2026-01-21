@@ -245,7 +245,7 @@ public class Globals {
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.
         public static final VisionPortal.StreamFormat STREAM_FORMAT = VisionPortal.StreamFormat.MJPEG; // Or YUY2
 
-        public static double CLAMP_BEARING = 65;
+        public static double CLAMP_BEARING = 68;
         public static final double MIN_RANGE_VISION = MIN_RANGE_TO_SHOOT_CM; //CM
         public static final double MAX_RANGE_VISION = MAX_RANGE_TO_SHOOT_CM; //CM
 
