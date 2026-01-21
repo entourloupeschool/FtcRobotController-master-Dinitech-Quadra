@@ -293,6 +293,12 @@ public class VisionSubsystem extends SubsystemBase {
         return cachedCameraBearing;
     }
 
+    /**
+     * Calculates the angle between the robot's forward/backward axis and a line going from the center of the robot to the center of the AprilTag.
+     * @param cameraBearing the camera's bearing from the AprilTag.
+     * @param rangeToAprilTag the range to the AprilTag.
+     * @return the corrected bearing in degrees.
+     */
     public static double getRobotCenterToAprilTag(double cameraBearing, double rangeToAprilTag){
         return -cameraBearing + getLinearInterpolationOffsetBearing(rangeToAprilTag);
     }
@@ -300,22 +306,28 @@ public class VisionSubsystem extends SubsystemBase {
     /**
      * Calculates the signed distance from the robot's center to a line perpendicular to the AprilTag.
      * Left of the AprilTag is positive, right is ,negative.
-     * @param xRobot
-     * @param yRobot
-     * @return
+     * @param xRobot the robot's X coordinate relative to the field.
+     * @param yRobot the robot's Y coordinate relative to the field.
+     * @return the signed distance.
      */
     public static double getSignedDistanceToATLine(double xRobot, double yRobot) {
         return (aAT_LINE * xRobot - yRobot + bAT_LINE) / Math.sqrt(aAT_LINE + 1);
     }
 
+    /**
+     * Computes a normalization and scales with range.
+     * @param signedDistanceToATLine the signed distance from the robot's center to a line perpendicular to the AprilTag.
+     * @param rangeToAT the range to the AprilTag.
+     * @return the normalized correction.
+     */
     public static double getNormalizedCorrectionWithRange(double signedDistanceToATLine, double rangeToAT) {
         return signedDistanceToATLine / (CORRECTION_BASKET_OFFSET * rangeToAT);
     }
 
+
     /**
-     * Calculates the bearing from the robot's center to the AprilTag, compensating for camera offset.
-     *
-     * @return The corrected bearing in degrees.
+     * Computes the auto-aim power based on the camera bearing, robot pose, and range to the AprilTag.
+     * @return the auto-aim power for drive.
      */
     public double getAutoAimPower(){
         double cameraBearing = getCameraBearing() != null ? (double) getCameraBearing() : 0;
@@ -329,9 +341,6 @@ public class VisionSubsystem extends SubsystemBase {
         // Calculate the auto-aim rotation power from the bearing (sign preserving)
         return pickCustomPowerFunc(Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, robotCenterBearing - normalizedCorrectionWithRange)) / CLAMP_BEARING, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
     }
-
-
-
 
 
 //    public double getAutoAimPower3(){
