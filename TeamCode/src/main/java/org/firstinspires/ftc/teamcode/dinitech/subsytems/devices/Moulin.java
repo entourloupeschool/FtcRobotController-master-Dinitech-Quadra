@@ -244,7 +244,7 @@ public class Moulin {
      *         empty
      */
     public static int getClosestPositionToShoot(int currentPosition, int[] possiblePositions) {
-        if (possiblePositions == null || possiblePositions.length == 0) {
+        if (possiblePositions.length == 0) {
             return -1;
         }
 
