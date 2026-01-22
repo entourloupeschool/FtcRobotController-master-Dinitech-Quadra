@@ -9,10 +9,10 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_TELE_INCREMENT;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.MagneticSwitch;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Trappe;
@@ -51,9 +51,9 @@ public class TrieurSubsystem extends SubsystemBase {
     private final Moulin moulin;
     private final TripleColorSensors tripleColorSensors;
     private final MagneticSwitch magneticSwitch;
-    private final Telemetry telemetry;
+    private final TelemetryManager telemetryM;
 
-    private final ArtifactColor[] moulinStoragePositionColors = new ArtifactColor[3];
+    private final ArtifactColor[] moulinStoragePositionColors = new ArtifactColor[6];
     private ArtifactColor lastDetectedColor = ArtifactColor.NONE;
 
     private boolean newRegister = false;
@@ -65,15 +65,15 @@ public class TrieurSubsystem extends SubsystemBase {
      * Constructs a new TrieurSubsystem.
      *
      * @param hardwareMap The robot's hardware map.
-     * @param telemetry   The telemetry object for logging.
+     * @param telemetryM   The telemetryM object for logging.
      */
-    public TrieurSubsystem(HardwareMap hardwareMap, final Telemetry telemetry) {
+    public TrieurSubsystem(HardwareMap hardwareMap, final TelemetryManager telemetryM) {
         trappe = new Trappe(hardwareMap);
         moulin = new Moulin(hardwareMap);
         tripleColorSensors = new TripleColorSensors(hardwareMap);
         magneticSwitch = new MagneticSwitch(hardwareMap);
 
-        this.telemetry = telemetry;
+        this.telemetryM = telemetryM;
 
         clearAllStoredColors();
         setWentRecalibrationOpposite(true);
@@ -234,7 +234,7 @@ public class TrieurSubsystem extends SubsystemBase {
         ArtifactColor detectedColor = detectBottomArtifactColor();
 
         // Store the color at the current moulin storage Pos
-        setMoulinStoragePositionColor(Moulin.getMoulinStoragePos(getMoulinPosition()), detectedColor);
+        setMoulinStoragePositionColor(getMoulinPosition(), detectedColor);
 
         if (detectedColor == ArtifactColor.GREEN || detectedColor == ArtifactColor.PURPLE) {
             setNewcoloredRegister(true);
@@ -377,18 +377,19 @@ public class TrieurSubsystem extends SubsystemBase {
      */
     public int getClosestShootingPositionForColor(ArtifactColor color) {
         int[] posWithColor = getPosWithColor(color);
+        if (posWithColor.length == 0) {
+            return -1;
+        }
+
 
         // Transform storage positions to shooting positions
         for (int i = 0; i < posWithColor.length; i++) {
             posWithColor[i] = Moulin.getOppositePosition(posWithColor[i]);
         }
 
-        if (posWithColor.length > 0) {
-            return Moulin.getClosestPositionToShoot(getMoulinPosition(), posWithColor);
-        }
-
-        return -1;
+        return posWithColor[0];
     }
+
 
     /**
      * Finds the closest shooting position for any available artifact.
@@ -550,7 +551,7 @@ public class TrieurSubsystem extends SubsystemBase {
                 if (this.getCurrentCommand() != null){
                     this.getCurrentCommand().cancel();
                 }
-                telemetry.addLine("Moulin Over Current");
+                telemetryM.addLine("Moulin Over Current");
                 return;
             }
 
@@ -610,71 +611,71 @@ public class TrieurSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         moulinLogic();
-//        printMagneticTelemetry(telemetry);
-        printMoulinTelemetry(telemetry);
-//        printStoredArtifactsTelemetry(telemetry);
-//        printDistanceTelemetry(telemetry);
-//        printColorTelemetry(telemetry);
+//        printMagneticTelemetryManager(telemetryM);
+        printMoulinTelemetryManager(telemetryM);
+//        printStoredArtifactsTelemetryManager(telemetryM);
+//        printDistanceTelemetryManager(telemetryM);
+//        printColorTelemetryManager(telemetryM);
     }
 
-    private void printTrappeTelemetry(final Telemetry telemetry) {
-        telemetry.addData("trappe ouverte ?", trappe.isDoorOpen());
+    private void printTrappeTelemetryManager(final TelemetryManager telemetryM) {
+        telemetryM.addData("trappe ouverte ?", trappe.isDoorOpen());
     }
 
-    private void printMagneticTelemetry(final Telemetry telemetry) {
-        telemetry.addData("magnticSwitch", magneticSwitch.isMagnetic());
+    private void printMagneticTelemetryManager(final TelemetryManager telemetryM) {
+        telemetryM.addData("magnticSwitch", magneticSwitch.isMagnetic());
     }
 
-    private void printMoulinTelemetry(final Telemetry telemetry) {
-//        telemetry.addData("moulin ticks", getMoulinMotorPosition());
-//        telemetry.addData("moulinTarget", getMoulinMotorTargetPosition());
-//        telemetry.addData("moulinSpeed", getMoulinSpeed());
-        telemetry.addData("moulin position", getMoulinPosition());
-//        telemetry.addData("moulin at target", !isMoulinBusy());
-        telemetry.addData("shootGreenPos", getClosestShootingPositionForColor(ArtifactColor.GREEN));
-        telemetry.addData("shootPurplePos", getClosestShootingPositionForColor(ArtifactColor.PURPLE));
-        telemetry.addLine("getPosWithColor");
+    private void printMoulinTelemetryManager(final TelemetryManager telemetryM) {
+//        telemetryM.addData("moulin ticks", getMoulinMotorPosition());
+//        telemetryM.addData("moulinTarget", getMoulinMotorTargetPosition());
+//        telemetryM.addData("moulinSpeed", getMoulinSpeed());
+        telemetryM.addData("moulin position", getMoulinPosition());
+//        telemetryM.addData("moulin at target", !isMoulinBusy());
+        telemetryM.addData("shootGreenPos", getClosestShootingPositionForColor(ArtifactColor.GREEN));
+        telemetryM.addData("shootPurplePos", getClosestShootingPositionForColor(ArtifactColor.PURPLE));
+        telemetryM.addLine("getPosWithColor");
         int[] posWithColor = getPosWithColor(ArtifactColor.GREEN);
-        for (int k : posWithColor) telemetry.addData("GREEN", k);
+        for (int k : posWithColor) telemetryM.addData("GREEN", k);
         posWithColor = getPosWithColor(ArtifactColor.PURPLE);
-        for (int j : posWithColor) telemetry.addData("PURPLE", j);
+        for (int j : posWithColor) telemetryM.addData("PURPLE", j);
     }
 
-    private void printColorTelemetry(final Telemetry telemetry) {
+    private void printColorTelemetryManager(final TelemetryManager telemetryM) {
         tripleColorSensors.updateAllSensors();
 
         for (int i = 1; i <= 3; i++) {
-            telemetry.addData("Blue " + i, String.format("%.4f", tripleColorSensors.getAverageBlue(i)));
-            telemetry.addData("Red " + i, String.format("%.4f", tripleColorSensors.getAverageRed(i)));
-            telemetry.addData("Green " + i, String.format("%.4f",tripleColorSensors.getAverageGreen(i)));
-            telemetry.addData("Hue " + i, String.format("%.4f", tripleColorSensors.getAverageHue(i)));
-            telemetry.addData("Sat " + i, String.format("%.4f", tripleColorSensors.getAverageSaturation(i)));
+            telemetryM.addData("Blue " + i, String.format("%.4f", tripleColorSensors.getAverageBlue(i)));
+            telemetryM.addData("Red " + i, String.format("%.4f", tripleColorSensors.getAverageRed(i)));
+            telemetryM.addData("Green " + i, String.format("%.4f",tripleColorSensors.getAverageGreen(i)));
+            telemetryM.addData("Hue " + i, String.format("%.4f", tripleColorSensors.getAverageHue(i)));
+            telemetryM.addData("Sat " + i, String.format("%.4f", tripleColorSensors.getAverageSaturation(i)));
         }
-        if (tripleColorSensors.isGreen(1)) telemetry.addLine("CS1 Detects Green");
-        else if (tripleColorSensors.isPurple(1)) telemetry.addLine("CS1 Detects Purple");
+        if (tripleColorSensors.isGreen(1)) telemetryM.addLine("CS1 Detects Green");
+        else if (tripleColorSensors.isPurple(1)) telemetryM.addLine("CS1 Detects Purple");
 
-        if (tripleColorSensors.isGreen(2)) telemetry.addLine("CS2 Detects Green");
-        else if (tripleColorSensors.isPurple(2)) telemetry.addLine("CS2 Detects Purple");
+        if (tripleColorSensors.isGreen(2)) telemetryM.addLine("CS2 Detects Green");
+        else if (tripleColorSensors.isPurple(2)) telemetryM.addLine("CS2 Detects Purple");
     }
 
-    private void printDistanceTelemetry(final Telemetry telemetry) {
-        telemetry.addData("Artefact in Trieur", isArtefactInTrieur());
-        telemetry.addData("CS1 Distance", tripleColorSensors.getDistance(1));
-        telemetry.addData("CS2 Distance", tripleColorSensors.getDistance(2));
+    private void printDistanceTelemetryManager(final TelemetryManager telemetryM) {
+        telemetryM.addData("Artefact in Trieur", isArtefactInTrieur());
+        telemetryM.addData("CS1 Distance", tripleColorSensors.getDistance(1));
+        telemetryM.addData("CS2 Distance", tripleColorSensors.getDistance(2));
     }
 
-    private void printStoredArtifactsTelemetry(final Telemetry telemetry) {
-        telemetry.addLine("=== Stored Artifacts ===");
+    private void printStoredArtifactsTelemetryManager(final TelemetryManager telemetryM) {
+        telemetryM.addLine("=== Stored Artifacts ===");
         for (int i = 1; i <= 3; i++) {
             ArtifactColor color = getMoulinStoragePositionColor(i);
             if (color != ArtifactColor.NONE) {
-                telemetry.addData("Storage position " + i, color.toString());
+                telemetryM.addData("Storage position " + i, color.toString());
             }
         }
 
-        telemetry.addData("Last registered color", getLastDetectedColor());
-        telemetry.addData("isFull", getIsFull());
-        telemetry.addData("Green shooting positions", getClosestShootingPositionForColor(ArtifactColor.GREEN));
-        telemetry.addData("Purple shooting positions", getClosestShootingPositionForColor(ArtifactColor.PURPLE));
+        telemetryM.addData("Last registered color", getLastDetectedColor());
+        telemetryM.addData("isFull", getIsFull());
+        telemetryM.addData("Green shooting positions", getClosestShootingPositionForColor(ArtifactColor.GREEN));
+        telemetryM.addData("Purple shooting positions", getClosestShootingPositionForColor(ArtifactColor.PURPLE));
     }
 }

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE_2D;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
 
 import com.acmerobotics.roadrunner.Action;
@@ -32,13 +33,13 @@ public class FollowTrajectoryVisionTest extends DinitechRobotBase {
     public void initialize() {
         super.initialize();
 
-        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
 
-        visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
+        visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
         register(visionSubsystem);
 
-        driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE, telemetry);
+        driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE_2D, telemetry);
         register(driveSubsystem);
 
         new SequentialCommandGroup(

@@ -41,8 +41,7 @@ public class ModeRamassage extends ConditionalCommand {
                                 new CloseTrappe(trieurSubsystem),
                                 new StopShooter(shooterSubsystem)
                         ),
-                        new AutomaticArtefactPickAway(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
-                        new StopChargeur(chargeurSubsystem)),
+                        new AutomaticArtefactPickAway(trieurSubsystem, chargeurSubsystem, gamepadSubsystem)),
 
                 // if condition is false.
                 new SequentialCommandGroup(
@@ -51,8 +50,7 @@ public class ModeRamassage extends ConditionalCommand {
                             new StopShooter(shooterSubsystem)
                     ),
                     new MoulinNext(trieurSubsystem),
-                    new AutomaticArtefactPickAway(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
-                    new StopChargeur(chargeurSubsystem)),
+                    new AutomaticArtefactPickAway(trieurSubsystem, chargeurSubsystem, gamepadSubsystem)),
                 
                 // Condition.
                 () -> Moulin.isStoragePosition(trieurSubsystem.getMoulinPosition())

@@ -402,44 +402,6 @@ public class Moulin {
 
 
     /**
-     * Gets the storage-specific index (1, 2, or 3) for a given moulin storage position.
-     * @param pos A moulin position that must be a storage position (1, 3, or 5).
-     * @return The corresponding storage index (1, 2, or 3).
-     * @throws IllegalArgumentException if the position is not a valid storage position.
-     */
-    public static int getMoulinStoragePos(int pos) {
-        if (pos == 1) {
-            return 1;
-        } else if (pos == 3) {
-            return 2;
-        } else if (pos == 5) {
-            return 3;
-        } else {
-            throw new IllegalArgumentException("Cannot return the storage pos, pos is not a storage :" + pos);
-        }
-    }
-
-    /**
-     * Gets the storage-specific index (1, 2, or 3) from a given moulin shooting position.
-     * This identifies which storage slot is in the shooting position.
-     * @param moulinPos A moulin position that must be a shooting position (2, 4, or 6).
-     * @return The corresponding storage index (1, 2, or 3).
-     * @throws IllegalArgumentException if the position is not a valid shooting position.
-     */
-    public static int getStoragePositionFromShootingPosition(int moulinPos) {
-        if (moulinPos == 2) {
-            return 3;
-        } else if (moulinPos == 4) {
-            return 1;
-        } else if (moulinPos == 6) {
-            return 2;
-        } else {
-            throw new IllegalArgumentException(
-                    "Cannot return the storage pos, moulinPos is not a shooting pos for any pos :" + moulinPos);
-        }
-    }
-
-    /**
      * Check if a state is a storage position (1, 3, 5)
      *
      * @param pos the position to check
@@ -459,32 +421,6 @@ public class Moulin {
         return pos == 2 || pos == 4 || pos == 6;
     }
 
-    /**
-     * Get the shooting position for a given storage position
-     *
-     * @param storagePosition the storage position (1, 3, or 5)
-     * @return the corresponding shooting position (4, 6, and 1)
-     */
-    public static int getShootingPositionFor(int storagePosition) {
-        if (isShootingPosition(storagePosition)) {
-            throw new IllegalArgumentException("Invalid storage pos: " + storagePosition);
-        }
-        return getOppositePosition(storagePosition);
-    }
-
-    /**
-     * Get the storage position for a given shooting position
-     *
-     * @param shootingPosition the shooting position (2, 4, or 6)
-     * @return the corresponding storage position (1, 3, or 5)
-     * @throws IllegalArgumentException if not a valid shooting state
-     */
-    public static int getStoragePositionFor(int shootingPosition) {
-        if (isStoragePosition(shootingPosition)) {
-            throw new IllegalArgumentException("Invalid shooting pos: " + shootingPosition);
-        }
-        return getOppositePosition(shootingPosition);
-    }
 
     /**
      * Sets the PIDF coefficients for the motor.

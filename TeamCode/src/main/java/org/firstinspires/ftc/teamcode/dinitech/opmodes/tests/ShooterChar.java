@@ -52,10 +52,10 @@ public class ShooterChar extends DinitechRobotBase {
     public void initialize() {
         super.initialize();
 
-        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
 
-        shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetry);
+        shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
         register(shooterSubsystem);
         shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 

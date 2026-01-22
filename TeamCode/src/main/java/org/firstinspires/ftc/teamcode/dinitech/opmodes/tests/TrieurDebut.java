@@ -34,17 +34,17 @@ public class TrieurDebut extends DinitechRobotBase {
     public void initialize() {
         super.initialize();
 
-        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
 
-        visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
+        visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
         register(visionSubsystem);
         visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
-        trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetry);
+        trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
         register(trieurSubsystem);
 
-        chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetry);
+        chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetryM);
         register(chargeurSubsystem);
 
         setupGamePadsButtonBindings();

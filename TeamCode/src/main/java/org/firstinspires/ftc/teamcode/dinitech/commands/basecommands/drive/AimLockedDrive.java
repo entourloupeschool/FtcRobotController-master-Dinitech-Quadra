@@ -4,7 +4,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
@@ -24,29 +24,29 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * passed through a custom power function to create a smooth response curve.
  */
 public class AimLockedDrive extends CommandBase {
-    private final DriveSubsystem driveSubsystem;
+    private final DrivePedroSubsystem drivePedroSubsystem;
     private final VisionSubsystem visionSubsystem;
     private final GamepadEx driver;
 
     /**
      * Creates a new TeleDriveLocked command.
      *
-     * @param driveSubsystem   The drive subsystem to control.
+     * @param drivePedroSubsystem   The drive subsystem to control.
      * @param visionSubsystem  The vision subsystem for AprilTag detection and bearing.
      * @param gamepadSubsystem The gamepad subsystem for driver inputs.
      */
-    public AimLockedDrive(DriveSubsystem driveSubsystem, VisionSubsystem visionSubsystem,
+    public AimLockedDrive(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem,
                           GamepadSubsystem gamepadSubsystem) {
-        this.driveSubsystem = driveSubsystem;
+        this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;
         this.driver = gamepadSubsystem.getDriverEx();
 
-        addRequirements(driveSubsystem);
+        addRequirements(drivePedroSubsystem);
     }
 
     @Override
     public void initialize() {
-        driveSubsystem.setDriveUsage(DriveSubsystem.DriveUsage.AIM_LOCKED);
+        drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AIM_LOCKED);
     }
 
     /**
@@ -59,12 +59,10 @@ public class AimLockedDrive extends CommandBase {
 
         if (visionSubsystem.getHasCurrentAprilTagDetections()) {
             // Execute the drive command with the combined rotation power
-            double autoAimPower = visionSubsystem.getAutoAimPower();
-            driveSubsystem.getTelemetry().addData("AT Locked :closer to 0", "%.4f", autoAimPower);
-            driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), autoAimPower * (1 - Math.abs(rightX)) + rightX, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER), driveSubsystem.getDriveReference() == DriveSubsystem.DriveReference.FC);
+            drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), visionSubsystem.getAutoAimPower() * (1 - Math.abs(rightX)) + rightX, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
         } else {
             // Fallback to standard tele-op drive if no tags are visible
-            driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), rightX, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER), driveSubsystem.getDriveReference() == DriveSubsystem.DriveReference.FC);
+            drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), rightX, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
         }
     }
 }

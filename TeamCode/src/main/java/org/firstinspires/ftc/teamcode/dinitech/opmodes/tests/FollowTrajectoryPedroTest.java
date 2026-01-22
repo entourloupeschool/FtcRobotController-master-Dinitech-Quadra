@@ -3,26 +3,37 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.transformToPedroCoordinates;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
+import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.Path;
+import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.FollowTrajectory;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.FollowPath;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNext;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechMecanumDrive;
 
-@Autonomous(name = "FollowTrajectoryVisionTest - Dinitech", group = "Test")
-public class FollowTrajectoryVisionTest extends DinitechRobotBase {
+@Autonomous(name = "FollowTrajectoryPedroTest - Dinitech", group = "Test")
+public class FollowTrajectoryPedroTest extends DinitechRobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private VisionSubsystem visionSubsystem;
-    private DriveSubsystem driveSubsystem;
+    private DrivePedroSubsystem drivePedroSubsystem;
 
 
     /**
@@ -32,22 +43,47 @@ public class FollowTrajectoryVisionTest extends DinitechRobotBase {
     public void initialize() {
         super.initialize();
 
-        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
 
-        visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
+        visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
         register(visionSubsystem);
 
-        driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE, telemetry);
-        register(driveSubsystem);
+        drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BEGIN_POSE, telemetryM);
+        register(drivePedroSubsystem);
 
         new SequentialCommandGroup(
-                new FollowTrajectory(
-                        RectangleCouleurs(driveSubsystem.getDrive()), driveSubsystem
-                ),
-                new FollowTrajectory(
-                        RectangleCouleurs(driveSubsystem.getDrive()), driveSubsystem, visionSubsystem
-                )
+                new FollowPath(drivePedroSubsystem,
+                        new PathChain(
+                                new Path(
+                                        new BezierLine(
+                                                BEGIN_POSE,
+                                                BEGIN_POSE.withX(BEGIN_POSE.getX() + 20)
+                                        )
+                                ),
+                                new Path(
+                                        new BezierLine(
+                                                drivePedroSubsystem.getPose(),
+                                                BEGIN_POSE
+                                        )
+                                )),
+                        AUTO_ROBOT_CONSTRAINTS, true),
+                new WaitCommand(1000),
+                new FollowPath(drivePedroSubsystem,
+                        new PathChain(
+                                new Path(
+                                        new BezierLine(
+                                                BEGIN_POSE,
+                                                BEGIN_POSE.withX(BEGIN_POSE.getX() + 20)
+                                        )
+                                ),
+                                new Path(
+                                        new BezierLine(
+                                                drivePedroSubsystem.getPose(),
+                                                BEGIN_POSE
+                                        )
+                                )),
+                        AUTO_ROBOT_CONSTRAINTS, true)
         ).schedule();
 
     }
@@ -58,6 +94,9 @@ public class FollowTrajectoryVisionTest extends DinitechRobotBase {
     @Override
     public void run() {
             super.run();
+            telemetry.addData("x", drivePedroSubsystem.getPose().getX());
+            telemetry.addData("y", drivePedroSubsystem.getPose().getY());
+            telemetry.addData("heading", Math.toDegrees(drivePedroSubsystem.getPose().getHeading()));
     }
 
     public static Action Rosace(DinitechMecanumDrive drive) {

@@ -24,10 +24,10 @@ public class TrieurBasic extends DinitechRobotBase {
     public void initialize() {
         super.initialize();
 
-        trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetry);
+        trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
         register(trieurSubsystem);
 
-        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
 
         setupGamePadsButtonBindings();

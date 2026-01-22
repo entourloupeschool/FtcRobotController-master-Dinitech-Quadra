@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tele;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.transformToPedroCoordinates;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.ToggleChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.FieldCentricDrive;
@@ -31,6 +34,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeShoot;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
@@ -47,7 +51,7 @@ public class GornetixTeleOp extends DinitechRobotBase {
     private VisionSubsystem visionSubsystem;
     private ShooterSubsystem shooterSubsystem;
     private ChargeurSubsystem chargeurSubsystem;
-    private DriveSubsystem driveSubsystem;
+    private DrivePedroSubsystem drivePedroSubsystem;
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -56,24 +60,24 @@ public class GornetixTeleOp extends DinitechRobotBase {
     public void initialize() {
             super.initialize();
 
-            gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+            gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
             register(gamepadSubsystem);
             m_Driver = gamepadSubsystem.driver;
             m_Operator = gamepadSubsystem.operator;
 
-            visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
+            visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
             register(visionSubsystem);
 
-            driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE, telemetry);
-            register(driveSubsystem);
+            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BEGIN_POSE, telemetryM);
+            register(drivePedroSubsystem);
 
-            trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetry);
+            trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
             register(trieurSubsystem);
 
-            chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetry);
+            chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetryM);
             register(chargeurSubsystem);
 
-            shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetry);
+            shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
             register(shooterSubsystem);
 
             setupGamePadsButtonBindings();
@@ -94,8 +98,8 @@ public class GornetixTeleOp extends DinitechRobotBase {
      */
     private void setupGamePadsButtonBindings() {
         gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
-        visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, driveSubsystem, trieurSubsystem, shooterSubsystem));
-        driveSubsystem.setDefaultCommand(new FieldCentricDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
+        visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, drivePedroSubsystem, trieurSubsystem, shooterSubsystem));
+        drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
         shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.NONE);
 
 
@@ -106,8 +110,8 @@ public class GornetixTeleOp extends DinitechRobotBase {
         m_Operator.m2Button.whenPressed(new InstantCommand());
 
         // Full stop robot
-        m_Driver.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
-        m_Operator.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
+        m_Driver.touchpadButton.whenActive(new StopRobot(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem));
+        m_Operator.touchpadButton.whenActive(new StopRobot(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem));
 
         // Driver controls
 //            m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
@@ -115,8 +119,8 @@ public class GornetixTeleOp extends DinitechRobotBase {
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem, gamepadSubsystem));
         m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem)));
 
-        m_Driver.bump_left.whenPressed(new ToggleSlowDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
-        m_Driver.bump_right.whenPressed(new ToggleVisionDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
+        m_Driver.bump_left.whenPressed(new ToggleSlowDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
+        m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
 
 
         // Operator controls
@@ -143,8 +147,7 @@ public class GornetixTeleOp extends DinitechRobotBase {
                 .whenActive(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
 
         new Trigger(trieurSubsystem::getIsFull)
-                .whenActive(new ModeShoot(driveSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem));
-
+                .whenActive(new ModeShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem));
     }
 
 }

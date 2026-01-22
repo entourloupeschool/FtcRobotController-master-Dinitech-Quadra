@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -23,7 +24,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  */
 public class OptimizedUpdatesAprilTagsDetections extends CommandBase {
     private final VisionSubsystem visionSubsystem;
-    private final DriveSubsystem driveSubsystem;
+    private final DrivePedroSubsystem drivePedroSubsystem;
     private final TrieurSubsystem trieurSubsystem;
     private final ShooterSubsystem shooterSubsystem;
 
@@ -34,9 +35,9 @@ public class OptimizedUpdatesAprilTagsDetections extends CommandBase {
 *    * @param driveSubsystem The drive subsystem to continuously update.
      * @param shooterSubsystem The shooter subsystem to continuously update.
      */
-    public OptimizedUpdatesAprilTagsDetections(VisionSubsystem visionSubsystem, DriveSubsystem driveSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem){
+    public OptimizedUpdatesAprilTagsDetections(VisionSubsystem visionSubsystem, DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem){
         this.visionSubsystem = visionSubsystem;
-        this.driveSubsystem = driveSubsystem;
+        this.drivePedroSubsystem = drivePedroSubsystem;
         this.trieurSubsystem = trieurSubsystem;
         this.shooterSubsystem = shooterSubsystem;
 
@@ -55,7 +56,7 @@ public class OptimizedUpdatesAprilTagsDetections extends CommandBase {
     @Override
     public void execute(){
         if (trieurSubsystem.getIsFull() || shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.VISION
-                || driveSubsystem.getDriveReference() == DriveSubsystem.DriveReference.FC || driveSubsystem.getDriveUsage() == DriveSubsystem.DriveUsage.AIM_LOCKED) {
+                || drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC || drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.AIM_LOCKED) {
             if (!visionSubsystem.getAprilTagProcessorEnabled()) visionSubsystem.setAprilTagProcessorEnabled(true);
 
             visionSubsystem.optimizeDecimation();

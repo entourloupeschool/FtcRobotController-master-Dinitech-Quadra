@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.transformToPedroCoordinates;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.ToggleChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.RobotCentricDrive;
@@ -22,7 +25,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trap
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticArtefactPickAway;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -39,7 +42,7 @@ public class ShooterSpeeds extends DinitechRobotBase {
 
     private ShooterSubsystem shooterSubsystem;
     private ChargeurSubsystem chargeurSubsystem;
-    private DriveSubsystem driveSubsystem;
+    private DrivePedroSubsystem drivePedroSubsystem;
 
         /**
          * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -48,25 +51,25 @@ public class ShooterSpeeds extends DinitechRobotBase {
         public void initialize() {
                 super.initialize();
 
-                gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+                gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
                 register(gamepadSubsystem);
                 m_Driver = gamepadSubsystem.driver;
                 m_Operator = gamepadSubsystem.operator;
 
-                visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
+                visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
                 register(visionSubsystem);
 
-                driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE,
-                                telemetry);
-                register(driveSubsystem);
+                drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BEGIN_POSE,
+                                telemetryM);
+                register(drivePedroSubsystem);
 
-                trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetry);
+                trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
                 register(trieurSubsystem);
 
-                chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetry);
+                chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetryM);
                 register(chargeurSubsystem);
 
-                shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetry);
+                shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
                 register(shooterSubsystem);
 
                 setupGamePadsButtonBindings();
@@ -89,7 +92,7 @@ public class ShooterSpeeds extends DinitechRobotBase {
         private void setupGamePadsButtonBindings() {
             gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
 //            visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
-            driveSubsystem.setDefaultCommand(new RobotCentricDrive(driveSubsystem, gamepadSubsystem));
+            drivePedroSubsystem.setDefaultCommand(new RobotCentricDrive(drivePedroSubsystem, gamepadSubsystem));
             shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 //                shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 
@@ -101,8 +104,8 @@ public class ShooterSpeeds extends DinitechRobotBase {
             m_Operator.m2Button.whenPressed(new InstantCommand());
 
             // Full stop robot
-            m_Driver.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
-            m_Operator.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
+            m_Driver.touchpadButton.whenActive(new StopRobot(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem));
+            m_Operator.touchpadButton.whenActive(new StopRobot(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem));
 
             // Driver controls
             m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
@@ -110,9 +113,9 @@ public class ShooterSpeeds extends DinitechRobotBase {
             m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem, gamepadSubsystem));
 //            m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, shooterSubsystem));
 
-            m_Driver.bump_left.whenPressed(new ToggleSlowDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
+            m_Driver.bump_left.whenPressed(new ToggleSlowDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
             m_Driver.bump_right
-                            .whenPressed(new ToggleVisionDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
+                            .whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
 
 
 
@@ -147,7 +150,7 @@ public class ShooterSpeeds extends DinitechRobotBase {
         private void customSetupGamePadsButtonBindings(){
             gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
 //            visionSubsystem.setDefaultCommand(new ContinuousUpdateAprilTagsDetections(visionSubsystem));
-            driveSubsystem.setDefaultCommand(new RobotCentricDrive(driveSubsystem, gamepadSubsystem));
+            drivePedroSubsystem.setDefaultCommand(new RobotCentricDrive(drivePedroSubsystem, gamepadSubsystem));
 //            shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 //                shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 
@@ -158,8 +161,8 @@ public class ShooterSpeeds extends DinitechRobotBase {
             m_Operator.m2Button.whenPressed(new InstantCommand());
 
             // Full stop robot
-            m_Driver.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
-            m_Operator.touchpadButton.whenActive(new StopRobot(driveSubsystem, shooterSubsystem, chargeurSubsystem));
+            m_Driver.touchpadButton.whenActive(new StopRobot(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem));
+            m_Operator.touchpadButton.whenActive(new StopRobot(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem));
 
             // Driver controls
             m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
@@ -167,9 +170,9 @@ public class ShooterSpeeds extends DinitechRobotBase {
             m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem, gamepadSubsystem));
 
 
-//            m_Driver.bump_left.whenPressed(new ToggleSlowDrive(driveSubsystem, gamepadSubsystem));
+//            m_Driver.bump_left.whenPressed(new ToggleSlowDrive(drivePedroSubsystem, gamepadSubsystem));
             m_Driver.bump_right
-                    .whenPressed(new ToggleVisionDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
+                    .whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
 
             // Operator controls
 //            m_Operator.dpad_up.toggleWhenPressed(new ShootRevolution(trieurSubsystem, shooterSubsystem));

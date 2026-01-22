@@ -308,25 +308,6 @@ public final class DinitechMecanumDrive {
     }
 
     /**
-     * Sets the velocity of the drive motors based on a PoseVelocity2d.
-     * @param powers The desired velocities for the robot's movement (strafe, forward, turn).
-     */
-    public void setDriveVelocities(PoseVelocity2d powers) {
-        MecanumKinematics.WheelVelocities<Time> wheelVels = new MecanumKinematics(1).inverse(
-                PoseVelocity2dDual.constant(powers, 1));
-
-        double maxPowerMag = 1;
-        for (DualNum<Time> power : wheelVels.all()) {
-            maxPowerMag = Math.max(maxPowerMag, power.value());
-        }
-
-        leftFront.setVelocity(wheelVels.leftFront.get(0) / maxPowerMag);
-        leftBack.setVelocity(wheelVels.leftBack.get(0) / maxPowerMag);
-        rightBack.setVelocity(wheelVels.rightBack.get(0) / maxPowerMag);
-        rightFront.setVelocity(wheelVels.rightFront.get(0) / maxPowerMag);
-    }
-
-    /**
      * A Road Runner Action that follows a time-based trajectory.
      */
     public final class FollowTrajectoryAction implements Action {

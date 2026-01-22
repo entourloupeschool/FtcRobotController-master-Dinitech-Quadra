@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.transformToPedroCoordinates;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.FieldCentricDrive;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
@@ -33,7 +37,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 @TeleOp(name = "Hybrid Teleop Test", group = "Test")
 public class HybridTeleopTest extends DinitechRobotBase {
 
-    private DriveSubsystem driveSubsystem;
+    private DrivePedroSubsystem drivePedroSubsystem;
     private VisionSubsystem visionSubsystem;
     private GamepadSubsystem gamepadSubsystem;
 
@@ -41,19 +45,19 @@ public class HybridTeleopTest extends DinitechRobotBase {
     public void initialize() {
         super.initialize();
 
-        driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE, telemetry);
-        register(driveSubsystem);
+        drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BEGIN_POSE, telemetryM);
+        register(drivePedroSubsystem);
 
-        visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
+        visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
         register(visionSubsystem);
 
-        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
         // Register subsystems
 
         // Set hybrid teleop as default command for drive subsystem
-        driveSubsystem.setDefaultCommand(
-                new FieldCentricDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
+        drivePedroSubsystem.setDefaultCommand(
+                new FieldCentricDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
     }
     /**
      * Main OpMode loop. Updates gamepad states.

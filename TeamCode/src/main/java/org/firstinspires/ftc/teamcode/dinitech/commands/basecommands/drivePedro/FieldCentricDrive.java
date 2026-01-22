@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive;
+package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.Localizer;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
  * The right stick still controls rotation as in a normal robot-centric drive.
  */
 public class FieldCentricDrive extends CommandBase {
-    private final DriveSubsystem driveSubsystem;
+    private final DrivePedroSubsystem drivePedroSubsystem;
     private final VisionSubsystem visionSubsystem;
     private final GamepadWrapper driver;
 
@@ -38,25 +38,26 @@ public class FieldCentricDrive extends CommandBase {
     /**
      * Creates a new TeleDriveHybrid command.
      *
-     * @param driveSubsystem   The drive subsystem to control.
+     * @param drivePedroSubsystem   The drive subsystem to control.
      * @param gamepadSubsystem The gamepad subsystem for accessing driver inputs.
      */
-    public FieldCentricDrive(DriveSubsystem driveSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
-        this.driveSubsystem = driveSubsystem;
+    public FieldCentricDrive(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
+        this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;
         this.driver = gamepadSubsystem.driver;
 
-        addRequirements(driveSubsystem);
+        addRequirements(drivePedroSubsystem);
     }
 
     @Override
     public void initialize(){
-        driveSubsystem.setDriveUsage(DriveSubsystem.DriveUsage.TELE);
-        driveSubsystem.setDriveReference(DriveSubsystem.DriveReference.FC);
+        drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.TELE);
+        drivePedroSubsystem.setDriveReference(DrivePedroSubsystem.DriveReference.FC);
+        drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive();
 
 
-//        orinalLocalizer = driveSubsystem.getLocalizer();
-//        driveSubsystem.setLocalizer(new AprilTagLocalizer(orinalLocalizer, visionSubsystem));
+//        orinalLocalizer = drivePedroSubsystem.getLocalizer();
+//        drivePedroSubsystem.setLocalizer(new AprilTagLocalizer(orinalLocalizer, visionSubsystem));
     }
 
     /**
@@ -65,12 +66,12 @@ public class FieldCentricDrive extends CommandBase {
     @Override
     public void execute(){
         // Update localizer every cycle to get current heading
-        driveSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue(), driveSubsystem.getDriveReference() == DriveSubsystem.DriveReference.FC);
+        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
     }
 
     @Override
     public void end(boolean interrupted){
-//        driveSubsystem.setLocalizer(orinalLocalizer);
+//        drivePedroSubsystem.setLocalizer(orinalLocalizer);
     }
 
 }

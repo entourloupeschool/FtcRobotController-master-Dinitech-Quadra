@@ -16,6 +16,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kV_SHOOTER_A
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
@@ -41,7 +42,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.Vis
 public class ShooterSubsystem extends SubsystemBase {
     private final DcMotorEx dcMotorEx;
     private SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS_SHOOTER_AGGRESSIVE, kV_SHOOTER_AGGRESSIVE, kA_SHOOTER_AGGRESSIVE);
-    private final Telemetry telemetry;
+    private final TelemetryManager telemetryM;
     private final DcMotor.RunMode runMode = DcMotor.RunMode.RUN_USING_ENCODER;
 
     /**
@@ -55,15 +56,15 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private double targetSpeed = 0;
     private double lastTimeStamp, accel, lastVelo;
-    private ShooterUsageState usageState;
+    private ShooterUsageState usageState = ShooterUsageState.NONE;
 
     /**
      * Constructs a new ShooterSubsystem.
      *
      * @param hardwareMap The robot's hardware map.
-     * @param telemetry   The telemetry object for logging.
+     * @param telemetryM   The telemetry object for logging.
      */
-    public ShooterSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
+    public ShooterSubsystem(HardwareMap hardwareMap, TelemetryManager telemetryM) {
         dcMotorEx = hardwareMap.get(DcMotorEx.class, SHOOTER_MOTOR_NAME);
 
         dcMotorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -78,7 +79,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         setVelocity(0);
 
-        this.telemetry = telemetry;
+        this.telemetryM = telemetryM;
     }
 
     /**
@@ -311,15 +312,15 @@ public class ShooterSubsystem extends SubsystemBase {
     public void periodic() {
         if (isOverCurrent()) {
             stopMotor();
-            telemetry.addLine("shooter motor over current");
+            telemetryM.addLine("shooter motor over current");
         }
 
-        printShooterTelemetry(telemetry);
+        printShooterTelemetry(telemetryM);
     }
 
-    private void printShooterTelemetry(final Telemetry telemetry) {
-        telemetry.addData("Shooter Speed (ticks/s)", "%.2f", getVelocity());
-        telemetry.addData("Target Speed (ticks/s)", "%.2f", getTargetSpeed());
-        telemetry.addData("Shooter State", getUsageState());
+    private void printShooterTelemetry(final TelemetryManager telemetryM) {
+        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
+        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
+        telemetryM.addData("Shooter State", getUsageState());
     }
 }

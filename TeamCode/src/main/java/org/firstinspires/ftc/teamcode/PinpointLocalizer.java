@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ENCODER_RESOLUTION;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PAR_POD_Y_MM;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PERP_POD_X_MM;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -36,8 +38,11 @@ public final class PinpointLocalizer implements Localizer {
         pinPointDriver = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
 
         double mmPerTick = inPerTick * 25.4; // = 0.01940346363
-        pinPointDriver.setEncoderResolution(1 / mmPerTick, DistanceUnit.MM);
-        pinPointDriver.setOffsets(mmPerTick * PARAMS.parYTicks, mmPerTick * PARAMS.perpXTicks, DistanceUnit.MM);
+//        pinPointDriver.setEncoderResolution(1 / mmPerTick, DistanceUnit.MM);
+//        pinPointDriver.setOffsets(mmPerTick * PARAMS.parYTicks, mmPerTick * PARAMS.perpXTicks, DistanceUnit.MM);
+
+        pinPointDriver.setEncoderResolution(ENCODER_RESOLUTION, DistanceUnit.MM);
+        pinPointDriver.setOffsets(PAR_POD_Y_MM, PERP_POD_X_MM, DistanceUnit.MM);
 
         // TODO: reverse encoder directions if needed
         initialParDirection = GoBildaPinpointDriver.EncoderDirection.FORWARD;

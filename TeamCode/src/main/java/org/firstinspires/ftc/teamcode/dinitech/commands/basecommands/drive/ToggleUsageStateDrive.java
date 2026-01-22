@@ -2,14 +2,14 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 /**
  * An instant command that toggles the drive mode between normal speed and slow speed.
  * <p>
- * When executed, this command checks the current state of the {@link DriveSubsystem}.
+ * When executed, this command checks the current state of the {@link DrivePedroSubsystem}.
  * <ul>
  *     <li>If the drive is in slow mode, it sets the default command back to {@link RobotCentricDrive} for
  *     normal-speed operation.</li>
@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * The command finishes immediately after setting the new default command.
  */
 public class ToggleUsageStateDrive extends CommandBase {
-    private final DriveSubsystem driveSubsystem;
+    private final DrivePedroSubsystem drivePedroSubsystem;
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
 
@@ -27,12 +27,12 @@ public class ToggleUsageStateDrive extends CommandBase {
     /**
      * Creates a new Toggle Between Usage States command.
      *
-     * @param driveSubsystem   The drive subsystem whose default command will be toggled.
+     * @param drivePedroSubsystem   The drive subsystem whose default command will be toggled.
 *    * @param visionSubsystem  The vision subsystem required by the locked drive mode.
      * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
      */
-    public ToggleUsageStateDrive(DriveSubsystem driveSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
-        this.driveSubsystem = driveSubsystem;
+    public ToggleUsageStateDrive(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
+        this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
     }
@@ -43,19 +43,19 @@ public class ToggleUsageStateDrive extends CommandBase {
     @Override
     public void initialize() {
         // Cancel the current default command to allow a new one to be set.
-        if (driveSubsystem.getDefaultCommand() != null) {
-            driveSubsystem.getDefaultCommand().cancel();
+        if (drivePedroSubsystem.getDefaultCommand() != null) {
+            drivePedroSubsystem.getDefaultCommand().cancel();
         }
 
         // Toggle based on actual drive usage state
-        if (driveSubsystem.getDriveUsage() == DriveSubsystem.DriveUsage.AIM_LOCKED) {
+        if (drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.AIM_LOCKED) {
             // If currently in slow mode, switch back to normal drive
-            driveSubsystem.setDefaultCommand(new SlowDrive(driveSubsystem, gamepadSubsystem));
-        } else if (driveSubsystem.getDriveUsage() == DriveSubsystem.DriveUsage.TELE){
+            drivePedroSubsystem.setDefaultCommand(new SlowDrive(drivePedroSubsystem, gamepadSubsystem));
+        } else if (drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.TELE){
             // If in normal mode, switch to slow drive and provide feedback
-            driveSubsystem.setDefaultCommand(new AimLockedDrive(driveSubsystem, visionSubsystem, gamepadSubsystem));
+            drivePedroSubsystem.setDefaultCommand(new AimLockedDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
         } else {
-            driveSubsystem.setDefaultCommand(new RobotCentricDrive(driveSubsystem, gamepadSubsystem));
+            drivePedroSubsystem.setDefaultCommand(new RobotCentricDrive(drivePedroSubsystem, gamepadSubsystem));
         }
     }
 

@@ -15,7 +15,7 @@ public class TestGamepads extends DinitechRobotBase {
     @Override
     public void initialize() {
         super.initialize();
-        GamepadSubsystem gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+        GamepadSubsystem gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
 
     }

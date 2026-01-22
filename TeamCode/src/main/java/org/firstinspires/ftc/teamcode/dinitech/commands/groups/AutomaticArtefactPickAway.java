@@ -42,13 +42,6 @@ public class AutomaticArtefactPickAway extends ParallelDeadlineGroup {
                 // The deadline for the group: stop when the sorter is full.
                 new WaitUntilCommand(trieurSubsystem::getIsFull),
 
-                // Command 1 (runs in parallel): Manage the intake motor.
-                new StartEndCommand(
-                        () -> chargeurSubsystem.setChargeurPower(CHARGEUR_MOTOR_POWER), // Turn intake on
-                        () -> chargeurSubsystem.setChargeurPower(0),               // Turn intake off when deadline is met
-                        chargeurSubsystem
-                ),
-
                 // Command 2 (runs in parallel): Repeatedly detect and store artifacts.
                 new RepeatCommand(new ArtefactPickAway(trieurSubsystem, gamepadSubsystem))
         );

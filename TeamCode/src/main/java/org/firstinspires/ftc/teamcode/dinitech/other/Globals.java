@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.other;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import android.util.Size;
@@ -9,57 +10,47 @@ import android.util.Size;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.bylazar.configurables.annotations.Configurable;
+import com.pedropathing.ftc.FTCCoordinates;
+import com.pedropathing.ftc.PoseConverter;
+import com.pedropathing.geometry.PedroCoordinates;
+import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Config
+@Configurable
 public class Globals {
-        /**
-         * Tests variables
-         */
-        public static final double TEST_CIRCLE_RADIUS = 10.0;
-        public static final double TEST_CONSTRAINTS = 1.0;
+    /**
+     * Tests variables
+     */
+    public static final double TEST_CIRCLE_RADIUS = 10.0;
+    public static final double TEST_CONSTRAINTS = 1.0;
 
-        // Pose2d from the BEGIN_POSE to create left, right, forward and backward circle
-        public static final Pose2d LEFT_CIRCLE_CENTER_POSE = new Pose2d(new Vector2d(0, TEST_CIRCLE_RADIUS), 0);
-        public static final Pose2d RIGHT_CIRCLE_CENTER_POSE = new Pose2d(new Vector2d(0, -TEST_CIRCLE_RADIUS), 0);
-        public static final Pose2d FORWARD_CIRCLE_CENTER_POSE = new Pose2d(new Vector2d(TEST_CIRCLE_RADIUS, 0), 0);
-        public static final Pose2d BACKWARD_CIRCLE_CENTER_POSE = new Pose2d(new Vector2d(-TEST_CIRCLE_RADIUS, 0), 0);
+    // Pose2d from the BEGIN_POSE to create left, right, forward and backward circle
+    public static final Pose2d LEFT_CIRCLE_CENTER_POSE = new Pose2d(new Vector2d(0, TEST_CIRCLE_RADIUS), 0);
+    public static final Pose2d RIGHT_CIRCLE_CENTER_POSE = new Pose2d(new Vector2d(0, -TEST_CIRCLE_RADIUS), 0);
+    public static final Pose2d FORWARD_CIRCLE_CENTER_POSE = new Pose2d(new Vector2d(TEST_CIRCLE_RADIUS, 0), 0);
+    public static final Pose2d BACKWARD_CIRCLE_CENTER_POSE = new Pose2d(new Vector2d(-TEST_CIRCLE_RADIUS, 0), 0);
 
-        /**
-         * Auto Phase globals
-         */
-        public static double AUTO_ROBOT_CONSTRAINTS = 0.7;
-        public static final double TILE_DIM = 24;
-        public static final double HYPOTHENUSE_GOAL = 26.5;
-        public static final double ANGLE_RADIANS_BLUE_GOAL = Math.acos(60.95 / 75.30); // 24 inches = 60.95 cm // 26.5 inches = 75.30 cm
-        public static final double ANGLE_RADIANS_RED_GOAL = - ANGLE_RADIANS_BLUE_GOAL;
+    /**
+     * Auto Phase globals
+     */
+    public static double AUTO_ROBOT_CONSTRAINTS = 0.7;
+    public static final double TILE_DIM = 24;
 
-        public static final double LENGTH_ARTEFACT_ROW = TILE_DIM * 0.9;
-        public static final double DISTANCE_BETWEEN_ARTEFACT_ROW = TILE_DIM * 1;
+    public static Pose BLUE_GOAL_POSE = new Pose(22, 122, -Math.PI/4);
 
-        public static final Pose2d BLUE_GOAL_BEGIN_POSE = new Pose2d(-2 * TILE_DIM, -2 * TILE_DIM, Math.PI / 4);
-        public static final Pose2d OBELISK_POSE = new Pose2d(-TILE_DIM / 2, -TILE_DIM / 2, Math.PI);
-        public static final Pose2d CLOSE_SHOOT_POSE = new Pose2d(-TILE_DIM / 2, -TILE_DIM / 2, 1.25 * Math.PI);
+    public static Pose OBELISK_POSE = new Pose(48.3, 95, Math.PI/2.1);
+    public static Pose CLOSE_SHOOT_BLUE_POSE = OBELISK_POSE.withHeading(3*Math.PI/4);
 
-        public static final Pose2d FIRST_ROW_ARTEFACTS_PREP_POSE = new Pose2d(-TILE_DIM / 2, -1.1 * TILE_DIM, Math.PI / 2);
-        public static final Pose2d SECOND_ROW_ARTEFACTS_PREP_POSE = new Pose2d(
-                        new Vector2d(FIRST_ROW_ARTEFACTS_PREP_POSE.position.x + DISTANCE_BETWEEN_ARTEFACT_ROW,
-                                        FIRST_ROW_ARTEFACTS_PREP_POSE.position.y),
-                        FIRST_ROW_ARTEFACTS_PREP_POSE.heading);
-        public static final Pose2d THIRD_ROW_ARTEFACTS_PREP_POSE = new Pose2d(
-                        new Vector2d(SECOND_ROW_ARTEFACTS_PREP_POSE.position.x + DISTANCE_BETWEEN_ARTEFACT_ROW,
-                                        SECOND_ROW_ARTEFACTS_PREP_POSE.position.y),
-                        SECOND_ROW_ARTEFACTS_PREP_POSE.heading);
 
-        public static final Pose2d FULL_BASE_POSE = new Pose2d(1.55 * TILE_DIM, -1.35 * TILE_DIM, Math.PI);
 
-        /**
-         * Gamepads
-         */
-        public static final double RUMBLE_POWER = 1;
-        public static int RUMBLE_DURATION_1 = 100;
+    /**
+     * Gamepads
+     */
+    public static final double RUMBLE_POWER = 1;
+    public static int RUMBLE_DURATION_1 = 100;
 
     public static int RUMBLE_DURATION_2 = 200;
 
@@ -72,7 +63,8 @@ public class Globals {
         /**
          * Constants
          */
-        public static final Pose2d BEGIN_POSE = new Pose2d(0, 0, 0);
+        public static final Pose BEGIN_POSE = new Pose(72, 72, 0);
+        public static final Pose2d BEGIN_POSE_2D = new Pose2d(72, 72, 0);
         public static final double TELE_DRIVE_POWER = 0.3;
         public static final double TELE_DRIVE_POWER_TRIGGER_SCALE = 1 - TELE_DRIVE_POWER;
         public static final int DRIVER_POWER_SCALER_TO_THE_POWER = 3;
@@ -229,10 +221,6 @@ public class Globals {
         public static double CAMERA_POSITION_Y = 2.8;
         public static double CAMERA_POSITION_Z = 43.0;
 
-        public static final double OFFSET_ROBOT_X = 16.0;
-        public static final double OFFSET_ROBOT_Y = 16.5;
-        public static final double OFFSET_ROBOT_YAW = Math.PI + ANGLE_RADIANS_BLUE_GOAL;
-
         public static final double CAMERA_ORIENTATION_YAW = 0;
         public static final double CAMERA_ORIENTATION_PITCH = -90; // https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_localization/apriltag-localization.html
         public static final double CAMERA_ORIENTATION_ROLL = 0;
@@ -245,7 +233,7 @@ public class Globals {
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.
         public static final VisionPortal.StreamFormat STREAM_FORMAT = VisionPortal.StreamFormat.MJPEG; // Or YUY2
 
-        public static double CLAMP_BEARING = 68;
+        public static double CLAMP_BEARING = 73;
         public static final double MIN_RANGE_VISION = MIN_RANGE_TO_SHOOT_CM; //CM
         public static final double MAX_RANGE_VISION = MAX_RANGE_TO_SHOOT_CM; //CM
 
@@ -390,4 +378,8 @@ public class Globals {
             return cm * 0.3937007874;
         }
 
+
+    public static Pose transformToPedroCoordinates(Pose2d pose2d, DistanceUnit distanceUnit, AngleUnit angleUnit) {
+        return PoseConverter.pose2DToPose(new Pose2D(distanceUnit, pose2d.position.x, pose2d.position.y, angleUnit, pose2d.heading.log()),  FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+    }
 }

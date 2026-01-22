@@ -10,30 +10,32 @@ import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Localizer;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechMecanumDrive;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPedroMecanumDrive;
 
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * A command-based subsystem that manages the robot's {@link DinitechMecanumDrive}.
- * <p>
- * This class serves as a bridge between high-level robot commands and the underlying
- * drive hardware. It provides methods for tele-operated driving with various speed
- * scaling options and can be integrated into a command-based robot structure.
- *
- * @see DinitechMecanumDrive
- * @see SubsystemBase
- */
-public class DriveSubsystem extends SubsystemBase {
-    /** The core drive system with Road Runner integration. */
-    public DinitechMecanumDrive dinitechMecanumDrive;
+public class DrivePedroSubsystem extends SubsystemBase {
+    /** The core drive system with PedroPathing integration. */
+    public DinitechPedroMecanumDrive dinitechPedroMecanumDrive;
     /** Telemetry for reporting drive status. */
-    private final Telemetry telemetry;
+    private final TelemetryManager telemetryM;
+
+    public boolean followerIsBusy() {
+        return dinitechPedroMecanumDrive.isBusy();
+    }
+
+    public void setMaxPower(double globalMaxPower) {
+        dinitechPedroMecanumDrive.setMaxPower(globalMaxPower);
+    }
 
 
     /**
@@ -71,7 +73,8 @@ public class DriveSubsystem extends SubsystemBase {
         TELE,   // Controlled by driver
         AIM_LOCKED, // Controlled by vision auto-aim
         SLOW,    // Slow drive mode
-        BLOCKED // Lock in place
+        BLOCKED, // Lock in place
+        AUTO // Controlled by autonomous code
     }
 
     private DriveUsage driveUsage;
@@ -99,13 +102,14 @@ public class DriveSubsystem extends SubsystemBase {
      *
      * @param hardwareMap         The hardware map for accessing robot hardware.
      * @param beginPose           The initial pose of the robot.
-     * @param telemetry            The telemetry object for logging.
+     * @param telemetryM            The telemetry object for logging.
      */
-    public DriveSubsystem(HardwareMap hardwareMap, Pose2d beginPose, final Telemetry telemetry) {
-        this.dinitechMecanumDrive = new DinitechMecanumDrive(hardwareMap, beginPose);
-        dinitechMecanumDrive.updatePoseEstimate();
+    public DrivePedroSubsystem(HardwareMap hardwareMap, Pose beginPose, final TelemetryManager telemetryM) {
+        this.dinitechPedroMecanumDrive = new DinitechPedroMecanumDrive(hardwareMap, beginPose);
 
-        this.telemetry = telemetry;
+        setDriveUsage(DriveUsage.AUTO);
+        setDriveReference(DriveReference.FC);
+        this.telemetryM = telemetryM;
 
     }
 
@@ -124,104 +128,55 @@ public class DriveSubsystem extends SubsystemBase {
                     + TELE_DRIVE_POWER;
         }
 
-        if (fieldCentric){
-            this.fieldCentricTeleDrive(translationX * lastTeleDriverPowerScale, translationY * lastTeleDriverPowerScale, rotation * lastTeleDriverPowerScale);
-            return;
-        }
-
-        dinitechMecanumDrive.setDrivePowers(new PoseVelocity2d(
-                new Vector2d(
+        dinitechPedroMecanumDrive.setDrivePowers(
                         translationY * lastTeleDriverPowerScale,
-                        -translationX * lastTeleDriverPowerScale),
-                -rotation * lastTeleDriverPowerScale));
-    }
-
-    /**
-     * Drives the robot based on gamepad inputs with power scaling.
-     *
-     * @param translationX The strafing input, typically from a joystick's X-axis (-1 to 1).
-     * @param translationY The forward/backward input, typically from a joystick's Y-axis (-1 to 1).
-     * @param rotation     The rotational input, typically from another joystick's X-axis (-1 to 1).
-     */
-    public void fieldCentricTeleDrive(final double translationX, final double translationY, final double rotation) {
-        // Get the current robot heading
-        Rotation2d botHeading = dinitechMecanumDrive.localizer.getPose().heading;
-
-        // Create input vector from gamepad (robot-centric)
-        Vector2d fieldInput = new Vector2d(
-                translationY,
-                -translationX);
-
-        // Rotate the robot-centric input by the inverse of the bot heading
-        // to convert to field-centric coordinates
-        Vector2d robotInput = botHeading.inverse().times(fieldInput);
-
-        dinitechMecanumDrive.setDrivePowers(new PoseVelocity2d(
-                robotInput,
-                -rotation));
+                        -translationX * lastTeleDriverPowerScale,
+                -rotation * lastTeleDriverPowerScale,
+                !fieldCentric);
     }
 
     public void stopAllMotors() {
-        dinitechMecanumDrive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
+        dinitechPedroMecanumDrive.setDrivePowers(0, 0, 0, false);
+    }
+
+    public void followPathChain(PathChain pathChain, double maxPower, boolean holdEnd){
+        dinitechPedroMecanumDrive.followPathChain(pathChain, maxPower, holdEnd);
     }
 
     @Override
     public void periodic() {
-        if (this.getDriveReference() == DriveReference.FC) this.getLocalizer().update();
-
+        dinitechPedroMecanumDrive.update();
         // This method is called periodically by the CommandScheduler.
-        printDriveTelemetry(telemetry);
+        printDriveTelemetry(telemetryM);
     }
 
     /**
      * Prints drive-related telemetry to the driver hub.
-     * @param telemetry The telemetry object.
+     * @param telemetryM The telemetry object.
      */
-    private void printDriveTelemetry(final Telemetry telemetry) {
-        telemetry.addData("drive usage", driveUsage);
-        telemetry.addData("drive reference", driveReference);
+    private void printDriveTelemetry(final TelemetryManager telemetryM) {
+        telemetryM.addData("drive usage", getDriveUsage());
+        telemetryM.addData("drive reference", getDriveReference());
 
-        Pose2d pose = getPose();
-        telemetry.addLine("Robot Pose:");
-        telemetry.addData("x", pose.position.x);
-        telemetry.addData("y", pose.position.y);
-        telemetry.addData("heading", pose.heading.log());
+        Pose pose = getPose();
+        telemetryM.addLine("Robot Pose:");
+        telemetryM.addData("x", pose.getX());
+        telemetryM.addData("y", pose.getY());
+        telemetryM.addData("heading", pose.getHeading());
 
-    }
+}
 
-    /**
-     * Returns a set containing this subsystem, for use in command requirements.
-     * @return A set containing the DriveSubsystem.
-     */
-    public Set<Subsystem> getDriveSubsystemSet() {
-        Set<Subsystem> setDriveSubsystem = new HashSet<Subsystem>();
-        setDriveSubsystem.add(this);
-        return setDriveSubsystem;
-    }
-
-    /**
-     * Gets the localizer from the underlying mecanum drive.
-     * @return The current {@link Localizer}.
-     */
-    public Localizer getLocalizer() {
-        return dinitechMecanumDrive.localizer;
-    }
-
-    public void setLocalizer(Localizer localizer) {
-        dinitechMecanumDrive.localizer = localizer;
-    }
-
-    public DinitechMecanumDrive getDrive(){return dinitechMecanumDrive;}
+    public DinitechPedroMecanumDrive getDrive(){return dinitechPedroMecanumDrive;}
 
     /**
      * Gets the current pose (position and heading) of the robot.
      * @return The robot's current {@link Pose2d}.
      */
-    public Pose2d getPose() {
-        return getLocalizer().getPose();
+    public Pose getPose() {
+        return dinitechPedroMecanumDrive.getPose();
     }
 
-    public Telemetry getTelemetry(){
-        return telemetry;
+    public TelemetryManager getTelemetry(){
+        return telemetryM;
     }
 }

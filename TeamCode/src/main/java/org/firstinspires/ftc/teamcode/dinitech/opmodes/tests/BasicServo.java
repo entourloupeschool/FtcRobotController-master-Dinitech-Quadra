@@ -24,7 +24,7 @@ public class BasicServo extends DinitechRobotBase {
     public void initialize() {
         super.initialize();
 
-        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
 
         chargeurDoubleServo = new ChargeurDoubleServo(hardwareMap);

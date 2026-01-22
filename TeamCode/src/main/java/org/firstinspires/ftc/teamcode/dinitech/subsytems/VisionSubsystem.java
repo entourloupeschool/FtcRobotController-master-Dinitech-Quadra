@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.ftc.FTCCoordinates;
+import com.pedropathing.ftc.InvertedFTCCoordinates;
+import com.pedropathing.ftc.PoseConverter;
+import com.pedropathing.geometry.PedroCoordinates;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BASKET_Y_OFFSET;
+import com.pedropathing.geometry.Pose;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_PITCH;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_ROLL;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_YAW;
@@ -31,10 +36,10 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPo
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
@@ -66,31 +71,31 @@ import java.util.List;
  * </ul>
  */
 public class VisionSubsystem extends SubsystemBase {
-    public final Telemetry telemetry;
+    public final TelemetryManager telemetryM;
     public VisionPortal visionPortal;
     private boolean cameraStream = false;
     public AprilTagProcessor aprilTagProcessor;
     public PredominantColorProcessor colorProcessor;
 
     private int lastATPositionDetection = -1;
-    private final RunningAverage robotPoseXSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage robotPoseYSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage robotPoseYawSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage rangeToAprilTagSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage cameraBearingSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage robotPoseXCMSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage robotPoseYCMSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage robotPoseYDEGREESSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage rangeToAprilTagCMSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage cameraBearingDEGREESSamples = new RunningAverage(NUMBER_AT_SAMPLES);
     private final RunningAverage confidenceAprilTagSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage aTPoseXSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage aTPoseYSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage aTPoseXCMSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage aTPoseYCMSamples = new RunningAverage(NUMBER_AT_SAMPLES);
 
     // Cached averages (updated via updateCachedAverages())
-    private Double cachedRobotPoseX = null;
-    private Double cachedRobotPoseY = null;
-    private Double cachedRobotPoseYaw = null;
-    private Double cachedRangeToAprilTag = null;
-    private Double cachedCameraBearing = null;
+    private Double cachedRobotPoseXCM = null;
+    private Double cachedRobotPoseYCM = null;
+    private Double cachedRobotPoseYawDEGREES = null;
+    private Double cachedRangeToAprilTagCM = null;
+    private Double cachedCameraBearingDEGREES = null;
     private Double cachedConfidence = null;
-    private Double cachedXATPose = null;
-    private Double cachedYATPose = null;
+    private Double cachedXATPoseCM = null;
+    private Double cachedYATPoseCM = null;
 
     private boolean hasCurrentATDetections = false;
 
@@ -114,15 +119,15 @@ public class VisionSubsystem extends SubsystemBase {
         OPTIMIZED // Optimized updates
     }
 
-    private VisionSubsystem.VisionUsageState usageState;
+    private VisionSubsystem.VisionUsageState usageState = VisionUsageState.OPTIMIZED;
 
     /**
      * Constructs a new VisionSubsystem.
      *
      * @param hardwareMap The robot's hardware map.
-     * @param telemetry   The telemetry object for logging.
+     * @param telemetryM   The telemetryM object for logging.
      */
-    public VisionSubsystem(HardwareMap hardwareMap, final Telemetry telemetry) {
+    public VisionSubsystem(HardwareMap hardwareMap, final TelemetryManager telemetryM) {
         this.aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setTagLibrary(AprilTagGameDatabase.getDecodeTagLibrary())
 //                .setDrawCubeProjection(true)
@@ -149,7 +154,7 @@ public class VisionSubsystem extends SubsystemBase {
 
         this.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(this));
 
-        this.telemetry = telemetry;
+        this.telemetryM = telemetryM;
     }
 
     /**
@@ -169,14 +174,14 @@ public class VisionSubsystem extends SubsystemBase {
                 if (detection.metadata != null) {
                     if (detection.id == 20 || detection.id == 24) {
                         lastATPositionDetection = detection.id;
-                        robotPoseXSamples.add(detection.robotPose.getPosition().x);
-                        robotPoseYSamples.add(detection.robotPose.getPosition().y);
-                        robotPoseYawSamples.add(detection.robotPose.getOrientation().getYaw(AngleUnit.RADIANS));
-                        cameraBearingSamples.add(detection.ftcPose.bearing);
-                        rangeToAprilTagSamples.add(detection.ftcPose.range);
+                        robotPoseXCMSamples.add(detection.robotPose.getPosition().x);
+                        robotPoseYCMSamples.add(detection.robotPose.getPosition().y);
+                        robotPoseYDEGREESSamples.add(detection.robotPose.getOrientation().getYaw(AngleUnit.DEGREES));
+                        cameraBearingDEGREESSamples.add(detection.ftcPose.bearing);
+                        rangeToAprilTagCMSamples.add(detection.ftcPose.range);
                         confidenceAprilTagSamples.add(detection.decisionMargin);
-                        aTPoseXSamples.add(detection.ftcPose.x);
-                        aTPoseYSamples.add(detection.ftcPose.y);
+                        aTPoseXCMSamples.add(detection.ftcPose.x);
+                        aTPoseYCMSamples.add(detection.ftcPose.y);
                         updateCachedAverages();
                     } else if (!hasDetectedColorOrder) {
                         if (detection.id == 21) {
@@ -204,14 +209,14 @@ public class VisionSubsystem extends SubsystemBase {
      * Call this after adding new samples to ensure cached values are current.
      */
     public void updateCachedAverages() {
-        cachedRobotPoseX = robotPoseXSamples.getAverage();
-        cachedRobotPoseY = robotPoseYSamples.getAverage();
-        cachedRobotPoseYaw = robotPoseYawSamples.getAverage();
-        cachedRangeToAprilTag = rangeToAprilTagSamples.getAverage();
-        cachedCameraBearing = cameraBearingSamples.getAverage();
+        cachedRobotPoseXCM = robotPoseXCMSamples.getAverage();
+        cachedRobotPoseYCM = robotPoseYCMSamples.getAverage();
+        cachedRobotPoseYawDEGREES = robotPoseYDEGREESSamples.getAverage();
+        cachedRangeToAprilTagCM = rangeToAprilTagCMSamples.getAverage();
+        cachedCameraBearingDEGREES = cameraBearingDEGREESSamples.getAverage();
         cachedConfidence = confidenceAprilTagSamples.getAverage();
-        cachedXATPose = aTPoseXSamples.getAverage();
-        cachedYATPose = aTPoseYSamples.getAverage();
+        cachedXATPoseCM = aTPoseXCMSamples.getAverage();
+        cachedYATPoseCM = aTPoseYCMSamples.getAverage();
     }
 
     /**
@@ -256,7 +261,7 @@ public class VisionSubsystem extends SubsystemBase {
      * @return The averaged X coordinate in inches, or null if no data is available.
      */
     public Double getRobotPoseX() {
-        return cachedRobotPoseX;
+        return cachedRobotPoseXCM;
     }
 
     /**
@@ -265,7 +270,7 @@ public class VisionSubsystem extends SubsystemBase {
      * @return The averaged Y coordinate in inches, or null if no data is available.
      */
     public Double getRobotPoseY() {
-        return cachedRobotPoseY;
+        return cachedRobotPoseYCM;
     }
 
     /**
@@ -274,7 +279,7 @@ public class VisionSubsystem extends SubsystemBase {
      * @return The averaged yaw in radians, or null if no data is available.
      */
     public Double getRobotPoseYaw() {
-        return cachedRobotPoseYaw;
+        return cachedRobotPoseYawDEGREES;
     }
 
     /**
@@ -283,7 +288,7 @@ public class VisionSubsystem extends SubsystemBase {
      * @return The averaged range in inches, or null if no data is available.
      */
     public Double getRangeToAprilTag() {
-        return cachedRangeToAprilTag;
+        return cachedRangeToAprilTagCM;
     }
 
     /**
@@ -292,7 +297,7 @@ public class VisionSubsystem extends SubsystemBase {
      * @return The averaged bearing in degrees, or null if no data is available.
      */
     public Double getCameraBearing() {
-        return cachedCameraBearing;
+        return cachedCameraBearingDEGREES;
     }
 
     /**
@@ -370,7 +375,7 @@ public class VisionSubsystem extends SubsystemBase {
      * @return The averaged XftcPose in inches, or null if no data is available.
      */
     public Double getXATPose(){
-        return cachedXATPose;
+        return cachedXATPoseCM;
     }
 
     /**
@@ -379,7 +384,7 @@ public class VisionSubsystem extends SubsystemBase {
      * @return The averaged YftcPose in inches, or null if no data is available.
      */
     public Double getYATPose(){
-        return cachedYATPose;
+        return cachedYATPoseCM;
     }
 
 
@@ -402,7 +407,7 @@ public class VisionSubsystem extends SubsystemBase {
      * @return True if at least one pose sample has been collected.
      */
     public boolean hasCachedPoseData() {
-        return !robotPoseXSamples.isEmpty();
+        return !robotPoseXCMSamples.isEmpty();
     }
 
     /**
@@ -420,6 +425,7 @@ public class VisionSubsystem extends SubsystemBase {
                 y != null ? cmToInch(y) : 0.0,
                 yaw != null ? yaw : 0.0);
     }
+
 
     private void setAprilTagDetectionDecimation(double dec) {
         aprilTagProcessor.setDecimation((float) dec);
@@ -453,40 +459,40 @@ public class VisionSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        aprilTagProcessorTelemetry();
-        telemetry.addData("vision usage state", getUsageState());
+        aprilTagProcessorTelemetryManager();
+        telemetryM.addData("vision usage state", getUsageState());
     }
 
 
-    private void aprilTagProcessorTelemetry() {
-        telemetry.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
+    private void aprilTagProcessorTelemetryManager() {
+        telemetryM.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
 
         if (hasCachedPoseData()) {
-            telemetry.addLine("last detected pose values");
-            telemetry.addData("X Robot (CM)", "%.2f", getRobotPoseX());
-            telemetry.addData("Y Robot (CM)", "%.2f", getRobotPoseY());
-//            telemetry.addData("Yaw (DEGREES)", "%.2f", getRobotPoseYaw());
-//            telemetry.addData("Camera Bearing (DEGREES)", "%.2f", getCameraBearing());
-//            telemetry.addData("Robot Center Bearing", "%.2f", getRobotCenterBearing());
-//            telemetry.addData("Range (CM)", "%.2f", getRangeToAprilTag());
-            telemetry.addData("X AT (CM)", "%.2f", getXATPose());
-            telemetry.addData("Y AT (CM)", "%.2f", getYATPose());
-//            telemetry.addData("robotCenterBearing", getRobotCenterToAprilTag(getCameraBearing(), getRangeToAprilTag()));
-//            telemetry.addData("normalizedCorrectionWithRange", "%.2f", getNormalizedCorrectionWithRange(getSignedDistanceToATLine(getRobotPoseX(), getRobotPoseY()), getRangeToAprilTag()));
+            telemetryM.addLine("last detected pose values");
+            telemetryM.addData("X Robot (CM)", getRobotPoseX());
+            telemetryM.addData("Y Robot (CM)",  getRobotPoseY());
+//            telemetryM.addData("Yaw (DEGREES)", "%.2f", getRobotPoseYaw());
+//            telemetryM.addData("Camera Bearing (DEGREES)", "%.2f", getCameraBearing());
+//            telemetryM.addData("Robot Center Bearing", "%.2f", getRobotCenterBearing());
+//            telemetryM.addData("Range (CM)", "%.2f", getRangeToAprilTag());
+            telemetryM.addData("X AT (CM)", getXATPose());
+            telemetryM.addData("Y AT (CM)", getYATPose());
+//            telemetryM.addData("robotCenterBearing", getRobotCenterToAprilTag(getCameraBearing(), getRangeToAprilTag()));
+//            telemetryM.addData("normalizedCorrectionWithRange", "%.2f", getNormalizedCorrectionWithRange(getSignedDistanceToATLine(getRobotPoseX(), getRobotPoseY()), getRangeToAprilTag()));
         } else {
-            telemetry.addData("AprilTag Pose Data", "No sample data");
+            telemetryM.addData("AprilTag Pose Data", "No sample data");
         }
 
-        telemetry.addData("Decimation", getDecimation());
+        telemetryM.addData("Decimation", getDecimation());
 
         if (hasDetectedColorOrder) {
-            telemetry.addData("Artifact Color Order", String.join(", ", cachedColorsOrder));
+            telemetryM.addData("Artifact Color Order", String.join(", ", cachedColorsOrder));
         }
     }
 
-    private void colorProcessorTelemetry() {
+    private void colorProcessorTelemetryManager() {
         PredominantColorProcessor.Result result = colorProcessor.getAnalysis();
-        telemetry.addData("Predominant Color", result != null ? result.closestSwatch : "No analysis");
+        telemetryM.addData("Predominant Color", result != null ? result.closestSwatch : "No analysis");
     }
 
     /**

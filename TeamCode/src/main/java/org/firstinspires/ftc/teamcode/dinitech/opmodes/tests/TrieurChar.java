@@ -44,10 +44,10 @@ public class TrieurChar extends DinitechRobotBase {
     public void initialize() {
         super.initialize();
 
-        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
 
-        trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetry);
+        trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
         register(trieurSubsystem);
 
         PIDFCoefficients pidfCoeffsInit = trieurSubsystem.getPIDF();

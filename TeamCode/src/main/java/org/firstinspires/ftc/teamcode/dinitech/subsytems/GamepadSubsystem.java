@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -18,7 +19,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
  * @see GamepadEx
  */
 public class GamepadSubsystem extends SubsystemBase {
-    private final Telemetry telemetry;
+    private final TelemetryManager telemetryM;
 
     /** The wrapper for the driver's gamepad. */
     public final GamepadWrapper driver;
@@ -30,9 +31,9 @@ public class GamepadSubsystem extends SubsystemBase {
      *
      * @param gamepad1 The raw Gamepad object for the driver.
      * @param gamepad2 The raw Gamepad object for the operator.
-     * @param telemetry The telemetry object for logging.
+     * @param telemetryM The telemetry object for logging.
      */
-    public GamepadSubsystem(Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry){
+    public GamepadSubsystem(Gamepad gamepad1, Gamepad gamepad2, TelemetryManager telemetryM){
         gamepad1.reset();
         gamepad2.reset();
 
@@ -40,7 +41,7 @@ public class GamepadSubsystem extends SubsystemBase {
         driver = new GamepadWrapper(new GamepadEx(gamepad1), 1, 0.1, 0.1); // Red
         operator = new GamepadWrapper(new GamepadEx(gamepad2), 0.1, 0.1, 1); // Blue
 
-        this.telemetry = telemetry;
+        this.telemetryM = telemetryM;
     }
 
     /**

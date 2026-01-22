@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-public class DinitechMecanumDrivePedro {
+public class DinitechFollower {
     private static double scaler = 1;
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)

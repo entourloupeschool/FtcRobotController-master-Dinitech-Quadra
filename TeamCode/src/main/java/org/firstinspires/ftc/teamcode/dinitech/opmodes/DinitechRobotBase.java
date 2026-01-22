@@ -7,11 +7,11 @@ import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.controller.PController;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
 import java.util.List;
 
@@ -21,6 +21,8 @@ public class DinitechRobotBase extends CommandOpMode {
     private List<LynxModule> hubs;
     private VoltageSensor voltageSensor;
     private final ElapsedTime timer = new ElapsedTime();
+    public TelemetryManager telemetryM;
+
 
     /**
      * Initialize all hardware and subsystems.
@@ -30,8 +32,10 @@ public class DinitechRobotBase extends CommandOpMode {
         CommandScheduler.getInstance().reset();
 
         timer.reset();
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetry.clearAll();
+
+        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
+
 
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
@@ -63,14 +67,14 @@ public class DinitechRobotBase extends CommandOpMode {
             hub.clearBulkCache();
         }
 
-        telemetry.addData("hz ", getFrequency());
+        telemetryM.addData("hz", getFrequency());
         timer.reset();
         //
         // if (voltageSensor.getVoltage() < 8.5) {
         // throw new RuntimeException("voltage too low" + voltageSensor.getVoltage());
         // }
 
-        telemetry.update();
+        telemetryM.update(telemetry);
     }
 
     public ElapsedTime getTimer() {

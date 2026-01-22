@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_CHARGE
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -24,22 +25,22 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.ChargeurDoubleS
 public class ChargeurSubsystem extends SubsystemBase {
     private final MotorEx motorEx;
     private final ChargeurDoubleServo chargeurDoubleServo;
-    public final Telemetry telemetry;
+    public final TelemetryManager telemetryM;
 
     /**
      * Constructs a new ChargeurSubsystem.
      *
      * @param hardwareMap The robot's hardware map.
-     * @param telemetry   The telemetry object for logging.
+     * @param telemetryM   The telemetry object for logging.
      */
-    public ChargeurSubsystem(HardwareMap hardwareMap, Telemetry telemetry){
+    public ChargeurSubsystem(HardwareMap hardwareMap, TelemetryManager telemetryM){
         this.motorEx = new MotorEx(hardwareMap, CHARGEUR_MOTOR_NAME);
         motorEx.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
         motorEx.setRunMode(Motor.RunMode.RawPower);
         
         this.chargeurDoubleServo = new ChargeurDoubleServo(hardwareMap);
 
-        this.telemetry = telemetry;
+        this.telemetryM = telemetryM;
     }
 
 
@@ -133,7 +134,7 @@ public class ChargeurSubsystem extends SubsystemBase {
         // Automatically stop the motor if an over-current condition is detected.
         if (isOverCurrent()){
             setMotorPower(0);
-            telemetry.addLine("chargeur motor over current");
+            telemetryM.addLine("chargeur motor over current");
         }
     }
 

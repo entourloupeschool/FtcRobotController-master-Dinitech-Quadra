@@ -2,40 +2,34 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_ARTEFACTS_PREP_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_ARTEFACT_ROW;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OBELISK_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_ARTEFACTS_PREP_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_ARTEFACTS_PREP_POSE;
 
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Vector2d;
+
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.command.button.Trigger;
+import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.FollowTrajectory;
+
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
+
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassage;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechMecanumDrive;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Autonomous(name = "GornetixAutoBlueGoal - Dinitech", group = "Auto")
 public class GornetixAutoBlueGoal extends DinitechRobotBase {
@@ -46,9 +40,7 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
 
     private ShooterSubsystem shooterSubsystem;
     private ChargeurSubsystem chargeurSubsystem;
-    private DinitechMecanumDrive drive;
-    private DriveSubsystem driveSubsystem;
-    private final Set<Subsystem> setDriveSubsystem = new HashSet<Subsystem>();
+    private DrivePedroSubsystem drivePedroSubsystem;
 
 
     /**
@@ -58,27 +50,27 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
     public void initialize() {
             super.initialize();
 
-            gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetry);
+            gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
 
-            visionSubsystem = new VisionSubsystem(hardwareMap, telemetry);
+            visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
             register(visionSubsystem);
             visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
-            driveSubsystem = new DriveSubsystem(hardwareMap, BEGIN_POSE, telemetry);
-            register(driveSubsystem);
+            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BLUE_GOAL_POSE, telemetryM);
+            register(drivePedroSubsystem);
 
-            setDriveSubsystem.add(driveSubsystem);
 
-            trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetry);
+            trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
             register(trieurSubsystem);
 
             autoSetArtefactColors();
 
-            chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetry);
+            chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetryM);
             register(chargeurSubsystem);
 
-            shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetry);
+            shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
             register(shooterSubsystem);
+            shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem));
 
 
             // LISTENER: Automatic trigger: when trieur becomes full, spin up shooter to max speed and
@@ -89,30 +81,42 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                     // Obelisk and MoulinCalibrate
                     new ParallelCommandGroup(
                             new MoulinCalibrate(trieurSubsystem),
-                            new FollowTrajectory(
-                                    drive.actionBuilder(drive.localizer.getPose(), AUTO_ROBOT_CONSTRAINTS)
-                                            .strafeToLinearHeading(OBELISK_POSE.position, OBELISK_POSE.heading)
-                                            .build(), driveSubsystem)),
-
+                            new FollowPath(
+                                    drivePedroSubsystem, builder -> builder
+                                    .addPath(new BezierLine(
+                                            BLUE_GOAL_POSE,
+                                            OBELISK_POSE)
+                                    ).setLinearHeadingInterpolation(BLUE_GOAL_POSE.getHeading(), OBELISK_POSE.getHeading(), 0.8).build(),
+                                    AUTO_ROBOT_CONSTRAINTS, true
+                            )
+                    ),
                     // Shoot close - just rotate since we're already at the right position
                     new ParallelCommandGroup(
-                            new FollowTrajectory(
-                                    drive.actionBuilder(drive.localizer.getPose(), AUTO_ROBOT_CONSTRAINTS)
-                                            .turnTo(CLOSE_SHOOT_POSE.heading)
-                                            .build(), driveSubsystem),
-                            new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)),
+                            new FollowPath(
+                                    drivePedroSubsystem, builder -> builder
+                                    .addPath(new BezierLine(
+                                            OBELISK_POSE,
+                                            CLOSE_SHOOT_BLUE_POSE)
+                                    ).setLinearHeadingInterpolation(OBELISK_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), 0.8).build(),
+                                    AUTO_ROBOT_CONSTRAINTS, true
+                            ),
+                            new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
+                    ),
 
                     // Shoot All
-                    new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem)),
+                    new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem))
 
                     // go to next row of artefacts
-                    new ParallelCommandGroup(
-                            new ModeRamassage(trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem),
-                            new FollowTrajectory(
-                                    drive.actionBuilder(drive.localizer.getPose(), AUTO_ROBOT_CONSTRAINTS)
-                                            .strafeToLinearHeading(FIRST_ROW_ARTEFACTS_PREP_POSE.position, FIRST_ROW_ARTEFACTS_PREP_POSE.heading)
-                                            .strafeToConstantHeading(new Vector2d(FIRST_ROW_ARTEFACTS_PREP_POSE.position.x, FIRST_ROW_ARTEFACTS_PREP_POSE.position.y - LENGTH_ARTEFACT_ROW))
-                                            .build(), driveSubsystem))
+//                    new ParallelCommandGroup(
+//                            new ModeRamassage(trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem),
+//                            new FollowPath(
+//                                    drivePedroSubsystem, builder -> builder
+//                                    .addPath(new BezierLine(
+//                                            OBELISK_POSE,
+//                                            CLOSE_SHOOT_BLUE_POSE)
+//                                    ).setLinearHeadingInterpolation(OBELISK_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading()).build(),
+//                                    AUTO_ROBOT_CONSTRAINTS, true
+//                            )
             ).schedule();
 
     }
@@ -132,39 +136,6 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
             trieurSubsystem.setMoulinStoragePositionColor(1, TrieurSubsystem.ArtifactColor.PURPLE);
             trieurSubsystem.setMoulinStoragePositionColor(2, TrieurSubsystem.ArtifactColor.PURPLE);
             trieurSubsystem.setMoulinStoragePositionColor(3, TrieurSubsystem.ArtifactColor.GREEN);
-    }
-
-    public static Action BlueFromBasket(DinitechMecanumDrive drive, Pose2d beginPose) {
-        return drive.actionBuilder(beginPose, AUTO_ROBOT_CONSTRAINTS)
-                // See the obelisk
-                .strafeToLinearHeading(OBELISK_POSE.position, OBELISK_POSE.heading)
-
-                // Trieur busines
-
-                // Shoot close - just rotate since we're already at the right position
-                .turnTo(CLOSE_SHOOT_POSE.heading)
-
-                // go to next row of artefacts
-                .strafeToLinearHeading(FIRST_ROW_ARTEFACTS_PREP_POSE.position, FIRST_ROW_ARTEFACTS_PREP_POSE.heading)
-                .strafeToConstantHeading(new Vector2d(FIRST_ROW_ARTEFACTS_PREP_POSE.position.x, FIRST_ROW_ARTEFACTS_PREP_POSE.position.y - LENGTH_ARTEFACT_ROW))
-
-                // Shoot close
-                .strafeToLinearHeading(CLOSE_SHOOT_POSE.position, CLOSE_SHOOT_POSE.heading)
-
-                // go to next row of artefacts
-                .strafeToLinearHeading(SECOND_ROW_ARTEFACTS_PREP_POSE.position, SECOND_ROW_ARTEFACTS_PREP_POSE.heading)
-                .strafeToConstantHeading(new Vector2d(SECOND_ROW_ARTEFACTS_PREP_POSE.position.x, SECOND_ROW_ARTEFACTS_PREP_POSE.position.y - LENGTH_ARTEFACT_ROW))
-
-                // Shoot close
-                .strafeToLinearHeading(CLOSE_SHOOT_POSE.position, CLOSE_SHOOT_POSE.heading)
-
-                // go to next row of artefacts
-                .strafeToLinearHeading(THIRD_ROW_ARTEFACTS_PREP_POSE.position, THIRD_ROW_ARTEFACTS_PREP_POSE.heading)
-                .strafeToConstantHeading(new Vector2d(THIRD_ROW_ARTEFACTS_PREP_POSE.position.x, THIRD_ROW_ARTEFACTS_PREP_POSE.position.y - LENGTH_ARTEFACT_ROW))
-
-                // Shoot close
-                .strafeToLinearHeading(CLOSE_SHOOT_POSE.position, CLOSE_SHOOT_POSE.heading)
-                .build();
     }
 
 }
