@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.pedroPathing;
+package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ENCODER_RESOLUTION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PAR_POD_Y_MM;
