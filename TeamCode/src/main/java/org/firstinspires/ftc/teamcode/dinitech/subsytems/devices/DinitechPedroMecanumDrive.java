@@ -58,6 +58,17 @@ public class DinitechPedroMecanumDrive {
         return follower.isBusy();
     }
 
+    public boolean isOnPath(){
+        return follower.getCurrentPath() != null;
+    }
+
+    public boolean isPathQuasiDone(){
+//        boolean isVelocityLow = follower.getVelocity().getMagnitude() < follower.getCurrentPath().getPathEndVelocityConstraint();
+        boolean isHeadingSufficient = follower.getAngularVelocity() < 0.055;
+        boolean isAtParametricEnd = follower.getCurrentPath().isAtParametricEnd();
+        return isHeadingSufficient && isAtParametricEnd;
+    }
+
     public void setMaxPower(double globalMaxPower) {
         follower.setMaxPower(globalMaxPower);
     }

@@ -33,6 +33,11 @@ public class DrivePedroSubsystem extends SubsystemBase {
         return dinitechPedroMecanumDrive.isBusy();
     }
 
+    public boolean isPathQuasiDone(){
+        return dinitechPedroMecanumDrive.isPathQuasiDone();
+    }
+
+
     public void setMaxPower(double globalMaxPower) {
         dinitechPedroMecanumDrive.setMaxPower(globalMaxPower);
     }
@@ -148,6 +153,14 @@ public class DrivePedroSubsystem extends SubsystemBase {
         dinitechPedroMecanumDrive.update();
         // This method is called periodically by the CommandScheduler.
         printDriveTelemetry(telemetryM);
+        debugPedro(telemetryM);
+    }
+
+    private void debugPedro(TelemetryManager telemetryM) {
+        if (dinitechPedroMecanumDrive.isOnPath()){
+            telemetryM.addData("quasi", isPathQuasiDone());
+            telemetryM.addData("done", !followerIsBusy());
+        }
     }
 
     /**

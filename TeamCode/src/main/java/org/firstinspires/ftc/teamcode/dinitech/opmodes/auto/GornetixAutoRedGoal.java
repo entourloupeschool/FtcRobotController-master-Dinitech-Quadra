@@ -3,24 +3,22 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
-
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_GOAL_POSE;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierLine;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.FollowPath;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.InstantRangeVisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
-
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassage;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -29,8 +27,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-@Autonomous(name = "GornetixAutoBlueGoal - Dinitech", group = "Auto")
-public class GornetixAutoBlueGoal extends DinitechRobotBase {
+@Autonomous(name = "GornetixAutoRedGoal - Dinitech", group = "Auto")
+public class GornetixAutoRedGoal extends DinitechRobotBase {
     private TrieurSubsystem trieurSubsystem;
     private VisionSubsystem visionSubsystem;
     private GamepadSubsystem gamepadSubsystem;
@@ -54,9 +52,8 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
             register(visionSubsystem);
             visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
-            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BLUE_GOAL_POSE, telemetryM);
+            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, RED_GOAL_POSE, telemetryM);
             register(drivePedroSubsystem);
-
 
             trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
             register(trieurSubsystem);
@@ -70,7 +67,6 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
             register(shooterSubsystem);
             shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem));
 
-
             new SequentialCommandGroup(
                     // Obelisk and MoulinCalibrate
                     new ParallelCommandGroup(
@@ -82,14 +78,14 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                             new FollowPath(
                                     drivePedroSubsystem, builder -> builder
                                     .addPath(new BezierLine(
-                                            BLUE_GOAL_POSE,
-                                            CLOSE_SHOOT_BLUE_POSE)
-                                    ).setLinearHeadingInterpolation(BLUE_GOAL_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                    AUTO_ROBOT_CONSTRAINTS, true)
+                                            RED_GOAL_POSE,
+                                            CLOSE_SHOOT_RED_POSE)
+                                    ).setLinearHeadingInterpolation(RED_GOAL_POSE.getHeading(), CLOSE_SHOOT_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                    AUTO_ROBOT_CONSTRAINTS, false)
                     ),
 
                     // Shoot All
-                    new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem))
+                    new ShootRevolution(trieurSubsystem, shooterSubsystem, new InstantRangeVisionShooter(shooterSubsystem, visionSubsystem))
 
                     // go to next row of artefacts
 //                    new ParallelCommandGroup(

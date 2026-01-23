@@ -483,7 +483,7 @@ public class VisionSubsystem extends SubsystemBase {
             telemetryM.addData("AprilTag Pose Data", "No sample data");
         }
 
-        telemetryM.addData("Decimation", getDecimation());
+//        telemetryM.addData("Decimation", getDecimation());
 
         if (hasDetectedColorOrder) {
             telemetryM.addData("Artifact Color Order", String.join(", ", cachedColorsOrder));

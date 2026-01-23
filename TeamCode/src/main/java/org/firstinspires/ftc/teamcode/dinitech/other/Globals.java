@@ -40,10 +40,14 @@ public class Globals {
     public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.8;
     public static final double TILE_DIM = 24;
 
-    public static Pose BLUE_GOAL_POSE = new Pose(22, 122, -Math.PI/4);
-
+    public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 /4*Math.PI);
     public static Pose OBELISK_POSE = new Pose(48.3, 95, Math.PI/2.1);
-    public static Pose CLOSE_SHOOT_BLUE_POSE = OBELISK_POSE.withHeading(3*Math.PI/4);
+
+    public static Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.8*Math.PI/4);
+
+    public static Pose RED_GOAL_POSE = new Pose(122, 121, (double) -7 /4*Math.PI);
+    public static Pose CLOSE_SHOOT_RED_POSE = new Pose(95.6, 95, 1.1*Math.PI/4);
+
 
 
 

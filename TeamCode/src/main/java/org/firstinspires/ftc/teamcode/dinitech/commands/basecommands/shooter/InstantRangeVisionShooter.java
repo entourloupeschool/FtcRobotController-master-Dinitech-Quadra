@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedFromRange;
 
 import com.arcrobotics.ftclib.command.CommandBase;
@@ -8,7 +7,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-public class VisionShooter extends CommandBase {
+public class InstantRangeVisionShooter extends CommandBase {
     private final ShooterSubsystem shooterSubsystem;
     private final VisionSubsystem visionSubsystem;
 
@@ -21,10 +20,9 @@ public class VisionShooter extends CommandBase {
      * @param shooterSubsystem The shooter subsystem
      * @param visionSubsystem  The vision subsystem
      */
-    public VisionShooter(ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem) {
+    public InstantRangeVisionShooter(ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
         this.visionSubsystem = visionSubsystem;
-        addRequirements(shooterSubsystem);
     }
 
     @Override

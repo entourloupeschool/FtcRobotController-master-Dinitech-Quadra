@@ -32,7 +32,7 @@ public class MoulinRevolution extends MoulinToPosition {
     public void initialize() {
         // Calculate the target position to be a nearly full circle forward.
         int currentPosition = trieurSubsystem.getMoulinPosition();
-        moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPosition, Moulin.TOTAL_POSITIONS);
+        moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPosition, Moulin.TOTAL_POSITIONS -1);
         makeShort = false; // Always rotate forward for a full revolution.
 
         // Call the parent's initialize() to start the movement.

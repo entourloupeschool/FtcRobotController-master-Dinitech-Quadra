@@ -110,7 +110,7 @@ public class FollowPath extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return !drivePedroSubsystem.followerIsBusy();
+        return drivePedroSubsystem.isPathQuasiDone();
     }
 
     /**

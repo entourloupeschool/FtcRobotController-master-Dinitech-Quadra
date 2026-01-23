@@ -1,24 +1,22 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OBELISK_POSE;
 
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.button.Trigger;
 import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.FollowPath;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.InstantRangeVisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrate;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
 
@@ -74,37 +72,25 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
             shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem));
 
 
-            // LISTENER: Automatic trigger: when trieur becomes full, spin up shooter to max speed and
-            new Trigger(trieurSubsystem::getIsFull)
-                    .whenActive(new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem));
-
             new SequentialCommandGroup(
                     // Obelisk and MoulinCalibrate
                     new ParallelCommandGroup(
-                            new MoulinCalibrate(trieurSubsystem),
+                            new SequentialCommandGroup(
+                                    new MoulinCalibrationSequence(trieurSubsystem),
+                                    new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
+
+                            ),
                             new FollowPath(
                                     drivePedroSubsystem, builder -> builder
                                     .addPath(new BezierLine(
                                             BLUE_GOAL_POSE,
-                                            OBELISK_POSE)
-                                    ).setLinearHeadingInterpolation(BLUE_GOAL_POSE.getHeading(), OBELISK_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                    AUTO_ROBOT_CONSTRAINTS, true)
-                    ),
-                    // Shoot close - just rotate since we're already at the right position
-                    new ParallelCommandGroup(
-                            new FollowPath(
-                                    drivePedroSubsystem, builder -> builder
-                                    .addPath(new BezierLine(
-                                            OBELISK_POSE,
                                             CLOSE_SHOOT_BLUE_POSE)
-                                    ).setLinearHeadingInterpolation(OBELISK_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                    AUTO_ROBOT_CONSTRAINTS, true
-                            ),
-                            new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
+                                    ).setLinearHeadingInterpolation(BLUE_GOAL_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                    AUTO_ROBOT_CONSTRAINTS, false)
                     ),
 
                     // Shoot All
-                    new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem))
+                    new ShootRevolution(trieurSubsystem, shooterSubsystem, new InstantRangeVisionShooter(shooterSubsystem, visionSubsystem))
 
                     // go to next row of artefacts
 //                    new ParallelCommandGroup(
