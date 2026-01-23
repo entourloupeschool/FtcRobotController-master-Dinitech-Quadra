@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
 
+import com.arcrobotics.ftclib.command.CommandBase;
+
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 
@@ -13,7 +15,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * This is typically used in a shooting sequence (like {@link org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution})
  * to feed all loaded artifacts into the shooter mechanism sequentially.
  */
-public class MoulinRevolution extends MoulinToPosition {
+public class MoulinRevolution extends CommandBase {
+    protected final TrieurSubsystem trieurSubsystem;
 
     /**
      * Creates a new MoulinRevolution command.
@@ -22,20 +25,27 @@ public class MoulinRevolution extends MoulinToPosition {
      */
     public MoulinRevolution(TrieurSubsystem trieurSubsystem) {
         // The actual target position is determined at execution time.
-        super(trieurSubsystem, 0, false);
+        this.trieurSubsystem = trieurSubsystem;
+        addRequirements(trieurSubsystem);
     }
 
+
     /**
-     * Dynamically calculates the target position for the revolution and starts the rotation.
+     * Initiates the rotation by commanding the subsystem to move to the target position.
      */
     @Override
     public void initialize() {
-        // Calculate the target position to be a nearly full circle forward.
-        int currentPosition = trieurSubsystem.getMoulinPosition();
-        moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPosition, Moulin.TOTAL_POSITIONS -1);
-        makeShort = false; // Always rotate forward for a full revolution.
-
-        // Call the parent's initialize() to start the movement.
-        super.initialize();
+        trieurSubsystem.moulinRevolution();
     }
+    /**
+     * The command is finished when the subsystem indicates that motor power should be cut.
+     *
+     * @return True if the command should end.
+     */
+    @Override
+    public boolean isFinished() {
+        return trieurSubsystem.shouldMoulinStopPower();
+    }
+
+
 }

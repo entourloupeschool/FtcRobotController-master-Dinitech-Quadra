@@ -159,7 +159,7 @@ public class Moulin {
      *                  all states in positive direction
      * @throws IllegalArgumentException if state is not between 1 and 6
      */
-    public void setMoulinPosition(int targetPos, boolean makeShort) {
+    public void setPosition(int targetPos, boolean makeShort) {
         if (!isValidPosition(targetPos)) {
             throw new IllegalArgumentException("Invalid moulin state: " + targetPos + ". Must be between "
                     + MIN_POSITION + " and " + MAX_POSITION);
@@ -184,6 +184,14 @@ public class Moulin {
 
         incrementTargetMotorPosition(newTargetTicks);
         hardSetPosition(targetPos);
+    }
+
+    /**
+     * Bypass the setPosition
+     * full rotation of the moulin
+     */
+    public void revolution(){
+        incrementTargetMotorPosition(INTERVALLE_TICKS_MOULIN * TOTAL_POSITIONS);
     }
 
     /**

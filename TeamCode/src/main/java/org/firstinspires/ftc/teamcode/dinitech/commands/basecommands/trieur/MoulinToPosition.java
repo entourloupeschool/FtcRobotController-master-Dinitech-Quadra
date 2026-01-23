@@ -42,7 +42,7 @@ public class MoulinToPosition extends CommandBase {
      */
     @Override
     public void initialize() {
-        trieurSubsystem.rotateToMoulinPosition(moulinTargetPosition, makeShort);
+        trieurSubsystem.moulinToPosition(moulinTargetPosition, makeShort);
     }
 
     /**

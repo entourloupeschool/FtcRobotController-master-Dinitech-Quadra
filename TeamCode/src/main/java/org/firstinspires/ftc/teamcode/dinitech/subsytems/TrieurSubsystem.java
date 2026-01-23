@@ -77,7 +77,6 @@ public class TrieurSubsystem extends SubsystemBase {
 
         clearAllStoredColors();
         setWentRecalibrationOpposite(true);
-
     }
 
     /**
@@ -85,8 +84,15 @@ public class TrieurSubsystem extends SubsystemBase {
      * @param pos The target position (1-6).
      * @param makeShort Whether to take the shortest path.
      */
-    public void rotateToMoulinPosition(int pos, boolean makeShort) {
-        moulin.setMoulinPosition(pos, makeShort);
+    public void moulinToPosition(int pos, boolean makeShort) {
+        moulin.setPosition(pos, makeShort);
+    }
+
+    /**
+     * Full rotation of the moulin
+     */
+    public void moulinRevolution(){
+        moulin.revolution();
     }
 
     /**
