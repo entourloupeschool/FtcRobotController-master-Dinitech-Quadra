@@ -23,7 +23,7 @@ public class DinitechFollower {
             .mass(12)
             .forwardZeroPowerAcceleration(-52.3857)
             .lateralZeroPowerAcceleration(-100.4664)
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.2, 1.0E-4, 0.02, 1.0E-4))
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.18, 1.0E-4, 0.02, 1.0E-4))
             .headingPIDFCoefficients(new PIDFCoefficients(1.35, 0.03, 0.01, 0.01))
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.025,0,0.00001,0.01,0.0))
             .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.02,0,0.000005,0.6,0.01))

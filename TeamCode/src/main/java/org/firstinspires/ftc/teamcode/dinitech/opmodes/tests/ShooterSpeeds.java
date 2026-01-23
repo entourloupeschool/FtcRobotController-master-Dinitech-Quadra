@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.transformToPedroCoordinates;
+
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.ToggleChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.RobotCentricDrive;
@@ -132,8 +130,7 @@ public class ShooterSpeeds extends DinitechRobotBase {
 //            m_Operator.cross.whenPressed(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
 //            m_Operator.square.whenPressed(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
 //            m_Operator.triangle.whenPressed(new ArtefactPickAway(trieurSubsystem, gamepadSubsystem));
-            m_Operator.circle.toggleWhenPressed(new AutomaticArtefactPickAway(trieurSubsystem,
-                            chargeurSubsystem, gamepadSubsystem));
+            m_Operator.circle.toggleWhenPressed(new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem));
 
 
 //                 Automatic trigger: when trieur becomes full, spin up shooter to max speed and

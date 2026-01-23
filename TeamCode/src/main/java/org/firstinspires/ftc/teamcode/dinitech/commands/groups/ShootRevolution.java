@@ -63,7 +63,6 @@ public class ShootRevolution extends SequentialCommandGroup {
                 new OpenTrappe(trieurSubsystem), // Open the trapdoor
                 new WaitCommand(200), // Wait for the trappe to open fully
                 new MoulinRevolution(trieurSubsystem), // Perform a full revolution
-                new WaitCommand(100), // Wait for the last artifact to clear
                 new ParallelCommandGroup( // Clean up
                         new InstantCommand(trieurSubsystem::clearAllStoredColors),
                         new CloseTrappe(trieurSubsystem),

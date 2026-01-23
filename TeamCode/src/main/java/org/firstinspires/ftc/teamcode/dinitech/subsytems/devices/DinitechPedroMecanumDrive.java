@@ -19,7 +19,6 @@ public class DinitechPedroMecanumDrive {
     public DinitechPedroMecanumDrive(HardwareMap hardwareMap, Pose beginPose){
         this.follower = DinitechFollower.createFollower(hardwareMap);
         setStartingPose(beginPose);
-        startTeleOpDrive();
         update();
     }
 

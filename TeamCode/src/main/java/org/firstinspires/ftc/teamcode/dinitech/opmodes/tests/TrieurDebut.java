@@ -70,8 +70,7 @@ public class TrieurDebut extends DinitechRobotBase {
         GamepadWrapper m_Operator = gamepadSubsystem.operator;
 
         // Driver controls
-        m_Driver.circle.toggleWhenPressed(new AutomaticArtefactPickAway(trieurSubsystem,
-                chargeurSubsystem, gamepadSubsystem));
+        m_Driver.circle.toggleWhenPressed(new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem));
 
         m_Driver.dpad_right.whenPressed(new MoulinNext(trieurSubsystem));
         m_Driver.dpad_left.whenPressed(new MoulinPrevious(trieurSubsystem));

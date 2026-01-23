@@ -78,7 +78,6 @@ public class TrieurSubsystem extends SubsystemBase {
         clearAllStoredColors();
         setWentRecalibrationOpposite(true);
 
-//        setMoulinPower(POWER_MOULIN_ROTATION);
     }
 
     /**

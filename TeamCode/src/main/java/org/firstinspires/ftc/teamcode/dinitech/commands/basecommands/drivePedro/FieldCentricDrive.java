@@ -53,7 +53,6 @@ public class FieldCentricDrive extends CommandBase {
     public void initialize(){
         drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.TELE);
         drivePedroSubsystem.setDriveReference(DrivePedroSubsystem.DriveReference.FC);
-        drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive();
 
 
 //        orinalLocalizer = drivePedroSubsystem.getLocalizer();

@@ -35,7 +35,6 @@ public class RobotCentricDrive extends CommandBase {
     public void initialize(){
         drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.TELE);
         drivePedroSubsystem.setDriveReference(DrivePedroSubsystem.DriveReference.ROBOT);
-        drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive();
     }
 
     /**

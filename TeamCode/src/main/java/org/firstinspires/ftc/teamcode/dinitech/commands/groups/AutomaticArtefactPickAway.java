@@ -33,10 +33,9 @@ public class AutomaticArtefactPickAway extends ParallelDeadlineGroup {
      * Creates a new AutomaticArtefactPickAway command.
      *
      * @param trieurSubsystem   The sorter subsystem, which manages artifact storage and state.
-     * @param chargeurSubsystem The intake subsystem for running the intake motor.
      * @param gamepadSubsystem  The gamepad subsystem, passed down to child commands for haptic feedback.
      */
-    public AutomaticArtefactPickAway(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem,
+    public AutomaticArtefactPickAway(TrieurSubsystem trieurSubsystem,
             GamepadSubsystem gamepadSubsystem) {
         super(
                 // The deadline for the group: stop when the sorter is full.
