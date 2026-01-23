@@ -36,7 +36,8 @@ public class Globals {
     /**
      * Auto Phase globals
      */
-    public static double AUTO_ROBOT_CONSTRAINTS = 0.7;
+    public static double AUTO_ROBOT_CONSTRAINTS = 0.5;
+    public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.8;
     public static final double TILE_DIM = 24;
 
     public static Pose BLUE_GOAL_POSE = new Pose(22, 122, -Math.PI/4);

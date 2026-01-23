@@ -19,7 +19,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class DinitechFollower {
-    private static double scaler = 1;
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)
             .forwardZeroPowerAcceleration(-52.3857)
@@ -39,8 +38,8 @@ public class DinitechFollower {
             .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .xVelocity(80.2 * scaler)
-            .yVelocity(67.35 * scaler);
+            .xVelocity(80.2)
+            .yVelocity(67.35);
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
             .forwardPodY(PAR_POD_Y_MM)

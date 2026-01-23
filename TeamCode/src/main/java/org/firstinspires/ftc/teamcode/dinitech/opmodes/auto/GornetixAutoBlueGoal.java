@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_C
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OBELISK_POSE;
 
 
@@ -86,9 +87,8 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                     .addPath(new BezierLine(
                                             BLUE_GOAL_POSE,
                                             OBELISK_POSE)
-                                    ).setLinearHeadingInterpolation(BLUE_GOAL_POSE.getHeading(), OBELISK_POSE.getHeading(), 0.8).build(),
-                                    AUTO_ROBOT_CONSTRAINTS, true
-                            )
+                                    ).setLinearHeadingInterpolation(BLUE_GOAL_POSE.getHeading(), OBELISK_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                    AUTO_ROBOT_CONSTRAINTS, true)
                     ),
                     // Shoot close - just rotate since we're already at the right position
                     new ParallelCommandGroup(
@@ -97,7 +97,7 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                     .addPath(new BezierLine(
                                             OBELISK_POSE,
                                             CLOSE_SHOOT_BLUE_POSE)
-                                    ).setLinearHeadingInterpolation(OBELISK_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), 0.8).build(),
+                                    ).setLinearHeadingInterpolation(OBELISK_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                     AUTO_ROBOT_CONSTRAINTS, true
                             ),
                             new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)

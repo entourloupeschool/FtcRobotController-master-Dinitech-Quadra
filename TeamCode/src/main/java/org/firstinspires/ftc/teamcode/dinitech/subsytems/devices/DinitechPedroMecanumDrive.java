@@ -62,7 +62,7 @@ public class DinitechPedroMecanumDrive {
         follower.setMaxPower(globalMaxPower);
     }
 
-    public PathBuilder getPathBuilder(){
+    public PathBuilder getPathBuilder() {
         return follower.pathBuilder();
     }
 }
