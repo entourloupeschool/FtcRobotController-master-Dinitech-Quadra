@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FOLLOWER_T_POSITION_END;
+
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathBuilder;
@@ -40,6 +42,17 @@ public class DinitechPedroMecanumDrive {
     public Pose getPose(){
         return follower.getPose();
     }
+    public double getHeading(){
+        return follower.getPose().getHeading();
+    }
+
+    public double getPoseX(){
+        return follower.getPose().getX();
+    }
+    public double getPoseY(){
+        return follower.getPose().getY();
+    }
+
 
     public void startTeleOpDrive(){
         follower.startTeleOpDrive();
@@ -63,9 +76,10 @@ public class DinitechPedroMecanumDrive {
 
     public boolean isPathQuasiDone(){
 //        boolean isVelocityLow = follower.getVelocity().getMagnitude() < follower.getCurrentPath().getPathEndVelocityConstraint();
-        boolean isHeadingSufficient = follower.getAngularVelocity() < 0.055;
-        boolean isAtParametricEnd = follower.getCurrentPath().isAtParametricEnd();
-        return isHeadingSufficient && isAtParametricEnd;
+//        boolean isHeadingSufficient = follower.getAngularVelocity() < 0.055;
+//        boolean isAtParametricEnd = follower.getCurrentPath().isAtParametricEnd();
+//        return isHeadingSufficient && isAtParametricEnd;
+        return follower.getCurrentTValue() > FOLLOWER_T_POSITION_END;
     }
 
     public void setMaxPower(double globalMaxPower) {

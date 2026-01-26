@@ -1,35 +1,19 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OBELISK_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.X_END_ROW_BLUE;
-
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierLine;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.MaxPowerChargeur;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.InstantRangeVisionShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
-
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassage;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -38,8 +22,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-@Autonomous(name = "GornetixAutoBlueGoal - Dinitech", group = "Auto")
-public class GornetixAutoBlueGoal extends DinitechRobotBase {
+@Autonomous(name = "TestsXScale - Dinitech", group = "Auto")
+public class TestsXScale extends DinitechRobotBase {
     private TrieurSubsystem trieurSubsystem;
     private VisionSubsystem visionSubsystem;
     private GamepadSubsystem gamepadSubsystem;
@@ -63,7 +47,7 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
             register(visionSubsystem);
             visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
-            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BLUE_GOAL_POSE, telemetryM);
+            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BEGIN_POSE, telemetryM);
             register(drivePedroSubsystem);
 
 
@@ -91,9 +75,9 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                     new FollowPath(
                                             drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
-                                                    BLUE_GOAL_POSE,
-                                                    CLOSE_SHOOT_BLUE_POSE)
-                                            ).setLinearHeadingInterpolation(BLUE_GOAL_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading()).build(),
+                                                    BEGIN_POSE,
+                                                    BEGIN_POSE.withX(BEGIN_POSE.getX() + 2*TILE_DIM))
+                                            ).build(),
                                             AUTO_ROBOT_CONSTRAINTS, true)
                             )
                     )

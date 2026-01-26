@@ -59,7 +59,7 @@ public class OptimizedUpdatesAprilTagsDetections extends CommandBase {
                 || drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC || drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.AIM_LOCKED) {
             if (!visionSubsystem.getAprilTagProcessorEnabled()) visionSubsystem.setAprilTagProcessorEnabled(true);
 
-            visionSubsystem.optimizeDecimation();
+//            visionSubsystem.optimizeDecimation();
             visionSubsystem.updateAprilTagDetections();
         } else {
             if (visionSubsystem.getAprilTagProcessorEnabled()){

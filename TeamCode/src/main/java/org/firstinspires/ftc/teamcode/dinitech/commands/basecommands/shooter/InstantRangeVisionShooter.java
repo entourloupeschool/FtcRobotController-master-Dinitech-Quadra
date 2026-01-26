@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedFromRange;
 
 import com.arcrobotics.ftclib.command.CommandBase;
@@ -43,7 +44,11 @@ public class InstantRangeVisionShooter extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return nullCounts > 10;
+        if (nullCounts > 10){
+            return true;
+        } else {
+            return shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN);
+        }
     }
 
     @Override

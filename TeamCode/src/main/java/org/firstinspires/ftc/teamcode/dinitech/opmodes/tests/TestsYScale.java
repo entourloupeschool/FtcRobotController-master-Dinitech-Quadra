@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -21,8 +22,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-@Autonomous(name = "TestsForwardScale - Dinitech", group = "Auto")
-public class TestsXScale extends DinitechRobotBase {
+@Autonomous(name = "TestsYScale - Dinitech", group = "Auto")
+public class TestsYScale extends DinitechRobotBase {
     private TrieurSubsystem trieurSubsystem;
     private VisionSubsystem visionSubsystem;
     private GamepadSubsystem gamepadSubsystem;
@@ -75,8 +76,8 @@ public class TestsXScale extends DinitechRobotBase {
                                             drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
                                                     BEGIN_POSE,
-                                                    BEGIN_POSE.withX(BEGIN_POSE.getX() + 20))
-                                            ).build(),
+                                                    BEGIN_POSE.withY(BEGIN_POSE.getY() + 2*TILE_DIM))
+                                            ).setConstantHeadingInterpolation(0).build(),
                                             AUTO_ROBOT_CONSTRAINTS, true)
                             )
                     )

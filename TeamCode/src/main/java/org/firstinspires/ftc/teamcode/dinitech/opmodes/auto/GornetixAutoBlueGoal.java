@@ -3,15 +3,17 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_BLUE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X__ROW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OBELISK_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.X_END_ROW_BLUE;
 
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -20,15 +22,18 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.Ma
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.InstantRangeVisionShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassage;
+import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -65,7 +70,6 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
             drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BLUE_GOAL_POSE, telemetryM);
             register(drivePedroSubsystem);
 
-
             trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
             register(trieurSubsystem);
 
@@ -76,60 +80,55 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
 
             shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
             register(shooterSubsystem);
-            shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem));
+//            shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem));
 
 
             new SequentialCommandGroup(
                     // Obelisk and MoulinCalibrate
                     new ParallelCommandGroup(
-                            new MoulinCalibrationSequence(trieurSubsystem),
-
                             new SequentialCommandGroup(
-                                    new FollowPath(
-                                            drivePedroSubsystem, builder -> builder
-                                            .addPath(new BezierLine(
-                                                    BLUE_GOAL_POSE,
-                                                    OBELISK_BLUE_POSE)
-                                            ).setLinearHeadingInterpolation(BLUE_GOAL_POSE.getHeading(), OBELISK_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                            AUTO_ROBOT_CONSTRAINTS, false),
+                                    new MoulinCalibrationSequence(trieurSubsystem),
                                     new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
-                            )
-                    ),
-                    new ParallelCommandGroup(
-                            new FollowPath(
-                                drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        OBELISK_BLUE_POSE,
-                                        CLOSE_SHOOT_BLUE_POSE)
-                            ).setLinearHeadingInterpolation(OBELISK_BLUE_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                            AUTO_ROBOT_CONSTRAINTS, false),
-                            // Shoot All
-                            new ShootRevolution(trieurSubsystem, shooterSubsystem, new InstantRangeVisionShooter(shooterSubsystem, visionSubsystem))
-                    ),
-
-
-                    // go to next row of artefacts
-                    new ParallelRaceGroup(
-                            new ModeRamassage(trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem),
+                            ),
                             new SequentialCommandGroup(
                                     new FollowPath(
                                             drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
-                                                    CLOSE_SHOOT_BLUE_POSE,
-                                                    FIRST_ROW_BLUE_POSE)
-                                            ).setLinearHeadingInterpolation(CLOSE_SHOOT_BLUE_POSE.getHeading(), FIRST_ROW_BLUE_POSE.getHeading()).build(),
-                                            AUTO_ROBOT_CONSTRAINTS, true),
-                                    new MaxPowerChargeur(chargeurSubsystem),
-                                    new FollowPath(
-                                            drivePedroSubsystem, builder -> builder
-                                            .addPath(new BezierLine(
-                                                    FIRST_ROW_BLUE_POSE,
-                                                    FIRST_ROW_BLUE_POSE.withX(X_END_ROW_BLUE))
-                                            ).setLinearHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading(), FIRST_ROW_BLUE_POSE.getHeading()).build(),
-                                            AUTO_ROBOT_CONSTRAINTS, true),
-                                    new StopChargeur(chargeurSubsystem)
+                                                    drivePedroSubsystem::getPose,
+                                                    CLOSE_SHOOT_BLUE_POSE)
+                                            ).setLinearHeadingInterpolation(BLUE_GOAL_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)
+                                            .addParametricCallback(50, () -> new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY).schedule()).build(),
+                                            AUTO_ROBOT_CONSTRAINTS, false)
                             )
-                    )
+                    ),
+                    new ShootRevolution(trieurSubsystem, shooterSubsystem, new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY)),
+                    new FollowPath(
+                            drivePedroSubsystem, builder -> builder
+                            .addPath(new BezierLine(
+                                    drivePedroSubsystem::getPose,
+                                    FIRST_ROW_BLUE_POSE)
+                            ).setLinearHeadingInterpolation(CLOSE_SHOOT_BLUE_POSE.getHeading(), FIRST_ROW_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                            AUTO_ROBOT_CONSTRAINTS, false),
+                    // go to next row of artefacts
+                    new ParallelCommandGroup(
+                            new ModeRamassageAuto(trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem),
+                            new FollowPath(
+                                    drivePedroSubsystem, builder -> builder
+                                    .addPath(new BezierLine(
+                                            drivePedroSubsystem::getPose,
+                                            FIRST_ROW_BLUE_POSE.withX(FIRST_ROW_BLUE_POSE.getX() - LENGTH_X__ROW))
+                                    ).setConstantHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading()).build(),
+                                    0.2, false)),
+                    new FollowPath(
+                            drivePedroSubsystem, builder -> builder
+                            .addPath(new BezierLine(
+                                    drivePedroSubsystem::getPose,
+                                    CLOSE_SHOOT_BLUE_POSE)
+                            ).setLinearHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)
+                            .addParametricCallback(50, () -> new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY).schedule()).build(),
+                            AUTO_ROBOT_CONSTRAINTS, false),
+                    new ShootRevolution(trieurSubsystem, shooterSubsystem, new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY))
+
             ).schedule();
     }
 

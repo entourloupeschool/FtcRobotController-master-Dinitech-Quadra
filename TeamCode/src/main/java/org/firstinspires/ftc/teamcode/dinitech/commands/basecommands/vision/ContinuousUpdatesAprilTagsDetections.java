@@ -41,7 +41,7 @@ public class ContinuousUpdatesAprilTagsDetections extends CommandBase {
      */
     @Override
     public void execute(){
-        visionSubsystem.optimizeDecimation();
+//        visionSubsystem.optimizeDecimation();
         visionSubsystem.updateAprilTagDetections();
     }
 }

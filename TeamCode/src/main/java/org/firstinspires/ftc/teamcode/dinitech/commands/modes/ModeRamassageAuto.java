@@ -2,16 +2,13 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.modes;
 
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
-import com.arcrobotics.ftclib.command.RepeatCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.StartEndCommand;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.CloseTrappe;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ArtefactPickAway;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticArtefactPickAway;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -22,7 +19,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 /**
  * A command group that handles the artifact collection mode of the robot.
  */
-public class ModeRamassage extends ConditionalCommand {
+public class ModeRamassageAuto extends ConditionalCommand {
 
     /**
      * Creates a new ModeRamassage command group.
@@ -32,25 +29,29 @@ public class ModeRamassage extends ConditionalCommand {
      * @param chargeurSubsystem The intake subsystem for running the intake motor.
      * @param gamepadSubsystem  The gamepad subsystem, passed down to child commands for haptic feedback.
      */
-    public ModeRamassage(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem,
-                         GamepadSubsystem gamepadSubsystem) {
+    public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem,
+                             GamepadSubsystem gamepadSubsystem) {
         super(
                 // if condition is true.
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
+                                new MaxPowerChargeur(chargeurSubsystem),
                                 new CloseTrappe(trieurSubsystem),
                                 new StopShooter(shooterSubsystem)
                         ),
-                        new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem)),
+                        new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem),
+                        new StopChargeur(chargeurSubsystem)),
 
                 // if condition is false.
                 new SequentialCommandGroup(
                     new ParallelCommandGroup(
+                            new MaxPowerChargeur(chargeurSubsystem),
                             new CloseTrappe(trieurSubsystem),
                             new StopShooter(shooterSubsystem)
                     ),
                     new MoulinNext(trieurSubsystem),
-                    new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem)),
+                    new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem),
+                    new StopChargeur(chargeurSubsystem)),
                 
                 // Condition.
                 () -> Moulin.isStoragePosition(trieurSubsystem.getMoulinPosition())

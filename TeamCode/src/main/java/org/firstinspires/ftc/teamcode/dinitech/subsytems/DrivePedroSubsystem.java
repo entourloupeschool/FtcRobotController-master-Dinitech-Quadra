@@ -177,7 +177,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         telemetryM.addData("y", pose.getY());
         telemetryM.addData("heading", pose.getHeading());
 
-}
+    }
 
     public DinitechPedroMecanumDrive getDrive(){return dinitechPedroMecanumDrive;}
 
@@ -187,6 +187,14 @@ public class DrivePedroSubsystem extends SubsystemBase {
      */
     public Pose getPose() {
         return dinitechPedroMecanumDrive.getPose();
+    }
+
+    /**
+     * Gets the current heading of the robot.
+     * @return The robot's current heading
+     */
+    public double getHeading() {
+        return dinitechPedroMecanumDrive.getHeading();
     }
 
     public TelemetryManager getTelemetry(){
