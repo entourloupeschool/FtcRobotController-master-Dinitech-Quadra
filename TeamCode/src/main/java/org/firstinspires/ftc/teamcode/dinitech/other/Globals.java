@@ -39,12 +39,12 @@ public class Globals {
     public static double AUTO_ROBOT_CONSTRAINTS = 0.6;
     public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.8;
     public static final double TILE_DIM = 24;
-    //BLUE SIDE
-
-    public static double FOLLOWER_T_POSITION_END = 0.98;
+    public static double FOLLOWER_T_POSITION_END = 0.975;
     public static double PATH_BUILDER_FORWARD_ZERO_POWER_ACCELERATION = 0.9944064636;
     public static double PATH_BUILDER_LATERAL_ZERO_POWER_ACCELERATION = 0.9823182711;
+    public static double LENGTH_X__ROW = TILE_DIM*0.7;
 
+    //BLUE SIDE
     public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
 //    public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) -1/4*Math.PI);
     public static Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
@@ -56,7 +56,6 @@ public class Globals {
     public static Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-24);
     public static Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-24);
 
-    public static double LENGTH_X__ROW = TILE_DIM*0.7;
 
     //RED SIDE
     public static Pose RED_GOAL_POSE = new Pose(122, 121, (double) -7 /4*Math.PI);
@@ -303,7 +302,7 @@ public class Globals {
 
         /**
          * Applies a custom function while preserving the sign of the input
-         * 
+         *
          * @param x The input value
          * @return The custom-transformed value with preserved sign
          */
@@ -317,7 +316,7 @@ public class Globals {
 
         /**
          * Applies a custom function while preserving the sign of the input
-         * 
+         *
          * @param x The input value
          * @return The custom-transformed value with preserved sign
          */
@@ -335,7 +334,7 @@ public class Globals {
 
         /**
          * Applies a custom function while preserving the sign of the input
-         * 
+         *
          * @param x The input value
          * @return The custom-transformed value with preserved sign
          */
@@ -352,7 +351,7 @@ public class Globals {
 
         /**
          * Applies a custom function while preserving the sign of the input
-         * 
+         *
          * @param x The input value
          * @return The custom-transformed value with preserved sign
          */
@@ -382,7 +381,7 @@ public class Globals {
 
         /**
          * Applies a custom Linear function while preserving the sign of the input
-         * 
+         *
          * @param x The input value
          * @return The custom-transformed value with preserved sign
          */
@@ -396,9 +395,12 @@ public class Globals {
         public static double cmToInch(double cm){
             return cm * 0.3937007874;
         }
+        public static double mmToInch(double cm){
+            return cmToInch(cm) * 0.1;
+        }
 
 
-    public static Pose transformToPedroCoordinates(Pose2d pose2d, DistanceUnit distanceUnit, AngleUnit angleUnit) {
-        return PoseConverter.pose2DToPose(new Pose2D(distanceUnit, pose2d.position.x, pose2d.position.y, angleUnit, pose2d.heading.log()),  FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
-    }
+        public static Pose transformToPedroCoordinates(Pose2d pose2d, DistanceUnit distanceUnit, AngleUnit angleUnit) {
+            return PoseConverter.pose2DToPose(new Pose2D(distanceUnit, pose2d.position.x, pose2d.position.y, angleUnit, pose2d.heading.log()),  FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+        }
 }

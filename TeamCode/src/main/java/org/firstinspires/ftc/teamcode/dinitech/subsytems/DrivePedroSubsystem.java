@@ -5,23 +5,15 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_P
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.PoseVelocity2d;
-import com.acmerobotics.roadrunner.Rotation2d;
-import com.acmerobotics.roadrunner.Vector2d;
-import com.arcrobotics.ftclib.command.Subsystem;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Localizer;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechMecanumDrive;
+import org.firstinspires.ftc.teamcode.dinitech.other.DrawingDinitech;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPedroMecanumDrive;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class DrivePedroSubsystem extends SubsystemBase {
     /** The core drive system with PedroPathing integration. */
@@ -161,6 +153,8 @@ public class DrivePedroSubsystem extends SubsystemBase {
             telemetryM.addData("quasi", isPathQuasiDone());
             telemetryM.addData("done", !followerIsBusy());
         }
+
+        DrawingDinitech.drawDebug(dinitechPedroMecanumDrive.getFollower());
     }
 
     /**

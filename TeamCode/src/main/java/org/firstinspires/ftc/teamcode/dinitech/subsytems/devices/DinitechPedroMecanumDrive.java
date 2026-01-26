@@ -89,4 +89,8 @@ public class DinitechPedroMecanumDrive {
     public PathBuilder getPathBuilder() {
         return follower.pathBuilder();
     }
+
+    public Follower getFollower(){
+        return follower;
+    }
 }
