@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.modes;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.AimLockedDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
@@ -32,12 +33,8 @@ public class ModeShoot extends SequentialCommandGroup {
     public ModeShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem,
                      VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
         super(
-                new InstantCommand(
-                        () -> {visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));}
-                ),
-                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
-                new AimLockedDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem),
-                new VisionShooter(shooterSubsystem, visionSubsystem)
+                new StopChargeur(chargeurSubsystem),
+                new InstantCommand(() -> drivePedroSubsystem.setDefaultCommand(new AimLockedDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem)))
         );
     }
 }

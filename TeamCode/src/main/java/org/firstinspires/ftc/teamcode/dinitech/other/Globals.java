@@ -36,23 +36,32 @@ public class Globals {
     /**
      * Auto Phase globals
      */
-    public static double AUTO_ROBOT_CONSTRAINTS = 0.6;
-    public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.8;
+    public static double AUTO_ROBOT_CONSTRAINTS = 1;
+    public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.85;
     public static final double TILE_DIM = 24;
-    public static double FOLLOWER_T_POSITION_END = 0.975;
+    public static double FOLLOWER_T_POSITION_END = 0.93;
     public static double PATH_BUILDER_FORWARD_ZERO_POWER_ACCELERATION = 0.9944064636;
     public static double PATH_BUILDER_LATERAL_ZERO_POWER_ACCELERATION = 0.9823182711;
-    public static double LENGTH_X__ROW = TILE_DIM*0.7;
+    public static double LENGTH_X_ROW = TILE_DIM * 1.15;
+    public static double START_SHOOTER_T_CALLBACK = 1;
+    public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.27;
+    public static double STOP_POWER_SHOOTER_T_CALLBACK = 0;
+    public static long MODE_RAMASSAGE_TIMEOUT = 4000;
+    public static Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
+//    public static Pose END_GAME_BLUE_POSE = new Pose(105.4, 33.5, 0);
+    public static Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
+
+
 
     //BLUE SIDE
     public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
 //    public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) -1/4*Math.PI);
     public static Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
 
-    public static Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3+23, 95, 2.92*Math.PI/4);
-    public static double CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY = 1500;
+    public static Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
+    public static double CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY = 1450;
 
-    public static Pose FIRST_ROW_BLUE_POSE = new Pose(45+15, 84-5, 0);
+    public static Pose FIRST_ROW_BLUE_POSE = new Pose(48, 84, 0);
     public static Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-24);
     public static Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-24);
 
@@ -90,7 +99,7 @@ public class Globals {
         public static final double THROUGH_BORE_ENCODER_COUNTS_PER_REV = 8192; // https://revrobotics.eu/rev-11-1271/
         public static final double DEAD_WHEEL_DIAMETER_MM = 50.8; // https://revrobotics.eu/ION-Omni-Wheels/
         public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
-        public static final double PAR_POD_Y_MM = 128;
+        public static final double PAR_POD_Y_MM = -128;
         public static final double PERP_POD_X_MM = 143;
         public static final double MAX_WHEEL_VELOCITY = 50.0;
         public static final double MIN_PROFILE_ACCELERATION = -30;

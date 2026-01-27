@@ -2,16 +2,11 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.MaxSpeedShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.StopShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ClearMoulinShootingPos;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.CloseTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinAlmostRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.OpenTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
@@ -29,7 +24,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * </ol>
  * It also includes cleanup logic to reset the state of the subsystems upon completion or interruption.
  */
-public class ShootRevolution extends SequentialCommandGroup {
+public class ShootAlmostRevolution extends SequentialCommandGroup {
 
     private final TrieurSubsystem trieurSubsystem;
     private final ShooterSubsystem shooterSubsystem;
@@ -40,7 +35,7 @@ public class ShootRevolution extends SequentialCommandGroup {
      * @param trieurSubsystem  The sorter subsystem that controls the moulin and trappe.
      * @param shooterSubsystem The shooter subsystem.
      */
-    public ShootRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
+    public ShootAlmostRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
         this(trieurSubsystem, shooterSubsystem, new MaxSpeedShooter(shooterSubsystem));
     }
 
@@ -54,7 +49,7 @@ public class ShootRevolution extends SequentialCommandGroup {
      * @param shooterSubsystem The shooter subsystem.
      * @param shooterCommand   The custom command to run for controlling the shooter.
      */
-    public ShootRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Command shooterCommand) {
+    public ShootAlmostRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Command shooterCommand) {
         this.trieurSubsystem = trieurSubsystem;
         this.shooterSubsystem = shooterSubsystem;
 
@@ -62,7 +57,7 @@ public class ShootRevolution extends SequentialCommandGroup {
                 shooterCommand, // Rev up the shooter
                 new OpenTrappe(trieurSubsystem), // Open the trapdoor
                 new WaitCommand(200), // Wait for the trappe to open fully
-                new MoulinRevolution(trieurSubsystem), // Perform a full revolution
+                new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
                 new InstantCommand(trieurSubsystem::clearAllStoredColors)
         );
     }

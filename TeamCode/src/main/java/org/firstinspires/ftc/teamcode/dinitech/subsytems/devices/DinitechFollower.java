@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PAR_POD_Y_MM
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PATH_BUILDER_FORWARD_ZERO_POWER_ACCELERATION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PATH_BUILDER_LATERAL_ZERO_POWER_ACCELERATION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PERP_POD_X_MM;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.mmToInch;
 
 import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.control.PIDFCoefficients;
@@ -23,8 +24,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class DinitechFollower {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)
-            .forwardZeroPowerAcceleration(-52.3857 * PATH_BUILDER_FORWARD_ZERO_POWER_ACCELERATION)
-            .lateralZeroPowerAcceleration(-100.4664 * PATH_BUILDER_LATERAL_ZERO_POWER_ACCELERATION)
+            .forwardZeroPowerAcceleration(-52.3857)
+            .lateralZeroPowerAcceleration(-100.4664)
             .translationalPIDFCoefficients(new PIDFCoefficients(0.18, 1.0E-4, 0.02, 1.0E-4))
             .headingPIDFCoefficients(new PIDFCoefficients(1.35, 0.03, 0.01, 0.01))
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.025,0,0.00001,0.01,0.0))
@@ -44,7 +45,7 @@ public class DinitechFollower {
             .yVelocity(67.35);
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
-            .forwardPodY(PAR_POD_Y_MM)
+            .forwardPodY(PAR_POD_Y_MM)  // https://pedropathing.com/docs/pathing/tuning/localization/pinpoint
             .strafePodX(PERP_POD_X_MM)
             .distanceUnit(DistanceUnit.MM)
             .hardwareMapName("pinpoint")

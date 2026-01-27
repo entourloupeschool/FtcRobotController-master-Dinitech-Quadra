@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
 
-import com.arcrobotics.ftclib.command.CommandBase;
-
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 
@@ -15,37 +13,33 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * This is typically used in a shooting sequence (like {@link org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution})
  * to feed all loaded artifacts into the shooter mechanism sequentially.
  */
-public class MoulinRevolution extends CommandBase {
-    protected final TrieurSubsystem trieurSubsystem;
-
+public class MoulinAlmostRevolution extends MoulinToPosition {
     /**
-     * Creates a new MoulinRevolution command.
+     * Creates a new MoulinAlmostRevolution command.
      *
      * @param trieurSubsystem The sorter subsystem to control.
      */
-    public MoulinRevolution(TrieurSubsystem trieurSubsystem) {
+    public MoulinAlmostRevolution(TrieurSubsystem trieurSubsystem) {
         // The actual target position is determined at execution time.
-        this.trieurSubsystem = trieurSubsystem;
-        addRequirements(trieurSubsystem);
+        super(trieurSubsystem, 0, false);
     }
 
 
     /**
-     * Initiates the rotation by commanding the subsystem to move to the target position.
+     * Dynamically calculates the target position and starts the rotation.
+     * This method is called once when the command is scheduled.
      */
     @Override
     public void initialize() {
-        trieurSubsystem.moulinRevolution();
-    }
-    /**
-     * The command is finished when the subsystem indicates that motor power should be cut.
-     *
-     * @return True if the command should end.
-     */
-    @Override
-    public boolean isFinished() {
-        return trieurSubsystem.shouldMoulinStopPower();
-    }
+        // Calculate the target position based on the current state of the moulin.
+        int currentPosition = trieurSubsystem.getMoulinPosition();
 
+        // Set the parameters for the parent command.
+        super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPosition, Moulin.TOTAL_POSITIONS - 1);
+        super.makeShort = false; // Always rotate forward.
+
+        // Start the movement.
+        super.initialize();
+    }
 
 }

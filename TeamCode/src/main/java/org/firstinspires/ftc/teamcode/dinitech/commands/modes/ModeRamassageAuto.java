@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.modes;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TIMEOUT;
+
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -25,19 +27,17 @@ public class ModeRamassageAuto extends ConditionalCommand {
      * Creates a new ModeRamassage command group.
      *
      * @param trieurSubsystem   The sorter subsystem, which manages artifact storage and state.
-     * @param shooterSubsystem  The shooter subsystem for running the shooter motor.
      * @param chargeurSubsystem The intake subsystem for running the intake motor.
      * @param gamepadSubsystem  The gamepad subsystem, passed down to child commands for haptic feedback.
      */
-    public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem,
+    public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem,
                              GamepadSubsystem gamepadSubsystem) {
         super(
                 // if condition is true.
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
                                 new MaxPowerChargeur(chargeurSubsystem),
-                                new CloseTrappe(trieurSubsystem),
-                                new StopShooter(shooterSubsystem)
+                                new CloseTrappe(trieurSubsystem)
                         ),
                         new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem),
                         new StopChargeur(chargeurSubsystem)),
@@ -46,8 +46,7 @@ public class ModeRamassageAuto extends ConditionalCommand {
                 new SequentialCommandGroup(
                     new ParallelCommandGroup(
                             new MaxPowerChargeur(chargeurSubsystem),
-                            new CloseTrappe(trieurSubsystem),
-                            new StopShooter(shooterSubsystem)
+                            new CloseTrappe(trieurSubsystem)
                     ),
                     new MoulinNext(trieurSubsystem),
                     new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem),
@@ -56,6 +55,6 @@ public class ModeRamassageAuto extends ConditionalCommand {
                 // Condition.
                 () -> Moulin.isStoragePosition(trieurSubsystem.getMoulinPosition())
         );
-
+        super.withTimeout(MODE_RAMASSAGE_TIMEOUT);
     }
 }
