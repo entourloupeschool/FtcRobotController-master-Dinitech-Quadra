@@ -66,6 +66,10 @@ public class DinitechPedroMecanumDrive {
         follower.setStartingPose(pose);
     }
 
+    public void setHeading(double heading){
+        follower.setHeading(heading);
+    }
+
     public boolean isBusy() {
         return follower.isBusy();
     }

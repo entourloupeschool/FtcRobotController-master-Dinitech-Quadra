@@ -191,6 +191,10 @@ public class DrivePedroSubsystem extends SubsystemBase {
         return dinitechPedroMecanumDrive.getHeading();
     }
 
+    public void setHeading(double heading){
+        dinitechPedroMecanumDrive.setHeading(heading);
+    }
+
     public TelemetryManager getTelemetry(){
         return telemetryM;
     }

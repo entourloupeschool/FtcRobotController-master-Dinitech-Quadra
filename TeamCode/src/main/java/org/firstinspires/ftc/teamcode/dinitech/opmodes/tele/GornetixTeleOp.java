@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.To
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.FieldCentricDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleSlowDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleVisionDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.ResetHeadingFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.DefaultGamepadCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.ToggleUsageStateShooter;
@@ -122,6 +123,8 @@ public class GornetixTeleOp extends DinitechRobotBase {
 
         m_Driver.bump_left.whenPressed(new ToggleSlowDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
         m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
+
+        m_Driver.left_stick_button.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
 
 
         // Operator controls
