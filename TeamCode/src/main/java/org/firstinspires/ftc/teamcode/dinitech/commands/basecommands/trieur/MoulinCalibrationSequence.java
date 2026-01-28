@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
 
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -34,11 +35,16 @@ public class MoulinCalibrationSequence extends SequentialCommandGroup {
      */
     public MoulinCalibrationSequence(TrieurSubsystem trieurSubsystem) {
         addCommands(
-            new CloseTrappe(trieurSubsystem),
-            new WaitCommand(200),
-            new MoulinCalibrate(trieurSubsystem),
-            new InstantCommand(() -> trieurSubsystem.hardSetMoulinPosition(6), trieurSubsystem),
-            new MoulinNext(trieurSubsystem)
+                new ConditionalCommand(
+                        new SequentialCommandGroup(
+                                new CloseTrappe(trieurSubsystem),
+                                new WaitCommand(200)),
+                        new InstantCommand(),
+                        trieurSubsystem::isTrappeOpen
+                ),
+                new MoulinCalibrate(trieurSubsystem),
+                new InstantCommand(() -> trieurSubsystem.hardSetMoulinPosition(6), trieurSubsystem),
+                new MoulinNext(trieurSubsystem)
         );
     }
 }

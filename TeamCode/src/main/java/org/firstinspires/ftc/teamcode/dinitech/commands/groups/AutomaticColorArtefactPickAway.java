@@ -1,14 +1,10 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_MOTOR_POWER;
-
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.RepeatCommand;
 import com.arcrobotics.ftclib.command.StartEndCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
-import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
@@ -27,7 +23,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  *     This repeatedly detects and stores artifacts as they are collected by the intake.</li>
  * </ol>
  */
-public class AutomaticArtefactPickAway extends ParallelDeadlineGroup {
+public class AutomaticColorArtefactPickAway extends ParallelDeadlineGroup {
 
     /**
      * Creates a new AutomaticArtefactPickAway command.
@@ -35,14 +31,14 @@ public class AutomaticArtefactPickAway extends ParallelDeadlineGroup {
      * @param trieurSubsystem   The sorter subsystem, which manages artifact storage and state.
      * @param gamepadSubsystem  The gamepad subsystem, passed down to child commands for haptic feedback.
      */
-    public AutomaticArtefactPickAway(TrieurSubsystem trieurSubsystem,
-            GamepadSubsystem gamepadSubsystem) {
+    public AutomaticColorArtefactPickAway(TrieurSubsystem trieurSubsystem,
+                                          GamepadSubsystem gamepadSubsystem) {
         super(
                 // The deadline for the group: stop when the sorter is full.
                 new WaitUntilCommand(trieurSubsystem::getIsFull),
 
                 // Command 2 (runs in parallel): Repeatedly detect and store artifacts.
-                new RepeatCommand(new ArtefactPickAway(trieurSubsystem, gamepadSubsystem))
+                new RepeatCommand(new ColorArtefactPickAway(trieurSubsystem, gamepadSubsystem))
         );
     }
 }

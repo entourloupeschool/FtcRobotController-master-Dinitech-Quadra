@@ -14,6 +14,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_B
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_BLUE_POSE;
 
 
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -87,26 +88,29 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                     new ParallelCommandGroup(
                             new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY),
                             new SequentialCommandGroup(
-                                    new CloseTrappe(trieurSubsystem),
-                                    new WaitCommand(200),
+                                    new ConditionalCommand(
+                                            new SequentialCommandGroup(
+                                                    new CloseTrappe(trieurSubsystem),
+                                                    new WaitCommand(200)),
+                                            new InstantCommand(),
+                                            trieurSubsystem::isTrappeOpen
+                                    ),
                                     new MoulinCalibrate(trieurSubsystem),
                                     new InstantCommand(() -> trieurSubsystem.hardSetMoulinPosition(6), trieurSubsystem)
-//                                    new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
                             ),
-
                             // Go to Shooting Pos
                             new FollowPath(drivePedroSubsystem, builder -> builder
                                     .addPath(new BezierLine(
                                             drivePedroSubsystem::getPose,
                                             CLOSE_SHOOT_BLUE_POSE)
                                     ).setLinearHeadingInterpolation(BLUE_GOAL_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                    AUTO_ROBOT_CONSTRAINTS, true)
-                    ),
+                                    AUTO_ROBOT_CONSTRAINTS, true)),
 
-                    new ShootAlmostRevolution(trieurSubsystem, shooterSubsystem, new InstantCommand()),
+
+                    new ShootAlmostRevolution(trieurSubsystem, new InstantCommand()),
 
                     new ParallelCommandGroup(
-                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem).withTimeout(MODE_RAMASSAGE_TIMEOUT),
                             new SequentialCommandGroup(
                                     // go to first row of artefacts
                                     new FollowPath(drivePedroSubsystem, builder -> builder
@@ -129,10 +133,10 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                             ).setLinearHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                             AUTO_ROBOT_CONSTRAINTS, true))),
 
-                    new ShootAlmostRevolution(trieurSubsystem, shooterSubsystem, new InstantCommand()),
+                    new ShootAlmostRevolution(trieurSubsystem, new InstantCommand()),
 
                     new ParallelCommandGroup(
-                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem).withTimeout(MODE_RAMASSAGE_TIMEOUT),
                             new SequentialCommandGroup(
                                     // go to second row of artefacts
                                     new FollowPath(drivePedroSubsystem, builder -> builder
@@ -155,10 +159,10 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                             ).setLinearHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                             AUTO_ROBOT_CONSTRAINTS, true))),
 
-                    new ShootAlmostRevolution(trieurSubsystem, shooterSubsystem, new InstantCommand()),
+                    new ShootAlmostRevolution(trieurSubsystem, new InstantCommand()),
 
                     new ParallelCommandGroup(
-                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem).withTimeout(MODE_RAMASSAGE_TIMEOUT),
                             new SequentialCommandGroup(
                                     // go to third row of artefacts
                                     new FollowPath(drivePedroSubsystem, builder -> builder
@@ -181,7 +185,7 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                             ).setLinearHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                             AUTO_ROBOT_CONSTRAINTS, true))),
 
-                    new ShootAlmostRevolution(trieurSubsystem, shooterSubsystem, new InstantCommand()),
+                    new ShootAlmostRevolution(trieurSubsystem, new InstantCommand()),
 
                     // Go to end
                     new FollowPath(drivePedroSubsystem, builder -> builder

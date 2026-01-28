@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  *     identify the artifact's color.</li>
  * </ol>
  */
-public class DetectArtefact extends SequentialCommandGroup {
+public class DetectArtefactColor extends SequentialCommandGroup {
 
     /**
      * Creates a new DetectArtefact command.
@@ -34,7 +34,7 @@ public class DetectArtefact extends SequentialCommandGroup {
      * @param trieurSubsystem  The sorter subsystem, used for artifact and color detection.
      * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
      */
-    public DetectArtefact(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
+    public DetectArtefactColor(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
         addCommands(
                 // Stage 1: Wait for artifact proximity with a light rumble
                 new ParallelRaceGroup(

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_OPEN_TIME;
+
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -31,19 +33,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  */
 public class ShootRevolution extends SequentialCommandGroup {
 
-    private final TrieurSubsystem trieurSubsystem;
-    private final ShooterSubsystem shooterSubsystem;
-
-    /**
-     * Creates a new ShootRevolution command with default behavior.
-     *
-     * @param trieurSubsystem  The sorter subsystem that controls the moulin and trappe.
-     * @param shooterSubsystem The shooter subsystem.
-     */
-    public ShootRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
-        this(trieurSubsystem, shooterSubsystem, new MaxSpeedShooter(shooterSubsystem));
-    }
-
     /**
      * A protected constructor for subclasses to provide a custom shooter command.
      * <p>
@@ -51,41 +40,15 @@ public class ShootRevolution extends SequentialCommandGroup {
      * shooting logic, such as a velocity determined by computer vision.
      *
      * @param trieurSubsystem  The sorter subsystem.
-     * @param shooterSubsystem The shooter subsystem.
      * @param shooterCommand   The custom command to run for controlling the shooter.
      */
-    public ShootRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Command shooterCommand) {
-        this.trieurSubsystem = trieurSubsystem;
-        this.shooterSubsystem = shooterSubsystem;
-
+    public ShootRevolution(TrieurSubsystem trieurSubsystem, Command shooterCommand) {
         addCommands(
                 shooterCommand, // Rev up the shooter
                 new OpenTrappe(trieurSubsystem), // Open the trapdoor
-                new WaitCommand(200), // Wait for the trappe to open fully
+                new WaitCommand(TRAPPE_OPEN_TIME), // Wait for the trappe to open fully
                 new MoulinRevolution(trieurSubsystem), // Perform a full revolution
                 new InstantCommand(trieurSubsystem::clearAllStoredColors)
         );
-    }
-
-    /**
-     * Cleans up the subsystems at the end of the command.
-     * <p>
-     * This method clears the stored artifact colors from the sorter. If the command
-     * was interrupted, it also ensures the shooter is stopped and the trappe is closed
-     * as a safety measure.
-     *
-     * @param interrupted Whether the command was interrupted.
-     */
-    @Override
-    public void end(boolean interrupted) {
-        super.end(interrupted);
-        
-        // Always clear the artifact knowledge base after a full revolution
-        trieurSubsystem.clearAllStoredColors();
-
-        // If the command was cancelled, perform immediate cleanup for safety
-        if (interrupted) {
-            shooterSubsystem.stopMotor();
-        }
     }
 }

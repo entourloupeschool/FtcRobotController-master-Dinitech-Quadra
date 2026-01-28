@@ -44,9 +44,9 @@ public class Globals {
     public static double PATH_BUILDER_LATERAL_ZERO_POWER_ACCELERATION = 0.9823182711;
     public static double LENGTH_X_ROW = TILE_DIM * 1.15;
     public static double START_SHOOTER_T_CALLBACK = 1;
-    public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.27;
+    public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.25;
     public static double STOP_POWER_SHOOTER_T_CALLBACK = 0;
-    public static long MODE_RAMASSAGE_TIMEOUT = 4000;
+    public static long MODE_RAMASSAGE_TIMEOUT = 6000;
     public static Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
 //    public static Pose END_GAME_BLUE_POSE = new Pose(105.4, 33.5, 0);
     public static Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
@@ -62,8 +62,8 @@ public class Globals {
     public static double CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY = 1450;
 
     public static Pose FIRST_ROW_BLUE_POSE = new Pose(48, 84, 0);
-    public static Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-24);
-    public static Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-24);
+    public static Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-TILE_DIM);
+    public static Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-TILE_DIM);
 
 
     //RED SIDE
@@ -120,6 +120,7 @@ public class Globals {
         public static final double TRAPPE_OPEN_POSITION = 0;
         public static final double TRAPPE_CLOSE_POSITION = -130;
         public static final double TRAPPE_TELE_INCREMENT = 0.5;
+        public static final long TRAPPE_OPEN_TIME = 100;
         public static final String MOULIN_MOTOR_NAME = "moulin";
 
         public static final int MOTOR_TICKS_PER_REV = 288;
@@ -137,11 +138,12 @@ public class Globals {
         public static final int TRIEUR_TIME_BETWEEN_SHOTS = 5; // milliseconds
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.8;
+        public static final double SOFT_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.2;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 20; // Ticks to back off when over-current detected
 
         //PIDF MOULIN (TURRET)
-        public static final double P_MOULIN_AGGRESSIVE = 2.231813;
-        public static final double I_MOULIN_AGGRESSIVE = 11.941806;
+        public static final double P_MOULIN_AGGRESSIVE = 3.67;
+        public static final double I_MOULIN_AGGRESSIVE = 15.336;
         public static final double D_MOULIN_AGGRESSIVE = 0.008558;
         public static final double F_MOULIN_AGGRESSIVE = 0.178335;
         public static final double ADJUST_CONSTANT = 0.005;
@@ -165,10 +167,10 @@ public class Globals {
         public static final double TELE_SHOOTER_SCALER = 20;
         public static final double SPEED_MARGIN_VISION_SHOOT = SPEED_MARGIN;
         public static final double ACCELERATION_SCALE_SHOOTER = 100;
-        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 45;//2.807486;
-        public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 1.1;
+        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 80;//2.807486;
+        public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 1.33;
         public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;
-        public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 0; //13.272119;
+        public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 2.1; //13.272119;
 
         public static double kS_SHOOTER_AGGRESSIVE = 0.001;
         public static double kV_SHOOTER_AGGRESSIVE = 0.001;

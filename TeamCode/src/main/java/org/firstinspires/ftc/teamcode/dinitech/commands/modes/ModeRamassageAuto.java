@@ -55,6 +55,5 @@ public class ModeRamassageAuto extends ConditionalCommand {
                 // Condition.
                 () -> Moulin.isStoragePosition(trieurSubsystem.getMoulinPosition())
         );
-        super.withTimeout(MODE_RAMASSAGE_TIMEOUT);
     }
 }

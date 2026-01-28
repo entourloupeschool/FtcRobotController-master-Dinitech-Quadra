@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  *     or the detection failed), it triggers a {@link Rumble} to notify the driver.</li>
  * </ul>
  */
-public class ColoredArtefactPickAway extends SequentialCommandGroup {
+public class ColorArtefactPickAway extends SequentialCommandGroup {
 
     /**
      * Creates a new ColoredArtefactPickAway command.
@@ -28,10 +28,10 @@ public class ColoredArtefactPickAway extends SequentialCommandGroup {
      * @param trieurSubsystem  The sorter subsystem for artifact detection and moulin control.
      * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
      */
-    public ColoredArtefactPickAway(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
+    public ColorArtefactPickAway(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
         addCommands(
                 // First, run the detection process
-                new DetectArtefact(trieurSubsystem, gamepadSubsystem),
+                new DetectArtefactColor(trieurSubsystem, gamepadSubsystem),
                 // Then, conditionally rotate the moulin only if a new COLORED artifact was registered
                 new ConditionalCommand(
                         new MoulinNextNext(trieurSubsystem), // Command to run if a new colored artifact is present

@@ -118,7 +118,7 @@ public class GornetixTeleOp extends DinitechRobotBase {
 //            m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem, gamepadSubsystem));
-        m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, shooterSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem)));
+        m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem)));
 
         m_Driver.bump_left.whenPressed(new ToggleSlowDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
         m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));

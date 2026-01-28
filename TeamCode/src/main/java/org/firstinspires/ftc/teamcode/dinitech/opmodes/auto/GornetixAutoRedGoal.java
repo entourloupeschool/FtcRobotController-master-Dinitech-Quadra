@@ -85,7 +85,7 @@ public class GornetixAutoRedGoal extends DinitechRobotBase {
                     ),
 
                     // Shoot All
-                    new ShootRevolution(trieurSubsystem, shooterSubsystem, new InstantRangeVisionShooter(shooterSubsystem, visionSubsystem))
+                    new ShootRevolution(trieurSubsystem, new InstantRangeVisionShooter(shooterSubsystem, visionSubsystem))
 
                     // go to next row of artefacts
 //                    new ParallelCommandGroup(
