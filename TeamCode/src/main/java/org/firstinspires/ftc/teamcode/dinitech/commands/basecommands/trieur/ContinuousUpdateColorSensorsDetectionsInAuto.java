@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
 
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -18,16 +19,19 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  *     collected data and officially determine and store the artifact's color.</li>
  * </ol>
  */
-public class ContinuousUpdateColorSensorsDetections extends CommandBase {
+public class ContinuousUpdateColorSensorsDetectionsInAuto extends CommandBase {
     private final TrieurSubsystem trieurSubsystem;
+    private int timeout;
+
 
     /**
      * Creates a new UpdateColorSensorsDetections command.
      *
      * @param trieurSubsystem The sorter subsystem to interact with.
      */
-    public ContinuousUpdateColorSensorsDetections(TrieurSubsystem trieurSubsystem){
+    public ContinuousUpdateColorSensorsDetectionsInAuto(TrieurSubsystem trieurSubsystem, int timeout){
         this.trieurSubsystem = trieurSubsystem;
+        this.timeout = timeout;
     }
 
     /**
@@ -44,5 +48,11 @@ public class ContinuousUpdateColorSensorsDetections extends CommandBase {
     @Override
     public void execute(){
         trieurSubsystem.updateColorSensors();
+        timeout -= 1;
+    }
+
+    @Override
+    public boolean isFinished(){
+        return timeout <= 0;
     }
 }

@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
  */
 public class ResetHeadingFCDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
-
     /**
      * Creates a new ResetHeadingFCDrive command.
      *
@@ -25,5 +24,10 @@ public class ResetHeadingFCDrive extends CommandBase {
     @Override
     public void initialize(){
         drivePedroSubsystem.setHeading(0);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return true;
     }
 }

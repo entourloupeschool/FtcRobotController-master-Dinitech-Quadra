@@ -37,6 +37,8 @@ public class Globals {
      * Auto Phase globals
      */
     public static double AUTO_ROBOT_CONSTRAINTS = 1;
+    public static double BRAKING_STRENGTH_PEDRO_DINITECH = 1.4;
+    public static double BRAKING_START_PEDRO_DINITECH = 1.4;
     public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.93;
     public static final double TILE_DIM = 24;
     public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
@@ -44,9 +46,11 @@ public class Globals {
     public static double PATH_BUILDER_LATERAL_ZERO_POWER_ACCELERATION = 0.9823182711;
     public static double LENGTH_X_ROW = TILE_DIM * 1.15;
     public static double START_SHOOTER_T_CALLBACK = 1;
-    public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.225;
+    public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.215;
     public static double STOP_POWER_SHOOTER_T_CALLBACK = 0;
-    public static long MODE_RAMASSAGE_TIMEOUT = 2000;
+    public static long MODE_RAMASSAGE_TIMEOUT = 4000;
+    public static int MODE_RAMASSAGE_AUTO_TIMEOUT = 300;
+    public static long WAIT_AT_END_ROW = 2500;
     public static double OPEN_TRAPPE_T_CALLBACK = 0.95;
     public static Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
 //    public static Pose END_GAME_BLUE_POSE = new Pose(105.4, 33.5, 0);
@@ -55,12 +59,17 @@ public class Globals {
 
 
     //BLUE SIDE
+    public static Pose BLUE_SMALL_TRIANGLE_POSE = new Pose(57, 9.3, Math.PI/2);
+    public static Pose BLUE_SMALL_TRIANGLE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
+
     public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
 //    public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) -1/4*Math.PI);
     public static Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
 
     public static Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
-    public static double CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY = 1410;
+    public static double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = 1410;
+    public static double SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY = 1730;
+
 
     public static Pose FIRST_ROW_BLUE_POSE = new Pose(47, 84, 0);
     public static Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-TILE_DIM);
@@ -68,9 +77,13 @@ public class Globals {
 
 
     //RED SIDE
-    public static Pose RED_GOAL_POSE = new Pose(122, 121, (double) -7 /4*Math.PI);
-    public static Pose CLOSE_SHOOT_RED_POSE = new Pose(95.6, 95, 1.1*Math.PI/4);
+    public static Pose RED_SMALL_TRIANGLE_POSE = BLUE_SMALL_TRIANGLE_POSE.mirror();
+    public static Pose RED_GOAL_POSE = BLUE_GOAL_POSE.mirror();
+    public static Pose CLOSE_SHOOT_RED_POSE = CLOSE_SHOOT_BLUE_POSE.mirror();
 
+    public static Pose FIRST_ROW_RED_POSE = FIRST_ROW_BLUE_POSE.mirror();
+    public static Pose SECOND_ROW_RED_POSE = SECOND_ROW_BLUE_POSE.mirror();
+    public static Pose THIRD_ROW_RED_POSE = THIRD_ROW_BLUE_POSE.mirror();
 
 
 
@@ -133,11 +146,13 @@ public class Globals {
         public static final double POWER_MOULIN_CALIBRATION_ROTATION = POWER_MOULIN_ROTATION;
 
         public static final int MOULIN_POSITION_TOLERANCE = 2;
+        public static int SCALE_MOULIN_POSITION_TOLERANCE_LOOSE = 3;
         public static final int MOULIN_SPEED_TOLERANCE = 10;
         public static int SCALE_MOULIN_SPEED_TOLERANCE_LOOSE = 3;
-        public static int SCALE_MOULIN_POSITION_TOLERANCE_LOOSE = 3;
         public static final int MOULIN_POSITION_LOOSE_TOLERANCE = MOULIN_POSITION_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
         public static final int MOULIN_SPEED_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
+        public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = MOULIN_POSITION_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
+        public static final int MOULIN_SPEED_VERY_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE* SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * MOULIN_POSITION_TOLERANCE;
         public static final int MOULIN_ROTATE_SPEED_CALIBRATION = 20;

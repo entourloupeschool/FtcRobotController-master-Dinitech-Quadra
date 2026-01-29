@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_SHOOTER_VELOCITY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.END_GAME_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.END_GAME_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X_ROW;
@@ -12,6 +14,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_RO
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OPEN_TRAPPE_T_CALLBACK;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_BLUE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_AT_END_ROW;
 
 
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -21,10 +24,11 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.MaxPowerChargeur;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.StopRobot;
+
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.SetVelocityShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinAlmostRevolution;
+
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
@@ -39,7 +43,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-@Autonomous(name = "GornetixAutoBlueGoal - Dinitech", group = "Auto")
+@Autonomous(name = "BlueGoal - Dinitech", group = "Blue")
 public class GornetixAutoBlueGoal extends DinitechRobotBase {
     private TrieurSubsystem trieurSubsystem;
     private VisionSubsystem visionSubsystem;
@@ -82,12 +86,11 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
             new SequentialCommandGroup(
                     // Obelisk and MoulinCalibrate
                     new ParallelCommandGroup(
-                            new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY),
+                            new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
                             new SequentialCommandGroup(
                                     new MoulinCalibrationSequence(trieurSubsystem),
                                     new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
                             ),
-                            new MaxPowerChargeur(chargeurSubsystem),
                             // Go to Shooting Pos
                             new FollowPath(drivePedroSubsystem, builder -> builder
                                     .addPath(new BezierLine(
@@ -112,21 +115,18 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                             .addPath(new BezierLine(
                                                     drivePedroSubsystem::getPose,
                                                     FIRST_ROW_BLUE_POSE.withX(FIRST_ROW_BLUE_POSE.getX() - LENGTH_X_ROW))
-                                            ).setConstantHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading()).build(),
-                                            MAX_POWER_ROW_PICK_ARTEFACTS*1.1, false),
-                                    new WaitCommand(1000),
+                                            ).setLinearHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading(), FIRST_ROW_BLUE_POSE.getHeading()).build(),
+                                            MAX_POWER_ROW_PICK_ARTEFACTS, false),
+                                    new WaitCommand(WAIT_AT_END_ROW),
                                     // Go to Shooting Pos
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
                                                     drivePedroSubsystem::getPose,
                                                     CLOSE_SHOOT_BLUE_POSE)
-                                            ).setLinearHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)
-                                            .addParametricCallback(OPEN_TRAPPE_T_CALLBACK, trieurSubsystem::openTrappe).build(),
+                                            ).setLinearHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                             AUTO_ROBOT_CONSTRAINTS, true))),
 
-//                    new ShootAlmostRevolution(trieurSubsystem, new InstantCommand()),
-                    new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
-                    new InstantCommand(trieurSubsystem::clearAllStoredColors),
+                    new ShootAlmostRevolution(trieurSubsystem, new InstantCommand()), // Perform a full revolution
 
                     new ParallelCommandGroup(
                             new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
@@ -136,7 +136,7 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                             .addPath(new BezierLine(
                                                     drivePedroSubsystem::getPose,
                                                     SECOND_ROW_BLUE_POSE)
-                                            ).setLinearHeadingInterpolation(CLOSE_SHOOT_BLUE_POSE.getHeading(), SECOND_ROW_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.4).build(),
+                                            ).setLinearHeadingInterpolation(CLOSE_SHOOT_BLUE_POSE.getHeading(), SECOND_ROW_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.6).build(),
                                             AUTO_ROBOT_CONSTRAINTS, true),
 
                                     new FollowPath(drivePedroSubsystem, builder -> builder
@@ -144,20 +144,17 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                                     drivePedroSubsystem::getPose,
                                                     SECOND_ROW_BLUE_POSE.withX(SECOND_ROW_BLUE_POSE.getX() - LENGTH_X_ROW))
                                             ).setConstantHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading()).build(),
-                                            MAX_POWER_ROW_PICK_ARTEFACTS*0.7, false),
-                                    new WaitCommand(1000),
+                                            MAX_POWER_ROW_PICK_ARTEFACTS, false),
+                                    new WaitCommand(WAIT_AT_END_ROW),
                                     // Go to Shooting Pos
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
                                                     drivePedroSubsystem::getPose,
                                                     CLOSE_SHOOT_BLUE_POSE)
-                                            ).setLinearHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)
-                                            .addParametricCallback(OPEN_TRAPPE_T_CALLBACK, trieurSubsystem::openTrappe).build(),
+                                            ).setLinearHeadingInterpolation(SECOND_ROW_BLUE_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                             AUTO_ROBOT_CONSTRAINTS, true))),
 
-//                    new ShootAlmostRevolution(trieurSubsystem, new InstantCommand()),
-                    new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
-                    new InstantCommand(trieurSubsystem::clearAllStoredColors),
+                    new ShootAlmostRevolution(trieurSubsystem, new InstantCommand()),
 
                     new ParallelCommandGroup(
                             new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
@@ -167,35 +164,27 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                             .addPath(new BezierLine(
                                                     drivePedroSubsystem::getPose,
                                                     THIRD_ROW_BLUE_POSE)
-                                            ).setLinearHeadingInterpolation(CLOSE_SHOOT_BLUE_POSE.getHeading(), THIRD_ROW_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.1).build(),
+                                            ).setLinearHeadingInterpolation(CLOSE_SHOOT_BLUE_POSE.getHeading(), THIRD_ROW_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.4).build(),
                                             AUTO_ROBOT_CONSTRAINTS, true),
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
                                                     drivePedroSubsystem::getPose,
                                                     THIRD_ROW_BLUE_POSE.withX(THIRD_ROW_BLUE_POSE.getX() - LENGTH_X_ROW))
                                             ).setConstantHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading()).build(),
-                                            MAX_POWER_ROW_PICK_ARTEFACTS*0.7, false),
-                                    new WaitCommand(1000),
+                                            MAX_POWER_ROW_PICK_ARTEFACTS, false),
+                                    new WaitCommand(WAIT_AT_END_ROW),
                                     // Go to Shooting Pos
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
                                                     drivePedroSubsystem::getPose,
                                                     CLOSE_SHOOT_BLUE_POSE)
-                                            ).setLinearHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)
-                                            .addParametricCallback(OPEN_TRAPPE_T_CALLBACK, trieurSubsystem::openTrappe).build(),
+                                            ).setLinearHeadingInterpolation(FIRST_ROW_BLUE_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                             AUTO_ROBOT_CONSTRAINTS, true))),
 
-//                    new ShootAlmostRevolution(trieurSubsystem, new InstantCommand()),
-                    new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
-                    new InstantCommand(trieurSubsystem::clearAllStoredColors),
+                    new ShootAlmostRevolution(trieurSubsystem, new InstantCommand()),
 
-                    // Go to end
-                    new FollowPath(drivePedroSubsystem, builder -> builder
-                            .addPath(new BezierLine(
-                                    drivePedroSubsystem::getPose,
-                                    END_GAME_RED_POSE)
-                            ).setLinearHeadingInterpolation(CLOSE_SHOOT_BLUE_POSE.getHeading(), END_GAME_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                            AUTO_ROBOT_CONSTRAINTS, true)
+                    new StopRobot(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem)
+
             ).schedule();
     }
 

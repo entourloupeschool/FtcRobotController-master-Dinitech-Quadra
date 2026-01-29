@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * is detected. It also includes logic to stop the motor and reset its target if the command
  * is interrupted, preventing unwanted movement.
  */
-public class MoulinToPositionLoose extends CommandBase {
+public class MoulinToPositionVeryLoose extends CommandBase {
     protected final TrieurSubsystem trieurSubsystem;
     protected int moulinTargetPosition;
     protected boolean makeShort;
@@ -27,7 +27,7 @@ public class MoulinToPositionLoose extends CommandBase {
      * @param moulinTargetPosition The target logical position (1-6) for the moulin.
      * @param makeShort            If true, the moulin will take the shortest path; otherwise, it will rotate forward.
      */
-    public MoulinToPositionLoose(TrieurSubsystem trieurSubsystem, int moulinTargetPosition, boolean makeShort) {
+    public MoulinToPositionVeryLoose(TrieurSubsystem trieurSubsystem, int moulinTargetPosition, boolean makeShort) {
         this.trieurSubsystem = trieurSubsystem;
         this.moulinTargetPosition = moulinTargetPosition;
         this.makeShort = makeShort;
@@ -50,7 +50,7 @@ public class MoulinToPositionLoose extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return trieurSubsystem.shouldMoulinStopPowerLoose();
+        return trieurSubsystem.shouldMoulinStopPowerVeryLoose();
     }
 
     /**

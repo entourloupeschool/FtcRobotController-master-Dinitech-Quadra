@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_START_PEDRO_DINITECH;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_STRENGTH_PEDRO_DINITECH;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ENCODER_RESOLUTION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PAR_POD_Y_MM;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PERP_POD_X_MM;
@@ -19,16 +21,25 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
-    private static double scaler = 1;
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)
             .forwardZeroPowerAcceleration(-52.3857)
             .lateralZeroPowerAcceleration(-100.4664)
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.2, 1.0E-4, 0.02, 1.0E-4))
-            .headingPIDFCoefficients(new PIDFCoefficients(1.35, 0.03, 0.01, 0.01))
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.025,0,0.00001,0.01,0.0))
-            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.02,0,0.000005,0.6,0.01))
-            .centripetalScaling(0.0005);
+
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.115, 0, 0.012, 0.025))
+            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.115, 0, 0.012, 0.025))
+
+            .headingPIDFCoefficients(new PIDFCoefficients(1, 0, 0.15, 0.01))
+            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(3, 0.02, 0.15, 0.006))
+
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.025,0,0.012,0.01,0.006))
+            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.025,0.001,0.012,0.6,0.006))
+
+            .centripetalScaling(0.0005)
+
+            .useSecondaryTranslationalPIDF(true)
+            .useSecondaryHeadingPIDF(true)
+            .useSecondaryDrivePIDF(true);
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
             .rightFrontMotorName("rightFront")
@@ -39,8 +50,8 @@ public class Constants {
             .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .xVelocity(80.2 * scaler)
-            .yVelocity(67.35 * scaler);
+            .xVelocity(80.2)
+            .yVelocity(67.35);
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
             .forwardPodY(PAR_POD_Y_MM)
@@ -51,7 +62,7 @@ public class Constants {
             .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);
 
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 2, 1);
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, BRAKING_STRENGTH_PEDRO_DINITECH, BRAKING_START_PEDRO_DINITECH);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
