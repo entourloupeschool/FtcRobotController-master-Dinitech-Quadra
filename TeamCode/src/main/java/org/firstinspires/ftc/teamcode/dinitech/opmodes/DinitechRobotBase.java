@@ -1,17 +1,17 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.controller.PController;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 import java.util.List;
 
@@ -22,6 +22,12 @@ public class DinitechRobotBase extends CommandOpMode {
     private VoltageSensor voltageSensor;
     private final ElapsedTime timer = new ElapsedTime();
     public TelemetryManager telemetryM;
+
+    private final Globals.RunningAverage runningAverageFrequencies = new Globals.RunningAverage(10);
+
+    // Subsystems
+    public VisionSubsystem visionSubsystem;
+
 
 
     /**
@@ -67,7 +73,11 @@ public class DinitechRobotBase extends CommandOpMode {
             hub.clearBulkCache();
         }
 
-        telemetryM.addData("hz", getFrequency());
+        runningAverageFrequencies.add(getFrequency());
+//        telemetryM.addData("hz", freq);
+        telemetryM.addData("average hz", getRunningAverageFreq());
+//        telemetryM.addData("hz", freq);
+
         timer.reset();
         //
         // if (voltageSensor.getVoltage() < 8.5) {
@@ -87,6 +97,10 @@ public class DinitechRobotBase extends CommandOpMode {
 
     public double getFrequency() {
         return 1 / getElapsedTime();
+    }
+
+    public double getRunningAverageFreq(){
+        return runningAverageFrequencies.getAverage();
     }
 
 }

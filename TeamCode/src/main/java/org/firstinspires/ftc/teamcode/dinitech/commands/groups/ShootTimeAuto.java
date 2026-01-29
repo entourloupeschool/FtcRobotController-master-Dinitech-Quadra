@@ -3,15 +3,17 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_OPEN_TIME;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.MaxSpeedShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinAlmostRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.OpenTrappe;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 /**
@@ -26,7 +28,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * </ol>
  * It also includes cleanup logic to reset the state of the subsystems upon completion or interruption.
  */
-public class ShootAlmostRevolution extends SequentialCommandGroup {
+public class ShootTimeAuto extends ParallelCommandGroup {
 
 
     /**
@@ -38,13 +40,14 @@ public class ShootAlmostRevolution extends SequentialCommandGroup {
      * @param trieurSubsystem  The sorter subsystem.
      * @param shooterCommand   The custom command to run for controlling the shooter.
      */
-    public ShootAlmostRevolution(TrieurSubsystem trieurSubsystem, Command shooterCommand) {
+    public ShootTimeAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem, Command shooterCommand) {
         addCommands(
-                shooterCommand, // Rev up the shooter
-                new OpenTrappe(trieurSubsystem), // Open the trapdoor
-                new WaitCommand(TRAPPE_OPEN_TIME), // Wait for the trappe to open fully
-                new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
-                new InstantCommand(trieurSubsystem::clearAllStoredColors)
+                new ShootAlmostRevolution(trieurSubsystem, shooterCommand),
+                new ConditionalCommand(
+                        new StopChargeur(chargeurSubsystem),
+                        new InstantCommand(),
+                        trieurSubsystem::getIsFull
+                )
         );
     }
 }

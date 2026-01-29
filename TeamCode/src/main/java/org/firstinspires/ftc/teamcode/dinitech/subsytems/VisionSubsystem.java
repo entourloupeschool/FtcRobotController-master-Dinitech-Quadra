@@ -38,6 +38,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
+import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
@@ -73,14 +74,14 @@ public class VisionSubsystem extends SubsystemBase {
     public PredominantColorProcessor colorProcessor;
 
     private int lastATPositionDetection = -1;
-    private final RunningAverage robotPoseXCMSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage robotPoseYCMSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage robotPoseYDEGREESSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage rangeToAprilTagCMSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage cameraBearingDEGREESSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage confidenceAprilTagSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage aTPoseXCMSamples = new RunningAverage(NUMBER_AT_SAMPLES);
-    private final RunningAverage aTPoseYCMSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage robotPoseXCMSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage robotPoseYCMSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage robotPoseYDEGREESSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage rangeToAprilTagCMSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage cameraBearingDEGREESSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage confidenceAprilTagSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage aTPoseXCMSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage aTPoseYCMSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
 
     // Cached averages (updated via updateCachedAverages())
     private Double cachedRobotPoseXCM = null;
@@ -204,42 +205,6 @@ public class VisionSubsystem extends SubsystemBase {
         cachedConfidence = confidenceAprilTagSamples.getAverage();
         cachedXATPoseCM = aTPoseXCMSamples.getAverage();
         cachedYATPoseCM = aTPoseYCMSamples.getAverage();
-    }
-
-    /**
-     * A zero-allocation circular buffer for calculating a running average.
-     */
-    private static class RunningAverage {
-        private final double[] samples;
-        private int index = 0;
-        private int count = 0;
-        private double runningSum = 0;
-
-        public RunningAverage(int size) {
-            this.samples = new double[size];
-        }
-
-        public void add(double value) {
-            runningSum -= samples[index];
-            samples[index] = value;
-            runningSum += value;
-            index = (index + 1) % samples.length;
-            if (count < samples.length) {
-                count++;
-            }
-        }
-
-        public Double getAverage() {
-            return count == 0 ? null : runningSum / count;
-        }
-
-        public boolean isEmpty() {
-            return count == 0;
-        }
-
-        public int size() {
-            return count;
-        }
     }
 
     /**

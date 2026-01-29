@@ -45,15 +45,11 @@ public class Globals {
     public static double PATH_BUILDER_FORWARD_ZERO_POWER_ACCELERATION = 0.9944064636;
     public static double PATH_BUILDER_LATERAL_ZERO_POWER_ACCELERATION = 0.9823182711;
     public static double LENGTH_X_ROW = TILE_DIM * 1.15;
-    public static double START_SHOOTER_T_CALLBACK = 1;
     public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.215;
-    public static double STOP_POWER_SHOOTER_T_CALLBACK = 0;
-    public static long MODE_RAMASSAGE_TIMEOUT = 4000;
-    public static int MODE_RAMASSAGE_AUTO_TIMEOUT = 300;
+    public static int MODE_RAMASSAGE_AUTO_TIMEOUT = 500;
     public static long WAIT_AT_END_ROW = 2500;
     public static double OPEN_TRAPPE_T_CALLBACK = 0.95;
     public static Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
-//    public static Pose END_GAME_BLUE_POSE = new Pose(105.4, 33.5, 0);
     public static Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
 
 
@@ -61,9 +57,10 @@ public class Globals {
     //BLUE SIDE
     public static Pose BLUE_SMALL_TRIANGLE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static Pose BLUE_SMALL_TRIANGLE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
-
     public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
-//    public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) -1/4*Math.PI);
+    public static Pose BLUE_RAMP_POSE = new Pose(18, 68, Math.PI/2);
+
+    //    public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) -1/4*Math.PI);
     public static Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
 
     public static Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
@@ -79,6 +76,8 @@ public class Globals {
     //RED SIDE
     public static Pose RED_SMALL_TRIANGLE_POSE = BLUE_SMALL_TRIANGLE_POSE.mirror();
     public static Pose RED_GOAL_POSE = BLUE_GOAL_POSE.mirror();
+    public static Pose RED_RAMP_POSE = BLUE_RAMP_POSE.mirror();
+
     public static Pose CLOSE_SHOOT_RED_POSE = CLOSE_SHOOT_BLUE_POSE.mirror();
 
     public static Pose FIRST_ROW_RED_POSE = FIRST_ROW_BLUE_POSE.mirror();
@@ -438,4 +437,40 @@ public class Globals {
         public static Pose transformToPedroCoordinates(Pose2d pose2d, DistanceUnit distanceUnit, AngleUnit angleUnit) {
             return PoseConverter.pose2DToPose(new Pose2D(distanceUnit, pose2d.position.x, pose2d.position.y, angleUnit, pose2d.heading.log()),  FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
         }
+
+    /**
+     * A zero-allocation circular buffer for calculating a running average.
+     */
+    public static class RunningAverage {
+        private final double[] samples;
+        private int index = 0;
+        private int count = 0;
+        private double runningSum = 0;
+
+        public RunningAverage(int size) {
+            this.samples = new double[size];
+        }
+
+        public void add(double value) {
+            runningSum -= samples[index];
+            samples[index] = value;
+            runningSum += value;
+            index = (index + 1) % samples.length;
+            if (count < samples.length) {
+                count++;
+            }
+        }
+
+        public Double getAverage() {
+            return count == 0 ? null : runningSum / count;
+        }
+
+        public boolean isEmpty() {
+            return count == 0;
+        }
+
+        public int size() {
+            return count;
+        }
+    }
 }

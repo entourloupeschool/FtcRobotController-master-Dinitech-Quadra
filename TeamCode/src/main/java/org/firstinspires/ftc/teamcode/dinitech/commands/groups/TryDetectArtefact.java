@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.Rumble;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -21,57 +22,56 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * <p>
  * The shooting position is evaluated once at initialization time to avoid race conditions.
  */
-public class ShootColor extends CommandBase {
+public class TryDetectArtefact extends CommandBase {
 
     private final TrieurSubsystem trieurSubsystem;
-    private final ShooterSubsystem shooterSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
-    private final TrieurSubsystem.ArtifactColor inputColor;
+    private Gamepad.RumbleEffect waitRumbleEffect = new Gamepad.RumbleEffect.Builder()
+            .addStep(0.3, 0.3, 10)
+            .build();
+    private Gamepad.RumbleEffect unfoundRumbleEffect = new Gamepad.RumbleEffect.Builder()
+            .addStep(0.9, 0.9, 20)
+            .build();;
 
-    private CommandBase selectedCommand;
+    private int timeout;
 
     /**
      * Creates a new ShootColor command.
      *
      * @param trieurSubsystem  The sorter subsystem, used to find artifacts by color.
-     * @param shooterSubsystem The shooter subsystem, used to launch the artifacts.
      * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
-     * @param inputColor       The {@link TrieurSubsystem.ArtifactColor} to find and shoot.
      */
-    public ShootColor(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem,
-            GamepadSubsystem gamepadSubsystem, TrieurSubsystem.ArtifactColor inputColor) {
+    public TryDetectArtefact(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem, int timeout) {
         this.trieurSubsystem = trieurSubsystem;
-        this.shooterSubsystem = shooterSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
-        this.inputColor = inputColor;
+        this.timeout = timeout;
     }
 
     @Override
     public void initialize() {
-        // Evaluate position once at initialization
-        int shootingPosition = trieurSubsystem.getClosestShootingPositionForColor(inputColor);
-
-        if (shootingPosition > 0) {
-            selectedCommand = new DropMoulinState(trieurSubsystem, shooterSubsystem, shootingPosition, true);
-        } else {
-            selectedCommand = new Rumble(gamepadSubsystem, 2, 1);
-        }
-
-        selectedCommand.initialize();
+        trieurSubsystem.clearSamplesColorSensors();
     }
 
     @Override
     public void execute() {
-        selectedCommand.execute();
+        gamepadSubsystem.customRumble(waitRumbleEffect, 2);
+        trieurSubsystem.updateColorSensors();
+        timeout -= 1;
     }
 
     @Override
     public void end(boolean interrupted) {
-        selectedCommand.end(interrupted);
+        if (!interrupted){
+            if (timeout <= 0) {
+                gamepadSubsystem.customRumble(unfoundRumbleEffect, 2);
+            } else {
+                trieurSubsystem.registerArtefact();
+            }
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return selectedCommand.isFinished();
+        return trieurSubsystem.isArtefactInTrieur() || timeout <= 0;
     }
 }
