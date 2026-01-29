@@ -2,11 +2,14 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SAMPLE_SIZE_TEST;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
+import com.arcrobotics.ftclib.command.RepeatCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.ContinuousRumbleCustom;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ContinuousUpdateColorSensorsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.UpdateColorSensorsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -26,7 +29,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  *     identify the artifact's color.</li>
  * </ol>
  */
-public class DetectArtefact extends ParallelRaceGroup {
+public class DetectArtefactColor extends ParallelRaceGroup {
 
     /**
      * Creates a new DetectArtefact command.
@@ -34,11 +37,11 @@ public class DetectArtefact extends ParallelRaceGroup {
      * @param trieurSubsystem  The sorter subsystem, used for artifact and color detection.
      * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
      */
-    public DetectArtefact(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
-            // Stage 1: Wait for artifact proximity with a light rumble
-            super(
-                    new ContinuousRumbleCustom(gamepadSubsystem, 3, 0.2),
-                    new WaitUntilCommand(trieurSubsystem::isArtefactInTrieurSoft)
-            );
+    public DetectArtefactColor(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
+        super(
+                new ContinuousRumbleCustom(gamepadSubsystem, 3, 0.2),
+                new ContinuousUpdateColorSensorsDetections(trieurSubsystem),
+                new WaitUntilCommand(trieurSubsystem::isArtefactInTrieur)
+        );
     }
 }
