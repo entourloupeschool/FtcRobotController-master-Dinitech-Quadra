@@ -9,8 +9,13 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.F_MOULIN_AGG
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.I_MOULIN_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_MOTOR_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_TOLERANCE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_SPEED_LOOSE_TOLERANCE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_SPEED_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_MOULIN_AGGRESSIVE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_MOULIN_SPEED_TOLERANCE_LOOSE;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -396,9 +401,17 @@ public class Moulin {
      * @return True if the motor is not busy, speed is low, and is within tolerance.
      */
     public boolean isTargetStabilized() {
-//        return !isBusy() && Math.abs(getSpeed()) < 10 && Math.abs(getRemainingDistance()) <= MOULIN_POSITION_TOLERANCE;
-        return !isBusy() && Math.abs(getSpeed()) < 10;
+        return !isBusy() && Math.abs(getSpeed()) < MOULIN_SPEED_TOLERANCE;
     }
+
+    /**
+     * Checks if the motor has stabilized at its target position. Loose condition
+     * @return True if the motor is not busy, speed is low, and is within tolerance.
+     */
+    public boolean isTargetStabilizedLoose() {
+        return getRemainingDistance() < MOULIN_POSITION_LOOSE_TOLERANCE && Math.abs(getSpeed()) < MOULIN_SPEED_LOOSE_TOLERANCE;
+    }
+
 
     /**
      * Determines if the motor power should be cut.
@@ -451,4 +464,7 @@ public class Moulin {
         return dcMotorEx.getPIDFCoefficients(RUN_USING_ENCODER);
     }
 
+    public boolean shouldStopPowerLoose() {
+        return isOverCurrent() || isTargetStabilizedLoose();
+    }
 }

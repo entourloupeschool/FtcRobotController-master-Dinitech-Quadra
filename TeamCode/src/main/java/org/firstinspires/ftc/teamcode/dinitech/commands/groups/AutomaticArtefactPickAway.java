@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
+import com.arcrobotics.ftclib.command.ConditionalCommand;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.RepeatCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.StartEndCommand;
-import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNextLoose;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
@@ -23,7 +26,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  *     This repeatedly detects and stores artifacts as they are collected by the intake.</li>
  * </ol>
  */
-public class AutomaticArtefactPickAway extends ParallelDeadlineGroup {
+public class AutomaticArtefactPickAway extends ConditionalCommand {
 
     /**
      * Creates a new AutomaticArtefactPickAway command.
@@ -34,11 +37,46 @@ public class AutomaticArtefactPickAway extends ParallelDeadlineGroup {
     public AutomaticArtefactPickAway(TrieurSubsystem trieurSubsystem,
             GamepadSubsystem gamepadSubsystem) {
         super(
-                // The deadline for the group: stop when the sorter is full.
-                new WaitUntilCommand(trieurSubsystem::getIsFull),
+            new InstantCommand(),
+            buildPickSequence(trieurSubsystem, gamepadSubsystem, 3),
+            trieurSubsystem::getIsFull
+        );
+    }
 
-                // Command 2 (runs in parallel): Repeatedly detect and store artifacts.
-                new RepeatCommand(new ArtefactPickAway(trieurSubsystem, new DetectArtefact(trieurSubsystem, gamepadSubsystem)))
+    /**
+     * Recursively builds a pick sequence that repeats up to {@code depth} times,
+     * stopping early if the sorter becomes full.
+     *
+     * @param trieurSubsystem   The sorter subsystem.
+     * @param gamepadSubsystem  The gamepad subsystem for haptic feedback.
+     * @param depth             The number of pick attempts remaining.
+     * @return A command that performs the pick sequence with conditional recursion.
+     */
+    private static SequentialCommandGroup buildPickSequence(TrieurSubsystem trieurSubsystem,
+            GamepadSubsystem gamepadSubsystem, int depth) {
+        
+        SequentialCommandGroup pickAndAdvance = new SequentialCommandGroup(
+                new ArtefactPickAway(trieurSubsystem, gamepadSubsystem),
+                new ConditionalCommand(
+                        new InstantCommand(),
+                        new MoulinNextNextLoose(trieurSubsystem),
+                        trieurSubsystem::getIsFull
+                )
+        );
+
+        if (depth <= 1) {
+            // Base case: just do the pick sequence once
+            return pickAndAdvance;
+        }
+
+        // Recursive case: pick, then conditionally continue if not full
+        return new SequentialCommandGroup(
+                pickAndAdvance,
+                new ConditionalCommand(
+                        new InstantCommand(),
+                        buildPickSequence(trieurSubsystem, gamepadSubsystem, depth - 1),
+                        trieurSubsystem::getIsFull
+                )
         );
     }
 }

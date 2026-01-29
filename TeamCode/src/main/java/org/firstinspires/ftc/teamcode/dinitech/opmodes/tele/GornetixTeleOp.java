@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.Moul
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNext;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNextLoose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.ToggleTrappe;
@@ -129,6 +130,8 @@ public class GornetixTeleOp extends DinitechRobotBase {
         m_Operator.dpad_up.whenPressed(new MoulinRevolution(trieurSubsystem));
         m_Operator.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
         m_Operator.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
+        m_Operator.dpad_down.whenPressed(new MoulinNextNextLoose(trieurSubsystem));
+
 
         m_Operator.bump_right.whileHeld(new MoulinRotate(trieurSubsystem));
         m_Operator.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem));

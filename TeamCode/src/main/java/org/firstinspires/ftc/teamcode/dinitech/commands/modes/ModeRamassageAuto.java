@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.Ma
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.CloseTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticArtefactPickAway;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -35,7 +36,7 @@ public class ModeRamassageAuto extends ConditionalCommand {
                                 new MaxPowerChargeur(chargeurSubsystem),
                                 new CloseTrappe(trieurSubsystem)
                         ),
-                        new AutomaticColorArtefactPickAway(trieurSubsystem, gamepadSubsystem),
+                        new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem),
                         new StopChargeur(chargeurSubsystem)),
 
                 // if condition is false.
@@ -45,7 +46,7 @@ public class ModeRamassageAuto extends ConditionalCommand {
                                 new CloseTrappe(trieurSubsystem)
                         ),
                         new MoulinNext(trieurSubsystem),
-                        new AutomaticColorArtefactPickAway(trieurSubsystem, gamepadSubsystem),
+                        new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem),
                         new StopChargeur(chargeurSubsystem)),
                 
                 // Condition.

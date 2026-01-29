@@ -180,6 +180,14 @@ public class TrieurSubsystem extends SubsystemBase {
     }
 
     /**
+     * Determines if the moulin motor's power should be cut. With Loose condition.
+     * @return True if power should be stopped.
+     */
+    public boolean shouldMoulinStopPowerLoose() {
+        return moulin.shouldStopPowerLoose();
+    }
+
+    /**
      * Gets the moulin position n steps after the given position.
      * @param pos The starting position.
      * @param n The number of steps to advance.

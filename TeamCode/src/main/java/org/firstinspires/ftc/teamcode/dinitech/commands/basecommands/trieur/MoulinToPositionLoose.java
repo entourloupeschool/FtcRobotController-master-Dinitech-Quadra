@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
-
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -17,7 +15,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * is detected. It also includes logic to stop the motor and reset its target if the command
  * is interrupted, preventing unwanted movement.
  */
-public class MoulinToPosition extends CommandBase {
+public class MoulinToPositionLoose extends CommandBase {
     protected final TrieurSubsystem trieurSubsystem;
     protected int moulinTargetPosition;
     protected boolean makeShort;
@@ -29,7 +27,7 @@ public class MoulinToPosition extends CommandBase {
      * @param moulinTargetPosition The target logical position (1-6) for the moulin.
      * @param makeShort            If true, the moulin will take the shortest path; otherwise, it will rotate forward.
      */
-    public MoulinToPosition(TrieurSubsystem trieurSubsystem, int moulinTargetPosition, boolean makeShort) {
+    public MoulinToPositionLoose(TrieurSubsystem trieurSubsystem, int moulinTargetPosition, boolean makeShort) {
         this.trieurSubsystem = trieurSubsystem;
         this.moulinTargetPosition = moulinTargetPosition;
         this.makeShort = makeShort;
@@ -52,7 +50,7 @@ public class MoulinToPosition extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return trieurSubsystem.shouldMoulinStopPower();
+        return trieurSubsystem.shouldMoulinStopPowerLoose();
     }
 
     /**

@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * This is typically used in a shooting sequence (like {@link org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution})
  * to feed all loaded artifacts into the shooter mechanism sequentially.
  */
-public class MoulinAlmostRevolution extends MoulinToPosition {
+public class MoulinAlmostRevolution extends MoulinToPositionLoose {
     /**
      * Creates a new MoulinAlmostRevolution command.
      *

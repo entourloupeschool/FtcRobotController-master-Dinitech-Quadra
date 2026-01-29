@@ -39,14 +39,15 @@ public class Globals {
     public static double AUTO_ROBOT_CONSTRAINTS = 1;
     public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.93;
     public static final double TILE_DIM = 24;
-    public static double FOLLOWER_T_POSITION_END = 0.9;//0.93;
+    public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
     public static double PATH_BUILDER_FORWARD_ZERO_POWER_ACCELERATION = 0.9944064636;
     public static double PATH_BUILDER_LATERAL_ZERO_POWER_ACCELERATION = 0.9823182711;
     public static double LENGTH_X_ROW = TILE_DIM * 1.15;
     public static double START_SHOOTER_T_CALLBACK = 1;
-    public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.2;
+    public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.225;
     public static double STOP_POWER_SHOOTER_T_CALLBACK = 0;
-    public static long MODE_RAMASSAGE_TIMEOUT = 10000;
+    public static long MODE_RAMASSAGE_TIMEOUT = 2000;
+    public static double OPEN_TRAPPE_T_CALLBACK = 0.95;
     public static Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
 //    public static Pose END_GAME_BLUE_POSE = new Pose(105.4, 33.5, 0);
     public static Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
@@ -61,7 +62,7 @@ public class Globals {
     public static Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
     public static double CLOSE_SHOOT_BLUE_POSE_SHOOTER_VELOCITY = 1410;
 
-    public static Pose FIRST_ROW_BLUE_POSE = new Pose(48, 84, 0);
+    public static Pose FIRST_ROW_BLUE_POSE = new Pose(47, 84, 0);
     public static Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-TILE_DIM);
     public static Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-TILE_DIM);
 
@@ -132,6 +133,11 @@ public class Globals {
         public static final double POWER_MOULIN_CALIBRATION_ROTATION = POWER_MOULIN_ROTATION;
 
         public static final int MOULIN_POSITION_TOLERANCE = 2;
+        public static final int MOULIN_SPEED_TOLERANCE = 10;
+        public static int SCALE_MOULIN_SPEED_TOLERANCE_LOOSE = 3;
+        public static int SCALE_MOULIN_POSITION_TOLERANCE_LOOSE = 3;
+        public static final int MOULIN_POSITION_LOOSE_TOLERANCE = MOULIN_POSITION_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
+        public static final int MOULIN_SPEED_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * MOULIN_POSITION_TOLERANCE;
         public static final int MOULIN_ROTATE_SPEED_CALIBRATION = 20;

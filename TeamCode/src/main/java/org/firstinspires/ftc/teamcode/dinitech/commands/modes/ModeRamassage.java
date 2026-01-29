@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.CloseTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticArtefactPickAway;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
@@ -35,7 +36,7 @@ public class ModeRamassage extends ConditionalCommand {
                                 new CloseTrappe(trieurSubsystem),
                                 new StopShooter(shooterSubsystem)
                         ),
-                        new AutomaticColorArtefactPickAway(trieurSubsystem, gamepadSubsystem)),
+                        new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem)),
 
                 // if condition is false.
                 new SequentialCommandGroup(
@@ -44,7 +45,7 @@ public class ModeRamassage extends ConditionalCommand {
                             new StopShooter(shooterSubsystem)
                     ),
                     new MoulinNext(trieurSubsystem),
-                    new AutomaticColorArtefactPickAway(trieurSubsystem, gamepadSubsystem)),
+                    new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem)),
                 
                 // Condition.
                 () -> Moulin.isStoragePosition(trieurSubsystem.getMoulinPosition())

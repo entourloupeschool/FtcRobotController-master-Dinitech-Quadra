@@ -1,13 +1,17 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TIMEOUT;
+
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.ContinuousRumbleCustom;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.InstantRumbleCustom;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.Rumble;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ContinuousUpdateColorSensorsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNext;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -34,20 +38,14 @@ public class ArtefactPickAway extends SequentialCommandGroup {
      *
      * @param trieurSubsystem  The sorter subsystem for artifact detection and moulin control.
      */
-    public ArtefactPickAway(TrieurSubsystem trieurSubsystem, Command detectionCommand) {
+    public ArtefactPickAway(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
         addCommands(
                 // First, run the detection process
-                detectionCommand,
-                new InstantCommand(trieurSubsystem::registerArtefact),
-                new MoulinNextNext(trieurSubsystem) // Command to run if a new artifact is present
-
-//                // Then, conditionally rotate the moulin if a new artifact was registered
-//                new ConditionalCommand(
-//                        new MoulinNextNext(trieurSubsystem), // Command to run if a new artifact is present
-//
-//                        new InstantRumbleCustom(gamepadSubsystem, 3, 0.1),   // Command to run if no new artifact was registered
-//                        trieurSubsystem::hasNewRegister      // The condition to check
-//                )
+                new ParallelCommandGroup(
+                        new ContinuousRumbleCustom(gamepadSubsystem, 3, 0.2),
+                        new ContinuousUpdateColorSensorsDetections(trieurSubsystem)
+                ).interruptOn(trieurSubsystem::isArtefactInTrieur),
+                new InstantCommand(trieurSubsystem::registerArtefact)// Command to run if a new artifact is present
         );
     }
 }
