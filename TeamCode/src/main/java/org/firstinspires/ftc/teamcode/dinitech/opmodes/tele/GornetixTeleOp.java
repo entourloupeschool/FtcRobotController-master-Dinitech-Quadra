@@ -1,20 +1,20 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tele;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.transformToPedroCoordinates;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_SHOOTER_VELOCITY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LONG_SHOOT_SHOOTER_VELOCITY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MID_SHOOT_SHOOTER_VELOCITY;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.ToggleChargeur;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.FieldCentricDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleSlowDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drive.ToggleVisionDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.FieldCentricDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.ResetHeadingFCDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.ToggleSlowDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.ToggleVisionDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.DefaultGamepadCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.ToggleUsageStateShooter;
@@ -36,7 +36,6 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeShoot;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -116,9 +115,8 @@ public class GornetixTeleOp extends DinitechRobotBase {
         m_Operator.touchpadButton.whenActive(new StopRobot(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem));
 
         // Driver controls
-//            m_Driver.circle.whenPressed(new ToggleMaxShooter(shooterSubsystem));
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
-        m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem, gamepadSubsystem));
+        m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
         m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem)));
 
         m_Driver.bump_left.whenPressed(new ToggleSlowDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
@@ -138,9 +136,9 @@ public class GornetixTeleOp extends DinitechRobotBase {
         m_Operator.right_stick_button.whenPressed(new ToggleUsageStateShooter(shooterSubsystem, visionSubsystem, gamepadSubsystem));
 
 
-        m_Operator.square.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, 1850), new SetVelocityShooter(shooterSubsystem, 0), true);
-        m_Operator.cross.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, 1600),  new SetVelocityShooter(shooterSubsystem, 0), true);
-        m_Operator.triangle.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, 1400),  new SetVelocityShooter(shooterSubsystem, 0), true);
+        m_Operator.square.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, LONG_SHOOT_SHOOTER_VELOCITY), new SetVelocityShooter(shooterSubsystem, 0), true);
+        m_Operator.cross.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, MID_SHOOT_SHOOTER_VELOCITY),  new SetVelocityShooter(shooterSubsystem, 0), true);
+        m_Operator.triangle.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_SHOOTER_VELOCITY),  new SetVelocityShooter(shooterSubsystem, 0), true);
 
         m_Operator.circle.toggleWhenPressed(new ModeRamassage(trieurSubsystem, shooterSubsystem,
                         chargeurSubsystem, gamepadSubsystem));

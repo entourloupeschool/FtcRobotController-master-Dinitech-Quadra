@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CALIBRATION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_CALIBRATION_ROTATION;
@@ -44,28 +45,18 @@ public class MoulinCalibrate extends CommandBase {
 
         if (trieurSubsystem.isMagneticSwitch()) {
             trieurSubsystem.resetTargetMoulinMotor();
+            trieurSubsystem.incrementMoulinTargetPosition(INTERVALLE_TICKS_MOULIN + OFFSET_MAGNETIC_POS);
+            trieurSubsystem.hardSetMoulinPosition(1);
         }
     }
 
     /**
-     * The command is finished when the magnetic switch is pressed or if an over-current
-     * event occurs (as a safety precaution).
+     * The command is finished when the magnetic switch is pressed
      *
      * @return True if the command should end.
      */
     @Override
     public boolean isFinished() {
         return trieurSubsystem.isMagneticSwitch();
-    }
-
-    /**
-     * Stops the motor and resets its target position upon completion.
-     *
-     * @param interrupted Whether the command was interrupted.
-     */
-    @Override
-    public void end(boolean interrupted) {
-        // Apply a small offset to stop precisely on the calibration point
-        trieurSubsystem.incrementMoulinTargetPosition(OFFSET_MAGNETIC_POS);
     }
 }

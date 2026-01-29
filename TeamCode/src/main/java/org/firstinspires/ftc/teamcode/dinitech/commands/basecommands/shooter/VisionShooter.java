@@ -34,10 +34,7 @@ public class VisionShooter extends CommandBase {
     @Override
     public void execute() {
         Double range = visionSubsystem.getRangeToAprilTag();
-        if (range == null){
-            return;
-        }
-        shooterSubsystem.setVelocity(linearSpeedFromRange(range));
+        if (range != null) shooterSubsystem.setVelocity(linearSpeedFromRange(range));
     }
 
 

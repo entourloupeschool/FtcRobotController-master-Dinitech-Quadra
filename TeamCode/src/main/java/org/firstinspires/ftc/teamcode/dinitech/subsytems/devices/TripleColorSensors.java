@@ -40,7 +40,7 @@ public class TripleColorSensors {
     public void updateAllSensors() {
         colorSensor1.update();
         colorSensor2.update();
-        colorSensor3.update();
+//        colorSensor3.update();
     }
 
     /**

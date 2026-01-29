@@ -164,12 +164,13 @@ public class DrivePedroSubsystem extends SubsystemBase {
     private void printDriveTelemetry(final TelemetryManager telemetryM) {
         telemetryM.addData("drive usage", getDriveUsage());
         telemetryM.addData("drive reference", getDriveReference());
+//        telemetryM.addData("tFollower", dinitechPedroMecanumDrive.getFollower().getCurrentTValue());
 
-        Pose pose = getPose();
-        telemetryM.addLine("Robot Pose:");
-        telemetryM.addData("x", pose.getX());
-        telemetryM.addData("y", pose.getY());
-        telemetryM.addData("heading", pose.getHeading());
+//        Pose pose = getPose();
+//        telemetryM.addLine("Robot Pose:");
+//        telemetryM.addData("x", pose.getX());
+//        telemetryM.addData("y", pose.getY());
+//        telemetryM.addData("heading", pose.getHeading());
 
     }
 

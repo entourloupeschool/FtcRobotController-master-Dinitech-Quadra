@@ -15,17 +15,14 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  */
 public class ToggleTrappe extends CommandBase {
     private final TrieurSubsystem trieurSubsystem;
-    private final GamepadSubsystem gamepadSubsystem;
 
     /**
      * Creates a new ToggleTrappe command.
      *
      * @param trieurSubsystem  The sorter subsystem to control.
-     * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
      */
-    public ToggleTrappe(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem){
+    public ToggleTrappe(TrieurSubsystem trieurSubsystem){
         this.trieurSubsystem = trieurSubsystem;
-        this.gamepadSubsystem = gamepadSubsystem;
     }
 
     /**
@@ -37,11 +34,6 @@ public class ToggleTrappe extends CommandBase {
             trieurSubsystem.closeTrappe();
         } else {
             trieurSubsystem.openTrappe();
-            // Provide haptic feedback to confirm the action
-            Gamepad.RumbleEffect customRumbleEffect = new Gamepad.RumbleEffect.Builder()
-                    .addStep(0.5, 0.5, 100) // A short, noticeable rumble
-                    .build();
-            gamepadSubsystem.customRumble(customRumbleEffect, 1);
         }
     }
 

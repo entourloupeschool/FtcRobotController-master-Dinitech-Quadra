@@ -2,18 +2,11 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.modes;
 
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
-import com.arcrobotics.ftclib.command.RepeatCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.StartEndCommand;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.CloseTrappe;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ArtefactPickAway;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticArtefactPickAway;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.AutomaticColorArtefactPickAway;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
@@ -42,7 +35,7 @@ public class ModeRamassage extends ConditionalCommand {
                                 new CloseTrappe(trieurSubsystem),
                                 new StopShooter(shooterSubsystem)
                         ),
-                        new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem)),
+                        new AutomaticColorArtefactPickAway(trieurSubsystem, gamepadSubsystem)),
 
                 // if condition is false.
                 new SequentialCommandGroup(
@@ -51,7 +44,7 @@ public class ModeRamassage extends ConditionalCommand {
                             new StopShooter(shooterSubsystem)
                     ),
                     new MoulinNext(trieurSubsystem),
-                    new AutomaticArtefactPickAway(trieurSubsystem, gamepadSubsystem)),
+                    new AutomaticColorArtefactPickAway(trieurSubsystem, gamepadSubsystem)),
                 
                 // Condition.
                 () -> Moulin.isStoragePosition(trieurSubsystem.getMoulinPosition())

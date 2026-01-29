@@ -31,7 +31,6 @@ public class UpdateColorSensorsDetections extends CommandBase {
     public UpdateColorSensorsDetections(TrieurSubsystem trieurSubsystem, int numberSample){
         this.trieurSubsystem = trieurSubsystem;
         this.numberSample = numberSample;
-        addRequirements(trieurSubsystem);
     }
 
     /**

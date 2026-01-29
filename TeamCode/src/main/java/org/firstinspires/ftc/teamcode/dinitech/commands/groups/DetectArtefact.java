@@ -1,12 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SAMPLE_SIZE_TEST;
-
-import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
-import com.arcrobotics.ftclib.command.RepeatCommand;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.ContinuousRumbleCustom;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ContinuousUpdateColorSensorsDetections;
@@ -29,7 +24,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  *     identify the artifact's color.</li>
  * </ol>
  */
-public class DetectArtefactColor extends ParallelRaceGroup {
+public class DetectArtefact extends ParallelCommandGroup {
 
     /**
      * Creates a new DetectArtefact command.
@@ -37,11 +32,10 @@ public class DetectArtefactColor extends ParallelRaceGroup {
      * @param trieurSubsystem  The sorter subsystem, used for artifact and color detection.
      * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
      */
-    public DetectArtefactColor(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
+    public DetectArtefact(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
         super(
-                new ContinuousRumbleCustom(gamepadSubsystem, 3, 0.2),
-                new ContinuousUpdateColorSensorsDetections(trieurSubsystem),
-                new WaitUntilCommand(trieurSubsystem::isArtefactInTrieur)
+                new ContinuousRumbleCustom(gamepadSubsystem, 3, 0.2).interruptOn(trieurSubsystem::isArtefactInTrieur),
+                new ContinuousUpdateColorSensorsDetections(trieurSubsystem).interruptOn(trieurSubsystem::isArtefactInTrieur)
         );
     }
 }

@@ -33,9 +33,13 @@ public class MoulinAlmostRevolution extends MoulinToPosition {
     public void initialize() {
         // Calculate the target position based on the current state of the moulin.
         int currentPosition = trieurSubsystem.getMoulinPosition();
+        if (Moulin.isStoragePosition(currentPosition)){
+            super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPosition, Moulin.TOTAL_POSITIONS-1);
+        } else {
+            super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPosition, Moulin.TOTAL_POSITIONS-2);
+        }
 
         // Set the parameters for the parent command.
-        super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPosition, Moulin.TOTAL_POSITIONS - 1);
         super.makeShort = false; // Always rotate forward.
 
         // Start the movement.

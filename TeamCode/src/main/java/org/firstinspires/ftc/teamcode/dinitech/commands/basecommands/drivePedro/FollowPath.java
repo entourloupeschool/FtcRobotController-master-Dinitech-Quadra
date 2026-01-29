@@ -73,24 +73,6 @@ public class FollowPath extends CommandBase {
         addRequirements(drivePedroSubsystem);
     }
 
-    /**
-     * Creates a FollowPath command with a single Path (converted to PathChain).
-     *
-     * @param drivePedroSubsystem The drive subsystem
-     * @param path The single Path to follow
-     * @param maxPower Maximum power (0-1)
-     * @param holdEnd Whether to hold position at the end
-     */
-    public FollowPath(DrivePedroSubsystem drivePedroSubsystem, Path path, double maxPower, boolean holdEnd) {
-        this.drivePedroSubsystem = drivePedroSubsystem;
-        this.pathSupplier = builder -> builder.addPath(path).build();
-        this.pathChain = null;
-        this.maxPower = maxPower;
-        this.holdEnd = holdEnd;
-
-        addRequirements(drivePedroSubsystem);
-    }
-
 
     @Override
     public void initialize() {
@@ -105,24 +87,8 @@ public class FollowPath extends CommandBase {
         drivePedroSubsystem.followPathChain(pathChain, maxPower, holdEnd);
     }
 
-
-
-
     @Override
     public boolean isFinished() {
         return drivePedroSubsystem.isPathQuasiDone();
     }
-
-    /**
-     * Sets Global Maximum Power for Follower, and overwrites maxPower in constructor
-     *
-     * @param globalMaxPower The new globalMaxPower
-     * @return This command for compatibility in command groups
-     */
-    public FollowPath setGlobalMaxPower(double globalMaxPower) {
-        drivePedroSubsystem.setMaxPower(globalMaxPower);
-        maxPower = globalMaxPower;
-        return this;
-    }
-
 }

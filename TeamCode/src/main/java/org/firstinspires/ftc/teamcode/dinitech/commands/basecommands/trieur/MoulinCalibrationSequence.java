@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_OPEN_TIME;
+
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -35,16 +38,9 @@ public class MoulinCalibrationSequence extends SequentialCommandGroup {
      */
     public MoulinCalibrationSequence(TrieurSubsystem trieurSubsystem) {
         addCommands(
-                new ConditionalCommand(
-                        new SequentialCommandGroup(
-                                new CloseTrappe(trieurSubsystem),
-                                new WaitCommand(200)),
-                        new InstantCommand(),
-                        trieurSubsystem::isTrappeOpen
-                ),
-                new MoulinCalibrate(trieurSubsystem),
-                new InstantCommand(() -> trieurSubsystem.hardSetMoulinPosition(6), trieurSubsystem),
-                new MoulinNext(trieurSubsystem)
+                new CloseTrappe(trieurSubsystem),
+                new WaitCommand(TRAPPE_OPEN_TIME),
+                new MoulinCalibrate(trieurSubsystem)
         );
     }
 }

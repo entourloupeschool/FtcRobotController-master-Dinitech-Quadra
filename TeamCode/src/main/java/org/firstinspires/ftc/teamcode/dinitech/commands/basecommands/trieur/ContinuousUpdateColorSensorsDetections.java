@@ -18,20 +18,16 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  *     collected data and officially determine and store the artifact's color.</li>
  * </ol>
  */
-public class ContinousUpdateColorSensorsDetections extends CommandBase {
+public class ContinuousUpdateColorSensorsDetections extends CommandBase {
     private final TrieurSubsystem trieurSubsystem;
-    private final int numberSample;
 
     /**
      * Creates a new UpdateColorSensorsDetections command.
      *
      * @param trieurSubsystem The sorter subsystem to interact with.
-     * @param numberSample    The target number of samples to collect before finishing.
      */
-    public ContinousUpdateColorSensorsDetections(TrieurSubsystem trieurSubsystem, int numberSample){
+    public ContinuousUpdateColorSensorsDetections(TrieurSubsystem trieurSubsystem){
         this.trieurSubsystem = trieurSubsystem;
-        this.numberSample = numberSample;
-        addRequirements(trieurSubsystem);
     }
 
     /**
@@ -48,19 +44,5 @@ public class ContinousUpdateColorSensorsDetections extends CommandBase {
     @Override
     public void execute(){
         trieurSubsystem.updateColorSensors();
-    }
-
-
-    /**
-     * Triggers the final artifact registration process after collecting samples.
-     *
-     * @param interrupted Whether the command was interrupted.
-     */
-    @Override
-    public void end(boolean interrupted) {
-        // If not interrupted, process the collected data to register the artifact.
-        if (!interrupted) {
-            trieurSubsystem.registerArtefact();
-        }
     }
 }

@@ -1,14 +1,10 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_MOTOR_POWER;
-
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.RepeatCommand;
 import com.arcrobotics.ftclib.command.StartEndCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
-import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
@@ -42,7 +38,7 @@ public class AutomaticArtefactPickAway extends ParallelDeadlineGroup {
                 new WaitUntilCommand(trieurSubsystem::getIsFull),
 
                 // Command 2 (runs in parallel): Repeatedly detect and store artifacts.
-                new RepeatCommand(new ArtefactPickAway(trieurSubsystem, gamepadSubsystem))
+                new RepeatCommand(new ArtefactPickAway(trieurSubsystem, new DetectArtefact(trieurSubsystem, gamepadSubsystem)))
         );
     }
 }

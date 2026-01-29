@@ -6,7 +6,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_T
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAGNETIC_ON_MOULIN_POSITION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SOFT_DISTANCE_ARTEFACT_IN_TRIEUR_COEF;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_TELE_INCREMENT;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -205,20 +205,9 @@ public class TrieurSubsystem extends SubsystemBase {
      * @return True if an artifact is detected, false otherwise.
      */
     public boolean isArtefactInTrieur() {
-        return tripleColorSensors.isDistanceBetween(1, DISTANCE_ARTEFACT_IN_TRIEUR, DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR)
-                || tripleColorSensors.isDistanceBetween(2, DISTANCE_ARTEFACT_IN_TRIEUR,
+        return tripleColorSensors.isDistanceBetween(1, DISTANCE_ARTEFACT_IN_TRIEUR * SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF, DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR)
+                || tripleColorSensors.isDistanceBetween(2, DISTANCE_ARTEFACT_IN_TRIEUR * SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF,
                         DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR);
-    }
-
-    /**
-     * Checks if an artifact is detected within the intake area of the sorter. SOFT.
-     *
-     * @return True if an artifact is detected, false otherwise.
-     */
-    public boolean isArtefactInTrieurSoft() {
-        return tripleColorSensors.isDistanceBetween(1, DISTANCE_ARTEFACT_IN_TRIEUR * SOFT_DISTANCE_ARTEFACT_IN_TRIEUR_COEF, DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR)
-                || tripleColorSensors.isDistanceBetween(2, DISTANCE_ARTEFACT_IN_TRIEUR * SOFT_DISTANCE_ARTEFACT_IN_TRIEUR_COEF,
-                DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR);
     }
 
     /**
@@ -304,7 +293,7 @@ public class TrieurSubsystem extends SubsystemBase {
     /**
      * Sets the color associated with a specific moulin storage position.
      *
-     * @param pos   The moulin storage position (1-3).
+     * @param pos   The moulin storage position (1-6).
      * @param color The artifact color to associate.
      */
     public void setMoulinStoragePositionColor(int pos, ArtifactColor color) {
@@ -363,7 +352,7 @@ public class TrieurSubsystem extends SubsystemBase {
      * @return An array of moulin storage positions containing that color.
      */
     public int[] getPosWithColor(ArtifactColor color) {
-        int[] tempPos = new int[3];
+        int[] tempPos = new int[6];
         int count = 0;
 
         for (int i = 0; i < moulinStoragePositionColors.length; i++) {
@@ -652,10 +641,9 @@ public class TrieurSubsystem extends SubsystemBase {
 //        telemetryM.addData("shootGreenPos", getClosestShootingPositionForColor(ArtifactColor.GREEN));
 //        telemetryM.addData("shootPurplePos", getClosestShootingPositionForColor(ArtifactColor.PURPLE));
         telemetryM.addLine("getPosWithColor");
-        int[] posWithColor = getPosWithColor(ArtifactColor.GREEN);
-        for (int k : posWithColor) telemetryM.addData("GREEN", k);
-        posWithColor = getPosWithColor(ArtifactColor.PURPLE);
-        for (int j : posWithColor) telemetryM.addData("PURPLE", j);
+        for (int i = 0; i < moulinStoragePositionColors.length; i++) {
+            telemetryM.addData(String.valueOf(i), moulinStoragePositionColors[i]);
+        }
     }
 
     private void printColorTelemetryManager(final TelemetryManager telemetryM) {

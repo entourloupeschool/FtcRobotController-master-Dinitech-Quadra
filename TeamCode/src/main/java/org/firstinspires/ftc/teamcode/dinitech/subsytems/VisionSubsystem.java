@@ -2,13 +2,9 @@ package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.bylazar.telemetry.TelemetryManager;
-import com.pedropathing.ftc.FTCCoordinates;
-import com.pedropathing.ftc.InvertedFTCCoordinates;
-import com.pedropathing.ftc.PoseConverter;
-import com.pedropathing.geometry.PedroCoordinates;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import com.pedropathing.geometry.Pose;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_PITCH;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_ROLL;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_YAW;
@@ -39,7 +35,6 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
@@ -99,7 +94,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     private boolean hasCurrentATDetections = false;
 
-    private String[] cachedColorsOrder = new String[0];
+    private int cachedColorsOrder = -1;
     private boolean hasDetectedColorOrder = false;
     private double decimation = 1;
 
@@ -184,16 +179,8 @@ public class VisionSubsystem extends SubsystemBase {
                         aTPoseYCMSamples.add(detection.ftcPose.y);
                         updateCachedAverages();
                     } else if (!hasDetectedColorOrder) {
-                        if (detection.id == 21) {
-                            cachedColorsOrder = new String[] { "g", "p", "p" };
-                            hasDetectedColorOrder = true;
-                        } else if (detection.id == 22) {
-                            cachedColorsOrder = new String[] { "p", "g", "p" };
-                            hasDetectedColorOrder = true;
-                        } else if (detection.id == 23) {
-                            cachedColorsOrder = new String[] { "p", "p", "g" };
-                            hasDetectedColorOrder = true;
-                        }
+                        cachedColorsOrder = detection.id;
+                        hasDetectedColorOrder = true;
                     }
                 } else {
                     setHasCurrentAprilTagDetections(false);
@@ -351,24 +338,6 @@ public class VisionSubsystem extends SubsystemBase {
         return pickCustomPowerFunc(Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, robotCenterBearing + normalizedCorrectionWithRange)) / CLAMP_BEARING, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
     }
 
-
-//    public double getAutoAimPower3(){
-//        double cameraBearing = getCameraBearing() != null ? (double) getCameraBearing() : 0;
-//        double rangeToAprilTag = getRangeToAprilTag() != null ? (double) getRangeToAprilTag() : 0;
-//
-//
-//        double l = Math.sqrt(-2 * CAMERA_POSITION_X * rangeToAprilTag * Math.cos(Math.toRadians(90 + cameraBearing)) + CAMERA_POSITION_X * CAMERA_POSITION_X * rangeToAprilTag * rangeToAprilTag);
-//        double phi = Math.asin(Math.sin(Math.toRadians(90 + cameraBearing))/l);
-//        double eps = Math.PI - phi - Math.toRadians(cameraBearing);
-//        double theta = Math.PI/2 - Math.toRadians(cameraBearing);
-//        double V = Math.PI/2 
-//
-//
-//
-//
-//        return pickCustomPowerFunc(beta, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
-//    }
-
     /**
      * Gets the cached averaged XftcPose from AprilTag detections.
      *
@@ -475,8 +444,8 @@ public class VisionSubsystem extends SubsystemBase {
 //            telemetryM.addData("Camera Bearing (DEGREES)", "%.2f", getCameraBearing());
 //            telemetryM.addData("Robot Center Bearing", "%.2f", getRobotCenterBearing());
 //            telemetryM.addData("Range (CM)", "%.2f", getRangeToAprilTag());
-            telemetryM.addData("X AT (CM)", getXATPose());
-            telemetryM.addData("Y AT (CM)", getYATPose());
+//            telemetryM.addData("X AT (CM)", getXATPose());
+//            telemetryM.addData("Y AT (CM)", getYATPose());
 //            telemetryM.addData("robotCenterBearing", getRobotCenterToAprilTag(getCameraBearing(), getRangeToAprilTag()));
 //            telemetryM.addData("normalizedCorrectionWithRange", "%.2f", getNormalizedCorrectionWithRange(getSignedDistanceToATLine(getRobotPoseX(), getRobotPoseY()), getRangeToAprilTag()));
         } else {
@@ -485,9 +454,8 @@ public class VisionSubsystem extends SubsystemBase {
 
 //        telemetryM.addData("Decimation", getDecimation());
 
-        if (hasDetectedColorOrder) {
-            telemetryM.addData("Artifact Color Order", String.join(", ", cachedColorsOrder));
-        }
+        telemetryM.addData("hasDetectedMotif", hasDetectedColorOrder);
+
     }
 
     private void colorProcessorTelemetryManager() {
@@ -500,7 +468,7 @@ public class VisionSubsystem extends SubsystemBase {
      *
      * @return An array of strings representing the color order (e.g., ["g", "p", "p"]), or an empty array if not yet detected.
      */
-    public String[] getColorsOrder() {
+    public int getColorsOrder() {
         return cachedColorsOrder;
     }
 
@@ -517,7 +485,7 @@ public class VisionSubsystem extends SubsystemBase {
      * Resets the cached color order.
      */
     public void resetColorOrder() {
-        cachedColorsOrder = new String[0];
+        cachedColorsOrder = -1;
         hasDetectedColorOrder = false;
     }
 

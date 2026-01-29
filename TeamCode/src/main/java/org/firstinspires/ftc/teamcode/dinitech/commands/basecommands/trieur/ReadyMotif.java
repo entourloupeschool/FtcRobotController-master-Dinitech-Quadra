@@ -47,20 +47,11 @@ public class ReadyMotif extends MoulinToPosition {
             moulinTargetPosition = 1;
         } else {
             // Get the detected color order.
-            String[] colorsOrder = visionSubsystem.getColorsOrder();
-
-            // Find the position of the green artifact in the motif (1, 2, or 3).
-            int greenPosition = -1;
-            for (int i = 0; i < colorsOrder.length; i++){
-                if (colorsOrder[i].equals("g")){
-                    greenPosition = i + 1; // positions are 1-indexed
-                    break;
-                }
-            }
+            int colorsOrder = visionSubsystem.getColorsOrder();
 
             // Calculate the target position. The logic aligns the moulin based on the
             // location of the green artifact in the sequence.
-            greenPosition = trieurSubsystem.getClosestShootingPositionForColor(TrieurSubsystem.ArtifactColor.GREEN);
+            int greenPosition = trieurSubsystem.getClosestShootingPositionForColor(TrieurSubsystem.ArtifactColor.GREEN);
 
             if (greenPosition == -1){
                 // Fallback if green position is not found.
@@ -70,14 +61,14 @@ public class ReadyMotif extends MoulinToPosition {
                 return;
             }
 
-            moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(greenPosition, 1);
-
-            if (greenPosition == 2){
+            if (colorsOrder == 21){
+                moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(greenPosition, 3);
+            } else if (colorsOrder == 22){
                 // Adjust if green is the second artifact in the motif.
-                moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(moulinTargetPosition, 3);
-            } else if (greenPosition == 3){
+                moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(greenPosition, 1);
+            } else {
                 // Adjust if green is the third artifact in the motif.
-                moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(moulinTargetPosition, 5);
+                moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(greenPosition, 1);
             }
         }
 
