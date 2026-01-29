@@ -5,27 +5,23 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_PO
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_SHOOTER_VELOCITY;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.END_GAME_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.END_GAME_RED_POSE;
+
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X_ROW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_ROW_PICK_ARTEFACTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OPEN_TRAPPE_T_CALLBACK;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_AT_END_ROW;
 
 
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.StopRobot;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.StopChargeur;
@@ -38,7 +34,6 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.Read
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAlmostRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootTimeAuto;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
@@ -208,7 +203,6 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                             new ParallelCommandGroup(
                                     new StopChargeur(chargeurSubsystem),
                                     new StopShooter(shooterSubsystem)))
-
 
             ).schedule();
     }

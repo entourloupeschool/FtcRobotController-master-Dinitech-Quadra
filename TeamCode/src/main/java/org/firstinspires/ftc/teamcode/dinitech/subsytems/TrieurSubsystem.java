@@ -367,20 +367,11 @@ public class TrieurSubsystem extends SubsystemBase {
      * @param color The color to search for.
      * @return An array of moulin storage positions containing that color.
      */
-    public int[] getPosWithColor(ArtifactColor color) {
-        int[] tempPos = new int[6];
-        int count = 0;
-
+    public int getPosWithColor(ArtifactColor color) {
         for (int i = 0; i < moulinStoragePositionColors.length; i++) {
-            if (moulinStoragePositionColors[i] == color) {
-                tempPos[count] = (i * 2) + 1;
-                count++;
-            }
+            if (moulinStoragePositionColors[i] == color) return i;
         }
-
-        int[] result = new int[count];
-        System.arraycopy(tempPos, 0, result, 0, count);
-        return result;
+        return -1;
     }
 
     public boolean wentRecalibrationOpposite() {
@@ -398,18 +389,13 @@ public class TrieurSubsystem extends SubsystemBase {
      * @return The closest shooting position (2, 4, or 6), or -1 if no artifacts of that color are available.
      */
     public int getClosestShootingPositionForColor(ArtifactColor color) {
-        int[] posWithColor = getPosWithColor(color);
-        if (posWithColor.length == 0) {
-            return -1;
+        int posWithColor = getPosWithColor(color);
+
+        if (posWithColor == -1) {
+            return posWithColor;
         }
 
-
-        // Transform storage positions to shooting positions
-        for (int i = 0; i < posWithColor.length; i++) {
-            posWithColor[i] = Moulin.getOppositePosition(posWithColor[i]);
-        }
-
-        return posWithColor[0];
+        return Moulin.getOppositePosition(posWithColor);
     }
 
 

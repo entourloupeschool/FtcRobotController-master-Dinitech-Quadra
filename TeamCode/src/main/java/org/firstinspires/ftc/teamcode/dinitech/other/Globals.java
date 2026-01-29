@@ -46,7 +46,7 @@ public class Globals {
     public static double PATH_BUILDER_LATERAL_ZERO_POWER_ACCELERATION = 0.9823182711;
     public static double LENGTH_X_ROW = TILE_DIM * 1.15;
     public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.215;
-    public static int MODE_RAMASSAGE_AUTO_TIMEOUT = 500;
+    public static int MODE_RAMASSAGE_AUTO_TIMEOUT = 1000;
     public static long WAIT_AT_END_ROW = 2500;
     public static double OPEN_TRAPPE_T_CALLBACK = 0.95;
     public static Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);

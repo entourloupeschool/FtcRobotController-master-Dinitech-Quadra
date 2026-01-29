@@ -51,7 +51,7 @@ public class ReadyMotif extends MoulinToPositionLoose {
 
             // Calculate the target position. The logic aligns the moulin based on the
             // location of the green artifact in the sequence.
-            int greenPosition = trieurSubsystem.getClosestShootingPositionForColor(TrieurSubsystem.ArtifactColor.GREEN);
+            int greenPosition = trieurSubsystem.getPosWithColor(TrieurSubsystem.ArtifactColor.GREEN);
 
             if (greenPosition == -1){
                 // Fallback if green position is not found.
