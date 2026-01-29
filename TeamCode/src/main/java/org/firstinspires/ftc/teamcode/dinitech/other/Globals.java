@@ -58,7 +58,7 @@ public class Globals {
     public static Pose BLUE_SMALL_TRIANGLE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static Pose BLUE_SMALL_TRIANGLE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
-    public static Pose BLUE_RAMP_POSE = new Pose(18, 68, Math.PI/2);
+    public static Pose BLUE_RAMP_POSE = new Pose(20, 63, Math.PI/2);
 
     //    public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) -1/4*Math.PI);
     public static Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
