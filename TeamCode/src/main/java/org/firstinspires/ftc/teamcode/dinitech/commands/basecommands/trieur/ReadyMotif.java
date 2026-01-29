@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
+
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.InstantRumbleCustom;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -21,6 +23,11 @@ public class ReadyMotif extends MoulinToPositionLoose {
 
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
+    private final Gamepad.RumbleEffect noMotifRumbleEffect = new Gamepad.RumbleEffect.Builder()
+            .addStep(0.5, 0.5, 10)
+            .build();
+
+
 
     /**
      * Creates a new ReadyMotif command.
@@ -43,7 +50,7 @@ public class ReadyMotif extends MoulinToPositionLoose {
         // Check if the color order has been detected by the vision system.
         if (!visionSubsystem.hasColorOrder()){
             // Fallback: Rumble and move to a default position if no motif is detected.
-            new InstantRumbleCustom(gamepadSubsystem, 3, 0.5).schedule();
+            gamepadSubsystem.customRumble(noMotifRumbleEffect, 3);
             moulinTargetPosition = 1;
         } else {
             // Get the detected color order.
