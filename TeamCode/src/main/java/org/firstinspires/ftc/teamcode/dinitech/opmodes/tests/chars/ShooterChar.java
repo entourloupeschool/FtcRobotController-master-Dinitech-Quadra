@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests.chars;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ADJUST_CONSTANT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_INCREMENT_SHOOTER;

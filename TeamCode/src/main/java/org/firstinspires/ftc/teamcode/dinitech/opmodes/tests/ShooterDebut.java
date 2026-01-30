@@ -10,9 +10,9 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-@TeleOp(name = "ShooterBasic - Dinitech", group = "Test")
+@TeleOp(name = "ShooterDebut - Dinitech", group = "Test")
 
-public class ShooterBasic extends DinitechRobotBase {
+public class ShooterDebut extends DinitechRobotBase {
     // Gamepads
     private GamepadWrapper m_Driver, m_Operator;
 

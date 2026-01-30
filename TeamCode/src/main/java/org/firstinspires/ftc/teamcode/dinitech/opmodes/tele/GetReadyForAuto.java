@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LONG_SHOOT_S
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MID_SHOOT_SHOOTER_VELOCITY;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -18,11 +19,11 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.DefaultGamepadCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.ToggleUsageStateShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinAntiRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNext;
-
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNextLoose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRotate;
@@ -30,9 +31,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trap
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.OptimizedUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageTele;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeShoot;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
@@ -44,8 +43,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-@TeleOp(name = "GornetixTeleOp - Dinitech", group = "TeleOp")
-public class GornetixTeleOp extends DinitechRobotBase {
+@TeleOp(name = "GetReadyForAuto - Dinitech", group = "TeleOp")
+public class GetReadyForAuto extends DinitechRobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private GamepadWrapper m_Driver;
     private GamepadWrapper m_Operator;
@@ -85,7 +84,10 @@ public class GornetixTeleOp extends DinitechRobotBase {
 
             setupGamePadsButtonBindings();
 
-            new MoulinCalibrationSequence(trieurSubsystem).schedule();
+            new SequentialCommandGroup(
+                    new MoulinCalibrationSequence(trieurSubsystem),
+                    new ModeRamassageTele(trieurSubsystem, chargeurSubsystem, gamepadSubsystem)
+            ).schedule();
     }
 
     /**
@@ -150,9 +152,6 @@ public class GornetixTeleOp extends DinitechRobotBase {
                 .whenActive(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
         new Trigger(() -> m_Operator.getLeftTriggerValue() > 0.2)
                 .whenActive(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
-
-        new Trigger(trieurSubsystem::getIsFull)
-                .whenActive(new ModeShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem));
     }
 
 }

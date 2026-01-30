@@ -4,10 +4,8 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_STAR
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_STRENGTH_PEDRO_DINITECH;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ENCODER_RESOLUTION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PAR_POD_Y_MM;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PATH_BUILDER_FORWARD_ZERO_POWER_ACCELERATION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PATH_BUILDER_LATERAL_ZERO_POWER_ACCELERATION;
+
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PERP_POD_X_MM;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.mmToInch;
 
 import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.control.PIDFCoefficients;

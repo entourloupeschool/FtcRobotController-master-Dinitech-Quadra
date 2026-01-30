@@ -13,14 +13,14 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * This is typically used after picking up an artifact to move it out of the intake area
  * and prepare the next empty slot.
  */
-public class MoulinNextNextLoose extends MoulinToPositionLoose {
+public class MoulinNextNextVeryLoose extends MoulinToPositionVeryLoose {
 
     /**
      * Creates a new MoulinNextNext command.
      *
      * @param trieurSubsystem The sorter subsystem that controls the moulin.
      */
-    public MoulinNextNextLoose(TrieurSubsystem trieurSubsystem){
+    public MoulinNextNextVeryLoose(TrieurSubsystem trieurSubsystem){
         // The actual target position is determined at execution time.
         super(trieurSubsystem, 0, false);
     }

@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 
-@TeleOp(name="BasicMagneticSwitch - Dinitech", group="Test")
+@TeleOp(name="BasicMagneticSwitch - Dinitech", group="Basic")
 
 public class BasicMagneticSwitch extends DinitechRobotBase {
     public TouchSensor magneticSwitch;

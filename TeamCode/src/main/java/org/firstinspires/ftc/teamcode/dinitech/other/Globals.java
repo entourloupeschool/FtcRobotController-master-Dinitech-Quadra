@@ -1,22 +1,12 @@
 package org.firstinspires.ftc.teamcode.dinitech.other;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+
 import android.util.Size;
 
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.bylazar.configurables.annotations.Configurable;
-import com.pedropathing.ftc.FTCCoordinates;
-import com.pedropathing.ftc.PoseConverter;
-import com.pedropathing.geometry.PedroCoordinates;
+
 import com.pedropathing.geometry.Pose;
 
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Configurable
@@ -27,11 +17,6 @@ public class Globals {
     public static final double TEST_CIRCLE_RADIUS = 10.0;
     public static final double TEST_CONSTRAINTS = 1.0;
 
-    // Pose2d from the BEGIN_POSE to create left, right, forward and backward circle
-    public static final Pose2d LEFT_CIRCLE_CENTER_POSE = new Pose2d(new Vector2d(0, TEST_CIRCLE_RADIUS), 0);
-    public static final Pose2d RIGHT_CIRCLE_CENTER_POSE = new Pose2d(new Vector2d(0, -TEST_CIRCLE_RADIUS), 0);
-    public static final Pose2d FORWARD_CIRCLE_CENTER_POSE = new Pose2d(new Vector2d(TEST_CIRCLE_RADIUS, 0), 0);
-    public static final Pose2d BACKWARD_CIRCLE_CENTER_POSE = new Pose2d(new Vector2d(-TEST_CIRCLE_RADIUS, 0), 0);
 
     /**
      * Auto Phase globals
@@ -41,13 +26,14 @@ public class Globals {
     public static double BRAKING_START_PEDRO_DINITECH = 1.4;
     public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.93;
     public static final double TILE_DIM = 24;
+    public static double SCALE_Y_TILE = 1.05;
     public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
-    public static double PATH_BUILDER_FORWARD_ZERO_POWER_ACCELERATION = 0.9944064636;
-    public static double PATH_BUILDER_LATERAL_ZERO_POWER_ACCELERATION = 0.9823182711;
-    public static double LENGTH_X_ROW = TILE_DIM * 1.15;
+    public static double LENGTH_X_ROW = TILE_DIM * 1.1;
     public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.215;
-    public static int MODE_RAMASSAGE_AUTO_TIMEOUT = 1000;
-    public static long WAIT_AT_END_ROW = 2500;
+    public static int MODE_RAMASSAGE_TELE_TIMEOUT = 200;
+
+    public static int MODE_RAMASSAGE_AUTO_TIMEOUT = 65;
+    public static long WAIT_AT_END_ROW = 300;
     public static double OPEN_TRAPPE_T_CALLBACK = 0.95;
     public static Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
     public static Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
@@ -68,13 +54,15 @@ public class Globals {
     public static double SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY = 1730;
 
 
-    public static Pose FIRST_ROW_BLUE_POSE = new Pose(47, 84, 0);
-    public static Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-TILE_DIM);
-    public static Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-TILE_DIM);
+    public static Pose FIRST_ROW_BLUE_POSE = new Pose(45, 84, 0);
+    public static Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
+    public static Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
 
 
     //RED SIDE
     public static Pose RED_SMALL_TRIANGLE_POSE = BLUE_SMALL_TRIANGLE_POSE.mirror();
+    public static Pose RED_SMALL_TRIANGLE_SHOOT_POSE = BLUE_SMALL_TRIANGLE_SHOOT_POSE.mirror();
+
     public static Pose RED_GOAL_POSE = BLUE_GOAL_POSE.mirror();
     public static Pose RED_RAMP_POSE = BLUE_RAMP_POSE.mirror();
 
@@ -104,7 +92,6 @@ public class Globals {
          * Constants
          */
         public static final Pose BEGIN_POSE = new Pose(72, 72, 0);
-        public static final Pose2d BEGIN_POSE_2D = new Pose2d(72, 72, 0);
         public static final double TELE_DRIVE_POWER = 0.3;
         public static final double TELE_DRIVE_POWER_TRIGGER_SCALE = 1 - TELE_DRIVE_POWER;
         public static final int DRIVER_POWER_SCALER_TO_THE_POWER = 3;
@@ -150,12 +137,13 @@ public class Globals {
         public static int SCALE_MOULIN_SPEED_TOLERANCE_LOOSE = 3;
         public static final int MOULIN_POSITION_LOOSE_TOLERANCE = MOULIN_POSITION_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
         public static final int MOULIN_SPEED_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
-        public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = MOULIN_POSITION_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
-        public static final int MOULIN_SPEED_VERY_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE* SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
+        public static int SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE = 6;
+
+        public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = MOULIN_POSITION_TOLERANCE * SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE;
+        public static final int MOULIN_SPEED_VERY_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE;
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * MOULIN_POSITION_TOLERANCE;
         public static final int MOULIN_ROTATE_SPEED_CALIBRATION = 20;
-        public static final int TRIEUR_TIME_BETWEEN_SHOTS = 5; // milliseconds
         public static double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.5;
 
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
@@ -433,10 +421,6 @@ public class Globals {
             return cmToInch(cm) * 0.1;
         }
 
-
-        public static Pose transformToPedroCoordinates(Pose2d pose2d, DistanceUnit distanceUnit, AngleUnit angleUnit) {
-            return PoseConverter.pose2DToPose(new Pose2D(distanceUnit, pose2d.position.x, pose2d.position.y, angleUnit, pose2d.heading.log()),  FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
-        }
 
     /**
      * A zero-allocation circular buffer for calculating a running average.

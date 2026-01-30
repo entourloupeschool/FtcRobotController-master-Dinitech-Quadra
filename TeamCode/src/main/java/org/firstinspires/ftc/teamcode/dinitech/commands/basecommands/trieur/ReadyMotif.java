@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * it rumbles the gamepad and moves the moulin to a default position relative to the last
  * detected artifact.
  */
-public class ReadyMotif extends MoulinToPositionLoose {
+public class ReadyMotif extends MoulinToPositionVeryLoose {
 
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;

@@ -33,7 +33,7 @@ import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name ="BasicColorSensor - Dinitech", group = "Test")
+@TeleOp(name ="BasicColorSensor - Dinitech", group = "Basic")
 public class BasicColorSensor extends DinitechRobotBase {
     private NormalizedColorSensor colorSensor1;
     // Store the last predominant colors for each sensor

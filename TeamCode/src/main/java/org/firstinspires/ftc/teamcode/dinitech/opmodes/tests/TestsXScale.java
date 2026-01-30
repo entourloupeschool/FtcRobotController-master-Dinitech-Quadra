@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-@Autonomous(name = "TestsXScale - Dinitech", group = "Auto")
+@Autonomous(name = "TestsXScale - Dinitech", group = "Test")
 public class TestsXScale extends DinitechRobotBase {
     private TrieurSubsystem trieurSubsystem;
     private VisionSubsystem visionSubsystem;

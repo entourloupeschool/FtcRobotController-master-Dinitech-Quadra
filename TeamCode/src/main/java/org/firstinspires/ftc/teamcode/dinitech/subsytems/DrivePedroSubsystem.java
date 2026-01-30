@@ -4,7 +4,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_P
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER_TRIGGER_SCALE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
 
-import com.acmerobotics.roadrunner.Pose2d;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.bylazar.telemetry.TelemetryManager;

@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes;
 
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.bylazar.telemetry.PanelsTelemetry;
@@ -15,7 +13,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 import java.util.List;
 
-@Config
 public class DinitechRobotBase extends CommandOpMode {
     // System
     private List<LynxModule> hubs;
@@ -27,8 +24,6 @@ public class DinitechRobotBase extends CommandOpMode {
 
     // Subsystems
     public VisionSubsystem visionSubsystem;
-
-
 
     /**
      * Initialize all hardware and subsystems.
@@ -42,12 +37,11 @@ public class DinitechRobotBase extends CommandOpMode {
 
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
 
-
-        LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
-
         hubs = hardwareMap.getAll(LynxModule.class);
+
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
         for (LynxModule hub : hubs) {
+            hub.abandonUnfinishedCommands();
             hub.clearBulkCache();
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }

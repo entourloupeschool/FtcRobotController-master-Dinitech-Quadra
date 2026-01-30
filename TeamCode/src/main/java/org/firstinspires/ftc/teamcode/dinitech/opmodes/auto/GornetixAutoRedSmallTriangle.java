@@ -7,18 +7,17 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_SMALL_T
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.END_GAME_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.END_GAME_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X_ROW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LONG_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_ROW_PICK_ARTEFACTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OPEN_TRAPPE_T_CALLBACK;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_SMALL_TRIANGLE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_SMALL_TRIANGLE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_BLUE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_OPEN_TIME;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_AT_END_ROW;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -28,19 +27,15 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.StopShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinAlmostRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.OpenTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAlmostRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootTimeAuto;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
@@ -51,8 +46,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-@Autonomous(name = "BlueSmallTriangle - Dinitech", group = "Blue")
-public class GornetixAutoBlueSmallTriangle extends DinitechRobotBase {
+@Autonomous(name = "RedSmallTriangle - Dinitech", group = "Red")
+public class GornetixAutoRedSmallTriangle extends DinitechRobotBase {
     private TrieurSubsystem trieurSubsystem;
     private VisionSubsystem visionSubsystem;
     private GamepadSubsystem gamepadSubsystem;
@@ -76,7 +71,7 @@ public class GornetixAutoBlueSmallTriangle extends DinitechRobotBase {
             register(visionSubsystem);
             visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
-            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BLUE_SMALL_TRIANGLE_POSE, telemetryM);
+            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, RED_SMALL_TRIANGLE_POSE, telemetryM);
             register(drivePedroSubsystem);
 
             trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
@@ -95,16 +90,14 @@ public class GornetixAutoBlueSmallTriangle extends DinitechRobotBase {
                     // Obelisk and MoulinCalibrate
                     new ParallelCommandGroup(
                             new SetVelocityShooter(shooterSubsystem, SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
-                            new SequentialCommandGroup(
-                                    new MoulinCalibrationSequence(trieurSubsystem),
-                                    new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
-                            ),
+                            new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+
                             // Go to Shooting Pos
                             new FollowPath(drivePedroSubsystem, builder -> builder
                                     .addPath(new BezierLine(
                                             drivePedroSubsystem::getPose,
-                                            BLUE_SMALL_TRIANGLE_SHOOT_POSE)
-                                    ).setLinearHeadingInterpolation(BLUE_SMALL_TRIANGLE_POSE.getHeading(), BLUE_SMALL_TRIANGLE_SHOOT_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                            RED_SMALL_TRIANGLE_SHOOT_POSE)
+                                    ).setLinearHeadingInterpolation(RED_SMALL_TRIANGLE_POSE.getHeading(), RED_SMALL_TRIANGLE_SHOOT_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                     AUTO_ROBOT_CONSTRAINTS, true)),
 
                     new ShootTimeAuto(trieurSubsystem, chargeurSubsystem, new InstantCommand()),
@@ -114,29 +107,29 @@ public class GornetixAutoBlueSmallTriangle extends DinitechRobotBase {
                             new FollowPath(drivePedroSubsystem, builder -> builder
                                     .addPath(new BezierLine(
                                             drivePedroSubsystem::getPose,
-                                            THIRD_ROW_BLUE_POSE)
-                                    ).setLinearHeadingInterpolation(BLUE_SMALL_TRIANGLE_SHOOT_POSE.getHeading(), THIRD_ROW_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.8).build(),
+                                            THIRD_ROW_RED_POSE)
+                                    ).setLinearHeadingInterpolation(RED_SMALL_TRIANGLE_SHOOT_POSE.getHeading(), THIRD_ROW_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.8).build(),
                                     AUTO_ROBOT_CONSTRAINTS, true)),
 
                                     // go to Third row of artefacts
 
                     new ParallelCommandGroup(
-                            new ModeRamassageAuto(trieurSubsystem, gamepadSubsystem),
+                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
                             new MaxPowerChargeur(chargeurSubsystem),
                             new SequentialCommandGroup(
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
                                                     drivePedroSubsystem::getPose,
-                                                    THIRD_ROW_BLUE_POSE.withX(THIRD_ROW_BLUE_POSE.getX() - LENGTH_X_ROW))
-                                            ).setLinearHeadingInterpolation(THIRD_ROW_BLUE_POSE.getHeading(), THIRD_ROW_BLUE_POSE.getHeading()).build(),
+                                                    THIRD_ROW_RED_POSE.withX(THIRD_ROW_RED_POSE.getX() + LENGTH_X_ROW))
+                                            ).setLinearHeadingInterpolation(THIRD_ROW_RED_POSE.getHeading(), THIRD_ROW_RED_POSE.getHeading()).build(),
                                             MAX_POWER_ROW_PICK_ARTEFACTS, false),
                                     new WaitCommand(WAIT_AT_END_ROW),
                                     // Go to Shooting Pos
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
                                                     drivePedroSubsystem::getPose,
-                                                    BLUE_SMALL_TRIANGLE_SHOOT_POSE)
-                                            ).setLinearHeadingInterpolation(THIRD_ROW_BLUE_POSE.getHeading(), BLUE_SMALL_TRIANGLE_SHOOT_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                                    RED_SMALL_TRIANGLE_SHOOT_POSE)
+                                            ).setLinearHeadingInterpolation(THIRD_ROW_RED_POSE.getHeading(), RED_SMALL_TRIANGLE_SHOOT_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                             AUTO_ROBOT_CONSTRAINTS, true))),
 
                     new ShootTimeAuto(trieurSubsystem, chargeurSubsystem, new InstantCommand()),
@@ -146,21 +139,21 @@ public class GornetixAutoBlueSmallTriangle extends DinitechRobotBase {
                             new FollowPath(drivePedroSubsystem, builder -> builder
                                     .addPath(new BezierLine(
                                             drivePedroSubsystem::getPose,
-                                            SECOND_ROW_BLUE_POSE)
-                                    ).setLinearHeadingInterpolation(BLUE_SMALL_TRIANGLE_SHOOT_POSE.getHeading(), SECOND_ROW_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.8).build(),
+                                            SECOND_ROW_RED_POSE)
+                                    ).setLinearHeadingInterpolation(RED_SMALL_TRIANGLE_SHOOT_POSE.getHeading(), SECOND_ROW_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.8).build(),
                                     AUTO_ROBOT_CONSTRAINTS, true)),
 
                                     // go to Third row of artefacts
 
                     new ParallelCommandGroup(
-                            new ModeRamassageAuto(trieurSubsystem, gamepadSubsystem),
+                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
                             new MaxPowerChargeur(chargeurSubsystem),
                             new SequentialCommandGroup(
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
                                                     drivePedroSubsystem::getPose,
-                                                    SECOND_ROW_BLUE_POSE.withX(SECOND_ROW_BLUE_POSE.getX() - LENGTH_X_ROW))
-                                            ).setLinearHeadingInterpolation(SECOND_ROW_BLUE_POSE.getHeading(), SECOND_ROW_BLUE_POSE.getHeading()).build(),
+                                                    SECOND_ROW_RED_POSE.withX(SECOND_ROW_RED_POSE.getX() + LENGTH_X_ROW))
+                                            ).setLinearHeadingInterpolation(SECOND_ROW_RED_POSE.getHeading(), SECOND_ROW_RED_POSE.getHeading()).build(),
                                             MAX_POWER_ROW_PICK_ARTEFACTS, false),
                                     new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
                                     new WaitCommand(WAIT_AT_END_ROW),
@@ -168,8 +161,8 @@ public class GornetixAutoBlueSmallTriangle extends DinitechRobotBase {
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
                                                     drivePedroSubsystem::getPose,
-                                                    CLOSE_SHOOT_BLUE_POSE)
-                                            ).setLinearHeadingInterpolation(SECOND_ROW_BLUE_POSE.getHeading(), CLOSE_SHOOT_BLUE_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                                    CLOSE_SHOOT_RED_POSE)
+                                            ).setLinearHeadingInterpolation(SECOND_ROW_RED_POSE.getHeading(), CLOSE_SHOOT_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                             AUTO_ROBOT_CONSTRAINTS, true))),
 
                     new ShootTimeAuto(trieurSubsystem, chargeurSubsystem, new InstantCommand()),
@@ -178,14 +171,12 @@ public class GornetixAutoBlueSmallTriangle extends DinitechRobotBase {
                             new FollowPath(drivePedroSubsystem, builder -> builder
                                     .addPath(new BezierLine(
                                             drivePedroSubsystem::getPose,
-                                            BLUE_RAMP_POSE)
-                                    ).setLinearHeadingInterpolation(CLOSE_SHOOT_BLUE_POSE.getHeading(), BLUE_RAMP_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                            RED_RAMP_POSE)
+                                    ).setLinearHeadingInterpolation(CLOSE_SHOOT_RED_POSE.getHeading(), RED_RAMP_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                     AUTO_ROBOT_CONSTRAINTS, true),
                             new ParallelCommandGroup(
                                     new StopChargeur(chargeurSubsystem),
                                     new StopShooter(shooterSubsystem)))
-
-
 
 
             ).schedule();

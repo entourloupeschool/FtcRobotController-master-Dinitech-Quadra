@@ -26,13 +26,9 @@ public class TryDetectArtefact extends CommandBase {
 
     private final TrieurSubsystem trieurSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
-    private Gamepad.RumbleEffect waitRumbleEffect = new Gamepad.RumbleEffect.Builder()
-            .addStep(0.3, 0.3, 10)
-            .build();
-    private Gamepad.RumbleEffect unfoundRumbleEffect = new Gamepad.RumbleEffect.Builder()
-            .addStep(0.9, 0.9, 20)
-            .build();;
-
+    private Gamepad.RumbleEffect waitRumbleEffect;
+    private Gamepad.RumbleEffect unfoundRumbleEffect;
+    private final int initialTimeout;
     private int timeout;
 
     /**
@@ -44,12 +40,23 @@ public class TryDetectArtefact extends CommandBase {
     public TryDetectArtefact(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem, int timeout) {
         this.trieurSubsystem = trieurSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
-        this.timeout = timeout;
+        this.initialTimeout = timeout;
     }
 
     @Override
     public void initialize() {
+        timeout = initialTimeout;
         trieurSubsystem.clearSamplesColorSensors();
+        waitRumbleEffect = new Gamepad.RumbleEffect.Builder()
+                .addStep(0.5, 0.5, 20)
+                .build();
+        unfoundRumbleEffect = new Gamepad.RumbleEffect.Builder()
+                .addStep(0.9, 0.9, 50)
+                .addStep(0.5, 0.5, 20)
+                .addStep(0.9, 0.9, 50)
+                .addStep(0.5, 0.5, 20)
+                .addStep(0.9, 0.9, 50)
+                .build();;
     }
 
     @Override
@@ -61,11 +68,11 @@ public class TryDetectArtefact extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        if (!interrupted){
-            if (timeout <= 0) {
-                gamepadSubsystem.customRumble(unfoundRumbleEffect, 2);
-            } else {
+        if (!interrupted) {
+            if (trieurSubsystem.isArtefactInTrieur()) {
                 trieurSubsystem.registerArtefact();
+            } else {
+                gamepadSubsystem.customRumble(unfoundRumbleEffect, 2);
             }
         }
     }

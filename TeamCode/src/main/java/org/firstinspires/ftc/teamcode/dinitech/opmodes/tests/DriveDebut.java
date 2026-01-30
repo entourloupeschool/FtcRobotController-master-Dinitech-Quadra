@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 /*
 Very basic usage of mecanum drive
  */
-@TeleOp(name="BasicDrivePedro - Dinitech", group="Test")
-public class BasicMecanumDrive extends DinitechRobotBase {
+@TeleOp(name="DriveDebut - Dinitech", group="Test")
+public class DriveDebut extends DinitechRobotBase {
 
     // Gamepads
     private DrivePedroSubsystem drivePedroSubsystem;

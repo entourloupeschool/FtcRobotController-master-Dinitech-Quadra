@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.Localizer;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
@@ -33,7 +32,6 @@ public class FieldCentricDrive extends CommandBase {
     private final VisionSubsystem visionSubsystem;
     private final GamepadWrapper driver;
 
-    private Localizer orinalLocalizer;
 
     /**
      * Creates a new TeleDriveHybrid command.
