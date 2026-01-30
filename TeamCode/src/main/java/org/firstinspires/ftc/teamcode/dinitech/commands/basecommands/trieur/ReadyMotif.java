@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * it rumbles the gamepad and moves the moulin to a default position relative to the last
  * detected artifact.
  */
-public class ReadyMotif extends MoulinToPositionVeryLoose {
+public class ReadyMotif extends MoulinToPositionLoose {
 
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
@@ -69,13 +69,13 @@ public class ReadyMotif extends MoulinToPositionVeryLoose {
             }
 
             if (colorsOrder == 21){
-                moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(greenPosition, 3);
+                moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(greenPosition, 2);
             } else if (colorsOrder == 22){
                 // Adjust if green is the second artifact in the motif.
-                moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(greenPosition, 1);
+                moulinTargetPosition = greenPosition;
             } else {
                 // Adjust if green is the third artifact in the motif.
-                moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(greenPosition, 1);
+                moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(greenPosition, 2);
             }
         }
 

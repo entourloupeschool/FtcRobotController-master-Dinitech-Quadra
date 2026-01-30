@@ -177,7 +177,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
 
     /**
      * Gets the current pose (position and heading) of the robot.
-     * @return The robot's current {@link Pose2d}.
+     * @return The robot's current {@link Pose}.
      */
     public Pose getPose() {
         return dinitechPedroMecanumDrive.getPose();

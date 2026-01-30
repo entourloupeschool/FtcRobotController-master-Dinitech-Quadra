@@ -1,24 +1,19 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_SHOOTER_VELOCITY;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.END_GAME_RED_POSE;
+
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X_ROW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_ROW_PICK_ARTEFACTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OPEN_TRAPPE_T_CALLBACK;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_GOAL_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_AT_END_ROW;
 
-import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -26,20 +21,16 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.StopShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinAlmostRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCalibrationSequence;
+
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAlmostRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
+
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootTimeAuto;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
@@ -92,7 +83,10 @@ public class GornetixAutoRedGoal extends DinitechRobotBase {
         new SequentialCommandGroup(
                 // Obelisk and MoulinCalibrate
                 new ParallelCommandGroup(
-                        new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
+                        new SequentialCommandGroup(
+                                new InstantCommand(),
+                                new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY)
+                        ),
                         new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                         // Go to Shooting Pos
                         new FollowPath(drivePedroSubsystem, builder -> builder
@@ -113,7 +107,10 @@ public class GornetixAutoRedGoal extends DinitechRobotBase {
                                 ).setLinearHeadingInterpolation(CLOSE_SHOOT_RED_POSE.getHeading(), FIRST_ROW_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.8).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
                 new ParallelCommandGroup(
-                        new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                        new SequentialCommandGroup(
+                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
+                        ),
                         new MaxPowerChargeur(chargeurSubsystem),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
@@ -144,15 +141,18 @@ public class GornetixAutoRedGoal extends DinitechRobotBase {
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
-                        new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
-                        new MaxPowerChargeur(chargeurSubsystem),
+                        new SequentialCommandGroup(
+                                new MaxPowerChargeur(chargeurSubsystem),
+                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
+                        ),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        drivePedroSubsystem::getPose,
-                                        SECOND_ROW_RED_POSE.withX(SECOND_ROW_RED_POSE.getX() + LENGTH_X_ROW))
-                                ).setLinearHeadingInterpolation(SECOND_ROW_RED_POSE.getHeading(), SECOND_ROW_RED_POSE.getHeading()).build(),
-                                MAX_POWER_ROW_PICK_ARTEFACTS, false),
+                                        .addPath(new BezierLine(
+                                                drivePedroSubsystem::getPose,
+                                                SECOND_ROW_RED_POSE.withX(SECOND_ROW_RED_POSE.getX() + LENGTH_X_ROW))
+                                        ).setLinearHeadingInterpolation(SECOND_ROW_RED_POSE.getHeading(), SECOND_ROW_RED_POSE.getHeading()).build(),
+                                        MAX_POWER_ROW_PICK_ARTEFACTS, false),
                                 new WaitCommand(WAIT_AT_END_ROW),
                                 // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder
@@ -176,8 +176,11 @@ public class GornetixAutoRedGoal extends DinitechRobotBase {
 
 
                 new ParallelCommandGroup(
-                        new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
-                        new MaxPowerChargeur(chargeurSubsystem),
+                        new SequentialCommandGroup(
+                                new MaxPowerChargeur(chargeurSubsystem),
+                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
+                        ),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(
@@ -222,9 +225,8 @@ public class GornetixAutoRedGoal extends DinitechRobotBase {
      * auto set artefact colors
      */
     private void autoSetArtefactColors(){
-            trieurSubsystem.setMoulinStoragePositionColor(1, TrieurSubsystem.ArtifactColor.PURPLE);
-            trieurSubsystem.setMoulinStoragePositionColor(2, TrieurSubsystem.ArtifactColor.PURPLE);
-            trieurSubsystem.setMoulinStoragePositionColor(3, TrieurSubsystem.ArtifactColor.GREEN);
+        trieurSubsystem.setMoulinStoragePositionColor(1, TrieurSubsystem.ArtifactColor.GREEN);
+        trieurSubsystem.setMoulinStoragePositionColor(3, TrieurSubsystem.ArtifactColor.PURPLE);
+        trieurSubsystem.setMoulinStoragePositionColor(5, TrieurSubsystem.ArtifactColor.PURPLE);
     }
-
 }

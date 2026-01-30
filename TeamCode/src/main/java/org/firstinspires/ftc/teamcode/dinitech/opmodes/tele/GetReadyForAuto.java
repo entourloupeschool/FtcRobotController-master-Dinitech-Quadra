@@ -70,7 +70,7 @@ public class GetReadyForAuto extends DinitechRobotBase {
             register(visionSubsystem);
 
             drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BEGIN_POSE, telemetryM);
-            drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive();
+            drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive(true);
             register(drivePedroSubsystem);
 
             trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);

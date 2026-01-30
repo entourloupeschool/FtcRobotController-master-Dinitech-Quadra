@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_SMALL_TRIANGLE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_SMALL_TRIANGLE_SHOOT_POSE;
+
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X_ROW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
@@ -13,10 +10,8 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_RO
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_SMALL_TRIANGLE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_SMALL_TRIANGLE_SHOOT_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_AT_END_ROW;
 
@@ -89,9 +84,11 @@ public class GornetixAutoRedSmallTriangle extends DinitechRobotBase {
             new SequentialCommandGroup(
                     // Obelisk and MoulinCalibrate
                     new ParallelCommandGroup(
-                            new SetVelocityShooter(shooterSubsystem, SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
+                            new SequentialCommandGroup(
+                                    new InstantCommand(),
+                                    new SetVelocityShooter(shooterSubsystem, SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY)
+                            ),
                             new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
-
                             // Go to Shooting Pos
                             new FollowPath(drivePedroSubsystem, builder -> builder
                                     .addPath(new BezierLine(
@@ -114,8 +111,11 @@ public class GornetixAutoRedSmallTriangle extends DinitechRobotBase {
                                     // go to Third row of artefacts
 
                     new ParallelCommandGroup(
-                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
-                            new MaxPowerChargeur(chargeurSubsystem),
+                            new SequentialCommandGroup(
+                                    new MaxPowerChargeur(chargeurSubsystem),
+                                    new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                                    new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
+                            ),
                             new SequentialCommandGroup(
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
@@ -143,11 +143,12 @@ public class GornetixAutoRedSmallTriangle extends DinitechRobotBase {
                                     ).setLinearHeadingInterpolation(RED_SMALL_TRIANGLE_SHOOT_POSE.getHeading(), SECOND_ROW_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.8).build(),
                                     AUTO_ROBOT_CONSTRAINTS, true)),
 
-                                    // go to Third row of artefacts
-
                     new ParallelCommandGroup(
-                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
-                            new MaxPowerChargeur(chargeurSubsystem),
+                            new SequentialCommandGroup(
+                                    new MaxPowerChargeur(chargeurSubsystem),
+                                    new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                                    new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
+                            ),
                             new SequentialCommandGroup(
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
@@ -194,9 +195,9 @@ public class GornetixAutoRedSmallTriangle extends DinitechRobotBase {
      * auto set artefact colors
      */
     private void autoSetArtefactColors(){
-            trieurSubsystem.setMoulinStoragePositionColor(1, TrieurSubsystem.ArtifactColor.PURPLE);
-            trieurSubsystem.setMoulinStoragePositionColor(3, TrieurSubsystem.ArtifactColor.PURPLE);
-            trieurSubsystem.setMoulinStoragePositionColor(5, TrieurSubsystem.ArtifactColor.GREEN);
+        trieurSubsystem.setMoulinStoragePositionColor(1, TrieurSubsystem.ArtifactColor.GREEN);
+        trieurSubsystem.setMoulinStoragePositionColor(3, TrieurSubsystem.ArtifactColor.PURPLE);
+        trieurSubsystem.setMoulinStoragePositionColor(5, TrieurSubsystem.ArtifactColor.PURPLE);
     }
 
 }

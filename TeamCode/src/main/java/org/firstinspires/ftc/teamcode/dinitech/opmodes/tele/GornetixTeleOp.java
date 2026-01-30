@@ -26,6 +26,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.Moul
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinNextNextLoose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinRotate;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.trappe.ToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision.OptimizedUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
@@ -71,7 +72,7 @@ public class GornetixTeleOp extends DinitechRobotBase {
             register(visionSubsystem);
 
             drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BEGIN_POSE, telemetryM);
-            drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive();
+            drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive(true);
             register(drivePedroSubsystem);
 
             trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
@@ -131,7 +132,7 @@ public class GornetixTeleOp extends DinitechRobotBase {
         m_Operator.dpad_up.whenPressed(new MoulinRevolution(trieurSubsystem));
         m_Operator.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
         m_Operator.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
-        m_Operator.dpad_down.whenPressed(new MoulinNextNextLoose(trieurSubsystem));
+        m_Operator.dpad_down.whenPressed(new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem));
 
 
         m_Operator.bump_right.whileHeld(new MoulinRotate(trieurSubsystem));

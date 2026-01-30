@@ -86,7 +86,10 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
             new SequentialCommandGroup(
                     // Obelisk and MoulinCalibrate
                     new ParallelCommandGroup(
-                            new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
+                            new SequentialCommandGroup(
+                                    new InstantCommand(),
+                                    new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY)
+                            ),
                             new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                             // Go to Shooting Pos
                             new FollowPath(drivePedroSubsystem, builder -> builder
@@ -109,8 +112,11 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                     AUTO_ROBOT_CONSTRAINTS, true)),
 
                     new ParallelCommandGroup(
-                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
-                            new MaxPowerChargeur(chargeurSubsystem),
+                            new SequentialCommandGroup(
+                                    new MaxPowerChargeur(chargeurSubsystem),
+                                    new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                                    new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
+                            ),
                             new SequentialCommandGroup(
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
@@ -140,8 +146,11 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                     AUTO_ROBOT_CONSTRAINTS, true)),
 
                     new ParallelCommandGroup(
-                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
-                            new MaxPowerChargeur(chargeurSubsystem),
+                            new SequentialCommandGroup(
+                                    new MaxPowerChargeur(chargeurSubsystem),
+                                    new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                                    new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
+                            ),
                             new SequentialCommandGroup(
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
@@ -172,8 +181,11 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
                                     AUTO_ROBOT_CONSTRAINTS, true)),
 
                     new ParallelCommandGroup(
-                            new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
-                            new MaxPowerChargeur(chargeurSubsystem),
+                            new SequentialCommandGroup(
+                                    new MaxPowerChargeur(chargeurSubsystem),
+                                    new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
+                                    new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
+                            ),
                             new SequentialCommandGroup(
                                     new FollowPath(drivePedroSubsystem, builder -> builder
                                             .addPath(new BezierLine(
@@ -218,9 +230,9 @@ public class GornetixAutoBlueGoal extends DinitechRobotBase {
      * auto set artefact colors
      */
     private void autoSetArtefactColors(){
-            trieurSubsystem.setMoulinStoragePositionColor(1, TrieurSubsystem.ArtifactColor.PURPLE);
+            trieurSubsystem.setMoulinStoragePositionColor(1, TrieurSubsystem.ArtifactColor.GREEN);
             trieurSubsystem.setMoulinStoragePositionColor(3, TrieurSubsystem.ArtifactColor.PURPLE);
-            trieurSubsystem.setMoulinStoragePositionColor(5, TrieurSubsystem.ArtifactColor.GREEN);
+            trieurSubsystem.setMoulinStoragePositionColor(5, TrieurSubsystem.ArtifactColor.PURPLE);
     }
 
 }

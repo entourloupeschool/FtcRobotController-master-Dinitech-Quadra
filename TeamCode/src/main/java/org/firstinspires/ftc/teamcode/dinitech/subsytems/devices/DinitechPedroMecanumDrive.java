@@ -54,8 +54,8 @@ public class DinitechPedroMecanumDrive {
     }
 
 
-    public void startTeleOpDrive(){
-        follower.startTeleOpDrive();
+    public void startTeleOpDrive(boolean useBrakeMode){
+        follower.startTeleOpDrive(true);
     }
 
     public void followPathChain(PathChain path, double maxPower, boolean holdEnd){

@@ -22,18 +22,15 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  */
 public class MoulinCorrectOverCurrent extends CommandBase {
     private final TrieurSubsystem trieurSubsystem;
-    private final CommandBase originalCommand;
-    private int savedRemainingDistance;
+    private int originalMotorTargetPosition;
 
     /**
      * Creates a new MoulinCorrectOverCurrent command.
      *
      * @param trieurSubsystem The sorter subsystem to control.
-     * @param originalCommand The command that was interrupted by the over-current event.
      */
-    public MoulinCorrectOverCurrent(TrieurSubsystem trieurSubsystem, CommandBase originalCommand) {
+    public MoulinCorrectOverCurrent(TrieurSubsystem trieurSubsystem) {
         this.trieurSubsystem = trieurSubsystem;
-        this.originalCommand = originalCommand;
 
         addRequirements(trieurSubsystem);
     }
@@ -44,9 +41,10 @@ public class MoulinCorrectOverCurrent extends CommandBase {
     @Override
     public void initialize() {
         // Save the distance remaining to the original target.
-        savedRemainingDistance = Math.abs(trieurSubsystem.getMoulinMotorRemainingDistance());
+        originalMotorTargetPosition = trieurSubsystem.getMoulinMotorTargetPosition();
 
         // Back the motor off by reducing the target position.
+        trieurSubsystem.resetTargetMoulinMotor();
         trieurSubsystem.incrementMoulinTargetPosition(-OVER_CURRENT_BACKOFF_TICKS);
         trieurSubsystem.setMoulinPower(POWER_MOULIN_ROTATION);
     }
@@ -69,12 +67,6 @@ public class MoulinCorrectOverCurrent extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         // Restore the original target by adding back the saved remaining distance.
-        trieurSubsystem.incrementMoulinTargetPosition(savedRemainingDistance);
-        trieurSubsystem.setMoulinPower(POWER_MOULIN_ROTATION);
-
-        // If the correction wasn't interrupted, reschedule the original command to try again.
-        if (!interrupted && originalCommand != null) {
-            originalCommand.schedule();
-        }
+        trieurSubsystem.setMoulinMotorTargetPosition(originalMotorTargetPosition);
     }
 }

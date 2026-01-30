@@ -30,6 +30,7 @@ public class ModeRamassageTele extends SequentialCommandGroup {
     public ModeRamassageTele(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem,
                              GamepadSubsystem gamepadSubsystem) {
         addCommands(
+                new InstantCommand(trieurSubsystem::clearAllStoredColors),
                 // First, run the detection process
                 new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT),
                 new ConditionalCommand(

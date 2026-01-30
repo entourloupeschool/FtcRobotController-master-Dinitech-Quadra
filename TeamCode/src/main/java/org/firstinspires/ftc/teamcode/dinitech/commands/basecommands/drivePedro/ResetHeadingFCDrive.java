@@ -19,6 +19,7 @@ public class ResetHeadingFCDrive extends CommandBase {
      */
     public ResetHeadingFCDrive(DrivePedroSubsystem drivePedroSubsystem) {
         this.drivePedroSubsystem = drivePedroSubsystem;
+        addRequirements(drivePedroSubsystem);
     }
 
     @Override

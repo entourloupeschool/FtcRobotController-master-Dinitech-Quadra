@@ -23,6 +23,7 @@ public class SetVelocityShooter extends CommandBase {
     }
 
 
+
     @Override
     public boolean isFinished() {
         return shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN);

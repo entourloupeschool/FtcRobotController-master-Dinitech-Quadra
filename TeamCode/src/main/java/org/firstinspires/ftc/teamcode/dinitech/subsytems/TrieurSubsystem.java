@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DISTANCE_MAR
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAGNETIC_ON_MOULIN_POSITION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OVER_CURRENT_BACKOFF_TICKS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_TELE_INCREMENT;
@@ -14,6 +15,7 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur.MoulinCorrectOverCurrent;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.MagneticSwitch;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Trappe;
@@ -132,7 +134,7 @@ public class TrieurSubsystem extends SubsystemBase {
      * Resets the moulin motor's target to its current position, stopping any movement.
      */
     public void resetTargetMoulinMotor() {
-        setMoulinTargetPosition(getMoulinMotorPosition());
+        setMoulinMotorTargetPosition(getMoulinMotorPosition());
     }
 
     /**
@@ -159,7 +161,7 @@ public class TrieurSubsystem extends SubsystemBase {
      * Sets the moulin motor's target position directly.
      * @param targetPosition The target position in ticks.
      */
-    public void setMoulinTargetPosition(int targetPosition) {
+    public void setMoulinMotorTargetPosition(int targetPosition) {
         moulin.setTargetPositionMotor(targetPosition);
     }
 
@@ -555,6 +557,7 @@ public class TrieurSubsystem extends SubsystemBase {
         return moulin.getVoltage();
     }
 
+
     /**
      * Manages power to the moulin motor and triggers recalibration when necessary.
      * This should be called periodically.
@@ -580,6 +583,7 @@ public class TrieurSubsystem extends SubsystemBase {
                 if (this.getCurrentCommand() != null){
                     this.getCurrentCommand().cancel();
                 }
+                new MoulinCorrectOverCurrent(this).schedule();
                 telemetryM.addLine("Moulin Over Current");
                 return;
             }

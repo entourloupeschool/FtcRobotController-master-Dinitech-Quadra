@@ -26,15 +26,14 @@ public class Globals {
     public static double BRAKING_START_PEDRO_DINITECH = 1.4;
     public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.93;
     public static final double TILE_DIM = 24;
-    public static double SCALE_Y_TILE = 1.05;
+    public static double SCALE_Y_TILE = 1.02;
     public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
     public static double LENGTH_X_ROW = TILE_DIM * 1.1;
     public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.215;
-    public static int MODE_RAMASSAGE_TELE_TIMEOUT = 200;
+    public static int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
 
     public static int MODE_RAMASSAGE_AUTO_TIMEOUT = 65;
     public static long WAIT_AT_END_ROW = 300;
-    public static double OPEN_TRAPPE_T_CALLBACK = 0.95;
     public static Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
     public static Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
 
@@ -120,7 +119,7 @@ public class Globals {
         public static final double TRAPPE_OPEN_POSITION = 0;
         public static final double TRAPPE_CLOSE_POSITION = -130;
         public static final double TRAPPE_TELE_INCREMENT = 0.5;
-        public static final long TRAPPE_OPEN_TIME = 100;
+        public static final long TRAPPE_OPEN_TIME = 300;
         public static final String MOULIN_MOTOR_NAME = "moulin";
 
         public static final int MOTOR_TICKS_PER_REV = 288;
@@ -148,7 +147,7 @@ public class Globals {
 
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.8;
-        public static final int OVER_CURRENT_BACKOFF_TICKS = 20; // Ticks to back off when over-current detected
+        public static final int OVER_CURRENT_BACKOFF_TICKS = 50; // Ticks to back off when over-current detected
 
         //PIDF MOULIN (TURRET)
         public static final double P_MOULIN_AGGRESSIVE = 3.67;
