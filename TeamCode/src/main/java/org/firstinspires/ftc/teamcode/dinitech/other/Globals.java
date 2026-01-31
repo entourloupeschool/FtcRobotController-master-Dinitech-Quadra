@@ -11,6 +11,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 
 @Configurable
 public class Globals {
+    public static long TELEMETRY_UPDATE_INTERVAL_MS = 50;
     /**
      * Tests variables
      */

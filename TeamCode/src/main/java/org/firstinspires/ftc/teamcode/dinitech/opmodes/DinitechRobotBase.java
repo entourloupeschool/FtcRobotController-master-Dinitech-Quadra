@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELEMETRY_UPDATE_INTERVAL_MS;
+
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.hardware.lynx.LynxModule;
@@ -13,6 +16,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 import java.util.List;
 
+@Configurable
 public class DinitechRobotBase extends CommandOpMode {
     // System
     private List<LynxModule> hubs;
@@ -25,6 +29,7 @@ public class DinitechRobotBase extends CommandOpMode {
     // Subsystems
     public VisionSubsystem visionSubsystem;
 
+
     /**
      * Initialize all hardware and subsystems.
      */
@@ -36,6 +41,7 @@ public class DinitechRobotBase extends CommandOpMode {
         telemetry.clearAll();
 
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
+        telemetryM.setUpdateInterval(TELEMETRY_UPDATE_INTERVAL_MS);
 
         hubs = hardwareMap.getAll(LynxModule.class);
 
