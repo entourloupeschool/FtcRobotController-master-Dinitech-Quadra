@@ -9,14 +9,14 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.TeleShooter;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "ShooterChar - Dinitech", group = "Char")
 
-public class ShooterChar extends DinitechRobotBase {
+public class ShooterChar extends GornetixRobotBase {
     // Gamepads
     private GamepadWrapper m_Driver, m_Operator;
 

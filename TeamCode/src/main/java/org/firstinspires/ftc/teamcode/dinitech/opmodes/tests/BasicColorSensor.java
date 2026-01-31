@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CS1_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CS2_NAME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DETECT_GREEN_BLUE_RGB;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DETECT_GREEN_GREEN_RGB;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DETECT_GREEN_RED_RGB;
@@ -20,21 +19,19 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SAMPLE_SIZE_
 
 import android.graphics.Color;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @TeleOp(name ="BasicColorSensor - Dinitech", group = "Basic")
-public class BasicColorSensor extends DinitechRobotBase {
+public class BasicColorSensor extends GornetixRobotBase {
     private NormalizedColorSensor colorSensor1;
     // Store the last predominant colors for each sensor
     // Store the last predominant colors for each sensor

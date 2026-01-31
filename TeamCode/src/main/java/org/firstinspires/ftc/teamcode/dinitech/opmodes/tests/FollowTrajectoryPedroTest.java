@@ -11,13 +11,13 @@ import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 @Autonomous(name = "FollowTrajectoryPedroTest - Dinitech", group = "Test")
-public class FollowTrajectoryPedroTest extends DinitechRobotBase {
+public class FollowTrajectoryPedroTest extends GornetixRobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private VisionSubsystem visionSubsystem;
     private DrivePedroSubsystem drivePedroSubsystem;

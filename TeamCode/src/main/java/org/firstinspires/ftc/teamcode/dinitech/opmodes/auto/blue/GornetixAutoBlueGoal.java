@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.blue;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
@@ -27,27 +27,11 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.St
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
 
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
 
 @Autonomous(name = "BlueGoal - Dinitech", group = "Blue")
-public class GornetixAutoBlueGoal extends GornetixRobotBase {
-    private TrieurSubsystem trieurSubsystem;
-    private VisionSubsystem visionSubsystem;
-    private GamepadSubsystem gamepadSubsystem;
-
-
-    private ShooterSubsystem shooterSubsystem;
-    private ChargeurSubsystem chargeurSubsystem;
-    private DrivePedroSubsystem drivePedroSubsystem;
-
+public class GornetixAutoBlueGoal extends GornetixAutoBase {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -56,26 +40,7 @@ public class GornetixAutoBlueGoal extends GornetixRobotBase {
     public void initialize() {
             super.initialize();
 
-            gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
-
-            visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
-            register(visionSubsystem);
-            visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
-
-            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BLUE_GOAL_POSE, telemetryM);
-            register(drivePedroSubsystem);
-
-            trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
-            register(trieurSubsystem);
-
-            autoSetArtefactColors();
-
-            chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetryM);
-            register(chargeurSubsystem);
-
-            shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
-            register(shooterSubsystem);
-
+            drivePedroSubsystem.getDrive().prepAuto(BLUE_GOAL_POSE);
 
             new SequentialCommandGroup(
                     // Obelisk and MoulinCalibrate
@@ -113,13 +78,5 @@ public class GornetixAutoBlueGoal extends GornetixRobotBase {
             super.run();
     }
 
-    /**
-     * auto set artefact colors
-     */
-    private void autoSetArtefactColors(){
-            trieurSubsystem.setMoulinStoragePositionColor(1, TrieurSubsystem.ArtifactColor.GREEN);
-            trieurSubsystem.setMoulinStoragePositionColor(3, TrieurSubsystem.ArtifactColor.PURPLE);
-            trieurSubsystem.setMoulinStoragePositionColor(5, TrieurSubsystem.ArtifactColor.PURPLE);
-    }
 
 }

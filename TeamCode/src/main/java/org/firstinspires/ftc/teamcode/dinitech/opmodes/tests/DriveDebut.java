@@ -4,7 +4,7 @@ import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FieldCentricDrive;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 Very basic usage of mecanum drive
  */
 @TeleOp(name="DriveDebut - Dinitech", group="Test")
-public class DriveDebut extends DinitechRobotBase {
+public class DriveDebut extends GornetixRobotBase {
 
     // Gamepads
     private DrivePedroSubsystem drivePedroSubsystem;

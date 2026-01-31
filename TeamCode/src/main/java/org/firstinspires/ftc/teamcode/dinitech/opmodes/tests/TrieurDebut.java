@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.Read
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.StopMoulin;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "TrieurDebut - Dinitech", group = "Test")
-public class TrieurDebut extends DinitechRobotBase {
+public class TrieurDebut extends GornetixRobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private TrieurSubsystem trieurSubsystem;
     private ChargeurSubsystem chargeurSubsystem;

@@ -7,7 +7,6 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
@@ -15,7 +14,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 import java.util.List;
 
-public class DinitechRobotBase extends CommandOpMode {
+public class GornetixRobotBase extends CommandOpMode {
     // System
     private List<LynxModule> hubs;
     private final ElapsedTime timer = new ElapsedTime();

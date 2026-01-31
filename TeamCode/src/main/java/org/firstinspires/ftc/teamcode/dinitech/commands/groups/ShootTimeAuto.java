@@ -54,7 +54,6 @@ public class ShootTimeAuto extends ParallelCommandGroup {
                         trieurSubsystem::getIsFull
                 ),
                 new ShootAlmostRevolution(trieurSubsystem)
-
         );
     }
 }

@@ -30,7 +30,12 @@ public class Globals {
     public static double SCALE_Y_TILE = 1.05;
     public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
     public static double LENGTH_X_ROW = TILE_DIM * 0.85;
+    public static double LENGTH_X_ROW_SUPER = 26;
+    public static double LENGTH_X_ROW_SUPER_23RD = 33.5;
+
+
     public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
+    public static double SUPER_POWER_ROW_PICK_ARTEFACTS = 0.8;
     public static int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
     public static int MODE_RAMASSAGE_AUTO_TIMEOUT = 55;
     public static long WAIT_AT_END_ROW = 300;
@@ -100,17 +105,7 @@ public class Globals {
         public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
         public static final double PAR_POD_Y_MM = -128;
         public static final double PERP_POD_X_MM = 143;
-        public static final double MAX_WHEEL_VELOCITY = 50.0;
-        public static final double MIN_PROFILE_ACCELERATION = -30;
-        public static final double MAX_PROFILE_ACCELERATION = 50;
-        public static final double MAX_ANGLE_VELOCITY = Math.PI;
-        public static final double MAX_ANGLE_ACCELERATION = Math.PI;
-        public static final double AXIAL_GAIN = 0.2;
-        public static final double LATERAL_GAIN = 0.2;
-        public static final double HEADING_GAIN = 0.3;
-        public static final double AXIAL_VELOCITY_GAIN = 0.01 * AXIAL_GAIN;
-        public static final double LATERAL_VELOCITY_GAIN = 0.01 * LATERAL_GAIN;
-        public static final double HEADING_VELOCITY_GAIN = 0.01 * HEADING_GAIN;
+
 
         /**
          ******** Trieur

@@ -24,6 +24,10 @@ public class DinitechPedroMecanumDrive {
         update();
     }
 
+    public DinitechPedroMecanumDrive(HardwareMap hardwareMap){
+        this.follower = DinitechFollower.createFollower(hardwareMap);
+    }
+
     public void update(){
         //Call this once per loop
         follower.update();
@@ -96,5 +100,10 @@ public class DinitechPedroMecanumDrive {
 
     public Follower getFollower(){
         return follower;
+    }
+
+    public void prepAuto(Pose pose){
+        setStartingPose(pose);
+        update();
     }
 }

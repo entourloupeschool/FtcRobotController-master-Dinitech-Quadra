@@ -5,14 +5,14 @@ import com.arcrobotics.ftclib.command.RunCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.ChargeurDoubleServo;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name="BasicContinuousServo - Dinitech", group="Basic")
 @Disabled
-public class BasicServo extends DinitechRobotBase {
+public class BasicServo extends GornetixRobotBase {
     // Gamepads
     private GamepadWrapper m_Driver, m_Operator;
     private GamepadSubsystem gamepadSubsystem;

@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LONG_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MID_SHOOT_SHOOTER_VELOCITY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TELE_TIMEOUT;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
@@ -32,9 +33,9 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageTele;
+import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeShoot;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -44,7 +45,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "GornetixTeleOp - Dinitech", group = "TeleOp")
-public class GornetixTeleOp extends DinitechRobotBase {
+public class GornetixTeleOp extends GornetixRobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private GamepadWrapper m_Driver;
     private GamepadWrapper m_Operator;
@@ -141,7 +142,7 @@ public class GornetixTeleOp extends DinitechRobotBase {
         m_Operator.cross.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, MID_SHOOT_SHOOTER_VELOCITY),  new SetVelocityShooter(shooterSubsystem, 0), true);
         m_Operator.triangle.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_SHOOTER_VELOCITY),  new SetVelocityShooter(shooterSubsystem, 0), true);
 
-        m_Operator.circle.toggleWhenPressed(new ModeRamassageTele(trieurSubsystem, chargeurSubsystem, gamepadSubsystem));
+        m_Operator.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT));
 
         new Trigger(() -> m_Operator.getRightTriggerValue() > 0.2)
                 .whenActive(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));

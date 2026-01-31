@@ -5,11 +5,13 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_OPEN_
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.MaxSpeedShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinAlmostRevolution;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.CloseTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
@@ -46,8 +48,11 @@ public class ShootAlmostRevolution extends SequentialCommandGroup {
                                 new OpenTrappe(trieurSubsystem),
                                 new WaitCommand(TRAPPE_OPEN_TIME)),
                         trieurSubsystem::isTrappeOpen),
-                new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
-                new InstantCommand(trieurSubsystem::clearAllStoredColors)
+                new ParallelCommandGroup(
+                        new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
+                        new InstantCommand(trieurSubsystem::clearAllStoredColors)
+                )
+
         );
     }
 
@@ -59,8 +64,10 @@ public class ShootAlmostRevolution extends SequentialCommandGroup {
                                 new OpenTrappe(trieurSubsystem),
                                 new WaitCommand(TRAPPE_OPEN_TIME)),
                         trieurSubsystem::isTrappeOpen),
-                new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
-                new InstantCommand(trieurSubsystem::clearAllStoredColors)
+                new ParallelCommandGroup(
+                        new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
+                        new InstantCommand(trieurSubsystem::clearAllStoredColors)
+                )
         );
     }
 }

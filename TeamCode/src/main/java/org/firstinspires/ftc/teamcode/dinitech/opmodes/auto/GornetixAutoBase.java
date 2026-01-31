@@ -6,7 +6,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_PO
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_SMALL_TRIANGLE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
-
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X_ROW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
@@ -14,7 +13,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_RO
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_BLUE_POSE;
-
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -25,10 +23,8 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToMotifSh
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ShootToRowToMotifShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
-
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -37,17 +33,13 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-@Autonomous(name = "BlueGoal - Dinitech", group = "Blue")
-public class GornetixAutoBlueGoal extends GornetixRobotBase {
-    private TrieurSubsystem trieurSubsystem;
-    private VisionSubsystem visionSubsystem;
-    private GamepadSubsystem gamepadSubsystem;
-
-
-    private ShooterSubsystem shooterSubsystem;
-    private ChargeurSubsystem chargeurSubsystem;
-    private DrivePedroSubsystem drivePedroSubsystem;
-
+public class GornetixAutoBase extends GornetixRobotBase {
+    public TrieurSubsystem trieurSubsystem;
+    public VisionSubsystem visionSubsystem;
+    public GamepadSubsystem gamepadSubsystem;
+    public ShooterSubsystem shooterSubsystem;
+    public ChargeurSubsystem chargeurSubsystem;
+    public DrivePedroSubsystem drivePedroSubsystem;
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -62,7 +54,7 @@ public class GornetixAutoBlueGoal extends GornetixRobotBase {
             register(visionSubsystem);
             visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
-            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BLUE_GOAL_POSE, telemetryM);
+            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, telemetryM);
             register(drivePedroSubsystem);
 
             trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
@@ -75,34 +67,6 @@ public class GornetixAutoBlueGoal extends GornetixRobotBase {
 
             shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
             register(shooterSubsystem);
-
-
-            new SequentialCommandGroup(
-                    // Obelisk and MoulinCalibrate
-                    new InitToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                            BLUE_GOAL_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
-
-                    new ShootToRowToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                            CLOSE_SHOOT_BLUE_POSE, FIRST_ROW_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS),
-
-                    new ShootToRowToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                            CLOSE_SHOOT_BLUE_POSE, SECOND_ROW_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS),
-
-                    new ShootToRowToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                            CLOSE_SHOOT_BLUE_POSE, THIRD_ROW_BLUE_POSE, BLUE_SMALL_TRIANGLE_SHOOT_POSE, SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY, LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS),
-
-                    new ParallelCommandGroup(
-                            new FollowPath(drivePedroSubsystem, builder -> builder
-                                    .addPath(new BezierLine(
-                                            drivePedroSubsystem::getPose,
-                                            BLUE_RAMP_POSE.withX(BLUE_RAMP_POSE.getX() + 5))
-                                    ).setLinearHeadingInterpolation(CLOSE_SHOOT_BLUE_POSE.getHeading(), BLUE_RAMP_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                    AUTO_ROBOT_CONSTRAINTS, true),
-                            new ParallelCommandGroup(
-                                    new StopChargeur(chargeurSubsystem),
-                                    new StopShooter(shooterSubsystem)))
-
-            ).schedule();
     }
 
     /**
@@ -121,5 +85,4 @@ public class GornetixAutoBlueGoal extends GornetixRobotBase {
             trieurSubsystem.setMoulinStoragePositionColor(3, TrieurSubsystem.ArtifactColor.PURPLE);
             trieurSubsystem.setMoulinStoragePositionColor(5, TrieurSubsystem.ArtifactColor.PURPLE);
     }
-
 }

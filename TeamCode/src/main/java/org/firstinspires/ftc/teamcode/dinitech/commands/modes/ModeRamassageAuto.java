@@ -30,10 +30,10 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
      * @param gamepadSubsystem  The gamepad subsystem, passed down to child commands for haptic feedback.
      */
     public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem,
-                             GamepadSubsystem gamepadSubsystem) {
+                             GamepadSubsystem gamepadSubsystem, int detectAretefactTimeout) {
         addCommands(
                 // First, run the detection process
-                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
+                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectAretefactTimeout),
                 new ConditionalCommand(
                         new ParallelCommandGroup(
                                 new SequentialCommandGroup(
@@ -46,7 +46,7 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
                         trieurSubsystem::isArtefactInTrieur
                 ),
                 // First, run the detection process
-                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
+                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectAretefactTimeout),
                 new ConditionalCommand(
                         new ParallelCommandGroup(
                                 new SequentialCommandGroup(
@@ -58,7 +58,7 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
                         trieurSubsystem::isArtefactInTrieur
                 ),
                 // First, run the detection process
-                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
+                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectAretefactTimeout),
                 new ConditionalCommand(
                         new StopChargeur(chargeurSubsystem),
                         new InstantCommand(),

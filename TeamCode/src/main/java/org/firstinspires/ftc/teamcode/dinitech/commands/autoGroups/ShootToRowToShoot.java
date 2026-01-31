@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X_ROW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_ROW_PICK_ARTEFACTS;
@@ -10,13 +8,9 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSA
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_OPEN_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_AT_END_ROW;
 
-import com.arcrobotics.ftclib.command.ConditionalCommand;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 
@@ -35,9 +29,9 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-public class ShootToRowToMotifShoot extends SequentialCommandGroup {
+public class ShootToRowToShoot extends SequentialCommandGroup {
 
-    public ShootToRowToMotifShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose RowPose, double shooterVelocity){
+    public ShootToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose RowPose, double shooterVelocity, double lengthBackup, double rowPower){
         addCommands(
                 new ParallelCommandGroup(
                         new SetVelocityShooter(shooterSubsystem, shooterVelocity),
@@ -53,16 +47,14 @@ public class ShootToRowToMotifShoot extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new MaxPowerChargeur(chargeurSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
-                                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
-                        ),
+                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT)),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
-                                                RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? LENGTH_X_ROW : -LENGTH_X_ROW)))
+                                                RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? lengthBackup : -lengthBackup)))
                                         ).setLinearHeadingInterpolation(RowPose.getHeading(), RowPose.getHeading()).build(),
-                                        MAX_POWER_ROW_PICK_ARTEFACTS, false),
+                                        rowPower, false),
                                 new WaitCommand(WAIT_AT_END_ROW),
                                 // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder
@@ -76,7 +68,7 @@ public class ShootToRowToMotifShoot extends SequentialCommandGroup {
         );
     }
 
-    public ShootToRowToMotifShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose RowPose, Pose endPose, double shooterVelocity){
+    public ShootToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose RowPose, Pose endPose, double shooterVelocity, double lengthBackup, double rowPower){
         addCommands(
                 new ParallelCommandGroup(
                         new SetVelocityShooter(shooterSubsystem, shooterVelocity),
@@ -93,7 +85,6 @@ public class ShootToRowToMotifShoot extends SequentialCommandGroup {
                         new SequentialCommandGroup(
                                 new MaxPowerChargeur(chargeurSubsystem),
                                 new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
-                                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                                 new OpenTrappe(trieurSubsystem),
                                 new WaitCommand(TRAPPE_OPEN_TIME)
                         ),
@@ -101,9 +92,9 @@ public class ShootToRowToMotifShoot extends SequentialCommandGroup {
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
-                                                RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? LENGTH_X_ROW : -LENGTH_X_ROW)))
+                                                RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? lengthBackup : -lengthBackup)))
                                         ).setLinearHeadingInterpolation(RowPose.getHeading(), RowPose.getHeading()).build(),
-                                        MAX_POWER_ROW_PICK_ARTEFACTS, false),
+                                        rowPower, false),
                                 new WaitCommand(WAIT_AT_END_ROW),
                                 // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder
