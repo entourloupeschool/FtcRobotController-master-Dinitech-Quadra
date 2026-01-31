@@ -83,10 +83,6 @@ public class DinitechPedroMecanumDrive {
     }
 
     public boolean isPathQuasiDone(){
-//        boolean isVelocityLow = follower.getVelocity().getMagnitude() < follower.getCurrentPath().getPathEndVelocityConstraint();
-//        boolean isHeadingSufficient = follower.getAngularVelocity() < 0.055;
-//        boolean isAtParametricEnd = follower.getCurrentPath().isAtParametricEnd();
-//        return isHeadingSufficient && isAtParametricEnd;
         return follower.getCurrentTValue() > FOLLOWER_T_POSITION_END;
     }
 

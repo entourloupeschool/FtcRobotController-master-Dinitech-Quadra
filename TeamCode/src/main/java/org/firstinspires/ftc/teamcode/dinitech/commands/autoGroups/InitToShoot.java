@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class InitToShoot extends ParallelCommandGroup {
 
-    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose ShootPosition, double shooterVelocity){
+    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose InitPose, Pose ShootPosition, double shooterVelocity){
         addCommands(
                 new SequentialCommandGroup(
                         new InstantCommand(),

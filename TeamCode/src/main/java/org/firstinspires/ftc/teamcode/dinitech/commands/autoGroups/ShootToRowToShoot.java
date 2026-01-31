@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSA
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_OPEN_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_AT_END_ROW;
 
+import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -31,7 +32,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ShootToRowToShoot extends SequentialCommandGroup {
 
-    public ShootToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose RowPose, double shooterVelocity, double lengthBackup, double rowPower){
+    public ShootToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose RowPose, CommandBase commandBase, double shooterVelocity, double lengthBackup, double rowPower, double endTime){
         addCommands(
                 new ParallelCommandGroup(
                         new SetVelocityShooter(shooterSubsystem, shooterVelocity),
@@ -41,13 +42,16 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,
                                         RowPose)
-                                ).setLinearHeadingInterpolation(InitPose.getHeading(), RowPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.8).build(),
+                                ).setLinearHeadingInterpolation(InitPose.getHeading(), RowPose.getHeading(), endTime).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new MaxPowerChargeur(chargeurSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT)),
+                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
+                                commandBase,
+                                new OpenTrappe(trieurSubsystem),
+                                new WaitCommand(TRAPPE_OPEN_TIME)),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(
@@ -68,7 +72,7 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
         );
     }
 
-    public ShootToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose RowPose, Pose endPose, double shooterVelocity, double lengthBackup, double rowPower){
+    public ShootToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose RowPose, Pose endPose, CommandBase commandBase, double shooterVelocity, double lengthBackup, double rowPower, double endTime){
         addCommands(
                 new ParallelCommandGroup(
                         new SetVelocityShooter(shooterSubsystem, shooterVelocity),
@@ -78,13 +82,14 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,
                                         RowPose)
-                                ).setLinearHeadingInterpolation(InitPose.getHeading(), RowPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.8).build(),
+                                ).setLinearHeadingInterpolation(InitPose.getHeading(), RowPose.getHeading(), endTime).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new MaxPowerChargeur(chargeurSubsystem),
                                 new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
+                                commandBase,
                                 new OpenTrappe(trieurSubsystem),
                                 new WaitCommand(TRAPPE_OPEN_TIME)
                         ),
