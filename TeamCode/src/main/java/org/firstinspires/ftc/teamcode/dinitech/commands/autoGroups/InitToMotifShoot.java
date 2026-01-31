@@ -1,14 +1,11 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
@@ -25,15 +22,15 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-public class FromGoalToCloseShoot extends ParallelCommandGroup {
+public class InitMotifShoot extends ParallelCommandGroup {
 
-    public FromGoalToCloseShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose ShootPosition){
+    public InitMotifShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose ShootPosition, double shooterVelocity){
         addCommands(
                 new SequentialCommandGroup(
                         new InstantCommand(),
-                        new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY)),
+                        new SetVelocityShooter(shooterSubsystem, shooterVelocity)),
 
-                new ParallelDeadlineGroup(
+                new ParallelCommandGroup(
                         // Go to Shooting Pos
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
@@ -42,8 +39,16 @@ public class FromGoalToCloseShoot extends ParallelCommandGroup {
                                 ).setLinearHeadingInterpolation(InitPose.getHeading(), ShootPosition.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true),
                         new SequentialCommandGroup(
-                                new WaitUntilCommand(visionSubsystem::hasColorOrder),
-                                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)))
+                                // Race: wait for hasColorOrder OR wait for path to finish
+                                new ParallelRaceGroup(
+                                        new WaitUntilCommand(visionSubsystem::hasColorOrder),
+                                        new WaitUntilCommand(() -> drivePedroSubsystem.getDrive().isPathQuasiDone())
+                                ),
+                                // Only run ReadyMotif if hasColorOrder became true, otherwise skip
+                                new ConditionalCommand(
+                                        new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                                        new InstantCommand(),
+                                        visionSubsystem::hasColorOrder)))
         );
     }
 }
