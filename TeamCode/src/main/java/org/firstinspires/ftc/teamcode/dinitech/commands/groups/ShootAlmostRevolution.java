@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_OPEN_TIME;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -39,8 +40,25 @@ public class ShootAlmostRevolution extends SequentialCommandGroup {
     public ShootAlmostRevolution(TrieurSubsystem trieurSubsystem, Command shooterCommand) {
         addCommands(
                 shooterCommand, // Rev up the shooter
-                new OpenTrappe(trieurSubsystem), // Open the trapdoor
-                new WaitCommand(TRAPPE_OPEN_TIME), // Wait for the trappe to open fully
+                new ConditionalCommand(
+                        new InstantCommand(),
+                        new SequentialCommandGroup(
+                                new OpenTrappe(trieurSubsystem),
+                                new WaitCommand(TRAPPE_OPEN_TIME)),
+                        trieurSubsystem::isTrappeOpen),
+                new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
+                new InstantCommand(trieurSubsystem::clearAllStoredColors)
+        );
+    }
+
+    public ShootAlmostRevolution(TrieurSubsystem trieurSubsystem) {
+        addCommands(
+                new ConditionalCommand(
+                        new InstantCommand(),
+                        new SequentialCommandGroup(
+                                new OpenTrappe(trieurSubsystem),
+                                new WaitCommand(TRAPPE_OPEN_TIME)),
+                        trieurSubsystem::isTrappeOpen),
                 new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
                 new InstantCommand(trieurSubsystem::clearAllStoredColors)
         );

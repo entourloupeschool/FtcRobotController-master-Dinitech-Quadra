@@ -45,4 +45,16 @@ public class ShootTimeAuto extends ParallelCommandGroup {
 
         );
     }
+
+    public ShootTimeAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem) {
+        addCommands(
+                new ConditionalCommand(
+                        new StopChargeur(chargeurSubsystem),
+                        new InstantCommand(),
+                        trieurSubsystem::getIsFull
+                ),
+                new ShootAlmostRevolution(trieurSubsystem)
+
+        );
+    }
 }

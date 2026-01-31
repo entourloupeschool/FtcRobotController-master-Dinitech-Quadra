@@ -1,16 +1,24 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_SMALL_TRIANGLE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X_ROW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_ROW_PICK_ARTEFACTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_GOAL_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_SMALL_TRIANGLE_SHOOT_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_RED_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_AT_END_ROW;
 
@@ -21,10 +29,11 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToMotifShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ShootToRowToMotifShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
@@ -82,127 +91,27 @@ public class GornetixAutoRedGoal extends DinitechRobotBase {
 
         new SequentialCommandGroup(
                 // Obelisk and MoulinCalibrate
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new InstantCommand(),
-                                new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY)
-                        ),
-                        new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
-                        // Go to Shooting Pos
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        drivePedroSubsystem::getPose,
-                                        CLOSE_SHOOT_RED_POSE)
-                                ).setLinearHeadingInterpolation(RED_GOAL_POSE.getHeading(), CLOSE_SHOOT_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true)),
+                new InitToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, RED_GOAL_POSE, CLOSE_SHOOT_RED_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
-                new ShootTimeAuto(trieurSubsystem, chargeurSubsystem, new InstantCommand()),
+                new ShootTimeAuto(trieurSubsystem, chargeurSubsystem),
 
-                new ParallelCommandGroup(
-                        new ReadyTrieurForPick(trieurSubsystem),
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        drivePedroSubsystem::getPose,
-                                        FIRST_ROW_RED_POSE)
-                                ).setLinearHeadingInterpolation(CLOSE_SHOOT_RED_POSE.getHeading(), FIRST_ROW_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.8).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true)),
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new MaxPowerChargeur(chargeurSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
-                                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
-                        ),
-                        new SequentialCommandGroup(
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                FIRST_ROW_RED_POSE.withX(FIRST_ROW_RED_POSE.getX() + LENGTH_X_ROW))
-                                        ).setLinearHeadingInterpolation(FIRST_ROW_RED_POSE.getHeading(), FIRST_ROW_RED_POSE.getHeading()).build(),
-                                        MAX_POWER_ROW_PICK_ARTEFACTS*1.05, false),
-                                new WaitCommand(WAIT_AT_END_ROW),
-                                // Go to Shooting Pos
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                CLOSE_SHOOT_RED_POSE)
-                                        ).setLinearHeadingInterpolation(FIRST_ROW_RED_POSE.getHeading(), CLOSE_SHOOT_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true))),
+                new ShootToRowToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, CLOSE_SHOOT_RED_POSE, FIRST_ROW_RED_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
-                new ShootTimeAuto(trieurSubsystem, chargeurSubsystem, new InstantCommand()),
+                new ShootTimeAuto(trieurSubsystem, chargeurSubsystem),
 
-                new ParallelCommandGroup(
-                        new ReadyTrieurForPick(trieurSubsystem),
-                        // go to second row of artefacts
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        drivePedroSubsystem::getPose,
-                                        SECOND_ROW_RED_POSE)
-                                ).setLinearHeadingInterpolation(CLOSE_SHOOT_RED_POSE.getHeading(), SECOND_ROW_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.6).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true)),
+                new ShootToRowToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, CLOSE_SHOOT_RED_POSE, SECOND_ROW_RED_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new MaxPowerChargeur(chargeurSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
-                                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
-                        ),
-                        new SequentialCommandGroup(
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                SECOND_ROW_RED_POSE.withX(SECOND_ROW_RED_POSE.getX() + LENGTH_X_ROW))
-                                        ).setLinearHeadingInterpolation(SECOND_ROW_RED_POSE.getHeading(), SECOND_ROW_RED_POSE.getHeading()).build(),
-                                        MAX_POWER_ROW_PICK_ARTEFACTS, false),
-                                new WaitCommand(WAIT_AT_END_ROW),
-                                // Go to Shooting Pos
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                CLOSE_SHOOT_RED_POSE)
-                                        ).setLinearHeadingInterpolation(SECOND_ROW_RED_POSE.getHeading(), CLOSE_SHOOT_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true))),
+                new ShootTimeAuto(trieurSubsystem, chargeurSubsystem),
 
-                new ShootTimeAuto(trieurSubsystem, chargeurSubsystem, new InstantCommand()),
+                new ShootToRowToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, CLOSE_SHOOT_RED_POSE, THIRD_ROW_RED_POSE, RED_SMALL_TRIANGLE_SHOOT_POSE, SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
 
-                new ParallelCommandGroup(
-                        new ReadyTrieurForPick(trieurSubsystem),
-                        // go to third row of artefacts
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        drivePedroSubsystem::getPose,
-                                        THIRD_ROW_RED_POSE)
-                                ).setLinearHeadingInterpolation(CLOSE_SHOOT_RED_POSE.getHeading(), THIRD_ROW_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME/1.4).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true)),
+                new ShootTimeAuto(trieurSubsystem, chargeurSubsystem),
 
-
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new MaxPowerChargeur(chargeurSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
-                                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
-                        ),
-                        new SequentialCommandGroup(
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                THIRD_ROW_RED_POSE.withX(THIRD_ROW_RED_POSE.getX() + LENGTH_X_ROW))
-                                        ).setLinearHeadingInterpolation(THIRD_ROW_RED_POSE.getHeading(), THIRD_ROW_RED_POSE.getHeading()).build(),
-                                        MAX_POWER_ROW_PICK_ARTEFACTS, false),
-                                new WaitCommand(WAIT_AT_END_ROW),
-                                // Go to Shooting Pos
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                CLOSE_SHOOT_RED_POSE)
-                                        ).setLinearHeadingInterpolation(THIRD_ROW_RED_POSE.getHeading(), CLOSE_SHOOT_RED_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true))),
-
-                new ShootTimeAuto(trieurSubsystem, chargeurSubsystem, new InstantCommand()),
                 new ParallelCommandGroup(
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,
-                                        RED_RAMP_POSE)
+                                        RED_RAMP_POSE.withX(RED_RAMP_POSE.getX() - 5))
                                 ).setLinearHeadingInterpolation(CLOSE_SHOOT_RED_POSE.getHeading(), RED_RAMP_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true),
                         new ParallelCommandGroup(
