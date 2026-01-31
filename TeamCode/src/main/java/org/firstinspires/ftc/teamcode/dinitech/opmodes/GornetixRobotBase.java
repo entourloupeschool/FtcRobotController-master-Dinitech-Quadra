@@ -4,7 +4,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELEMETRY_UP
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.hardware.lynx.LynxModule;
@@ -16,11 +15,9 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 import java.util.List;
 
-@Configurable
 public class DinitechRobotBase extends CommandOpMode {
     // System
     private List<LynxModule> hubs;
-    private VoltageSensor voltageSensor;
     private final ElapsedTime timer = new ElapsedTime();
     public TelemetryManager telemetryM;
 
@@ -45,7 +42,6 @@ public class DinitechRobotBase extends CommandOpMode {
 
         hubs = hardwareMap.getAll(LynxModule.class);
 
-        voltageSensor = hardwareMap.voltageSensor.iterator().next();
         for (LynxModule hub : hubs) {
             hub.abandonUnfinishedCommands();
             hub.clearBulkCache();
