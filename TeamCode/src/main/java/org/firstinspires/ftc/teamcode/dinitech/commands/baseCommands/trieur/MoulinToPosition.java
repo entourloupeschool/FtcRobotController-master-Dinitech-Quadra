@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

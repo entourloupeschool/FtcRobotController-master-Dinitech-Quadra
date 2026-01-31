@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.vision;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

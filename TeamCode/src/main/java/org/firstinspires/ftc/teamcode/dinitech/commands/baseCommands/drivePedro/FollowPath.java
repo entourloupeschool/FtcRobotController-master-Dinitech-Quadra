@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;

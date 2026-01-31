@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.Rumble;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.Rumble;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;

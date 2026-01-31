@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.RunCommand;

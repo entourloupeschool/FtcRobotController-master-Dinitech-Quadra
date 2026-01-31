@@ -1,10 +1,8 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CALIBRATION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_CALIBRATION_ROTATION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

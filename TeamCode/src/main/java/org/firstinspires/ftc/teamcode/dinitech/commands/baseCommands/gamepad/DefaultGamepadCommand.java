@@ -1,6 +1,5 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_SHOOT_SPEED;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_1;
 
 import com.arcrobotics.ftclib.command.CommandBase;

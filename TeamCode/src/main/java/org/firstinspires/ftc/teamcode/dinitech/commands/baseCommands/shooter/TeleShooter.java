@@ -1,9 +1,8 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_SHOOTER_SCALER;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;

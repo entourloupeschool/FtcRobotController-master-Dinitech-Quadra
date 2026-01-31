@@ -3,11 +3,9 @@ package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.D_SHOOTER_VELOCITY_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.F_SHOOTER_VELOCITY_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.I_SHOOTER_VELOCITY_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_SHOOT_SPEED;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_SHOOTER_VELOCITY_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOTER_MOTOR_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_VISION_SHOOT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kA_SHOOTER_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kS_SHOOTER_AGGRESSIVE;
@@ -15,7 +13,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kV_SHOOTER_A
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -23,10 +20,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.VisionShooter;
 
 /**
  * A command-based subsystem for controlling the robot's shooter mechanism.

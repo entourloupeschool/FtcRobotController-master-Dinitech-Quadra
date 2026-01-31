@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OVER_CURRENT_BACKOFF_TICKS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;

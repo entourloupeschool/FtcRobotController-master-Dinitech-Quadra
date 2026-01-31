@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur;
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_MOTOR_POWER;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

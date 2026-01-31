@@ -1,8 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter;
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
-
-import com.arcrobotics.ftclib.command.CommandBase;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 

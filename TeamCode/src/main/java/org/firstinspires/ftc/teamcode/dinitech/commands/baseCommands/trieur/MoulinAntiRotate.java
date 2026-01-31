@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CONTINUOUS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

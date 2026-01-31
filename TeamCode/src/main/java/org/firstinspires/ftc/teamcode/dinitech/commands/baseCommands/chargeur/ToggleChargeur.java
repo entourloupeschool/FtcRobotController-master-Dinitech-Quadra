@@ -1,11 +1,7 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur;
 
-import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.CommandScheduler;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.MaxSpeedShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 
 public class ToggleChargeur extends CommandBase {

@@ -3,9 +3,8 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.Rumble;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.Rumble;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 /**

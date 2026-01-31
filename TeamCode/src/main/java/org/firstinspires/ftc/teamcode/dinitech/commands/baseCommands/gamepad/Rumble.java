@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

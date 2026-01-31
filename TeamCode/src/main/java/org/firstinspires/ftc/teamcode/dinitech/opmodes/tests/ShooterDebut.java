@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.shooter.TeleShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.TeleShooter;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.DinitechRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;

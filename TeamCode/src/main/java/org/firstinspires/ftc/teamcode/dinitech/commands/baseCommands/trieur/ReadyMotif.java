@@ -1,8 +1,7 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.trieur;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.gamepad.InstantRumbleCustom;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;

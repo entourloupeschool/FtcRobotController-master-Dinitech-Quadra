@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SLOW_DRIVE_SCALE;
 

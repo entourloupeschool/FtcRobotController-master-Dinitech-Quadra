@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro;
 
 import com.pedropathing.paths.PathBuilder;
 import com.pedropathing.paths.PathChain;

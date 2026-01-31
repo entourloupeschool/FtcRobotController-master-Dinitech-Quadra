@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_MOTOR_POWER;
 
