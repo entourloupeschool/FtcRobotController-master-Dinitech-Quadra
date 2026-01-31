@@ -605,9 +605,9 @@ public class TrieurSubsystem extends SubsystemBase {
 
         if (diffTicks != 0) {
             if (differenceToIntRounded > 0) {
-                incrementMoulinTargetPosition(-diffTicks + OFFSET_MAGNETIC_POS);
+                incrementMoulinTargetPosition(OFFSET_MAGNETIC_POS - diffTicks);
             } else {
-                incrementMoulinTargetPosition(diffTicks + OFFSET_MAGNETIC_POS);
+                incrementMoulinTargetPosition(OFFSET_MAGNETIC_POS + diffTicks);
             }
         }
 

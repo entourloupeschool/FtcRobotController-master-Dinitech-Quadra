@@ -46,8 +46,12 @@ public class ChargeurSubsystem extends SubsystemBase {
 
 
     public void setChargeurPower(double power){
-        chargeurDoubleServo.setNormalizedSpeed(3, power);
+        setPowerDoubleServo(power);
         setMotorPower(power * SCALE_CHARGEUR_MOTOR_POWER);
+    }
+
+    public void setPowerDoubleServo(double power){
+        chargeurDoubleServo.setNormalizedSpeed(3, power);
     }
 
     public void incrementChargeurPower(double increment){

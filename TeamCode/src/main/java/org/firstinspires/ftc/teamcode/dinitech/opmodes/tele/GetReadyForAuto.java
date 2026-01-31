@@ -7,10 +7,12 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MID_SHOOT_SH
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.StopRobot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.chargeur.ToggleChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.FieldCentricDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.basecommands.drivePedro.ResetHeadingFCDrive;
@@ -86,6 +88,8 @@ public class GetReadyForAuto extends DinitechRobotBase {
 
             new SequentialCommandGroup(
                     new MoulinCalibrationSequence(trieurSubsystem),
+                    new WaitCommand(100),
+                    new MaxPowerChargeur(chargeurSubsystem),
                     new ModeRamassageTele(trieurSubsystem, chargeurSubsystem, gamepadSubsystem)
             ).schedule();
     }

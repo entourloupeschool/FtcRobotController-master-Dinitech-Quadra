@@ -106,7 +106,6 @@ public class GornetixTeleOp extends DinitechRobotBase {
         drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
         shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.NONE);
 
-
         //Overwrite m1 & m2
         m_Driver.m1Button.whenPressed(new InstantCommand());
         m_Driver.m2Button.whenPressed(new InstantCommand());
@@ -126,7 +125,6 @@ public class GornetixTeleOp extends DinitechRobotBase {
         m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
 
         m_Driver.left_stick_button.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
-
 
         // Operator controls
         m_Operator.dpad_up.whenPressed(new MoulinRevolution(trieurSubsystem));

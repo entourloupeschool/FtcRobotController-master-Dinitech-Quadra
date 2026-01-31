@@ -6,17 +6,17 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 
-public class MaxPowerChargeur extends CommandBase {
+public class MaxPowerDoubleServo extends CommandBase {
     private final ChargeurSubsystem chargeurSubsystem;
 
-    public MaxPowerChargeur(ChargeurSubsystem chargeurSubsystem){
+    public MaxPowerDoubleServo(ChargeurSubsystem chargeurSubsystem){
         this.chargeurSubsystem = chargeurSubsystem;
         addRequirements(chargeurSubsystem);
     }
 
     @Override
     public void initialize(){
-        chargeurSubsystem.setChargeurPower(CHARGEUR_MOTOR_POWER);
+        chargeurSubsystem.setPowerDoubleServo(CHARGEUR_MOTOR_POWER);
     }
 
     @Override

@@ -108,10 +108,10 @@ public class GornetixAutoRedGoal extends DinitechRobotBase {
                                 AUTO_ROBOT_CONSTRAINTS, true)),
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
+                                new MaxPowerChargeur(chargeurSubsystem),
                                 new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem),
                                 new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem)
                         ),
-                        new MaxPowerChargeur(chargeurSubsystem),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(

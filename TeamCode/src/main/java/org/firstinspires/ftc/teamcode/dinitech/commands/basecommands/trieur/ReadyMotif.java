@@ -23,10 +23,6 @@ public class ReadyMotif extends MoulinToPositionLoose {
 
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
-    private final Gamepad.RumbleEffect noMotifRumbleEffect = new Gamepad.RumbleEffect.Builder()
-            .addStep(0.5, 0.5, 10)
-            .build();
-
 
 
     /**
@@ -50,8 +46,10 @@ public class ReadyMotif extends MoulinToPositionLoose {
         // Check if the color order has been detected by the vision system.
         if (!visionSubsystem.hasColorOrder()){
             // Fallback: Rumble and move to a default position if no motif is detected.
-            gamepadSubsystem.customRumble(noMotifRumbleEffect, 3);
-            moulinTargetPosition = 1;
+            gamepadSubsystem.customRumble(new Gamepad.RumbleEffect.Builder()
+                    .addStep(0.5, 0.5, 10)
+                    .build(), 3);
+            moulinTargetPosition = trieurSubsystem.getMoulinPosition();
         } else {
             // Get the detected color order.
             int colorsOrder = visionSubsystem.getColorsOrder();
