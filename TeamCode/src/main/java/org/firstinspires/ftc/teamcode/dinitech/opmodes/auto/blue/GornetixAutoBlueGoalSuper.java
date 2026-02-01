@@ -43,23 +43,26 @@ public class GornetixAutoBlueGoalSuper extends GornetixAutoBase {
             new SequentialCommandGroup(
                         // Obelisk and MoulinCalibrate
                         new InitToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem,
-                                BLUE_GOAL_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
+                                CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
                         new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem,
-                                CLOSE_SHOOT_BLUE_POSE, FIRST_ROW_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, LENGTH_X_ROW_SUPER, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.8),
+                                FIRST_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
+                                LENGTH_X_ROW_SUPER, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.8),
 
                         new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem,
-                                CLOSE_SHOOT_BLUE_POSE, SECOND_ROW_BLUE_POSE, new InstantCommand(),CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, LENGTH_X_ROW_SUPER_23RD, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
+                                SECOND_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(),CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
+                                LENGTH_X_ROW_SUPER_23RD, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
                         new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem,
-                                CLOSE_SHOOT_BLUE_POSE, THIRD_ROW_BLUE_POSE, BLUE_SMALL_TRIANGLE_SHOOT_POSE, new InstantCommand(), SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY, LENGTH_X_ROW_SUPER_23RD, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.2),
+                                THIRD_ROW_BLUE_POSE, BLUE_SMALL_TRIANGLE_SHOOT_POSE, new InstantCommand(), SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY,
+                                LENGTH_X_ROW_SUPER_23RD, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.2),
 
                         new ParallelCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
                                                 BLUE_RAMP_POSE.withX(BLUE_RAMP_POSE.getX() + 5))
-                                        ).setLinearHeadingInterpolation(CLOSE_SHOOT_BLUE_POSE.getHeading(), BLUE_RAMP_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                        ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), BLUE_RAMP_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
                                 new ParallelCommandGroup(
                                         new StopChargeur(chargeurSubsystem),

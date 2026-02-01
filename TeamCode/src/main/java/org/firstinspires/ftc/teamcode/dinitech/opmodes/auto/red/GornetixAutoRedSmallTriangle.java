@@ -43,24 +43,27 @@ public class GornetixAutoRedSmallTriangle extends GornetixAutoBase {
 
             new SequentialCommandGroup(
                         // Obelisk and MoulinCalibrate
-                        new InitToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                RED_SMALL_TRIANGLE_POSE, RED_SMALL_TRIANGLE_SHOOT_POSE, SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
+                        new InitToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, gamepadSubsystem,
+                                RED_SMALL_TRIANGLE_SHOOT_POSE, SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
 
                         new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem,
-                                RED_SMALL_TRIANGLE_SHOOT_POSE, THIRD_ROW_RED_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY, LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.8),
+                                THIRD_ROW_RED_POSE, RED_SMALL_TRIANGLE_SHOOT_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY,
+                                LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.8),
 
                         new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem,
-                                RED_SMALL_TRIANGLE_SHOOT_POSE, SECOND_ROW_RED_POSE, CLOSE_SHOOT_RED_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
+                                SECOND_ROW_RED_POSE, CLOSE_SHOOT_RED_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
+                                LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
                         new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem,
-                                CLOSE_SHOOT_RED_POSE, FIRST_ROW_RED_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.3),
+                                FIRST_ROW_RED_POSE, CLOSE_SHOOT_RED_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
+                                LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.3),
 
                         new ParallelCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
                                                 RED_RAMP_POSE.withX(RED_RAMP_POSE.getX() - 5))
-                                        ).setLinearHeadingInterpolation(CLOSE_SHOOT_RED_POSE.getHeading(), RED_RAMP_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                        ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), RED_RAMP_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
                                 new ParallelCommandGroup(
                                         new StopChargeur(chargeurSubsystem),

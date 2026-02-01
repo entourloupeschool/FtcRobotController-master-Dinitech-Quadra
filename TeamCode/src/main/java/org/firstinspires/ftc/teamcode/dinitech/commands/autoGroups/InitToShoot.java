@@ -19,6 +19,8 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Set
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAlmostRevolution;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootTimeAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -28,7 +30,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class InitToShoot extends ParallelCommandGroup {
 
-    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose InitPose, Pose ShootPosition, double shooterVelocity){
+    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose ShootPosition, double shooterVelocity){
         addCommands(
                 new SequentialCommandGroup(
                         new InstantCommand(),
@@ -41,8 +43,10 @@ public class InitToShoot extends ParallelCommandGroup {
                         .addPath(new BezierLine(
                                 drivePedroSubsystem::getPose,
                                 ShootPosition)
-                        ).setLinearHeadingInterpolation(InitPose.getHeading(), ShootPosition.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                        AUTO_ROBOT_CONSTRAINTS, true)
+                        ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), ShootPosition.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                        AUTO_ROBOT_CONSTRAINTS, true),
+
+                new ShootAlmostRevolution(trieurSubsystem)
         );
     }
 }

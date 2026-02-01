@@ -32,8 +32,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ShootToRowToShoot extends SequentialCommandGroup {
-
-    public ShootToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose RowPose, CommandBase commandBase, double shooterVelocity, double lengthBackup, double rowPower, double endTime){
+    public ShootToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, Pose RowPose, Pose endPose, CommandBase commandBase, double shooterVelocity, double lengthBackup, double rowPower, double endTime){
         addCommands(
                 new ParallelCommandGroup(
                         new SetVelocityShooter(shooterSubsystem, shooterVelocity),
@@ -43,46 +42,7 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,
                                         RowPose)
-                                ).setLinearHeadingInterpolation(InitPose.getHeading(), RowPose.getHeading(), endTime).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true)),
-
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new MaxPowerChargeur(chargeurSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
-                                commandBase,
-                                new OpenWaitTrappe(trieurSubsystem)),
-                        new SequentialCommandGroup(
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? lengthBackup : -lengthBackup)))
-                                        ).setLinearHeadingInterpolation(RowPose.getHeading(), RowPose.getHeading()).build(),
-                                        rowPower, false),
-                                new WaitCommand(WAIT_AT_END_ROW),
-                                // Go to Shooting Pos
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                InitPose)
-                                        ).setLinearHeadingInterpolation(RowPose.getHeading(), InitPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true))),
-
-                new ShootTimeAuto(trieurSubsystem, chargeurSubsystem)
-        );
-    }
-
-    public ShootToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, Pose InitPose, Pose RowPose, Pose endPose, CommandBase commandBase, double shooterVelocity, double lengthBackup, double rowPower, double endTime){
-        addCommands(
-                new ParallelCommandGroup(
-                        new SetVelocityShooter(shooterSubsystem, shooterVelocity),
-                        new ReadyTrieurForPick(trieurSubsystem),
-                        // go to first row of artefacts
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        drivePedroSubsystem::getPose,
-                                        RowPose)
-                                ).setLinearHeadingInterpolation(InitPose.getHeading(), RowPose.getHeading(), endTime).build(),
+                                ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), RowPose.getHeading(), endTime).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
@@ -98,7 +58,7 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                                         .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
                                                 RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? lengthBackup : -lengthBackup)))
-                                        ).setLinearHeadingInterpolation(RowPose.getHeading(), RowPose.getHeading()).build(),
+                                        ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), RowPose.getHeading()).build(),
                                         rowPower, false),
                                 new WaitCommand(WAIT_AT_END_ROW),
                                 // Go to Shooting Pos
@@ -106,8 +66,10 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                                         .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
                                                 endPose)
-                                        ).setLinearHeadingInterpolation(RowPose.getHeading(), endPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true)))
+                                        ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), endPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                        AUTO_ROBOT_CONSTRAINTS, true))),
+
+                new ShootTimeAuto(trieurSubsystem, chargeurSubsystem)
         );
     }
 }

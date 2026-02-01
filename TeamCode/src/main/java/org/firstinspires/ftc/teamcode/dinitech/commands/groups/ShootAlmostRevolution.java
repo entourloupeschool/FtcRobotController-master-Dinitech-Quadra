@@ -45,9 +45,7 @@ public class ShootAlmostRevolution extends SequentialCommandGroup {
                 shooterCommand, // Rev up the shooter
                 new ConditionalCommand(
                         new InstantCommand(),
-                        new SequentialCommandGroup(
-                                new OpenTrappe(trieurSubsystem),
-                                new WaitCommand(TRAPPE_OPEN_TIME)),
+                        new OpenWaitTrappe(trieurSubsystem),
                         trieurSubsystem::isTrappeOpen),
                 new ParallelCommandGroup(
                         new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
