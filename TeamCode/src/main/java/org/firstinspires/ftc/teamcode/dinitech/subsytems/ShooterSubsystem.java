@@ -7,9 +7,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.I_SHOOTER_VE
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_SHOOTER_VELOCITY_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOTER_MOTOR_NAME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_VISION_SHOOT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kA_SHOOTER_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kS_SHOOTER_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.kV_SHOOTER_AGGRESSIVE;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
@@ -35,7 +32,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
  */
 public class ShooterSubsystem extends SubsystemBase {
     private final DcMotorEx dcMotorEx;
-    private SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS_SHOOTER_AGGRESSIVE, kV_SHOOTER_AGGRESSIVE, kA_SHOOTER_AGGRESSIVE);
     private final TelemetryManager telemetryM;
     private final DcMotor.RunMode runMode = DcMotor.RunMode.RUN_USING_ENCODER;
 
@@ -233,24 +229,6 @@ public class ShooterSubsystem extends SubsystemBase {
      */
     public PIDFCoefficients getPIDFVelocity() {
         return dcMotorEx.getPIDFCoefficients(runMode);
-    }
-
-    /**
-     * Sets the feedforward coefficients for the motor.
-     * @param kS The static friction feedforward.
-     * @param kV The velocity feedforward.
-     * @param kA The acceleration feedforward.
-     */
-    public void setFF(double kS, double kV, double kA) {
-        feedforward = new SimpleMotorFeedforward(kS, kV, kA);
-    }
-
-    /**
-     * Gets the current feedforward coefficients.
-     * @return An array containing the kS, kV, and kA coefficients.
-     */
-    public double[] getFF() {
-        return new double[] { feedforward.ks, feedforward.kv, feedforward.ka };
     }
 
     /**

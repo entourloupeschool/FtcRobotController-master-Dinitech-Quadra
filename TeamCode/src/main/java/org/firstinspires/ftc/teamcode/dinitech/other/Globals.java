@@ -12,69 +12,61 @@ import org.firstinspires.ftc.vision.VisionPortal;
 @Configurable
 public class Globals {
     public static long TELEMETRY_UPDATE_INTERVAL_MS = 50;
-    /**
-     * Tests variables
-     */
-    public static final double TEST_CIRCLE_RADIUS = 10.0;
-    public static final double TEST_CONSTRAINTS = 1.0;
-
 
     /**
      * Auto Phase globals
      */
-    public static double AUTO_ROBOT_CONSTRAINTS = 1;
-    public static double BRAKING_STRENGTH_PEDRO_DINITECH = 1.4;
-    public static double BRAKING_START_PEDRO_DINITECH = 1.4;
+    public static final double AUTO_ROBOT_CONSTRAINTS = 1;
+    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 1.4;
+    public static final double BRAKING_START_PEDRO_DINITECH = 1.4;
     public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.93;
     public static final double TILE_DIM = 24;
-    public static double SCALE_Y_TILE = 1.05;
+    public static final double SCALE_Y_TILE = 1.05;
     public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
     public static double LENGTH_X_ROW = TILE_DIM * 0.85;
     public static double LENGTH_X_ROW_SUPER = 26;
     public static double LENGTH_X_ROW_SUPER_23RD = 33.5;
 
 
-    public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
+    public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
     public static double SUPER_POWER_ROW_PICK_ARTEFACTS = 0.8;
-    public static int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
-    public static int MODE_RAMASSAGE_AUTO_TIMEOUT = 55;
+    public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
+    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 55;
     public static long WAIT_AT_END_ROW = 300;
-    public static Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
-    public static Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
+    public static final Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
+    public static final Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
 
 
 
     //BLUE SIDE
-    public static Pose BLUE_SMALL_TRIANGLE_POSE = new Pose(57, 9.3, Math.PI/2);
-    public static Pose BLUE_SMALL_TRIANGLE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
-    public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
-    public static Pose BLUE_RAMP_POSE = new Pose(20, 63, Math.PI/2);
+    public static final Pose BLUE_SMALL_TRIANGLE_POSE = new Pose(57, 9.3, Math.PI/2);
+    public static final Pose BLUE_SMALL_TRIANGLE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
+    public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
+    public static  final Pose BLUE_RAMP_POSE = new Pose(20, 63, Math.PI/2);
+    public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
 
-    //    public static Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) -1/4*Math.PI);
-    public static Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
-
-    public static Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
-    public static double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = 1405;
-    public static double SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY = 1730;
+    public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
+    public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = 1405;
+    public static final double SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY = 1730;
 
 
-    public static Pose FIRST_ROW_BLUE_POSE = new Pose(43, 84, 0);
-    public static Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
-    public static Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
+    public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 84, 0);
+    public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
+    public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
 
 
     //RED SIDE
-    public static Pose RED_SMALL_TRIANGLE_POSE = BLUE_SMALL_TRIANGLE_POSE.mirror();
-    public static Pose RED_SMALL_TRIANGLE_SHOOT_POSE = BLUE_SMALL_TRIANGLE_SHOOT_POSE.mirror();
+    public static final Pose RED_SMALL_TRIANGLE_POSE = BLUE_SMALL_TRIANGLE_POSE.mirror();
+    public static final Pose RED_SMALL_TRIANGLE_SHOOT_POSE = BLUE_SMALL_TRIANGLE_SHOOT_POSE.mirror();
 
-    public static Pose RED_GOAL_POSE = BLUE_GOAL_POSE.mirror();
-    public static Pose RED_RAMP_POSE = BLUE_RAMP_POSE.mirror();
+    public static final Pose RED_GOAL_POSE = BLUE_GOAL_POSE.mirror();
+    public static final Pose RED_RAMP_POSE = BLUE_RAMP_POSE.mirror();
 
-    public static Pose CLOSE_SHOOT_RED_POSE = CLOSE_SHOOT_BLUE_POSE.mirror();
+    public static final Pose CLOSE_SHOOT_RED_POSE = CLOSE_SHOOT_BLUE_POSE.mirror();
 
-    public static Pose FIRST_ROW_RED_POSE = FIRST_ROW_BLUE_POSE.mirror();
-    public static Pose SECOND_ROW_RED_POSE = SECOND_ROW_BLUE_POSE.mirror();
-    public static Pose THIRD_ROW_RED_POSE = THIRD_ROW_BLUE_POSE.mirror();
+    public static final Pose FIRST_ROW_RED_POSE = FIRST_ROW_BLUE_POSE.mirror();
+    public static final Pose SECOND_ROW_RED_POSE = SECOND_ROW_BLUE_POSE.mirror();
+    public static final Pose THIRD_ROW_RED_POSE = THIRD_ROW_BLUE_POSE.mirror();
 
 
 
@@ -82,9 +74,9 @@ public class Globals {
      * Gamepads
      */
     public static final double RUMBLE_POWER = 1;
-    public static int RUMBLE_DURATION_1 = 100;
+    public static final int RUMBLE_DURATION_1 = 100;
 
-    public static int RUMBLE_DURATION_2 = 200;
+    public static final int RUMBLE_DURATION_2 = 200;
     public static int RUMBLE_DURATION_3 = 20;
     public static int RUMBLE_DURATION_4 = 40;
 
@@ -145,7 +137,7 @@ public class Globals {
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * MOULIN_POSITION_TOLERANCE;
         public static final int MOULIN_ROTATE_SPEED_CALIBRATION = 20;
-        public static double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.5;
+        public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.5;
 
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.8;
@@ -184,11 +176,6 @@ public class Globals {
         public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;
         public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 2.1; //13.272119;
 
-        public static double kS_SHOOTER_AGGRESSIVE = 0.001;
-        public static double kV_SHOOTER_AGGRESSIVE = 0.001;
-        public static double kA_SHOOTER_AGGRESSIVE = 0.001;
-
-
         public static final double MIN_RANGE_SHOOTER_SPEED = 1420;
         public static final double MAX_RANGE_SHOOTER_SPEED = 1970;
 
@@ -213,10 +200,10 @@ public class Globals {
          */
         public static final String CHARGEUR_MOTOR_NAME = "chargeur";
         public static final String CHARGEUR_SERVO_GAUCHE_MOTOR_NAME = "chargeur_servo_gauche";
-    public static final String CHARGEUR_SERVO_DROITE_MOTOR_NAME = "chargeur_servo_droite";
+        public static final String CHARGEUR_SERVO_DROITE_MOTOR_NAME = "chargeur_servo_droite";
 
-    public static final double CHARGEUR_MOTOR_POWER = 1;
-    public static final double SCALE_CHARGEUR_MOTOR_POWER = 0.4;
+        public static final double CHARGEUR_MOTOR_POWER = 1;
+        public static final double SCALE_CHARGEUR_MOTOR_POWER = 0.4;
         public static final double CHARGEUR_SPEED = 2300;
         public static final double CHARGEUR_INCREMENT = 0.1;
 
@@ -229,7 +216,7 @@ public class Globals {
         public static final String CS4_NAME = "cs4";
         public static final String MAGNETIC_SWITCH_NAME = "m_s";
         public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
-        public static int OFFSET_MAGNETIC_POS = 10;
+        public static final int OFFSET_MAGNETIC_POS = 10;
         public static final double DETECT_PURPLE_RED_RGB = 0.694;
         public static final double DETECT_PURPLE_GREEN_RGB = 0.612;
         public static final double DETECT_PURPLE_BLUE_RGB = 0.851;
@@ -240,13 +227,13 @@ public class Globals {
         public static final double DETECT_GREEN_BLUE_RGB = 0.2;
         public static final double MARGIN_GREEN_RGB_DETECTION = 0.35;
 
-        public static double GREEN_HUE_LOWER = 150;
-        public static double GREEN_HUE_HIGHER = 170;
-        public static double GREEN_SATURATION_LOWER = 0.58;
-        public static double GREEN_RED_RGB_HIGHER = 0.014;
-        public static double PURPLE_HUE_LOWER = 180;
-        public static double PURPLE_HUE_HIGHER = 260;
-        public static float GAIN_DETECTION = 20;
+        public static final double GREEN_HUE_LOWER = 150;
+        public static final double GREEN_HUE_HIGHER = 170;
+        public static final double GREEN_SATURATION_LOWER = 0.58;
+        public static final double GREEN_RED_RGB_HIGHER = 0.014;
+        public static final double PURPLE_HUE_LOWER = 180;
+        public static final double PURPLE_HUE_HIGHER = 260;
+        public static final float GAIN_DETECTION = 20;
         public static final int SAMPLE_SIZE_TEST = 2;
 
         /**
@@ -258,9 +245,9 @@ public class Globals {
         public static final double FY = 515.8231389;//0.0;// 515.8231389; //1;
         public static final double CX = 328.1776587;// 0.0;// 328.1776587; //1;
         public static final double CY = 237.3745503;//0.0;// 237.3745503; //1;
-        public static double CAMERA_POSITION_X = -9.8;
-        public static double CAMERA_POSITION_Y = 2.8;
-        public static double CAMERA_POSITION_Z = 43.0;
+        public static final double CAMERA_POSITION_X = -9.8;
+        public static final double CAMERA_POSITION_Y = 2.8;
+        public static final double CAMERA_POSITION_Z = 43.0;
 
         public static final double CAMERA_ORIENTATION_YAW = 0;
         public static final double CAMERA_ORIENTATION_PITCH = -90; // https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_localization/apriltag-localization.html
@@ -274,7 +261,7 @@ public class Globals {
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.
         public static final VisionPortal.StreamFormat STREAM_FORMAT = VisionPortal.StreamFormat.MJPEG; // Or YUY2
 
-        public static double CLAMP_BEARING = 73;
+        public static final double CLAMP_BEARING = 73;
         public static final double MIN_RANGE_VISION = MIN_RANGE_TO_SHOOT_CM; //CM
         public static final double MAX_RANGE_VISION = MAX_RANGE_TO_SHOOT_CM; //CM
 
@@ -283,17 +270,17 @@ public class Globals {
         public static final double OFFSET_BEARING_AT_MIN_RANGE = -4.45; // DEGREES
         public static final double OFFSET_BEARING_AT_MAX_RANGE = -1.8; //DEGREES
         public static final double DIFF_OFFSET_BEARING_AT = OFFSET_BEARING_AT_MAX_RANGE - OFFSET_BEARING_AT_MIN_RANGE; // = -2.65
-        public static double CORRECTION_BASKET_OFFSET = 0.21;
-        public static double BASKET_Y_OFFSET = 8;
-        public static int NUMBER_AT_SAMPLES = 3;
-        public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED = 4;
-        public static double MIN_LINEAR = 0.005;
-        public static double CUSTOM_POWER_LOCKED = 0.05;
+        public static final double CORRECTION_BASKET_OFFSET = 0.21;
+        public static final double BASKET_Y_OFFSET = 8;
+        public static final int NUMBER_AT_SAMPLES = 3;
+        public static final int NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED = 4;
+        public static final double MIN_LINEAR = 0.005;
+        public static final double CUSTOM_POWER_LOCKED = 0.05;
 
         public static final double DIFF_A_BEARING = DIFF_OFFSET_BEARING_AT / DIFF_RANGE_VISION; // = -0.01068548387
 
-        public static double aAT_LINE = 1.4;
-        public static double bAT_LINE = 59;
+        public static final double aAT_LINE = 1.4;
+        public static final double bAT_LINE = 59;
 
 
         /**

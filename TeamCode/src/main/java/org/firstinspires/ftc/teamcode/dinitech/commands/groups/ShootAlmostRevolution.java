@@ -29,8 +29,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * It also includes cleanup logic to reset the state of the subsystems upon completion or interruption.
  */
 public class ShootAlmostRevolution extends SequentialCommandGroup {
-
-
     /**
      * A protected constructor for subclasses to provide a custom shooter command.
      * <p>

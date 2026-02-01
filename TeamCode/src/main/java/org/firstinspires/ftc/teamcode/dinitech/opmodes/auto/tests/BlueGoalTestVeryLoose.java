@@ -41,8 +41,7 @@ public class BlueGoalTestVeryLoose extends GornetixAutoBase {
 
             new SequentialCommandGroup(
                     // Obelisk and MoulinCalibrate
-                    new InitToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                            BLUE_GOAL_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY)
+                    new InitToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, gamepadSubsystem, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY)
 
             ).schedule();
     }
