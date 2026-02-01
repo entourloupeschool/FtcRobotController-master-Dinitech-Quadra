@@ -60,7 +60,7 @@ public class TryDetectArtefact extends CommandBase {
 
     @Override
     public void execute() {
-        gamepadSubsystem.customRumble(waitRumbleEffect, 2);
+        gamepadSubsystem.customRumble(waitRumbleEffect, 2, true);
         trieurSubsystem.updateColorSensors();
         timeout -= 1;
     }
@@ -71,7 +71,7 @@ public class TryDetectArtefact extends CommandBase {
             if (trieurSubsystem.isArtefactInTrieur()) {
                 trieurSubsystem.registerArtefact();
             } else {
-                gamepadSubsystem.customRumble(unfoundRumbleEffect, 2);
+                gamepadSubsystem.customRumble(unfoundRumbleEffect, 2, true);
             }
         }
     }

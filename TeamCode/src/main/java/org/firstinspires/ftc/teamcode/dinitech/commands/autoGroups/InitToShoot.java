@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -33,10 +34,7 @@ public class InitToShoot extends ParallelCommandGroup {
                         new InstantCommand(),
                         new SetVelocityShooter(shooterSubsystem, shooterVelocity)),
 
-                new SequentialCommandGroup(
-                        new OpenTrappe(trieurSubsystem),
-                        new WaitCommand(TRAPPE_OPEN_TIME)
-                ),
+                new OpenWaitTrappe(trieurSubsystem),
 
                 // Go to Shooting Pos
                 new FollowPath(drivePedroSubsystem, builder -> builder

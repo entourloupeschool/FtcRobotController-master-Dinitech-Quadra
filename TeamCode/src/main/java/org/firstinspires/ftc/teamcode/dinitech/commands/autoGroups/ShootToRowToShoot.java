@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootTimeAuto;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
@@ -50,8 +51,7 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                                 new MaxPowerChargeur(chargeurSubsystem),
                                 new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
                                 commandBase,
-                                new OpenTrappe(trieurSubsystem),
-                                new WaitCommand(TRAPPE_OPEN_TIME)),
+                                new OpenWaitTrappe(trieurSubsystem)),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(

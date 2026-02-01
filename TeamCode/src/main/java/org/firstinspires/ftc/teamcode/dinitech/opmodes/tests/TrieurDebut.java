@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TELE_TIMEOUT;
+
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -70,7 +72,7 @@ public class TrieurDebut extends GornetixRobotBase {
         GamepadWrapper m_Operator = gamepadSubsystem.operator;
 
         // Driver controls
-        m_Driver.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem));
+        m_Driver.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT));
 
         m_Driver.dpad_right.whenPressed(new MoulinNext(trieurSubsystem));
         m_Driver.dpad_left.whenPressed(new MoulinPrevious(trieurSubsystem));
@@ -79,11 +81,5 @@ public class TrieurDebut extends GornetixRobotBase {
 
         m_Driver.bump_right.whileHeld(new MoulinRotate(trieurSubsystem));
         m_Driver.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem));
-
-        // Example trigger usage (you can uncomment and add commands as needed)
-        new Trigger(trieurSubsystem::getIsFull)
-                .whenActive(new ReadyMotif(trieurSubsystem, visionSubsystem,
-                        gamepadSubsystem)
-                );
     }
 }

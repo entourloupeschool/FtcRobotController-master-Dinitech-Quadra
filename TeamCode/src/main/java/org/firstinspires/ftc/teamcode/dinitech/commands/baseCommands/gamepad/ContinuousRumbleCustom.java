@@ -26,6 +26,6 @@ public class ContinuousRumbleCustom extends CommandBase {
 
     @Override
     public void execute() {
-        gamepadSubsystem.customRumble(customRumbleEffect, gamepadNumber);
+        gamepadSubsystem.customRumble(customRumbleEffect, gamepadNumber, true);
     }
 }

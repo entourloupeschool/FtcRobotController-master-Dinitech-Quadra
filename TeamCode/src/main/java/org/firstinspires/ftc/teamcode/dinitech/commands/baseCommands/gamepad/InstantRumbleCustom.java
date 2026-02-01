@@ -21,6 +21,6 @@ public class InstantRumbleCustom extends CommandBase {
         Gamepad.RumbleEffect customRumbleEffect = new Gamepad.RumbleEffect.Builder()
                 .addStep(power, power, 10)
                 .build();
-        gamepadSubsystem.customRumble(customRumbleEffect, gamepadNumber);
+        gamepadSubsystem.customRumble(customRumbleEffect, gamepadNumber, true);
     }
 }

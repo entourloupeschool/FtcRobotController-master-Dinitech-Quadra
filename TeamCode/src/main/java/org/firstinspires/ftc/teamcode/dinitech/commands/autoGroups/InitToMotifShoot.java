@@ -2,14 +2,12 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_OPEN_TIME;
 
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
@@ -17,7 +15,7 @@ import com.pedropathing.geometry.Pose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootTimeAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -54,11 +52,9 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                                                 new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                                                 new InstantCommand(),
                                                 visionSubsystem::hasColorOrder),
-                                        new OpenTrappe(trieurSubsystem),
-                                        new WaitCommand(TRAPPE_OPEN_TIME)))),
+                                        new OpenWaitTrappe(trieurSubsystem)))),
 
                 new ShootTimeAuto(trieurSubsystem, chargeurSubsystem)
-
         );
     }
 }

@@ -29,7 +29,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
  */
 public class FieldCentricDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
-    private final VisionSubsystem visionSubsystem;
     private final GamepadWrapper driver;
 
 
@@ -39,9 +38,8 @@ public class FieldCentricDrive extends CommandBase {
      * @param drivePedroSubsystem   The drive subsystem to control.
      * @param gamepadSubsystem The gamepad subsystem for accessing driver inputs.
      */
-    public FieldCentricDrive(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
+    public FieldCentricDrive(DrivePedroSubsystem drivePedroSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.drivePedroSubsystem = drivePedroSubsystem;
-        this.visionSubsystem = visionSubsystem;
         this.driver = gamepadSubsystem.driver;
 
         addRequirements(drivePedroSubsystem);
@@ -52,9 +50,6 @@ public class FieldCentricDrive extends CommandBase {
         drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.TELE);
         drivePedroSubsystem.setDriveReference(DrivePedroSubsystem.DriveReference.FC);
 
-
-//        orinalLocalizer = drivePedroSubsystem.getLocalizer();
-//        drivePedroSubsystem.setLocalizer(new AprilTagLocalizer(orinalLocalizer, visionSubsystem));
     }
 
     /**
@@ -64,11 +59,6 @@ public class FieldCentricDrive extends CommandBase {
     public void execute(){
         // Update localizer every cycle to get current heading
         drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
-    }
-
-    @Override
-    public void end(boolean interrupted){
-//        drivePedroSubsystem.setLocalizer(orinalLocalizer);
     }
 
 }

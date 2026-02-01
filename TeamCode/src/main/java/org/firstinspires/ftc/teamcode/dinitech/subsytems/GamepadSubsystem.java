@@ -82,19 +82,39 @@ public class GamepadSubsystem extends SubsystemBase {
      * @param customRumbleEffect The {@link Gamepad.RumbleEffect} to play.
      * @param gamepadNumber      The target gamepad(s): 1 for driver, 2 for operator, 3 for both.
      */
-    public void customRumble(Gamepad.RumbleEffect customRumbleEffect, int gamepadNumber){
+    public void customRumble(Gamepad.RumbleEffect customRumbleEffect, int gamepadNumber, boolean overrideRumble){
         switch (gamepadNumber){
             case 1:
-                driver.runCustomRumble(customRumbleEffect);
+                if (overrideRumble) driver.runCustomRumble(customRumbleEffect);
                 break;
             case 2:
-                operator.runCustomRumble(customRumbleEffect);
+                if (overrideRumble) operator.runCustomRumble(customRumbleEffect);
                 break;
             case 3:
-                driver.runCustomRumble(customRumbleEffect);
-                operator.runCustomRumble(customRumbleEffect);
+                if (overrideRumble){
+                    driver.runCustomRumble(customRumbleEffect);
+                    operator.runCustomRumble(customRumbleEffect);
+                }
                 break;
         }
+    }
+
+    /**
+     * Checks if a rumble effect is currently active on one or both gamepads.
+     *
+     * @param gamepadNumber The target gamepad(s): 1 for driver, 2 for operator, 3 for both.
+     * @return True if a rumble effect is active, false otherwise.
+     */
+    public boolean isRumbling(int gamepadNumber){
+        switch (gamepadNumber){
+            case 1:
+                return driver.isRumbling();
+            case 2:
+                return operator.isRumbling();
+            case 3:
+                return driver.isRumbling() || operator.isRumbling();
+        }
+        return false;
     }
 
     /**
@@ -116,14 +136,37 @@ public class GamepadSubsystem extends SubsystemBase {
                 break;
         }
     }
-//
-//    @Override
-//    public void periodic() {
-////        printGamepadWrapperTelemetry(driver, telemetry);
-////        printGamepadWrapperTelemetry(operator, telemetry);
-////        telemetry.addData("rightX", driver.getRightX()); // gives -1 when left and 1 when right
-//
-//    }
+
+    /**
+     * Sets the LED color for the driver's gamepad.
+     * @param r The red component of the color (0.0 to 1.0).
+     * @param g The green component of the color (0.0 to 1.0).
+     * @param b The blue component of the color (0.0 to 1.0).
+     * @param durationMs The duration of the color change in milliseconds.
+     * @param gamepadNumber The target gamepad: 1 for driver, 2 for operator, 3 for both.
+     */
+    public void setLedColor(double r, double g, double b, int durationMs, int gamepadNumber){
+        switch (gamepadNumber){
+            case 1:
+                driver.setLedColor(r, g, b, durationMs);
+                break;
+            case 2:
+                operator.setLedColor(r, g, b, durationMs);
+                break;
+            case 3:
+                driver.setLedColor(r, g, b, durationMs);
+                operator.setLedColor(r, g, b, durationMs);
+                break;
+        }
+    }
+
+    @Override
+    public void periodic() {
+//        printGamepadWrapperTelemetry(driver, telemetry);
+//        printGamepadWrapperTelemetry(operator, telemetry);
+//        telemetry.addData("rightX", driver.getRightX()); // gives -1 when left and 1 when right
+
+    }
 
     private void printGamepadWrapperTelemetry(GamepadWrapper gamepadWrapper, final Telemetry telemetry){
         telemetry.addData("Gamepad " + 1, "(" + gamepadWrapper.getGamepadEx().gamepad.type().name() + ")");

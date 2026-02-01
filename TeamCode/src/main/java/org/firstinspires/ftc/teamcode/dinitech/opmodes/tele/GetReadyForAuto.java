@@ -106,9 +106,9 @@ public class GetReadyForAuto extends GornetixRobotBase {
      * Setup GamePads and Buttons and their associated commands.
      */
     private void setupGamePadsButtonBindings() {
-        gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
+        gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(drivePedroSubsystem,trieurSubsystem, shooterSubsystem, gamepadSubsystem));
         visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, drivePedroSubsystem, trieurSubsystem, shooterSubsystem));
-        drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
+        drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
         shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.NONE);
 
 

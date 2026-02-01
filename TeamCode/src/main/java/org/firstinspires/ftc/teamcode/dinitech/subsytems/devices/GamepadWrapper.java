@@ -259,6 +259,14 @@ public class GamepadWrapper {
         gamepadEx.gamepad.runRumbleEffect(customRumbleEffect);
     }
 
+    public boolean isRumbling(){
+        return gamepadEx.gamepad.isRumbling();
+    }
+
+    public void setLedColor(double r, double g, double b, int durationMs){
+        gamepadEx.gamepad.setLedColor(r, g, b, durationMs);
+    }
+
     /**
      * Stops any currently active rumble effect on the gamepad.
      */

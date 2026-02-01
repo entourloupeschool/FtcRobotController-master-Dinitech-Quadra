@@ -129,7 +129,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
     public void teleDriveHybrid(final double translationX, final double translationY, final double rotation,
                           final double powerScaler, boolean fieldCentric) {
         if (powerScaler != 0) {
-            lastTeleDriverPowerScale = TELE_DRIVE_POWER_TRIGGER_SCALE * pickCustomPowerFunc(powerScaler, 1)
+            lastTeleDriverPowerScale = TELE_DRIVE_POWER_TRIGGER_SCALE * pickCustomPowerFunc(1 - powerScaler, 1)
                     + TELE_DRIVE_POWER;
         }
 

@@ -30,8 +30,7 @@ public class ModeShoot extends SequentialCommandGroup {
     public ModeShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem,
                      VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
         super(
-                new StopChargeur(chargeurSubsystem),
-                new InstantCommand(() -> drivePedroSubsystem.setDefaultCommand(new AimLockedDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem)))
+                new StopChargeur(chargeurSubsystem)
         );
     }
 }

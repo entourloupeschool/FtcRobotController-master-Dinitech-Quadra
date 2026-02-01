@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_4;
+
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -46,8 +48,8 @@ public class ReadyMotif extends MoulinToPositionLoose {
         if (!visionSubsystem.hasColorOrder()){
             // Fallback: Rumble and move to a default position if no motif is detected.
             gamepadSubsystem.customRumble(new Gamepad.RumbleEffect.Builder()
-                    .addStep(0.5, 0.5, 10)
-                    .build(), 3);
+                    .addStep(0.5, 0.5, RUMBLE_DURATION_4)
+                    .build(), 3, true);
             moulinTargetPosition = trieurSubsystem.getMoulinPosition();
         } else {
             // Get the detected color order.

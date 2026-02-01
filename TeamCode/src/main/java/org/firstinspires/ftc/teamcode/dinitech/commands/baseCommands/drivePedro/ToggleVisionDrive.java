@@ -50,10 +50,9 @@ public class ToggleVisionDrive extends CommandBase {
 
         if (drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.AIM_LOCKED) {
             // If vision is locked, switch back to normal drive.
-            drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
+            drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
         } else {
             // If not locked, switch to vision-locked drive and provide feedback.
-            new Rumble(gamepadSubsystem, 3, 3).schedule();
             drivePedroSubsystem.setDefaultCommand(new AimLockedDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
         }
     }

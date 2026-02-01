@@ -85,6 +85,10 @@ public class Globals {
     public static int RUMBLE_DURATION_1 = 100;
 
     public static int RUMBLE_DURATION_2 = 200;
+    public static int RUMBLE_DURATION_3 = 20;
+    public static int RUMBLE_DURATION_4 = 40;
+
+
 
     /**
      *********************** SUBSYTEMS
@@ -99,7 +103,7 @@ public class Globals {
         public static final double TELE_DRIVE_POWER = 0.3;
         public static final double TELE_DRIVE_POWER_TRIGGER_SCALE = 1 - TELE_DRIVE_POWER;
         public static final int DRIVER_POWER_SCALER_TO_THE_POWER = 3;
-        public static final double SLOW_DRIVE_SCALE = 0.1;
+        public static final double SLOW_DRIVE_SCALE = 1;
         public static final double THROUGH_BORE_ENCODER_COUNTS_PER_REV = 8192; // https://revrobotics.eu/rev-11-1271/
         public static final double DEAD_WHEEL_DIAMETER_MM = 50.8; // https://revrobotics.eu/ION-Omni-Wheels/
         public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
@@ -115,6 +119,8 @@ public class Globals {
         public static final double TRAPPE_CLOSE_POSITION = -130;
         public static final double TRAPPE_TELE_INCREMENT = 0.5;
         public static final long TRAPPE_OPEN_TIME = 300;
+        public static final long TRAPPE_CLOSE_TIME = TRAPPE_OPEN_TIME;
+
         public static final String MOULIN_MOTOR_NAME = "moulin";
 
         public static final int MOTOR_TICKS_PER_REV = 288;
@@ -123,6 +129,7 @@ public class Globals {
         public static final int INTERVALLE_TICKS_MOULIN = 240;//384;// MOTOR_TICKS_PER_REV * RAPPORT_TRANSMISSION /
                                                               // Moulin.TOTAL_POSITIONS;
         public static final double POWER_MOULIN_ROTATION = 1;
+        public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
         public static final double POWER_MOULIN_CALIBRATION_ROTATION = POWER_MOULIN_ROTATION;
 
         public static final int MOULIN_POSITION_TOLERANCE = 2;

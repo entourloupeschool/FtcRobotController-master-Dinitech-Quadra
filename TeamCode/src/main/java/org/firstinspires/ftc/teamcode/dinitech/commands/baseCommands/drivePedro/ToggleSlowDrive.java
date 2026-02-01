@@ -48,7 +48,7 @@ public class ToggleSlowDrive extends CommandBase {
 
         if (drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.SLOW) {
             // If currently in slow mode, switch back to normal drive
-            drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
+            drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem,gamepadSubsystem));
         } else {
             // If in normal mode, switch to slow drive and provide feedback
             drivePedroSubsystem.setDefaultCommand(new SlowDrive(drivePedroSubsystem, gamepadSubsystem));

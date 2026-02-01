@@ -38,7 +38,7 @@ public class DriveDebut extends GornetixRobotBase {
 
         gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
 
-        drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
+        drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
     }
 
     /**

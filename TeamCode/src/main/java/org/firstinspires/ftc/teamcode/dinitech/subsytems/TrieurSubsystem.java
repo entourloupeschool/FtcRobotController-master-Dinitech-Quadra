@@ -5,7 +5,9 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DISTANCE_MAR
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAGNETIC_ON_MOULIN_POSITION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OVER_CURRENT_BACKOFF_TICKS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION_OVERCURRENT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_TELE_INCREMENT;
 
@@ -57,6 +59,16 @@ public class TrieurSubsystem extends SubsystemBase {
 
     private final ArtifactColor[] moulinStoragePositionColors = new ArtifactColor[6];
     private ArtifactColor lastDetectedColor = ArtifactColor.NONE;
+
+    private int overcurrentCounts = 0;
+
+    public void setOvercurrentCounts(int overcurrentCounts) {
+        overcurrentCounts = overcurrentCounts;
+    }
+
+    public int getOvercurrentCounts() {
+        return overcurrentCounts;
+    }
 
     private boolean newRegister = false;
     private boolean newColoredRegister = false;
@@ -578,14 +590,22 @@ public class TrieurSubsystem extends SubsystemBase {
             }
 
             if (isMoulinOverCurrent()) {
-                setMoulinPower(0);
-                if (this.getCurrentCommand() != null){
-                    this.getCurrentCommand().cancel();
+                setOvercurrentCounts(getOvercurrentCounts() + 1);
+                if (getOvercurrentCounts() > 10){
+                    setMoulinPower(0);
                 }
-                new MoulinCorrectOverCurrent(this).schedule();
+                if (getCurrentCommand() != null){
+                    getCurrentCommand().cancel();
+                }
+                resetTargetMoulinMotor();
+                incrementMoulinTargetPosition(-OVER_CURRENT_BACKOFF_TICKS);
+                setMoulinPower(POWER_MOULIN_ROTATION_OVERCURRENT);
+//                new MoulinCorrectOverCurrent(this).schedule();
                 telemetryM.addLine("Moulin Over Current");
                 return;
             }
+
+            setOvercurrentCounts(0);
 
             setMoulinPower(POWER_MOULIN_ROTATION);
         }

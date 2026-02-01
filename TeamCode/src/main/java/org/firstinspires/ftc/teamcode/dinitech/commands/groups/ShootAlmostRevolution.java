@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Max
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinAlmostRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.CloseTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 /**
@@ -60,9 +61,7 @@ public class ShootAlmostRevolution extends SequentialCommandGroup {
         addCommands(
                 new ConditionalCommand(
                         new InstantCommand(),
-                        new SequentialCommandGroup(
-                                new OpenTrappe(trieurSubsystem),
-                                new WaitCommand(TRAPPE_OPEN_TIME)),
+                        new OpenWaitTrappe(trieurSubsystem),
                         trieurSubsystem::isTrappeOpen),
                 new ParallelCommandGroup(
                         new MoulinAlmostRevolution(trieurSubsystem), // Perform a full revolution
