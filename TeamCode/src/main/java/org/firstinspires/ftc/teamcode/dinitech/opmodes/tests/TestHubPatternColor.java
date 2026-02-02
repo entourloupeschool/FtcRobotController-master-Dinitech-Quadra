@@ -10,6 +10,11 @@ import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Blinker;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
@@ -22,10 +27,11 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 @TeleOp(name = "HubPatternColor - Dinitech", group = "Test")
 public class TestHubPatternColor extends GornetixRobotBase {
     private GamepadSubsystem gamepadSubsystem;
-
     private GamepadWrapper m_Driver, m_Operator;
     private HubsSubsystem hubsSubsystem;
 
+    // Create a list of steps for the pattern
+    List<Blinker.Step> pattern = new ArrayList<>();
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -43,7 +49,12 @@ public class TestHubPatternColor extends GornetixRobotBase {
         hubsSubsystem = new HubsSubsystem(hardwareMap);
         register(hubsSubsystem);
 
+        // Add steps: each Step has a color (ARGB int) and duration in milliseconds
+        pattern.add(new Blinker.Step(0xFF00FF00, 500, TimeUnit.MILLISECONDS));  // Green for 500ms
+        pattern.add(new Blinker.Step(0xFF0000FF, 500, TimeUnit.MILLISECONDS));  // Blue for 500ms
+        pattern.add(new Blinker.Step(0xFFFF0000, 500, TimeUnit.MILLISECONDS));  // Red for 500ms
 
+        hubsSubsystem.setPattern(pattern);
     }
 
     /**
@@ -55,8 +66,8 @@ public class TestHubPatternColor extends GornetixRobotBase {
 
         if (rightTrigger > 0.01) {
             hubsSubsystem.setLedColor(Math.round((float) rightTrigger * 255));
-            hubsSubsystem.setPattern();
         }
+
         super.run();
     }
 
