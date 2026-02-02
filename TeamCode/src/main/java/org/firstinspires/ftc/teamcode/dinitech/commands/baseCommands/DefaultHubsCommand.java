@@ -23,18 +23,29 @@ public class DefaultHubsCommand extends CommandBase {
 
     List<Blinker.Step> patternBlue = new ArrayList<>();
     List<Blinker.Step> patternBlueOpen = new ArrayList<>();
+    List<Blinker.Step> patternBlueDecay = new ArrayList<>();
+
 
     List<Blinker.Step> patternRed = new ArrayList<>();
     List<Blinker.Step> patternRedOpen = new ArrayList<>();
-
-    private int green = 0x00FF00;
-    private int blue = 0xFF0000FF;
-    private int red = 0xFFFF0000;
-    private int yellow = 0xFFFF00;
-    private int orange = 0xFF00FF;
+    List<Blinker.Step> patternRedDecay = new ArrayList<>();
 
 
+    // Helper methods to create color int from RGB/ARGB values
+    private static int rgb(int r, int g, int b) {
+        return (r << 16) | (g << 8) | b;
+    }
 
+    private static int argb(int a, int r, int g, int b) {
+        return (a << 24) | (r << 16) | (g << 8) | b;
+    }
+
+    private int green = rgb(0, 255, 0);
+    private int blue = argb(255, 0, 0, 255);
+
+    private int red = argb(255, 255, 0, 0);
+    private int yellow = rgb(255, 255, 0);
+    private int orange = rgb(255, 165, 0);
 
 
     public DefaultHubsCommand(HubsSubsystem hubsSubsystem, TrieurSubsystem trieurSubsystem, BooleanSupplier isBlueSupplier) {
@@ -50,6 +61,15 @@ public class DefaultHubsCommand extends CommandBase {
 
         patternBlueOpen.add(new Blinker.Step(blue, 20, TimeUnit.MILLISECONDS));
         patternBlueOpen.add(new Blinker.Step(yellow, 20, TimeUnit.MILLISECONDS));
+        
+        for (int i = 0; i < 255; i += 15) {
+            patternBlueDecay.add(new Blinker.Step(rgb(255 - i, 255 - i, i), 8, TimeUnit.MILLISECONDS));
+            patternRedDecay.add(new Blinker.Step(rgb(255, 255 - i, 255 - i), 8, TimeUnit.MILLISECONDS));
+        }
+        for (int i = 255; i > 0; i -= 15) {
+            patternBlueDecay.add(new Blinker.Step(rgb(255 - i, 255 - i, i), 12, TimeUnit.MILLISECONDS));
+            patternRedDecay.add(new Blinker.Step(rgb(255, 255 - i, 255 - i), 12, TimeUnit.MILLISECONDS));
+        }
 
         patternRed.add(new Blinker.Step(red, 5000, TimeUnit.MILLISECONDS));
 
@@ -81,15 +101,14 @@ public class DefaultHubsCommand extends CommandBase {
             if (trappeOpen) {
                 hubsSubsystem.setPattern(patternBlueOpen);
             } else {
-                hubsSubsystem.setPattern(patternBlue);
+                hubsSubsystem.setPattern(patternBlueDecay);
             }
         } else {
             if (trappeOpen) {
                 hubsSubsystem.setPattern(patternRedOpen);
             } else {
-                hubsSubsystem.setPattern(patternRed);
+                hubsSubsystem.setPattern(patternRedDecay);
             }
         }
     }
-
 }
