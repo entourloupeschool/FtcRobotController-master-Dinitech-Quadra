@@ -9,8 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class HubsSubsystem extends SubsystemBase {
-    private List<LynxModule> hubs;
-
+    private final List<LynxModule> hubs;
 
     public HubsSubsystem(HardwareMap hardwareMap){
         hubs = hardwareMap.getAll(LynxModule.class);

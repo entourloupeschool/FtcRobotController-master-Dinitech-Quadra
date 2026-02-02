@@ -36,9 +36,7 @@ public class ModeShootSuper extends ConditionalCommand {
                 new ConditionalCommand(
                         new CancelFollowPath(drivePedroSubsystem),
                         new InstantCommand(),
-                        () -> {
-                            return drivePedroSubsystem.getDrive().isOnPath();
-                        }
+                        () -> drivePedroSubsystem.getDrive().isOnPath()
                 ),
                 () -> {
                     boolean driverInputPose = drivePedroSubsystem.getDriverInputPose();
@@ -56,9 +54,7 @@ public class ModeShootSuper extends ConditionalCommand {
                 new ConditionalCommand(
                         new CancelFollowPath(drivePedroSubsystem),
                         new InstantCommand(),
-                        () -> {
-                            return drivePedroSubsystem.getDrive().isOnPath();
-                        }
+                        () -> drivePedroSubsystem.getDrive().isOnPath()
                 ),
                 () -> {
                     boolean driverInputPose = drivePedroSubsystem.getDriverInputPose();
