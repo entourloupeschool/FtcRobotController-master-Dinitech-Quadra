@@ -111,7 +111,7 @@ public class Globals {
         public static final double TRAPPE_OPEN_POSITION = 0;
         public static final double TRAPPE_CLOSE_POSITION = -130;
         public static final double TRAPPE_TELE_INCREMENT = 0.5;
-        public static final long TRAPPE_OPEN_TIME = 300;
+        public static final long TRAPPE_OPEN_TIME = 450;
         public static final long TRAPPE_CLOSE_TIME = TRAPPE_OPEN_TIME;
 
         public static final String MOULIN_MOTOR_NAME = "moulin";

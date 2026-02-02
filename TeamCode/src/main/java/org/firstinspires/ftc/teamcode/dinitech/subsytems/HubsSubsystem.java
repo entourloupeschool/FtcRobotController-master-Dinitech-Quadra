@@ -13,8 +13,22 @@ public class HubsSubsystem extends SubsystemBase {
 
     public HubsSubsystem(HardwareMap hardwareMap){
         hubs = hardwareMap.getAll(LynxModule.class);
+        init();
     }
 
+    public void init(){
+        for (LynxModule hub : hubs) {
+            hub.abandonUnfinishedCommands();
+            hub.clearBulkCache();
+            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
+    }
+
+    public void clearBulkCache(){
+        for (LynxModule hub : hubs) {
+            hub.clearBulkCache();
+        }
+    }
     public void setLedColor(int color){
         for (LynxModule hub : hubs) {
             hub.setConstant(color);

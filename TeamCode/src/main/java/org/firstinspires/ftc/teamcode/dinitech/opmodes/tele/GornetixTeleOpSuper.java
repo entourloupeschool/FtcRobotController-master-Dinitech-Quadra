@@ -45,12 +45,11 @@ public class GornetixTeleOpSuper extends GornetixTeleOp {
     private void setupGamePadsButtonBindings() {
 
         //Overwrite m1 & m2
-        m_Driver.m1Button.whenPressed(new ResetPoseFCDrive(drivePedroSubsystem, getOnBlueTeam() ? CLOSE_SHOOT_BLUE_POSE : CLOSE_SHOOT_RED_POSE));
-        m_Driver.m2Button.whenPressed(new ResetPoseFCDrive(drivePedroSubsystem, getOnBlueTeam() ? BLUE_SMALL_TRIANGLE_SHOOT_POSE : RED_SMALL_TRIANGLE_SHOOT_POSE));
-        m_Operator.m1Button.whenPressed(new InstantCommand(() -> {
+        m_Driver.dpad_down.whenPressed(new ResetPoseFCDrive(drivePedroSubsystem, getOnBlueTeam() ? CLOSE_SHOOT_BLUE_POSE : CLOSE_SHOOT_RED_POSE));
+        m_Driver.dpad_up.whenPressed(new ResetPoseFCDrive(drivePedroSubsystem, getOnBlueTeam() ? BLUE_SMALL_TRIANGLE_SHOOT_POSE : RED_SMALL_TRIANGLE_SHOOT_POSE));
+        m_Operator.start.whenPressed(new InstantCommand(() -> {
             setOnBlueTeam(!getOnBlueTeam());
         }));
-        m_Operator.m2Button.whenPressed(new InstantCommand());
 
         m_Driver.circle.whenPressed(new CancelFollowPath(drivePedroSubsystem));
 

@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.Blinker;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 import java.util.Collection;
@@ -19,16 +20,12 @@ import java.util.List;
 
 public class GornetixRobotBase extends CommandOpMode {
     // System
-    private List<LynxModule> hubs;
+    public HubsSubsystem hubsSubsystem;
 
     private final ElapsedTime timer = new ElapsedTime();
     public TelemetryManager telemetryM;
 
     private final Globals.RunningAverage runningAverageFrequencies = new Globals.RunningAverage(10);
-
-    // Subsystems
-    public VisionSubsystem visionSubsystem;
-
     private boolean onBlueTeam;
     public void setOnBlueTeam(boolean onBlueTeam){
         this.onBlueTeam = onBlueTeam;
@@ -52,13 +49,8 @@ public class GornetixRobotBase extends CommandOpMode {
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         telemetryM.setUpdateInterval(TELEMETRY_UPDATE_INTERVAL_MS);
 
-        hubs = hardwareMap.getAll(LynxModule.class);
-
-        for (LynxModule hub : hubs) {
-            hub.abandonUnfinishedCommands();
-            hub.clearBulkCache();
-            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
-        }
+        hubsSubsystem = new HubsSubsystem(hardwareMap);
+        hubsSubsystem.register();
 
         setOnBlueTeam(true);
     }
@@ -78,9 +70,7 @@ public class GornetixRobotBase extends CommandOpMode {
      * Call telemetry update once per cycle
      */
     public void postCycle() {
-        for (LynxModule hub : hubs) {
-            hub.clearBulkCache();
-        }
+        hubsSubsystem.clearBulkCache();
 
         runningAverageFrequencies.add(getFrequency());
 //        telemetryM.addData("hz", freq);

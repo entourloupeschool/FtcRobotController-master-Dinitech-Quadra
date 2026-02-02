@@ -62,12 +62,6 @@ public class TestHubPatternColor extends GornetixRobotBase {
      */
     @Override
     public void run() {
-        double rightTrigger = m_Driver.getRightTriggerValue();
-
-        if (rightTrigger > 0.01) {
-            hubsSubsystem.setLedColor(Math.round((float) rightTrigger * 255));
-        }
-
         super.run();
     }
 
