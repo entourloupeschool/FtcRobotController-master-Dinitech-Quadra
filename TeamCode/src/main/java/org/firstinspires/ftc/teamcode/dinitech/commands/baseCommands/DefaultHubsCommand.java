@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BooleanSupplier;
 
+
 public class DefaultHubsCommand extends CommandBase {
     private final HubsSubsystem hubsSubsystem;
     private final TrieurSubsystem trieurSubsystem;
@@ -26,6 +27,14 @@ public class DefaultHubsCommand extends CommandBase {
     List<Blinker.Step> patternRed = new ArrayList<>();
     List<Blinker.Step> patternRedOpen = new ArrayList<>();
 
+    private int green = 0x00FF00;
+    private int blue = 0xFF0000FF;
+    private int red = 0xFFFF0000;
+    private int yellow = 0xFFFF00;
+    private int orange = 0xFF00FF;
+
+
+
 
 
     public DefaultHubsCommand(HubsSubsystem hubsSubsystem, TrieurSubsystem trieurSubsystem, BooleanSupplier isBlueSupplier) {
@@ -37,15 +46,15 @@ public class DefaultHubsCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        patternBlue.add(new Blinker.Step(0xFF0000FF, 5000, TimeUnit.MILLISECONDS));  // Blue for 500ms
+        patternBlue.add(new Blinker.Step(blue, 5000, TimeUnit.MILLISECONDS));
 
-        patternBlueOpen.add(new Blinker.Step(0xFF00FF00, 50, TimeUnit.MILLISECONDS));  // Green for 500ms
-        patternBlueOpen.add(new Blinker.Step(0, 50, TimeUnit.MILLISECONDS));  // Green for 500ms
+        patternBlueOpen.add(new Blinker.Step(blue, 20, TimeUnit.MILLISECONDS));
+        patternBlueOpen.add(new Blinker.Step(yellow, 20, TimeUnit.MILLISECONDS));
 
-        patternRed.add(new Blinker.Step(0xFFFF0000, 5000, TimeUnit.MILLISECONDS));  // Red for 500ms
+        patternRed.add(new Blinker.Step(red, 5000, TimeUnit.MILLISECONDS));
 
-        patternRedOpen.add(new Blinker.Step(0xFFFF0000, 50, TimeUnit.MILLISECONDS));  // Red for 500ms
-        patternRedOpen.add(new Blinker.Step(0, 50, TimeUnit.MILLISECONDS));  // Red for 500ms
+        patternRedOpen.add(new Blinker.Step(red, 20, TimeUnit.MILLISECONDS));
+        patternRedOpen.add(new Blinker.Step(yellow, 20, TimeUnit.MILLISECONDS));
 
         // Set initial pattern
         updatePattern();
