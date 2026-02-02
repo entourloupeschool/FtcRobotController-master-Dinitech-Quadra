@@ -26,7 +26,7 @@ public class RobotCentricDrive extends CommandBase {
      */
     public RobotCentricDrive(DrivePedroSubsystem drivePedroSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.drivePedroSubsystem = drivePedroSubsystem;
-        this.driver = gamepadSubsystem.driver;
+        this.driver = gamepadSubsystem.getDriver();
 
         addRequirements(drivePedroSubsystem);
     }

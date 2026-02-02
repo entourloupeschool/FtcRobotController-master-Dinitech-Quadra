@@ -14,7 +14,7 @@ public class TeleShooter extends CommandBase {
 
     public TeleShooter(ShooterSubsystem shooterSubsystem, GamepadSubsystem gamepadSubsystem){
         this.shooterSubsystem = shooterSubsystem;
-        this.operator = gamepadSubsystem.operator;
+        this.operator = gamepadSubsystem.getOperator();
         addRequirements(shooterSubsystem);
     }
 

@@ -40,7 +40,7 @@ public class FieldCentricDrive extends CommandBase {
      */
     public FieldCentricDrive(DrivePedroSubsystem drivePedroSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.drivePedroSubsystem = drivePedroSubsystem;
-        this.driver = gamepadSubsystem.driver;
+        this.driver = gamepadSubsystem.getDriver();
 
         addRequirements(drivePedroSubsystem);
     }

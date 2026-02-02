@@ -39,7 +39,7 @@ public class AimLockedDrive extends CommandBase {
                           GamepadSubsystem gamepadSubsystem) {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;
-        this.driver = gamepadSubsystem.getDriverEx();
+        this.driver = gamepadSubsystem.getDriver().getGamepadEx();
 
         addRequirements(drivePedroSubsystem);
     }

@@ -20,6 +20,17 @@ public class DrivePedroSubsystem extends SubsystemBase {
     /** Telemetry for reporting drive status. */
     private final TelemetryManager telemetryM;
 
+    private boolean driverInputPose;
+
+    public void setDriverInputPose(boolean driverInputPose){
+        this.driverInputPose = driverInputPose;
+    }
+
+    public boolean getDriverInputPose(){
+        return driverInputPose;
+    }
+
+
     public boolean followerIsBusy() {
         return dinitechPedroMecanumDrive.isBusy();
     }
@@ -105,6 +116,8 @@ public class DrivePedroSubsystem extends SubsystemBase {
 
         setDriveUsage(DriveUsage.AUTO);
         setDriveReference(DriveReference.FC);
+        setDriverInputPose(false);
+
         this.telemetryM = telemetryM;
 
     }

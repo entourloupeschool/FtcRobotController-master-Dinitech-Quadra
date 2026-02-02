@@ -29,6 +29,15 @@ public class GornetixRobotBase extends CommandOpMode {
     // Subsystems
     public VisionSubsystem visionSubsystem;
 
+    private boolean onBlueTeam;
+    public void setOnBlueTeam(boolean onBlueTeam){
+        this.onBlueTeam = onBlueTeam;
+    }
+
+    public boolean getOnBlueTeam(){
+        return onBlueTeam;
+    }
+
 
     /**
      * Initialize all hardware and subsystems.
@@ -51,6 +60,7 @@ public class GornetixRobotBase extends CommandOpMode {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
 
+        setOnBlueTeam(true);
     }
 
     /**

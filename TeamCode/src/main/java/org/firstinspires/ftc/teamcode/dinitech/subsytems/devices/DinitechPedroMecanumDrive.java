@@ -46,9 +46,16 @@ public class DinitechPedroMecanumDrive {
     public Pose getPose(){
         return follower.getPose();
     }
+    public void setPose(Pose inputPose) {
+        follower.setPose(inputPose);
+    }
     public double getHeading(){
         return follower.getPose().getHeading();
     }
+    public void setHeading(double heading){
+        follower.setHeading(heading);
+    }
+
 
     public double getPoseX(){
         return follower.getPose().getX();
@@ -70,9 +77,6 @@ public class DinitechPedroMecanumDrive {
         follower.setStartingPose(pose);
     }
 
-    public void setHeading(double heading){
-        follower.setHeading(heading);
-    }
 
     public boolean isBusy() {
         return follower.isBusy();
@@ -102,4 +106,5 @@ public class DinitechPedroMecanumDrive {
         setStartingPose(pose);
         update();
     }
+
 }

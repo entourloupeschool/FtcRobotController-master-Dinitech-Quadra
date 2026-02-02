@@ -32,16 +32,8 @@ public class ShooterChar extends GornetixRobotBase {
     private double dShooterInit;
     private double fShooterInit;
 
-    private double kSShooter;
-    private double kVShooter;
-    private double kAShooter;
-
-    private double kSShooterInit;
-    private double kVShooterInit;
-    private double kAShooterInit;
-
-    String[] paramNames = { "P", "I", "D", "F", "Ks", "Kv", "Ka" };
-    double[] paramValues = { pShooter, iShooter, dShooter, fShooter, kSShooter, kVShooter, kAShooter };
+    String[] paramNames = { "P", "I", "D", "F" };
+    double[] paramValues = { pShooter, iShooter, dShooter, fShooter };
 
     private int selectedParamIndex = 0; // 0=P, 1=I, 2=D, 3=F
 
@@ -71,16 +63,6 @@ public class ShooterChar extends GornetixRobotBase {
         dShooter = dShooterInit;
         fShooter = fShooterInit;
 
-        double[] ffCoeffsInit = shooterSubsystem.getFF();
-
-        kSShooterInit = ffCoeffsInit[0];
-        kVShooterInit = ffCoeffsInit[1];
-        kAShooterInit = ffCoeffsInit[2];
-
-        kSShooter = kSShooterInit;
-        kVShooter = kVShooterInit;
-        kAShooter = kAShooterInit;
-
         setupGamePadsButtonBindings();
     }
 
@@ -95,13 +77,11 @@ public class ShooterChar extends GornetixRobotBase {
         if (rightTrigger > 0.01) {
             adjustSelectedParameter(rightTrigger * rightTrigger * ADJUST_CONSTANT);
             shooterSubsystem.setPIDFVelocity(pShooter, iShooter, dShooter, fShooter);
-            shooterSubsystem.setFF(kSShooter, kVShooter, kAShooter);
         }
 
         if (leftTrigger > 0.01) {
             adjustSelectedParameter(-leftTrigger * leftTrigger * ADJUST_CONSTANT);
             shooterSubsystem.setPIDFVelocity(pShooter, iShooter, dShooter, fShooter);
-            shooterSubsystem.setFF(kSShooter, kVShooter, kAShooter);
         }
 
         telemetryPIDF(telemetry);
@@ -113,8 +93,8 @@ public class ShooterChar extends GornetixRobotBase {
      * Initialize GamepadEx wrappers for driver and operator.
      */
     private void setupGamePadsButtonBindings() {
-        m_Driver = gamepadSubsystem.driver;
-        m_Operator = gamepadSubsystem.operator;
+        m_Driver = gamepadSubsystem.getDriver();
+        m_Operator = gamepadSubsystem.getOperator();
 
         m_Operator.bump_right.whenPressed(() -> {
             shooterSubsystem.incrementVelocity(SPEED_INCREMENT_SHOOTER * 10);
@@ -133,11 +113,8 @@ public class ShooterChar extends GornetixRobotBase {
                     iShooter = iShooterInit;
                     dShooter = dShooterInit;
                     fShooter = fShooterInit;
-                    kSShooter = kSShooterInit;
-                    kVShooter = kVShooterInit;
-                    kAShooter = kAShooterInit;
+
                     shooterSubsystem.setPIDFVelocity(pShooter, iShooter, dShooter, fShooter);
-                    shooterSubsystem.setFF(kSShooter, kVShooter, kAShooter);
                 });
 
         m_Operator.dpad_up.whenPressed(
@@ -146,11 +123,8 @@ public class ShooterChar extends GornetixRobotBase {
                     iShooter = 0;
                     dShooter = 0;
                     fShooter = 0;
-                    kSShooter = 0;
-                    kVShooter = 0;
-                    kAShooter = 0;
+
                     shooterSubsystem.setPIDFVelocity(pShooter, iShooter, dShooter, fShooter);
-                    shooterSubsystem.setFF(kSShooter, kVShooter, kAShooter);
                 });
 
         // Parameter selection (left/right to navigate between P, I, D, F)
@@ -167,7 +141,6 @@ public class ShooterChar extends GornetixRobotBase {
         }));
         m_Driver.triangle.whenReleased(() -> {
             shooterSubsystem.setPIDFVelocity(pShooter, iShooter, dShooter, fShooter);
-            shooterSubsystem.setFF(kSShooter, kVShooter, kAShooter);
         });
 
         m_Driver.cross.whileHeld(new RunCommand(() -> {
@@ -175,7 +148,6 @@ public class ShooterChar extends GornetixRobotBase {
         }));
         m_Driver.cross.whenReleased(() -> {
             shooterSubsystem.setPIDFVelocity(pShooter, iShooter, dShooter, fShooter);
-            shooterSubsystem.setFF(kSShooter, kVShooter, kAShooter);
         });
     }
 
@@ -198,15 +170,6 @@ public class ShooterChar extends GornetixRobotBase {
             case 3:
                 fShooter += delta;
                 break;
-            case 4:
-                kSShooter += delta;
-                break;
-            case 5:
-                kVShooter += delta;
-                break;
-            case 6:
-                kAShooter += delta;
-                break;
         }
     }
 
@@ -216,11 +179,8 @@ public class ShooterChar extends GornetixRobotBase {
         paramValues[1] = iShooter;
         paramValues[2] = dShooter;
         paramValues[3] = fShooter;
-        paramValues[4] = kSShooter;
-        paramValues[5] = kVShooter;
-        paramValues[6] = kAShooter;
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 4; i++) {
             String indicator = (i == selectedParamIndex) ? " <--" : "";
             telemetry.addData(paramNames[i] + indicator, String.format("%.6f", paramValues[i]));
         }

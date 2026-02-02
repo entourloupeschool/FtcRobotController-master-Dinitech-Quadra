@@ -65,8 +65,8 @@ public class GetReadyForAuto extends GornetixRobotBase {
 
             gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
             register(gamepadSubsystem);
-            m_Driver = gamepadSubsystem.driver;
-            m_Operator = gamepadSubsystem.operator;
+            m_Driver = gamepadSubsystem.getDriver();
+            m_Operator = gamepadSubsystem.getOperator();
 
             visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
             register(visionSubsystem);

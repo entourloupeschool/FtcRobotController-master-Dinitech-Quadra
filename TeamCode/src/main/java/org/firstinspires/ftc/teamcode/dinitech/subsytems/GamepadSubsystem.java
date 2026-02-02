@@ -22,9 +22,9 @@ public class GamepadSubsystem extends SubsystemBase {
     private final TelemetryManager telemetryM;
 
     /** The wrapper for the driver's gamepad. */
-    public final GamepadWrapper driver;
+    private final GamepadWrapper driver;
     /** The wrapper for the operator's gamepad. */
-    public final GamepadWrapper operator;
+    private final GamepadWrapper operator;
 
     /**
      * Constructs a new GamepadSubsystem.
@@ -44,20 +44,12 @@ public class GamepadSubsystem extends SubsystemBase {
         this.telemetryM = telemetryM;
     }
 
-    /**
-     * Gets the underlying {@link GamepadEx} object for the driver.
-     * @return The driver's GamepadEx instance.
-     */
-    public GamepadEx getDriverEx(){
-        return driver.getGamepadEx();
+    public GamepadWrapper getDriver(){
+        return driver;
     }
 
-    /**
-     * Gets the underlying {@link GamepadEx} object for the operator.
-     * @return The operator's GamepadEx instance.
-     */
-    public GamepadEx getOperatorEx(){
-        return operator.getGamepadEx();
+    public GamepadWrapper getOperator(){
+        return operator;
     }
 
     /**

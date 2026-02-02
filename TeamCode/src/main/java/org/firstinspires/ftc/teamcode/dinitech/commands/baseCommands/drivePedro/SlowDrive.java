@@ -28,7 +28,7 @@ public class SlowDrive extends CommandBase {
      */
     public SlowDrive(DrivePedroSubsystem drivePedroSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.drivePedroSubsystem = drivePedroSubsystem;
-        driver = gamepadSubsystem.driver;
+        driver = gamepadSubsystem.getDriver();
 
         addRequirements(drivePedroSubsystem);
     }

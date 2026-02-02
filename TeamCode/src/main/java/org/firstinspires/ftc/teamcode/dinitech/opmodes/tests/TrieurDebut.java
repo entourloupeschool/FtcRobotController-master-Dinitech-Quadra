@@ -68,8 +68,8 @@ public class TrieurDebut extends GornetixRobotBase {
      * Setup GamePads and Buttons and their associated commands.
      */
     private void setupGamePadsButtonBindings() {
-        GamepadWrapper m_Driver = gamepadSubsystem.driver;
-        GamepadWrapper m_Operator = gamepadSubsystem.operator;
+        GamepadWrapper m_Driver = gamepadSubsystem.getDriver();
+        GamepadWrapper m_Operator = gamepadSubsystem.getOperator();
 
         // Driver controls
         m_Driver.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT));

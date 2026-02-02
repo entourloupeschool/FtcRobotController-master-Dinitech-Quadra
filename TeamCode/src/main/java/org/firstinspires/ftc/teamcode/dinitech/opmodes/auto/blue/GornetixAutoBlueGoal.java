@@ -41,6 +41,8 @@ public class GornetixAutoBlueGoal extends GornetixAutoBase {
     public void initialize() {
             super.initialize();
 
+            setOnBlueTeam(true);
+
             drivePedroSubsystem.getDrive().prepAuto(BLUE_GOAL_POSE);
 
             new SequentialCommandGroup(

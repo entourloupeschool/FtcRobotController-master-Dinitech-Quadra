@@ -50,8 +50,7 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                                 new MaxPowerChargeur(chargeurSubsystem),
                                 new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
                                 commandBase,
-                                new OpenTrappe(trieurSubsystem),
-                                new WaitCommand(TRAPPE_OPEN_TIME)
+                                new OpenWaitTrappe(trieurSubsystem)
                         ),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder

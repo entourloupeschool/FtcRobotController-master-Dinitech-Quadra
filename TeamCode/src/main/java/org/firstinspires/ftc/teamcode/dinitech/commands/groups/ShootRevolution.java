@@ -38,8 +38,15 @@ public class ShootRevolution extends SequentialCommandGroup {
     public ShootRevolution(TrieurSubsystem trieurSubsystem, Command shooterCommand) {
         addCommands(
                 shooterCommand, // Rev up the shooter
-                new OpenTrappe(trieurSubsystem), // Open the trapdoor
-                new WaitCommand(TRAPPE_OPEN_TIME), // Wait for the trappe to open fully
+                new OpenTrappe(trieurSubsystem), // Wait for the trappe to open fully
+                new MoulinRevolution(trieurSubsystem), // Perform a full revolution
+                new InstantCommand(trieurSubsystem::clearAllStoredColors)
+        );
+    }
+
+    public ShootRevolution(TrieurSubsystem trieurSubsystem) {
+        addCommands(
+                new OpenTrappe(trieurSubsystem), // Wait for the trappe to open fully
                 new MoulinRevolution(trieurSubsystem), // Perform a full revolution
                 new InstantCommand(trieurSubsystem::clearAllStoredColors)
         );

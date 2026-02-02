@@ -53,8 +53,8 @@ public class BasicServo extends GornetixRobotBase {
      * Setup GamePads and Buttons and their associated commands.
      */
     private void setupGamePadsButtonBindings() {
-        m_Driver = gamepadSubsystem.driver;
-        m_Operator = gamepadSubsystem.operator;
+        m_Driver = gamepadSubsystem.getDriver();
+        m_Operator = gamepadSubsystem.getOperator();
 
         m_Driver.circle.whileHeld(new RunCommand(() -> chargeurDoubleServo.incrementNormalizedSpeed(3, 0.0005)));
         m_Driver.square.whileHeld(new RunCommand(() -> chargeurDoubleServo.incrementNormalizedSpeed(3, -0.0005)));

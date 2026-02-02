@@ -92,8 +92,8 @@ public class TrieurChar extends GornetixRobotBase {
      * Setup GamePads and Buttons and their associated commands.
      */
     private void setupGamePadsButtonBindings() {
-        m_Driver = gamepadSubsystem.driver;
-        m_Operator = gamepadSubsystem.operator;
+        m_Driver = gamepadSubsystem.getDriver();
+        m_Operator = gamepadSubsystem.getOperator();
 
         m_Operator.bump_right.whenPressed(new SequentialCommandGroup(
                 new MoulinNextNext(trieurSubsystem),

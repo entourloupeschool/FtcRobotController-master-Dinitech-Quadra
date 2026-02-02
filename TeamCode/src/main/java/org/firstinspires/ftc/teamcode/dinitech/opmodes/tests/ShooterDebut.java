@@ -48,7 +48,7 @@ public class ShooterDebut extends GornetixRobotBase {
      * Initialize GamepadEx wrappers for driver and operator.
      */
     private void setupGamePadsButtonBindings() {
-        m_Driver = gamepadSubsystem.driver;
-        m_Operator = gamepadSubsystem.operator;
+        m_Driver = gamepadSubsystem.getDriver();
+        m_Operator = gamepadSubsystem.getOperator();
     }
 }
