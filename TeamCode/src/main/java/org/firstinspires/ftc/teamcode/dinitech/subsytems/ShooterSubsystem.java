@@ -287,7 +287,7 @@ public class ShooterSubsystem extends SubsystemBase {
             telemetryM.addLine("shooter motor over current");
         }
 
-//        printShooterTelemetry(telemetryM);
+        printShooterTelemetry(telemetryM);
     }
 
     private void printShooterTelemetry(final TelemetryManager telemetryM) {

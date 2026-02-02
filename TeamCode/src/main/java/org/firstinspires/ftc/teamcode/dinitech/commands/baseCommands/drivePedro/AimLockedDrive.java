@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 /**
  * A hybrid drive command that provides vision-assisted "locking" onto AprilTags.
@@ -26,7 +27,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 public class AimLockedDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final VisionSubsystem visionSubsystem;
-    private final GamepadEx driver;
+    private final GamepadWrapper driver;
 
     /**
      * Creates a new TeleDriveLocked command.
@@ -39,7 +40,7 @@ public class AimLockedDrive extends CommandBase {
                           GamepadSubsystem gamepadSubsystem) {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;
-        this.driver = gamepadSubsystem.getDriver().getGamepadEx();
+        this.driver = gamepadSubsystem.getDriver();
 
         addRequirements(drivePedroSubsystem);
     }
@@ -47,6 +48,8 @@ public class AimLockedDrive extends CommandBase {
     @Override
     public void initialize() {
         drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AIM_LOCKED);
+
+        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), 1, drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
     }
 
     /**
@@ -59,10 +62,10 @@ public class AimLockedDrive extends CommandBase {
 
         if (visionSubsystem.getHasCurrentAprilTagDetections()) {
             // Execute the drive command with the combined rotation power
-            drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), visionSubsystem.getAutoAimPower() * (1 - Math.abs(rightX)) + rightX, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+            drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), visionSubsystem.getAutoAimPower() * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
         } else {
             // Fallback to standard tele-op drive if no tags are visible
-            drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), rightX, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+            drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
         }
     }
 }

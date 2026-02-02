@@ -11,7 +11,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 
 @Configurable
 public class Globals {
-    public static long TELEMETRY_UPDATE_INTERVAL_MS = 50;
+    public static long TELEMETRY_UPDATE_INTERVAL_MS = 100;
 
     /**
      * Auto Phase globals
@@ -24,15 +24,15 @@ public class Globals {
     public static final double SCALE_Y_TILE = 1.05;
     public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
     public static double LENGTH_X_ROW = TILE_DIM * 0.85;
-    public static double LENGTH_X_ROW_SUPER = 26;
-    public static double LENGTH_X_ROW_SUPER_23RD = 33.5;
+    public static double LENGTH_X_ROW_SUPER = 25.5;
+    public static double LENGTH_X_ROW_SUPER_23RD = 33;
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
-    public static double SUPER_POWER_ROW_PICK_ARTEFACTS = 0.8;
+    public static double SUPER_POWER_ROW_PICK_ARTEFACTS = 1;
     public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
-    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 55;
-    public static long WAIT_AT_END_ROW = 300;
+    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 50;
+    public static long WAIT_AT_END_ROW = 200;
     public static final Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
     public static final Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
 
@@ -106,6 +106,7 @@ public class Globals {
         /**
          ******** Trieur
          */
+        public static final int MOULIN_TICKS_TO_WAIT_DOUBLE_SERVO = 150;
         public static final String TRAPPE_SERVO_NAME = "porte";
         public static final double TRAPPE_OPEN_POSITION = 0;
         public static final double TRAPPE_CLOSE_POSITION = -130;
@@ -130,14 +131,14 @@ public class Globals {
         public static int SCALE_MOULIN_SPEED_TOLERANCE_LOOSE = 3;
         public static final int MOULIN_POSITION_LOOSE_TOLERANCE = MOULIN_POSITION_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
         public static final int MOULIN_SPEED_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
-        public static int SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE = 4;
+        public static int SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE = 6;
 
         public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = MOULIN_POSITION_TOLERANCE * SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE;
         public static final int MOULIN_SPEED_VERY_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE;
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * MOULIN_POSITION_TOLERANCE;
         public static final int MOULIN_ROTATE_SPEED_CALIBRATION = 20;
-        public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.5;
+        public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.4;
 
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.8;

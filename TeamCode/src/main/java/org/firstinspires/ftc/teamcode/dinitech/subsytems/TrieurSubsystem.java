@@ -590,17 +590,16 @@ public class TrieurSubsystem extends SubsystemBase {
             }
 
             if (isMoulinOverCurrent()) {
+
+                if (getOvercurrentCounts() == 0 && getCurrentCommand() != null){
+                    getCurrentCommand().cancel();
+                    new MoulinCorrectOverCurrent(this).schedule();
+                }
                 setOvercurrentCounts(getOvercurrentCounts() + 1);
                 if (getOvercurrentCounts() > 10){
                     setMoulinPower(0);
                 }
-                if (getCurrentCommand() != null){
-                    getCurrentCommand().cancel();
-                }
-                resetTargetMoulinMotor();
-                incrementMoulinTargetPosition(-OVER_CURRENT_BACKOFF_TICKS);
-                setMoulinPower(POWER_MOULIN_ROTATION_OVERCURRENT);
-//                new MoulinCorrectOverCurrent(this).schedule();
+
                 telemetryM.addLine("Moulin Over Current");
                 return;
             }

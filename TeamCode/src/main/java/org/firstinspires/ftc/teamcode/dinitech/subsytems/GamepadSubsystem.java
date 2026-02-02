@@ -154,26 +154,26 @@ public class GamepadSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-//        printGamepadWrapperTelemetry(driver, telemetry);
-//        printGamepadWrapperTelemetry(operator, telemetry);
+        printGamepadWrapperTelemetry(driver, telemetryM);
+        printGamepadWrapperTelemetry(operator, telemetryM);
 //        telemetry.addData("rightX", driver.getRightX()); // gives -1 when left and 1 when right
 
     }
 
-    private void printGamepadWrapperTelemetry(GamepadWrapper gamepadWrapper, final Telemetry telemetry){
-        telemetry.addData("Gamepad " + 1, "(" + gamepadWrapper.getGamepadEx().gamepad.type().name() + ")");
-        telemetry.addData("D-Pad Up " + 1, gamepadWrapper.dpad_up.get());
-        telemetry.addData("D-Pad Down " + 1, gamepadWrapper.dpad_down.get());
-        telemetry.addData("D-Pad Left " + 1, gamepadWrapper.dpad_left.get());
-        telemetry.addData("D-Pad Right " + 1, gamepadWrapper.dpad_right.get());
+    private void printGamepadWrapperTelemetry(GamepadWrapper gamepadWrapper, final TelemetryManager telemetryM){
+        telemetryM.addData("Gamepad " + 1, "(" + gamepadWrapper.getGamepadEx().gamepad.type().name() + ")");
+        telemetryM.addData("D-Pad Up " + 1, gamepadWrapper.dpad_up.get());
+        telemetryM.addData("D-Pad Down " + 1, gamepadWrapper.dpad_down.get());
+        telemetryM.addData("D-Pad Left " + 1, gamepadWrapper.dpad_left.get());
+        telemetryM.addData("D-Pad Right " + 1, gamepadWrapper.dpad_right.get());
     }
 
-    private void printGamepadExTelemetry(GamepadEx gamepadEx, final Telemetry telemetry){
-        telemetry.addData("PS Button", gamepadEx.gamepad.ps);
-        telemetry.addData("Touchpad", gamepadEx.gamepad.touchpad);
-        telemetry.addData("Finger 1 X", gamepadEx.gamepad.touchpad_finger_1_x);
-        telemetry.addData("Finger 1 Y", gamepadEx.gamepad.touchpad_finger_1_y);
-        telemetry.addData("Finger 2 X", gamepadEx.gamepad.touchpad_finger_2_x);
-        telemetry.addData("Finger 2 Y", gamepadEx.gamepad.touchpad_finger_2_y);
+    private void printGamepadExTelemetry(GamepadEx gamepadEx, final TelemetryManager telemetryM){
+        telemetryM.addData("PS Button", gamepadEx.gamepad.ps);
+        telemetryM.addData("Touchpad", gamepadEx.gamepad.touchpad);
+        telemetryM.addData("Finger 1 X", gamepadEx.gamepad.touchpad_finger_1_x);
+        telemetryM.addData("Finger 1 Y", gamepadEx.gamepad.touchpad_finger_1_y);
+        telemetryM.addData("Finger 2 X", gamepadEx.gamepad.touchpad_finger_2_x);
+        telemetryM.addData("Finger 2 Y", gamepadEx.gamepad.touchpad_finger_2_y);
     }
 }

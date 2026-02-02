@@ -28,23 +28,27 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-public class InitToShoot extends ParallelCommandGroup {
+public class InitToShoot extends SequentialCommandGroup {
 
     public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose ShootPosition, double shooterVelocity){
         addCommands(
-                new SequentialCommandGroup(
-                        new InstantCommand(),
-                        new SetVelocityShooter(shooterSubsystem, shooterVelocity)),
+                new ParallelCommandGroup(
+                        new SequentialCommandGroup(
+                                new InstantCommand(),
+                                new SetVelocityShooter(shooterSubsystem, shooterVelocity)),
 
-                new OpenWaitTrappe(trieurSubsystem),
+                        new SequentialCommandGroup(
+                                new InstantCommand(),
+                                new OpenWaitTrappe(trieurSubsystem)
+                        ),
 
-                // Go to Shooting Pos
-                new FollowPath(drivePedroSubsystem, builder -> builder
-                        .addPath(new BezierLine(
-                                drivePedroSubsystem::getPose,
-                                ShootPosition)
-                        ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), ShootPosition.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                        AUTO_ROBOT_CONSTRAINTS, true),
+                        new FollowPath(drivePedroSubsystem, builder -> builder
+                                .addPath(new BezierLine(
+                                        drivePedroSubsystem::getPose,
+                                        ShootPosition)
+                                ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), ShootPosition.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                AUTO_ROBOT_CONSTRAINTS, true)
+                ),
 
                 new ShootAlmostRevolution(trieurSubsystem)
         );

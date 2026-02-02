@@ -37,7 +37,8 @@ public class TestHubPatternColor extends GornetixRobotBase {
         gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
 
-
+        m_Driver = gamepadSubsystem.getDriver();
+        m_Operator = gamepadSubsystem.getOperator();
 
         hubsSubsystem = new HubsSubsystem(hardwareMap);
         register(hubsSubsystem);
@@ -54,6 +55,7 @@ public class TestHubPatternColor extends GornetixRobotBase {
 
         if (rightTrigger > 0.01) {
             hubsSubsystem.setLedColor(Math.round((float) rightTrigger * 255));
+            hubsSubsystem.setPattern();
         }
         super.run();
     }

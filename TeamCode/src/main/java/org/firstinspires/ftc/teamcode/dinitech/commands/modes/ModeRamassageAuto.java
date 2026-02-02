@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.modes;
 
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_AUTO_TIMEOUT;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_TICKS_TO_WAIT_DOUBLE_SERVO;
 
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -30,15 +31,15 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
      * @param gamepadSubsystem  The gamepad subsystem, passed down to child commands for haptic feedback.
      */
     public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem,
-                             GamepadSubsystem gamepadSubsystem, int detectAretefactTimeout) {
+                             GamepadSubsystem gamepadSubsystem, int detectArtefactTimeout) {
         addCommands(
                 // First, run the detection process
-                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectAretefactTimeout),
+                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout),
                 new ConditionalCommand(
                         new ParallelCommandGroup(
                                 new SequentialCommandGroup(
                                         new StopDoubleServo(chargeurSubsystem),
-                                        new WaitUntilCommand(()-> trieurSubsystem.getMoulinMotorRemainingDistance() < 100),
+                                        new WaitUntilCommand(()-> trieurSubsystem.getMoulinMotorRemainingDistance() < MOULIN_TICKS_TO_WAIT_DOUBLE_SERVO),
                                         new MaxPowerDoubleServo(chargeurSubsystem)),
                                 new MoulinNextNextLoose(trieurSubsystem)
                         ),
@@ -46,19 +47,19 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
                         trieurSubsystem::isArtefactInTrieur
                 ),
                 // First, run the detection process
-                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectAretefactTimeout),
+                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout),
                 new ConditionalCommand(
                         new ParallelCommandGroup(
                                 new SequentialCommandGroup(
                                         new StopDoubleServo(chargeurSubsystem),
-                                        new WaitUntilCommand(()-> trieurSubsystem.getMoulinMotorRemainingDistance() < 100),
+                                        new WaitUntilCommand(()-> trieurSubsystem.getMoulinMotorRemainingDistance() < MOULIN_TICKS_TO_WAIT_DOUBLE_SERVO),
                                         new MaxPowerDoubleServo(chargeurSubsystem)),
                                 new MoulinNextNextLoose(trieurSubsystem)),
                         new InstantCommand(), // Do nothing on timeout
                         trieurSubsystem::isArtefactInTrieur
                 ),
                 // First, run the detection process
-                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectAretefactTimeout),
+                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout),
                 new ConditionalCommand(
                         new StopChargeur(chargeurSubsystem),
                         new InstantCommand(),
