@@ -19,11 +19,13 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_CUSTO
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.STREAM_FORMAT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.aAT_LINE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.bAT_LINE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.cmToInch;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationOffsetBearing;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.ftc.FTCCoordinates;
 import com.pedropathing.ftc.PoseConverter;
 import com.pedropathing.geometry.PedroCoordinates;
 import com.pedropathing.geometry.Pose;
@@ -185,7 +187,8 @@ public class VisionSubsystem extends SubsystemBase {
         Double y = getRobotPoseY();
         Double yaw = getRobotPoseYaw();
         if (x == null || y == null || yaw == null) return new Pose(0.0, 0.0, 0.0);
-        
+
+//        return new Pose(cmToInch(x), cmToInch(y), Math.toRadians(yaw), FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
         // Use Pose2D from FTC SDK and convert it to Pedro Pose using FTC coordinate system
         return PoseConverter.pose2DToPose(new Pose2D(DistanceUnit.CM, x, y, AngleUnit.DEGREES, yaw), PedroCoordinates.INSTANCE);
     }
@@ -213,9 +216,11 @@ public class VisionSubsystem extends SubsystemBase {
     private void aprilTagProcessorTelemetryManager() {
         telemetryM.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
         if (hasCachedPoseData()) {
-            telemetryM.addLine("last detected pose values");
-            telemetryM.addData("X Robot (CM)", getRobotPoseX());
-            telemetryM.addData("Y Robot (CM)",  getRobotPoseY());
+            Pose lastDetectedPose = getLatestRobotPoseEstimationFromAT();
+            telemetryM.addLine("last detected ATpose inPedroCoord in inch and Rad");
+            telemetryM.addData("X", lastDetectedPose.getX());
+            telemetryM.addData("Y",  lastDetectedPose.getY());
+            telemetryM.addData("heading",  lastDetectedPose.getHeading());
         }
         telemetryM.addData("hasDetectedMotif", hasDetectedColorOrder);
     }

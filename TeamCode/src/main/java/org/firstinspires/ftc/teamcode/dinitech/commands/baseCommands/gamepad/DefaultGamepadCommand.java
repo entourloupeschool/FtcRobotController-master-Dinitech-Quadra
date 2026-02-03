@@ -66,7 +66,7 @@ public class DefaultGamepadCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (shooterSubsystem.getVelocity() > 10 && !gamepadSubsystem.isRumbling(2)){
+        if (shooterSubsystem.getVelocity() > 20 && shooterSubsystem.isTargetSpeedStabilized() && !gamepadSubsystem.isRumbling(2)){
             gamepadSubsystem.customRumble(shooterVelocityTargetStabilizedRumble, 2, true);
         }
 

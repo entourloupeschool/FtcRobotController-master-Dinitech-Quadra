@@ -114,9 +114,10 @@ public class DrivePedroSubsystem extends SubsystemBase {
     public DrivePedroSubsystem(HardwareMap hardwareMap, Pose beginPose, final TelemetryManager telemetryM) {
         this.dinitechPedroMecanumDrive = new DinitechPedroMecanumDrive(hardwareMap, beginPose);
 
-        setDriveUsage(DriveUsage.AUTO);
-        setDriveReference(DriveReference.FC);
+        dinitechPedroMecanumDrive.startTeleOpDrive(true);
         setDriverInputPose(false);
+        setDriveUsage(DriveUsage.TELE);
+        setDriveReference(DriveReference.FC);
 
         this.telemetryM = telemetryM;
 
@@ -165,7 +166,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
     public void periodic() {
         dinitechPedroMecanumDrive.update();
         // This method is called periodically by the CommandScheduler.
-//        printDriveTelemetry(telemetryM);
+        printDriveTelemetry(telemetryM);
 //        debugPedro(telemetryM);
     }
 

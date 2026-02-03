@@ -1,26 +1,20 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.VISION_RE_POSE_AT_RANGE;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.geometry.BezierCurve;
-import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.Path;
-import com.pedropathing.paths.PathChain;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.CancelFollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FieldCentricDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.InstantRumbleCustom;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetPoseFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -29,7 +23,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "CameraRePoseTest - Dinitech", group = "Test")
-public class CameraRePose extends GornetixRobotBase {
+public class TestCameraRePose extends GornetixRobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private GamepadWrapper driver;
     private Gamepad.RumbleEffect customRumbleEffect;
@@ -69,15 +63,13 @@ public class CameraRePose extends GornetixRobotBase {
         drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
 
         driver.cross.whenPressed(new SequentialCommandGroup(
-                new InstantCommand(() -> {
-                    drivePedroSubsystem.getDrive().setPose(initPose);
-                }),
+                new ResetPoseFCDrive(drivePedroSubsystem, initPose),
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierCurve(
                                 drivePedroSubsystem::getPose,
                                 controlPointGoClose,
                                 closePose)
-                        ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), closePose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                        ).setLinearHeadingInterpolation(initPose.getHeading(), closePose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                         AUTO_ROBOT_CONSTRAINTS, true),
 
                 new FollowPath(drivePedroSubsystem, builder -> builder
@@ -85,14 +77,14 @@ public class CameraRePose extends GornetixRobotBase {
                                 drivePedroSubsystem::getPose,
                                 controlPointFromClose,
                                 initPose)
-                        ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), initPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                        ).setLinearHeadingInterpolation(closePose.getHeading(), Math.PI, LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                         AUTO_ROBOT_CONSTRAINTS, true),
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierCurve(
                                 drivePedroSubsystem::getPose,
                                 controlPointGoFar,
                                 farPose)
-                        ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), farPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                        ).setLinearHeadingInterpolation(Math.PI, farPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                         AUTO_ROBOT_CONSTRAINTS, true),
 
                 new FollowPath(drivePedroSubsystem, builder -> builder
@@ -100,11 +92,10 @@ public class CameraRePose extends GornetixRobotBase {
                                 drivePedroSubsystem::getPose,
                                 controlPointFromFar,
                                 initPose)
-                        ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), initPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                        ).setLinearHeadingInterpolation(farPose.getHeading(), initPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                         AUTO_ROBOT_CONSTRAINTS, true)));
 
         driver.triangle.whenPressed(new CancelFollowPath(drivePedroSubsystem));
-
     }
 
     /**
@@ -114,11 +105,15 @@ public class CameraRePose extends GornetixRobotBase {
     public void run() {
             super.run();
 
-            if (visionSubsystem.getHasCurrentAprilTagDetections() && visionSubsystem.getRangeToAprilTag() < VISION_RE_POSE_AT_RANGE){
-                Pose visionPose = visionSubsystem.getLatestRobotPoseEstimationFromAT();
-                drivePedroSubsystem.getDrive().setPose(visionPose);
-                gamepadSubsystem.customRumble(customRumbleEffect, 1, true);
-
+            if (visionSubsystem.getHasCurrentAprilTagDetections()){
+                Double range = visionSubsystem.getRangeToAprilTag();
+                if (range != null){
+                    if (range < VISION_RE_POSE_AT_RANGE){
+                        Pose visionPose = visionSubsystem.getLatestRobotPoseEstimationFromAT();
+                        drivePedroSubsystem.getDrive().setPose(visionPose);
+                        gamepadSubsystem.customRumble(customRumbleEffect, 1, true);
+                    }
+                }
             }
     }
 

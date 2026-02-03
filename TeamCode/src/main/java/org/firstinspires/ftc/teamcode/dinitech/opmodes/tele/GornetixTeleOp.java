@@ -78,7 +78,6 @@ public class GornetixTeleOp extends GornetixRobotBase {
             register(visionSubsystem);
 
             drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BEGIN_POSE, telemetryM);
-            drivePedroSubsystem.getDrive().startTeleOpDrive(true);
             register(drivePedroSubsystem);
 
             trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);

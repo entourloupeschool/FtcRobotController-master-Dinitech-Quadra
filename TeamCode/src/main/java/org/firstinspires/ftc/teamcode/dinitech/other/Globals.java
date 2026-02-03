@@ -11,7 +11,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 
 @Configurable
 public class Globals {
-    public static long TELEMETRY_UPDATE_INTERVAL_MS = 100;
+    public static long TELEMETRY_UPDATE_INTERVAL_MS = 500;
 
     /**
      * Auto Phase globals
@@ -270,6 +270,9 @@ public class Globals {
 
         public static final double aAT_LINE = 1.4;
         public static final double bAT_LINE = 59;
+
+
+        public static double VISION_RE_POSE_AT_RANGE = 50;
 
 
         /**

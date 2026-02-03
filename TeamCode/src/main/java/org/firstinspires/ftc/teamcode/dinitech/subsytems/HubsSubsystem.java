@@ -29,11 +29,6 @@ public class HubsSubsystem extends SubsystemBase {
             hub.clearBulkCache();
         }
     }
-    public void setLedColor(int color){
-        for (LynxModule hub : hubs) {
-            hub.setConstant(color);
-        }
-    }
 
     public void setPattern(Collection<Blinker.Step> collBlinkerStep){
         for (LynxModule hub : hubs) {

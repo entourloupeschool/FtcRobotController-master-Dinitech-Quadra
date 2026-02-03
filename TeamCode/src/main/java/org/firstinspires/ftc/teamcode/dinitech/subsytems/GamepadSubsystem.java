@@ -154,8 +154,8 @@ public class GamepadSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        printGamepadWrapperTelemetry(driver, telemetryM);
-        printGamepadWrapperTelemetry(operator, telemetryM);
+//        printGamepadWrapperTelemetry(driver, telemetryM);
+//        printGamepadWrapperTelemetry(operator, telemetryM);
 //        telemetry.addData("rightX", driver.getRightX()); // gives -1 when left and 1 when right
 
     }
