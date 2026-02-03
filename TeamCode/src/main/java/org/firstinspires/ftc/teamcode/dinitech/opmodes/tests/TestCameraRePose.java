@@ -35,7 +35,7 @@ public class TestCameraRePose extends GornetixRobotBase {
     private Pose farPose = new Pose(110, 34, 3*Math.PI/4);
 
     private Pose controlPointGoClose = new Pose(initPose.getX(),closePose.getY(), Math.PI);
-    private Pose controlPointFromClose = new Pose(closePose.getX(), initPose.getY(), Math.PI);
+    private Pose controlPointFromClose = new Pose(closePose.getX(), closePose.getY(), Math.PI);
     private Pose controlPointGoFar = new Pose(farPose.getX(),initPose.getY(), Math.PI);
     private Pose controlPointFromFar = new Pose(initPose.getX(), farPose.getY(), Math.PI);
 
@@ -58,7 +58,7 @@ public class TestCameraRePose extends GornetixRobotBase {
         register(visionSubsystem);
         visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
-        drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, initPose, telemetryM);
+        drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, closePose, telemetryM);
         register(drivePedroSubsystem);
         drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
 
@@ -105,16 +105,16 @@ public class TestCameraRePose extends GornetixRobotBase {
     public void run() {
             super.run();
 
-            if (visionSubsystem.getHasCurrentAprilTagDetections()){
-                Double range = visionSubsystem.getRangeToAprilTag();
-                if (range != null){
-                    if (range < VISION_RE_POSE_AT_RANGE){
-                        Pose visionPose = visionSubsystem.getLatestRobotPoseEstimationFromAT();
-                        drivePedroSubsystem.getDrive().setPose(visionPose);
-                        gamepadSubsystem.customRumble(customRumbleEffect, 1, true);
-                    }
-                }
-            }
+//            if (visionSubsystem.getHasCurrentAprilTagDetections()){
+//                Double range = visionSubsystem.getRangeToAprilTag();
+//                if (range != null){
+//                    if (range < VISION_RE_POSE_AT_RANGE){
+//                        Pose visionPose = visionSubsystem.getLatestRobotPoseEstimationFromAT();
+//                        drivePedroSubsystem.getDrive().setPose(visionPose);
+//                        gamepadSubsystem.customRumble(customRumbleEffect, 1, true);
+//                    }
+//                }
+//            }
     }
 
 }

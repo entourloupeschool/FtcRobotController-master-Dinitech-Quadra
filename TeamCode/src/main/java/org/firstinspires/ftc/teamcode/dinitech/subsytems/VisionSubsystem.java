@@ -188,9 +188,9 @@ public class VisionSubsystem extends SubsystemBase {
         Double yaw = getRobotPoseYaw();
         if (x == null || y == null || yaw == null) return new Pose(0.0, 0.0, 0.0);
 
-//        return new Pose(cmToInch(x), cmToInch(y), Math.toRadians(yaw), FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+        return new Pose(cmToInch(x), cmToInch(y), Math.toRadians(yaw), FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
         // Use Pose2D from FTC SDK and convert it to Pedro Pose using FTC coordinate system
-        return PoseConverter.pose2DToPose(new Pose2D(DistanceUnit.CM, x, y, AngleUnit.DEGREES, yaw), PedroCoordinates.INSTANCE);
+//        return PoseConverter.pose2DToPose(new Pose2D(DistanceUnit.CM, x, y, AngleUnit.DEGREES, yaw), PedroCoordinates.INSTANCE);
     }
 
     public void optimizeDecimation() {
