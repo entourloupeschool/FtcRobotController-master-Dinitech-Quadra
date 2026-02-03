@@ -50,7 +50,7 @@ public class DinitechPedroMecanumDrive {
         follower.setPose(inputPose);
     }
     public double getHeading(){
-        return follower.getPose().getHeading();
+        return follower.getHeading();
     }
     public void setHeading(double heading){
         follower.setHeading(heading);

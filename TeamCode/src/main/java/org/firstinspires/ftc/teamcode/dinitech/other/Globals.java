@@ -38,6 +38,7 @@ public class Globals {
 
 
     //BLUE SIDE
+    public static final Pose BLUE_BASKET_POSE = new Pose(13, 135, 0);
     public static final Pose BLUE_SMALL_TRIANGLE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_SMALL_TRIANGLE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
@@ -54,6 +55,8 @@ public class Globals {
     public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
 
     //RED SIDE
+    public static final Pose RED_BASKET_POSE = BLUE_BASKET_POSE.mirror();
+
     public static final Pose RED_SMALL_TRIANGLE_POSE = BLUE_SMALL_TRIANGLE_POSE.mirror();
     public static final Pose RED_SMALL_TRIANGLE_SHOOT_POSE = BLUE_SMALL_TRIANGLE_SHOOT_POSE.mirror();
 
@@ -185,6 +188,10 @@ public class Globals {
             return A_DIFFS * rangeCM + 1204.879; //
         }
 
+    public static double linearSpeedFromPedroRange(double rangeInch) {
+        return A_DIFFS * rangeInch + 1204.879; //
+    }
+
         /**
          * *******Chargeur
          */
@@ -234,13 +241,13 @@ public class Globals {
         public static final double FY = 515.8231389;//0.0;// 515.8231389; //1;
         public static final double CX = 328.1776587;// 0.0;// 328.1776587; //1;
         public static final double CY = 237.3745503;//0.0;// 237.3745503; //1;
-        public static final double CAMERA_POSITION_X = -9.8;
-        public static final double CAMERA_POSITION_Y = 2.8;
-        public static final double CAMERA_POSITION_Z = 43.0;
+        public static double CAMERA_POSITION_X = -9.8;
+        public static double CAMERA_POSITION_Y = 2.8;
+        public static double CAMERA_POSITION_Z = 43.0;
 
-        public static final double CAMERA_ORIENTATION_YAW = 0;
-        public static final double CAMERA_ORIENTATION_PITCH = -90; // https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_localization/apriltag-localization.html
-        public static final double CAMERA_ORIENTATION_ROLL = 0;
+        public static double CAMERA_ORIENTATION_YAW = 0;
+        public static double CAMERA_ORIENTATION_PITCH = -90; // https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_localization/apriltag-localization.html
+        public static double CAMERA_ORIENTATION_ROLL = 0;
         public static final boolean USE_WEBCAM = true; // true for webcam, false for phone camera
         // Choose a camera resolution. Not all cameras support all resolutions.
         public static final int CAMERA_WIDTH = 640;// 1280; // 640;

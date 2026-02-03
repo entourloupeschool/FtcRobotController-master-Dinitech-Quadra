@@ -41,6 +41,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public enum ShooterUsageState {
         TELE,   // Controlled by driver
         VISION, // Controlled by vision auto-aim
+        PEDRO,
         NONE    // Not in use
     }
 

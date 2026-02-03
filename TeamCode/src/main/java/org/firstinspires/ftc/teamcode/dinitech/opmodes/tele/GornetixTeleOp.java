@@ -89,7 +89,10 @@ public class GornetixTeleOp extends GornetixRobotBase {
             shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
             register(shooterSubsystem);
 
-            setupGamePadsButtonBindings();
+            visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, drivePedroSubsystem, trieurSubsystem, shooterSubsystem));
+
+
+        setupGamePadsButtonBindings();
 
             new MoulinCalibrationSequence(trieurSubsystem).schedule();
     }

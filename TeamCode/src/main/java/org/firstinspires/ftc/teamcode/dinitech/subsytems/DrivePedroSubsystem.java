@@ -26,6 +26,10 @@ public class DrivePedroSubsystem extends SubsystemBase {
         this.driverInputPose = driverInputPose;
     }
 
+    /**
+     * Wether the driver has input a pose for the robot.
+     * @return True if the driver has input a pose, false otherwise.
+     */
     public boolean getDriverInputPose(){
         return driverInputPose;
     }
@@ -119,15 +123,6 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriveUsage(DriveUsage.TELE);
         setDriveReference(DriveReference.FC);
 
-        this.telemetryM = telemetryM;
-
-    }
-
-    public DrivePedroSubsystem(HardwareMap hardwareMap, final TelemetryManager telemetryM) {
-        this.dinitechPedroMecanumDrive = new DinitechPedroMecanumDrive(hardwareMap);
-
-        setDriveUsage(DriveUsage.AUTO);
-        setDriveReference(DriveReference.FC);
         this.telemetryM = telemetryM;
 
     }

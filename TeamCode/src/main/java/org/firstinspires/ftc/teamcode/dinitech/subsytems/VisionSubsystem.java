@@ -74,7 +74,7 @@ public class VisionSubsystem extends SubsystemBase {
     private int lastATPositionDetection = 20;
 
     public enum VisionUsageState { OPTIMIZED, CONTINUOUS, AT, COLOR, NONE }
-    private VisionUsageState usageState = VisionUsageState.NONE;
+    private VisionUsageState usageState;
 
     public void setUsageState(VisionUsageState state) { this.usageState = state; }
     public VisionUsageState getUsageState() { return usageState; }
@@ -99,12 +99,12 @@ public class VisionSubsystem extends SubsystemBase {
                 .enableLiveView(false)
                 .build();
 
-        this.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(this));
+        setUsageState(VisionUsageState.NONE);
+
         this.telemetryM = telemetryM;
     }
 
     public void updateAprilTagDetections() {
-        if (aprilTagProcessor != null) {
             List<AprilTagDetection> detections = aprilTagProcessor.getDetections();
             hasCurrentATDetections = !detections.isEmpty();
             if (hasCurrentATDetections) {
@@ -129,9 +129,6 @@ public class VisionSubsystem extends SubsystemBase {
                     setHasCurrentAprilTagDetections(false);
                 }
             }
-        } else {
-            setHasCurrentAprilTagDetections(false);
-        }
     }
 
     public void updateCachedAverages() {
@@ -197,12 +194,12 @@ public class VisionSubsystem extends SubsystemBase {
         if (aprilTagProcessor == null) return;
         Double rangeToAprilTag = getRangeToAprilTag();
         if (rangeToAprilTag == null) return;
-        double optimalDecimation = 4.0 - 3.0 * (rangeToAprilTag - 35) / 45.0;
+        float optimalDecimation = (float) Math.round(4.0 - 3.0 * (rangeToAprilTag - 35) / 45.0);
         setDecimation(Math.max(1, Math.min(4, optimalDecimation)));
     }
 
     public double getDecimation(){ return decimation; }
-    public void setDecimation(double val){
+    public void setDecimation(float val){
         decimation = val;
         if (aprilTagProcessor != null) aprilTagProcessor.setDecimation((float) decimation);
     }
@@ -214,10 +211,10 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     private void aprilTagProcessorTelemetryManager() {
-        telemetryM.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
+//        telemetryM.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
         if (hasCachedPoseData()) {
             Pose lastDetectedPose = getLatestRobotPoseEstimationFromAT();
-            telemetryM.addLine("last detected ATpose inPedroCoord in inch and Rad");
+            telemetryM.addLine("last detected ATpose inPedroCoord");
             telemetryM.addData("X", lastDetectedPose.getX());
             telemetryM.addData("Y",  lastDetectedPose.getY());
             telemetryM.addData("heading",  lastDetectedPose.getHeading());
