@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.Blinker;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.BooleanSupplier;
 
 
+@Configurable
 public class DefaultHubsCommand extends CommandBase {
     private final HubsSubsystem hubsSubsystem;
     private final TrieurSubsystem trieurSubsystem;
@@ -21,12 +23,10 @@ public class DefaultHubsCommand extends CommandBase {
     private boolean lastIsBlue = false;
     private boolean patternSet = false;
 
-    List<Blinker.Step> patternBlue = new ArrayList<>();
     List<Blinker.Step> patternBlueOpen = new ArrayList<>();
     List<Blinker.Step> patternBlueDecay = new ArrayList<>();
 
 
-    List<Blinker.Step> patternRed = new ArrayList<>();
     List<Blinker.Step> patternRedOpen = new ArrayList<>();
     List<Blinker.Step> patternRedDecay = new ArrayList<>();
 
@@ -41,11 +41,9 @@ public class DefaultHubsCommand extends CommandBase {
     }
 
     private int green = rgb(0, 255, 0);
-    private int blue = argb(255, 0, 0, 255);
+    private int blue = rgb(0, 0, 255);
 
-    private int red = argb(255, 255, 0, 0);
-    private int yellow = rgb(255, 255, 0);
-    private int orange = rgb(255, 165, 0);
+    private int red = rgb( 255, 0, 0);
 
 
     public DefaultHubsCommand(HubsSubsystem hubsSubsystem, TrieurSubsystem trieurSubsystem, BooleanSupplier isBlueSupplier) {
@@ -57,24 +55,26 @@ public class DefaultHubsCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        patternBlue.add(new Blinker.Step(blue, 5000, TimeUnit.MILLISECONDS));
+        int patternDecaySteps = 5;
+        int patternDecayMax = 20;
+        int patternDecayMin = 0;
+        int patternDecayDelta = patternDecayMax - patternDecayMin;
+        int patternDecayStep = patternDecayDelta / patternDecaySteps;
+        int patternDecayDurationMS = 200;
+        int getPatternDecayStepDuration = patternDecayDurationMS / patternDecaySteps;
 
-        patternBlueOpen.add(new Blinker.Step(blue, 20, TimeUnit.MILLISECONDS));
-        patternBlueOpen.add(new Blinker.Step(yellow, 20, TimeUnit.MILLISECONDS));
-        
-        for (int i = 0; i < 255; i += 15) {
-            patternBlueDecay.add(new Blinker.Step(rgb(255 - i, 255 - i, i), 8, TimeUnit.MILLISECONDS));
-            patternRedDecay.add(new Blinker.Step(rgb(255, 255 - i, 255 - i), 8, TimeUnit.MILLISECONDS));
+        for (int i = patternDecayMin; i < patternDecayMax +1; i += patternDecayStep) {
+            patternBlueDecay.add(new Blinker.Step(rgb(i, i, 255), getPatternDecayStepDuration, TimeUnit.MILLISECONDS));
+            patternRedDecay.add(new Blinker.Step(rgb(255, i,  i), getPatternDecayStepDuration, TimeUnit.MILLISECONDS));
+            patternBlueOpen.add(new Blinker.Step(rgb(0, 255 - i, 255 - patternDecayDelta + i), getPatternDecayStepDuration, TimeUnit.MILLISECONDS));
+            patternRedOpen.add(new Blinker.Step(rgb(255 - patternDecayDelta + i, 255 - i, 0), getPatternDecayStepDuration, TimeUnit.MILLISECONDS));
         }
-        for (int i = 255; i > 0; i -= 15) {
-            patternBlueDecay.add(new Blinker.Step(rgb(255 - i, 255 - i, i), 12, TimeUnit.MILLISECONDS));
-            patternRedDecay.add(new Blinker.Step(rgb(255, 255 - i, 255 - i), 12, TimeUnit.MILLISECONDS));
+        for (int i = patternDecayMax; i > patternDecayMin -1; i -= patternDecayStep) {
+            patternBlueDecay.add(new Blinker.Step(rgb(i, i, 255), getPatternDecayStepDuration, TimeUnit.MILLISECONDS));
+            patternRedDecay.add(new Blinker.Step(rgb(255, i, i), getPatternDecayStepDuration, TimeUnit.MILLISECONDS));
+            patternBlueOpen.add(new Blinker.Step(rgb(0, 255 - i, 255 - patternDecayDelta + i), getPatternDecayStepDuration, TimeUnit.MILLISECONDS));
+            patternRedOpen.add(new Blinker.Step(rgb(255 - patternDecayDelta + i, 255 - i, 0), getPatternDecayStepDuration, TimeUnit.MILLISECONDS));
         }
-
-        patternRed.add(new Blinker.Step(red, 5000, TimeUnit.MILLISECONDS));
-
-        patternRedOpen.add(new Blinker.Step(red, 20, TimeUnit.MILLISECONDS));
-        patternRedOpen.add(new Blinker.Step(yellow, 20, TimeUnit.MILLISECONDS));
 
         // Set initial pattern
         updatePattern();

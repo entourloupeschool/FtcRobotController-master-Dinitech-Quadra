@@ -37,7 +37,6 @@ public class Globals {
     public static final Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
 
 
-
     //BLUE SIDE
     public static final Pose BLUE_SMALL_TRIANGLE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_SMALL_TRIANGLE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
@@ -54,31 +53,26 @@ public class Globals {
     public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
     public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
 
-
     //RED SIDE
     public static final Pose RED_SMALL_TRIANGLE_POSE = BLUE_SMALL_TRIANGLE_POSE.mirror();
     public static final Pose RED_SMALL_TRIANGLE_SHOOT_POSE = BLUE_SMALL_TRIANGLE_SHOOT_POSE.mirror();
 
     public static final Pose RED_GOAL_POSE = BLUE_GOAL_POSE.mirror();
     public static final Pose RED_RAMP_POSE = BLUE_RAMP_POSE.mirror();
-
     public static final Pose CLOSE_SHOOT_RED_POSE = CLOSE_SHOOT_BLUE_POSE.mirror();
-
     public static final Pose FIRST_ROW_RED_POSE = FIRST_ROW_BLUE_POSE.mirror();
     public static final Pose SECOND_ROW_RED_POSE = SECOND_ROW_BLUE_POSE.mirror();
     public static final Pose THIRD_ROW_RED_POSE = THIRD_ROW_BLUE_POSE.mirror();
-
-
 
     /**
      * Gamepads
      */
     public static final double RUMBLE_POWER = 1;
     public static final int RUMBLE_DURATION_1 = 100;
-
     public static final int RUMBLE_DURATION_2 = 200;
     public static int RUMBLE_DURATION_3 = 20;
     public static int RUMBLE_DURATION_4 = 40;
+
 
 
 
@@ -99,7 +93,7 @@ public class Globals {
         public static final double THROUGH_BORE_ENCODER_COUNTS_PER_REV = 8192; // https://revrobotics.eu/rev-11-1271/
         public static final double DEAD_WHEEL_DIAMETER_MM = 50.8; // https://revrobotics.eu/ION-Omni-Wheels/
         public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
-        public static final double PAR_POD_Y_MM = -128;
+        public static final double PAR_POD_Y_MM = -127;
         public static final double PERP_POD_X_MM = 143;
 
 
@@ -150,11 +144,6 @@ public class Globals {
         public static final double D_MOULIN_AGGRESSIVE = 0.008558;
         public static final double F_MOULIN_AGGRESSIVE = 0.178335;
         public static final double ADJUST_CONSTANT = 0.005;
-
-        //FF COEF
-        public static final double kS_MOULIN_AGGRESSIVE = 0;
-        public static final double kV_MOULIN_AGGRESSIVE = 0;
-        public static final double kA_MOULIN_AGGRESSIVE = 0;
 
         /**
          * *******Shooter
@@ -214,7 +203,6 @@ public class Globals {
         public static final String CS1_NAME = "cs1";
         public static final String CS2_NAME = "cs2";
         public static final String CS3_NAME = "cs3";
-        public static final String CS4_NAME = "cs4";
         public static final String MAGNETIC_SWITCH_NAME = "m_s";
         public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
         public static final int OFFSET_MAGNETIC_POS = 10;
