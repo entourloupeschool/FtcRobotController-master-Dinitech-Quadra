@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.HeadingInterpolator;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -30,14 +31,14 @@ public class TestCameraRePose extends GornetixRobotBase {
     private VisionSubsystem visionSubsystem;
     private DrivePedroSubsystem drivePedroSubsystem;
 
-    private Pose initPose = new Pose(48, 96, Math.PI/2);
-    private Pose closePose = new Pose(27.2, 116, 3*Math.PI/4);
-    private Pose farPose = new Pose(110, 34, 3*Math.PI/4);
+    private final Pose initPose = new Pose(48, 96, Math.PI/2);
+    private final Pose closePose = new Pose(27.2, 116, 3*Math.PI/4);
+    private final Pose farPose = new Pose(110, 34, 3*Math.PI/4);
 
-    private Pose controlPointGoClose = new Pose(initPose.getX(),closePose.getY(), Math.PI);
-    private Pose controlPointFromClose = new Pose(closePose.getX(), closePose.getY(), Math.PI);
-    private Pose controlPointGoFar = new Pose(farPose.getX(),initPose.getY(), Math.PI);
-    private Pose controlPointFromFar = new Pose(initPose.getX(), farPose.getY(), Math.PI);
+    private final Pose controlPointGoClose = new Pose(initPose.getX(),closePose.getY(), Math.PI);
+    private final Pose controlPointFromClose = new Pose(closePose.getX(), closePose.getY(), Math.PI);
+    private final Pose controlPointGoFar = new Pose(farPose.getX(),initPose.getY(), Math.PI);
+    private final Pose controlPointFromFar = new Pose(initPose.getX(), farPose.getY(), Math.PI);
 
 
     /**
@@ -58,44 +59,56 @@ public class TestCameraRePose extends GornetixRobotBase {
         register(visionSubsystem);
         visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
-        drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, closePose, telemetryM);
+        drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, initPose.withHeading((double) 3 /4*Math.PI), telemetryM);
         register(drivePedroSubsystem);
         drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
 
-        driver.cross.whenPressed(new SequentialCommandGroup(
-                new ResetPoseFCDrive(drivePedroSubsystem, initPose),
+        driver.cross.toggleWhenPressed(new SequentialCommandGroup(
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierCurve(
                                 drivePedroSubsystem::getPose,
                                 controlPointGoClose,
-                                closePose)
-                        ).setLinearHeadingInterpolation(initPose.getHeading(), closePose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                        AUTO_ROBOT_CONSTRAINTS, true),
+                                closePose))
+                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                drivePedroSubsystem::getHeading,
+                                closePose.getHeading(),
+                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                        AUTO_ROBOT_CONSTRAINTS, false),
 
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierCurve(
                                 drivePedroSubsystem::getPose,
                                 controlPointFromClose,
-                                initPose)
-                        ).setLinearHeadingInterpolation(closePose.getHeading(), Math.PI, LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                        AUTO_ROBOT_CONSTRAINTS, true),
+                                initPose))
+                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                drivePedroSubsystem::getHeading,
+                                Math.PI,
+                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                        AUTO_ROBOT_CONSTRAINTS, false),
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierCurve(
                                 drivePedroSubsystem::getPose,
                                 controlPointGoFar,
-                                farPose)
-                        ).setLinearHeadingInterpolation(Math.PI, farPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                        AUTO_ROBOT_CONSTRAINTS, true),
+                                farPose))
+                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                drivePedroSubsystem::getHeading,
+                                farPose.getHeading(),
+                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                        AUTO_ROBOT_CONSTRAINTS, false),
 
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierCurve(
                                 drivePedroSubsystem::getPose,
                                 controlPointFromFar,
-                                initPose)
-                        ).setLinearHeadingInterpolation(farPose.getHeading(), initPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                        AUTO_ROBOT_CONSTRAINTS, true)));
+                                initPose))
+                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                drivePedroSubsystem::getHeading,
+                                initPose.getHeading(),
+                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                        AUTO_ROBOT_CONSTRAINTS, false)));
 
         driver.triangle.whenPressed(new CancelFollowPath(drivePedroSubsystem));
+        driver.square.toggleWhenPressed(new InstantCommand(() -> drivePedroSubsystem.getDrive().getFollower().pausePathFollowing()), new InstantCommand(() -> drivePedroSubsystem.getDrive().getFollower().resumePathFollowing()));
     }
 
     /**

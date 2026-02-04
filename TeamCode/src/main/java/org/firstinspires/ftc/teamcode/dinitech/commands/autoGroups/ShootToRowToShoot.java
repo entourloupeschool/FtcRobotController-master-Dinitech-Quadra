@@ -45,8 +45,11 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,
-                                        RowPose)
-                                ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(drivePedroSubsystem::getHeading, RowPose.getHeading(), endTime)).build(),
+                                        RowPose))
+                                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                        drivePedroSubsystem::getHeading,
+                                        RowPose.getHeading(),
+                                        endTime)).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
@@ -54,14 +57,16 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                                 new MaxPowerChargeur(chargeurSubsystem),
                                 new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
                                 commandBase,
-                                new OpenWaitTrappe(trieurSubsystem)
-                        ),
+                                new OpenWaitTrappe(trieurSubsystem)),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
-                                                RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? lengthBackup : -lengthBackup)))
-                                        ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(drivePedroSubsystem::getHeading, RowPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                                RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? lengthBackup : -lengthBackup))))
+                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                drivePedroSubsystem::getHeading,
+                                                RowPose.getHeading(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         rowPower, false),
                                 new ParallelCommandGroup(
                                         new SetVelocityShooter(shooterSubsystem, shooterVelocity),
@@ -72,8 +77,11 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                                                         .addPath(new BezierCurve(
                                                                 drivePedroSubsystem::getPose,
                                                                 RowPose,
-                                                                endPose)
-                                                        ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(drivePedroSubsystem::getHeading, endPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                                                endPose))
+                                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                                drivePedroSubsystem::getHeading,
+                                                                endPose.getHeading(),
+                                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                                         AUTO_ROBOT_CONSTRAINTS, true))))),
 
                 new ShootTimeAuto(trieurSubsystem, chargeurSubsystem)

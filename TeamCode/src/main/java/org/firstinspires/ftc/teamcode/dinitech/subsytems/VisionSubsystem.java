@@ -21,11 +21,13 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.aAT_LINE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.bAT_LINE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.cmToInch;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationOffsetBearing;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.inchToCm;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.ftc.FTCCoordinates;
+import com.pedropathing.ftc.InvertedFTCCoordinates;
 import com.pedropathing.ftc.PoseConverter;
 import com.pedropathing.geometry.PedroCoordinates;
 import com.pedropathing.geometry.Pose;
@@ -84,10 +86,12 @@ public class VisionSubsystem extends SubsystemBase {
                 .setTagLibrary(AprilTagGameDatabase.getDecodeTagLibrary())
                 .setDrawCubeProjection(true)
                 .setCameraPose(
-                        new Position(DistanceUnit.CM, CAMERA_POSITION_X, CAMERA_POSITION_Y, CAMERA_POSITION_Z, 0),
-                        new YawPitchRollAngles(AngleUnit.DEGREES, CAMERA_ORIENTATION_YAW, CAMERA_ORIENTATION_PITCH, CAMERA_ORIENTATION_ROLL, 0))
+                        new Position(DistanceUnit.INCH, cmToInch(CAMERA_POSITION_X), cmToInch(CAMERA_POSITION_Y), cmToInch(CAMERA_POSITION_Z), 0),
+                        new YawPitchRollAngles(AngleUnit.RADIANS, Math.toRadians(CAMERA_ORIENTATION_YAW), Math.toRadians(CAMERA_ORIENTATION_PITCH), Math.toRadians(CAMERA_ORIENTATION_ROLL), 0))
                 .setLensIntrinsics(FX, FY, CX, CY)
-                .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
+//                .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
+                .setOutputUnits(DistanceUnit.INCH, AngleUnit.RADIANS)
+
                 .build();
 
         this.visionPortal = new VisionPortal.Builder()
@@ -114,7 +118,7 @@ public class VisionSubsystem extends SubsystemBase {
                         lastATPositionDetection = detection.id;
                         robotPoseXCMSamples.add(detection.robotPose.getPosition().x);
                         robotPoseYCMSamples.add(detection.robotPose.getPosition().y);
-                        robotPoseYDEGREESSamples.add(detection.robotPose.getOrientation().getYaw(AngleUnit.DEGREES));
+                        robotPoseYDEGREESSamples.add(detection.robotPose.getOrientation().getYaw(AngleUnit.RADIANS));
                         cameraBearingDEGREESSamples.add(detection.ftcPose.bearing);
                         rangeToAprilTagCMSamples.add(detection.ftcPose.range);
                         confidenceAprilTagSamples.add(detection.decisionMargin);
@@ -163,10 +167,10 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public double getAutoAimPower(){
-        double cameraBearing = getCameraBearing() != null ? getCameraBearing() : 0;
-        double xRobot = getRobotPoseX() != null ? getRobotPoseX() : 0;
-        double yRobot = getRobotPoseY() != null ? getRobotPoseY() : 0;
-        double rangeToAT = getRangeToAprilTag() != null ? getRangeToAprilTag() : 50;
+        double cameraBearing = getCameraBearing() != null ? Math.toRadians(getCameraBearing()) : 0;
+        double xRobot = getRobotPoseX() != null ? inchToCm(getRobotPoseX()) : 0;
+        double yRobot = getRobotPoseY() != null ? inchToCm(getRobotPoseY()) : 0;
+        double rangeToAT = getRangeToAprilTag() != null ? inchToCm(getRangeToAprilTag()) : 50;
         double robotCenterBearing = getRobotCenterToAprilTag(cameraBearing, rangeToAT);
         double normalizedCorrectionWithRange = getNormalizedCorrectionWithRange(getSignedDistanceToATLine(xRobot, yRobot, lastATPositionDetection), rangeToAT);
         return pickCustomPowerFunc(Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, robotCenterBearing + normalizedCorrectionWithRange)) / CLAMP_BEARING, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
@@ -183,9 +187,15 @@ public class VisionSubsystem extends SubsystemBase {
         Double x = getRobotPoseX();
         Double y = getRobotPoseY();
         Double yaw = getRobotPoseYaw();
-        if (x == null || y == null || yaw == null) return new Pose(0.0, 0.0, 0.0);
 
-        return new Pose(cmToInch(x), cmToInch(y), Math.toRadians(yaw), FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+//        Pose ftcStandard = PoseConverter.pose2DToPose(new Pose2D(DistanceUnit.INCH, cmToInch(x), cmToInch(y), AngleUnit.RADIANS, Math.toRadians(yaw)), InvertedFTCCoordinates.INSTANCE);
+        Pose ftcStandard = PoseConverter.pose2DToPose(new Pose2D(DistanceUnit.INCH, x, y, AngleUnit.RADIANS, yaw), FTCCoordinates.INSTANCE);
+
+        return ftcStandard.getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+
+//        return new Pose(x, y, yaw);
+
+//        return new Pose(cmToInch(x), cmToInch(y), Math.toRadians(yaw), FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
         // Use Pose2D from FTC SDK and convert it to Pedro Pose using FTC coordinate system
 //        return PoseConverter.pose2DToPose(new Pose2D(DistanceUnit.CM, x, y, AngleUnit.DEGREES, yaw), PedroCoordinates.INSTANCE);
     }
@@ -218,7 +228,10 @@ public class VisionSubsystem extends SubsystemBase {
             telemetryM.addData("X", lastDetectedPose.getX());
             telemetryM.addData("Y",  lastDetectedPose.getY());
             telemetryM.addData("heading",  lastDetectedPose.getHeading());
+
+            telemetryM.addData("yawRaw", getRobotPoseYaw());
         }
+
         telemetryM.addData("hasDetectedMotif", hasDetectedColorOrder);
     }
 

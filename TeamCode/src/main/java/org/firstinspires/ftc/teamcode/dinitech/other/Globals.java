@@ -24,8 +24,8 @@ public class Globals {
     public static final double SCALE_Y_TILE = 1.05;
     public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
     public static double LENGTH_X_ROW = TILE_DIM * 0.85;
-    public static double LENGTH_X_ROW_SUPER = 25.5;
-    public static double LENGTH_X_ROW_SUPER_23RD = 32.6;
+    public static double LENGTH_X_ROW_SUPER = 25;
+    public static double LENGTH_X_ROW_SUPER_23RD = 32.5;
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
@@ -244,14 +244,12 @@ public class Globals {
         public static double CAMERA_POSITION_X = -9.8;
         public static double CAMERA_POSITION_Y = 2.8;
         public static double CAMERA_POSITION_Z = 43.0;
-
         public static double CAMERA_ORIENTATION_YAW = 0;
         public static double CAMERA_ORIENTATION_PITCH = -90; // https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_localization/apriltag-localization.html
         public static double CAMERA_ORIENTATION_ROLL = 0;
-        public static final boolean USE_WEBCAM = true; // true for webcam, false for phone camera
         // Choose a camera resolution. Not all cameras support all resolutions.
-        public static final int CAMERA_WIDTH = 640;// 1280; // 640;
-        public static final int CAMERA_HEIGHT = 480;// 800; // 480;
+        public static int CAMERA_WIDTH = 1280;// 1280; // 640;
+        public static int CAMERA_HEIGHT = 800;// 800; // 480;
         public static final Size CAMERA_RESOLUTION = new Size(CAMERA_WIDTH, CAMERA_HEIGHT); // new Size(640, 480);
 
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.
@@ -403,6 +401,9 @@ public class Globals {
 
         public static double cmToInch(double cm){
             return cm * 0.3937007874;
+        }
+        public static double inchToCm(double inch){
+                return inch * 2.54;
         }
         public static double mmToInch(double cm){
             return cmToInch(cm) * 0.1;

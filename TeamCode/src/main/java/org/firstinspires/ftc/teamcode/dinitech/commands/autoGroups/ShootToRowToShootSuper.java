@@ -38,8 +38,11 @@ public class ShootToRowToShootSuper extends SequentialCommandGroup {
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,
-                                        RowPose)
-                                ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(drivePedroSubsystem::getHeading, RowPose.getHeading(), endTime)).build(),
+                                        RowPose))
+                                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                        drivePedroSubsystem::getHeading,
+                                        RowPose.getHeading(),
+                                        endTime)).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
@@ -53,9 +56,12 @@ public class ShootToRowToShootSuper extends SequentialCommandGroup {
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
-                                                RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? lengthBackup : -lengthBackup)))
-                                        ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(drivePedroSubsystem::getHeading, RowPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        rowPower, false),
+                                                RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? lengthBackup : -lengthBackup))))
+                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                drivePedroSubsystem::getHeading,
+                                                RowPose.getHeading(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                        rowPower, true),
                                 new ParallelCommandGroup(
                                         new SetVelocityShooter(shooterSubsystem, shooterVelocity),
                                         // Go to Shooting Pos
@@ -63,11 +69,12 @@ public class ShootToRowToShootSuper extends SequentialCommandGroup {
                                                 .addPath(new BezierCurve(
                                                         drivePedroSubsystem::getPose,
                                                         RowPose,
-                                                        endPose)
-                                                ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(drivePedroSubsystem::getHeading, endPose.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                                AUTO_ROBOT_CONSTRAINTS, true)
-                                )
-)),
+                                                        endPose))
+                                                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                        drivePedroSubsystem::getHeading,
+                                                        endPose.getHeading(),
+                                                        LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                                AUTO_ROBOT_CONSTRAINTS, true)))),
 
                 new ShootTimeAuto(trieurSubsystem, chargeurSubsystem)
         );
