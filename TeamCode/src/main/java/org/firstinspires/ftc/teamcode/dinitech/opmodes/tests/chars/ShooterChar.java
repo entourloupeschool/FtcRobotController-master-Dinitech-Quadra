@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests.chars;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ADJUST_CONSTANT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_INCREMENT_SHOOTER;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
 
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -85,6 +86,12 @@ public class ShooterChar extends GornetixRobotBase {
         }
 
         telemetryPIDF(telemetry);
+
+        if (shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN)){
+            shooterSubsystem.setPower(0);
+        } else {
+            shooterSubsystem.setPower(1);
+        }
 
         super.run();
     }

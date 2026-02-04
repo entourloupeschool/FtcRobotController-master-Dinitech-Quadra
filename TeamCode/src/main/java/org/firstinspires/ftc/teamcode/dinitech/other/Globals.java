@@ -103,7 +103,7 @@ public class Globals {
         /**
          ******** Trieur
          */
-        public static final int MOULIN_TICKS_TO_WAIT_DOUBLE_SERVO = 150;
+        public static final int MOULIN_TICKS_TO_WAIT_DOUBLE_SERVO = 200;
         public static final String TRAPPE_SERVO_NAME = "porte";
         public static final double TRAPPE_OPEN_POSITION = 0;
         public static final double TRAPPE_CLOSE_POSITION = -130;
