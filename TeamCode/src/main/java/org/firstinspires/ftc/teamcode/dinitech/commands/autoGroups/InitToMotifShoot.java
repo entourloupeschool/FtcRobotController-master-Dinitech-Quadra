@@ -9,8 +9,10 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
+import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
@@ -40,7 +42,7 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                                         .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
                                                 ShootPosition)
-                                        ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), ShootPosition.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                        ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(drivePedroSubsystem::getHeading, ShootPosition.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
                                 new SequentialCommandGroup(
                                         // Race: wait for hasColorOrder OR wait for path to finish
