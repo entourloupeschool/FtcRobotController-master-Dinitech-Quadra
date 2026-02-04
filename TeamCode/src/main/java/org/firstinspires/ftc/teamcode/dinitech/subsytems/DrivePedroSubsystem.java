@@ -127,6 +127,18 @@ public class DrivePedroSubsystem extends SubsystemBase {
 
     }
 
+    public DrivePedroSubsystem(HardwareMap hardwareMap, final TelemetryManager telemetryM) {
+        this.dinitechPedroMecanumDrive = new DinitechPedroMecanumDrive(hardwareMap);
+
+        dinitechPedroMecanumDrive.startTeleOpDrive(true);
+        setDriverInputPose(false);
+        setDriveUsage(DriveUsage.TELE);
+        setDriveReference(DriveReference.FC);
+
+        this.telemetryM = telemetryM;
+
+    }
+
     /**
      * Drives the robot based on gamepad inputs with power scaling.
      *

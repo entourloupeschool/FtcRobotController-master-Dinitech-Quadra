@@ -25,7 +25,7 @@ public class Globals {
     public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
     public static double LENGTH_X_ROW = TILE_DIM * 0.85;
     public static double LENGTH_X_ROW_SUPER = 25.5;
-    public static double LENGTH_X_ROW_SUPER_23RD = 33;
+    public static double LENGTH_X_ROW_SUPER_23RD = 32.6;
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;

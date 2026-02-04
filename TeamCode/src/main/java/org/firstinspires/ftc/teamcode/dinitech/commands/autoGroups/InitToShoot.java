@@ -13,6 +13,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
@@ -46,7 +47,7 @@ public class InitToShoot extends SequentialCommandGroup {
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,
                                         ShootPosition)
-                                ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), ShootPosition.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(drivePedroSubsystem::getHeading, ShootPosition.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)
                 ),
 

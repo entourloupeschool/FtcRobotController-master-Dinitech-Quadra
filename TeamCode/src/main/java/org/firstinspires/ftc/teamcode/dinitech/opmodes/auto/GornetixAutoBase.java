@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
+
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;

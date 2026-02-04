@@ -43,11 +43,6 @@ public class ToggleVisionDrive extends CommandBase {
      */
     @Override
     public void initialize() {
-        // Cancel the current default command to allow a new one to be set.
-        if (drivePedroSubsystem.getDefaultCommand() != null) {
-            drivePedroSubsystem.getDefaultCommand().cancel();
-        }
-
         if (drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.AIM_LOCKED) {
             // If vision is locked, switch back to normal drive.
             drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));

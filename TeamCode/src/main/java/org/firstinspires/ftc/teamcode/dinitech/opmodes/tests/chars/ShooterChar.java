@@ -52,6 +52,8 @@ public class ShooterChar extends GornetixRobotBase {
         register(shooterSubsystem);
         shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 
+
+
         PIDFCoefficients pidfCoeffsInit = shooterSubsystem.getPIDFVelocity();
 
         pShooterInit = pidfCoeffsInit.p;
@@ -87,12 +89,6 @@ public class ShooterChar extends GornetixRobotBase {
 
         telemetryPIDF(telemetry);
 
-        if (shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN)){
-            shooterSubsystem.setPower(0);
-        } else {
-            shooterSubsystem.setPower(1);
-        }
-
         super.run();
     }
 
@@ -112,6 +108,14 @@ public class ShooterChar extends GornetixRobotBase {
         });
         m_Operator.triangle.whenPressed(() -> {
             shooterSubsystem.setVelocity(0);
+        });
+
+        m_Operator.cross.whenPressed(()->{
+            if (shooterSubsystem.isPowered()){
+                shooterSubsystem.setPower(0);
+            }else{
+                shooterSubsystem.setPower(1);
+            }
         });
 
         m_Operator.dpad_down.whenPressed(

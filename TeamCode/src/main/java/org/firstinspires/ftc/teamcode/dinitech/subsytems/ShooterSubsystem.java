@@ -87,6 +87,7 @@ public class ShooterSubsystem extends SubsystemBase {
      */
     public void setVelocity(double velocity) {
         if (velocity >= 0){
+            setPower(1);
             targetSpeed = velocity;
             dcMotorEx.setVelocity(velocity);
         }

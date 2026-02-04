@@ -20,12 +20,6 @@ public class ToggleVisionShooter extends CommandBase {
 
     @Override
     public void initialize() {
-        // Cancel the current default command to allow a new one to be set.
-        if (shooterSubsystem.getDefaultCommand() != null) {
-            shooterSubsystem.getDefaultCommand().cancel();
-        }
-
-
         // Toggle based on actual shooter state
         if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.VISION) {
             shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.NONE);
