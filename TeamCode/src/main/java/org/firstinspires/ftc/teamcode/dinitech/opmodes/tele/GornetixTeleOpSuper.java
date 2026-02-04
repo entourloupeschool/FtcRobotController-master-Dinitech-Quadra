@@ -16,18 +16,12 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "GornetixTeleOpSuper - Dinitech", group = "TeleOp")
 public class GornetixTeleOpSuper extends GornetixTeleOp {
-    private GamepadWrapper m_Driver;
-    private GamepadWrapper m_Operator;
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
      */
     @Override
     public void initialize() {
             super.initialize();
-
-            m_Driver = gamepadSubsystem.getDriver();
-            m_Operator = gamepadSubsystem.getOperator();
-
             setupGamePadsButtonBindings();
     }
 

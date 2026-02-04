@@ -55,8 +55,8 @@ import java.util.Objects;
 @TeleOp(name = "GornetixTeleOp - Dinitech", group = "TeleOp")
 public class GornetixTeleOp extends GornetixRobotBase {
     public GamepadSubsystem gamepadSubsystem;
-    private GamepadWrapper m_Driver;
-    private GamepadWrapper m_Operator;
+    public GamepadWrapper m_Driver;
+    public GamepadWrapper m_Operator;
     public TrieurSubsystem trieurSubsystem;
     public VisionSubsystem visionSubsystem;
     public ShooterSubsystem shooterSubsystem;
@@ -78,8 +78,9 @@ public class GornetixTeleOp extends GornetixRobotBase {
             visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
             register(visionSubsystem);
 
-            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, Objects.requireNonNullElseGet(PoseStorage.lastPose, () -> BEGIN_POSE), telemetryM);
+            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, Objects.requireNonNullElseGet(PoseStorage.getLastPose(), () -> BEGIN_POSE), telemetryM);
             register(drivePedroSubsystem);
+            PoseStorage.clearLastPose();
 
             trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
             register(trieurSubsystem);
