@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -18,6 +19,8 @@ public class GornetixAutoBase extends GornetixRobotBase {
     public ShooterSubsystem shooterSubsystem;
     public ChargeurSubsystem chargeurSubsystem;
     public DrivePedroSubsystem drivePedroSubsystem;
+    public PoseStorage poseStorage;
+
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -53,6 +56,8 @@ public class GornetixAutoBase extends GornetixRobotBase {
     @Override
     public void run() {
             super.run();
+            // save pose to pose storage
+            PoseStorage.setLastPose(drivePedroSubsystem.getPose());
     }
 
     /**

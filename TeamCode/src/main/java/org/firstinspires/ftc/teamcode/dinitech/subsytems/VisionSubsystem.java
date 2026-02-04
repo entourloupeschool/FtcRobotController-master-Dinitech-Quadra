@@ -58,22 +58,21 @@ public class VisionSubsystem extends SubsystemBase {
     public AprilTagProcessor aprilTagProcessor;
     public PredominantColorProcessor colorProcessor;
 
-    private final Globals.RunningAverage robotPoseXCMSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage robotPoseYCMSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage robotPoseYDEGREESSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage rangeToAprilTagCMSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage cameraBearingDEGREESSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage confidenceAprilTagSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage aTPoseXCMSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage aTPoseYCMSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-
-    private Double cachedRobotPoseXCM, cachedRobotPoseYCM, cachedRobotPoseYawDEGREES, cachedRangeToAprilTagCM, cachedCameraBearingDEGREES, cachedConfidence, cachedXATPoseCM, cachedYATPoseCM;
+    private final Globals.RunningAverage robotPoseXSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage robotPoseYSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage robotPoseYawSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage rangeToATSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage cameraBearingSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage confidenceATSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage aTPoseXSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final Globals.RunningAverage aTPoseYSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private Double cachedRobotPoseX, cachedRobotPoseY, cachedRobotPoseYaw, cachedRangeToAT, cachedCameraBearing, cachedConfidence, cachedATPoseX, cachedATPoseY;
 
     private boolean hasCurrentATDetections = false;
     private int cachedColorsOrder = -1;
     private boolean hasDetectedColorOrder = false;
     private double decimation = 1;
-    private int lastATPositionDetection = 20;
+    private int lastATGoalID = 20;
 
     public enum VisionUsageState { OPTIMIZED, CONTINUOUS, AT, COLOR, NONE }
     private VisionUsageState usageState;
@@ -115,15 +114,15 @@ public class VisionSubsystem extends SubsystemBase {
                 AprilTagDetection detection = detections.get(0);
                 if (detection.metadata != null) {
                     if (detection.id == 20 || detection.id == 24) {
-                        lastATPositionDetection = detection.id;
-                        robotPoseXCMSamples.add(detection.robotPose.getPosition().x);
-                        robotPoseYCMSamples.add(detection.robotPose.getPosition().y);
-                        robotPoseYDEGREESSamples.add(detection.robotPose.getOrientation().getYaw(AngleUnit.RADIANS));
-                        cameraBearingDEGREESSamples.add(detection.ftcPose.bearing);
-                        rangeToAprilTagCMSamples.add(detection.ftcPose.range);
-                        confidenceAprilTagSamples.add(detection.decisionMargin);
-                        aTPoseXCMSamples.add(detection.ftcPose.x);
-                        aTPoseYCMSamples.add(detection.ftcPose.y);
+                        lastATGoalID = detection.id;
+                        robotPoseXSamples.add(detection.robotPose.getPosition().x);
+                        robotPoseYSamples.add(detection.robotPose.getPosition().y);
+                        robotPoseYawSamples.add(detection.robotPose.getOrientation().getYaw());
+                        cameraBearingSamples.add(detection.ftcPose.bearing);
+                        rangeToATSamples.add(detection.ftcPose.range);
+                        confidenceATSamples.add(detection.decisionMargin);
+                        aTPoseXSamples.add(detection.ftcPose.x);
+                        aTPoseYSamples.add(detection.ftcPose.y);
                         updateCachedAverages();
                     } else if (!hasDetectedColorOrder) {
                         cachedColorsOrder = detection.id;
@@ -136,21 +135,21 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public void updateCachedAverages() {
-        cachedRobotPoseXCM = robotPoseXCMSamples.getAverage();
-        cachedRobotPoseYCM = robotPoseYCMSamples.getAverage();
-        cachedRobotPoseYawDEGREES = robotPoseYDEGREESSamples.getAverage();
-        cachedRangeToAprilTagCM = rangeToAprilTagCMSamples.getAverage();
-        cachedCameraBearingDEGREES = cameraBearingDEGREESSamples.getAverage();
-        cachedConfidence = confidenceAprilTagSamples.getAverage();
-        cachedXATPoseCM = aTPoseXCMSamples.getAverage();
-        cachedYATPoseCM = aTPoseYCMSamples.getAverage();
+        cachedRobotPoseX = robotPoseXSamples.getAverage();
+        cachedRobotPoseY = robotPoseYSamples.getAverage();
+        cachedRobotPoseYaw = robotPoseYawSamples.getAverage();
+        cachedRangeToAT = rangeToATSamples.getAverage();
+        cachedCameraBearing = cameraBearingSamples.getAverage();
+        cachedConfidence = confidenceATSamples.getAverage();
+        cachedATPoseX = aTPoseXSamples.getAverage();
+        cachedATPoseY = aTPoseYSamples.getAverage();
     }
 
-    public Double getRobotPoseX() { return cachedRobotPoseXCM; }
-    public Double getRobotPoseY() { return cachedRobotPoseYCM; }
-    public Double getRobotPoseYaw() { return cachedRobotPoseYawDEGREES; }
-    public Double getRangeToAprilTag() { return cachedRangeToAprilTagCM; }
-    public Double getCameraBearing() { return cachedCameraBearingDEGREES; }
+    public Double getRobotPoseX() { return cachedRobotPoseX; }
+    public Double getRobotPoseY() { return cachedRobotPoseY; }
+    public Double getRobotPoseYaw() { return cachedRobotPoseYaw; }
+    public Double getRangeToAprilTag() { return cachedRangeToAT; }
+    public Double getCameraBearing() { return cachedCameraBearing; }
 
     public static double getRobotCenterToAprilTag(double cameraBearing, double rangeToAprilTag){
         return -cameraBearing + getLinearInterpolationOffsetBearing(rangeToAprilTag);
@@ -172,32 +171,24 @@ public class VisionSubsystem extends SubsystemBase {
         double yRobot = getRobotPoseY() != null ? inchToCm(getRobotPoseY()) : 0;
         double rangeToAT = getRangeToAprilTag() != null ? inchToCm(getRangeToAprilTag()) : 50;
         double robotCenterBearing = getRobotCenterToAprilTag(cameraBearing, rangeToAT);
-        double normalizedCorrectionWithRange = getNormalizedCorrectionWithRange(getSignedDistanceToATLine(xRobot, yRobot, lastATPositionDetection), rangeToAT);
+        double normalizedCorrectionWithRange = getNormalizedCorrectionWithRange(getSignedDistanceToATLine(xRobot, yRobot, lastATGoalID), rangeToAT);
         return pickCustomPowerFunc(Math.max(-CLAMP_BEARING, Math.min(CLAMP_BEARING, robotCenterBearing + normalizedCorrectionWithRange)) / CLAMP_BEARING, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED);
     }
 
-    public Double getXATPose(){ return cachedXATPoseCM; }
-    public Double getYATPose(){ return cachedYATPoseCM; }
+    public Double getXATPose(){ return cachedATPoseX; }
+    public Double getYATPose(){ return cachedATPoseY; }
 
     public boolean getHasCurrentAprilTagDetections() { return hasCurrentATDetections; }
     public void setHasCurrentAprilTagDetections(boolean val) { hasCurrentATDetections = val; }
-    public boolean hasCachedPoseData() { return !robotPoseXCMSamples.isEmpty(); }
+    public boolean hasCachedPoseData() { return !robotPoseXSamples.isEmpty(); }
 
     public Pose getLatestRobotPoseEstimationFromAT() {
-        Double x = getRobotPoseX();
-        Double y = getRobotPoseY();
-        Double yaw = getRobotPoseYaw();
-
-//        Pose ftcStandard = PoseConverter.pose2DToPose(new Pose2D(DistanceUnit.INCH, cmToInch(x), cmToInch(y), AngleUnit.RADIANS, Math.toRadians(yaw)), InvertedFTCCoordinates.INSTANCE);
-        Pose ftcStandard = PoseConverter.pose2DToPose(new Pose2D(DistanceUnit.INCH, x, y, AngleUnit.RADIANS, yaw), FTCCoordinates.INSTANCE);
-
-        return ftcStandard.getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+        return PoseConverter.pose2DToPose(new Pose2D(DistanceUnit.INCH, getRobotPoseX(), getRobotPoseY(), AngleUnit.RADIANS, getRobotPoseYaw()), FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
 
 //        return new Pose(x, y, yaw);
 
 //        return new Pose(cmToInch(x), cmToInch(y), Math.toRadians(yaw), FTCCoordinates.INSTANCE).getAsCoordinateSystem(PedroCoordinates.INSTANCE);
         // Use Pose2D from FTC SDK and convert it to Pedro Pose using FTC coordinate system
-//        return PoseConverter.pose2DToPose(new Pose2D(DistanceUnit.CM, x, y, AngleUnit.DEGREES, yaw), PedroCoordinates.INSTANCE);
     }
 
     public void optimizeDecimation() {
@@ -228,7 +219,6 @@ public class VisionSubsystem extends SubsystemBase {
             telemetryM.addData("X", lastDetectedPose.getX());
             telemetryM.addData("Y",  lastDetectedPose.getY());
             telemetryM.addData("heading",  lastDetectedPose.getHeading());
-
             telemetryM.addData("yawRaw", getRobotPoseYaw());
         }
 

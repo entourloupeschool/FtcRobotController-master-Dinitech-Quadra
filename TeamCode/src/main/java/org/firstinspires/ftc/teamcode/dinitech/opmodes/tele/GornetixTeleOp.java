@@ -38,11 +38,10 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trap
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OptimizedUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.VisionShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeShoot;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -50,6 +49,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
+
+import java.util.Objects;
 
 @TeleOp(name = "GornetixTeleOp - Dinitech", group = "TeleOp")
 public class GornetixTeleOp extends GornetixRobotBase {
@@ -77,7 +78,7 @@ public class GornetixTeleOp extends GornetixRobotBase {
             visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
             register(visionSubsystem);
 
-            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BEGIN_POSE, telemetryM);
+            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, Objects.requireNonNullElseGet(PoseStorage.lastPose, () -> BEGIN_POSE), telemetryM);
             register(drivePedroSubsystem);
 
             trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
