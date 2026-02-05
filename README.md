@@ -9,24 +9,28 @@ We are team **Dinitech** from **Amédée Gordini High School** (Annecy, France).
 ---
 
 ### 🚀 Tech Stack
+
 Our software architecture is built on top of FTC libraries to ensure high performance and precision:
-*   🏗️ **[FTCLib](https://ftclib.org/)**: A powerful wrapper for more efficient robot control.
-*   🏎️ **[Road Runner](https://rr.brott.dev/)**: Advanced motion profiling and autonomous pathing.
-*   📊 **[FTC Dashboard](https://github.com/acmerobotics/FTC-Dashboard)**: Real-time telemetry and parameter tuning.
-*   🎨 **[MeepMeep](https://github.com/rh-robotics/MeepMeep)**: Intuitive autonomous trajectory visualization.
-*   👀 **[EasyOpenCV](https://github.com/OpenFTC/EasyOpenCV)**: OpenCV on an FTC robot.
+
+* 🏗️ **[FTCLib](https://ftclib.org/)**: A powerful wrapper for more efficient robot control.
+* 🏎️ **[PedroPathing](https://pedropathing.com/docs/pathing)**: Pedro Pathing is a path follower initially developed by FTC team 10158 to revolutionize autonomous navigation in robotics. Pedro Pathing uses Bézier curves, PIDF control, centripetal force correction, and more to provide smooth, fast, and accurate path following.
+* 📊 **[Panels](https://panels.bylazar.com/)**: An intuitive, real-time dashboard for your FTC Robot.
+* 👀 **[EasyOpenCV](https://github.com/OpenFTC/EasyOpenCV)**: OpenCV on an FTC robot.
 
 ---
 
 ### 📱 Connect with Us
+
 Stay updated with our progress, matches, and reveals:
-*   🎥 **YouTube**: [Dinitech Channel](https://www.youtube.com/channel/UCaTOewE9eect9wCToUA1e8g)
-*   📸 **Instagram**: [@dinitech.first](https://www.instagram.com/dinitech.first/)
-*   🏫 **High School**: [Lycée Professionnel Amédée Gordini](https://amedee-gordini.ent.auvergnerhonealpes.fr/)
+
+* 🎥 **YouTube**: [Dinitech Channel](https://www.youtube.com/channel/UCaTOewE9eect9wCToUA1e8g)
+* 📸 **Instagram**: [@dinitech.first](https://www.instagram.com/dinitech.first/)
+* 🏫 **High School**: [Lycée Professionnel Amédée Gordini](https://amedee-gordini.ent.auvergnerhonealpes.fr/)
 
 ---
 
 ### 🗿 Our mentor : [Quadra](https://www.quadra-concrete.com/)
+
 **Quadra** is a French manufacturer specializing in the design and production of turnkey production units for the concrete industry, including vibrating presses, automated lines, and robotic solutions for producing concrete blocks, pavers, slabs, and curbs.
 The company integrates advanced technologies, automated processes, and high-performance vibration systems to optimize production and meet industrial needs worldwide.
 It delivers complete installations sold and commissioned internationally, with an in-house engineering office for mechanical, electrical, robotic, and automation design.
