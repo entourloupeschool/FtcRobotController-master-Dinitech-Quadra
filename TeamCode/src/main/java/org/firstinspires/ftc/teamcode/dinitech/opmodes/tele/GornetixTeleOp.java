@@ -13,7 +13,6 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.DefaultHubsCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.ToggleChargeur;
@@ -87,10 +86,8 @@ public class GornetixTeleOp extends GornetixFullSystem {
         m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem));
 
         m_Driver.bump_left.toggleWhenPressed(
-                new InstantCommand(
-                        () -> drivePedroSubsystem.setDefaultCommand(new SlowDrive(drivePedroSubsystem, gamepadSubsystem))),
-                new InstantCommand(
-                        () -> drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem))));
+                new SlowDrive(drivePedroSubsystem),
+                new InstantCommand(() -> drivePedroSubsystem.setLastTeleDriverPowerScale(1)));
         m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, this::getGoalPose));
 
         m_Driver.left_stick_button.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));

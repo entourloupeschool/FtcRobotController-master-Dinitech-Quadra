@@ -138,6 +138,14 @@ public class DrivePedroSubsystem extends SubsystemBase {
 
     private double lastTeleDriverPowerScale = 1;
 
+    public double getLastTeleDriverPowerScale() {
+        return lastTeleDriverPowerScale;
+    }
+
+    public void setLastTeleDriverPowerScale(double lastTeleDriverPowerScale) {
+        this.lastTeleDriverPowerScale = lastTeleDriverPowerScale;
+    }
+
     /**
      * Constructs a new DriveSubsystem.
      *
@@ -166,9 +174,10 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriverInputPose(false);
         setDriveUsage(DriveUsage.TELE);
         setDriveReference(DriveReference.FC);
+        setDriveAimLockType(DriveAimLockType.NONE);
+        aimController = new PIDFController(new PIDFCoefficients(PEDRO_AIMING_CONTROLLER_P, PEDRO_AIMING_CONTROLLER_I,PEDRO_AIMING_CONTROLLER_D, PEDRO_AIMING_CONTROLLER_F));
 
         this.telemetryM = telemetryM;
-
     }
 
     /**
@@ -182,14 +191,16 @@ public class DrivePedroSubsystem extends SubsystemBase {
     public void teleDriveHybrid(final double translationX, final double translationY, final double rotation,
                           final double powerScaler, boolean fieldCentric) {
         if (powerScaler != 0) {
-            lastTeleDriverPowerScale = TELE_DRIVE_POWER_TRIGGER_SCALE * pickCustomPowerFunc(1 - powerScaler, 1)
-                    + TELE_DRIVE_POWER;
+            setLastTeleDriverPowerScale(TELE_DRIVE_POWER_TRIGGER_SCALE * pickCustomPowerFunc(1 - powerScaler, 1)
+                    + TELE_DRIVE_POWER);
         }
 
+        double lastPowerScale = getLastTeleDriverPowerScale();
+
         dinitechPedroMecanumDrive.setDrivePowers(
-                        translationY * lastTeleDriverPowerScale,
-                        -translationX * lastTeleDriverPowerScale,
-                -rotation * lastTeleDriverPowerScale,
+                        translationY * lastPowerScale,
+                        -translationX * lastPowerScale,
+                -rotation * lastPowerScale,
                 !fieldCentric);
     }
 

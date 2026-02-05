@@ -18,31 +18,25 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
  */
 public class SlowDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
-    private final GamepadWrapper driver;
 
     /**
      * Creates a new TeleSlowDrive command.
      *
      * @param drivePedroSubsystem   The drive subsystem to control.
-     * @param gamepadSubsystem The gamepad subsystem for accessing driver inputs.
      */
-    public SlowDrive(DrivePedroSubsystem drivePedroSubsystem, GamepadSubsystem gamepadSubsystem) {
+    public SlowDrive(DrivePedroSubsystem drivePedroSubsystem) {
         this.drivePedroSubsystem = drivePedroSubsystem;
-        driver = gamepadSubsystem.getDriver();
-
         addRequirements(drivePedroSubsystem);
     }
 
     @Override
     public void initialize(){
-        drivePedroSubsystem.setDriveAimLockType(DrivePedroSubsystem.DriveAimLockType.NONE);
+        drivePedroSubsystem.setLastTeleDriverPowerScale(SLOW_DRIVE_SCALE);
     }
 
-    /**
-     * Executes the slow drive command. This method is called repeatedly by the command scheduler.
-     */
+
     @Override
-    public void execute(){
-        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), SLOW_DRIVE_SCALE,drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+    public boolean isFinished(){
+        return true;
     }
 }
