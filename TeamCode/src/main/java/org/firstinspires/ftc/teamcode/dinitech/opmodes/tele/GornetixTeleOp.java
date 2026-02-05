@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tele;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_SMALL_TRIANGLE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
@@ -40,6 +41,9 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
+import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
+
+import java.util.Objects;
 
 @TeleOp(name = "GornetixTeleOp - Dinitech", group = "TeleOp")
 public class GornetixTeleOp extends GornetixFullSystem {
@@ -51,6 +55,9 @@ public class GornetixTeleOp extends GornetixFullSystem {
     @Override
     public void initialize() {
             super.initialize();
+
+            drivePedroSubsystem.getDrive().setPose(Objects.requireNonNullElseGet(PoseStorage.getLastPose(), () -> BEGIN_POSE));
+            PoseStorage.clearLastPose();
 
             visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, drivePedroSubsystem, trieurSubsystem, shooterSubsystem));
 

@@ -39,9 +39,8 @@ public class GornetixFullSystem extends GornetixRobotBase {
         visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
         register(visionSubsystem);
 
-        drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, Objects.requireNonNullElseGet(PoseStorage.getLastPose(), () -> BEGIN_POSE), telemetryM);
+        drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, telemetryM);
         register(drivePedroSubsystem);
-        PoseStorage.clearLastPose();
 
         trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
         register(trieurSubsystem);

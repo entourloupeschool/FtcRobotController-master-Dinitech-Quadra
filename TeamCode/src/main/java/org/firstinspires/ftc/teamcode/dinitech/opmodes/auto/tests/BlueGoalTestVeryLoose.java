@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Sto
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
 
-@Autonomous(name = "TestVeryLoose - Dinitech", group = "Blue")
+@Autonomous(name = "TestVeryLoose - Dinitech", group = "Test")
 public class BlueGoalTestVeryLoose extends GornetixAutoBase {
 
     /**

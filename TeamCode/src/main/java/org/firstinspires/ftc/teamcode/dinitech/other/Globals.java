@@ -92,7 +92,7 @@ public class Globals {
         /**
          * Constants
          */
-        public static final Pose BEGIN_POSE = new Pose(72, 72, 0);
+        public static final Pose BEGIN_POSE = new Pose(0, 0, 0);
         public static final double TELE_DRIVE_POWER = 0.3;
         public static final double TELE_DRIVE_POWER_TRIGGER_SCALE = 1 - TELE_DRIVE_POWER;
         public static final int DRIVER_POWER_SCALER_TO_THE_POWER = 3;
@@ -102,9 +102,9 @@ public class Globals {
         public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
         public static final double PAR_POD_Y_MM = -127;
         public static final double PERP_POD_X_MM = 143;
-        public static double PEDRO_AIMING_CONTROLLER_P =0.3;
+        public static double PEDRO_AIMING_CONTROLLER_P =0.03;
         public static double PEDRO_AIMING_CONTROLLER_I =0;
-        public static double PEDRO_AIMING_CONTROLLER_D =0.01;
+        public static double PEDRO_AIMING_CONTROLLER_D =0.001;
         public static double PEDRO_AIMING_CONTROLLER_F =0;
 
 
@@ -156,7 +156,7 @@ public class Globals {
         public static final double I_MOULIN_AGGRESSIVE = 15.336;
         public static final double D_MOULIN_AGGRESSIVE = 0.008558;
         public static final double F_MOULIN_AGGRESSIVE = 0.178335;
-        public static final double ADJUST_CONSTANT = 0.005;
+        public static double ADJUST_CONSTANT = 0.005;
 
         /**
          * *******Shooter
