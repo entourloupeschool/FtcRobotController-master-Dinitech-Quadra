@@ -70,7 +70,8 @@ public class DrivePedroSubsystem extends SubsystemBase {
      */
     public enum DriveReference {
         ROBOT,
-        FC
+        FC,
+        AUTO
     }
 
     private DriveReference driveReference;
@@ -98,7 +99,8 @@ public class DrivePedroSubsystem extends SubsystemBase {
     public enum DriveUsage {
         TELE,   // Controlled by driver
         BLOCKED, // Lock in place
-        AUTO // Controlled by autonomous code
+        AUTO, // Controlled by autonomous code
+        AIM_LOCKED
     }
 
     private DriveUsage driveUsage;
@@ -118,7 +120,6 @@ public class DrivePedroSubsystem extends SubsystemBase {
     public DriveUsage getDriveUsage() {
         return driveUsage;
     }
-
 
     public enum DriveAimLockType {
         NONE, // No drive lock

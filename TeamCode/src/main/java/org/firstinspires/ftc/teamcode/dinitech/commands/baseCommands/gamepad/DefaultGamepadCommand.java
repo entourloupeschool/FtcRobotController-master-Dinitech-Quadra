@@ -74,7 +74,9 @@ public class DefaultGamepadCommand extends CommandBase {
 //            gamepadSubsystem.customRumble(trappeOpenRumble, 3, true);
 //        }
 
-        if (drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.AIM_LOCKED && !gamepadSubsystem.isRumbling(1)){
+        boolean isAiming = drivePedroSubsystem.getDriveAimLockType() == DrivePedroSubsystem.DriveAimLockType.PEDRO_AIM || drivePedroSubsystem.getDriveAimLockType() == DrivePedroSubsystem.DriveAimLockType.VISION_AIM;
+
+        if (isAiming && !gamepadSubsystem.isRumbling(1)){
             gamepadSubsystem.customRumble(aimLockedDriveRumble, 1, true);
         }
 
