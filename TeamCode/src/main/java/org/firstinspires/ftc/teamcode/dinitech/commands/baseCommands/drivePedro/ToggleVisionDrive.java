@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 /**
  * An instant command that toggles the drive mode between normal tele-op and vision-assisted "locked" driving.
@@ -24,7 +26,7 @@ public class ToggleVisionDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
-    private final BooleanSupplier isBlue;
+    private final Supplier<Pose> goalPoseSupplier;
 
     /**
      * Creates a new ToggleVisionDrive command.
@@ -32,13 +34,14 @@ public class ToggleVisionDrive extends CommandBase {
      * @param drivePedroSubsystem   The drive subsystem to control.
      * @param visionSubsystem  The vision subsystem required by the locked drive mode.
      * @param gamepadSubsystem The gamepad subsystem for providing feedback.
+     * @param goalPoseSupplier Supplier for the goal pose
      */
     public ToggleVisionDrive(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem,
-                             GamepadSubsystem gamepadSubsystem, BooleanSupplier isBlue) {
+                             GamepadSubsystem gamepadSubsystem, Supplier<Pose> goalPoseSupplier) {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
-        this.isBlue = isBlue;
+        this.goalPoseSupplier = goalPoseSupplier;
     }
 
     /**
@@ -53,7 +56,7 @@ public class ToggleVisionDrive extends CommandBase {
             // If not locked, switch to vision-locked drive and provide feedback.
             drivePedroSubsystem.setDefaultCommand(new VisionAimLockedDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
         } else {
-            drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, isBlue));
+            drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, goalPoseSupplier));
         }
     }
 

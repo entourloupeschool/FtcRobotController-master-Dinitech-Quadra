@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PEDRO_AIMING_CONTROLLER_D;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PEDRO_AIMING_CONTROLLER_F;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PEDRO_AIMING_CONTROLLER_I;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PEDRO_AIMING_CONTROLLER_P;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER_TRIGGER_SCALE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
@@ -7,6 +11,8 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPo
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.control.PIDFCoefficients;
+import com.pedropathing.control.PIDFController;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -14,9 +20,20 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.dinitech.other.DrawingDinitech;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPedroMecanumDrive;
 
+import java.util.function.BooleanSupplier;
+
 public class DrivePedroSubsystem extends SubsystemBase {
     /** The core drive system with PedroPathing integration. */
     public DinitechPedroMecanumDrive dinitechPedroMecanumDrive;
+    private PIDFController aimController;
+    public PIDFController getAimController() {
+        return aimController;
+    }
+
+    public void setAimControllerPIDF(double p, double i, double d, double f) {
+        getAimController().setCoefficients(new PIDFCoefficients(p, i, d, f));
+    }
+
     /** Telemetry for reporting drive status. */
     private final TelemetryManager telemetryM;
 
@@ -47,7 +64,6 @@ public class DrivePedroSubsystem extends SubsystemBase {
     public void setMaxPower(double globalMaxPower) {
         dinitechPedroMecanumDrive.setMaxPower(globalMaxPower);
     }
-
 
     /**
      * Defines the operational state of the drive.
@@ -137,9 +153,10 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriveUsage(DriveUsage.TELE);
         setDriveReference(DriveReference.FC);
         setDriveAimLockType(DriveAimLockType.NONE);
+        aimController = new PIDFController(new PIDFCoefficients(PEDRO_AIMING_CONTROLLER_P, PEDRO_AIMING_CONTROLLER_I,PEDRO_AIMING_CONTROLLER_D, PEDRO_AIMING_CONTROLLER_F));
+
 
         this.telemetryM = telemetryM;
-
     }
 
     public DrivePedroSubsystem(HardwareMap hardwareMap, final TelemetryManager telemetryM) {

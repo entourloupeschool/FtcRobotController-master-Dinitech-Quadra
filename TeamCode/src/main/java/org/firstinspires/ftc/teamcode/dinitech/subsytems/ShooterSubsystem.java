@@ -42,12 +42,13 @@ public class ShooterSubsystem extends SubsystemBase {
         TELE,   // Controlled by driver
         VISION, // Controlled by vision auto-aim
         PEDRO,
+        STOP,
         NONE    // Not in use
     }
 
     private double targetSpeed = 0;
     private double lastTimeStamp, accel, lastVelo;
-    private ShooterUsageState usageState = ShooterUsageState.NONE;
+    private ShooterUsageState usageState;
 
     /**
      * Constructs a new ShooterSubsystem.
@@ -69,6 +70,7 @@ public class ShooterSubsystem extends SubsystemBase {
         lastTimeStamp = (double) System.nanoTime() / 1E9;
 
         setVelocity(0);
+        setUsageState(ShooterUsageState.NONE);
 
         this.telemetryM = telemetryM;
     }

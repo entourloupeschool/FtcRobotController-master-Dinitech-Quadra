@@ -37,6 +37,10 @@ public class Globals {
     public static final Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
 
 
+    public static final Pose FIELD_CENTER_90HEAING_POSE = new Pose(72, 72, Math.PI/2);
+
+
+
     //BLUE SIDE
     public static final Pose BLUE_BASKET_POSE = new Pose(13, 135, 0);
     public static final Pose BLUE_SMALL_TRIANGLE_POSE = new Pose(57, 9.3, Math.PI/2);

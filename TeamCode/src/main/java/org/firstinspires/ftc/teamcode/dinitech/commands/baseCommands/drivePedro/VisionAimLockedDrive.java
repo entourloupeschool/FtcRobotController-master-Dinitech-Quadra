@@ -47,7 +47,6 @@ public class VisionAimLockedDrive extends CommandBase {
     public void initialize() {
         drivePedroSubsystem.setDriveAimLockType(DrivePedroSubsystem.DriveAimLockType.VISION_AIM);
 
-        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), 1, drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
     }
 
     /**

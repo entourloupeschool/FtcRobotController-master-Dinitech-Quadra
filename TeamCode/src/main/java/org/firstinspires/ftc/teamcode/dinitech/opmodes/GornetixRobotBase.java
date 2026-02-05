@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_BASKET_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELEMETRY_UPDATE_INTERVAL_MS;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.Blinker;
@@ -33,6 +36,10 @@ public class GornetixRobotBase extends CommandOpMode {
 
     public boolean getOnBlueTeam(){
         return onBlueTeam;
+    }
+
+    public Pose getGoalPose(){
+        return getOnBlueTeam() ? BLUE_BASKET_POSE : RED_BASKET_POSE;
     }
 
 

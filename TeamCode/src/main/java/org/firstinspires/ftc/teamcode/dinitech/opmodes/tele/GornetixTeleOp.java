@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ToggleVisionDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.DefaultGamepadCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.TeleShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.ToggleUsageStateShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinAntiRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
@@ -115,7 +116,7 @@ public class GornetixTeleOp extends GornetixRobotBase {
         gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, gamepadSubsystem));
         visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, drivePedroSubsystem, trieurSubsystem, shooterSubsystem));
         drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
-        shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.NONE);
+        shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 
         // Full stop robot
         m_Driver.touchpadButton.whenActive(new StopRobot(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem));
@@ -147,7 +148,7 @@ public class GornetixTeleOp extends GornetixRobotBase {
         m_Operator.bump_right.whileHeld(new MoulinRotate(trieurSubsystem));
         m_Operator.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem));
 
-        m_Operator.right_stick_button.whenPressed(new ToggleUsageStateShooter(shooterSubsystem, visionSubsystem, gamepadSubsystem));
+        m_Operator.right_stick_button.whenPressed(new ToggleUsageStateShooter(shooterSubsystem, drivePedroSubsystem, visionSubsystem, gamepadSubsystem, this::getGoalPose));
 
         m_Operator.square.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, LONG_SHOOT_SHOOTER_VELOCITY),
                 new SetVelocityShooter(shooterSubsystem, 0), true);

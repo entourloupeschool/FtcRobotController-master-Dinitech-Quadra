@@ -132,7 +132,7 @@ public class GetReadyForAuto extends GornetixRobotBase {
                         () -> drivePedroSubsystem.setDefaultCommand(new SlowDrive(drivePedroSubsystem, gamepadSubsystem))),
                 new InstantCommand(
                         () -> drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem))));
-        m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, this::getOnBlueTeam));
+        m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, this::getGoalPose));
 
         m_Driver.left_stick_button.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
 
@@ -147,7 +147,7 @@ public class GetReadyForAuto extends GornetixRobotBase {
         m_Operator.bump_right.whileHeld(new MoulinRotate(trieurSubsystem));
         m_Operator.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem));
 
-        m_Operator.right_stick_button.whenPressed(new ToggleUsageStateShooter(shooterSubsystem, visionSubsystem, gamepadSubsystem));
+        m_Operator.right_stick_button.whenPressed(new ToggleUsageStateShooter(shooterSubsystem, drivePedroSubsystem, visionSubsystem, gamepadSubsystem, this::getGoalPose));
 
 
         m_Operator.square.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, LONG_SHOOT_SHOOTER_VELOCITY), new SetVelocityShooter(shooterSubsystem, 0), true);

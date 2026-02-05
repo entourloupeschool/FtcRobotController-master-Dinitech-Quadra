@@ -1,40 +1,45 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests.chars;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ADJUST_CONSTANT;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEAING_POSE;
 
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.pedropathing.control.PIDFCoefficients;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.PedroAimLockedDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.tele.GornetixTeleOp;
+import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-@TeleOp(name = "TrieurChar - Dinitech", group = "Char")
-public class TrieurChar extends GornetixRobotBase {
-    // Gamepads
-    private GamepadWrapper m_Driver, m_Operator;
-    private GamepadSubsystem gamepadSubsystem;
-    private TrieurSubsystem trieurSubsystem;
+import java.util.Objects;
 
-    private double pMoulin;
-    private double iMoulin;
-    private double dMoulin;
-    private double fMoulin;
-
-    private double pMoulinInit;
-    private double iMoulinInit;
-    private double dMoulinInit;
-    private double fMoulinInit;
+@TeleOp(name = "DrivingAimChar - Dinitech", group = "Char")
+public class DrivingAimChar extends GornetixTeleOp {
+    private double pDriveAim;
+    private double iDriveAim;
+    private double dDriveAim;
+    private double fDriveAim;
+    private double pDriveAimInit;
+    private double iDriveAimInit;
+    private double dDriveAimInit;
+    private double fDriveAimInit;
     String[] paramNames = { "P", "I", "D", "F" };
-    double[] paramValues = { pMoulin, iMoulin, dMoulin, fMoulin };
+    double[] paramValues = { pDriveAim, iDriveAim, dDriveAim, fDriveAim };
     private int selectedParamIndex = 0; // 0=P, 1=I, 2=D, 3=F
 
     /**
@@ -44,23 +49,20 @@ public class TrieurChar extends GornetixRobotBase {
     public void initialize() {
         super.initialize();
 
-        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
-        register(gamepadSubsystem);
+        drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEAING_POSE);
+        drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, this::getGoalPose));
 
-        trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
-        register(trieurSubsystem);
+        PIDFCoefficients pidfCoeffsInit = drivePedroSubsystem.getAimController().getCoefficients();
 
-        PIDFCoefficients pidfCoeffsInit = trieurSubsystem.getPIDF();
+        pDriveAimInit = pidfCoeffsInit.P;
+        iDriveAimInit = pidfCoeffsInit.I;
+        dDriveAimInit = pidfCoeffsInit.D;
+        fDriveAimInit = pidfCoeffsInit.F;
 
-        pMoulinInit = pidfCoeffsInit.p;
-        iMoulinInit = pidfCoeffsInit.i;
-        dMoulinInit = pidfCoeffsInit.d;
-        fMoulinInit = pidfCoeffsInit.f;
-
-        pMoulin = pMoulinInit;
-        iMoulin = iMoulinInit;
-        dMoulin = dMoulinInit;
-        fMoulin = fMoulinInit;
+        pDriveAim = pDriveAimInit;
+        iDriveAim = iDriveAimInit;
+        dDriveAim = dDriveAimInit;
+        fDriveAim = fDriveAimInit;
 
         setupGamePadsButtonBindings();
     }
@@ -70,17 +72,17 @@ public class TrieurChar extends GornetixRobotBase {
      */
     @Override
     public void run() {
-        double rightTrigger = m_Driver.getRightTriggerValue();
-        double leftTrigger = m_Driver.getLeftTriggerValue();
+        double rightTrigger = m_Operator.getRightTriggerValue();
+        double leftTrigger = m_Operator.getLeftTriggerValue();
 
         if (rightTrigger > 0.01) {
             adjustSelectedParameter(rightTrigger * rightTrigger * ADJUST_CONSTANT);
-            trieurSubsystem.setPIDF(pMoulin, iMoulin, dMoulin, fMoulin);
+            drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim);
         }
 
         if (leftTrigger > 0.01) {
             adjustSelectedParameter(-leftTrigger * leftTrigger * ADJUST_CONSTANT);
-            trieurSubsystem.setPIDF(pMoulin, iMoulin, dMoulin, fMoulin);
+            drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim);
         }
 
         telemetryPIDF(telemetry);
@@ -92,33 +94,22 @@ public class TrieurChar extends GornetixRobotBase {
      * Setup GamePads and Buttons and their associated commands.
      */
     private void setupGamePadsButtonBindings() {
-        m_Driver = gamepadSubsystem.getDriver();
-        m_Operator = gamepadSubsystem.getOperator();
-
-        m_Operator.bump_right.whenPressed(new SequentialCommandGroup(
-                new MoulinNextNext(trieurSubsystem),
-                new WaitCommand(1),
-                new MoulinNextNext(trieurSubsystem),
-                new WaitCommand(1),
-                new MoulinNext(trieurSubsystem)));
-        m_Operator.bump_left.whenPressed(new MoulinRevolution(trieurSubsystem));
-
         m_Operator.dpad_down.whenPressed(
                 () -> {
-                    pMoulin = pMoulinInit;
-                    iMoulin = iMoulinInit;
-                    dMoulin = dMoulinInit;
-                    fMoulin = fMoulinInit;
-                    trieurSubsystem.setPIDF(pMoulin, iMoulin, dMoulin, fMoulin);
+                    pDriveAim = pDriveAimInit;
+                    iDriveAim = iDriveAimInit;
+                    dDriveAim = dDriveAimInit;
+                    fDriveAim = fDriveAimInit;
+                    drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim);
                 });
 
         m_Operator.dpad_up.whenPressed(
                 () -> {
-                    pMoulin = 0;
-                    iMoulin = 0;
-                    dMoulin = 0;
-                    fMoulin = 0;
-                    trieurSubsystem.setPIDF(pMoulin, iMoulin, dMoulin, fMoulin);
+                    pDriveAim = 0;
+                    iDriveAim = 0;
+                    dDriveAim = 0;
+                    fDriveAim = 0;
+                    drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim);
                 });
 
         // Parameter selection (left/right to navigate between P, I, D, F)
@@ -134,12 +125,12 @@ public class TrieurChar extends GornetixRobotBase {
         m_Driver.triangle.whileHeld(new RunCommand(() -> {
             adjustSelectedParameter(ADJUST_CONSTANT);
         }));
-        m_Driver.triangle.whenReleased(() -> trieurSubsystem.setPIDF(pMoulin, iMoulin, dMoulin, fMoulin));
+        m_Driver.triangle.whenReleased(() -> drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim));
 
         m_Driver.cross.whileHeld(new RunCommand(() -> {
             adjustSelectedParameter(-ADJUST_CONSTANT);
         }));
-        m_Driver.cross.whenReleased(() -> trieurSubsystem.setPIDF(pMoulin, iMoulin, dMoulin, fMoulin));
+        m_Driver.cross.whenReleased(() -> drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim));
     }
 
     /**
@@ -150,26 +141,26 @@ public class TrieurChar extends GornetixRobotBase {
     private void adjustSelectedParameter(double delta) {
         switch (selectedParamIndex) {
             case 0:
-                pMoulin += delta;
+                pDriveAim += delta;
                 break;
             case 1:
-                iMoulin += delta;
+                iDriveAim += delta;
                 break;
             case 2:
-                dMoulin += delta;
+                dDriveAim += delta;
                 break;
             case 3:
-                fMoulin += delta;
+                fDriveAim += delta;
                 break;
         }
     }
 
     private void telemetryPIDF(Telemetry telemetry) {
         // Update paramValues with current PIDF values
-        paramValues[0] = pMoulin;
-        paramValues[1] = iMoulin;
-        paramValues[2] = dMoulin;
-        paramValues[3] = fMoulin;
+        paramValues[0] = pDriveAim;
+        paramValues[1] = iDriveAim;
+        paramValues[2] = dDriveAim;
+        paramValues[3] = fDriveAim;
 
         for (int i = 0; i < 4; i++) {
             String indicator = (i == selectedParamIndex) ? " <--" : "";

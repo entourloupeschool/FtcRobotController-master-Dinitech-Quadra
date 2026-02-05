@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_BASKET_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedFromPedroRange;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedFromRange;
 
@@ -13,58 +11,39 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 public class PedroShooter extends CommandBase {
     private final ShooterSubsystem shooterSubsystem;
     private final DrivePedroSubsystem drivePedroSubsystem;
-    private final BooleanSupplier isBlueSupplier;
-
-    private boolean lastIsBlue = false;
-
-    private Pose targetBasketPose;
-
+    private final Supplier<Pose> goalPoseSupplier;
 
 
     /**
-     * Creates a PedroShooter command that adjusts shooter speed based on the localizer's pose's distance to basket
+     * Creates a VisionShooter command that adjusts shooter speed based on AprilTag
      * range.
      *
      * @param shooterSubsystem The shooter subsystem
      * @param drivePedroSubsystem  The drive subsystem
-     * @param isBlueSupplier wether the robot is on blue team or not
+     * @param goalPoseSupplier Supplier for the goal pose
      */
-    public PedroShooter(ShooterSubsystem shooterSubsystem, DrivePedroSubsystem drivePedroSubsystem, BooleanSupplier isBlueSupplier) {
+    public PedroShooter(ShooterSubsystem shooterSubsystem, DrivePedroSubsystem drivePedroSubsystem, Supplier<Pose> goalPoseSupplier) {
         this.shooterSubsystem = shooterSubsystem;
         this.drivePedroSubsystem = drivePedroSubsystem;
-        this.isBlueSupplier = isBlueSupplier;
-
+        this.goalPoseSupplier = goalPoseSupplier;
         addRequirements(shooterSubsystem);
     }
 
     @Override
     public void initialize(){
         shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.PEDRO);
-        targetBasketPose = BLUE_BASKET_POSE;
     }
 
 
     @Override
     public void execute() {
-        if (drivePedroSubsystem.getDriverInputPose()){
-            // Get current pose from drive
-            Pose currentPose = drivePedroSubsystem.getPose();
-            boolean currentIsBlue = isBlueSupplier.getAsBoolean();
-
-            // Get distance to blue basket if blue team, else get distance to red basket
-            if (currentIsBlue != lastIsBlue) {
-                lastIsBlue = currentIsBlue;
-                targetBasketPose = currentIsBlue ? BLUE_BASKET_POSE : RED_BASKET_POSE;
-            }
-
-            // Set shooter speed based on distance to basket
-            shooterSubsystem.setVelocity(linearSpeedFromPedroRange(currentPose.distanceFrom(targetBasketPose)));
-        }
-
+        double range = drivePedroSubsystem.getPose().distanceFrom(goalPoseSupplier.get());
+        shooterSubsystem.setVelocity(linearSpeedFromPedroRange(range));
     }
 
 
