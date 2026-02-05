@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tele;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_SMALL_TRIANGLE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
@@ -41,28 +40,11 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
-import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
-
-import java.util.Objects;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
 
 @TeleOp(name = "GornetixTeleOp - Dinitech", group = "TeleOp")
-public class GornetixTeleOp extends GornetixRobotBase {
-    public GamepadSubsystem gamepadSubsystem;
-    public GamepadWrapper m_Driver;
-    public GamepadWrapper m_Operator;
-    public TrieurSubsystem trieurSubsystem;
-    public VisionSubsystem visionSubsystem;
-    public ShooterSubsystem shooterSubsystem;
-    public ChargeurSubsystem chargeurSubsystem;
-    public DrivePedroSubsystem drivePedroSubsystem;
+public class GornetixTeleOp extends GornetixFullSystem {
+
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -71,31 +53,9 @@ public class GornetixTeleOp extends GornetixRobotBase {
     public void initialize() {
             super.initialize();
 
-            gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
-            register(gamepadSubsystem);
-            m_Driver = gamepadSubsystem.getDriver();
-            m_Operator = gamepadSubsystem.getOperator();
-
-            visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
-            register(visionSubsystem);
-
-            drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, Objects.requireNonNullElseGet(PoseStorage.getLastPose(), () -> BEGIN_POSE), telemetryM);
-            register(drivePedroSubsystem);
-            PoseStorage.clearLastPose();
-
-            trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
-            register(trieurSubsystem);
-
-            chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetryM);
-            register(chargeurSubsystem);
-
-            shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
-            register(shooterSubsystem);
-
             visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, drivePedroSubsystem, trieurSubsystem, shooterSubsystem));
 
-
-        setupGamePadsButtonBindings();
+            setupGamePadsButtonBindings();
 
             new MoulinCalibrationSequence(trieurSubsystem).schedule();
     }
@@ -112,7 +72,6 @@ public class GornetixTeleOp extends GornetixRobotBase {
      * Setup GamePads and Buttons and their associated commands.
      */
     private void setupGamePadsButtonBindings() {
-        hubsSubsystem.setDefaultCommand(new DefaultHubsCommand(hubsSubsystem, trieurSubsystem, this::getOnBlueTeam));
         gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, gamepadSubsystem));
         visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, drivePedroSubsystem, trieurSubsystem, shooterSubsystem));
         drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
@@ -132,7 +91,7 @@ public class GornetixTeleOp extends GornetixRobotBase {
                         () -> drivePedroSubsystem.setDefaultCommand(new SlowDrive(drivePedroSubsystem, gamepadSubsystem))),
                 new InstantCommand(
                         () -> drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem))));
-        m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, this::getOnBlueTeam));
+        m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, this::getGoalPose));
 
         m_Driver.left_stick_button.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
 

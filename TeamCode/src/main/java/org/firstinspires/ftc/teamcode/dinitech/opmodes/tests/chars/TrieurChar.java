@@ -12,17 +12,15 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.tele.GornetixTeleOp;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "TrieurChar - Dinitech", group = "Char")
-public class TrieurChar extends GornetixRobotBase {
-    // Gamepads
-    private GamepadWrapper m_Driver, m_Operator;
-    private GamepadSubsystem gamepadSubsystem;
-    private TrieurSubsystem trieurSubsystem;
+public class TrieurChar extends GornetixFullSystem {
 
     private double pMoulin;
     private double iMoulin;
@@ -43,12 +41,6 @@ public class TrieurChar extends GornetixRobotBase {
     @Override
     public void initialize() {
         super.initialize();
-
-        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
-        register(gamepadSubsystem);
-
-        trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
-        register(trieurSubsystem);
 
         PIDFCoefficients pidfCoeffsInit = trieurSubsystem.getPIDF();
 

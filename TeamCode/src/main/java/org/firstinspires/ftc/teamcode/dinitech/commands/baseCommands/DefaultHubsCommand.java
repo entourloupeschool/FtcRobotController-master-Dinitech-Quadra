@@ -40,10 +40,6 @@ public class DefaultHubsCommand extends CommandBase {
         return (a << 24) | (r << 16) | (g << 8) | b;
     }
 
-    private int green = rgb(0, 255, 0);
-    private int blue = rgb(0, 0, 255);
-
-    private int red = rgb( 255, 0, 0);
 
 
     public DefaultHubsCommand(HubsSubsystem hubsSubsystem, TrieurSubsystem trieurSubsystem, BooleanSupplier isBlueSupplier) {

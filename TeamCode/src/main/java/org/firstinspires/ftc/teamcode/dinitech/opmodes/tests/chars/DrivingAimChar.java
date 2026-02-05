@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.tele.GornetixTeleOp;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
@@ -29,7 +30,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 import java.util.Objects;
 
 @TeleOp(name = "DrivingAimChar - Dinitech", group = "Char")
-public class DrivingAimChar extends GornetixTeleOp {
+public class DrivingAimChar extends GornetixFullSystem {
     private double pDriveAim;
     private double iDriveAim;
     private double dDriveAim;

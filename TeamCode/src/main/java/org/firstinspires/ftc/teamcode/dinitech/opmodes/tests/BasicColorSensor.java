@@ -77,8 +77,6 @@ public class BasicColorSensor extends GornetixRobotBase {
      */
     @Override
     public void run() {
-        super.run();
-
         if ((float) GAIN_DETECTION != colorSensor1.getGain()){
             colorSensor1.setGain((float) GAIN_DETECTION);
         }
@@ -139,6 +137,9 @@ public class BasicColorSensor extends GornetixRobotBase {
 //        }
 //
 //        telemetry.addData("colorSensor distance", getDistance(colorSensor1));
+
+        super.run();
+
     }
     
     private boolean isHueBetween(double lowerThreshold, double upperThreshold) {

@@ -10,19 +10,17 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.TeleShooter;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.tele.GornetixTeleOp;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "ShooterChar - Dinitech", group = "Char")
 
-public class ShooterChar extends GornetixRobotBase {
-    // Gamepads
-    private GamepadWrapper m_Driver, m_Operator;
+public class ShooterChar extends GornetixFullSystem {
 
-    private GamepadSubsystem gamepadSubsystem;
-    private ShooterSubsystem shooterSubsystem;
     private double pShooter;
     private double iShooter;
     private double dShooter;
@@ -45,14 +43,7 @@ public class ShooterChar extends GornetixRobotBase {
     public void initialize() {
         super.initialize();
 
-        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
-        register(gamepadSubsystem);
-
-        shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
-        register(shooterSubsystem);
         shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
-
-
 
         PIDFCoefficients pidfCoeffsInit = shooterSubsystem.getPIDFVelocity();
 

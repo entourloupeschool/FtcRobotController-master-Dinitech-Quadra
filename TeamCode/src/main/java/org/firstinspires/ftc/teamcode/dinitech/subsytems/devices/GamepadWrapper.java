@@ -4,6 +4,8 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURAT
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_2;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_POWER;
 
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.command.button.Trigger;

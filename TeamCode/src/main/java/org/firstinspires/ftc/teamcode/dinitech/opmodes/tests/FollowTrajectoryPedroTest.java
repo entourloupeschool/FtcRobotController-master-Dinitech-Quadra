@@ -11,33 +11,21 @@ import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 @Autonomous(name = "FollowTrajectoryPedroTest - Dinitech", group = "Test")
-public class FollowTrajectoryPedroTest extends GornetixRobotBase {
-    private GamepadSubsystem gamepadSubsystem;
-    private VisionSubsystem visionSubsystem;
-    private DrivePedroSubsystem drivePedroSubsystem;
-
-
+public class FollowTrajectoryPedroTest extends GornetixAutoBase {
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
      */
     @Override
     public void initialize() {
         super.initialize();
-
-        gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
-        register(gamepadSubsystem);
-
-        visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
-        register(visionSubsystem);
-
-        drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, BEGIN_POSE, telemetryM);
-        register(drivePedroSubsystem);
 
         new SequentialCommandGroup(
                 new FollowPath(drivePedroSubsystem,

@@ -27,10 +27,10 @@ public class BasicMagneticSwitch extends GornetixRobotBase {
      */
     @Override
     public void run() {
-        super.run();
-
         telemetry.addData("touched :", magneticSwitch.isPressed());
         telemetry.addData("magntic switch value", magneticSwitch.getValue());
+
+        super.run();
     }
 
 }

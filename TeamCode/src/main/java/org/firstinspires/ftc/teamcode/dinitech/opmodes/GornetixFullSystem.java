@@ -1,23 +1,12 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_BASKET_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELEMETRY_UPDATE_INTERVAL_MS;
 
-import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.bylazar.telemetry.PanelsTelemetry;
-import com.bylazar.telemetry.TelemetryManager;
-import com.pedropathing.geometry.Pose;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.DefaultHubsCommand;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
@@ -25,7 +14,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 import java.util.Objects;
 
-public class FullSystemRobot extends GornetixRobotBase {
+public class GornetixFullSystem extends GornetixRobotBase {
     public GamepadSubsystem gamepadSubsystem;
     public GamepadWrapper m_Driver;
     public GamepadWrapper m_Operator;
@@ -41,6 +30,7 @@ public class FullSystemRobot extends GornetixRobotBase {
     @Override
     public void initialize() {
         super.initialize();
+
         gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
         m_Driver = gamepadSubsystem.getDriver();
@@ -62,6 +52,7 @@ public class FullSystemRobot extends GornetixRobotBase {
         shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
         register(shooterSubsystem);
 
+        hubsSubsystem.setDefaultCommand(new DefaultHubsCommand(hubsSubsystem, trieurSubsystem, this::getOnBlueTeam));
     }
 
     /**
