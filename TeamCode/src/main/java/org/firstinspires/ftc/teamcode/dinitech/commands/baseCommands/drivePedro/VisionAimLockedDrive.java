@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -24,7 +22,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
  * The auto-aiming rotation power is calculated based on the bearing to the AprilTag,
  * passed through a custom power function to create a smooth response curve.
  */
-public class AimLockedDrive extends CommandBase {
+public class VisionAimLockedDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final VisionSubsystem visionSubsystem;
     private final GamepadWrapper driver;
@@ -36,8 +34,8 @@ public class AimLockedDrive extends CommandBase {
      * @param visionSubsystem  The vision subsystem for AprilTag detection and bearing.
      * @param gamepadSubsystem The gamepad subsystem for driver inputs.
      */
-    public AimLockedDrive(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem,
-                          GamepadSubsystem gamepadSubsystem) {
+    public VisionAimLockedDrive(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem,
+                                GamepadSubsystem gamepadSubsystem) {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;
         this.driver = gamepadSubsystem.getDriver();
@@ -47,7 +45,7 @@ public class AimLockedDrive extends CommandBase {
 
     @Override
     public void initialize() {
-        drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AIM_LOCKED);
+        drivePedroSubsystem.setDriveAimLockType(DrivePedroSubsystem.DriveAimLockType.VISION_AIM);
 
         drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), 1, drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
     }

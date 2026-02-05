@@ -2,10 +2,11 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.Rumble;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
+
+import java.util.function.BooleanSupplier;
 
 /**
  * An instant command that toggles the drive mode between normal tele-op and vision-assisted "locked" driving.
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * <ul>
  *     <li>If the drive is in vision-locked mode, it restores the default command to {@link RobotCentricDrive}
  *     for normal, robot-centric control.</li>
- *     <li>If the drive is in normal mode, it sets the default command to {@link AimLockedDrive},
+ *     <li>If the drive is in normal mode, it sets the default command to {@link VisionAimLockedDrive},
  *     enabling the vision-assisted auto-aim behavior, and triggers a rumble for haptic feedback.</li>
  * </ul>
  * The command finishes immediately after setting the new default command.
@@ -23,6 +24,7 @@ public class ToggleVisionDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
+    private final BooleanSupplier isBlue;
 
     /**
      * Creates a new ToggleVisionDrive command.
@@ -32,10 +34,11 @@ public class ToggleVisionDrive extends CommandBase {
      * @param gamepadSubsystem The gamepad subsystem for providing feedback.
      */
     public ToggleVisionDrive(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem,
-            GamepadSubsystem gamepadSubsystem) {
+                             GamepadSubsystem gamepadSubsystem, BooleanSupplier isBlue) {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
+        this.isBlue = isBlue;
     }
 
     /**
@@ -43,12 +46,14 @@ public class ToggleVisionDrive extends CommandBase {
      */
     @Override
     public void initialize() {
-        if (drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.AIM_LOCKED) {
+        if (drivePedroSubsystem.getDriveAimLockType() == DrivePedroSubsystem.DriveAimLockType.PEDRO_AIM){
             // If vision is locked, switch back to normal drive.
             drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
-        } else {
+        } else if (drivePedroSubsystem.getDriveAimLockType() == DrivePedroSubsystem.DriveAimLockType.NONE){
             // If not locked, switch to vision-locked drive and provide feedback.
-            drivePedroSubsystem.setDefaultCommand(new AimLockedDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
+            drivePedroSubsystem.setDefaultCommand(new VisionAimLockedDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
+        } else {
+            drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, isBlue));
         }
     }
 

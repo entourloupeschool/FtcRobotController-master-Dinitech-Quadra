@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.Ma
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.ToggleChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FieldCentricDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetHeadingFCDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ToggleSlowDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SlowDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ToggleVisionDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.DefaultGamepadCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
@@ -127,8 +127,12 @@ public class GetReadyForAuto extends GornetixRobotBase {
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
         m_Driver.square.whenPressed(new ShootRevolution(trieurSubsystem, new VisionShooter(shooterSubsystem, visionSubsystem)));
 
-        m_Driver.bump_left.whenPressed(new ToggleSlowDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
-        m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
+        m_Driver.bump_left.toggleWhenPressed(
+                new InstantCommand(
+                        () -> drivePedroSubsystem.setDefaultCommand(new SlowDrive(drivePedroSubsystem, gamepadSubsystem))),
+                new InstantCommand(
+                        () -> drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem))));
+        m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, this::getOnBlueTeam));
 
         m_Driver.left_stick_button.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
 

@@ -35,7 +35,7 @@ public class SlowDrive extends CommandBase {
 
     @Override
     public void initialize(){
-        drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.SLOW);
+        drivePedroSubsystem.setDriveAimLockType(DrivePedroSubsystem.DriveAimLockType.NONE);
     }
 
     /**

@@ -54,8 +54,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
      */
     public enum DriveReference {
         ROBOT,
-        FC,
-        AUTO
+        FC
     }
 
     private DriveReference driveReference;
@@ -82,8 +81,6 @@ public class DrivePedroSubsystem extends SubsystemBase {
      */
     public enum DriveUsage {
         TELE,   // Controlled by driver
-        AIM_LOCKED, // Controlled by vision auto-aim
-        SLOW,    // Slow drive mode
         BLOCKED, // Lock in place
         AUTO // Controlled by autonomous code
     }
@@ -106,6 +103,23 @@ public class DrivePedroSubsystem extends SubsystemBase {
         return driveUsage;
     }
 
+
+    public enum DriveAimLockType {
+        NONE, // No drive lock
+        VISION_AIM, // vision apriltag values
+        PEDRO_AIM // pedro poses
+    }
+    private DriveAimLockType driveAimLockType;
+
+
+    public DriveAimLockType getDriveAimLockType() {
+        return driveAimLockType;
+    }
+
+    public void setDriveAimLockType(DriveAimLockType driveAimLockType) {
+        this.driveAimLockType = driveAimLockType;
+    }
+
     private double lastTeleDriverPowerScale = 1;
 
     /**
@@ -122,6 +136,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriverInputPose(false);
         setDriveUsage(DriveUsage.TELE);
         setDriveReference(DriveReference.FC);
+        setDriveAimLockType(DriveAimLockType.NONE);
 
         this.telemetryM = telemetryM;
 

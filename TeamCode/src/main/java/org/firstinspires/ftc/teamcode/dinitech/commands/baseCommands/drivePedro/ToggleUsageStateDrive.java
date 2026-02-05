@@ -53,7 +53,7 @@ public class ToggleUsageStateDrive extends CommandBase {
             drivePedroSubsystem.setDefaultCommand(new SlowDrive(drivePedroSubsystem, gamepadSubsystem));
         } else if (drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.TELE){
             // If in normal mode, switch to slow drive and provide feedback
-            drivePedroSubsystem.setDefaultCommand(new AimLockedDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
+            drivePedroSubsystem.setDefaultCommand(new VisionAimLockedDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
         } else {
             drivePedroSubsystem.setDefaultCommand(new RobotCentricDrive(drivePedroSubsystem, gamepadSubsystem));
         }
