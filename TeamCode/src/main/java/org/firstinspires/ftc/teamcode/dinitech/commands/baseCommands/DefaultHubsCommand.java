@@ -73,7 +73,7 @@ public class DefaultHubsCommand extends CommandBase {
         }
 
         // Set initial pattern
-        updatePattern();
+        updatePattern(trieurSubsystem.isTrappeOpen(), isBlueSupplier.getAsBoolean());
     }
     @Override
     public void execute() {
@@ -82,25 +82,22 @@ public class DefaultHubsCommand extends CommandBase {
 
         // Only update pattern when trappe state or team color changes
         if (!patternSet || currentTrappeOpen != lastTrappeOpen || currentIsBlue != lastIsBlue) {
-            updatePattern();
+            updatePattern(currentTrappeOpen, currentIsBlue);
             lastTrappeOpen = currentTrappeOpen;
             lastIsBlue = currentIsBlue;
             patternSet = true;
         }
     }
 
-    private void updatePattern() {
-        boolean trappeOpen = trieurSubsystem.isTrappeOpen();
-        boolean isBlue = isBlueSupplier.getAsBoolean();
-
+    private void updatePattern(boolean isTrappeOpen, boolean isBlue) {
         if (isBlue) {
-            if (trappeOpen) {
+            if (isTrappeOpen) {
                 hubsSubsystem.setPattern(patternBlueOpen);
             } else {
                 hubsSubsystem.setPattern(patternBlueDecay);
             }
         } else {
-            if (trappeOpen) {
+            if (isTrappeOpen) {
                 hubsSubsystem.setPattern(patternRedOpen);
             } else {
                 hubsSubsystem.setPattern(patternRedDecay);

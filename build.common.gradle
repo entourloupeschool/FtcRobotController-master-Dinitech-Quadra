@@ -21,7 +21,8 @@ apply plugin: 'com.android.application'
 
 android {
 
-    compileSdkVersion 30
+    // UPDATED 6 février 2026 - Match FtcRobotController compileSdk for consistency
+    compileSdkVersion 35
 
     signingConfigs {
         release {
@@ -88,6 +89,12 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
+
+            // ADDED 6 février 2026 - Optimize APK size and performance for Control Hub
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // END ADDED 6 février 2026
 
             ndk {
                 abiFilters "armeabi-v7a"

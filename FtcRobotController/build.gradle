@@ -19,6 +19,13 @@ android {
     }
     compileSdk 35
 
+    // ADDED 6 février 2026 - ProGuard configuration for library optimization
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+    // END ADDED 6 février 2026
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

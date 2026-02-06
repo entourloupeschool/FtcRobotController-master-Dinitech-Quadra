@@ -23,6 +23,14 @@ android {
         minSdk 24
     }
 
+    // ADDED 6 février 2026 - ProGuard configuration for optimization
+    buildTypes {
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    // END ADDED 6 février 2026
+
     packagingOptions {
         jniLibs.useLegacyPackaging true
     }
