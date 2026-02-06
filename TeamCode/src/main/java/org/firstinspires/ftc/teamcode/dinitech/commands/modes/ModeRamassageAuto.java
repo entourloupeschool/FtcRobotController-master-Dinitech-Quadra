@@ -36,25 +36,14 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
                 // First, run the detection process
                 new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout),
                 new ConditionalCommand(
-                        new ParallelCommandGroup(
-                                new SequentialCommandGroup(
-                                        new StopDoubleServo(chargeurSubsystem),
-                                        new WaitUntilCommand(()-> trieurSubsystem.getMoulinMotorRemainingDistance() < MOULIN_TICKS_TO_WAIT_DOUBLE_SERVO),
-                                        new MaxPowerDoubleServo(chargeurSubsystem)),
-                                new MoulinNextNextLoose(trieurSubsystem)
-                        ),
+                        new MoulinNextNextLoose(trieurSubsystem),
                         new InstantCommand(), // Do nothing on timeout
                         trieurSubsystem::isArtefactInTrieur
                 ),
                 // First, run the detection process
                 new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout),
                 new ConditionalCommand(
-                        new ParallelCommandGroup(
-                                new SequentialCommandGroup(
-                                        new StopDoubleServo(chargeurSubsystem),
-                                        new WaitUntilCommand(()-> trieurSubsystem.getMoulinMotorRemainingDistance() < MOULIN_TICKS_TO_WAIT_DOUBLE_SERVO),
-                                        new MaxPowerDoubleServo(chargeurSubsystem)),
-                                new MoulinNextNextLoose(trieurSubsystem)),
+                        new MoulinNextNextLoose(trieurSubsystem),
                         new InstantCommand(), // Do nothing on timeout
                         trieurSubsystem::isArtefactInTrieur
                 ),

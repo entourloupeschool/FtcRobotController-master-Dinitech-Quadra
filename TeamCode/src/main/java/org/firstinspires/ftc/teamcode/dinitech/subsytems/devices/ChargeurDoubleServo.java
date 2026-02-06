@@ -22,6 +22,6 @@ public class ChargeurDoubleServo extends DoubleContinuousServo {
      */
     public ChargeurDoubleServo(final HardwareMap hardwareMap) {
         super(hardwareMap, CHARGEUR_SERVO_GAUCHE_MOTOR_NAME, CHARGEUR_SERVO_DROITE_MOTOR_NAME);
-        this.getServo(1).setInverted(true);
+        this.getServo(2).setInverted(true);
     }
 }

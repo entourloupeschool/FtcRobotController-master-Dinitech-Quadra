@@ -46,12 +46,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
  *
  * <p><b>Position Mapping:</b>
  * <ul>
- *     <li>Position 1: Storage slot 1 is at the loading area.</li>
- *     <li>Position 2: Storage slot 3 is at the shooting area.</li>
- *     <li>Position 3: Storage slot 2 is at the loading area.</li>
- *     <li>Position 4: Storage slot 1 is at the shooting area.</li>
- *     <li>Position 5: Storage slot 3 is at the loading area.</li>
- *     <li>Position 6: Storage slot 2 is at the shooting area.</li>
+ *     <li>Position 1: Storage slot.</li>
+ *     <li>Position 2: Shoot position 5.</li>
+ *     <li>Position 3: Storage slot.</li>
+ *     <li>Position 4: Shoot position 1.</li>
+ *     <li>Position 5: Storage slot.</li>
+ *     <li>Position 6: Shoot position 3.</li>
  * </ul>
  */
 public class Moulin {
@@ -65,11 +65,8 @@ public class Moulin {
     public Moulin(final HardwareMap hardwareMap) {
         dcMotorEx = hardwareMap.get(DcMotorEx.class, MOULIN_MOTOR_NAME);
 
-        dcMotorEx.setZeroPowerBehavior(BRAKE);
-
-        resetMoulin();
-
-        setTargetPositionMotorTolerance(MOULIN_POSITION_TOLERANCE);
+        resetMotor();
+        hardSetPosition(1);
     }
 
     /**
@@ -77,12 +74,14 @@ public class Moulin {
      * setting the motor to RUN_TO_POSITION mode, and initializing PIDF coefficients.
      * The moulin position is set to 1.
      */
-    public void resetMoulin() {
+    public void resetMotor() {
         dcMotorEx.setMode(STOP_AND_RESET_ENCODER);
         setTargetPositionMotor(getMotorPosition());
         dcMotorEx.setMode(RUN_TO_POSITION);
+        dcMotorEx.setZeroPowerBehavior(BRAKE);
+        setTargetPositionMotorTolerance(MOULIN_POSITION_TOLERANCE);
         setPIDF(P_MOULIN_AGGRESSIVE, I_MOULIN_AGGRESSIVE, D_MOULIN_AGGRESSIVE, F_MOULIN_AGGRESSIVE);
-        moulinPosition = 1;
+
     }
 
     /**

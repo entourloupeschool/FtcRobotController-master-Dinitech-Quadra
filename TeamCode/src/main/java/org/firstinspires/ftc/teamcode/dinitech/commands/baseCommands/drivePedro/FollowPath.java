@@ -75,8 +75,8 @@ public class FollowPath extends CommandBase {
 
     @Override
     public void initialize() {
-        drivePedroSubsystem.setDriveReference(DrivePedroSubsystem.DriveReference.AUTO);
         drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
+        drivePedroSubsystem.setDriveAimLockType(DrivePedroSubsystem.DriveAimLockType.NONE);
 
         // Build the path at initialization if using a supplier
         if (pathChain == null && pathSupplier != null) {
