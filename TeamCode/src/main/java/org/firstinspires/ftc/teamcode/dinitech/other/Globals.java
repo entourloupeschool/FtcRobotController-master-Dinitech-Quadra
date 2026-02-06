@@ -29,6 +29,7 @@ public class Globals {
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
+    public static double GATEPICK_POWER = 0.18;
     public static double SUPER_POWER_ROW_PICK_ARTEFACTS = 1;
     public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
     public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 50;
@@ -46,17 +47,21 @@ public class Globals {
     public static final Pose BLUE_SMALL_TRIANGLE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_SMALL_TRIANGLE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
-    public static  final Pose BLUE_RAMP_POSE = new Pose(20, 63, Math.PI/2);
+    public static  final Pose BLUE_RAMP_POSE = new Pose(20, 62, 0);
+    public static final double GATEPICK_LENGTH_BACKUP_X = 7;
+    public static final double GATEPICK_LENGTH_BACKUP_Y = 1;
+    public static  final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() - GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() - GATEPICK_LENGTH_BACKUP_Y, Math.toRadians(-28));
+
     public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
 
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = 1405;
     public static final double SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY = 1730;
-
-
     public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 84, 0);
     public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
     public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
+
+
 
     //RED SIDE
     public static final Pose RED_BASKET_POSE = BLUE_BASKET_POSE.mirror();
@@ -66,6 +71,10 @@ public class Globals {
 
     public static final Pose RED_GOAL_POSE = BLUE_GOAL_POSE.mirror();
     public static final Pose RED_RAMP_POSE = BLUE_RAMP_POSE.mirror();
+    public static final Pose RED_RAMP_END_POSE = BLUE_RAMP_END_POSE.mirror();
+
+    public static final Pose OBELISK_RED_POSE = OBELISK_BLUE_POSE.mirror();
+
     public static final Pose CLOSE_SHOOT_RED_POSE = CLOSE_SHOOT_BLUE_POSE.mirror();
     public static final Pose FIRST_ROW_RED_POSE = FIRST_ROW_BLUE_POSE.mirror();
     public static final Pose SECOND_ROW_RED_POSE = SECOND_ROW_BLUE_POSE.mirror();

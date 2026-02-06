@@ -67,7 +67,7 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                                                 drivePedroSubsystem::getHeading,
                                                 RowPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        rowPower, false),
+                                        rowPower, true),
                                 new ParallelCommandGroup(
                                         new SetVelocityShooter(shooterSubsystem, shooterVelocity),
                                         new SequentialCommandGroup(

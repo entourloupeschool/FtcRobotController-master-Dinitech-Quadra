@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_AUTO_TIMEOUT;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_AT_END_ROW;
 
 import com.arcrobotics.ftclib.command.CommandBase;
@@ -68,7 +69,7 @@ public class ShootToRowToShootSuper extends SequentialCommandGroup {
                                         new FollowPath(drivePedroSubsystem, builder -> builder
                                                 .addPath(new BezierCurve(
                                                         drivePedroSubsystem::getPose,
-                                                        RowPose,
+                                                        RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? -2*TILE_DIM : 2*TILE_DIM)),
                                                         endPose))
                                                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                         drivePedroSubsystem::getHeading,
