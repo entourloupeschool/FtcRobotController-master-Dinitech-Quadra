@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.DefaultHubsCommand;
-import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -11,8 +9,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
-
-import java.util.Objects;
 
 public class GornetixFullSystem extends GornetixRobotBase {
     public GamepadSubsystem gamepadSubsystem;

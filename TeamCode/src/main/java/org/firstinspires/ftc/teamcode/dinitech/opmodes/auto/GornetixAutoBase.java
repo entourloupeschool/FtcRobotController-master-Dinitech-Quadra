@@ -30,7 +30,6 @@ public class GornetixAutoBase extends GornetixFullSystem {
             // save pose to pose storage
             PoseStorage.setLastPose(drivePedroSubsystem.getPose());
             super.run();
-
     }
 
     /**

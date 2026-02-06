@@ -58,6 +58,8 @@ public class GornetixTeleOp extends GornetixFullSystem {
 
             drivePedroSubsystem.getDrive().setPose(Objects.requireNonNullElseGet(PoseStorage.getLastPose(), () -> BEGIN_POSE));
             PoseStorage.clearLastPose();
+            drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive(true);
+
 
             visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, drivePedroSubsystem, trieurSubsystem, shooterSubsystem));
 

@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ADJUST_CONST
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEAING_POSE;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -52,6 +53,10 @@ public class DrivingAimChar extends GornetixFullSystem {
 
         drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEAING_POSE);
         drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, this::getGoalPose));
+
+        m_Operator.start.whenPressed(new InstantCommand(() -> {
+            setOnBlueTeam(!getOnBlueTeam());
+        }));
 
         PIDFCoefficients pidfCoeffsInit = drivePedroSubsystem.getAimController().getCoefficients();
 

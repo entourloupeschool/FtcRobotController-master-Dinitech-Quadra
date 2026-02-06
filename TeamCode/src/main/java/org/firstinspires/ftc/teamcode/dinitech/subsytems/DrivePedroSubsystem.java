@@ -23,9 +23,12 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPedroMe
 import java.util.function.BooleanSupplier;
 
 public class DrivePedroSubsystem extends SubsystemBase {
-    /** The core drive system with PedroPathing integration. */
+    /**
+     * The core drive system with PedroPathing integration.
+     */
     public DinitechPedroMecanumDrive dinitechPedroMecanumDrive;
     private PIDFController aimController;
+
     public PIDFController getAimController() {
         return aimController;
     }
@@ -34,20 +37,23 @@ public class DrivePedroSubsystem extends SubsystemBase {
         getAimController().setCoefficients(new PIDFCoefficients(p, i, d, f));
     }
 
-    /** Telemetry for reporting drive status. */
+    /**
+     * Telemetry for reporting drive status.
+     */
     private final TelemetryManager telemetryM;
 
     private boolean driverInputPose;
 
-    public void setDriverInputPose(boolean driverInputPose){
+    public void setDriverInputPose(boolean driverInputPose) {
         this.driverInputPose = driverInputPose;
     }
 
     /**
      * Wether the driver has input a pose for the robot.
+     *
      * @return True if the driver has input a pose, false otherwise.
      */
-    public boolean getDriverInputPose(){
+    public boolean getDriverInputPose() {
         return driverInputPose;
     }
 
@@ -56,7 +62,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         return dinitechPedroMecanumDrive.isBusy();
     }
 
-    public boolean isPathQuasiDone(){
+    public boolean isPathQuasiDone() {
         return dinitechPedroMecanumDrive.isPathQuasiDone();
     }
 
@@ -70,14 +76,14 @@ public class DrivePedroSubsystem extends SubsystemBase {
      */
     public enum DriveReference {
         ROBOT,
-        FC,
-        AUTO
+        FC
     }
 
     private DriveReference driveReference;
 
     /**
      * Sets the current reference state of the drive.
+     *
      * @param ref The new DriveUsageState.
      */
     public void setDriveReference(DriveReference ref) {
@@ -86,6 +92,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
 
     /**
      * Gets the current reference of the drive.
+     *
      * @return The current DriveReference
      */
     public DriveReference getDriveReference() {
@@ -99,14 +106,14 @@ public class DrivePedroSubsystem extends SubsystemBase {
     public enum DriveUsage {
         TELE,   // Controlled by driver
         BLOCKED, // Lock in place
-        AUTO, // Controlled by autonomous code
-        AIM_LOCKED
+        AUTO // Controlled by autonomous code
     }
 
     private DriveUsage driveUsage;
 
     /**
      * Sets the current usage state of the drive.
+     *
      * @param state The new DriveUsageState.
      */
     public void setDriveUsage(DriveUsage state) {
@@ -115,6 +122,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
 
     /**
      * Gets the current usage state of the drive.
+     *
      * @return The current DriveUsageState.
      */
     public DriveUsage getDriveUsage() {
@@ -126,6 +134,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         VISION_AIM, // vision apriltag values
         PEDRO_AIM // pedro poses
     }
+
     private DriveAimLockType driveAimLockType;
 
 
@@ -150,9 +159,9 @@ public class DrivePedroSubsystem extends SubsystemBase {
     /**
      * Constructs a new DriveSubsystem.
      *
-     * @param hardwareMap         The hardware map for accessing robot hardware.
-     * @param beginPose           The initial pose of the robot.
-     * @param telemetryM            The telemetry object for logging.
+     * @param hardwareMap The hardware map for accessing robot hardware.
+     * @param beginPose   The initial pose of the robot.
+     * @param telemetryM  The telemetry object for logging.
      */
     public DrivePedroSubsystem(HardwareMap hardwareMap, Pose beginPose, final TelemetryManager telemetryM) {
         this.dinitechPedroMecanumDrive = new DinitechPedroMecanumDrive(hardwareMap, beginPose);
@@ -162,7 +171,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriveUsage(DriveUsage.TELE);
         setDriveReference(DriveReference.FC);
         setDriveAimLockType(DriveAimLockType.NONE);
-        aimController = new PIDFController(new PIDFCoefficients(PEDRO_AIMING_CONTROLLER_P, PEDRO_AIMING_CONTROLLER_I,PEDRO_AIMING_CONTROLLER_D, PEDRO_AIMING_CONTROLLER_F));
+        aimController = new PIDFController(new PIDFCoefficients(PEDRO_AIMING_CONTROLLER_P, PEDRO_AIMING_CONTROLLER_I, PEDRO_AIMING_CONTROLLER_D, PEDRO_AIMING_CONTROLLER_F));
 
 
         this.telemetryM = telemetryM;
@@ -176,7 +185,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriveUsage(DriveUsage.TELE);
         setDriveReference(DriveReference.FC);
         setDriveAimLockType(DriveAimLockType.NONE);
-        aimController = new PIDFController(new PIDFCoefficients(PEDRO_AIMING_CONTROLLER_P, PEDRO_AIMING_CONTROLLER_I,PEDRO_AIMING_CONTROLLER_D, PEDRO_AIMING_CONTROLLER_F));
+        aimController = new PIDFController(new PIDFCoefficients(PEDRO_AIMING_CONTROLLER_P, PEDRO_AIMING_CONTROLLER_I, PEDRO_AIMING_CONTROLLER_D, PEDRO_AIMING_CONTROLLER_F));
 
         this.telemetryM = telemetryM;
     }
@@ -190,7 +199,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
      * @param powerScaler  A scaling factor for power, often from a trigger (0 to 1).
      */
     public void teleDriveHybrid(final double translationX, final double translationY, final double rotation,
-                          final double powerScaler, boolean fieldCentric) {
+                                final double powerScaler, boolean fieldCentric) {
         if (powerScaler != 0) {
             setLastTeleDriverPowerScale(TELE_DRIVE_POWER_TRIGGER_SCALE * pickCustomPowerFunc(1 - powerScaler, 1)
                     + TELE_DRIVE_POWER);
@@ -199,8 +208,8 @@ public class DrivePedroSubsystem extends SubsystemBase {
         double lastPowerScale = getLastTeleDriverPowerScale();
 
         dinitechPedroMecanumDrive.setDrivePowers(
-                        translationY * lastPowerScale,
-                        -translationX * lastPowerScale,
+                translationY * lastPowerScale,
+                -translationX * lastPowerScale,
                 -rotation * lastPowerScale,
                 !fieldCentric);
     }
@@ -209,7 +218,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         dinitechPedroMecanumDrive.setDrivePowers(0, 0, 0, false);
     }
 
-    public void followPathChain(PathChain pathChain, double maxPower, boolean holdEnd){
+    public void followPathChain(PathChain pathChain, double maxPower, boolean holdEnd) {
         dinitechPedroMecanumDrive.followPathChain(pathChain, maxPower, holdEnd);
     }
 
@@ -222,7 +231,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
     }
 
     private void debugPedro(TelemetryManager telemetryM) {
-        if (dinitechPedroMecanumDrive.isOnPath()){
+        if (dinitechPedroMecanumDrive.isOnPath()) {
             telemetryM.addData("quasi", isPathQuasiDone());
             telemetryM.addData("done", !followerIsBusy());
         }
@@ -232,12 +241,13 @@ public class DrivePedroSubsystem extends SubsystemBase {
 
     /**
      * Prints drive-related telemetry to the driver hub.
+     *
      * @param telemetryM The telemetry object.
      */
     private void printDriveTelemetry(final TelemetryManager telemetryM) {
         telemetryM.addData("drive usage", getDriveUsage());
         telemetryM.addData("drive reference", getDriveReference());
-//        telemetryM.addData("tFollower", dinitechPedroMecanumDrive.getFollower().getCurrentTValue());
+        telemetryM.addData("aimLockType", getDriveAimLockType());
 
         Pose pose = getPose();
         telemetryM.addLine("Robot Pose:");
@@ -247,10 +257,13 @@ public class DrivePedroSubsystem extends SubsystemBase {
 
     }
 
-    public DinitechPedroMecanumDrive getDrive(){return dinitechPedroMecanumDrive;}
+    public DinitechPedroMecanumDrive getDrive() {
+        return dinitechPedroMecanumDrive;
+    }
 
     /**
      * Gets the current pose (position and heading) of the robot.
+     *
      * @return The robot's current {@link Pose}.
      */
     public Pose getPose() {
@@ -259,17 +272,18 @@ public class DrivePedroSubsystem extends SubsystemBase {
 
     /**
      * Gets the current heading of the robot.
+     *
      * @return The robot's current heading
      */
     public double getHeading() {
         return dinitechPedroMecanumDrive.getHeading();
     }
 
-    public void setHeading(double heading){
+    public void setHeading(double heading) {
         dinitechPedroMecanumDrive.setHeading(heading);
     }
 
-    public TelemetryManager getTelemetry(){
+    public TelemetryManager getTelemetry() {
         return telemetryM;
     }
 }
