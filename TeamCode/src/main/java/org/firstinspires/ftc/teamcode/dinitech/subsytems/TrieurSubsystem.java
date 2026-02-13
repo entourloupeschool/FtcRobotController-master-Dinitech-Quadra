@@ -642,9 +642,6 @@ public class TrieurSubsystem extends SubsystemBase {
                 incrementMoulinTargetPosition(OFFSET_MAGNETIC_POS + diffTicks);
             }
         }
-
-        // // Set the moulin's logical position directly to the calibrated position
-        // moulin.hardSetPosition(MAGNETIC_ON_MOULIN_POSITION + intPartOfRounded);
     }
 
     /**
