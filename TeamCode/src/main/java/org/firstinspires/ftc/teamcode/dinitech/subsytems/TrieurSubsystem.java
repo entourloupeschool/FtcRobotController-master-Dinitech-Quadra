@@ -579,14 +579,14 @@ public class TrieurSubsystem extends SubsystemBase {
             setNewRegister(false);
             setNewcoloredRegister(false);
 
-            if (wentRecalibrationOpposite() && isMagneticSwitch()) {
-                recalibrateMoulin();
-                setWentRecalibrationOpposite(false);
-            }
-
         } else {
             if (getMoulinPosition() != MAGNETIC_ON_MOULIN_POSITION) {
                 setWentRecalibrationOpposite(true);
+
+            } else if (wentRecalibrationOpposite() && isMagneticSwitch()) {
+                recalibrateMoulin();
+                setWentRecalibrationOpposite(false);
+                
             }
 
             if (isMoulinOverCurrent()) {
@@ -614,22 +614,37 @@ public class TrieurSubsystem extends SubsystemBase {
      * Recalibrates the moulin's target position and logical position based on the magnetic switch activation.
      */
     private void recalibrateMoulin() {
+        // Get the absolute value of the remaining distance to the target position
         int remainingDistance = Math.abs(getMoulinMotorRemainingDistance());
+        
+        // Calculate how many intervals of INTERVALLE_TICKS_MOULIN fit into the remaining distance
         double intervals = (double) remainingDistance / INTERVALLE_TICKS_MOULIN;
+        
+        // Round the number of intervals to the nearest integer
         int intPartOfRounded = (int) Math.round(intervals);
+        
+        // Calculate the fractional difference between the actual intervals and the rounded value
         double differenceToIntRounded = (intervals - intPartOfRounded);
+        
+        // Get the absolute value of the fractional difference
         double absDiff = Math.abs(differenceToIntRounded);
+        
+        // Convert the fractional difference back to ticks for fine adjustment
         int diffTicks = (int) Math.round(absDiff * INTERVALLE_TICKS_MOULIN);
 
+        // If there's a fine adjustment needed, apply it in the appropriate direction
         if (diffTicks != 0) {
             if (differenceToIntRounded > 0) {
+                // If we rounded down, subtract the difference to correct the target position
                 incrementMoulinTargetPosition(OFFSET_MAGNETIC_POS - diffTicks);
             } else {
+                // If we rounded up, add the difference to correct the target position
                 incrementMoulinTargetPosition(OFFSET_MAGNETIC_POS + diffTicks);
             }
         }
 
-        moulin.hardSetPosition(MAGNETIC_ON_MOULIN_POSITION + intPartOfRounded);
+        // // Set the moulin's logical position directly to the calibrated position
+        // moulin.hardSetPosition(MAGNETIC_ON_MOULIN_POSITION + intPartOfRounded);
     }
 
     /**

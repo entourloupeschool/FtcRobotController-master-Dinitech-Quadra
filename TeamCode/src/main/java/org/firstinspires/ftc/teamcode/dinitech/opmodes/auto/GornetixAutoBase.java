@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
+import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -29,6 +30,7 @@ public class GornetixAutoBase extends GornetixFullSystem {
     public void run() {
             // save pose to pose storage
             PoseStorage.setLastPose(drivePedroSubsystem.getPose());
+            MotifStorage.setMotifNumber(visionSubsystem.getColorsOrder());
             super.run();
     }
 

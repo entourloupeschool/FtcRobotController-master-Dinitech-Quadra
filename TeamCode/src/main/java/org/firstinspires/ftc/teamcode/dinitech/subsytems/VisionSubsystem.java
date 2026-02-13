@@ -23,10 +23,12 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.cmToInch;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationOffsetBearing;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.inchToCm;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RunningAverage;
+import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
+
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.bylazar.telemetry.TelemetryManager;
-import com.pedropathing.ftc.FTCCoordinates;
 import com.pedropathing.ftc.InvertedFTCCoordinates;
 import com.pedropathing.ftc.PoseConverter;
 import com.pedropathing.geometry.PedroCoordinates;
@@ -39,8 +41,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
-import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
+
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
@@ -58,14 +59,15 @@ public class VisionSubsystem extends SubsystemBase {
     public AprilTagProcessor aprilTagProcessor;
     public PredominantColorProcessor colorProcessor;
 
-    private final Globals.RunningAverage robotPoseXSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage robotPoseYSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage robotPoseYawSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage rangeToATSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage cameraBearingSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage confidenceATSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage aTPoseXSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
-    private final Globals.RunningAverage aTPoseYSamples = new Globals.RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage robotPoseXSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage robotPoseYSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage robotPoseYawSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage rangeToATSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage cameraBearingSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage confidenceATSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage aTPoseXSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    private final RunningAverage aTPoseYSamples = new RunningAverage(NUMBER_AT_SAMPLES);
+    
     private Double cachedRobotPoseX, cachedRobotPoseY, cachedRobotPoseYaw, cachedRangeToAT, cachedCameraBearing, cachedConfidence, cachedATPoseX, cachedATPoseY;
 
     private boolean hasCurrentATDetections = false;
@@ -90,7 +92,6 @@ public class VisionSubsystem extends SubsystemBase {
                 .setLensIntrinsics(FX, FY, CX, CY)
 //                .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
                 .setOutputUnits(DistanceUnit.INCH, AngleUnit.RADIANS)
-
                 .build();
 
         this.visionPortal = new VisionPortal.Builder()
@@ -103,6 +104,11 @@ public class VisionSubsystem extends SubsystemBase {
                 .build();
 
         setUsageState(VisionUsageState.NONE);
+
+        if (MotifStorage.getMotifNumber() != -1){
+            cachedColorsOrder = MotifStorage.getMotifNumber();
+            hasDetectedColorOrder = true;
+        }
 
         this.telemetryM = telemetryM;
     }
