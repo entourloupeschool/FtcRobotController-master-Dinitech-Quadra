@@ -580,15 +580,6 @@ public class TrieurSubsystem extends SubsystemBase {
             setNewcoloredRegister(false);
 
         } else {
-            if (getMoulinPosition() != MAGNETIC_ON_MOULIN_POSITION) {
-                setWentRecalibrationOpposite(true);
-
-            } else if (wentRecalibrationOpposite() && isMagneticSwitch()) {
-                recalibrateMoulin();
-                setWentRecalibrationOpposite(false);
-                
-            }
-
             if (isMoulinOverCurrent()) {
 
                 if (getOvercurrentCounts() == 0 && getCurrentCommand() != null){
@@ -607,6 +598,13 @@ public class TrieurSubsystem extends SubsystemBase {
             setOvercurrentCounts(0);
 
             setMoulinPower(POWER_MOULIN_ROTATION);
+        }
+
+        if (!isMagneticSwitch()){
+            setWentRecalibrationOpposite(true);
+        } else if (isMagneticSwitch() && wentRecalibrationOpposite()) {
+            recalibrateMoulin();
+            setWentRecalibrationOpposite(false);
         }
     }
 
