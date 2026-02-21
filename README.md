@@ -15,7 +15,7 @@ Our software architecture is built on top of FTC libraries to ensure high perfor
 * 🏗️ **[FTCLib](https://ftclib.org/)**: A powerful wrapper for more efficient robot control.
 * 🏎️ **[PedroPathing](https://pedropathing.com/docs/pathing)**: Pedro Pathing is a path follower initially developed by FTC team 10158 to revolutionize autonomous navigation in robotics. Pedro Pathing uses Bézier curves, PIDF control, centripetal force correction, and more to provide smooth, fast, and accurate path following.
 * 📊 **[Panels](https://panels.bylazar.com/)**: An intuitive, real-time dashboard for your FTC Robot.
-* 👀 **[EasyOpenCV](https://github.com/OpenFTC/EasyOpenCV)**: OpenCV on an FTC robot.
+* 👀 **[FTC's VisionPortal](https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/visionportal_overview/visionportal-overview.html)**: a comprehensive new interface for vision processing.
 
 ---
 
