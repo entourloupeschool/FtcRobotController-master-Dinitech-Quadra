@@ -56,9 +56,9 @@ public class GornetixAutoBlueGoalAdvanced extends GornetixAutoBase {
                                 LENGTH_X_ROW_SUPER_23RD, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
 
-                        new ShootToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem, BLUE_RAMP_POSE, BLUE_RAMP_END_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
+                        new ShootToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, BLUE_RAMP_POSE, BLUE_RAMP_END_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
-                        new ShootToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem, BLUE_RAMP_POSE, BLUE_RAMP_END_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
+                        new ShootToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, BLUE_RAMP_POSE, BLUE_RAMP_END_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
                         //FIRST ROW LAST
                         new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem,

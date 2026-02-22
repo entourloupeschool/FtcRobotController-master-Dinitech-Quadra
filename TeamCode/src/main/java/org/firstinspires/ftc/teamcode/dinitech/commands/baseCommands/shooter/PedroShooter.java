@@ -39,7 +39,6 @@ public class PedroShooter extends CommandBase {
         shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.PEDRO);
     }
 
-
     @Override
     public void execute() {
         double range = drivePedroSubsystem.getPose().distanceFrom(goalPoseSupplier.get());

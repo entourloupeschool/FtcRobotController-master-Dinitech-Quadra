@@ -11,6 +11,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSA
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_SMALL_TRIANGLE_SHOOT_POSE;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -108,7 +109,10 @@ public class GornetixTeleOp extends GornetixFullSystem {
         m_Operator.dpad_up.whenPressed(new MoulinRevolution(trieurSubsystem));
         m_Operator.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
         m_Operator.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
-        m_Operator.dpad_down.whenPressed(new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem));
+        m_Operator.dpad_down.whenPressed(new ParallelCommandGroup(
+                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true))
+        ));
 
         m_Operator.bump_right.whileHeld(new MoulinRotate(trieurSubsystem));
         m_Operator.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem));
@@ -122,7 +126,7 @@ public class GornetixTeleOp extends GornetixFullSystem {
         m_Operator.triangle.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_SHOOTER_VELOCITY),
                 new SetVelocityShooter(shooterSubsystem, 0), true);
 
-        m_Operator.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT));
+        m_Operator.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT));
 
         m_Operator.start.whenPressed(new InstantCommand(() -> {
             setOnBlueTeam(!getOnBlueTeam());

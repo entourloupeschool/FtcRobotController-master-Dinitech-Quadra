@@ -30,9 +30,10 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ShootToGatePickToShoot extends SequentialCommandGroup {
-    public ShootToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose GatePickEndPose, Pose endPose, CommandBase commandBase, double shooterVelocity, double gatePower, double endTime){
+    public ShootToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose GatePickEndPose, Pose endPose, CommandBase commandBase, double shooterVelocity, double gatePower, double endTime){
         addCommands(
                 new ParallelCommandGroup(
                         new StopShooterPower(shooterSubsystem),
@@ -52,7 +53,7 @@ public class ShootToGatePickToShoot extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new MaxPowerChargeur(chargeurSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
+                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
                                 commandBase,
                                 new OpenWaitTrappe(trieurSubsystem)),
                         new FollowPath(drivePedroSubsystem, builder -> builder

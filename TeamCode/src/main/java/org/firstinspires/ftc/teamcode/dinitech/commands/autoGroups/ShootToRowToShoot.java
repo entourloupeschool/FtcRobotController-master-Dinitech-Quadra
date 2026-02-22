@@ -36,7 +36,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ShootToRowToShoot extends SequentialCommandGroup {
-    public ShootToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, Pose RowPose, Pose endPose, CommandBase commandBase, double shooterVelocity, double lengthBackup, double rowPower, double endTime){
+    public ShootToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose RowPose, Pose endPose, CommandBase commandBase, double shooterVelocity, double lengthBackup, double rowPower, double endTime){
         addCommands(
                 new ParallelCommandGroup(
                         new StopShooterPower(shooterSubsystem),
@@ -55,7 +55,7 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new MaxPowerChargeur(chargeurSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
+                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
                                 commandBase,
                                 new OpenWaitTrappe(trieurSubsystem)),
                         new SequentialCommandGroup(

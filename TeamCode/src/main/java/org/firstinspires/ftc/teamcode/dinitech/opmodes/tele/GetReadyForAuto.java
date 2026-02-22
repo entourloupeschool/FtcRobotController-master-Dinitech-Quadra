@@ -66,7 +66,7 @@ public class GetReadyForAuto extends GornetixTeleOp {
             new SequentialCommandGroup(
                     new WaitCommand(100),
                     new MaxPowerChargeur(chargeurSubsystem),
-                    new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT)
+                    new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT)
             ).schedule();
     }
 

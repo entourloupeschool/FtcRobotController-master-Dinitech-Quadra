@@ -74,6 +74,7 @@ public class TrieurSubsystem extends SubsystemBase {
     private boolean newColoredRegister = false;
     private boolean isFull = false;
     private boolean wentRecalibrationOpposite = true;
+    private boolean wantsMotifShoot = false;
 
     /**
      * Constructs a new TrieurSubsystem.
@@ -91,6 +92,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
         clearAllStoredColors();
         setWentRecalibrationOpposite(true);
+        setWantsMotifShoot(false);
     }
 
     /**
@@ -414,6 +416,14 @@ public class TrieurSubsystem extends SubsystemBase {
 
     public void setWentRecalibrationOpposite(boolean wentRecalibrationOpposite) {
         this.wentRecalibrationOpposite = wentRecalibrationOpposite;
+    }
+
+    public boolean wantsMotifShoot() {
+        return wantsMotifShoot;
+    }
+
+    public void setWantsMotifShoot(boolean wantsMotifShoot) {
+        this.wantsMotifShoot = wantsMotifShoot;
     }
 
     /**

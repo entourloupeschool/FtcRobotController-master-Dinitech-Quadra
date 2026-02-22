@@ -43,7 +43,7 @@ public class Globals {
 
 
     //BLUE SIDE
-    public static final Pose BLUE_BASKET_POSE = new Pose(13, 135, 0);
+    public static final Pose BLUE_BASKET_POSE = new Pose(11, 137, 0);
     public static final Pose BLUE_SMALL_TRIANGLE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_SMALL_TRIANGLE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
@@ -207,8 +207,13 @@ public class Globals {
         return A_DIFFS * rangeCM + 1204.879; //
     }
 
+    /**
+     * Gives back a linear speed from a range in inches
+     * @param rangeInch The range value in inches, positive.
+     * @return The speed value, also positive
+     */
     public static double linearSpeedFromPedroRange(double rangeInch) {
-        return A_DIFFS * rangeInch + 1204.879; //
+        return 4.571 * rangeInch + 1148.145;
     }
 
         /**

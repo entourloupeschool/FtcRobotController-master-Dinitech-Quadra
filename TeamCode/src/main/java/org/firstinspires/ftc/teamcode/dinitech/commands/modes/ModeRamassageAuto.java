@@ -14,10 +14,12 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.Ma
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopDoubleServo;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNextLoose;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TryDetectArtefact;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 /**
  * A command group that handles the artifact collection mode of the robot.
@@ -30,7 +32,7 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
      * @param trieurSubsystem   The sorter subsystem, which manages artifact storage and state.
      * @param gamepadSubsystem  The gamepad subsystem, passed down to child commands for haptic feedback.
      */
-    public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem,
+    public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem,
                              GamepadSubsystem gamepadSubsystem, int detectArtefactTimeout) {
         addCommands(
                 // First, run the detection process
@@ -52,7 +54,11 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
                 new ConditionalCommand(
                         new StopChargeur(chargeurSubsystem),
                         new InstantCommand(),
-                        trieurSubsystem::getIsFull)
+                        trieurSubsystem::getIsFull),
+                new ConditionalCommand(
+                        new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                        new InstantCommand(),
+                        trieurSubsystem::wantsMotifShoot)
         );
     }
 }
