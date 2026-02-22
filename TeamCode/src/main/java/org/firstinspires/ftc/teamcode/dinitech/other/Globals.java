@@ -197,15 +197,15 @@ public class Globals {
 
 
     /**
-         * Applies a linear function to get speed from range
-         * y = a * m + b
-         *
-         * @param rangeCM The range value, positive.
-         * @return The speed value, also positive
-         */
-        public static double linearSpeedFromRange(double rangeCM) {
-            return A_DIFFS * rangeCM + 1204.879; //
-        }
+     * Applies a linear function to get speed from range
+     * y = a * m + b
+     *
+     * @param rangeCM The range value, positive.
+     * @return The speed value, also positive
+     */
+    public static double linearSpeedFromRange(double rangeCM) {
+        return A_DIFFS * rangeCM + 1204.879; //
+    }
 
     public static double linearSpeedFromPedroRange(double rangeInch) {
         return A_DIFFS * rangeInch + 1204.879; //
