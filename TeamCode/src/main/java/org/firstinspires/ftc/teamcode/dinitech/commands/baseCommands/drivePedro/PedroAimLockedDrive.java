@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CORRECTION_FENCE_PEDRO_AIM;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PEDRO_AIMING_CONTROLLER_D;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PEDRO_AIMING_CONTROLLER_F;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PEDRO_AIMING_CONTROLLER_I;
@@ -76,7 +77,14 @@ public class PedroAimLockedDrive extends CommandBase {
         double headingError = MathFunctions.getTurnDirection(currentPose.getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(currentPose.getHeading(), headingGoal);
 
         aimController.updateError(headingError);
+        double correction = aimController.run();
+        if (Math.abs(correction) > CORRECTION_FENCE_PEDRO_AIM) {
+            drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), correction * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+        } else {
+            drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+        }
 
-        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), aimController.run() * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+
+
     }
 }

@@ -21,6 +21,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_MOULIN
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
@@ -64,6 +65,7 @@ public class Moulin {
 
     public Moulin(final HardwareMap hardwareMap) {
         dcMotorEx = hardwareMap.get(DcMotorEx.class, MOULIN_MOTOR_NAME);
+        dcMotorEx.setDirection(DcMotorSimple.Direction.REVERSE);
 
         resetMotor();
         hardSetPosition(1);

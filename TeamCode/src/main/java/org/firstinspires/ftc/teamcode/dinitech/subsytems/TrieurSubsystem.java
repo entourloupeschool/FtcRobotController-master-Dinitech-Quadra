@@ -682,8 +682,8 @@ public class TrieurSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         moulinLogic();
-//        printMagneticTelemetryManager(telemetryM);
-//        printMoulinTelemetryManager(telemetryM);
+        printMagneticTelemetryManager(telemetryM);
+        printMoulinTelemetryManager(telemetryM);
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        printDistanceTelemetryManager(telemetryM);
 //        printColorTelemetryManager(telemetryM);
