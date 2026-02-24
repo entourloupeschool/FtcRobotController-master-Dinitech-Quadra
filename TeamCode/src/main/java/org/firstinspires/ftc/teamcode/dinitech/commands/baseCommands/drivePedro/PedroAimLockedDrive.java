@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CORRECTION_FENCE_PEDRO_AIM;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
 
 
@@ -72,13 +71,9 @@ public class PedroAimLockedDrive extends CommandBase {
         double headingError = MathFunctions.getTurnDirection(currentPose.getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(currentPose.getHeading(), headingGoal);
 
         aimController.updateError(headingError);
-        aimController.updateFeedForwardInput(headingError);
-        double correction = aimController.run();
 
-        if (Math.abs(correction) > CORRECTION_FENCE_PEDRO_AIM){
-            drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), pickCustomPowerFunc(correction, NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED) * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
-        } else {
-            drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
-        }
+        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), aimController.run() * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+//        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), pickCustomPowerFunc(aimController.run(), NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED) * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+
     }
 }

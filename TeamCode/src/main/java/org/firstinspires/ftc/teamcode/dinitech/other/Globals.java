@@ -112,10 +112,11 @@ public class Globals {
         public static final double PAR_POD_Y_MM = -127;
         public static final double PERP_POD_X_MM = 143;
         public static double CORRECTION_FENCE_PEDRO_AIM = 0.00001;
-        public static double PEDRO_AIMING_CONTROLLER_P =0.0001;
-        public static double PEDRO_AIMING_CONTROLLER_I =0.0001;
-        public static double PEDRO_AIMING_CONTROLLER_D =0.0001;
-        public static double PEDRO_AIMING_CONTROLLER_F =0.0001;
+        public static double PEDRO_AIMING_CONTROLLER_P =0.485;
+        public static double PEDRO_AIMING_CONTROLLER_I =0.0;
+        public static double PEDRO_AIMING_CONTROLLER_D =0.0095;
+        public static double PEDRO_AIMING_CONTROLLER_F =0.0;
+        public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED = 5;
 
 
 
