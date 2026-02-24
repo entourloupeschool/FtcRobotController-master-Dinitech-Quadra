@@ -1,13 +1,17 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
-import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.ConditionalCommand;
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_OPEN_TIME;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
+import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
+
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.MaxSpeedShooter;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedRevolution;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 /**
@@ -22,8 +26,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * </ol>
  * It also includes cleanup logic to reset the state of the subsystems upon completion or interruption.
  */
-public class ShootTimeAuto extends ParallelCommandGroup {
-
+public class ShootRevolution extends SequentialCommandGroup {
 
     /**
      * A protected constructor for subclasses to provide a custom shooter command.
@@ -34,26 +37,20 @@ public class ShootTimeAuto extends ParallelCommandGroup {
      * @param trieurSubsystem  The sorter subsystem.
      * @param shooterCommand   The custom command to run for controlling the shooter.
      */
-    public ShootTimeAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem, Command shooterCommand) {
+    public ShootRevolution(TrieurSubsystem trieurSubsystem, Command shooterCommand) {
         addCommands(
-                new ConditionalCommand(
-                        new StopChargeur(chargeurSubsystem),
-                        new InstantCommand(),
-                        trieurSubsystem::getIsFull
-                ),
-                new ShootAlmostRevolution(trieurSubsystem, shooterCommand)
-
+                shooterCommand, // Rev up the shooter
+                new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
+                new MoulinHighSpeedRevolution(trieurSubsystem), // Perform a full revolution
+                new InstantCommand(trieurSubsystem::clearAllStoredColors)
         );
     }
 
-    public ShootTimeAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem) {
+    public ShootRevolution(TrieurSubsystem trieurSubsystem) {
         addCommands(
-                new ConditionalCommand(
-                        new StopChargeur(chargeurSubsystem),
-                        new InstantCommand(),
-                        trieurSubsystem::getIsFull
-                ),
-                new ShootAlmostRevolution(trieurSubsystem)
+                new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
+                new MoulinHighSpeedRevolution(trieurSubsystem), // Perform a full revolution
+                new InstantCommand(trieurSubsystem::clearAllStoredColors)
         );
     }
 }
