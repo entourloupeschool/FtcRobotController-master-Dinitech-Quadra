@@ -146,6 +146,10 @@ public class DrivePedroSubsystem extends SubsystemBase {
         this.driveAimLockType = driveAimLockType;
     }
 
+    private void setupAimLockDrive(){
+        aimController = new PIDFController(new PIDFCoefficients(PEDRO_AIMING_CONTROLLER_P, PEDRO_AIMING_CONTROLLER_I, PEDRO_AIMING_CONTROLLER_D, PEDRO_AIMING_CONTROLLER_F));
+        aimController.updateFeedForwardInput(0.1);
+    }
     private double lastTeleDriverPowerScale = 1;
 
     public double getLastTeleDriverPowerScale() {
@@ -171,9 +175,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriveUsage(DriveUsage.TELE);
         setDriveReference(DriveReference.FC);
         setDriveAimLockType(DriveAimLockType.NONE);
-        aimController = new PIDFController(new PIDFCoefficients(PEDRO_AIMING_CONTROLLER_P, PEDRO_AIMING_CONTROLLER_I, PEDRO_AIMING_CONTROLLER_D, PEDRO_AIMING_CONTROLLER_F));
-
-
+        setupAimLockDrive();
         this.telemetryM = telemetryM;
     }
 
@@ -185,7 +187,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriveUsage(DriveUsage.TELE);
         setDriveReference(DriveReference.FC);
         setDriveAimLockType(DriveAimLockType.NONE);
-        aimController = new PIDFController(new PIDFCoefficients(PEDRO_AIMING_CONTROLLER_P, PEDRO_AIMING_CONTROLLER_I, PEDRO_AIMING_CONTROLLER_D, PEDRO_AIMING_CONTROLLER_F));
+        setupAimLockDrive();
 
         this.telemetryM = telemetryM;
     }

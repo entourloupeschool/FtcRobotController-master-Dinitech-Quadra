@@ -111,11 +111,11 @@ public class Globals {
         public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
         public static final double PAR_POD_Y_MM = -127;
         public static final double PERP_POD_X_MM = 143;
-        public static double CORRECTION_FENCE_PEDRO_AIM = 0.3;
-        public static double PEDRO_AIMING_CONTROLLER_P =0.11;
-        public static double PEDRO_AIMING_CONTROLLER_I =0;
-        public static double PEDRO_AIMING_CONTROLLER_D =0.008;
-        public static double PEDRO_AIMING_CONTROLLER_F =0.13;
+        public static double CORRECTION_FENCE_PEDRO_AIM = 0.00001;
+        public static double PEDRO_AIMING_CONTROLLER_P =0.0001;
+        public static double PEDRO_AIMING_CONTROLLER_I =0.0001;
+        public static double PEDRO_AIMING_CONTROLLER_D =0.0001;
+        public static double PEDRO_AIMING_CONTROLLER_F =0.0001;
 
 
 
