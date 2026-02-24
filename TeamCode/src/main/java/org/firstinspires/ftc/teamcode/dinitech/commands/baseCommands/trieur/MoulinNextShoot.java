@@ -14,14 +14,14 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * <p>
  * This command always rotates in the positive (forward) direction.
  */
-public class MoulinNextStorage extends MoulinToPosition {
+public class MoulinNextShoot extends MoulinToPosition {
 
     /**
      * Creates a new MoulinNext command.
      *
      * @param trieurSubsystem The sorter subsystem that controls the moulin.
      */
-    public MoulinNextStorage(TrieurSubsystem trieurSubsystem) {
+    public MoulinNextShoot(TrieurSubsystem trieurSubsystem) {
         // The actual target position is determined at execution time.
         super(trieurSubsystem, 0, false);
     }
@@ -32,11 +32,12 @@ public class MoulinNextStorage extends MoulinToPosition {
      */
     @Override
     public void initialize() {
+        int currentPos = trieurSubsystem.getMoulinPosition();
         // Set the parameters for the parent command.
-        if (Moulin.isStoragePosition(trieurSubsystem.getMoulinPosition())){
-            super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(trieurSubsystem.getMoulinPosition(), 2);
+        if (Moulin.isStoragePosition(currentPos)){
+            super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPos, 1);
         } else {
-            super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(trieurSubsystem.getMoulinPosition(), 1);
+            super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPos, 2);
         }
         super.makeShort = false; // Always rotate forward.
 

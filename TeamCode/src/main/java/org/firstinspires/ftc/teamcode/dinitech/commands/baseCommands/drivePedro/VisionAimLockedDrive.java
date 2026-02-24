@@ -7,6 +7,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
+import java.util.function.BooleanSupplier;
+
 /**
  * A hybrid drive command that provides vision-assisted "locking" onto AprilTags.
  * <p>
@@ -46,7 +48,6 @@ public class VisionAimLockedDrive extends CommandBase {
     @Override
     public void initialize() {
         drivePedroSubsystem.setDriveAimLockType(DrivePedroSubsystem.DriveAimLockType.VISION_AIM);
-
     }
 
     /**

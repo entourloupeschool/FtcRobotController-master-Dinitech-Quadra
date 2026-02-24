@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.GATEPICK_LENGTH_BACKUP_X;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.GATEPICK_LENGTH_BACKUP_Y;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_AUTO_TIMEOUT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
@@ -23,7 +21,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Set
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooterPower;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootTimeAuto;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAlmostRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -53,9 +51,8 @@ public class ShootToGatePickToShoot extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new MaxPowerChargeur(chargeurSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
-                                commandBase,
-                                new OpenWaitTrappe(trieurSubsystem)),
+                                new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
+                                commandBase),
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,
@@ -68,6 +65,7 @@ public class ShootToGatePickToShoot extends SequentialCommandGroup {
 
                 new ParallelCommandGroup(
                         new SetVelocityShooter(shooterSubsystem, shooterVelocity),
+                        new OpenWaitTrappe(trieurSubsystem),
                         new SequentialCommandGroup(
                                 new WaitCommand(WAIT_AT_END_ROW),
                                 // Go to Shooting Pos
@@ -82,7 +80,7 @@ public class ShootToGatePickToShoot extends SequentialCommandGroup {
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true))),
 
-                new ShootTimeAuto(trieurSubsystem, chargeurSubsystem)
+                new ShootAlmostRevolution(trieurSubsystem)
         );
     }
 }

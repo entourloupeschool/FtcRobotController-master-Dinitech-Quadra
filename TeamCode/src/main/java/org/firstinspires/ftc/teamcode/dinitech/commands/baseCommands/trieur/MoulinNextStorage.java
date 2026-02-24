@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 
 /**
  * A command that rotates the moulin one step forward to the next sequential position.
@@ -13,14 +14,14 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * <p>
  * This command always rotates in the positive (forward) direction.
  */
-public class MoulinNext extends MoulinToPosition {
+public class MoulinNextStorage extends MoulinToPosition {
 
     /**
      * Creates a new MoulinNext command.
      *
      * @param trieurSubsystem The sorter subsystem that controls the moulin.
      */
-    public MoulinNext(TrieurSubsystem trieurSubsystem) {
+    public MoulinNextStorage(TrieurSubsystem trieurSubsystem) {
         // The actual target position is determined at execution time.
         super(trieurSubsystem, 0, false);
     }
@@ -31,8 +32,13 @@ public class MoulinNext extends MoulinToPosition {
      */
     @Override
     public void initialize() {
+        int currentPos = trieurSubsystem.getMoulinPosition();
         // Set the parameters for the parent command.
-        super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(trieurSubsystem.getMoulinPosition(), 1);
+        if (Moulin.isStoragePosition(currentPos)){
+            super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPos, 2);
+        } else {
+            super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPos, 1);
+        }
         super.makeShort = false; // Always rotate forward.
 
         // Start the movement.

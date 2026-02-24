@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.St
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.ToggleChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FieldCentricDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetHeadingFCDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetPoseFCDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SetPoseFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SlowDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ToggleVisionDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.DefaultGamepadCommand;
@@ -29,6 +29,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Tel
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.ToggleUsageStateShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinAntiRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 
@@ -59,8 +60,8 @@ public class GornetixTeleOp extends GornetixFullSystem {
 
             drivePedroSubsystem.getDrive().setPose(Objects.requireNonNullElseGet(PoseStorage.getLastPose(), () -> BEGIN_POSE));
             PoseStorage.clearLastPose();
-            drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive(true);
 
+            drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive(true);
 
             visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, drivePedroSubsystem, trieurSubsystem, shooterSubsystem));
 
@@ -98,15 +99,15 @@ public class GornetixTeleOp extends GornetixFullSystem {
         m_Driver.bump_left.toggleWhenPressed(
                 new SlowDrive(drivePedroSubsystem),
                 new InstantCommand(() -> drivePedroSubsystem.setLastTeleDriverPowerScale(1)));
-        m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, this::getGoalPose));
+        m_Driver.bump_right.whenPressed(new ToggleVisionDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, this::getOnBlueTeam, this::getGoalPose));
 
         m_Driver.left_stick_button.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
 
-        m_Driver.dpad_down.whenPressed(new ResetPoseFCDrive(drivePedroSubsystem, getOnBlueTeam() ? CLOSE_SHOOT_BLUE_POSE : CLOSE_SHOOT_RED_POSE));
-        m_Driver.dpad_up.whenPressed(new ResetPoseFCDrive(drivePedroSubsystem, getOnBlueTeam() ? BLUE_SMALL_TRIANGLE_SHOOT_POSE : RED_SMALL_TRIANGLE_SHOOT_POSE));
+        m_Driver.dpad_down.whenPressed(new SetPoseFCDrive(drivePedroSubsystem, getOnBlueTeam() ? CLOSE_SHOOT_BLUE_POSE : CLOSE_SHOOT_RED_POSE));
+        m_Driver.dpad_up.whenPressed(new SetPoseFCDrive(drivePedroSubsystem, getOnBlueTeam() ? BLUE_SMALL_TRIANGLE_SHOOT_POSE : RED_SMALL_TRIANGLE_SHOOT_POSE));
 
         // Operator controls
-        m_Operator.dpad_up.whenPressed(new MoulinRevolution(trieurSubsystem));
+        m_Operator.dpad_up.whenPressed(new MoulinHighSpeedRevolution(trieurSubsystem));
         m_Operator.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
         m_Operator.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
         m_Operator.dpad_down.whenPressed(new ParallelCommandGroup(
@@ -126,7 +127,7 @@ public class GornetixTeleOp extends GornetixFullSystem {
         m_Operator.triangle.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_SHOOTER_VELOCITY),
                 new SetVelocityShooter(shooterSubsystem, 0), true);
 
-        m_Operator.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT));
+        m_Operator.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT));
 
         m_Operator.start.whenPressed(new InstantCommand(() -> {
             setOnBlueTeam(!getOnBlueTeam());

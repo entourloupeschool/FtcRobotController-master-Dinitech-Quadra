@@ -1,18 +1,10 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tele;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_SMALL_TRIANGLE_SHOOT_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_SMALL_TRIANGLE_SHOOT_POSE;
-
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.CancelFollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetPoseFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeShootSuper;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "GornetixTeleOpSuper - Dinitech", group = "TeleOp")
 public class GornetixTeleOpSuper extends GornetixTeleOp {

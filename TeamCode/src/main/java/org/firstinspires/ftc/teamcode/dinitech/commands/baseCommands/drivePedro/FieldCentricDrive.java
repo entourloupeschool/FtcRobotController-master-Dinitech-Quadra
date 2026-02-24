@@ -7,6 +7,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
+import java.util.function.BooleanSupplier;
+
 /**
  * A field-centric tele-operated drive command.
  * <p>
@@ -31,7 +33,6 @@ public class FieldCentricDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final GamepadWrapper driver;
 
-
     /**
      * Creates a new TeleDriveHybrid command.
      *
@@ -51,6 +52,7 @@ public class FieldCentricDrive extends CommandBase {
         drivePedroSubsystem.setDriveReference(DrivePedroSubsystem.DriveReference.FC);
         drivePedroSubsystem.setDriveAimLockType(DrivePedroSubsystem.DriveAimLockType.NONE);
 
+
         drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), 1, drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
     }
 
@@ -62,5 +64,4 @@ public class FieldCentricDrive extends CommandBase {
         // Update localizer every cycle to get current heading
         drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
     }
-
 }

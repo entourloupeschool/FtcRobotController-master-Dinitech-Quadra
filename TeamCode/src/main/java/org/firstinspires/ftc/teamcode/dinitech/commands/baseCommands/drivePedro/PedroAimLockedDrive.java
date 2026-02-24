@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 /**
@@ -34,8 +35,10 @@ import java.util.function.Supplier;
 public class PedroAimLockedDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final GamepadWrapper driver;
+
     private final Supplier<Pose> goalPoseSupplier;
     private final PIDFController aimController;
+
     /**
      * Creates a new TeleDriveLocked command.
      *
@@ -65,15 +68,16 @@ public class PedroAimLockedDrive extends CommandBase {
     public void execute() {
         double rightX = driver.getRightX();
         Pose currentPose = drivePedroSubsystem.getPose();
-        Pose goalPose = goalPoseSupplier.get();
+        Pose goalPose = goalPoseSupplier.get().rotate(drivePedroSubsystem.getAccumulatedHeading(), false);
+
 
         double headingGoal = Math.atan2(currentPose.getY() - goalPose.getY(), currentPose.getX() - goalPose.getX());
         double headingError = MathFunctions.getTurnDirection(currentPose.getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(currentPose.getHeading(), headingGoal);
 
         aimController.updateError(headingError);
+        double correction = Math.min(Math.max(aimController.run(), -1), 1);
 
-        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), aimController.run() * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
-//        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), pickCustomPowerFunc(aimController.run(), NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED) * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), Math.pow(correction, NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED) * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
 
     }
 }

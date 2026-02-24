@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
  * A command for reseting the heading of the robot.
  *
  */
-public class ResetPoseFCDrive extends CommandBase {
+public class SetPoseFCDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final Pose inputPose;
     /**
@@ -19,7 +19,7 @@ public class ResetPoseFCDrive extends CommandBase {
      *
      * @param drivePedroSubsystem   The drive subsystem to control.
      */
-    public ResetPoseFCDrive(DrivePedroSubsystem drivePedroSubsystem, Pose inputPose) {
+    public SetPoseFCDrive(DrivePedroSubsystem drivePedroSubsystem, Pose inputPose) {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.inputPose = inputPose;
         addRequirements(drivePedroSubsystem);

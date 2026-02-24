@@ -1,16 +1,11 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_OPEN_TIME;
-
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.MaxSpeedShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
@@ -26,7 +21,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * </ol>
  * It also includes cleanup logic to reset the state of the subsystems upon completion or interruption.
  */
-public class ShootRevolution extends SequentialCommandGroup {
+public class ShootHighSpeedRevolution extends SequentialCommandGroup {
 
     /**
      * A protected constructor for subclasses to provide a custom shooter command.
@@ -37,7 +32,7 @@ public class ShootRevolution extends SequentialCommandGroup {
      * @param trieurSubsystem  The sorter subsystem.
      * @param shooterCommand   The custom command to run for controlling the shooter.
      */
-    public ShootRevolution(TrieurSubsystem trieurSubsystem, Command shooterCommand) {
+    public ShootHighSpeedRevolution(TrieurSubsystem trieurSubsystem, Command shooterCommand) {
         addCommands(
                 shooterCommand, // Rev up the shooter
                 new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
@@ -46,7 +41,7 @@ public class ShootRevolution extends SequentialCommandGroup {
         );
     }
 
-    public ShootRevolution(TrieurSubsystem trieurSubsystem) {
+    public ShootHighSpeedRevolution(TrieurSubsystem trieurSubsystem) {
         addCommands(
                 new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
                 new MoulinHighSpeedRevolution(trieurSubsystem), // Perform a full revolution

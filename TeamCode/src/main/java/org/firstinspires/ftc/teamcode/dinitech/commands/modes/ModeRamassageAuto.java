@@ -32,7 +32,7 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
      * @param trieurSubsystem   The sorter subsystem, which manages artifact storage and state.
      * @param gamepadSubsystem  The gamepad subsystem, passed down to child commands for haptic feedback.
      */
-    public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem,
+    public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem,
                              GamepadSubsystem gamepadSubsystem, int detectArtefactTimeout) {
         addCommands(
                 // First, run the detection process
@@ -51,10 +51,6 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
                 ),
                 // First, run the detection process
                 new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout),
-                new ConditionalCommand(
-                        new StopChargeur(chargeurSubsystem),
-                        new InstantCommand(),
-                        trieurSubsystem::getIsFull),
                 new ConditionalCommand(
                         new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                         new InstantCommand(),

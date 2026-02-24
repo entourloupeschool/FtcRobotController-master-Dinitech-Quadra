@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
 
+import com.arcrobotics.ftclib.command.button.Trigger;
+
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
@@ -21,6 +24,9 @@ public class GornetixAutoBase extends GornetixFullSystem {
             visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
             autoSetArtefactColors();
+
+            new Trigger(trieurSubsystem::getIsFull)
+                    .whenActive(new StopChargeur(chargeurSubsystem));
     }
 
     /**

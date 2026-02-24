@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.PedroAimLockedDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetHeadingFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
@@ -53,6 +54,7 @@ public class DrivingAimChar extends GornetixFullSystem {
 
         drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEAING_POSE);
         drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, this::getGoalPose));
+        m_Driver.left_stick_button.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
 
         m_Operator.start.whenPressed(new InstantCommand(() -> {
             setOnBlueTeam(!getOnBlueTeam());

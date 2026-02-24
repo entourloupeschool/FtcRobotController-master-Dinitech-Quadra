@@ -24,6 +24,7 @@ public class ResetHeadingFCDrive extends CommandBase {
 
     @Override
     public void initialize(){
+        drivePedroSubsystem.incrementAccumulatedHeading(drivePedroSubsystem.getHeading());
         drivePedroSubsystem.setHeading(0);
     }
 

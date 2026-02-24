@@ -37,6 +37,21 @@ public class DrivePedroSubsystem extends SubsystemBase {
         getAimController().setCoefficients(new PIDFCoefficients(p, i, d, f));
     }
 
+    private double accumulatedHeading;
+    public double getAccumulatedHeading() {
+        return accumulatedHeading;
+    }
+
+    public void setAccumulatedHeading(double accumulatedHeading) {
+        this.accumulatedHeading = accumulatedHeading;
+    }
+
+    public void incrementAccumulatedHeading(double increment) {
+        accumulatedHeading += increment;
+    }
+
+
+
     /**
      * Telemetry for reporting drive status.
      */
@@ -148,6 +163,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
 
     private void setupAimLockDrive(){
         aimController = new PIDFController(new PIDFCoefficients(PEDRO_AIMING_CONTROLLER_P, PEDRO_AIMING_CONTROLLER_I, PEDRO_AIMING_CONTROLLER_D, PEDRO_AIMING_CONTROLLER_F));
+        aimController.updateFeedForwardInput(1);
     }
     private double lastTeleDriverPowerScale = 1;
 
@@ -175,6 +191,8 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriveReference(DriveReference.FC);
         setDriveAimLockType(DriveAimLockType.NONE);
         setupAimLockDrive();
+        setAccumulatedHeading(0);
+
         this.telemetryM = telemetryM;
     }
 
@@ -187,6 +205,8 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriveReference(DriveReference.FC);
         setDriveAimLockType(DriveAimLockType.NONE);
         setupAimLockDrive();
+        setAccumulatedHeading(0);
+
 
         this.telemetryM = telemetryM;
     }

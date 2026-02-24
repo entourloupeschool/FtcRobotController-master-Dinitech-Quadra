@@ -37,7 +37,7 @@ public class ToggleVisionDrive extends CommandBase {
      * @param goalPoseSupplier Supplier for the goal pose
      */
     public ToggleVisionDrive(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem,
-                             GamepadSubsystem gamepadSubsystem, Supplier<Pose> goalPoseSupplier) {
+                             GamepadSubsystem gamepadSubsystem, BooleanSupplier isBlueSupplier, Supplier<Pose> goalPoseSupplier) {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;

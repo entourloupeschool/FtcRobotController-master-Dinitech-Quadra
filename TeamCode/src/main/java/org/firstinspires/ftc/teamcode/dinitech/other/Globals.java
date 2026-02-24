@@ -111,11 +111,11 @@ public class Globals {
         public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
         public static final double PAR_POD_Y_MM = -127;
         public static final double PERP_POD_X_MM = 143;
-        public static double CORRECTION_FENCE_PEDRO_AIM = 0.00001;
-        public static double PEDRO_AIMING_CONTROLLER_P =0.485;
+        public static double PEDRO_AIMING_CONTROLLER_P =0.1874;
         public static double PEDRO_AIMING_CONTROLLER_I =0.0;
-        public static double PEDRO_AIMING_CONTROLLER_D =0.0095;
-        public static double PEDRO_AIMING_CONTROLLER_F =0.0;
+        public static double PEDRO_AIMING_CONTROLLER_D =0.0;
+        public static double PEDRO_AIMING_CONTROLLER_F =0.57;
+
         public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED = 5;
 
 
@@ -157,6 +157,7 @@ public class Globals {
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * (MOULIN_POSITION_TOLERANCE+1);
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 10;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.4;
+        public static int WAIT_HIGH_SPEED_TRIEUR = 500;
 
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.8;

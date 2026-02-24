@@ -23,11 +23,9 @@ public class MoulinRevolution extends CommandBase {
      * @param trieurSubsystem The sorter subsystem to control.
      */
     public MoulinRevolution(TrieurSubsystem trieurSubsystem) {
-        // The actual target position is determined at execution time.
         this.trieurSubsystem = trieurSubsystem;
         addRequirements(trieurSubsystem);
     }
-
 
     /**
      * Initiates the rotation by commanding the subsystem to move to the target position.
@@ -36,6 +34,7 @@ public class MoulinRevolution extends CommandBase {
     public void initialize() {
         trieurSubsystem.moulinRevolution();
     }
+
     /**
      * The command is finished when the subsystem indicates that motor power should be cut.
      *
