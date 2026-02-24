@@ -74,10 +74,13 @@ public class PedroAimLockedDrive extends CommandBase {
         double headingGoal = Math.atan2(currentPose.getY() - goalPose.getY(), currentPose.getX() - goalPose.getX());
         double headingError = MathFunctions.getTurnDirection(currentPose.getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(currentPose.getHeading(), headingGoal);
 
-        aimController.updateError(headingError);
-        double correction = Math.min(Math.max(aimController.run(), -1), 1);
+        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), pickCustomPowerFunc(headingError, NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED) * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
 
-        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), Math.pow(correction, NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED) * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+//        aimController.updateError(headingError);
+//        double correction = Math.min(Math.max(aimController.run(), -1), 1);
+
+//        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), Math.pow(correction, NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED) * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+
 
     }
 }
