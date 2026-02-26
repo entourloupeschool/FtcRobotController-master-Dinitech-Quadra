@@ -1,14 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
-
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
-import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.paths.Path;
-import com.pedropathing.paths.PathChain;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Blinker;
 
@@ -16,16 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.RobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "HubPatternColor - Dinitech", group = "Test")
-public class TestHubPatternColor extends GornetixRobotBase {
+public class TestHubPatternColor extends RobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private GamepadWrapper m_Driver, m_Operator;
     private HubsSubsystem hubsSubsystem;

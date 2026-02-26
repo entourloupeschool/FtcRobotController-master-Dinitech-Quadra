@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests.chars;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ADJUST_CONSTANT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEAING_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
 
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -9,10 +9,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.PedroAimLockedDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchTeamAndFlipPose;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 
 @TeleOp(name = "DrivingAimChar - Dinitech", group = "Char")
-public class DrivingAimChar extends GornetixFullSystem {
+public class DrivingAimChar extends Gornetix {
     private double pDriveAim;
     private double iDriveAim;
     private double dDriveAim;
@@ -32,7 +32,7 @@ public class DrivingAimChar extends GornetixFullSystem {
     public void initialize() {
         super.initialize();
 
-        drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEAING_POSE);
+        drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEADING_POSE);
         drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem));
 
         m_Operator.start.whenPressed(new SwitchTeamAndFlipPose(drivePedroSubsystem, hubsSubsystem));

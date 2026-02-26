@@ -12,13 +12,11 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 /**
  * A command group that handles the artifact collection mode of the robot.
  */
-public class ModeShoot extends SequentialCommandGroup {
+public class ModeShootTeleOp extends ParallelCommandGroup {
 
     /**
      * Creates a new ModeRamassage command group.
@@ -28,7 +26,7 @@ public class ModeShoot extends SequentialCommandGroup {
      * @param shooterSubsystem  The shooter subsystem for running the shooter motor.
      * @param gamepadSubsystem  The gamepad subsystem, passed down to child commands for haptic feedback.
      */
-    public ModeShoot(DrivePedroSubsystem drivePedroSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem) {
+    public ModeShootTeleOp(DrivePedroSubsystem drivePedroSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem) {
         addCommands(
             new StopChargeur(chargeurSubsystem),
             new InstantCommand(() -> shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem),

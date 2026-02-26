@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HEADING;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEAING_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_GOAL_POSE;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -44,7 +42,7 @@ public class HubsSubsystem extends SubsystemBase {
             case RED:
                 return RED_GOAL_POSE;
             default:
-                return FIELD_CENTER_90HEAING_POSE;
+                return FIELD_CENTER_90HEADING_POSE;
         }
     }
 

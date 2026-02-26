@@ -1,27 +1,17 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_BASKET_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELEMETRY_UPDATE_INTERVAL_MS;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
-import com.pedropathing.geometry.Pose;
-import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.robotcore.hardware.Blinker;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-import java.util.Collection;
-import java.util.List;
-
-public class GornetixRobotBase extends CommandOpMode {
+public class RobotBase extends CommandOpMode {
     // System
     public HubsSubsystem hubsSubsystem;
 

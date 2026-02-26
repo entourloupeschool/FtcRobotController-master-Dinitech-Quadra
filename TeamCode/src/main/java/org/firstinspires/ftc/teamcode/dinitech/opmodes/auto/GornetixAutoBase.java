@@ -5,14 +5,14 @@ import com.arcrobotics.ftclib.command.button.Trigger;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
-public class GornetixAutoBase extends GornetixFullSystem {
+public class GornetixAutoBase extends Gornetix {
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
      */

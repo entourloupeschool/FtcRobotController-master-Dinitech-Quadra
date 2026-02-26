@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.ta
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.tapis.MaxSpeedTapis;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.tapis.StopTapis;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.RobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 @TeleOp(name = "ChargeurDebut - Dinitech", group = "Test")
-public class ChargeurDebut extends GornetixRobotBase {
+public class ChargeurDebut extends RobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private TrieurSubsystem trieurSubsystem;
     private ChargeurSubsystem chargeurSubsystem;

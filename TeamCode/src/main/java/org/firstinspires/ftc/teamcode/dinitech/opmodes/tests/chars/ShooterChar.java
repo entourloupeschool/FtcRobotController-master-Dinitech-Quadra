@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests.chars;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ADJUST_CONSTANT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_INCREMENT_SHOOTER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
 
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -10,16 +9,11 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.TeleShooter;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.tele.GornetixTeleOp;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 
 @TeleOp(name = "ShooterChar - Dinitech", group = "Char")
 
-public class ShooterChar extends GornetixFullSystem {
+public class ShooterChar extends Gornetix {
 
     private double pShooter;
     private double iShooter;

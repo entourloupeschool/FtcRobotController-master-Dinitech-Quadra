@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.tests;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEAING_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -21,7 +18,7 @@ public class TestPoseStorage extends GornetixAutoBase {
     public void initialize() {
             super.initialize();
 
-            drivePedroSubsystem.getDrive().prepAuto(FIELD_CENTER_90HEAING_POSE);
+            drivePedroSubsystem.getDrive().prepAuto(FIELD_CENTER_90HEADING_POSE);
     }
 
     /**

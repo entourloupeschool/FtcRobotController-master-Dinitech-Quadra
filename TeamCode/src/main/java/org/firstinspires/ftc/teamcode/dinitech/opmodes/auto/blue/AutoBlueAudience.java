@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.blue;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_SMALL_TRIANGLE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_SMALL_TRIANGLE_SHOOT_POSE;
+
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 
@@ -30,8 +31,8 @@ import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
-@Autonomous(name = "BlueSmallTriangle", group = "Blue")
-public class AutoBlueSmallTriangle extends GornetixAutoBase {
+@Autonomous(name = "BlueAudience", group = "Blue")
+public class AutoBlueAudience extends GornetixAutoBase {
 
 
     /**
@@ -42,15 +43,15 @@ public class AutoBlueSmallTriangle extends GornetixAutoBase {
             super.initialize();
             hubsSubsystem.setTeam(HubsSubsystem.Team.BLUE);
 
-            drivePedroSubsystem.getDrive().prepAuto(BLUE_SMALL_TRIANGLE_POSE);
+            drivePedroSubsystem.getDrive().prepAuto(BLUE_AUDIENCE_POSE);
 
             new SequentialCommandGroup(
                         // Obelisk and MoulinCalibrate
                         new InitToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, gamepadSubsystem,
-                                BLUE_SMALL_TRIANGLE_SHOOT_POSE, SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
+                                BLUE_AUDIENCE_POSE, SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
 
                         new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                THIRD_ROW_BLUE_POSE, BLUE_SMALL_TRIANGLE_SHOOT_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY,
+                                THIRD_ROW_BLUE_POSE, BLUE_AUDIENCE_SHOOT_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY,
                                 LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.8),
 
                         new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,

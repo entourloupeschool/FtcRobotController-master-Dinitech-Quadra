@@ -5,11 +5,11 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAGNETIC_SWI
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.RobotBase;
 
 @TeleOp(name="BasicMagneticSwitch - Dinitech", group="Basic")
 
-public class BasicMagneticSwitch extends GornetixRobotBase {
+public class BasicMagneticSwitch extends RobotBase {
     public TouchSensor magneticSwitch;
 
     /**

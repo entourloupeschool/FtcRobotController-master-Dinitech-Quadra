@@ -33,12 +33,8 @@ public class SwitchUsageStateShooter extends CommandBase {
     public void initialize() {
         // Toggle based on actual shooter state
         if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.VISION) {
-            shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.STOP);
+            shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
             new StopShooter(shooterSubsystem).schedule();
-            shooterSubsystem.setDefaultCommand(new RunCommand(
-                    () -> {},
-                    shooterSubsystem
-            ));
 
         } else if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.STOP){
             shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));

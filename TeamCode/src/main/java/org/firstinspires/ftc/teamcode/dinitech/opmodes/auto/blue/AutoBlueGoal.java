@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.blue;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_SMALL_TRIANGLE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 
@@ -32,8 +32,8 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.Read
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
-@Autonomous(name = "BlueGoal - Dinitech", group = "Blue")
-public class GornetixAutoBlueGoal extends GornetixAutoBase {
+@Autonomous(name = "BlueGoal", group = "Blue")
+public class AutoBlueGoal extends GornetixAutoBase {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -60,7 +60,7 @@ public class GornetixAutoBlueGoal extends GornetixAutoBase {
                             LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
                     new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                            THIRD_ROW_BLUE_POSE, BLUE_SMALL_TRIANGLE_SHOOT_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY,
+                            THIRD_ROW_BLUE_POSE, BLUE_AUDIENCE_SHOOT_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY,
                             LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.3),
 
                     new ParallelCommandGroup(

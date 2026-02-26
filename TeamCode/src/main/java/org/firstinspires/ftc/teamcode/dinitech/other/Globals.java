@@ -34,20 +34,20 @@ public class Globals {
     public static double GATEPICK_POWER = 0.18;
     public static double SUPER_POWER_ROW_PICK_ARTEFACTS = 1;
     public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
-    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 50;
+    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 45;
     public static long WAIT_AT_END_ROW = 200;
     public static final Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
     public static final Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
 
 
-    public static final Pose FIELD_CENTER_90HEAING_POSE = new Pose(72, 72, Math.PI/2);
+    public static final Pose FIELD_CENTER_90HEADING_POSE = new Pose(72, 72, Math.PI/2);
 
 
 
     //BLUE SIDE
     public static final Pose BLUE_BASKET_POSE = new Pose(10.5, 135.5, 0);
-    public static final Pose BLUE_SMALL_TRIANGLE_POSE = new Pose(57, 9.3, Math.PI/2);
-    public static final Pose BLUE_SMALL_TRIANGLE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
+    public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
+    public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
     public static  final Pose BLUE_RAMP_POSE = new Pose(20, 62, 0);
     public static final double GATEPICK_LENGTH_BACKUP_X = 7;
@@ -66,8 +66,8 @@ public class Globals {
     //RED SIDE
     public static final Pose RED_BASKET_POSE = BLUE_BASKET_POSE.mirror();
 
-    public static final Pose RED_SMALL_TRIANGLE_POSE = BLUE_SMALL_TRIANGLE_POSE.mirror();
-    public static final Pose RED_SMALL_TRIANGLE_SHOOT_POSE = BLUE_SMALL_TRIANGLE_SHOOT_POSE.mirror();
+    public static final Pose RED_SMALL_TRIANGLE_POSE = BLUE_AUDIENCE_POSE.mirror();
+    public static final Pose RED_SMALL_TRIANGLE_SHOOT_POSE = BLUE_AUDIENCE_SHOOT_POSE.mirror();
 
     public static final Pose RED_GOAL_POSE = BLUE_GOAL_POSE.mirror();
     public static final Pose RED_RAMP_POSE = BLUE_RAMP_POSE.mirror();
@@ -150,9 +150,8 @@ public class Globals {
         public static int SCALE_MOULIN_SPEED_TOLERANCE_LOOSE = 3;
         public static final int MOULIN_POSITION_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
         public static final int MOULIN_SPEED_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
-        public static int SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE = 10;
-        public static int SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE = 10;
-
+        public static int SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE = 8;
+        public static int SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE = 8;
         public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE;
         public static final int MOULIN_SPEED_VERY_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE;
 
@@ -160,7 +159,6 @@ public class Globals {
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 40;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.4;
         public static int WAIT_HIGH_SPEED_TRIEUR = 10;
-
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.8;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected

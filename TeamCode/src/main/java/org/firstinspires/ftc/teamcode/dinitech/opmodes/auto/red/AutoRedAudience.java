@@ -30,8 +30,8 @@ import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
-@Autonomous(name = "RedSmallTriangle - Dinitech", group = "Red")
-public class AutoRedAudiance extends GornetixAutoBase {
+@Autonomous(name = "RedAudience", group = "Red")
+public class AutoRedAudience extends GornetixAutoBase {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.

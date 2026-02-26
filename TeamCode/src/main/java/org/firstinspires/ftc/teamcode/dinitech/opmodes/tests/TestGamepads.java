@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.RobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 
 @TeleOp(name="TestsGampads - Dinitech", group="Test")
-public class TestGamepads extends GornetixRobotBase {
+public class TestGamepads extends RobotBase {
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
      */

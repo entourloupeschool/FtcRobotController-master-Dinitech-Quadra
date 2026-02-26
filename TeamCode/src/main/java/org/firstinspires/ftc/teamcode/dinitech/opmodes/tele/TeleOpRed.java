@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
-@TeleOp(name = "GornetixTeleOpRed - Dinitech", group = "TeleOp")
-public class TeleOpRed extends GornetixTeleOp {
+@TeleOp(name = "TeleOpRed", group = "TeleOp")
+public class TeleOpRed extends GornetixTeleOpBase {
     @Override
     public void initialize() {
             super.initialize();

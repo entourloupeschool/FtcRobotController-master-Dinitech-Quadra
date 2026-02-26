@@ -25,13 +25,13 @@ import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.RobotBase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @TeleOp(name ="BasicColorSensor - Dinitech", group = "Basic")
-public class BasicColorSensor extends GornetixRobotBase {
+public class BasicColorSensor extends RobotBase {
     private NormalizedColorSensor colorSensor1;
     // Store the last predominant colors for each sensor
     // Store the last predominant colors for each sensor

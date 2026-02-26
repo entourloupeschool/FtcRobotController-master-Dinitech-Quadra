@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FlipFieldCentricDrive;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
-@TeleOp(name = "GornetixTeleOpBlue - Dinitech", group = "TeleOp")
-public class TeleOpBlue extends GornetixTeleOp {
+@TeleOp(name = "TeleOpBlue", group = "TeleOp")
+public class TeleOpBlue extends GornetixTeleOpBase {
     @Override
     public void initialize() {
             super.initialize();

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes;
 
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.SetDefault;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.hub.DefaultHubsCommand;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-public class GornetixFullSystem extends GornetixRobotBase {
+public class Gornetix extends RobotBase {
     public GamepadSubsystem gamepadSubsystem;
     public GamepadWrapper m_Driver;
     public GamepadWrapper m_Operator;
@@ -48,6 +49,7 @@ public class GornetixFullSystem extends GornetixRobotBase {
         register(shooterSubsystem);
 
         hubsSubsystem.setDefaultCommand(new DefaultHubsCommand(hubsSubsystem, trieurSubsystem));
+//        new SetDefault(hubsSubsystem, new DefaultHubsCommand(hubsSubsystem, trieurSubsystem)).schedule();
     }
 
     /**
