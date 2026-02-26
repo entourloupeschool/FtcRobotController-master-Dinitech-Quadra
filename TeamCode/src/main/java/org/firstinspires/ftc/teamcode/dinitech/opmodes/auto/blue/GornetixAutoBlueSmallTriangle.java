@@ -39,7 +39,7 @@ public class GornetixAutoBlueSmallTriangle extends GornetixAutoBase {
     @Override
     public void initialize() {
             super.initialize();
-            setOnBlueTeam(true);
+            hubsSubsystem.setOnBlueTeam(true);
 
             drivePedroSubsystem.getDrive().prepAuto(BLUE_SMALL_TRIANGLE_POSE);
 

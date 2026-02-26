@@ -56,7 +56,6 @@ public class DinitechPedroMecanumDrive {
         follower.setHeading(heading);
     }
 
-
     public double getPoseX(){
         return follower.getPose().getX();
     }

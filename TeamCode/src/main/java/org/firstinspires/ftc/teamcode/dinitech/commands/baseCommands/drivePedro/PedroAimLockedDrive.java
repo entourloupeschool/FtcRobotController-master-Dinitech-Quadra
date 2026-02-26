@@ -13,6 +13,7 @@ import com.pedropathing.math.MathFunctions;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 import java.util.function.BooleanSupplier;
@@ -35,24 +36,22 @@ import java.util.function.Supplier;
  */
 public class PedroAimLockedDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
-    private final GamepadWrapper driver;
+    private final HubsSubsystem hubsSubsystem;
 
-    private final Supplier<Pose> goalPoseSupplier;
-    private final PIDFController aimController;
+    private final GamepadWrapper driver;
 
     /**
      * Creates a new TeleDriveLocked command.
      *
      * @param drivePedroSubsystem   The drive subsystem to control.
      * @param gamepadSubsystem The gamepad subsystem for driver inputs.
-     * @param goalPoseSupplier a supplier for the target Goal Pose
+     * @param hubsSubsystem a supplier for the target Goal Pose
      */
     public PedroAimLockedDrive(DrivePedroSubsystem drivePedroSubsystem,
-                               GamepadSubsystem gamepadSubsystem, Supplier<Pose> goalPoseSupplier) {
+                               GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem) {
         this.drivePedroSubsystem = drivePedroSubsystem;
-        this.aimController = drivePedroSubsystem.getAimController();
+        this.hubsSubsystem = hubsSubsystem;
         this.driver = gamepadSubsystem.getDriver();
-        this.goalPoseSupplier = goalPoseSupplier;
 
         addRequirements(drivePedroSubsystem);
     }
@@ -68,9 +67,8 @@ public class PedroAimLockedDrive extends CommandBase {
     @Override
     public void execute() {
         double rightX = driver.getRightX();
-        Pose currentPose = drivePedroSubsystem.getPose().rotate(drivePedroSubsystem.getAccumulatedHeading(), false);
-
-        Pose goalPose = goalPoseSupplier.get();
+        Pose currentPose = drivePedroSubsystem.getPose();
+        Pose goalPose = hubsSubsystem.getGoalPose();
 
         double headingGoal = Math.atan2(currentPose.getY() - goalPose.getY(), currentPose.getX() - goalPose.getX());
         double headingError = MathFunctions.getTurnDirection(currentPose.getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(currentPose.getHeading(), headingGoal);

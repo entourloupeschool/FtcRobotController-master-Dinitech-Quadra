@@ -21,11 +21,12 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trap
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAlmostRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 public class AnywhereToShoot extends SequentialCommandGroup {
-    public AnywhereToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, CommandBase commandBase, boolean team){
+    public AnywhereToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, HubsSubsystem hubsSubsystem, CommandBase commandBase){
         addCommands(
                 new ParallelCommandGroup(
                         new SetVelocityShooter(shooterSubsystem, drivePedroSubsystem.getPose().getY() > 70 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
@@ -46,13 +47,13 @@ public class AnywhereToShoot extends SequentialCommandGroup {
                                                 drivePedroSubsystem.getPose().getY() > 70 ? CLOSE_SHOOT_RED_POSE : RED_SMALL_TRIANGLE_SHOOT_POSE)
                                         ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), drivePedroSubsystem.getPose().getY() > 70 ? CLOSE_SHOOT_RED_POSE.getHeading() : RED_SMALL_TRIANGLE_SHOOT_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
-                                () -> team)),
+                                hubsSubsystem::getOnBlueTeam)),
 
                 new ShootHighSpeedRevolution(trieurSubsystem)
         );
     }
 
-    public AnywhereToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, boolean team){
+    public AnywhereToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, HubsSubsystem hubsSubsystem){
         addCommands(
                 new ParallelCommandGroup(
                         new SetVelocityShooter(shooterSubsystem, drivePedroSubsystem.getPose().getY() > 70 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
@@ -70,7 +71,7 @@ public class AnywhereToShoot extends SequentialCommandGroup {
                                                 drivePedroSubsystem.getPose().getY() > 70 ? CLOSE_SHOOT_RED_POSE : RED_SMALL_TRIANGLE_SHOOT_POSE)
                                         ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), drivePedroSubsystem.getPose().getY() > 70 ? CLOSE_SHOOT_RED_POSE.getHeading() : RED_SMALL_TRIANGLE_SHOOT_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
-                                () -> team)),
+                                hubsSubsystem::getOnBlueTeam)),
 
                 new ShootAlmostRevolution(trieurSubsystem)
         );

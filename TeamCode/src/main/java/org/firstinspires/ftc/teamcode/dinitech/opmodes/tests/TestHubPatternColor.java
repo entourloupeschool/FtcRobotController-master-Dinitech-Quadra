@@ -46,7 +46,7 @@ public class TestHubPatternColor extends GornetixRobotBase {
         m_Driver = gamepadSubsystem.getDriver();
         m_Operator = gamepadSubsystem.getOperator();
 
-        hubsSubsystem = new HubsSubsystem(hardwareMap);
+        hubsSubsystem = new HubsSubsystem(hardwareMap, true);
         register(hubsSubsystem);
 
         // Add steps: each Step has a color (ARGB int) and duration in milliseconds

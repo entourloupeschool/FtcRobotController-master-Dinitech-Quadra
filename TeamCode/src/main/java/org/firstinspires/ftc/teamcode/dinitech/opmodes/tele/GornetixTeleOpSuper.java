@@ -33,7 +33,7 @@ public class GornetixTeleOpSuper extends GornetixTeleOp {
         m_Driver.circle.whenPressed(new CancelFollowPath(drivePedroSubsystem));
 
         new Trigger(trieurSubsystem::getIsFull)
-                .whenActive(new ModeShootSuper(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem, getOnBlueTeam()));
+                .whenActive(new ModeShootSuper(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem, hubsSubsystem));
 
 
     }

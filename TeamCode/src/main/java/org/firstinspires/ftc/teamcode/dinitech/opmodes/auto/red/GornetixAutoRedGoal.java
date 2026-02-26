@@ -39,7 +39,8 @@ public class GornetixAutoRedGoal extends GornetixAutoBase {
     @Override
     public void initialize() {
             super.initialize();
-            setOnBlueTeam(false);
+
+            hubsSubsystem.setOnBlueTeam(false);
 
             drivePedroSubsystem.getDrive().prepAuto(RED_GOAL_POSE);
 

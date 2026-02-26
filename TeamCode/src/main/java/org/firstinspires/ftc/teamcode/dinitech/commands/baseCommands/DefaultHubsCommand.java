@@ -17,7 +17,6 @@ import java.util.function.BooleanSupplier;
 public class DefaultHubsCommand extends CommandBase {
     private final HubsSubsystem hubsSubsystem;
     private final TrieurSubsystem trieurSubsystem;
-    private final BooleanSupplier isBlueSupplier;
 
     private boolean lastTrappeOpen = false;
     private boolean lastIsBlue = false;
@@ -42,10 +41,9 @@ public class DefaultHubsCommand extends CommandBase {
 
 
 
-    public DefaultHubsCommand(HubsSubsystem hubsSubsystem, TrieurSubsystem trieurSubsystem, BooleanSupplier isBlueSupplier) {
+    public DefaultHubsCommand(HubsSubsystem hubsSubsystem, TrieurSubsystem trieurSubsystem) {
         this.hubsSubsystem = hubsSubsystem;
         this.trieurSubsystem = trieurSubsystem;
-        this.isBlueSupplier = isBlueSupplier;
         addRequirements(hubsSubsystem);
     }
 
@@ -73,12 +71,12 @@ public class DefaultHubsCommand extends CommandBase {
         }
 
         // Set initial pattern
-        updatePattern(trieurSubsystem.isTrappeOpen(), isBlueSupplier.getAsBoolean());
+        updatePattern(trieurSubsystem.isTrappeOpen(), hubsSubsystem.getOnBlueTeam());
     }
     @Override
     public void execute() {
         boolean currentTrappeOpen = trieurSubsystem.isTrappeOpen();
-        boolean currentIsBlue = isBlueSupplier.getAsBoolean();
+        boolean currentIsBlue = hubsSubsystem.getOnBlueTeam();
 
         // Only update pattern when trappe state or team color changes
         if (!patternSet || currentTrappeOpen != lastTrappeOpen || currentIsBlue != lastIsBlue) {

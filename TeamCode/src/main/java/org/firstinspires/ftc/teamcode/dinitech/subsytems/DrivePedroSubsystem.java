@@ -27,29 +27,6 @@ public class DrivePedroSubsystem extends SubsystemBase {
      * The core drive system with PedroPathing integration.
      */
     public DinitechPedroMecanumDrive dinitechPedroMecanumDrive;
-    private PIDFController aimController;
-
-    public PIDFController getAimController() {
-        return aimController;
-    }
-
-    public void setAimControllerPIDF(double p, double i, double d, double f) {
-        getAimController().setCoefficients(new PIDFCoefficients(p, i, d, f));
-    }
-
-    private double accumulatedHeading;
-    public double getAccumulatedHeading() {
-        return accumulatedHeading;
-    }
-
-    public void setAccumulatedHeading(double accumulatedHeading) {
-        this.accumulatedHeading = accumulatedHeading;
-    }
-
-    public void incrementAccumulatedHeading(double increment) {
-        accumulatedHeading += increment;
-    }
-
 
 
     /**
@@ -161,10 +138,6 @@ public class DrivePedroSubsystem extends SubsystemBase {
         this.driveAimLockType = driveAimLockType;
     }
 
-    private void setupAimLockDrive(){
-        aimController = new PIDFController(new PIDFCoefficients(PEDRO_AIMING_CONTROLLER_P, PEDRO_AIMING_CONTROLLER_I, PEDRO_AIMING_CONTROLLER_D, PEDRO_AIMING_CONTROLLER_F));
-        aimController.updateFeedForwardInput(1);
-    }
     private double lastTeleDriverPowerScale = 1;
 
     public double getLastTeleDriverPowerScale() {
@@ -190,8 +163,6 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriveUsage(DriveUsage.TELE);
         setDriveReference(DriveReference.FC);
         setDriveAimLockType(DriveAimLockType.NONE);
-        setupAimLockDrive();
-        setAccumulatedHeading(0);
 
         this.telemetryM = telemetryM;
     }
@@ -204,9 +175,6 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriveUsage(DriveUsage.TELE);
         setDriveReference(DriveReference.FC);
         setDriveAimLockType(DriveAimLockType.NONE);
-        setupAimLockDrive();
-        setAccumulatedHeading(0);
-
 
         this.telemetryM = telemetryM;
     }

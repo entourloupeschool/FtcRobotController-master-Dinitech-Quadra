@@ -29,18 +29,6 @@ public class GornetixRobotBase extends CommandOpMode {
     public TelemetryManager telemetryM;
 
     private final Globals.RunningAverage runningAverageFrequencies = new Globals.RunningAverage(10);
-    private boolean onBlueTeam;
-    public void setOnBlueTeam(boolean onBlueTeam){
-        this.onBlueTeam = onBlueTeam;
-    }
-
-    public boolean getOnBlueTeam(){
-        return onBlueTeam;
-    }
-
-    public Pose getGoalPose(){
-        return getOnBlueTeam() ? BLUE_BASKET_POSE : RED_BASKET_POSE;
-    }
 
 
     /**
@@ -56,10 +44,8 @@ public class GornetixRobotBase extends CommandOpMode {
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         telemetryM.setUpdateInterval(TELEMETRY_UPDATE_INTERVAL_MS);
 
-        hubsSubsystem = new HubsSubsystem(hardwareMap);
+        hubsSubsystem = new HubsSubsystem(hardwareMap, true);
         hubsSubsystem.register();
-
-        setOnBlueTeam(true);
     }
 
     /**

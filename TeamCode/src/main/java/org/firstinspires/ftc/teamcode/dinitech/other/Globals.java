@@ -12,6 +12,8 @@ import org.firstinspires.ftc.vision.VisionPortal;
 @Configurable
 public class Globals {
     public static long TELEMETRY_UPDATE_INTERVAL_MS = 500;
+    public static double BLUE_TEAM_HEADING = Math.PI;
+    public static double RED_TEAM_HEADING = 0;
 
     /**
      * Auto Phase globals

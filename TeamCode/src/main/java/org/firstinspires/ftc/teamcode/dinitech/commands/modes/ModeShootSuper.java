@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
@@ -28,11 +29,12 @@ public class ModeShootSuper extends ConditionalCommand {
      * @param trieurSubsystem   The sorter subsystem, which manages artifact storage and state.
      * @param chargeurSubsystem The intake subsystem for running the intake motor.
      * @param shooterSubsystem  The shooter subsystem for running the shooter motor.
+     * @param hubsSubsystem greger
      */
     public ModeShootSuper(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem,
-                          GamepadSubsystem gamepadSubsystem, CommandBase commandBase, boolean team) {
+                          GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem, CommandBase commandBase) {
         super(
-                new AnywhereToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, commandBase, team),
+                new AnywhereToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem, commandBase),
                 new ConditionalCommand(
                         new CancelFollowPath(drivePedroSubsystem),
                         new InstantCommand(),
@@ -48,9 +50,9 @@ public class ModeShootSuper extends ConditionalCommand {
         );
     }
 
-    public ModeShootSuper(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, boolean team) {
+    public ModeShootSuper(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem) {
         super(
-                new AnywhereToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, team),
+                new AnywhereToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem),
                 new ConditionalCommand(
                         new CancelFollowPath(drivePedroSubsystem),
                         new InstantCommand(),

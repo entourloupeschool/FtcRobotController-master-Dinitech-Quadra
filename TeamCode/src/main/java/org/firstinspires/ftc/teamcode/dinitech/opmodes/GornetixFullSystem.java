@@ -47,7 +47,7 @@ public class GornetixFullSystem extends GornetixRobotBase {
         shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
         register(shooterSubsystem);
 
-        hubsSubsystem.setDefaultCommand(new DefaultHubsCommand(hubsSubsystem, trieurSubsystem, this::getOnBlueTeam));
+        hubsSubsystem.setDefaultCommand(new DefaultHubsCommand(hubsSubsystem, trieurSubsystem));
     }
 
     /**

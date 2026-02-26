@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.PedroAimLockedDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetHeadingFCDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchTeamAndHeading;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
@@ -53,24 +54,9 @@ public class DrivingAimChar extends GornetixFullSystem {
         super.initialize();
 
         drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEAING_POSE);
-        drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, this::getGoalPose));
-        m_Driver.left_stick_button.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
+        drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem));
 
-        m_Operator.start.whenPressed(new InstantCommand(() -> {
-            setOnBlueTeam(!getOnBlueTeam());
-        }));
-
-        PIDFCoefficients pidfCoeffsInit = drivePedroSubsystem.getAimController().getCoefficients();
-
-        pDriveAimInit = pidfCoeffsInit.P;
-        iDriveAimInit = pidfCoeffsInit.I;
-        dDriveAimInit = pidfCoeffsInit.D;
-        fDriveAimInit = pidfCoeffsInit.F;
-
-        pDriveAim = pDriveAimInit;
-        iDriveAim = iDriveAimInit;
-        dDriveAim = dDriveAimInit;
-        fDriveAim = fDriveAimInit;
+        m_Operator.start.whenPressed(new SwitchTeamAndHeading(drivePedroSubsystem, hubsSubsystem));
 
         setupGamePadsButtonBindings();
     }
@@ -85,12 +71,12 @@ public class DrivingAimChar extends GornetixFullSystem {
 
         if (rightTrigger > 0.01) {
             adjustSelectedParameter(rightTrigger * rightTrigger * ADJUST_CONSTANT);
-            drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim);
+//            drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim);
         }
 
         if (leftTrigger > 0.01) {
             adjustSelectedParameter(-leftTrigger * leftTrigger * ADJUST_CONSTANT);
-            drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim);
+//            drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim);
         }
 
         telemetryPIDF(telemetry);
@@ -108,7 +94,7 @@ public class DrivingAimChar extends GornetixFullSystem {
                     iDriveAim = iDriveAimInit;
                     dDriveAim = dDriveAimInit;
                     fDriveAim = fDriveAimInit;
-                    drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim);
+//                    drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim);
                 });
 
         m_Operator.dpad_up.whenPressed(
@@ -117,7 +103,7 @@ public class DrivingAimChar extends GornetixFullSystem {
                     iDriveAim = 0;
                     dDriveAim = 0;
                     fDriveAim = 0;
-                    drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim);
+//                    drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim);
                 });
 
         // Parameter selection (left/right to navigate between P, I, D, F)
@@ -133,12 +119,12 @@ public class DrivingAimChar extends GornetixFullSystem {
         m_Driver.triangle.whileHeld(new RunCommand(() -> {
             adjustSelectedParameter(ADJUST_CONSTANT);
         }));
-        m_Driver.triangle.whenReleased(() -> drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim));
+//        m_Driver.triangle.whenReleased(() -> drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim));
 
         m_Driver.cross.whileHeld(new RunCommand(() -> {
             adjustSelectedParameter(-ADJUST_CONSTANT);
         }));
-        m_Driver.cross.whenReleased(() -> drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim));
+//        m_Driver.cross.whenReleased(() -> drivePedroSubsystem.setAimControllerPIDF(pDriveAim, iDriveAim, dDriveAim, fDriveAim));
     }
 
     /**

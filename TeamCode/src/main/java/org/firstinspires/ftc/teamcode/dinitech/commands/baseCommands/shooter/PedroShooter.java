@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
@@ -16,7 +17,7 @@ import java.util.function.Supplier;
 public class PedroShooter extends CommandBase {
     private final ShooterSubsystem shooterSubsystem;
     private final DrivePedroSubsystem drivePedroSubsystem;
-    private final Supplier<Pose> goalPoseSupplier;
+    private final HubsSubsystem hubsSubsystem;
 
 
     /**
@@ -25,12 +26,12 @@ public class PedroShooter extends CommandBase {
      *
      * @param shooterSubsystem The shooter subsystem
      * @param drivePedroSubsystem  The drive subsystem
-     * @param goalPoseSupplier Supplier for the goal pose
+     * @param hubsSubsystem Supplier for the goal pose
      */
-    public PedroShooter(ShooterSubsystem shooterSubsystem, DrivePedroSubsystem drivePedroSubsystem, Supplier<Pose> goalPoseSupplier) {
+    public PedroShooter(ShooterSubsystem shooterSubsystem, DrivePedroSubsystem drivePedroSubsystem, HubsSubsystem hubsSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
         this.drivePedroSubsystem = drivePedroSubsystem;
-        this.goalPoseSupplier = goalPoseSupplier;
+        this.hubsSubsystem = hubsSubsystem;
         addRequirements(shooterSubsystem);
     }
 
@@ -41,7 +42,7 @@ public class PedroShooter extends CommandBase {
 
     @Override
     public void execute() {
-        double range = drivePedroSubsystem.getPose().distanceFrom(goalPoseSupplier.get());
+        double range = drivePedroSubsystem.getPose().distanceFrom(hubsSubsystem.getGoalPose());
         shooterSubsystem.setVelocity(linearSpeedFromPedroRange(range));
     }
 

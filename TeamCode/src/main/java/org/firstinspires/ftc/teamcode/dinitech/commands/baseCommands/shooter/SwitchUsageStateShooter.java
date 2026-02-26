@@ -6,6 +6,7 @@ import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
@@ -16,15 +17,15 @@ public class SwitchUsageStateShooter extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
-    private final Supplier<Pose> goalPoseSupplier;
+    private final HubsSubsystem hubsSubsystem;
 
 
-    public SwitchUsageStateShooter(ShooterSubsystem shooterSubsystem, DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Supplier<Pose> goalPoseSupplier) {
+    public SwitchUsageStateShooter(ShooterSubsystem shooterSubsystem, DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
-        this.goalPoseSupplier = goalPoseSupplier;
+        this.hubsSubsystem = hubsSubsystem;
     }
 
     @Override
@@ -41,11 +42,11 @@ public class SwitchUsageStateShooter extends CommandBase {
         } else if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.STOP){
             shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
         } else if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.TELE){
-            shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, goalPoseSupplier));
+            shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem));
         } else if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.PEDRO) {
             shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem));
         } else {
-            shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, goalPoseSupplier));
+            shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem));
         }
     }
 
