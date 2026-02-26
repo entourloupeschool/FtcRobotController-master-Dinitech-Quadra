@@ -14,7 +14,7 @@ public class StopDoubleServo extends CommandBase {
 
     @Override
     public void initialize(){
-        chargeurSubsystem.setPowerDoubleServo(0);
+        chargeurSubsystem.setNormalizedSpeedTapis(0);
     }
 
     @Override

@@ -7,7 +7,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 /**
@@ -22,7 +21,7 @@ import java.util.function.Supplier;
  * </ul>
  * The command finishes immediately after setting the new default command.
  */
-public class ToggleVisionDrive extends CommandBase {
+public class SwitchVisionDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
@@ -36,8 +35,8 @@ public class ToggleVisionDrive extends CommandBase {
      * @param gamepadSubsystem The gamepad subsystem for providing feedback.
      * @param goalPoseSupplier Supplier for the goal pose
      */
-    public ToggleVisionDrive(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem,
-                             GamepadSubsystem gamepadSubsystem, BooleanSupplier isBlueSupplier, Supplier<Pose> goalPoseSupplier) {
+    public SwitchVisionDrive(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem,
+                             GamepadSubsystem gamepadSubsystem, Supplier<Pose> goalPoseSupplier) {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
@@ -55,7 +54,7 @@ public class ToggleVisionDrive extends CommandBase {
         } else if (drivePedroSubsystem.getDriveAimLockType() == DrivePedroSubsystem.DriveAimLockType.NONE){
             // If not locked, switch to vision-locked drive and provide feedback.
             drivePedroSubsystem.setDefaultCommand(new VisionAimLockedDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
-        } else {
+        } else if (drivePedroSubsystem.getDriveAimLockType() == DrivePedroSubsystem.DriveAimLockType.VISION_AIM) {
             drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, goalPoseSupplier));
         }
     }
