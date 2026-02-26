@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
  * A command for reseting the heading of the robot.
  *
  */
-public class SetHeadingFCDrive extends CommandBase {
+public class IncrementHeadingFCDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final double newHeading;
 
@@ -19,7 +19,7 @@ public class SetHeadingFCDrive extends CommandBase {
      *
      * @param drivePedroSubsystem   The drive subsystem to control.
      */
-    public SetHeadingFCDrive(DrivePedroSubsystem drivePedroSubsystem, double newHeading) {
+    public IncrementHeadingFCDrive(DrivePedroSubsystem drivePedroSubsystem, double newHeading) {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.newHeading = newHeading;
         addRequirements(drivePedroSubsystem);
@@ -27,7 +27,7 @@ public class SetHeadingFCDrive extends CommandBase {
 
     @Override
     public void initialize(){
-        drivePedroSubsystem.setHeading(newHeading);
+        drivePedroSubsystem.setHeading(drivePedroSubsystem.getHeading() + newHeading);
     }
 
     @Override

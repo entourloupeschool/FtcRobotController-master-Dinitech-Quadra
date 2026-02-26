@@ -2,10 +2,6 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLAMPING_HEADING_ERROR;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
-
-
-import com.pedropathing.control.PIDFController;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.pedropathing.geometry.Pose;
@@ -16,8 +12,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
 
 /**
  * A hybrid drive command that provides vision-assisted "locking" onto AprilTags.
@@ -70,18 +64,13 @@ public class PedroAimLockedDrive extends CommandBase {
         Pose currentPose = drivePedroSubsystem.getPose();
         Pose goalPose = hubsSubsystem.getGoalPose();
 
+        //        double headingOffset = hubsSubsystem.getOnBlueTeam() ? BLUE_TEAM_HEADING : RED_TEAM_HEADING; // Example offset based on team
         double headingGoal = Math.atan2(currentPose.getY() - goalPose.getY(), currentPose.getX() - goalPose.getX());
         double headingError = MathFunctions.getTurnDirection(currentPose.getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(currentPose.getHeading(), headingGoal);
         double clampedError = Math.max(Math.min(headingError, CLAMPING_HEADING_ERROR), -CLAMPING_HEADING_ERROR);
 
         double powerCorrection = Math.pow(clampedError, NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED) * (1 - Math.abs(rightX));
+
         drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(),powerCorrection + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
-
-//        aimController.updateError(headingError);
-//        double correction = Math.min(Math.max(aimController.run(), -1), 1);
-
-//        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), Math.pow(correction, NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED) * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
-
-
     }
 }

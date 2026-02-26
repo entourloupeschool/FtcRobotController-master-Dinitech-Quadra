@@ -45,7 +45,7 @@ public class Globals {
 
 
     //BLUE SIDE
-    public static final Pose BLUE_BASKET_POSE = new Pose(11, 137, 0);
+    public static final Pose BLUE_BASKET_POSE = new Pose(10.5, 135.5, 0);
     public static final Pose BLUE_SMALL_TRIANGLE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_SMALL_TRIANGLE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
@@ -53,9 +53,7 @@ public class Globals {
     public static final double GATEPICK_LENGTH_BACKUP_X = 7;
     public static final double GATEPICK_LENGTH_BACKUP_Y = 1;
     public static  final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() - GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() - GATEPICK_LENGTH_BACKUP_Y, Math.toRadians(-28));
-
     public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
-
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = 1405;
     public static final double SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY = 1730;
@@ -146,14 +144,16 @@ public class Globals {
         public static final double POWER_MOULIN_CALIBRATION_ROTATION = POWER_MOULIN_ROTATION;
 
         public static int MOULIN_POSITION_TOLERANCE = 1; // 2;
-        public static int SCALE_MOULIN_POSITION_TOLERANCE_LOOSE = 3;
         public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
+
+        public static int SCALE_MOULIN_POSITION_TOLERANCE_LOOSE = 3;
         public static int SCALE_MOULIN_SPEED_TOLERANCE_LOOSE = 3;
         public static final int MOULIN_POSITION_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
         public static final int MOULIN_SPEED_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
-        public static int SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE = 6;
+        public static int SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE = 10;
+        public static int SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE = 10;
 
-        public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE;
+        public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE;
         public static final int MOULIN_SPEED_VERY_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE;
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * (MOULIN_POSITION_TOLERANCE + 2);
@@ -183,7 +183,7 @@ public class Globals {
         public static final double MIN_RANGE_TO_SHOOT_CM = 97;
 
         public static final double DIFF_MIN_MAX_RANGE_TO_SHOOT = MAX_RANGE_TO_SHOOT_CM - MIN_RANGE_TO_SHOOT_CM; // = 248;
-        public static final double TELE_SHOOTER_SCALER = 20;
+        public static final double TELE_SHOOTER_SCALER = 30;
         public static final double SPEED_MARGIN_VISION_SHOOT = SPEED_MARGIN;
         public static final double CLOSE_SHOOT_SHOOTER_VELOCITY = 1400;
         public static final double MID_SHOOT_SHOOTER_VELOCITY = 1600;
@@ -192,7 +192,7 @@ public class Globals {
         public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 1.33;
         public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;
         public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 2.1; //13.272119;
-
+        public static long SHOOT_REVOLUTION_THEN_WAIT = 800;
         public static final double MIN_RANGE_SHOOTER_SPEED = 1420;
         public static final double MAX_RANGE_SHOOTER_SPEED = 1970;
 

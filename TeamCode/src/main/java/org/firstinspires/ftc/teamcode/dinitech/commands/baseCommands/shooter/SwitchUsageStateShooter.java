@@ -26,6 +26,7 @@ public class SwitchUsageStateShooter extends CommandBase {
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
         this.hubsSubsystem = hubsSubsystem;
+        addRequirements(shooterSubsystem);
     }
 
     @Override

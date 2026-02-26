@@ -1,36 +1,15 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests.chars;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ADJUST_CONSTANT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEAING_POSE;
 
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.RunCommand;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitCommand;
-import com.pedropathing.control.PIDFCoefficients;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.PedroAimLockedDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetHeadingFCDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchTeamAndHeading;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchTeamAndFlipPose;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.tele.GornetixTeleOp;
-import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
-
-import java.util.Objects;
 
 @TeleOp(name = "DrivingAimChar - Dinitech", group = "Char")
 public class DrivingAimChar extends GornetixFullSystem {
@@ -56,7 +35,7 @@ public class DrivingAimChar extends GornetixFullSystem {
         drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEAING_POSE);
         drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem));
 
-        m_Operator.start.whenPressed(new SwitchTeamAndHeading(drivePedroSubsystem, hubsSubsystem));
+        m_Operator.start.whenPressed(new SwitchTeamAndFlipPose(drivePedroSubsystem, hubsSubsystem));
 
         setupGamePadsButtonBindings();
     }

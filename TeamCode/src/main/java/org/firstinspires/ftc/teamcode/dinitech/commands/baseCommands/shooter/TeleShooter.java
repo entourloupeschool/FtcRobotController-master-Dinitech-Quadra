@@ -25,7 +25,8 @@ public class TeleShooter extends CommandBase {
 
     @Override
     public void execute(){
-        double velocityIncrement = - operator.getRightY();
+        double inverseRightY = - operator.getRightY();
+        double velocityIncrement = inverseRightY * inverseRightY * inverseRightY;
         if (Math.abs(velocityIncrement) > 0.05){
             shooterSubsystem.incrementVelocity(velocityIncrement * TELE_SHOOTER_SCALER);
         }

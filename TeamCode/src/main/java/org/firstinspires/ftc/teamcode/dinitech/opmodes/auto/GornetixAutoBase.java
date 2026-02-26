@@ -19,7 +19,6 @@ public class GornetixAutoBase extends GornetixFullSystem {
     @Override
     public void initialize() {
             super.initialize();
-            hubsSubsystem.setOnBlueTeam(true);
 
             drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
             visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));

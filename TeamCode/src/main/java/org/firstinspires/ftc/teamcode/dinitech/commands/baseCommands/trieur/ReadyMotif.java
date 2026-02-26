@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * it rumbles the gamepad and moves the moulin to a default position relative to the last
  * detected artifact.
  */
-public class ReadyMotif extends MoulinToPositionLoose {
+public class ReadyMotif extends MoulinNextNextVeryLoose {
 
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
@@ -34,7 +34,7 @@ public class ReadyMotif extends MoulinToPositionLoose {
      * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
      */
     public ReadyMotif(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem){
-        super(trieurSubsystem, 0, false); // Target is set dynamically in initialize()
+        super(trieurSubsystem); // Target is set dynamically in initialize()
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
     }

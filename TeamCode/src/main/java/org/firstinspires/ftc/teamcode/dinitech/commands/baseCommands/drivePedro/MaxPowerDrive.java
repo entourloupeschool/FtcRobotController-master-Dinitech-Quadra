@@ -5,8 +5,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SLOW_DRIVE_S
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 /**
  * A command for controlling the robot's drive base at a reduced speed.
@@ -16,7 +14,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
  * maneuvering, using a fixed, lower power scale instead of the variable power from
  * the triggers.
  */
-public class SlowDrive extends CommandBase {
+public class MaxPowerDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
 
     /**
@@ -24,14 +22,14 @@ public class SlowDrive extends CommandBase {
      *
      * @param drivePedroSubsystem   The drive subsystem to control.
      */
-    public SlowDrive(DrivePedroSubsystem drivePedroSubsystem) {
+    public MaxPowerDrive(DrivePedroSubsystem drivePedroSubsystem) {
         this.drivePedroSubsystem = drivePedroSubsystem;
         addRequirements(drivePedroSubsystem);
     }
 
     @Override
     public void initialize(){
-        drivePedroSubsystem.setLastTeleDriverPowerScale(SLOW_DRIVE_SCALE);
+        drivePedroSubsystem.setLastTeleDriverPowerScale(1);
     }
 
 

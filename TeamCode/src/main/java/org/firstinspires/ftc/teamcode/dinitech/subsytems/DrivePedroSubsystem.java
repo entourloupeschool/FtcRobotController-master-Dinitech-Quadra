@@ -59,10 +59,6 @@ public class DrivePedroSubsystem extends SubsystemBase {
     }
 
 
-    public void setMaxPower(double globalMaxPower) {
-        dinitechPedroMecanumDrive.setMaxPower(globalMaxPower);
-    }
-
     /**
      * Defines the operational state of the drive.
      */
@@ -257,6 +253,10 @@ public class DrivePedroSubsystem extends SubsystemBase {
      */
     public Pose getPose() {
         return dinitechPedroMecanumDrive.getPose();
+    }
+
+    public void setPose(Pose newPose){
+        dinitechPedroMecanumDrive.setPose(newPose);
     }
 
     /**

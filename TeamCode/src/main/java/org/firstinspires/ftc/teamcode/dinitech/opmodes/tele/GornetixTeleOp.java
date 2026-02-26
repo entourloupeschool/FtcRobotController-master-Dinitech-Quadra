@@ -1,38 +1,34 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tele;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_SMALL_TRIANGLE_SHOOT_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HEADING;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
+
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEAING_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LONG_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MID_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TELE_TIMEOUT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_SMALL_TRIANGLE_SHOOT_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_TEAM_HEADING;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOT_REVOLUTION_THEN_WAIT;
 
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.StopRobot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.ToggleChargeur;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.BlueTeamAndHeading;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FieldCentricDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.MaxPowerDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetHeadingFCDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SetHeadingFCDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SetPoseFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SlowDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchAimLockType;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchTeamAndHeading;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchTeamAndFlipPose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.DefaultGamepadCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.TeleShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SwitchUsageStateShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinAntiRotate;
@@ -49,12 +45,13 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
+import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeShoot;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixFullSystem;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 
 import java.util.Objects;
 
-@TeleOp(name = "GornetixTeleOp - Dinitech", group = "TeleOp")
 public class GornetixTeleOp extends GornetixFullSystem {
 
 
@@ -70,12 +67,13 @@ public class GornetixTeleOp extends GornetixFullSystem {
 
             drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive(true);
 
+            drivePedroSubsystem.setLastTeleDriverPowerScale(1);
+
             visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, drivePedroSubsystem, trieurSubsystem, shooterSubsystem));
 
             setupGamePadsButtonBindings();
 
             new MoulinCalibrationSequence(trieurSubsystem).schedule();
-            new BlueTeamAndHeading(drivePedroSubsystem, hubsSubsystem).schedule();
     }
 
     /**
@@ -102,11 +100,18 @@ public class GornetixTeleOp extends GornetixFullSystem {
         // Driver controls
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
-        m_Driver.square.whenPressed(new ShootHighSpeedRevolution(trieurSubsystem));
+        m_Driver.square.whenPressed(new SequentialCommandGroup(
+                new ShootHighSpeedRevolution(trieurSubsystem),
+                new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
+                new MaxPowerChargeur(chargeurSubsystem),
+                new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT)));
+
+        m_Driver.start.whenPressed(new SwitchTeamAndFlipPose(drivePedroSubsystem, hubsSubsystem));
+        m_Driver.back.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
 
         m_Driver.bump_left.toggleWhenPressed(
                 new SlowDrive(drivePedroSubsystem),
-                new InstantCommand(() -> drivePedroSubsystem.setLastTeleDriverPowerScale(1)));
+                new MaxPowerDrive(drivePedroSubsystem));
 
         m_Driver.bump_right.whenPressed(new SwitchAimLockType(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
 
@@ -132,17 +137,13 @@ public class GornetixTeleOp extends GornetixFullSystem {
 
         m_Operator.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT));
 
-        m_Operator.start.whenPressed(new SwitchTeamAndHeading(drivePedroSubsystem, hubsSubsystem));
-
         new Trigger(() -> m_Operator.getRightTriggerValue() > 0.2)
                 .whenActive(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
         new Trigger(() -> m_Operator.getLeftTriggerValue() > 0.2)
                 .whenActive(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
 
         new Trigger(trieurSubsystem::getIsFull)
-                .whenActive(new StopChargeur(chargeurSubsystem));
-//        new Trigger(trieurSubsystem::getIsFull)
-//                .whenActive(new ShootHighSpeedRevolution(trieurSubsystem));
+                .whenActive(new ModeShoot(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem, hubsSubsystem));
     }
 
 }

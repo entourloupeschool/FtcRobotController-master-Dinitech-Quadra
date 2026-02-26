@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HEADING;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEAING_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_GOAL_POSE;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.pedropathing.geometry.Pose;
@@ -14,25 +18,41 @@ import java.util.List;
 
 public class HubsSubsystem extends SubsystemBase {
     private final List<LynxModule> hubs;
+    private final Pose ROTATED_BLUE_BASKET_POSE = BLUE_BASKET_POSE.rotate(BLUE_TEAM_HEADING, false);
 
-    private boolean onBlueTeam;
-    public void setOnBlueTeam(boolean onBlueTeam){
-        this.onBlueTeam = onBlueTeam;
+
+    public enum Team {
+        BLUE,
+        RED,
+        NONE
     }
 
-    public boolean getOnBlueTeam(){
-        return onBlueTeam;
+    private Team team = Team.NONE;
+
+    public Team getTeam(){
+        return team;
+    }
+
+    public void setTeam(Team team){
+        this.team = team;
     }
 
     public Pose getGoalPose(){
-        return getOnBlueTeam() ? BLUE_BASKET_POSE : RED_BASKET_POSE;
+        switch (getTeam()){
+            case BLUE:
+                return ROTATED_BLUE_BASKET_POSE;
+            case RED:
+                return RED_GOAL_POSE;
+            default:
+                return FIELD_CENTER_90HEAING_POSE;
+        }
     }
 
     public HubsSubsystem(HardwareMap hardwareMap, boolean isBlue){
         hubs = hardwareMap.getAll(LynxModule.class);
         init();
 
-        setOnBlueTeam(isBlue);
+        setTeam(Team.NONE);
     }
 
     public void init(){

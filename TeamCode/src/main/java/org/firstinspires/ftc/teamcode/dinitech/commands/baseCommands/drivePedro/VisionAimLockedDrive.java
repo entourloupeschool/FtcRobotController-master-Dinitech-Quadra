@@ -55,7 +55,6 @@ public class VisionAimLockedDrive extends CommandBase {
      */
     @Override
     public void execute() {
-
         double rightX = driver.getRightX();
 
         if (visionSubsystem.getHasCurrentAprilTagDetections()) {

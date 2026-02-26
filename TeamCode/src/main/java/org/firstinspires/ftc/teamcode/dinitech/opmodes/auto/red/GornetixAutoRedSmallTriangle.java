@@ -27,6 +27,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 @Autonomous(name = "RedSmallTriangle - Dinitech", group = "Red")
@@ -39,7 +40,7 @@ public class GornetixAutoRedSmallTriangle extends GornetixAutoBase {
     public void initialize() {
             super.initialize();
 
-            hubsSubsystem.setOnBlueTeam(false);
+            hubsSubsystem.setTeam(HubsSubsystem.Team.RED);
 
             drivePedroSubsystem.getDrive().prepAuto(RED_SMALL_TRIANGLE_POSE);
 

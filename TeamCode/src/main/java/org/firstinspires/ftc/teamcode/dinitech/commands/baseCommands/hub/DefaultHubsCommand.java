@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.hub;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.bylazar.configurables.annotations.Configurable;
@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BooleanSupplier;
 
 
 @Configurable
@@ -71,12 +70,12 @@ public class DefaultHubsCommand extends CommandBase {
         }
 
         // Set initial pattern
-        updatePattern(trieurSubsystem.isTrappeOpen(), hubsSubsystem.getOnBlueTeam());
+        updatePattern(trieurSubsystem.isTrappeOpen(), hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE);
     }
     @Override
     public void execute() {
         boolean currentTrappeOpen = trieurSubsystem.isTrappeOpen();
-        boolean currentIsBlue = hubsSubsystem.getOnBlueTeam();
+        boolean currentIsBlue = hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE;
 
         // Only update pattern when trappe state or team color changes
         if (!patternSet || currentTrappeOpen != lastTrappeOpen || currentIsBlue != lastIsBlue) {

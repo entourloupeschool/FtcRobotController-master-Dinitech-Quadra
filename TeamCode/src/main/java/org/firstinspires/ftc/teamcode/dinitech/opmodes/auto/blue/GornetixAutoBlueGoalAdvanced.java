@@ -30,6 +30,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.St
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
 @Autonomous(name = "BlueGoalAdvanced - Dinitech", group = "Blue")
 public class GornetixAutoBlueGoalAdvanced extends GornetixAutoBase {
@@ -41,7 +42,7 @@ public class GornetixAutoBlueGoalAdvanced extends GornetixAutoBase {
     public void initialize() {
             super.initialize();
 
-            hubsSubsystem.setOnBlueTeam(true);
+            hubsSubsystem.setTeam(HubsSubsystem.Team.BLUE);
 
             drivePedroSubsystem.getDrive().prepAuto(BLUE_GOAL_POSE);
 

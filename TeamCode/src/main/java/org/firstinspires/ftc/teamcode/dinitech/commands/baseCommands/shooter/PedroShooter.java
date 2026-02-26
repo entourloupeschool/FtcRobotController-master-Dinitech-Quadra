@@ -45,6 +45,4 @@ public class PedroShooter extends CommandBase {
         double range = drivePedroSubsystem.getPose().distanceFrom(hubsSubsystem.getGoalPose());
         shooterSubsystem.setVelocity(linearSpeedFromPedroRange(range));
     }
-
-
 }

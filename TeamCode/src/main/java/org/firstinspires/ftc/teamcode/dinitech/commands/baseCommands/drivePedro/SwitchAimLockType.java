@@ -42,6 +42,7 @@ public class SwitchAimLockType extends CommandBase {
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
         this.hubsSubsystem = hubsSubsystem;
+        addRequirements(drivePedroSubsystem);
     }
 
     /**
