@@ -295,8 +295,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     private void printShooterTelemetry(final TelemetryManager telemetryM) {
-        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
-        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
+//        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
+//        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
         telemetryM.addData("Shooter State", getUsageState());
         telemetryM.addData("targetSpeedStabilized", isTargetSpeedStabilized());
     }

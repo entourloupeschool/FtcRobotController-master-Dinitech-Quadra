@@ -59,7 +59,6 @@ public class TrieurSubsystem extends SubsystemBase {
 
     private final ArtifactColor[] moulinStoragePositionColors = new ArtifactColor[6];
     private ArtifactColor lastDetectedColor = ArtifactColor.NONE;
-
     private int overcurrentCounts = 0;
 
     public void setOvercurrentCounts(int overcurrentCounts) {
@@ -74,6 +73,15 @@ public class TrieurSubsystem extends SubsystemBase {
     private boolean newColoredRegister = false;
     private boolean isFull = false;
     private boolean wentRecalibrationOpposite = true;
+    private boolean hasInitCalibration = false;
+    
+    public boolean hasInitCalibration() {
+        return hasInitCalibration;
+    }
+    public void setHasInitCalibration(boolean hasInitCalibration) {
+        this.hasInitCalibration = hasInitCalibration;
+    }
+
     private boolean wantsMotifShoot = false;
 
     /**
@@ -612,9 +620,9 @@ public class TrieurSubsystem extends SubsystemBase {
 
         if (!isMagneticSwitch()){
             setWentRecalibrationOpposite(true);
-        } else if (isMagneticSwitch() && wentRecalibrationOpposite()) {
-            recalibrateMoulin();
+        } else if (isMagneticSwitch() && wentRecalibrationOpposite() && hasInitCalibration()) {
             setWentRecalibrationOpposite(false);
+            recalibrateMoulin();
         }
     }
 
@@ -682,8 +690,8 @@ public class TrieurSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         moulinLogic();
-        printMagneticTelemetryManager(telemetryM);
-        printMoulinTelemetryManager(telemetryM);
+//        printMagneticTelemetryManager(telemetryM);
+//        printMoulinTelemetryManager(telemetryM);
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        printDistanceTelemetryManager(telemetryM);
 //        printColorTelemetryManager(telemetryM);
@@ -701,7 +709,13 @@ public class TrieurSubsystem extends SubsystemBase {
         telemetryM.addData("moulin ticks", getMoulinMotorPosition());
         telemetryM.addData("moulinTarget", getMoulinMotorTargetPosition());
 //        telemetryM.addData("moulinSpeed", getMoulinSpeed());
-        telemetryM.addData("moulin position", getMoulinPosition());
+        int currentPos = getMoulinPosition();
+        telemetryM.addData("current moulin pos", currentPos);
+        telemetryM.addData("is storage", Moulin.isStoragePosition(currentPos));
+        telemetryM.addData("is shoot", Moulin.isShootingPosition(currentPos));
+        telemetryM.addData("MoulinNNext 1", Moulin.getNNextPosition(currentPos, 1));
+        telemetryM.addData("MoulinNNext 2", Moulin.getNNextPosition(currentPos, 2));
+
 //        telemetryM.addData("moulin at target", !isMoulinBusy());
 //        telemetryM.addData("shootGreenPos", getClosestShootingPositionForColor(ArtifactColor.GREEN));
 //        telemetryM.addData("shootPurplePos", getClosestShootingPositionForColor(ArtifactColor.PURPLE));

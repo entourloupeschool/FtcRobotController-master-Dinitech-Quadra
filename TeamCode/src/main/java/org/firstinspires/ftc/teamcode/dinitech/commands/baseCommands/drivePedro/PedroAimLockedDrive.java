@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLAMPING_HEADING_ERROR;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
 
@@ -67,14 +68,16 @@ public class PedroAimLockedDrive extends CommandBase {
     @Override
     public void execute() {
         double rightX = driver.getRightX();
-        Pose currentPose = drivePedroSubsystem.getPose();
-        Pose goalPose = goalPoseSupplier.get().rotate(drivePedroSubsystem.getAccumulatedHeading(), false);
+        Pose currentPose = drivePedroSubsystem.getPose().rotate(drivePedroSubsystem.getAccumulatedHeading(), false);
 
+        Pose goalPose = goalPoseSupplier.get();
 
         double headingGoal = Math.atan2(currentPose.getY() - goalPose.getY(), currentPose.getX() - goalPose.getX());
         double headingError = MathFunctions.getTurnDirection(currentPose.getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(currentPose.getHeading(), headingGoal);
+        double clampedError = Math.max(Math.min(headingError, CLAMPING_HEADING_ERROR), -CLAMPING_HEADING_ERROR);
 
-        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), pickCustomPowerFunc(headingError, NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED) * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+        double powerCorrection = Math.pow(clampedError, NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED) * (1 - Math.abs(rightX));
+        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(),powerCorrection + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
 
 //        aimController.updateError(headingError);
 //        double correction = Math.min(Math.max(aimController.run(), -1), 1);

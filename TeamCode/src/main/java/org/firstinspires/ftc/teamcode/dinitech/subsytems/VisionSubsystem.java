@@ -219,14 +219,14 @@ public class VisionSubsystem extends SubsystemBase {
 
     private void aprilTagProcessorTelemetryManager() {
 //        telemetryM.addData("Current AT Detections", getHasCurrentAprilTagDetections() ? "Yes" : "No");
-        if (hasCachedPoseData()) {
-            Pose lastDetectedPose = getLatestRobotPoseEstimationFromAT();
-            telemetryM.addLine("last detected ATpose inPedroCoord");
-            telemetryM.addData("X", lastDetectedPose.getX());
-            telemetryM.addData("Y",  lastDetectedPose.getY());
-            telemetryM.addData("heading",  lastDetectedPose.getHeading());
-            telemetryM.addData("yawRaw", getRobotPoseYaw());
-        }
+//        if (hasCachedPoseData()) {
+//            Pose lastDetectedPose = getLatestRobotPoseEstimationFromAT();
+//            telemetryM.addLine("last detected ATpose inPedroCoord");
+//            telemetryM.addData("X", lastDetectedPose.getX());
+//            telemetryM.addData("Y",  lastDetectedPose.getY());
+//            telemetryM.addData("heading",  lastDetectedPose.getHeading());
+//            telemetryM.addData("yawRaw", getRobotPoseYaw());
+//        }
 
         telemetryM.addData("hasDetectedMotif", hasDetectedColorOrder);
     }

@@ -57,4 +57,9 @@ public class MoulinCalibrate extends CommandBase {
     public boolean isFinished() {
         return trieurSubsystem.isMagneticSwitch();
     }
+
+    @Override
+    public void end(boolean interrupted) {
+        trieurSubsystem.setHasInitCalibration(true);
+    }
 }

@@ -1,20 +1,17 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TELE_TIMEOUT;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_INCREMENT;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.ToggleChargeur;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinAntiRotate;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinPrevious;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRotate;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.StopMoulin;
+
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.rouleau.IncrementPowerRouleau;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.rouleau.MaxPowerRouleau;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.rouleau.StopRouleau;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.tapis.IncrementSpeedTapis;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.tapis.MaxSpeedTapis;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.tapis.StopTapis;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixRobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -22,8 +19,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-@TeleOp(name = "TrieurDebut - Dinitech", group = "Test")
-public class TrieurDebut extends GornetixRobotBase {
+@TeleOp(name = "ChargeurDebut - Dinitech", group = "Test")
+public class ChargeurDebut extends GornetixRobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private TrieurSubsystem trieurSubsystem;
     private ChargeurSubsystem chargeurSubsystem;
@@ -52,7 +49,7 @@ public class TrieurDebut extends GornetixRobotBase {
         setupGamePadsButtonBindings();
 
 //                new MoulinCalibrate(trieurSubsystem);
-        new MoulinCalibrationSequence(trieurSubsystem).schedule();
+//        new MoulinCalibrationSequence(trieurSubsystem).schedule();
 
     }
 
@@ -72,16 +69,16 @@ public class TrieurDebut extends GornetixRobotBase {
         GamepadWrapper m_Operator = gamepadSubsystem.getOperator();
 
         // Driver controls
-        m_Driver.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT));
+        m_Driver.square.whenPressed(new MaxPowerRouleau(chargeurSubsystem));
+        m_Driver.cross.whenPressed(new MaxSpeedTapis(chargeurSubsystem));
+        m_Driver.circle.whenPressed(new StopTapis(chargeurSubsystem));
+        m_Driver.triangle.whenPressed(new StopRouleau(chargeurSubsystem));
 
-        m_Driver.square.whenPressed(new ToggleChargeur(chargeurSubsystem));
 
-        m_Driver.dpad_right.whenPressed(new MoulinNext(trieurSubsystem));
-        m_Driver.dpad_left.whenPressed(new MoulinPrevious(trieurSubsystem));
-        m_Driver.dpad_up.whenPressed(new MoulinRevolution(trieurSubsystem));
-        m_Driver.dpad_down.whenPressed(new StopMoulin(trieurSubsystem));
 
-        m_Driver.bump_right.whileHeld(new MoulinRotate(trieurSubsystem));
-        m_Driver.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem));
+        m_Operator.triangle.whenPressed(new IncrementPowerRouleau(chargeurSubsystem, CHARGEUR_INCREMENT));
+        m_Operator.cross.whenPressed(new IncrementPowerRouleau(chargeurSubsystem, -CHARGEUR_INCREMENT));
+        m_Operator.square.whenPressed(new IncrementSpeedTapis(chargeurSubsystem, CHARGEUR_INCREMENT));
+        m_Operator.circle.whenPressed(new IncrementSpeedTapis(chargeurSubsystem, -CHARGEUR_INCREMENT));
     }
 }

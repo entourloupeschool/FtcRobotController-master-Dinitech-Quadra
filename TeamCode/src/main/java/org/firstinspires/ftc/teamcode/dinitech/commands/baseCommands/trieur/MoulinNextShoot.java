@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * <p>
  * This command always rotates in the positive (forward) direction.
  */
-public class MoulinNextShoot extends MoulinToPosition {
+public class MoulinNextShoot extends MoulinToPositionVeryLoose {
 
     /**
      * Creates a new MoulinNext command.
@@ -32,7 +32,7 @@ public class MoulinNextShoot extends MoulinToPosition {
      */
     @Override
     public void initialize() {
-        int currentPos = trieurSubsystem.getMoulinPosition();
+        int currentPos = super.trieurSubsystem.getMoulinPosition();
         // Set the parameters for the parent command.
         if (Moulin.isStoragePosition(currentPos)){
             super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPos, 1);

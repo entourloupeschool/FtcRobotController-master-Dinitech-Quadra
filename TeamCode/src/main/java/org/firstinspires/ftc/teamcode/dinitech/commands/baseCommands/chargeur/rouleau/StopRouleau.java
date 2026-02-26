@@ -1,20 +1,20 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.tapis;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.rouleau;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 
-public class StopTapis extends CommandBase {
+public class StopRouleau extends CommandBase {
     private final ChargeurSubsystem chargeurSubsystem;
 
-    public StopTapis(ChargeurSubsystem chargeurSubsystem){
+    public StopRouleau(ChargeurSubsystem chargeurSubsystem){
         this.chargeurSubsystem = chargeurSubsystem;
         addRequirements(chargeurSubsystem);
     }
 
     @Override
     public void initialize(){
-        chargeurSubsystem.setNormalizedSpeedTapis(0);
+        chargeurSubsystem.setMotorPower(0);
     }
 
     @Override

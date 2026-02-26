@@ -47,16 +47,26 @@ public class ChargeurSubsystem extends SubsystemBase {
 
 
     public void setChargeurPower(double power){
-        setPowerDoubleServo(power);
-        setMotorPower(power * SCALE_CHARGEUR_MOTOR_POWER);
+        setNormalizedSpeedTapis(power);
+        setMotorPower(power);
     }
+    
+    
 
-    public void setPowerDoubleServo(double power){
+    public void setNormalizedSpeedTapis(double power){
         chargeurDoubleServo.setNormalizedSpeed(3, power);
     }
 
+    public void incrementSpeedTapis(int crsNumber, double incr){
+        chargeurDoubleServo.incrementNormalizedSpeed(crsNumber, incr);
+    }
+
+    public double getNormalizedSpeedTapis(int crsNumber){
+        return chargeurDoubleServo.getNormalizedSpeed(crsNumber);
+    }
+
     public void incrementChargeurPower(double increment){
-        chargeurDoubleServo.incrementNormalizedSpeed(3, increment);
+        incrementSpeedTapis(3, increment);
         incrementMotorPower(increment);
     }
 
@@ -141,9 +151,13 @@ public class ChargeurSubsystem extends SubsystemBase {
             setMotorPower(0);
             telemetryM.addLine("chargeur motor over current");
         }
+//        printChargeurTelemetry(telemetryM);
     }
 
-    private void printChargeurTelemetry(final Telemetry telemetry){
-        telemetry.addData("Chargeur Power", "%.2f", getMotorPower());
+    private void printChargeurTelemetry(final TelemetryManager telemetryM){
+        telemetryM.addData("Chargeur Power", getMotorPower());
+        telemetryM.addData("tapis 1 speed", getNormalizedSpeedTapis(1));
+        telemetryM.addData("tapis 2 speed", getNormalizedSpeedTapis(2));
+
     }
 }

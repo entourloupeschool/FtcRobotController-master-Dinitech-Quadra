@@ -8,7 +8,11 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.Ma
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.ToggleChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinAntiRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinPrevious;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRotate;
@@ -76,12 +80,16 @@ public class TrieurDebut extends GornetixRobotBase {
 
         m_Driver.square.whenPressed(new ToggleChargeur(chargeurSubsystem));
 
-        m_Driver.dpad_right.whenPressed(new MoulinNext(trieurSubsystem));
-        m_Driver.dpad_left.whenPressed(new MoulinPrevious(trieurSubsystem));
-        m_Driver.dpad_up.whenPressed(new MoulinRevolution(trieurSubsystem));
+        m_Driver.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
+        m_Driver.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
+        m_Driver.dpad_up.whenPressed(new MoulinHighSpeedRevolution(trieurSubsystem));
         m_Driver.dpad_down.whenPressed(new StopMoulin(trieurSubsystem));
 
         m_Driver.bump_right.whileHeld(new MoulinRotate(trieurSubsystem));
         m_Driver.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem));
+
+        m_Operator.dpad_left.whenPressed(new MoulinNextShoot(trieurSubsystem));
+        m_Operator.dpad_right.whenPressed(new MoulinNextStorage(trieurSubsystem));
+
     }
 }

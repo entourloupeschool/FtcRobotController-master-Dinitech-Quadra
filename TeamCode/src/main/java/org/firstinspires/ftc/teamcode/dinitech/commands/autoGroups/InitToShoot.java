@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAlmostRevolution;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -27,11 +28,6 @@ public class InitToShoot extends SequentialCommandGroup {
                                 new InstantCommand(),
                                 new SetVelocityShooter(shooterSubsystem, shooterVelocity)),
 
-                        new SequentialCommandGroup(
-                                new InstantCommand(),
-                                new OpenWaitTrappe(trieurSubsystem)
-                        ),
-
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,
@@ -40,7 +36,7 @@ public class InitToShoot extends SequentialCommandGroup {
                                 AUTO_ROBOT_CONSTRAINTS, true)
                 ),
 
-                new ShootAlmostRevolution(trieurSubsystem)
+                new ShootHighSpeedRevolution(trieurSubsystem)
         );
     }
 }

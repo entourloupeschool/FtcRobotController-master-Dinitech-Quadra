@@ -19,7 +19,8 @@ public class MoulinToPositionLoose extends CommandBase {
     protected final TrieurSubsystem trieurSubsystem;
     protected int moulinTargetPosition;
     protected boolean makeShort;
-
+    private int initialAbsRemainingDistance;
+    private boolean hasObservedMovementProgress;
     /**
      * Creates a new MoulinToPosition command.
      *
@@ -41,6 +42,8 @@ public class MoulinToPositionLoose extends CommandBase {
     @Override
     public void initialize() {
         trieurSubsystem.moulinToPosition(moulinTargetPosition, makeShort);
+        initialAbsRemainingDistance = Math.abs(trieurSubsystem.getMoulinMotorRemainingDistance());
+        hasObservedMovementProgress = initialAbsRemainingDistance == 0;
     }
 
     /**
@@ -50,7 +53,12 @@ public class MoulinToPositionLoose extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return trieurSubsystem.shouldMoulinStopPowerLoose();
+        int currentAbsRemainingDistance = Math.abs(trieurSubsystem.getMoulinMotorRemainingDistance());
+
+        if (!hasObservedMovementProgress && currentAbsRemainingDistance < initialAbsRemainingDistance) {
+            hasObservedMovementProgress = true;
+        }
+        return hasObservedMovementProgress && trieurSubsystem.shouldMoulinStopPowerLoose();
     }
 
     /**

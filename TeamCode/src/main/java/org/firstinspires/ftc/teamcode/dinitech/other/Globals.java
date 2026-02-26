@@ -115,8 +115,8 @@ public class Globals {
         public static double PEDRO_AIMING_CONTROLLER_I =0.0;
         public static double PEDRO_AIMING_CONTROLLER_D =0.0;
         public static double PEDRO_AIMING_CONTROLLER_F =0.57;
-
-        public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED = 5;
+        public static double CLAMPING_HEADING_ERROR = 0.39;
+        public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED = 3;
 
 
 
@@ -137,36 +137,36 @@ public class Globals {
         public static final int MOTOR_TICKS_PER_REV = 288;
         public static final int RAPPORT_TRANSMISSION = 8; // pignon 18 dents ; courronne 144 dents // rapport de
                                                           // transmission : 144/8 = 8;
-        public static int INTERVALLE_TICKS_MOULIN = 193; //240;//384;// MOTOR_TICKS_PER_REV * RAPPORT_TRANSMISSION /
+        public static int INTERVALLE_TICKS_MOULIN = 638; //240;//384;// MOTOR_TICKS_PER_REV * RAPPORT_TRANSMISSION /
                                                               // Moulin.TOTAL_POSITIONS;
         public static final double POWER_MOULIN_ROTATION = 1;
         public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
         public static final double POWER_MOULIN_CALIBRATION_ROTATION = POWER_MOULIN_ROTATION;
 
-        public static int MOULIN_POSITION_TOLERANCE = 0; // 2;
+        public static int MOULIN_POSITION_TOLERANCE = 1; // 2;
         public static int SCALE_MOULIN_POSITION_TOLERANCE_LOOSE = 3;
         public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
         public static int SCALE_MOULIN_SPEED_TOLERANCE_LOOSE = 3;
-        public static final int MOULIN_POSITION_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE +1) * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
+        public static final int MOULIN_POSITION_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
         public static final int MOULIN_SPEED_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
         public static int SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE = 6;
 
-        public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE+1) * SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE;
+        public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE;
         public static final int MOULIN_SPEED_VERY_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE;
 
-        public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * (MOULIN_POSITION_TOLERANCE+1);
-        public static int MOULIN_ROTATE_SPEED_CALIBRATION = 10;
+        public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * (MOULIN_POSITION_TOLERANCE + 2);
+        public static int MOULIN_ROTATE_SPEED_CALIBRATION = 40;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.4;
-        public static int WAIT_HIGH_SPEED_TRIEUR = 500;
+        public static int WAIT_HIGH_SPEED_TRIEUR = 10;
 
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.8;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
 
         //PIDF MOULIN (TURRET)
-        public static double P_MOULIN_AGGRESSIVE = 10;
+        public static double P_MOULIN_AGGRESSIVE = 8.457;
         public static double I_MOULIN_AGGRESSIVE = 11.8;
-        public static double D_MOULIN_AGGRESSIVE = 0.0;
+        public static double D_MOULIN_AGGRESSIVE = 0.803;
         public static double F_MOULIN_AGGRESSIVE = 0.0;
         public static double ADJUST_CONSTANT = 0.005;
 
@@ -226,10 +226,10 @@ public class Globals {
         public static final String CHARGEUR_SERVO_GAUCHE_MOTOR_NAME = "chargeur_servo_gauche";
         public static final String CHARGEUR_SERVO_DROITE_MOTOR_NAME = "chargeur_servo_droite";
 
-        public static final double CHARGEUR_MOTOR_POWER = 1;
-        public static final double SCALE_CHARGEUR_MOTOR_POWER = 0.4;
-        public static final double CHARGEUR_SPEED = 2300;
-        public static final double CHARGEUR_INCREMENT = 0.1;
+        public static final double ROULEAU_MOTOR_MAX_POWER = 0.7;
+        public static final double TAPIS_MAX_SPEED = 0.99;
+        public static final double SCALE_CHARGEUR_MOTOR_POWER = 1;
+        public static double CHARGEUR_INCREMENT = 0.1;
 
         /**
          ******** Sensors
@@ -239,7 +239,7 @@ public class Globals {
         public static final String CS3_NAME = "cs3";
         public static final String MAGNETIC_SWITCH_NAME = "m_s";
         public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
-        public static int OFFSET_MAGNETIC_POS = 21;
+        public static int OFFSET_MAGNETIC_POS = 38;
         public static final double DETECT_PURPLE_RED_RGB = 0.694;
         public static final double DETECT_PURPLE_GREEN_RGB = 0.612;
         public static final double DETECT_PURPLE_BLUE_RGB = 0.851;

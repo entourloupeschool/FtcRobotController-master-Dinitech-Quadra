@@ -21,7 +21,7 @@ import java.util.function.Supplier;
  * </ul>
  * The command finishes immediately after setting the new default command.
  */
-public class SwitchVisionDrive extends CommandBase {
+public class SwitchAimLockType extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
@@ -35,7 +35,7 @@ public class SwitchVisionDrive extends CommandBase {
      * @param gamepadSubsystem The gamepad subsystem for providing feedback.
      * @param goalPoseSupplier Supplier for the goal pose
      */
-    public SwitchVisionDrive(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem,
+    public SwitchAimLockType(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem,
                              GamepadSubsystem gamepadSubsystem, Supplier<Pose> goalPoseSupplier) {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;

@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.tapis;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 
-public class StopDoubleServo extends CommandBase {
+public class StopTapis extends CommandBase {
     private final ChargeurSubsystem chargeurSubsystem;
 
-    public StopDoubleServo(ChargeurSubsystem chargeurSubsystem){
+    public StopTapis(ChargeurSubsystem chargeurSubsystem){
         this.chargeurSubsystem = chargeurSubsystem;
         addRequirements(chargeurSubsystem);
     }

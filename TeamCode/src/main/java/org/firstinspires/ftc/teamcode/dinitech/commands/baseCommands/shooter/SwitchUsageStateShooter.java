@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 import java.util.function.Supplier;
 
-public class ToggleUsageStateShooter extends CommandBase {
+public class SwitchUsageStateShooter extends CommandBase {
     private final ShooterSubsystem shooterSubsystem;
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final VisionSubsystem visionSubsystem;
@@ -19,7 +19,7 @@ public class ToggleUsageStateShooter extends CommandBase {
     private final Supplier<Pose> goalPoseSupplier;
 
 
-    public ToggleUsageStateShooter(ShooterSubsystem shooterSubsystem, DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Supplier<Pose> goalPoseSupplier) {
+    public SwitchUsageStateShooter(ShooterSubsystem shooterSubsystem, DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Supplier<Pose> goalPoseSupplier) {
         this.shooterSubsystem = shooterSubsystem;
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.visionSubsystem = visionSubsystem;
@@ -42,9 +42,10 @@ public class ToggleUsageStateShooter extends CommandBase {
             shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
         } else if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.TELE){
             shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, goalPoseSupplier));
-
         } else if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.PEDRO) {
             shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem));
+        } else {
+            shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, goalPoseSupplier));
         }
     }
 

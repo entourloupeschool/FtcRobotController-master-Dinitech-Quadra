@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Sto
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAlmostRevolution;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -78,7 +79,7 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                                         AUTO_ROBOT_CONSTRAINTS, true))))),
 
-                new ShootAlmostRevolution(trieurSubsystem)
+                new ShootHighSpeedRevolution(trieurSubsystem)
         );
     }
 }

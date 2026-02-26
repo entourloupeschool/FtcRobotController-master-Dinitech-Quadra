@@ -1,22 +1,14 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.modes;
 
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_AUTO_TIMEOUT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_TICKS_TO_WAIT_DOUBLE_SERVO;
-
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerDoubleServo;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopDoubleServo;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNextLoose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TryDetectArtefact;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
@@ -35,6 +27,8 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
     public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem,
                              GamepadSubsystem gamepadSubsystem, int detectArtefactTimeout) {
         addCommands(
+                new ReadyTrieurForPick(trieurSubsystem),
+
                 // First, run the detection process
                 new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout),
                 new ConditionalCommand(

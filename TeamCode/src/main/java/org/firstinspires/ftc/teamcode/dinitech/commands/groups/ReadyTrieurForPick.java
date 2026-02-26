@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.CloseTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitCloseTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 
@@ -22,7 +23,7 @@ public class ReadyTrieurForPick extends ConditionalCommand {
     public ReadyTrieurForPick(TrieurSubsystem trieurSubsystem) {
         super(
                 // if condition is true.
-                new CloseTrappe(trieurSubsystem),
+                new WaitCloseTrappe(trieurSubsystem),
 
                 // if condition is false.
                 new SequentialCommandGroup(

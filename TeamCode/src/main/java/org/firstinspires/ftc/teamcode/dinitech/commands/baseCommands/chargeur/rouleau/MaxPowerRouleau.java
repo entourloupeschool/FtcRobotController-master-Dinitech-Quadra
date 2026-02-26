@@ -1,22 +1,23 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.tapis;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.rouleau;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_MOTOR_POWER;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROULEAU_MOTOR_MAX_POWER;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TAPIS_MAX_SPEED;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 
-public class MaxSpeedTapis extends CommandBase {
+public class MaxPowerRouleau extends CommandBase {
     private final ChargeurSubsystem chargeurSubsystem;
 
-    public MaxSpeedTapis(ChargeurSubsystem chargeurSubsystem){
+    public MaxPowerRouleau(ChargeurSubsystem chargeurSubsystem){
         this.chargeurSubsystem = chargeurSubsystem;
         addRequirements(chargeurSubsystem);
     }
 
     @Override
     public void initialize(){
-        chargeurSubsystem.setNormalizedSpeedTapis(CHARGEUR_MOTOR_POWER);
+        chargeurSubsystem.setMotorPower(ROULEAU_MOTOR_MAX_POWER);
     }
 
     @Override
