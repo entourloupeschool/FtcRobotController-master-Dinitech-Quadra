@@ -6,7 +6,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LONG_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MID_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TELE_TIMEOUT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOT_REVOLUTION_THEN_WAIT;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_HIGH_SPEED_TRIEUR;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -50,7 +50,7 @@ import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
 
 import java.util.Objects;
 
-public class GornetixTeleOpBase extends Gornetix {
+public class TeleOpBase extends Gornetix {
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
      */
@@ -62,8 +62,6 @@ public class GornetixTeleOpBase extends Gornetix {
             PoseStorage.clearLastPose();
 
             drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive(true);
-
-            drivePedroSubsystem.setLastTeleDriverPowerScale(1);
 
             visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, drivePedroSubsystem, trieurSubsystem, shooterSubsystem));
 
@@ -96,8 +94,9 @@ public class GornetixTeleOpBase extends Gornetix {
         // Driver controls
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
-        m_Driver.square.whenPressed(new ShootHighSpeedRevolutionTeleOp(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
-        m_Driver.circle.toggleWhenPressed(new ModeRamassageTeleOp(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
+        m_Driver.square.whenPressed(new ShootHighSpeedRevolution(trieurSubsystem, shooterSubsystem));
+//        m_Driver.circle.toggleWhenPressed(new ModeRamassageTeleOp(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
+        m_Driver.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT));
 
         m_Driver.start.whenPressed(new SwitchTeamAndFlipPose(drivePedroSubsystem, hubsSubsystem));
         m_Driver.back.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
@@ -134,6 +133,13 @@ public class GornetixTeleOpBase extends Gornetix {
         new Trigger(() -> m_Operator.getLeftTriggerValue() > 0.2)
                 .whenActive(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
 
+        new Trigger(trieurSubsystem::getIsFull)
+                .whenActive(new ModeShootTeleOp(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem, hubsSubsystem));
+        new Trigger(() -> !trieurSubsystem.getIsFull())
+                .whenActive(new SequentialCommandGroup(
+                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
+                        new MaxPowerChargeur(chargeurSubsystem),
+                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_TELE_TIMEOUT)));
     }
 
 }

@@ -19,6 +19,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SAMPLE_SIZE_
 
 import android.graphics.Color;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
@@ -30,7 +31,8 @@ import org.firstinspires.ftc.teamcode.dinitech.opmodes.RobotBase;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name ="BasicColorSensor - Dinitech", group = "Basic")
+//@TeleOp(name ="BasicColorSensor - Dinitech", group = "Basic")
+@Disabled
 public class BasicColorSensor extends RobotBase {
     private NormalizedColorSensor colorSensor1;
     // Store the last predominant colors for each sensor

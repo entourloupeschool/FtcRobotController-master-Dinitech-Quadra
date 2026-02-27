@@ -27,12 +27,12 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 @Autonomous(name = "RedGoal", group = "Red")
-public class AutoRedGoal extends GornetixAutoBase {
+public class AutoRedGoal extends AutoBase {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.

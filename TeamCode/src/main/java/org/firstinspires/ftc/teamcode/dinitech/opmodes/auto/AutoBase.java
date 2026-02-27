@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
-public class GornetixAutoBase extends Gornetix {
+public class AutoBase extends Gornetix {
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
      */

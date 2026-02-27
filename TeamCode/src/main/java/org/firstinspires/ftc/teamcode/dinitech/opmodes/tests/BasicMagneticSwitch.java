@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAGNETIC_SWITCH_NAME;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.RobotBase;
 
-@TeleOp(name="BasicMagneticSwitch - Dinitech", group="Basic")
+//@TeleOp(name="BasicMagneticSwitch - Dinitech", group="Basic")
+@Disabled
 
 public class BasicMagneticSwitch extends RobotBase {
     public TouchSensor magneticSwitch;

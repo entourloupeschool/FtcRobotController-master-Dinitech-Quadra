@@ -30,7 +30,6 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
     public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem,
                              GamepadSubsystem gamepadSubsystem, int detectArtefactTimeout) {
         addCommands(
-
                 new ReadyTrieurForPick(trieurSubsystem),
 
                 // First, run the detection process

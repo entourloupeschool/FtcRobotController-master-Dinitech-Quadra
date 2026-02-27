@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Blinker;
 
@@ -12,7 +13,9 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-@TeleOp(name = "HubPatternColor - Dinitech", group = "Test")
+//@TeleOp(name = "HubPatternColor - Dinitech", group = "Test")
+@Disabled
+
 public class TestHubPatternColor extends RobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private GamepadWrapper m_Driver, m_Operator;

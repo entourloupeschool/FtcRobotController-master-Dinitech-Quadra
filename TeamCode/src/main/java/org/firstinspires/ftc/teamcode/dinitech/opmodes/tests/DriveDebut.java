@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import com.pedropathing.geometry.Pose;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FieldCentricDrive;
@@ -12,7 +13,9 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 /*
 Very basic usage of mecanum drive
  */
-@TeleOp(name="DriveDebut - Dinitech", group="Test")
+//@TeleOp(name="DriveDebut - Dinitech", group="Test")
+@Disabled
+
 public class DriveDebut extends RobotBase {
 
     // Gamepads

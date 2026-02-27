@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.MaxSpeedShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 /**
@@ -33,11 +34,28 @@ public class ShootHighSpeedRevolution extends SequentialCommandGroup {
      * @param trieurSubsystem  The sorter subsystem.
      * @param shooterCommand   The custom command to run for controlling the shooter.
      */
+    public ShootHighSpeedRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Command shooterCommand) {
+        addCommands(
+                shooterCommand, // Rev up the shooter
+                new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
+                new MoulinHighSpeedRevolution(trieurSubsystem, shooterSubsystem), // Perform a full revolution
+                new InstantCommand(trieurSubsystem::clearAllStoredColors)
+        );
+    }
+
     public ShootHighSpeedRevolution(TrieurSubsystem trieurSubsystem, Command shooterCommand) {
         addCommands(
                 shooterCommand, // Rev up the shooter
                 new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
                 new MoulinHighSpeedRevolution(trieurSubsystem), // Perform a full revolution
+                new InstantCommand(trieurSubsystem::clearAllStoredColors)
+        );
+    }
+
+    public ShootHighSpeedRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
+        addCommands(
+                new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
+                new MoulinHighSpeedRevolution(trieurSubsystem, shooterSubsystem), // Perform a full revolution
                 new InstantCommand(trieurSubsystem::clearAllStoredColors)
         );
     }

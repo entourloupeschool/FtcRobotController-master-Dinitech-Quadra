@@ -37,7 +37,7 @@ public class RobotCentricDrive extends CommandBase {
         drivePedroSubsystem.setDriveReference(DrivePedroSubsystem.DriveReference.ROBOT);
         drivePedroSubsystem.setDriveAimLockType(DrivePedroSubsystem.DriveAimLockType.NONE);
 
-        drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), 1, drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
+        drivePedroSubsystem.setLastTeleDriverPowerScale(1);
     }
 
     /**

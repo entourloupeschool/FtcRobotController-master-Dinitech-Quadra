@@ -27,12 +27,12 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.St
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 @Autonomous(name = "BlueAudience", group = "Blue")
-public class AutoBlueAudience extends GornetixAutoBase {
+public class AutoBlueAudience extends AutoBase {
 
 
     /**

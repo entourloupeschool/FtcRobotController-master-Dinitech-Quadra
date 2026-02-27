@@ -44,7 +44,7 @@ public class ShootHighSpeedRevolutionTeleOp extends SequentialCommandGroup {
      */
     public ShootHighSpeedRevolutionTeleOp(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem) {
         addCommands(
-                new ShootHighSpeedRevolution(trieurSubsystem),
+                new ShootHighSpeedRevolution(trieurSubsystem, shooterSubsystem),
                 new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
                 new ModeRamassageTeleOp(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem)
         );

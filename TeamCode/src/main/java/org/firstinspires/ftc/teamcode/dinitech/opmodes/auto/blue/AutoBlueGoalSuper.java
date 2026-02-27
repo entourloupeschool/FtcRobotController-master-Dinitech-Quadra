@@ -26,11 +26,11 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ShootToRowToS
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
 @Autonomous(name = "BlueGoalSuper", group = "Blue")
-public class AutoBlueGoalSuper extends GornetixAutoBase {
+public class AutoBlueGoalSuper extends AutoBase {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.

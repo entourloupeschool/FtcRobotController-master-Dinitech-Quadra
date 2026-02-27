@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
 @TeleOp(name = "TeleOpBlue", group = "TeleOp")
-public class TeleOpBlue extends GornetixTeleOpBase {
+public class TeleOpBlue extends TeleOpBase {
     @Override
     public void initialize() {
             super.initialize();

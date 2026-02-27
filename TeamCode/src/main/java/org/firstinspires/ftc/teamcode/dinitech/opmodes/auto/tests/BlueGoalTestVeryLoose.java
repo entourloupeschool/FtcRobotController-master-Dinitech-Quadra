@@ -9,10 +9,10 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToMotifShoot;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
 
 @Autonomous(name = "TestVeryLoose - Dinitech", group = "Test")
-public class BlueGoalTestVeryLoose extends GornetixAutoBase {
+public class BlueGoalTestVeryLoose extends AutoBase {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.

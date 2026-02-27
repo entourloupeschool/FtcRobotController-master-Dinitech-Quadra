@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BEGIN_POSE;
@@ -9,11 +9,13 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
 
-@Autonomous(name = "FollowTrajectoryPedroTest - Dinitech", group = "Test")
+//@Autonomous(name = "FollowTrajectoryPedroTest - Dinitech", group = "Test")
+@Disabled
 public class FollowTrajectoryPedroTest extends AutoBase {
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
@@ -10,7 +11,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-@TeleOp(name = "ShooterDebut - Dinitech", group = "Test")
+//@TeleOp(name = "ShooterDebut - Dinitech", group = "Test")
+@Disabled
 
 public class ShooterDebut extends RobotBase {
     // Gamepads

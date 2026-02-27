@@ -2,14 +2,12 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
 
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToMotifShoot;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
 
 @Autonomous(name = "TestPoseStorage - Dinitech", group = "Test")
-public class TestPoseStorage extends GornetixAutoBase {
+public class TestPoseStorage extends AutoBase {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.

@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.ChargeurDoubleServo;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-@TeleOp(name="BasicContinuousServo - Dinitech", group="Basic")
+//@TeleOp(name="BasicContinuousServo - Dinitech", group="Basic")
 @Disabled
 public class BasicServo extends RobotBase {
     // Gamepads
