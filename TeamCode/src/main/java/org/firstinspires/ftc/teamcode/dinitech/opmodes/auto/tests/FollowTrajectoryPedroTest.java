@@ -11,10 +11,10 @@ import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.GornetixAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
 
 @Autonomous(name = "FollowTrajectoryPedroTest - Dinitech", group = "Test")
-public class FollowTrajectoryPedroTest extends GornetixAutoBase {
+public class FollowTrajectoryPedroTest extends AutoBase {
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
      */

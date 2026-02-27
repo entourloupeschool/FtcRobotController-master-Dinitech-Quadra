@@ -97,6 +97,7 @@ public class GornetixTeleOpBase extends Gornetix {
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
         m_Driver.square.whenPressed(new ShootHighSpeedRevolutionTeleOp(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
+        m_Driver.circle.toggleWhenPressed(new ModeRamassageTeleOp(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
 
         m_Driver.start.whenPressed(new SwitchTeamAndFlipPose(drivePedroSubsystem, hubsSubsystem));
         m_Driver.back.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
@@ -108,7 +109,7 @@ public class GornetixTeleOpBase extends Gornetix {
         m_Driver.bump_right.whenPressed(new SwitchAimLockType(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
 
         // Operator controls
-        m_Operator.dpad_up.whenPressed(new MoulinHighSpeedRevolution(trieurSubsystem));
+        m_Operator.dpad_up.whenPressed(new MoulinHighSpeedRevolution(trieurSubsystem, shooterSubsystem));
         m_Operator.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
         m_Operator.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
 
