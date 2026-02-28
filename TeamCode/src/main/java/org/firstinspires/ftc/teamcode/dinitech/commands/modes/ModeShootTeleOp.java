@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.SetDefault;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.PedroAimLockedDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.PedroShooter;
@@ -29,7 +30,7 @@ public class ModeShootTeleOp extends ParallelCommandGroup {
     public ModeShootTeleOp(DrivePedroSubsystem drivePedroSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem) {
         addCommands(
             new StopChargeur(chargeurSubsystem),
-            new InstantCommand(() -> shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem),
-            new InstantCommand(() -> drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem)), drivePedroSubsystem));
+            new SetDefault(shooterSubsystem, new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)),
+            new SetDefault(drivePedroSubsystem, new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem)));
     }
 }

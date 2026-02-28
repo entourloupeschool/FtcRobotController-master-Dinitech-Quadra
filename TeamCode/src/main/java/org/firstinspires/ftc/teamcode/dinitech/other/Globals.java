@@ -25,9 +25,9 @@ public class Globals {
     public static final double TILE_DIM = 24;
     public static final double SCALE_Y_TILE = 1.05;
     public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
-    public static double LENGTH_X_ROW = TILE_DIM * 0.85;
-    public static double LENGTH_X_ROW_SUPER = 25;
-    public static double LENGTH_X_ROW_SUPER_23RD = 32.5;
+    public static double LENGTH_X_ROW = TILE_DIM * 0.865;
+    public static double LENGTH_X_ROW_SUPER = 24;
+    public static double LENGTH_X_ROW_SUPER_23RD = 31;
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
@@ -146,8 +146,8 @@ public class Globals {
         public static int MOULIN_POSITION_TOLERANCE = 1; // 2;
         public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
 
-        public static int SCALE_MOULIN_POSITION_TOLERANCE_LOOSE = 3;
-        public static int SCALE_MOULIN_SPEED_TOLERANCE_LOOSE = 3;
+        public static final int SCALE_MOULIN_POSITION_TOLERANCE_LOOSE = 3;
+        public static final int SCALE_MOULIN_SPEED_TOLERANCE_LOOSE = 3;
         public static final int MOULIN_POSITION_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
         public static final int MOULIN_SPEED_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
         public static int SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE = 8;
@@ -155,12 +155,12 @@ public class Globals {
         public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE;
         public static final int MOULIN_SPEED_VERY_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE;
 
-        public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 6 * (MOULIN_POSITION_TOLERANCE + 2);
+        public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 20 * (MOULIN_POSITION_TOLERANCE + 2);
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 40;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.4;
         public static int WAIT_HIGH_SPEED_TRIEUR = 10;
-        public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
-        public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.8;
+        public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.3;
+        public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.6;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
 
         //PIDF MOULIN (TURRET)
@@ -462,6 +462,17 @@ public class Globals {
 
         public Double getAverage() {
             return count == 0 ? null : runningSum / count;
+        }
+
+        public double getStd() {
+            if (count == 0) return 0;
+            double mean = getAverage();
+            double sumSquaredDiffs = 0;
+            for (int i = 0; i < count; i++) {
+                double diff = samples[i] - mean;
+                sumSquaredDiffs += diff * diff;
+            }
+            return Math.sqrt(sumSquaredDiffs / count);
         }
 
         public boolean isEmpty() {

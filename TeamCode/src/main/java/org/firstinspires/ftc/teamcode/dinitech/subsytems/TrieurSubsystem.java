@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrent;
+import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.MagneticSwitch;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Trappe;
@@ -53,6 +54,8 @@ public class TrieurSubsystem extends SubsystemBase {
 
     private final Trappe trappe;
     private final Moulin moulin;
+    private final Globals.RunningAverage lastMoulinMotorTicks = new Globals.RunningAverage(5);
+
     private final TripleColorSensors tripleColorSensors;
     private final MagneticSwitch magneticSwitch;
     private final TelemetryManager telemetryM;
@@ -282,7 +285,7 @@ public class TrieurSubsystem extends SubsystemBase {
         setMoulinStoragePositionColor(getMoulinPosition(), detectedColor);
 
         if (detectedColor == ArtifactColor.GREEN || detectedColor == ArtifactColor.PURPLE) {
-            setNewcoloredRegister(true);
+            setNewColoredRegister(true);
         }
         setNewRegister(true);
 
@@ -307,27 +310,6 @@ public class TrieurSubsystem extends SubsystemBase {
 
         return ArtifactColor.GREEN;
     }
-
-    /**
-     * More strictly detects the color of the artifact at the pickup position.
-     *
-     * @return The detected artifact color, or UNKNOWN if uncertain.
-     */
-    private ArtifactColor hardDetectBottomArtifactColor() {
-        boolean cs1Green = tripleColorSensors.isGreen(1);
-        boolean cs1Purple = tripleColorSensors.isPurple(1);
-
-        boolean cs2Green = tripleColorSensors.isGreen(2);
-        boolean cs2Purple = tripleColorSensors.isPurple(2);
-
-        if ((cs1Green && cs2Green) || (cs1Green && !cs2Purple) || (cs2Green && !cs1Purple)) {
-            return ArtifactColor.GREEN;
-        } else if ((cs1Purple && cs2Purple) || (cs1Purple && !cs2Green) || (cs2Purple && !cs1Green)) {
-            return ArtifactColor.PURPLE;
-        }
-        return ArtifactColor.UNKNOWN;
-    }
-
 
     /**
      * Sets the color associated with a specific moulin storage position.
@@ -397,26 +379,6 @@ public class TrieurSubsystem extends SubsystemBase {
         }
         return -1;
     }
-
-    public int getPosColorClosestShoot(ArtifactColor color) {
-        // Collect all positions with the specified color (max 3 storage positions)
-        int[] positionsWithColor = new int[3];
-        int count = 0;
-
-        for (int i = 0; i < moulinStoragePositionColors.length; i++) {
-            if (moulinStoragePositionColors[i] == color) {
-                positionsWithColor[count++] = Moulin.getOppositePosition(i + 1);
-            }
-        }
-
-        if (count == 0) {
-            return -1;
-        }
-
-        int[] availablePositions = Arrays.copyOf(positionsWithColor, count);
-        return Moulin.getClosestPositionToShoot(getMoulinPosition(), availablePositions);
-    }
-
 
     public boolean wentRecalibrationOpposite() {
         return wentRecalibrationOpposite;
@@ -536,16 +498,9 @@ public class TrieurSubsystem extends SubsystemBase {
         newRegister = register;
     }
 
-    public boolean hasNewRegister() {
-        return newRegister;
-    }
 
-    public void setNewcoloredRegister(boolean coloredRegister) {
+    public void setNewColoredRegister(boolean coloredRegister) {
         newColoredRegister = coloredRegister;
-    }
-
-    public boolean hasNewColoredRegister() {
-        return newColoredRegister;
     }
 
     /**
@@ -582,6 +537,10 @@ public class TrieurSubsystem extends SubsystemBase {
         return moulin.isBusy();
     }
 
+    private boolean isMoulinRestAtTarget(){
+        return !isMoulinBusy() && lastMoulinMotorTicks.getStd() == 0;
+    }
+
     private double getMoulinVoltage(){
         return moulin.getVoltage();
     }
@@ -592,13 +551,12 @@ public class TrieurSubsystem extends SubsystemBase {
      * This should be called periodically.
      */
     private void moulinLogic() {
-        if (isMoulinTargetStabilized()) {
+        if (isMoulinRestAtTarget()) {
             setMoulinPower(0);
             setNewRegister(false);
-            setNewcoloredRegister(false);
+            setNewColoredRegister(false);
 
-        } else {
-            if (isMoulinOverCurrent()) {
+        } else if (isMoulinOverCurrent()) {
 
                 if (getOvercurrentCounts() == 0 && getCurrentCommand() != null){
                     getCurrentCommand().cancel();
@@ -611,11 +569,11 @@ public class TrieurSubsystem extends SubsystemBase {
 
                 telemetryM.addLine("Moulin Over Current");
                 return;
-            }
-
+        } else {
             setOvercurrentCounts(0);
-
             setMoulinPower(POWER_MOULIN_ROTATION);
+            lastMoulinMotorTicks.add(getMoulinMotorPosition());
+
         }
 
         if (!isMagneticSwitch()){
@@ -690,6 +648,10 @@ public class TrieurSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         moulinLogic();
+//        telemetryM.addData("std", lastMoulinMotorTicks.getStd());
+//        telemetryM.addData("std0", lastMoulinMotorTicks.getStd() == 0);
+//        telemetryM.addData("isBusy", isMoulinBusy());
+
 //        printMagneticTelemetryManager(telemetryM);
 //        printMoulinTelemetryManager(telemetryM);
 //        printStoredArtifactsTelemetryManager(telemetryM);

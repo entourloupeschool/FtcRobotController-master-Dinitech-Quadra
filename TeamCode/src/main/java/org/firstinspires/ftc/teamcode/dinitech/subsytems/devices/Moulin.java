@@ -26,6 +26,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 
 /**
  * Represents the Moulin mechanism, a rotating system with 6 discrete positions for handling game elements.

@@ -36,7 +36,7 @@ public class InitToShoot extends SequentialCommandGroup {
                                 AUTO_ROBOT_CONSTRAINTS, true)
                 ),
 
-                new ShootHighSpeedRevolution(trieurSubsystem)
+                new ShootHighSpeedRevolution(trieurSubsystem, shooterSubsystem)
         );
     }
 }

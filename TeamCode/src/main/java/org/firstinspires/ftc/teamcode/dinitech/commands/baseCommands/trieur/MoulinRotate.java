@@ -4,7 +4,9 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTAT
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 /**
  * A command that rotates the moulin forward continuously until a stop condition is met.
@@ -21,14 +23,17 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  */
 public class MoulinRotate extends CommandBase {
     private final TrieurSubsystem trieurSubsystem;
+    private final GamepadWrapper operator;
+
 
     /**
      * Creates a new MoulinRotate command.
      *
      * @param trieurSubsystem The sorter subsystem to control.
      */
-    public MoulinRotate(TrieurSubsystem trieurSubsystem) {
+    public MoulinRotate(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.trieurSubsystem = trieurSubsystem;
+        this.operator = gamepadSubsystem.getOperator();
         addRequirements(trieurSubsystem);
     }
 
@@ -36,31 +41,9 @@ public class MoulinRotate extends CommandBase {
      * Initializes the rotation by setting a new target and applying motor power.
      */
     @Override
-    public void initialize() {
-        trieurSubsystem.incrementMoulinTargetPosition(MOULIN_ROTATE_SPEED_CONTINUOUS);
-    }
+    public void execute() {
+        double rightTriggerValue = operator.getRightTriggerValue();
 
-    /**
-     * The command is finished when the subsystem indicates that the power should be stopped
-     * (e.g., due to over-current or reaching the target).
-     *
-     * @return True if the command should end, false otherwise.
-     */
-    @Override
-    public boolean isFinished() {
-        return trieurSubsystem.shouldMoulinStopPower();
-    }
-
-    /**
-     * Stops the motor and, if necessary, schedules a correction command.
-     *
-     * @param interrupted Whether the command was interrupted.
-     */
-    @Override
-    public void end(boolean interrupted) {
-        // If the command ended naturally due to over-current, schedule a correction command.
-        if (!interrupted) {
-//            new MoulinCorrectOverCurrent(trieurSubsystem, this).schedule();
-        }
+        trieurSubsystem.incrementMoulinTargetPosition(rightTriggerValue * rightTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
     }
 }

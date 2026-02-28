@@ -55,7 +55,7 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                                                 visionSubsystem::hasColorOrder),
                                         new OpenWaitTrappe(trieurSubsystem)))),
 
-                new ShootHighSpeedRevolution(trieurSubsystem)
+                new ShootHighSpeedRevolution(trieurSubsystem, shooterSubsystem)
         );
     }
 }

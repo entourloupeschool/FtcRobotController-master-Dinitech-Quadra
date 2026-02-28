@@ -61,7 +61,7 @@ public class ReadyMotif extends MoulinNextNextVeryLoose {
 
             if (greenPosition == -1){
                 // Fallback if green position is not found.
-                moulinTargetPosition = 1;
+                moulinTargetPosition = trieurSubsystem.getMoulinPosition();
                 makeShort = false; // Always rotate forward.
                 super.initialize(); // Execute the rotation.
                 return;

@@ -77,7 +77,7 @@ public class ShootToRowToShootSuper extends SequentialCommandGroup {
                                                         LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                                 AUTO_ROBOT_CONSTRAINTS, true)))),
 
-                new ShootHighSpeedRevolution(trieurSubsystem)
+                new ShootHighSpeedRevolution(trieurSubsystem, shooterSubsystem)
         );
     }
 }
