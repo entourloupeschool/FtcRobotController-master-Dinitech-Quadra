@@ -46,7 +46,7 @@ public class HubsSubsystem extends SubsystemBase {
         }
     }
 
-    public HubsSubsystem(HardwareMap hardwareMap, boolean isBlue){
+    public HubsSubsystem(HardwareMap hardwareMap){
         hubs = hardwareMap.getAll(LynxModule.class);
         init();
 

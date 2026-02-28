@@ -20,8 +20,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * it rumbles the gamepad and moves the moulin to a default position relative to the last
  * detected artifact.
  */
-public class ReadyMotif extends MoulinNextNextVeryLoose {
-
+public class ReadyMotif extends MoulinToPositionVeryLoose {
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
 
@@ -34,7 +33,7 @@ public class ReadyMotif extends MoulinNextNextVeryLoose {
      * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
      */
     public ReadyMotif(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem){
-        super(trieurSubsystem); // Target is set dynamically in initialize()
+        super(trieurSubsystem, trieurSubsystem.getMoulinPosition(), false); // Target is set dynamically in initialize()
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
     }
@@ -51,6 +50,8 @@ public class ReadyMotif extends MoulinNextNextVeryLoose {
                     .addStep(0.5, 0.5, RUMBLE_DURATION_4)
                     .build(), 3, true);
             moulinTargetPosition = trieurSubsystem.getMoulinPosition();
+            makeShort = false; // Always rotate forward.
+            super.initialize();
         } else {
             // Get the detected color order.
             int colorsOrder = visionSubsystem.getColorsOrder();
@@ -76,9 +77,8 @@ public class ReadyMotif extends MoulinNextNextVeryLoose {
                 // Adjust if green is the third artifact in the motif.
                 moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(greenPosition, 2);
             }
+            makeShort = true; // Always rotate forward.
+            super.initialize(); // Execute the rotation.
         }
-
-        makeShort = false; // Always rotate forward.
-        super.initialize(); // Execute the rotation.
     }
 }

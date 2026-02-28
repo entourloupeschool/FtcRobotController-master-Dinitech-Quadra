@@ -34,8 +34,8 @@ public class RobotBase extends CommandOpMode {
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         telemetryM.setUpdateInterval(TELEMETRY_UPDATE_INTERVAL_MS);
 
-        hubsSubsystem = new HubsSubsystem(hardwareMap, true);
-        hubsSubsystem.register();
+        hubsSubsystem = new HubsSubsystem(hardwareMap);
+        register(hubsSubsystem);
     }
 
     /**
