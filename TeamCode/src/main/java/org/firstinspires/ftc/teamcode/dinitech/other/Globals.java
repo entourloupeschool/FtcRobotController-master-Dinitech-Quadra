@@ -239,7 +239,7 @@ public class Globals {
         public static final String CS3_NAME = "cs3";
         public static final String MAGNETIC_SWITCH_NAME = "m_s";
         public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
-        public static int OFFSET_MAGNETIC_POS = 38;
+        public static int OFFSET_MAGNETIC_POS = (int) Math.round(INTERVALLE_TICKS_MOULIN * 0.05956112853);
         public static final double DETECT_PURPLE_RED_RGB = 0.694;
         public static final double DETECT_PURPLE_GREEN_RGB = 0.612;
         public static final double DETECT_PURPLE_BLUE_RGB = 0.851;
