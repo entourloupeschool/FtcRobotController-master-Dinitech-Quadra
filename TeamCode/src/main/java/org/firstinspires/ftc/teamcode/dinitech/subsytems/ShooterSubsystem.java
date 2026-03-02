@@ -94,14 +94,6 @@ public class ShooterSubsystem extends SubsystemBase {
             dcMotorEx.setVelocity(velocity);
         }
     }
-//
-//    public double getTicksPerRev(){
-//        return otherMotor.motor.getMotorType().getTicksPerRev();
-//    }
-//
-//    public double getMaxRPM(){
-//        return otherMotor.motor.getMotorType().getMaxRPM();
-//    }
 
     /**
      * Gets the current velocity of the shooter motor.
@@ -295,9 +287,10 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     private void printShooterTelemetry(final TelemetryManager telemetryM) {
-//        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
-//        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
+        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
+        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
         telemetryM.addData("Shooter State", getUsageState());
         telemetryM.addData("targetSpeedStabilized", isTargetSpeedStabilized());
+        telemetryM.addData("current", getVoltage());
     }
 }

@@ -29,6 +29,7 @@ public class TryDetectArtefact extends CommandBase {
     private Gamepad.RumbleEffect unfoundRumbleEffect;
     private final int initialTimeout;
     private int timeout;
+    private boolean endedByTimeout;
 
     /**
      * Creates a new ShootColor command.
@@ -45,6 +46,7 @@ public class TryDetectArtefact extends CommandBase {
     @Override
     public void initialize() {
         timeout = initialTimeout;
+        endedByTimeout = false;
         trieurSubsystem.clearSamplesColorSensors();
         waitRumbleEffect = new Gamepad.RumbleEffect.Builder()
                 .addStep(0.5, 0.5, 20)
@@ -71,9 +73,14 @@ public class TryDetectArtefact extends CommandBase {
             if (trieurSubsystem.isArtefactInTrieur()) {
                 trieurSubsystem.registerArtefact();
             } else {
+                endedByTimeout = true;
                 gamepadSubsystem.customRumble(unfoundRumbleEffect, 2, true);
             }
         }
+    }
+
+    public boolean endedByTimeout() {
+        return endedByTimeout;
     }
 
     @Override

@@ -1,5 +1,10 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
+package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
+
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinToPosition;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinToPositionVeryLoose;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 
@@ -14,16 +19,20 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * <p>
  * This command always rotates in the positive (forward) direction.
  */
-public class MoulinNextShootIntel extends MoulinToPositionVeryLoose {
+public class NextShootSuperIntel extends MoulinToPositionVeryLoose {
+
+    private final ShooterSubsystem shooterSubsystem;
+    private boolean hasLaunched = false;
 
     /**
      * Creates a new MoulinNext command.
      *
      * @param trieurSubsystem The sorter subsystem that controls the moulin.
      */
-    public MoulinNextShootIntel(TrieurSubsystem trieurSubsystem) {
+    public NextShootSuperIntel(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
         // The actual target position is determined at execution time.
         super(trieurSubsystem, 0, false);
+        this.shooterSubsystem = shooterSubsystem;
     }
 
     /**
@@ -45,11 +54,23 @@ public class MoulinNextShootIntel extends MoulinToPositionVeryLoose {
         super.makeShort = false; // Always rotate forward.
 
         if (super.moulinTargetPosition == -1) {this.cancel();}
-        else {super.initialize();}
     }
+
+    @Override
+    public void execute() {
+        if (shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN) && !hasLaunched){
+            hasLaunched = true;
+            super.initialize();
+        }
+    }
+
+
 
     @Override
     public void end(boolean interrupted) {
         trieurSubsystem.clearMoulinStoragePositionColor(super.moulinTargetPosition);
+        if (interrupted) {
+            trieurSubsystem.resetTargetMoulinMotor();
+        }
     }
 }

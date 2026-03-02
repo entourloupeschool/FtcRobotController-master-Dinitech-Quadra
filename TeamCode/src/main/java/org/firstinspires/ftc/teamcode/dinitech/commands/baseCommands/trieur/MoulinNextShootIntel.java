@@ -14,14 +14,14 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * <p>
  * This command always rotates in the positive (forward) direction.
  */
-public class MoulinNextShootSuper extends MoulinToPositionVeryLoose {
+public class MoulinNextShootIntel extends MoulinToPositionVeryLoose {
 
     /**
      * Creates a new MoulinNext command.
      *
      * @param trieurSubsystem The sorter subsystem that controls the moulin.
      */
-    public MoulinNextShootSuper(TrieurSubsystem trieurSubsystem) {
+    public MoulinNextShootIntel(TrieurSubsystem trieurSubsystem) {
         // The actual target position is determined at execution time.
         super(trieurSubsystem, 0, false);
     }

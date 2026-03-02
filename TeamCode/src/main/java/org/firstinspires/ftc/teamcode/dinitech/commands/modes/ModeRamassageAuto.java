@@ -5,13 +5,11 @@ import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNextLoose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNextVeryLoose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TryDetectArtefact;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
@@ -29,18 +27,28 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
      */
     public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem,
                              GamepadSubsystem gamepadSubsystem, int detectArtefactTimeout) {
+        TryDetectArtefact detectArtefact1 = new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout);
+        TryDetectArtefact detectArtefact2 = new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout);
+        TryDetectArtefact detectArtefact3 = new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout);
+
         addCommands(
                 new ReadyTrieurForPick(trieurSubsystem),
-                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout),
+                detectArtefact1,
                 new ConditionalCommand(
-                        new MoulinNextNextVeryLoose(trieurSubsystem),
-                        new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout), // Do nothing on timeout
-                        trieurSubsystem::isArtefactInTrieur
-                ),
-                new ConditionalCommand(
-                        new MoulinNextNextVeryLoose(trieurSubsystem),
-                        new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout), // Do nothing on timeout
-                        trieurSubsystem::isArtefactInTrieur
+                        new InstantCommand(),
+                        new SequentialCommandGroup(
+                                new MoulinNextNextVeryLoose(trieurSubsystem),
+                                detectArtefact2,
+                                new ConditionalCommand(
+                                        new InstantCommand(),
+                                        new SequentialCommandGroup(
+                                                new MoulinNextNextVeryLoose(trieurSubsystem),
+                                                detectArtefact3
+                                        ),
+                                        detectArtefact2::endedByTimeout
+                                )
+                        ),
+                        detectArtefact1::endedByTimeout
                 ),
                 new ConditionalCommand(
                         new SequentialCommandGroup(
