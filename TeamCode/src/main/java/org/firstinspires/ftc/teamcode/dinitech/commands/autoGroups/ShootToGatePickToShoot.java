@@ -4,7 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_C
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_AUTO_TIMEOUT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_AT_END_ROW;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_FOR_3BALL;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -17,7 +17,7 @@ import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.WaitVelocityShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooterPower;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
@@ -50,31 +50,30 @@ public class ShootToGatePickToShoot extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new MaxPowerChargeur(chargeurSubsystem),
                         new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        drivePedroSubsystem::getPose,
-                                        GatePickEndPose))
-                                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                        drivePedroSubsystem::getHeading,
-                                        GatePickEndPose.getHeading(),
-                                        LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                gatePower, false)),
-
-                new ParallelCommandGroup(
-                        new WaitVelocityShooter(shooterSubsystem, shooterVelocity),
                         new SequentialCommandGroup(
-                                new WaitCommand(WAIT_AT_END_ROW),
-                                // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierCurve(
+                                        .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
-                                                GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.5*TILE_DIM : 2*TILE_DIM)),
-                                                endPose))
+                                                GatePickEndPose))
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
-                                                endPose.getHeading(),
+                                                GatePickEndPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true))),
+                                        gatePower, false)),
+                                new WaitCommand(WAIT_FOR_3BALL),
+                                new ParallelCommandGroup(
+                                        new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
+                                        // Go to Shooting Pos
+                                        new FollowPath(drivePedroSubsystem, builder -> builder
+                                                .addPath(new BezierCurve(
+                                                        drivePedroSubsystem::getPose,
+                                                        GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.5*TILE_DIM : 2*TILE_DIM)),
+                                                        endPose))
+                                                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                        drivePedroSubsystem::getHeading,
+                                                        endPose.getHeading(),
+                                                        LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                                AUTO_ROBOT_CONSTRAINTS, true))),
 
                 new ShootHighSpeedRevolution(trieurSubsystem, shooterSubsystem)
         );

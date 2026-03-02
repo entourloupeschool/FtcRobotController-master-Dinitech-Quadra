@@ -27,7 +27,7 @@ public class Globals {
     public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
     public static double LENGTH_X_ROW = TILE_DIM * 0.865;
     public static double LENGTH_X_ROW_SUPER = 24;
-    public static double LENGTH_X_ROW_SUPER_23RD = 31;
+    public static double LENGTH_X_ROW_SUPER_23RD = 30;
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
@@ -157,6 +157,7 @@ public class Globals {
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
+        public static long WAIT_FOR_3BALL = 1200;
 
         //PIDF MOULIN (TURRET)
         public static double P_MOULIN_AGGRESSIVE = 8.457;

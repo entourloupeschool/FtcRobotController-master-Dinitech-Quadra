@@ -59,21 +59,18 @@ public class ShootToRowToShoot extends SequentialCommandGroup {
                                                 RowPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         rowPower, true),
-                                new ParallelCommandGroup(
-                                        new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
-                                        new SequentialCommandGroup(
-                                                new WaitCommand(WAIT_AT_END_ROW),
-                                                // Go to Shooting Pos
-                                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                                        .addPath(new BezierCurve(
-                                                                drivePedroSubsystem::getPose,
-                                                                RowPose,
-                                                                endPose))
-                                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                                drivePedroSubsystem::getHeading,
-                                                                endPose.getHeading(),
-                                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                                        AUTO_ROBOT_CONSTRAINTS, true))))),
+                                new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
+                                // Go to Shooting Pos
+                                new FollowPath(drivePedroSubsystem, builder -> builder
+                                        .addPath(new BezierCurve(
+                                                drivePedroSubsystem::getPose,
+                                                RowPose,
+                                                endPose))
+                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                drivePedroSubsystem::getHeading,
+                                                endPose.getHeading(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                        AUTO_ROBOT_CONSTRAINTS, true))),
 
                 new ShootHighSpeedRevolution(trieurSubsystem, shooterSubsystem)
         );
