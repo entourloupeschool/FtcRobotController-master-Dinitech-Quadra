@@ -14,10 +14,9 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.WaitVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAlmostRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -32,7 +31,7 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new InstantCommand(),
-                                new SetVelocityShooter(shooterSubsystem, shooterVelocity)),
+                                new WaitVelocityShooter(shooterSubsystem, shooterVelocity)),
 
                         new ParallelCommandGroup(
                                 // Go to Shooting Pos

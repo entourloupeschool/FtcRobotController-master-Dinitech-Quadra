@@ -43,28 +43,28 @@ public class ReadyMotif extends MoulinToPositionVeryLoose {
      */
     @Override
     public void initialize(){
+        int colorsOrder = visionSubsystem.getColorsOrder();
         // Check if the color order has been detected by the vision system.
-        if (!visionSubsystem.hasColorOrder()){
+        if (colorsOrder == -1){
             // Fallback: Rumble and move to a default position if no motif is detected.
             gamepadSubsystem.customRumble(new Gamepad.RumbleEffect.Builder()
                     .addStep(0.5, 0.5, RUMBLE_DURATION_4)
                     .build(), 3, true);
-            moulinTargetPosition = trieurSubsystem.getMoulinPosition();
-            makeShort = false; // Always rotate forward.
-            super.initialize();
+//            moulinTargetPosition = trieurSubsystem.getMoulinPosition();
+//            makeShort = false; // Always rotate forward.
+//            this.initialize();
+            this.cancel();
         } else {
-            // Get the detected color order.
-            int colorsOrder = visionSubsystem.getColorsOrder();
-
             // Calculate the target position. The logic aligns the moulin based on the
             // location of the green artifact in the sequence.
             int greenPosition = trieurSubsystem.getPosWithColor(TrieurSubsystem.ArtifactColor.GREEN);
 
             if (greenPosition == -1){
                 // Fallback if green position is not found.
-                moulinTargetPosition = trieurSubsystem.getMoulinPosition();
-                makeShort = false; // Always rotate forward.
-                super.initialize(); // Execute the rotation.
+//                moulinTargetPosition = trieurSubsystem.getMoulinPosition();
+//                makeShort = false; // Always rotate forward.
+//                super.initialize(); // Execute the rotation.
+                this.cancel();
                 return;
             }
 

@@ -34,7 +34,7 @@ public class Globals {
     public static double GATEPICK_POWER = 0.18;
     public static double SUPER_POWER_ROW_PICK_ARTEFACTS = 1;
     public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
-    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 45;
+    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 30;
     public static long WAIT_AT_END_ROW = 200;
     public static final Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
     public static final Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
@@ -134,15 +134,10 @@ public class Globals {
 
         public static final String MOULIN_MOTOR_NAME = "moulin";
 
-        public static final int MOTOR_TICKS_PER_REV = 288;
-        public static final int RAPPORT_TRANSMISSION = 8; // pignon 18 dents ; courronne 144 dents // rapport de
-                                                          // transmission : 144/8 = 8;
         public static int INTERVALLE_TICKS_MOULIN = 638; //240;//384;// MOTOR_TICKS_PER_REV * RAPPORT_TRANSMISSION /
                                                               // Moulin.TOTAL_POSITIONS;
         public static final double POWER_MOULIN_ROTATION = 1;
         public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
-        public static final double POWER_MOULIN_CALIBRATION_ROTATION = POWER_MOULIN_ROTATION;
-
         public static int MOULIN_POSITION_TOLERANCE = 1; // 2;
         public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
 
@@ -159,8 +154,8 @@ public class Globals {
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 40;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.4;
         public static int WAIT_HIGH_SPEED_TRIEUR = 10;
-        public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.3;
-        public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.6;
+        public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
+        public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
 
         //PIDF MOULIN (TURRET)
@@ -226,7 +221,7 @@ public class Globals {
         public static final String CHARGEUR_SERVO_GAUCHE_MOTOR_NAME = "chargeur_servo_gauche";
         public static final String CHARGEUR_SERVO_DROITE_MOTOR_NAME = "chargeur_servo_droite";
 
-        public static final double ROULEAU_MOTOR_MAX_POWER = 0.7;
+        public static double ROULEAU_MOTOR_MAX_POWER = 0.85;
         public static final double TAPIS_MAX_SPEED = 0.99;
         public static final double SCALE_CHARGEUR_MOTOR_POWER = 1;
         public static double CHARGEUR_INCREMENT = 0.1;

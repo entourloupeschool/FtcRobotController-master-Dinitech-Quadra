@@ -16,6 +16,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SMALL_TRIANG
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_BLUE_POSE;
 
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierLine;
@@ -52,15 +53,15 @@ public class AutoBlueGoal extends AutoBase {
                             CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
                     new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                            FIRST_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
-                            LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/2),
+                            FIRST_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
+                            LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.8),
 
                     new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                            SECOND_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
+                            SECOND_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
                             LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
                     new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                            THIRD_ROW_BLUE_POSE, BLUE_AUDIENCE_SHOOT_POSE, new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem), SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY,
+                            THIRD_ROW_BLUE_POSE, BLUE_AUDIENCE_SHOOT_POSE, new InstantCommand(), SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY,
                             LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.3),
 
                     new ParallelCommandGroup(

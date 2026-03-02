@@ -6,7 +6,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 
-public class SetVelocityShooterRequire extends CommandBase {
+public class WaitVelocityShooterRequire extends CommandBase {
     private final ShooterSubsystem shooterSubsystem;
     protected final double ticksPerSecond;
 

@@ -17,11 +17,9 @@ import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.WaitVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooterPower;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAlmostRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
@@ -50,10 +48,8 @@ public class ShootToGatePickToShoot extends SequentialCommandGroup {
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new MaxPowerChargeur(chargeurSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
-                                commandBase),
+                        new MaxPowerChargeur(chargeurSubsystem),
+                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,
@@ -65,8 +61,7 @@ public class ShootToGatePickToShoot extends SequentialCommandGroup {
                                 gatePower, false)),
 
                 new ParallelCommandGroup(
-                        new SetVelocityShooter(shooterSubsystem, shooterVelocity),
-                        new OpenWaitTrappe(trieurSubsystem),
+                        new WaitVelocityShooter(shooterSubsystem, shooterVelocity),
                         new SequentialCommandGroup(
                                 new WaitCommand(WAIT_AT_END_ROW),
                                 // Go to Shooting Pos

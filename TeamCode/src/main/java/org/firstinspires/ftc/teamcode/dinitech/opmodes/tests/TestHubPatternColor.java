@@ -37,8 +37,9 @@ public class TestHubPatternColor extends RobotBase {
         m_Driver = gamepadSubsystem.getDriver();
         m_Operator = gamepadSubsystem.getOperator();
 
-        hubsSubsystem = new HubsSubsystem(hardwareMap, true);
+        hubsSubsystem = new HubsSubsystem(hardwareMap);
         register(hubsSubsystem);
+        hubsSubsystem.setTeam(HubsSubsystem.Team.BLUE);
 
         // Add steps: each Step has a color (ARGB int) and duration in milliseconds
         pattern.add(new Blinker.Step(0xFF00FF00, 500, TimeUnit.MILLISECONDS));  // Green for 500ms

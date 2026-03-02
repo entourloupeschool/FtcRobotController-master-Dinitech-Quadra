@@ -31,28 +31,23 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
                              GamepadSubsystem gamepadSubsystem, int detectArtefactTimeout) {
         addCommands(
                 new ReadyTrieurForPick(trieurSubsystem),
-
-                // First, run the detection process
                 new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout),
                 new ConditionalCommand(
                         new MoulinNextNextVeryLoose(trieurSubsystem),
-                        new InstantCommand(), // Do nothing on timeout
+                        new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout), // Do nothing on timeout
                         trieurSubsystem::isArtefactInTrieur
                 ),
-                // First, run the detection process
-                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout),
                 new ConditionalCommand(
                         new MoulinNextNextVeryLoose(trieurSubsystem),
-                        new InstantCommand(), // Do nothing on timeout
+                        new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout), // Do nothing on timeout
                         trieurSubsystem::isArtefactInTrieur
                 ),
-                // First, run the detection process
-                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout),
                 new ConditionalCommand(
-                        new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
-                        new InstantCommand(),
-                        trieurSubsystem::wantsMotifShoot),
-                new OpenWaitTrappe(trieurSubsystem)
+                        new SequentialCommandGroup(
+                                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                                new OpenWaitTrappe(trieurSubsystem)),
+                        new OpenWaitTrappe(trieurSubsystem),
+                        trieurSubsystem::wantsMotifShoot)
         );
     }
 }

@@ -7,7 +7,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LONG_SHOOT_S
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MID_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TELE_TIMEOUT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOT_REVOLUTION_THEN_WAIT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_HIGH_SPEED_TRIEUR;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -26,7 +25,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchAimLockType;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchTeamAndFlipPose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.DefaultGamepadCommand;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.WaitVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.TeleShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SwitchUsageStateShooter;
@@ -43,10 +42,8 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.Cont
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OptimizedUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolutionTeleOp;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageTeleOp;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeShootTeleOp;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
@@ -121,11 +118,11 @@ public class TeleOpBase extends Gornetix {
 
         m_Operator.right_stick_button.whenPressed(new SwitchUsageStateShooter(shooterSubsystem, drivePedroSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
 
-        m_Operator.square.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, LONG_SHOOT_SHOOTER_VELOCITY),
+        m_Operator.square.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, LONG_SHOOT_SHOOTER_VELOCITY),
                 new StopShooter(shooterSubsystem), true);
-        m_Operator.cross.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, MID_SHOOT_SHOOTER_VELOCITY),
+        m_Operator.cross.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, MID_SHOOT_SHOOTER_VELOCITY),
                 new StopShooter(shooterSubsystem), true);
-        m_Operator.triangle.toggleWhenPressed(new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_SHOOTER_VELOCITY),
+        m_Operator.triangle.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, CLOSE_SHOOT_SHOOTER_VELOCITY),
                 new StopShooter(shooterSubsystem), true);
         m_Operator.circle.whenPressed(new ParallelCommandGroup(
                 new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
