@@ -15,10 +15,12 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * is detected. It also includes logic to stop the motor and reset its target if the command
  * is interrupted, preventing unwanted movement.
  */
-public class MoulinToPosition extends CommandBase {
+public class MoulinToPositionMargin extends CommandBase {
     protected final TrieurSubsystem trieurSubsystem;
     protected int moulinTargetPosition;
     protected boolean makeShort;
+    protected int margin;
+
     private int initialAbsRemainingDistance;
     private boolean hasObservedMovementProgress;
 
@@ -28,11 +30,13 @@ public class MoulinToPosition extends CommandBase {
      * @param trieurSubsystem      The sorter subsystem to control.
      * @param moulinTargetPosition The target logical position (1-6) for the moulin.
      * @param makeShort            If true, the moulin will take the shortest path; otherwise, it will rotate forward.
+     * @param margin               Margin to reach to end the command.
      */
-    public MoulinToPosition(TrieurSubsystem trieurSubsystem, int moulinTargetPosition, boolean makeShort) {
+    public MoulinToPositionMargin(TrieurSubsystem trieurSubsystem, int moulinTargetPosition, boolean makeShort, int margin) {
         this.trieurSubsystem = trieurSubsystem;
         this.moulinTargetPosition = moulinTargetPosition;
         this.makeShort = makeShort;
+        this.margin = margin;
 
         addRequirements(trieurSubsystem);
     }
@@ -42,9 +46,11 @@ public class MoulinToPosition extends CommandBase {
      */
     @Override
     public void initialize() {
-        trieurSubsystem.moulinToPosition(moulinTargetPosition, makeShort);
-        initialAbsRemainingDistance = Math.abs(trieurSubsystem.getMoulinMotorRemainingDistance());
-        hasObservedMovementProgress = initialAbsRemainingDistance == 0;
+        if (moulinTargetPosition != -1){
+            trieurSubsystem.moulinToPosition(moulinTargetPosition, makeShort);
+            initialAbsRemainingDistance = Math.abs(trieurSubsystem.getMoulinMotorRemainingDistance());
+            hasObservedMovementProgress = initialAbsRemainingDistance == 0;
+        }
     }
 
     /**
@@ -60,7 +66,7 @@ public class MoulinToPosition extends CommandBase {
             hasObservedMovementProgress = true;
         }
 
-        return hasObservedMovementProgress && trieurSubsystem.shouldMoulinStopPower();
+        return moulinTargetPosition == -1 || (hasObservedMovementProgress && trieurSubsystem.isMoulinMotorCloseToTarget(margin));
     }
 
     /**

@@ -21,31 +21,23 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * Because this command never finishes, it ensures that the vision subsystem is always
  * providing the most current data possible.
  */
-public class OptimizedUpdatesAprilTagsDetections extends CommandBase {
+public class OnlyMotifDetections extends CommandBase {
     private final VisionSubsystem visionSubsystem;
-    private final DrivePedroSubsystem drivePedroSubsystem;
-    private final TrieurSubsystem trieurSubsystem;
-    private final ShooterSubsystem shooterSubsystem;
 
     /**
      * Creates a new OnlyUpdateAprilTagsDetections command.
      *
      * @param visionSubsystem The vision subsystem to continuously update.
-*    * @param driveSubsystem The drive subsystem to continuously update.
-     * @param shooterSubsystem The shooter subsystem to continuously update.
      */
-    public OptimizedUpdatesAprilTagsDetections(VisionSubsystem visionSubsystem, DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem){
+    public OnlyMotifDetections(VisionSubsystem visionSubsystem){
         this.visionSubsystem = visionSubsystem;
-        this.drivePedroSubsystem = drivePedroSubsystem;
-        this.trieurSubsystem = trieurSubsystem;
-        this.shooterSubsystem = shooterSubsystem;
 
         addRequirements(visionSubsystem);
     }
 
     @Override
     public void initialize(){
-        visionSubsystem.setUsageState(VisionSubsystem.VisionUsageState.OPTIMIZED);
+        visionSubsystem.setUsageState(VisionSubsystem.VisionUsageState.MOTIF);
     }
 
 
@@ -54,8 +46,7 @@ public class OptimizedUpdatesAprilTagsDetections extends CommandBase {
      */
     @Override
     public void execute(){
-        if (trieurSubsystem.getIsFull() || shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.VISION
-                || drivePedroSubsystem.getDriveAimLockType() == DrivePedroSubsystem.DriveAimLockType.VISION_AIM) {
+        if (!visionSubsystem.hasColorOrder()) {
             if (!visionSubsystem.getAprilTagProcessorEnabled()) visionSubsystem.setAprilTagProcessorEnabled(true);
 
 //            visionSubsystem.optimizeDecimation();

@@ -41,14 +41,14 @@ public class ShootHighSpeedIntel extends SequentialCommandGroup {
         addCommands(
                 shooterCommand, // Rev up the shooter
                 new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
-                new MoulinHighSpeedIntel(trieurSubsystem, shooterSubsystem, new WaitCommand(WAIT_HIGH_SPEED_TRIEUR))
+                new MoulinHighSpeedIntel(trieurSubsystem, shooterSubsystem)
         );
     }
 
     public ShootHighSpeedIntel(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
         addCommands(
                 new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
-                new MoulinHighSpeedIntel(trieurSubsystem, shooterSubsystem, new WaitCommand(WAIT_HIGH_SPEED_TRIEUR))
+                new MoulinHighSpeedIntel(trieurSubsystem, shooterSubsystem)
         );
     }
 }

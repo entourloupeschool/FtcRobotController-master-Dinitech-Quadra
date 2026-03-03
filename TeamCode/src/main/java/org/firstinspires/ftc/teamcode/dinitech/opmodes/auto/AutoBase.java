@@ -3,8 +3,10 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
 import com.arcrobotics.ftclib.command.button.Trigger;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.SetDefault;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetections;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
@@ -21,7 +23,7 @@ public class AutoBase extends Gornetix {
             super.initialize();
 
             drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
-            visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
+            new SetDefault(visionSubsystem, new OnlyMotifDetections(visionSubsystem)).schedule();
 
             autoSetArtefactColors();
 

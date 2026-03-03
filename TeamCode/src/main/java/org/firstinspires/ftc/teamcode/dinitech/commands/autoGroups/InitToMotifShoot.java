@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.WaitVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -49,12 +50,14 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                                         ),
                                         // Only run ReadyMotif if hasColorOrder became true, otherwise skip
                                         new ConditionalCommand(
-                                                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
-                                                new InstantCommand(),
-                                                visionSubsystem::hasColorOrder),
-                                        new OpenWaitTrappe(trieurSubsystem)))),
+                                                new SequentialCommandGroup(
+                                                        new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                                                        new OpenWaitTrappe(trieurSubsystem)
+                                                ),
+                                                new OpenWaitTrappe(trieurSubsystem),
+                                                visionSubsystem::hasColorOrder)))),
 
-                new ShootHighSpeedRevolution(trieurSubsystem, shooterSubsystem)
+                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
         );
     }
 }

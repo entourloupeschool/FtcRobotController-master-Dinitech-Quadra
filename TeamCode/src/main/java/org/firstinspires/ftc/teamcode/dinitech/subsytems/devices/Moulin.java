@@ -12,9 +12,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_MOTOR
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_SPEED_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_SPEED_TOLERANCE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_SPEED_VERY_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_MOULIN_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_MOULIN_SPEED_TOLERANCE_LOOSE;
@@ -408,22 +406,9 @@ public class Moulin {
         return !isBusy() && Math.abs(getSpeed()) < MOULIN_SPEED_TOLERANCE;
     }
 
-    /**
-     * Checks if the motor has stabilized at its target position. Loose condition
-     * @return True if the motor is not busy, speed is low, and is within tolerance.
-     */
-    public boolean isTargetStabilizedLoose() {
-        return getRemainingDistance() < MOULIN_POSITION_LOOSE_TOLERANCE && Math.abs(getSpeed()) < MOULIN_SPEED_LOOSE_TOLERANCE;
+    public boolean isMotorCloseToTarget(int margin){
+        return Math.abs(getRemainingDistance()) < margin;
     }
-
-    /**
-     * Checks if the motor has stabilized at its target position. Loose condition
-     * @return True if the motor is not busy, speed is low, and is within tolerance.
-     */
-    public boolean isTargetStabilizedVeryLoose() {
-        return getRemainingDistance() < MOULIN_POSITION_VERY_LOOSE_TOLERANCE && Math.abs(getSpeed()) < MOULIN_SPEED_VERY_LOOSE_TOLERANCE;
-    }
-
 
     /**
      * Determines if the motor power should be cut.
@@ -474,13 +459,5 @@ public class Moulin {
      */
     public PIDFCoefficients getPIDF() {
         return dcMotorEx.getPIDFCoefficients(RUN_USING_ENCODER);
-    }
-
-    public boolean shouldStopPowerLoose() {
-        return isOverCurrent() || isTargetStabilizedLoose();
-    }
-
-    public boolean shouldStopPowerVeryLoose() {
-        return isOverCurrent() || isTargetStabilizedVeryLoose();
     }
 }

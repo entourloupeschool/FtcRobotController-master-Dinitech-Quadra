@@ -85,7 +85,7 @@ public class TrieurSubsystem extends SubsystemBase {
         this.hasInitCalibration = hasInitCalibration;
     }
 
-    private boolean wantsMotifShoot = false;
+    private boolean wantsMotifShoot;
 
     /**
      * Constructs a new TrieurSubsystem.
@@ -205,20 +205,8 @@ public class TrieurSubsystem extends SubsystemBase {
         return moulin.shouldStopPower();
     }
 
-    /**
-     * Determines if the moulin motor's power should be cut. With Loose condition.
-     * @return True if power should be stopped.
-     */
-    public boolean shouldMoulinStopPowerLoose() {
-        return moulin.shouldStopPowerLoose();
-    }
-
-    /**
-     * Determines if the moulin motor's power should be cut. With Loose condition.
-     * @return True if power should be stopped.
-     */
-    public boolean shouldMoulinStopPowerVeryLoose() {
-        return moulin.shouldStopPowerVeryLoose();
+    public boolean isMoulinMotorCloseToTarget(int margin){
+        return moulin.isMotorCloseToTarget(margin);
     }
 
     /**

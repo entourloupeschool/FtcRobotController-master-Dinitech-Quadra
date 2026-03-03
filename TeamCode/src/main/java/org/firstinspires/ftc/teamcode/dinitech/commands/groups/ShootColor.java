@@ -1,11 +1,16 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
+
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.Rumble;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinToPositionMargin;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 
 /**
  * A command that attempts to shoot an artifact of a specific color.
@@ -13,7 +18,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * This command checks if an artifact of the specified color is available in the
  * {@link TrieurSubsystem}.
  * <ul>
- *     <li>If a matching artifact is found, it executes a {@link DropMoulinState} command to
+ *     <li>If a matching artifact is found, it executes a command to
  *     rotate the moulin to the appropriate shooting position and launch the artifact.</li>
  *     <li>If no matching artifact is found, it triggers a {@link Rumble} command to provide
  *     haptic feedback to the driver.</li>
@@ -52,7 +57,7 @@ public class ShootColor extends CommandBase {
         int shootingPosition = trieurSubsystem.getClosestShootingPositionForColor(inputColor);
 
         if (shootingPosition > 0) {
-            selectedCommand = new DropMoulinState(trieurSubsystem, shooterSubsystem, shootingPosition, true);
+            selectedCommand = new MoulinToPositionMargin(trieurSubsystem, Moulin.getOppositePosition(shootingPosition), true, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
         } else {
             selectedCommand = new Rumble(gamepadSubsystem, 2, 1);
         }

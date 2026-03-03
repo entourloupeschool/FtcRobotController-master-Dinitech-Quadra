@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CURRENT_SHOOT_OVERFLOW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.D_SHOOTER_VELOCITY_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.F_SHOOTER_VELOCITY_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.I_SHOOTER_VELOCITY_AGGRESSIVE;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_SHOOTER_VELOCITY_AGGRESSIVE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUNNING_AVERAGE_SHOOTER_CURRENT_SIZE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOTER_MOTOR_NAME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_VISION_SHOOT;
 
@@ -18,6 +20,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 
 /**
  * A command-based subsystem for controlling the robot's shooter mechanism.
@@ -34,6 +37,15 @@ public class ShooterSubsystem extends SubsystemBase {
     private final DcMotorEx dcMotorEx;
     private final TelemetryManager telemetryM;
     private final DcMotor.RunMode runMode = DcMotor.RunMode.RUN_USING_ENCODER;
+    private final Globals.RunningAverage lastMotorCurrents = new Globals.RunningAverage(RUNNING_AVERAGE_SHOOTER_CURRENT_SIZE);
+
+    public double getMotorCurrentStd(){
+        return lastMotorCurrents.getStd();
+    }
+
+    public boolean isCurrentOverflow(){
+        return getMotorCurrentStd() > CURRENT_SHOOT_OVERFLOW;
+    }
 
     /**
      * Defines the operational state of the shooter.
@@ -201,7 +213,7 @@ public class ShooterSubsystem extends SubsystemBase {
      * @return The current in Amperes.
      */
     public double getVoltage() {
-        return dcMotorEx.getCurrent(CurrentUnit.AMPS);
+        return dcMotorEx.getCurrent(CurrentUnit.MILLIAMPS);
     }
 
     public boolean isBusy() {
@@ -283,14 +295,18 @@ public class ShooterSubsystem extends SubsystemBase {
             telemetryM.addLine("shooter motor over current");
         }
 
+        lastMotorCurrents.add(getVoltage());
+
         printShooterTelemetry(telemetryM);
     }
 
     private void printShooterTelemetry(final TelemetryManager telemetryM) {
-        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
-        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
+//        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
+//        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
         telemetryM.addData("Shooter State", getUsageState());
         telemetryM.addData("targetSpeedStabilized", isTargetSpeedStabilized());
-        telemetryM.addData("current", getVoltage());
+//        telemetryM.addData("current", getVoltage());
+//        telemetryM.addData("currentSTD", getMotorCurrentStd());
+
     }
 }

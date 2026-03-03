@@ -43,13 +43,9 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
                                         new InstantCommand(),
                                         new SequentialCommandGroup(
                                                 new MoulinNextNextVeryLoose(trieurSubsystem),
-                                                detectArtefact3
-                                        ),
-                                        detectArtefact2::endedByTimeout
-                                )
-                        ),
-                        detectArtefact1::endedByTimeout
-                ),
+                                                detectArtefact3),
+                                        detectArtefact2::endedByTimeout)),
+                        detectArtefact1::endedByTimeout),
                 new ConditionalCommand(
                         new SequentialCommandGroup(
                                 new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),

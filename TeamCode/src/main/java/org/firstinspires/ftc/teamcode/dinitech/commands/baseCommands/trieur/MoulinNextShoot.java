@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
+
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 
 /**
  * A command that rotates the moulin one step forward to the next sequential position.
  * <p>
- * This command extends {@link MoulinToPosition}. Unlike its parent, the target position
+ * This command extends {@link MoulinToPositionMargin}. Unlike its parent, the target position
  * is not specified at construction. Instead, it is dynamically determined in the
  * {@code initialize()} method by getting the current moulin position and calculating the
  * next one. This ensures the command always moves to the correct next slot relative
@@ -14,7 +16,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * <p>
  * This command always rotates in the positive (forward) direction.
  */
-public class MoulinNextShoot extends MoulinToPositionVeryLoose {
+public class MoulinNextShoot extends MoulinToPositionMargin {
 
     /**
      * Creates a new MoulinNext command.
@@ -23,7 +25,7 @@ public class MoulinNextShoot extends MoulinToPositionVeryLoose {
      */
     public MoulinNextShoot(TrieurSubsystem trieurSubsystem) {
         // The actual target position is determined at execution time.
-        super(trieurSubsystem, 0, false);
+        super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
     }
 
     /**
@@ -39,7 +41,6 @@ public class MoulinNextShoot extends MoulinToPositionVeryLoose {
         } else {
             super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPos, 2);
         }
-        super.makeShort = false; // Always rotate forward.
 
         // Start the movement.
         super.initialize();

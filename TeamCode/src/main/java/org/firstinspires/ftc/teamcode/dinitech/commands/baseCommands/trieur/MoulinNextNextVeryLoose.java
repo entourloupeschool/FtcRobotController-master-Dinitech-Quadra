@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
+
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 /**
  * A command that rotates the moulin two steps forward.
  * <p>
- * This command extends {@link MoulinToPosition} and, like {@link MoulinNext}, it
+ * This command extends {@link MoulinToPositionMargin} and, like {@link MoulinNext}, it
  * dynamically determines its target position at runtime. It calculates the position
  * two steps forward from the current moulin position and rotates the mechanism to
  * that spot, always moving in the positive (forward) direction.
@@ -13,7 +15,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * This is typically used after picking up an artifact to move it out of the intake area
  * and prepare the next empty slot.
  */
-public class MoulinNextNextVeryLoose extends MoulinToPositionVeryLoose {
+public class MoulinNextNextVeryLoose extends MoulinToPositionMargin {
 
     /**
      * Creates a new MoulinNextNext command.
@@ -22,7 +24,7 @@ public class MoulinNextNextVeryLoose extends MoulinToPositionVeryLoose {
      */
     public MoulinNextNextVeryLoose(TrieurSubsystem trieurSubsystem){
         // The actual target position is determined at execution time.
-        super(trieurSubsystem, 0, false);
+        super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
     }
 
     /**
@@ -33,7 +35,6 @@ public class MoulinNextNextVeryLoose extends MoulinToPositionVeryLoose {
     public void initialize() {
         // Calculate the target position two steps forward from the current state.
         super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(trieurSubsystem.getMoulinPosition(), 2);
-        super.makeShort = false; // Always rotate forward.
 
         // Call the parent's initialize() to start the movement.
         super.initialize();

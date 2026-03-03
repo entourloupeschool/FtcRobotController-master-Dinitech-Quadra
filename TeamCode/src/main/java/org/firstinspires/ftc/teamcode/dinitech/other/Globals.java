@@ -21,7 +21,7 @@ public class Globals {
     public static final double AUTO_ROBOT_CONSTRAINTS = 1;
     public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 1.4;
     public static final double BRAKING_START_PEDRO_DINITECH = 1.4;
-    public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.93;
+    public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.9;
     public static final double TILE_DIM = 24;
     public static final double SCALE_Y_TILE = 1.05;
     public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
@@ -33,8 +33,8 @@ public class Globals {
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
     public static double GATEPICK_POWER = 0.18;
     public static double SUPER_POWER_ROW_PICK_ARTEFACTS = 1;
-    public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
-    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 30;
+    public static int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
+    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 45;
     public static long WAIT_AT_END_ROW = 200;
     public static final Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
     public static final Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
@@ -144,18 +144,15 @@ public class Globals {
         public static final int SCALE_MOULIN_POSITION_TOLERANCE_LOOSE = 3;
         public static final int SCALE_MOULIN_SPEED_TOLERANCE_LOOSE = 3;
         public static final int MOULIN_POSITION_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
-        public static final int MOULIN_SPEED_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
         public static int SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE = 8;
-        public static int SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE = 8;
         public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE;
-        public static final int MOULIN_SPEED_VERY_LOOSE_TOLERANCE = MOULIN_SPEED_TOLERANCE * SCALE_MOULIN_SPEED_TOLERANCE_VERY_LOOSE;
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 20 * (MOULIN_POSITION_TOLERANCE + 2);
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 40;
-        public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.4;
-        public static int WAIT_HIGH_SPEED_TRIEUR = 50;
-        public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.7;
-        public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 0.8;
+        public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
+        public static int WAIT_HIGH_SPEED_TRIEUR = 800;
+        public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.9;
+        public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
         public static long WAIT_FOR_3BALL = 1200;
 
@@ -170,6 +167,8 @@ public class Globals {
          * *******Shooter
          */
         public static final String SHOOTER_MOTOR_NAME = "shooter";
+        public static int RUNNING_AVERAGE_SHOOTER_CURRENT_SIZE = 10;
+        public static int CURRENT_SHOOT_OVERFLOW = 350;
         public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
         public static final double SPEED_MARGIN = 15;
         public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 3;

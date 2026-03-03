@@ -76,7 +76,7 @@ public class VisionSubsystem extends SubsystemBase {
     private double decimation = 1;
     private int lastATGoalID = 20;
 
-    public enum VisionUsageState { OPTIMIZED, CONTINUOUS, AT, COLOR, NONE }
+    public enum VisionUsageState { MOTIF, OPTIMIZED, CONTINUOUS, AT, COLOR, NONE }
     private VisionUsageState usageState;
 
     public void setUsageState(VisionUsageState state) { this.usageState = state; }

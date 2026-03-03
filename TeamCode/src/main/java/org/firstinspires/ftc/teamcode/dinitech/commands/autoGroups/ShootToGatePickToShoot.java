@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooterPower;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
@@ -33,7 +34,6 @@ public class ShootToGatePickToShoot extends SequentialCommandGroup {
     public ShootToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose GatePickEndPose, Pose endPose, CommandBase commandBase, double shooterVelocity, double gatePower, double endTime){
         addCommands(
                 new ParallelCommandGroup(
-                        new StopShooterPower(shooterSubsystem),
                         new ReadyTrieurForPick(trieurSubsystem),
                         // go to first row of artefacts
                         new FollowPath(drivePedroSubsystem, builder -> builder
@@ -75,7 +75,7 @@ public class ShootToGatePickToShoot extends SequentialCommandGroup {
                                                         LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                                 AUTO_ROBOT_CONSTRAINTS, true))),
 
-                new ShootHighSpeedRevolution(trieurSubsystem, shooterSubsystem)
+                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
         );
     }
 }

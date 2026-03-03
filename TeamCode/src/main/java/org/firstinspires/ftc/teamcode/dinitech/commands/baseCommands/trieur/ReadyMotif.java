@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_4;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -20,7 +21,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * it rumbles the gamepad and moves the moulin to a default position relative to the last
  * detected artifact.
  */
-public class ReadyMotif extends MoulinToPositionVeryLoose {
+public class ReadyMotif extends MoulinToPositionMargin {
     private final VisionSubsystem visionSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
 
@@ -33,7 +34,7 @@ public class ReadyMotif extends MoulinToPositionVeryLoose {
      * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
      */
     public ReadyMotif(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem){
-        super(trieurSubsystem, trieurSubsystem.getMoulinPosition(), false); // Target is set dynamically in initialize()
+        super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE); // Target is set dynamically in initialize()
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
     }
@@ -43,7 +44,6 @@ public class ReadyMotif extends MoulinToPositionVeryLoose {
      */
     @Override
     public void initialize(){
-        super.moulinTargetPosition = -1;
         int colorsOrder = visionSubsystem.getColorsOrder();
         // Check if the color order has been detected by the vision system.
         if (colorsOrder == -1){
@@ -51,8 +51,7 @@ public class ReadyMotif extends MoulinToPositionVeryLoose {
             gamepadSubsystem.customRumble(new Gamepad.RumbleEffect.Builder()
                     .addStep(0.5, 0.5, RUMBLE_DURATION_4)
                     .build(), 3, true);
-            makeShort = false; // Always rotate forward.
-            this.initialize();
+            super.initialize();
         } else {
             // Calculate the target position. The logic aligns the moulin based on the
             // location of the green artifact in the sequence.
@@ -60,8 +59,7 @@ public class ReadyMotif extends MoulinToPositionVeryLoose {
 
             if (greenPosition == -1){
                 // Fallback if green position is not found.
-                makeShort = false; // Always rotate forward.
-                this.initialize();
+                super.initialize();
                 return;
             }
 
@@ -74,7 +72,6 @@ public class ReadyMotif extends MoulinToPositionVeryLoose {
                 // Adjust if green is the third artifact in the motif.
                 moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(greenPosition, 2);
             }
-            makeShort = true; // Always rotate forward.
             super.initialize(); // Execute the rotation.
         }
     }

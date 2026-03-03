@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_SUPER_INTEL;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
@@ -9,7 +10,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 /**
  * A command that rotates the moulin one step forward to the next sequential position.
  * <p>
- * This command extends {@link MoulinToPosition}. Unlike its parent, the target position
+ * This command extends {@link MoulinToPositionMargin}. Unlike its parent, the target position
  * is not specified at construction. Instead, it is dynamically determined in the
  * {@code initialize()} method by getting the current moulin position and calculating the
  * next one. This ensures the command always moves to the correct next slot relative
@@ -17,8 +18,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * <p>
  * This command always rotates in the positive (forward) direction.
  */
-public class MoulinNextShootIntel extends MoulinToPositionVeryLoose {
-
+public class MoulinNextShootIntel extends MoulinToPositionMargin {
     private final ShooterSubsystem shooterSubsystem;
     private boolean hasLaunched;
     /**
@@ -28,7 +28,7 @@ public class MoulinNextShootIntel extends MoulinToPositionVeryLoose {
      */
     public MoulinNextShootIntel(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
         // The actual target position is determined at execution time.
-        super(trieurSubsystem, 0, false);
+        super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
         this.shooterSubsystem = shooterSubsystem;
         this.hasLaunched = false;
     }
@@ -39,23 +39,22 @@ public class MoulinNextShootIntel extends MoulinToPositionVeryLoose {
      */
     @Override
     public void initialize() {
+        hasLaunched = false;
+
         int currentPos = trieurSubsystem.getMoulinPosition();
-        super.moulinTargetPosition = -1;
-        this.hasLaunched = false;
 
         for (int i = 1; i < Moulin.TOTAL_POSITIONS + 1; i++) {
-            int oneIndexedPos = Moulin.getNPreviousPosition(currentPos, i);
-            if (trieurSubsystem.getMoulinStoragePositionColor(oneIndexedPos) != TrieurSubsystem.ArtifactColor.NONE) {
-                super.moulinTargetPosition = Moulin.getOppositePosition(oneIndexedPos);
+            int previousI = Moulin.getNPreviousPosition(currentPos, i);
+            if (trieurSubsystem.getMoulinStoragePositionColor(previousI) != TrieurSubsystem.ArtifactColor.NONE) {
+                super.moulinTargetPosition = Moulin.getOppositePosition(previousI);
                 break;
             }
         }
-        super.makeShort = false;
     }
 
     @Override
     public void execute(){
-        if (super.moulinTargetPosition != -1 && shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL) && !hasLaunched){
+        if (shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL) && !hasLaunched){
             super.initialize();
             hasLaunched = true;
         }
@@ -63,12 +62,12 @@ public class MoulinNextShootIntel extends MoulinToPositionVeryLoose {
 
     @Override
     public boolean isFinished(){
-        return super.moulinTargetPosition == -1 || (hasLaunched && super.isFinished());
+        return hasLaunched && super.isFinished();
     }
 
     @Override
     public void end(boolean interrupted) {
-        if (super.moulinTargetPosition != -1){trieurSubsystem.clearMoulinStoragePositionColor(Moulin.getOppositePosition(super.moulinTargetPosition));}
+        if (super.moulinTargetPosition != -1 && !interrupted){trieurSubsystem.clearMoulinStoragePositionColor(Moulin.getOppositePosition(super.moulinTargetPosition));}
         super.end(interrupted);
     }
 }
