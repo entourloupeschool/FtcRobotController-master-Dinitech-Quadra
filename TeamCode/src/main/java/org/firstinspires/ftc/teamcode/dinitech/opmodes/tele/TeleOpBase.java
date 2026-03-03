@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LONG_SHOOT_S
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MID_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TELE_TIMEOUT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOT_REVOLUTION_THEN_WAIT;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_HIGH_SPEED_TRIEUR;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -31,6 +32,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Tel
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SwitchUsageStateShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinAntiRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
@@ -110,7 +112,7 @@ public class TeleOpBase extends Gornetix {
         m_Driver.bump_right.whenPressed(new SwitchAimLockType(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
 
         // Operator controls
-        m_Operator.dpad_up.whenPressed(new MoulinHighSpeedRevolution(trieurSubsystem));
+        m_Operator.dpad_up.whenPressed(new MoulinHighSpeedIntel(trieurSubsystem, shooterSubsystem, new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)));
         m_Operator.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
         m_Operator.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
 

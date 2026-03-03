@@ -154,8 +154,8 @@ public class Globals {
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 40;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1.4;
         public static int WAIT_HIGH_SPEED_TRIEUR = 50;
-        public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.5;
-        public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1;
+        public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.7;
+        public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 0.8;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
         public static long WAIT_FOR_3BALL = 1200;
 
@@ -172,6 +172,7 @@ public class Globals {
         public static final String SHOOTER_MOTOR_NAME = "shooter";
         public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
         public static final double SPEED_MARGIN = 15;
+        public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 3;
         public static final double SPEED_INCREMENT_SHOOTER = 10;
         public static final double MAX_RANGE_TO_SHOOT_CM = 345;
         public static final double MIN_RANGE_TO_SHOOT_CM = 97;

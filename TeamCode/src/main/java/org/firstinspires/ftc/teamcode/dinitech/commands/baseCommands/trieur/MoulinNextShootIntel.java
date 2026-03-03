@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_SUPER_INTEL;
+
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 
@@ -16,14 +19,18 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  */
 public class MoulinNextShootIntel extends MoulinToPositionVeryLoose {
 
+    private final ShooterSubsystem shooterSubsystem;
+    private boolean hasLaunched;
     /**
      * Creates a new MoulinNext command.
      *
      * @param trieurSubsystem The sorter subsystem that controls the moulin.
      */
-    public MoulinNextShootIntel(TrieurSubsystem trieurSubsystem) {
+    public MoulinNextShootIntel(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
         // The actual target position is determined at execution time.
         super(trieurSubsystem, 0, false);
+        this.shooterSubsystem = shooterSubsystem;
+        this.hasLaunched = false;
     }
 
     /**
@@ -32,24 +39,36 @@ public class MoulinNextShootIntel extends MoulinToPositionVeryLoose {
      */
     @Override
     public void initialize() {
-        int currentPos = super.trieurSubsystem.getMoulinPosition();
+        int currentPos = trieurSubsystem.getMoulinPosition();
         super.moulinTargetPosition = -1;
+        this.hasLaunched = false;
 
-        for (int i = currentPos; i < currentPos + 6; i++) {
-            int oneIndexedPos = i % Moulin.TOTAL_POSITIONS;
+        for (int i = 1; i < Moulin.TOTAL_POSITIONS + 1; i++) {
+            int oneIndexedPos = Moulin.getNPreviousPosition(currentPos, i);
             if (trieurSubsystem.getMoulinStoragePositionColor(oneIndexedPos) != TrieurSubsystem.ArtifactColor.NONE) {
-                super.moulinTargetPosition = oneIndexedPos;
+                super.moulinTargetPosition = Moulin.getOppositePosition(oneIndexedPos);
                 break;
             }
         }
-        super.makeShort = false; // Always rotate forward.
+        super.makeShort = false;
+    }
 
-        if (super.moulinTargetPosition == -1) {this.cancel();}
-        else {super.initialize();}
+    @Override
+    public void execute(){
+        if (super.moulinTargetPosition != -1 && shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL) && !hasLaunched){
+            super.initialize();
+            hasLaunched = true;
+        }
+    }
+
+    @Override
+    public boolean isFinished(){
+        return super.moulinTargetPosition == -1 || (hasLaunched && super.isFinished());
     }
 
     @Override
     public void end(boolean interrupted) {
-        trieurSubsystem.clearMoulinStoragePositionColor(super.moulinTargetPosition);
+        if (super.moulinTargetPosition != -1){trieurSubsystem.clearMoulinStoragePositionColor(Moulin.getOppositePosition(super.moulinTargetPosition));}
+        super.end(interrupted);
     }
 }

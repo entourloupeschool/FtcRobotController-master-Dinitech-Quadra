@@ -41,9 +41,11 @@ public class MoulinToPositionVeryLoose extends CommandBase {
      */
     @Override
     public void initialize() {
-        trieurSubsystem.moulinToPosition(moulinTargetPosition, makeShort);
-        initialAbsRemainingDistance = Math.abs(trieurSubsystem.getMoulinMotorRemainingDistance());
-        hasObservedMovementProgress = initialAbsRemainingDistance == 0;
+        if (moulinTargetPosition != -1) {
+            trieurSubsystem.moulinToPosition(moulinTargetPosition, makeShort);
+            initialAbsRemainingDistance = Math.abs(trieurSubsystem.getMoulinMotorRemainingDistance());
+            hasObservedMovementProgress = initialAbsRemainingDistance == 0;
+        }
     }
 
     /**
@@ -59,7 +61,7 @@ public class MoulinToPositionVeryLoose extends CommandBase {
             hasObservedMovementProgress = true;
         }
 
-        return hasObservedMovementProgress && trieurSubsystem.shouldMoulinStopPowerVeryLoose();
+        return moulinTargetPosition == -1 || hasObservedMovementProgress && trieurSubsystem.shouldMoulinStopPowerVeryLoose();
     }
 
     /**

@@ -166,12 +166,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
     /**
      * Checks if the current velocity is within a given margin of a specified speed.
-     * @param speed The target speed.
+     * @param target The target speed.
      * @param margin The allowed tolerance.
      * @return True if the velocity is within the specified range.
      */
-    public boolean isSpeedAround(double speed, double margin) {
-        return Math.abs(getVelocity() - speed) <= margin;
+    public boolean isSpeedAround(double target, double margin) {
+        return Math.abs(getVelocity() - target) <= margin;
     }
 
 

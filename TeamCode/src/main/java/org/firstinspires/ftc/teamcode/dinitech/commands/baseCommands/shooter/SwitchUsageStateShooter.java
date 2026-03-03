@@ -32,16 +32,14 @@ public class SwitchUsageStateShooter extends CommandBase {
     @Override
     public void initialize() {
         // Toggle based on actual shooter state
-        if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.VISION) {
+        if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.NONE) {
             shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
             new StopShooter(shooterSubsystem).schedule();
 
-        } else if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.STOP){
+        } else if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.PEDRO){
             shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
         } else if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.TELE){
             shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem));
-        } else if (shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.PEDRO) {
-            shooterSubsystem.setDefaultCommand(new VisionShooter(shooterSubsystem, visionSubsystem));
         } else {
             shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem));
         }

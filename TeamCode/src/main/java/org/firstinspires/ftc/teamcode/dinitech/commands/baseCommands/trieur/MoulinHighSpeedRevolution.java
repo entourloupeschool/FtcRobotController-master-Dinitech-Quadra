@@ -16,7 +16,7 @@ public class MoulinHighSpeedRevolution extends SequentialCommandGroup {
             new MoulinNextShoot(trieurSubsystem),
             waitCommand,
             waitUntilCommand,
-            new MoulinNextShootIntel(trieurSubsystem));
+            new MoulinNextShoot(trieurSubsystem));
     }
 
     public MoulinHighSpeedRevolution(TrieurSubsystem trieurSubsystem) {

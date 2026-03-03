@@ -11,7 +11,7 @@ public class WaitVelocityShooterRequire extends CommandBase {
     protected final double ticksPerSecond;
 
 
-    public SetVelocityShooterRequire(ShooterSubsystem shooterSubsystem, double ticksPerSecond){
+    public WaitVelocityShooterRequire(ShooterSubsystem shooterSubsystem, double ticksPerSecond){
         this.shooterSubsystem = shooterSubsystem;
         this.ticksPerSecond = ticksPerSecond;
         addRequirements(shooterSubsystem);

@@ -55,7 +55,7 @@ public class SwitchAimLockType extends CommandBase {
             drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
         } else if (drivePedroSubsystem.getDriveAimLockType() == DrivePedroSubsystem.DriveAimLockType.NONE){
             // If not locked, switch to vision-locked drive and provide feedback.
-            drivePedroSubsystem.setDefaultCommand(new VisionAimLockedDrive(drivePedroSubsystem, visionSubsystem, gamepadSubsystem));
+            drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem));
         } else if (drivePedroSubsystem.getDriveAimLockType() == DrivePedroSubsystem.DriveAimLockType.VISION_AIM) {
             drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem));
         }
