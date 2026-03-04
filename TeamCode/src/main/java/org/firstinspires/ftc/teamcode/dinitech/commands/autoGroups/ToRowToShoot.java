@@ -53,7 +53,6 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         rowPower, true),
                                 new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
-                                // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierCurve(
                                                 drivePedroSubsystem::getPose,

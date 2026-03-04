@@ -147,7 +147,7 @@ public class Globals {
         public static int SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE = 8;
         public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE;
 
-        public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 20 * (MOULIN_POSITION_TOLERANCE + 2);
+        public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 15 * (MOULIN_POSITION_TOLERANCE + 2);
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 40;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
         public static int WAIT_HIGH_SPEED_TRIEUR = 400;

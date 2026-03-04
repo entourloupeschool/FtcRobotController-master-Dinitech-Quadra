@@ -22,7 +22,6 @@ public class MoulinToPositionMargin extends CommandBase {
     protected int margin;
 
     private int initialAbsRemainingDistance;
-    private boolean hasObservedMovementProgress;
 
     /**
      * Creates a new MoulinToPosition command.
@@ -46,11 +45,18 @@ public class MoulinToPositionMargin extends CommandBase {
      */
     @Override
     public void initialize() {
+        trieurSubsystem.setRotationCompletion(-1);
         if (moulinTargetPosition != -1){
             trieurSubsystem.moulinToPosition(moulinTargetPosition, makeShort);
+
             initialAbsRemainingDistance = Math.abs(trieurSubsystem.getMoulinMotorRemainingDistance());
-            hasObservedMovementProgress = initialAbsRemainingDistance == 0;
+            trieurSubsystem.setRotationCompletion(0);
         }
+    }
+
+    @Override
+    public void execute(){
+        trieurSubsystem.setRotationCompletion(1 - (double) Math.abs(trieurSubsystem.getMoulinMotorRemainingDistance()) / initialAbsRemainingDistance);
     }
 
     /**
@@ -60,13 +66,7 @@ public class MoulinToPositionMargin extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        int currentAbsRemainingDistance = Math.abs(trieurSubsystem.getMoulinMotorRemainingDistance());
-
-        if (!hasObservedMovementProgress && currentAbsRemainingDistance < initialAbsRemainingDistance) {
-            hasObservedMovementProgress = true;
-        }
-
-        return moulinTargetPosition == -1 || (hasObservedMovementProgress && trieurSubsystem.isMoulinMotorCloseToTarget(margin));
+        return moulinTargetPosition == -1 || (trieurSubsystem.getRotationCompletion() > 0.01 && trieurSubsystem.isMoulinMotorCloseToTarget(margin));
     }
 
     /**
@@ -78,6 +78,7 @@ public class MoulinToPositionMargin extends CommandBase {
     public void end(boolean interrupted) {
         // If the command was interrupted before completion, reset the motor's target
         // to its current position to prevent further movement.
+        trieurSubsystem.setRotationCompletion(-1);
         if (interrupted) {
             trieurSubsystem.resetTargetMoulinMotor();
         }

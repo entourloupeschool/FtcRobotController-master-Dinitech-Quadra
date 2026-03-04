@@ -34,7 +34,6 @@ public class MoulinRotate extends CommandBase {
     public MoulinRotate(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.trieurSubsystem = trieurSubsystem;
         this.operator = gamepadSubsystem.getOperator();
-        addRequirements(trieurSubsystem);
     }
 
     /**

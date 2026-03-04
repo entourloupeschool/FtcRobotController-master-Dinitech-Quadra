@@ -17,6 +17,7 @@ import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
@@ -56,8 +57,8 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                 drivePedroSubsystem::getHeading,
                                                 GatePickEndPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        gatePower, false)),
-                                new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
+                                        gatePower, false),
+                                new SetVelocityShooter(shooterSubsystem, shooterVelocity),
                                 new WaitCommand(WAIT_FOR_3BALL),
                                 // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder
@@ -69,7 +70,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                 drivePedroSubsystem::getHeading,
                                                 endPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true)),
+                                        AUTO_ROBOT_CONSTRAINTS, true))),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
         );

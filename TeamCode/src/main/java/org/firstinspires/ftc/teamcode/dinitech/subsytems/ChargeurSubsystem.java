@@ -24,7 +24,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.ChargeurDoubleS
  */
 public class ChargeurSubsystem extends SubsystemBase {
     private final MotorEx motorEx;
-    private final ChargeurDoubleServo chargeurDoubleServo;
     public final TelemetryManager telemetryM;
 
     /**
@@ -38,8 +37,6 @@ public class ChargeurSubsystem extends SubsystemBase {
         motorEx.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
         motorEx.setRunMode(Motor.RunMode.RawPower);
         motorEx.setInverted(false);
-        
-        this.chargeurDoubleServo = new ChargeurDoubleServo(hardwareMap);
 
         this.telemetryM = telemetryM;
     }
@@ -47,26 +44,10 @@ public class ChargeurSubsystem extends SubsystemBase {
 
 
     public void setChargeurPower(double power){
-        setNormalizedSpeedTapis(power);
         setMotorPower(power);
-    }
-    
-    
-
-    public void setNormalizedSpeedTapis(double power){
-        chargeurDoubleServo.setNormalizedSpeed(3, power);
-    }
-
-    public void incrementSpeedTapis(int crsNumber, double incr){
-        chargeurDoubleServo.incrementNormalizedSpeed(crsNumber, incr);
-    }
-
-    public double getNormalizedSpeedTapis(int crsNumber){
-        return chargeurDoubleServo.getNormalizedSpeed(crsNumber);
     }
 
     public void incrementChargeurPower(double increment){
-//        incrementSpeedTapis(3, increment);
         incrementMotorPower(increment);
     }
 
@@ -156,8 +137,5 @@ public class ChargeurSubsystem extends SubsystemBase {
 
     private void printChargeurTelemetry(final TelemetryManager telemetryM){
         telemetryM.addData("Chargeur Power", getMotorPower());
-        telemetryM.addData("tapis 1 speed", getNormalizedSpeedTapis(1));
-        telemetryM.addData("tapis 2 speed", getNormalizedSpeedTapis(2));
-
     }
 }

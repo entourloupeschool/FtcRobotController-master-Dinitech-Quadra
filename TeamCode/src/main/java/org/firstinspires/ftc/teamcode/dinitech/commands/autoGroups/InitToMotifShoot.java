@@ -14,6 +14,8 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.WaitVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
@@ -32,7 +34,7 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new InstantCommand(),
-                                new WaitVelocityShooter(shooterSubsystem, shooterVelocity)),
+                                new SetVelocityShooter(shooterSubsystem, shooterVelocity)),
 
                         new ParallelCommandGroup(
                                 // Go to Shooting Pos
@@ -40,20 +42,21 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                                         .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
                                                 ShootPosition)
-                                        ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(drivePedroSubsystem::getHeading, ShootPosition.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                        ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                drivePedroSubsystem::getHeading,
+                                                ShootPosition.getHeading(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
                                 new SequentialCommandGroup(
                                         // Race: wait for hasColorOrder OR wait for path to finish
                                         new ParallelRaceGroup(
                                                 new WaitUntilCommand(visionSubsystem::hasColorOrder),
-                                                new WaitUntilCommand(() -> drivePedroSubsystem.getDrive().isPathQuasiDone())
-                                        ),
+                                                new WaitUntilCommand(() -> drivePedroSubsystem.getDrive().isPathQuasiDone())),
                                         // Only run ReadyMotif if hasColorOrder became true, otherwise skip
                                         new ConditionalCommand(
                                                 new SequentialCommandGroup(
                                                         new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
-                                                        new OpenWaitTrappe(trieurSubsystem)
-                                                ),
+                                                        new OpenWaitTrappe(trieurSubsystem)),
                                                 new OpenWaitTrappe(trieurSubsystem),
                                                 visionSubsystem::hasColorOrder)))),
 
