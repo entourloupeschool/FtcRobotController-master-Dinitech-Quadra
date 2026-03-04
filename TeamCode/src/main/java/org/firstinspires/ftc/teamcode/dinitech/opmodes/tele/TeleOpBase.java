@@ -13,7 +13,6 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.Trigger;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.SetDefault;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.ToggleChargeur;

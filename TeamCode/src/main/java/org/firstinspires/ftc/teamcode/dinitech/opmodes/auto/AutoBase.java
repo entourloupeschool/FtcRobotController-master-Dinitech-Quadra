@@ -5,7 +5,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSA
 
 import com.arcrobotics.ftclib.command.button.Trigger;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.SetDefault;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetections;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;

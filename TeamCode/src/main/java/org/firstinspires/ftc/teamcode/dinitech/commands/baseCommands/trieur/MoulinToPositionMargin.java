@@ -66,7 +66,7 @@ public class MoulinToPositionMargin extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return moulinTargetPosition == -1 || (trieurSubsystem.getRotationCompletion() > 0.01 && trieurSubsystem.isMoulinMotorCloseToTarget(margin));
+        return moulinTargetPosition == -1 || (trieurSubsystem.getRotationCompletion() > 0.1 && trieurSubsystem.isMoulinMotorCloseToTarget(margin));
     }
 
     /**

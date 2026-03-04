@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_SUPER_INTEL;
 
@@ -65,16 +66,13 @@ public class MoulinNextShootIntel extends MoulinToPositionMargin {
             super.initialize();
             hasLaunched = true;
         }
+        if (trieurSubsystem.getRotationCompletion() >= 0.95 && hasLaunched && super.moulinTargetPosition != -1){
+            trieurSubsystem.clearMoulinStoragePositionColor(Moulin.getOppositePosition(super.moulinTargetPosition));
+        }
     }
 
     @Override
     public boolean isFinished(){
         return hasLaunched && super.isFinished();
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        if (super.moulinTargetPosition != -1) trieurSubsystem.clearMoulinStoragePositionColor(Moulin.getOppositePosition(super.moulinTargetPosition));
-        super.end(interrupted);
     }
 }

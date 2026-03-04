@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.modes;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.SetDefault;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.PedroAimLockedDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.PedroShooter;
@@ -17,7 +15,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 /**
  * A command group that handles the artifact collection mode of the robot.
  */
-public class ModeShootTeleOp extends ParallelCommandGroup {
+public class ModeShootTeleOp extends SequentialCommandGroup {
 
     /**
      * Creates a new ModeRamassage command group.
@@ -30,7 +28,8 @@ public class ModeShootTeleOp extends ParallelCommandGroup {
     public ModeShootTeleOp(DrivePedroSubsystem drivePedroSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem) {
         addCommands(
             new StopChargeur(chargeurSubsystem),
-            new SetDefault(shooterSubsystem, new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)),
-            new SetDefault(drivePedroSubsystem, new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem)));
+            new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem))),
+            new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem)))
+        );
     }
 }

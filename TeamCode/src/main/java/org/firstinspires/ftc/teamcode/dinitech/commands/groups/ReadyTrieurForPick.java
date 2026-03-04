@@ -25,12 +25,10 @@ public class ReadyTrieurForPick extends ConditionalCommand {
         super(
                 // if condition is true.
                 new WaitCloseTrappe(trieurSubsystem),
-
                 // if condition is false.
                 new SequentialCommandGroup(
                         new WaitCloseTrappe(trieurSubsystem),
                         new MoulinNextStorage(trieurSubsystem)),
-                
                 // Condition.
                 () -> Moulin.isStoragePosition(trieurSubsystem.getMoulinPosition())
         );
