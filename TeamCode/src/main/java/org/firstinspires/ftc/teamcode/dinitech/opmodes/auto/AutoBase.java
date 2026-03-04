@@ -18,9 +18,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 public class AutoBase extends Gornetix {
     private int lastHowManyArtefacts = 0;
-    /**
-     * Initialize the teleop OpMode, gamepads, buttons, and default commands.
-     */
+
     @Override
     public void initialize() {
             super.initialize();
@@ -29,10 +27,12 @@ public class AutoBase extends Gornetix {
             visionSubsystem.setDefaultCommand(new OnlyMotifDetections(visionSubsystem));
 
             autoSetArtefactColors();
+            MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors());
+            lastHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
+
             trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT);
 
-            new Trigger(trieurSubsystem::getIsFull)
-                    .whenActive(new StopChargeur(chargeurSubsystem));
+            new Trigger(trieurSubsystem::getIsFull).whenActive(new StopChargeur(chargeurSubsystem));
 
             new Trigger(()-> trieurSubsystem.getHowManyArtefacts() != lastHowManyArtefacts).whenActive(() -> {
                         lastHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();

@@ -33,7 +33,6 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                         new ReadyTrieurForPick(trieurSubsystem),
-                        // go to first row of artefacts
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierCurve(
                                         drivePedroSubsystem::getPose,

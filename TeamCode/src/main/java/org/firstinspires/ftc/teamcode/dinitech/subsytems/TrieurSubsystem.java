@@ -84,14 +84,14 @@ public class TrieurSubsystem extends SubsystemBase {
         setIsFull(howManyArtefacts == 3);
     }
 
-    private int detectTimeout;
+    private int detectionTimeout;
 
-    public void setDetectionTimeout(int detectTimeout) {
-        this.detectTimeout = detectTimeout;
+    public void setDetectionTimeout(int detectionTimeout) {
+        this.detectionTimeout = detectionTimeout;
     }
 
-    public int getDetectTimeout() {
-        return detectTimeout;
+    public int getDetectionTimeout() {
+        return detectionTimeout;
     }
 
     public void setOvercurrentCounts(int overcurrentCounts) {
@@ -303,6 +303,8 @@ public class TrieurSubsystem extends SubsystemBase {
         setHowManyArtefacts(getHowManyArtefacts() + 1);
 
         ArtifactColor detectedColor = detectBottomArtifactColor();
+        clearSamplesColorSensors();
+
 
         // Store the color at the current moulin storage Pos
         setMoulinStoragePositionColor(getMoulinPosition(), detectedColor);

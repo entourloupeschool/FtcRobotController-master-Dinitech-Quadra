@@ -47,33 +47,21 @@ public class TryDetectArtefact extends CommandBase {
         trieurSubsystem.setNewRegister(false);
         trieurSubsystem.setNewColoredRegister(false);
 
-        timeout = trieurSubsystem.getDetectTimeout();
+        timeout = trieurSubsystem.getDetectionTimeout();
         isFound = false;
-
-        trieurSubsystem.clearSamplesColorSensors();
-
-        waitRumbleEffect = new Gamepad.RumbleEffect.Builder()
-                .addStep(0.5, 0.5, 20)
-                .build();
-        unfoundRumbleEffect = new Gamepad.RumbleEffect.Builder()
-                .addStep(0.9, 0.9, 50)
-                .addStep(0.5, 0.5, 20)
-                .addStep(0.9, 0.9, 50)
-                .addStep(0.5, 0.5, 20)
-                .addStep(0.9, 0.9, 50)
-                .build();;
     }
 
     @Override
     public void execute() {
-        gamepadSubsystem.customRumble(waitRumbleEffect, 2, true);
         trieurSubsystem.updateColorSensors();
 
         if (trieurSubsystem.isArtefactInTrieur() && !isFound) {
             trieurSubsystem.registerArtefact();
             isFound = true;
         } else if (timeout == 0) {
-            gamepadSubsystem.customRumble(unfoundRumbleEffect, 2, true);
+            gamepadSubsystem.customRumble(gamepadSubsystem.unfoundRumbleEffect, 2, true);
+        } else {
+            gamepadSubsystem.customRumble(gamepadSubsystem.waitRumbleEffect, 2, true);
         }
 
         timeout -= 1;

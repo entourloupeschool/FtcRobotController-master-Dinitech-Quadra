@@ -26,6 +26,17 @@ public class GamepadSubsystem extends SubsystemBase {
     /** The wrapper for the operator's gamepad. */
     private final GamepadWrapper operator;
 
+    public final Gamepad.RumbleEffect waitRumbleEffect = new Gamepad.RumbleEffect.Builder()
+            .addStep(0.5, 0.5, 20)
+                .build();
+    public final Gamepad.RumbleEffect unfoundRumbleEffect = new Gamepad.RumbleEffect.Builder()
+            .addStep(0.9, 0.9, 50)
+                .addStep(0.5, 0.5, 20)
+                .addStep(0.9, 0.9, 50)
+                .addStep(0.5, 0.5, 20)
+                .addStep(0.9, 0.9, 50)
+                .build();
+
     /**
      * Constructs a new GamepadSubsystem.
      *
