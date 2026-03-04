@@ -19,15 +19,16 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToShoot;
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ShootToGatePickToShoot;
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ShootToRowToShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ToGatePickToShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ToRowToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
 @Autonomous(name = "BlueGoalAdvanced", group = "Blue")
-public class AutoBlueGoalAdvanced extends AutoBase {
+public class AutoBlueGoalAdvanced extends BlueAuto {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -35,8 +36,6 @@ public class AutoBlueGoalAdvanced extends AutoBase {
     @Override
     public void initialize() {
             super.initialize();
-
-            hubsSubsystem.setTeam(HubsSubsystem.Team.BLUE);
 
             drivePedroSubsystem.getDrive().prepAuto(BLUE_GOAL_POSE);
 
@@ -46,17 +45,19 @@ public class AutoBlueGoalAdvanced extends AutoBase {
                                 CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
                         //SECOND ROW FIRST
-                        new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                SECOND_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(),CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
+                        new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
+                                SECOND_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
                                 LENGTH_X_ROW_SUPER_23RD, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
-                        new ShootToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, BLUE_RAMP_POSE, BLUE_RAMP_END_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
+                        new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
+                                BLUE_RAMP_POSE, BLUE_RAMP_END_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
-                        new ShootToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, BLUE_RAMP_POSE, BLUE_RAMP_END_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
+                        new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
+                                BLUE_RAMP_POSE, BLUE_RAMP_END_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
                         //FIRST ROW LAST
-                        new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                FIRST_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
+                        new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
+                                FIRST_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
                                 LENGTH_X_ROW_SUPER, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.8),
 
                         new ParallelCommandGroup(

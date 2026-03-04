@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNextVeryLoose;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.PrepShootTrieur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
@@ -46,12 +47,7 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
                                                 detectArtefact3),
                                         detectArtefact2::endedByTimeout)),
                         detectArtefact1::endedByTimeout),
-                new ConditionalCommand(
-                        new SequentialCommandGroup(
-                                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
-                                new OpenWaitTrappe(trieurSubsystem)),
-                        new OpenWaitTrappe(trieurSubsystem),
-                        trieurSubsystem::wantsMotifShoot)
+                new PrepShootTrieur(trieurSubsystem, visionSubsystem, gamepadSubsystem)
         );
     }
 }

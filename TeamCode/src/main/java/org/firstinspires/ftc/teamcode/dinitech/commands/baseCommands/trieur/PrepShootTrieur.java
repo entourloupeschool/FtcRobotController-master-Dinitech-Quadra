@@ -1,42 +1,21 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
-
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.HeadingInterpolator;
-
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.WaitVelocityShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-public class InitToShoot extends SequentialCommandGroup {
+public class PrepShootTrieur extends ConditionalCommand {
 
-    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose ShootPosition, double shooterVelocity){
-        addCommands(
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new InstantCommand(),
-                                new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity)),
-
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        drivePedroSubsystem::getPose,
-                                        ShootPosition)
-                                ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(drivePedroSubsystem::getHeading, ShootPosition.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true)
-                ),
-
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
+    public PrepShootTrieur(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem){
+        super(
+                new SequentialCommandGroup(
+                        new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                        new OpenWaitTrappe(trieurSubsystem)),
+                new OpenWaitTrappe(trieurSubsystem),
+                trieurSubsystem::wantsMotifShoot
         );
     }
 }

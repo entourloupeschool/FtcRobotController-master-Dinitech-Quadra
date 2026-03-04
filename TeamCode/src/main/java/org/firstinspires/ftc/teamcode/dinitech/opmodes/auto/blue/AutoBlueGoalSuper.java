@@ -22,15 +22,16 @@ import com.pedropathing.geometry.BezierLine;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToShoot;
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ShootToRowToShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ToRowToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
 @Autonomous(name = "BlueGoalSuper", group = "Blue")
-public class AutoBlueGoalSuper extends AutoBase {
+public class AutoBlueGoalSuper extends BlueAuto {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -39,8 +40,6 @@ public class AutoBlueGoalSuper extends AutoBase {
     public void initialize() {
             super.initialize();
 
-            hubsSubsystem.setTeam(HubsSubsystem.Team.BLUE);
-
             drivePedroSubsystem.getDrive().prepAuto(BLUE_GOAL_POSE);
 
             new SequentialCommandGroup(
@@ -48,17 +47,17 @@ public class AutoBlueGoalSuper extends AutoBase {
                         new InitToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem,
                                 CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
-                        new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                FIRST_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
-                                LENGTH_X_ROW_SUPER, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.8),
+                        new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
+                                FIRST_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
+                                LENGTH_X_ROW_SUPER, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.7),
 
-                        new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                SECOND_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(),CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
+                        new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
+                                SECOND_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
                                 LENGTH_X_ROW_SUPER_23RD, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
-                        new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                THIRD_ROW_BLUE_POSE, BLUE_AUDIENCE_SHOOT_POSE, new InstantCommand(), SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY,
-                                LENGTH_X_ROW_SUPER_23RD, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.2),
+                        new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
+                                THIRD_ROW_BLUE_POSE, BLUE_AUDIENCE_SHOOT_POSE, SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY,
+                                LENGTH_X_ROW_SUPER_23RD, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.3),
 
                         new ParallelCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder

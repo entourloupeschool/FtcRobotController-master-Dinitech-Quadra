@@ -50,8 +50,8 @@ public class Globals {
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
     public static  final Pose BLUE_RAMP_POSE = new Pose(20, 62, 0);
-    public static final double GATEPICK_LENGTH_BACKUP_X = 7;
-    public static final double GATEPICK_LENGTH_BACKUP_Y = 1;
+    public static final double GATEPICK_LENGTH_BACKUP_X = 3;
+    public static final double GATEPICK_LENGTH_BACKUP_Y = 4;
     public static  final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() - GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() - GATEPICK_LENGTH_BACKUP_Y, Math.toRadians(-28));
     public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
@@ -154,7 +154,7 @@ public class Globals {
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.9;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
-        public static long WAIT_FOR_3BALL = 1200;
+        public static long WAIT_FOR_3BALL = 2200;
 
         //PIDF MOULIN (TURRET)
         public static double P_MOULIN_AGGRESSIVE = 8.457;

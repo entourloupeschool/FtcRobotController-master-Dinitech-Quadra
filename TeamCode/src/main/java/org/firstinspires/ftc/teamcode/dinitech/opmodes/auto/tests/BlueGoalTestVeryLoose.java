@@ -7,11 +7,14 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToMotifShoot;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
 
-@Autonomous(name = "TestVeryLoose - Dinitech", group = "Test")
+//@Autonomous(name = "TestVeryLoose - Dinitech", group = "Test")
+@Disabled
+
 public class BlueGoalTestVeryLoose extends AutoBase {
 
     /**

@@ -23,18 +23,18 @@ import com.pedropathing.geometry.BezierLine;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToMotifShoot;
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ShootToRowToShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ToRowToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
 @Autonomous(name = "BlueGoal", group = "Blue")
-public class AutoBlueGoal extends AutoBase {
+public class AutoBlueGoal extends BlueAuto {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -42,9 +42,7 @@ public class AutoBlueGoal extends AutoBase {
     @Override
     public void initialize() {
             super.initialize();
-
-            hubsSubsystem.setTeam(HubsSubsystem.Team.BLUE);
-
+            
             drivePedroSubsystem.getDrive().prepAuto(BLUE_GOAL_POSE);
 
             new SequentialCommandGroup(
@@ -52,24 +50,27 @@ public class AutoBlueGoal extends AutoBase {
                     new InitToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, gamepadSubsystem,
                             CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
-                    new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                            FIRST_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
-                            LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.8),
+                    new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
+                            FIRST_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
+                            LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.7),
 
-                    new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                            SECOND_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, new InstantCommand(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
+                    new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
+                            SECOND_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
                             LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
-                    new ShootToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                            THIRD_ROW_BLUE_POSE, BLUE_AUDIENCE_SHOOT_POSE, new InstantCommand(), SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY,
+                    new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
+                            THIRD_ROW_BLUE_POSE, BLUE_AUDIENCE_SHOOT_POSE, SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY,
                             LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.3),
 
                     new ParallelCommandGroup(
                             new FollowPath(drivePedroSubsystem, builder -> builder
                                     .addPath(new BezierLine(
                                             drivePedroSubsystem::getPose,
-                                            BLUE_RAMP_POSE.withX(BLUE_RAMP_POSE.getX() + 5))
-                                    ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), BLUE_RAMP_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                                            BLUE_RAMP_POSE.withX(BLUE_RAMP_POSE.getX() + 5)))
+                                    .setLinearHeadingInterpolation(
+                                            drivePedroSubsystem.getPose().getHeading(),
+                                            BLUE_RAMP_POSE.getHeading(),
+                                            LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                     AUTO_ROBOT_CONSTRAINTS, true),
                             new ParallelCommandGroup(
                                     new StopChargeur(chargeurSubsystem),

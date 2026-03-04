@@ -40,6 +40,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.Moul
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRotate;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.PrepShootTrieur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.ToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
@@ -130,7 +131,7 @@ public class TeleOpBase extends Gornetix {
         m_Operator.triangle.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, CLOSE_SHOOT_SHOOTER_VELOCITY),
                 new StopShooter(shooterSubsystem), true);
         m_Operator.circle.whenPressed(new ParallelCommandGroup(
-                new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                new PrepShootTrieur(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                 new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true))));
 
         new Trigger(() -> m_Operator.getRightTriggerValue() > 0.01)
@@ -148,8 +149,8 @@ public class TeleOpBase extends Gornetix {
 
         new Trigger(() -> trieurSubsystem.howManyArtifacts() == 0)
                 .whenActive(new SequentialCommandGroup(
+                        new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
                         new ParallelCommandGroup(
-                                new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
                                 new MaxPowerChargeur(chargeurSubsystem),
                                 new SetDefault(shooterSubsystem, new TeleShooter(shooterSubsystem, gamepadSubsystem)),
                                 new SetDefault(drivePedroSubsystem, new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem))),
