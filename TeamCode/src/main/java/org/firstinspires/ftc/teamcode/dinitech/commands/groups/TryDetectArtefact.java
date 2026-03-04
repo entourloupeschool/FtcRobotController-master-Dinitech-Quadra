@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * This command checks if an artifact of the specified color is available in the
  * {@link TrieurSubsystem}.
  * <ul>
- *     <li>If a matching artifact is found, it executes a {@link DropMoulinState} command to
+ *     <li>If a matching artifact is found, it executes a command to
  *     rotate the moulin to the appropriate shooting position and launch the artifact.</li>
  *     <li>If no matching artifact is found, it triggers a {@link Rumble} command to provide
  *     haptic feedback to the driver.</li>
@@ -27,9 +27,9 @@ public class TryDetectArtefact extends CommandBase {
     private final GamepadSubsystem gamepadSubsystem;
     private Gamepad.RumbleEffect waitRumbleEffect;
     private Gamepad.RumbleEffect unfoundRumbleEffect;
-    private final int initialTimeout;
     private int timeout;
-    private boolean endedByTimeout;
+    private boolean isFound;
+
 
     /**
      * Creates a new ShootColor command.
@@ -40,9 +40,6 @@ public class TryDetectArtefact extends CommandBase {
     public TryDetectArtefact(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.trieurSubsystem = trieurSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
-        this.initialTimeout = trieurSubsystem.getDetectTimeout();
-
-        addRequirements(trieurSubsystem);
     }
 
     @Override
@@ -51,8 +48,10 @@ public class TryDetectArtefact extends CommandBase {
         trieurSubsystem.setNewColoredRegister(false);
 
         timeout = trieurSubsystem.getDetectTimeout();
-        endedByTimeout = false;
+        isFound = false;
+
         trieurSubsystem.clearSamplesColorSensors();
+
         waitRumbleEffect = new Gamepad.RumbleEffect.Builder()
                 .addStep(0.5, 0.5, 20)
                 .build();
@@ -69,27 +68,20 @@ public class TryDetectArtefact extends CommandBase {
     public void execute() {
         gamepadSubsystem.customRumble(waitRumbleEffect, 2, true);
         trieurSubsystem.updateColorSensors();
+
+        if (trieurSubsystem.isArtefactInTrieur() && !isFound) {
+            trieurSubsystem.registerArtefact();
+            isFound = true;
+        } else if (timeout == 0) {
+            gamepadSubsystem.customRumble(unfoundRumbleEffect, 2, true);
+        }
+
         timeout -= 1;
     }
 
-    @Override
-    public void end(boolean interrupted) {
-        if (!interrupted) {
-            if (trieurSubsystem.isArtefactInTrieur()) {
-                trieurSubsystem.registerArtefact();
-            } else {
-                endedByTimeout = true;
-                gamepadSubsystem.customRumble(unfoundRumbleEffect, 2, true);
-            }
-        }
-    }
-
-    public boolean endedByTimeout() {
-        return endedByTimeout;
-    }
 
     @Override
     public boolean isFinished() {
-        return trieurSubsystem.isArtefactInTrieur() || timeout <= 0;
+        return isFound || timeout <= 0;
     }
 }

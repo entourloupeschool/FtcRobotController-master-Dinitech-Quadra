@@ -45,10 +45,17 @@ public class MoulinNextShootIntel extends MoulinToPositionMargin {
 
         for (int i = 1; i < Moulin.TOTAL_POSITIONS + 1; i++) {
             int previousI = Moulin.getNPreviousPosition(currentPos, i);
-            if (trieurSubsystem.getMoulinStoragePositionColor(previousI) != TrieurSubsystem.ArtifactColor.NONE) {
+            TrieurSubsystem.ArtifactColor color = trieurSubsystem.getMoulinStoragePositionColor(previousI);
+
+            if (color == TrieurSubsystem.ArtifactColor.GREEN || color == TrieurSubsystem.ArtifactColor.PURPLE) {
                 super.moulinTargetPosition = Moulin.getOppositePosition(previousI);
                 break;
             }
+        }
+
+        if (super.moulinTargetPosition == -1){
+            super.initialize();
+            hasLaunched = true;
         }
     }
 
@@ -67,7 +74,7 @@ public class MoulinNextShootIntel extends MoulinToPositionMargin {
 
     @Override
     public void end(boolean interrupted) {
-        if (super.moulinTargetPosition != -1 && !interrupted){trieurSubsystem.clearMoulinStoragePositionColor(Moulin.getOppositePosition(super.moulinTargetPosition));}
+        if (super.moulinTargetPosition != -1) trieurSubsystem.clearMoulinStoragePositionColor(Moulin.getOppositePosition(super.moulinTargetPosition));
         super.end(interrupted);
     }
 }

@@ -1,19 +1,19 @@
 package org.firstinspires.ftc.teamcode.dinitech.other;
 
-import com.pedropathing.geometry.Pose;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
-public final class PoseStorage {
-    public static Pose lastPose = null;
+public final class MoulinPositionColorsStorage {
+    private static TrieurSubsystem.ArtifactColor[] moulinStoragePositionColors = null;
 
-    public static void setLastPose(Pose pose) {
-        lastPose = pose;
+    public static void setLastMoulinPositionColors(TrieurSubsystem.ArtifactColor[] newMPC) {
+        moulinStoragePositionColors = newMPC;
     }
 
-    public static Pose getLastPose() {
-        return lastPose;
+    public static TrieurSubsystem.ArtifactColor[] getLastMoulinPositionColors() {
+        return moulinStoragePositionColors;
     }
 
-    public static void clearLastPose() {
-        lastPose = null;
+    public static void clearLastMoulinPositionColors() {
+        moulinStoragePositionColors = null;
     }
 }

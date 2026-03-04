@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PEDRO_AIMING_CONTROLLER_D;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PEDRO_AIMING_CONTROLLER_F;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PEDRO_AIMING_CONTROLLER_I;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PEDRO_AIMING_CONTROLLER_P;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER_TRIGGER_SCALE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
@@ -11,8 +7,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPo
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.bylazar.telemetry.TelemetryManager;
-import com.pedropathing.control.PIDFCoefficients;
-import com.pedropathing.control.PIDFController;
+
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -20,7 +15,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.dinitech.other.DrawingDinitech;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPedroMecanumDrive;
 
-import java.util.function.BooleanSupplier;
 
 public class DrivePedroSubsystem extends SubsystemBase {
     /**

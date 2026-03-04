@@ -52,6 +52,8 @@ public class PedroAimLockedDrive extends CommandBase {
 
     @Override
     public void initialize() {
+        drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.TELE);
+        drivePedroSubsystem.setDriveReference(DrivePedroSubsystem.DriveReference.FC);
         drivePedroSubsystem.setDriveAimLockType(DrivePedroSubsystem.DriveAimLockType.PEDRO_AIM);
         drivePedroSubsystem.setLastTeleDriverPowerScale(1);
     }

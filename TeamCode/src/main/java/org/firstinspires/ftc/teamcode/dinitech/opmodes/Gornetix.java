@@ -48,7 +48,7 @@ public class Gornetix extends RobotBase {
         shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
         register(shooterSubsystem);
 
-        new SetDefault(hubsSubsystem, new DefaultHubsCommand(hubsSubsystem, trieurSubsystem)).schedule();
+        hubsSubsystem.setDefaultCommand(new DefaultHubsCommand(hubsSubsystem, trieurSubsystem));
     }
 
     /**

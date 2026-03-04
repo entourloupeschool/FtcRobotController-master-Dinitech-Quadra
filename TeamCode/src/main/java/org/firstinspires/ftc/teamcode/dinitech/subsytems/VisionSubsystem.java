@@ -71,8 +71,8 @@ public class VisionSubsystem extends SubsystemBase {
     private Double cachedRobotPoseX, cachedRobotPoseY, cachedRobotPoseYaw, cachedRangeToAT, cachedCameraBearing, cachedConfidence, cachedATPoseX, cachedATPoseY;
 
     private boolean hasCurrentATDetections = false;
-    private int cachedColorsOrder = -1;
-    private boolean hasDetectedColorOrder = false;
+    private int cachedMotif = -1;
+    private boolean hasDetectedMotif = false;
     private double decimation = 1;
     private int lastATGoalID = 20;
 
@@ -105,10 +105,7 @@ public class VisionSubsystem extends SubsystemBase {
 
         setUsageState(VisionUsageState.NONE);
 
-        if (MotifStorage.getMotifNumber() != -1){
-            cachedColorsOrder = MotifStorage.getMotifNumber();
-            hasDetectedColorOrder = true;
-        }
+        setCachedMotif(-1);
 
         this.telemetryM = telemetryM;
     }
@@ -130,9 +127,9 @@ public class VisionSubsystem extends SubsystemBase {
                         aTPoseXSamples.add(detection.ftcPose.x);
                         aTPoseYSamples.add(detection.ftcPose.y);
                         updateCachedAverages();
-                    } else if (!hasDetectedColorOrder) {
-                        cachedColorsOrder = detection.id;
-                        hasDetectedColorOrder = true;
+                    } else if (!hasDetectedMotif) {
+                        cachedMotif = detection.id;
+                        hasDetectedMotif = true;
                     }
                 } else {
                     setHasCurrentAprilTagDetections(false);
@@ -213,8 +210,8 @@ public class VisionSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        aprilTagProcessorTelemetryManager();
-        telemetryM.addData("vision usage state", getUsageState());
+//        aprilTagProcessorTelemetryManager();
+//        telemetryM.addData("vision usage state", getUsageState());
     }
 
     private void aprilTagProcessorTelemetryManager() {
@@ -228,15 +225,15 @@ public class VisionSubsystem extends SubsystemBase {
 //            telemetryM.addData("yawRaw", getRobotPoseYaw());
 //        }
 
-        telemetryM.addData("hasDetectedMotif", hasDetectedColorOrder);
+        telemetryM.addData("hasDetectedMotif", hasDetectedMotif);
     }
 
-    public int getColorsOrder() { return cachedColorsOrder; }
-    public boolean hasColorOrder() { return hasDetectedColorOrder; }
-    public void resetColorOrder() {
-        cachedColorsOrder = -1;
-        hasDetectedColorOrder = false;
+    public int getCachedMotif() { return cachedMotif; }
+    public void setCachedMotif(int val){
+        cachedMotif = val;
+        hasDetectedMotif = val != -1;
     }
+    public boolean hasColorOrder() { return hasDetectedMotif; }
 
     public void setAprilTagProcessorEnabled(boolean val){ if (visionPortal != null) visionPortal.setProcessorEnabled(aprilTagProcessor, val); }
     public boolean getAprilTagProcessorEnabled(){ return visionPortal != null && visionPortal.getProcessorEnabled(aprilTagProcessor); }

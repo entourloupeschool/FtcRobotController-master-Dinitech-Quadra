@@ -7,9 +7,9 @@ import com.arcrobotics.ftclib.command.button.Trigger;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.SetDefault;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetections;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
+import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 
@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 public class AutoBase extends Gornetix {
+    private int lastHowManyArtefacts = 0;
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
      */
@@ -25,13 +26,20 @@ public class AutoBase extends Gornetix {
             super.initialize();
 
             drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
-            new SetDefault(visionSubsystem, new OnlyMotifDetections(visionSubsystem)).schedule();
+            visionSubsystem.setDefaultCommand(new OnlyMotifDetections(visionSubsystem));
 
             autoSetArtefactColors();
-            trieurSubsystem.setDetectTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT);
+            trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT);
 
             new Trigger(trieurSubsystem::getIsFull)
                     .whenActive(new StopChargeur(chargeurSubsystem));
+
+            new Trigger(()-> trieurSubsystem.getHowManyArtefacts() != lastHowManyArtefacts).whenActive(() -> {
+                        lastHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
+                        MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors());});
+
+            new Trigger(() -> visionSubsystem.hasColorOrder()).whenActive(()->
+                    MotifStorage.setMotifNumber(visionSubsystem.getCachedMotif()));
     }
 
     /**
@@ -41,7 +49,7 @@ public class AutoBase extends Gornetix {
     public void run() {
             // save pose to pose storage
             PoseStorage.setLastPose(drivePedroSubsystem.getPose());
-            MotifStorage.setMotifNumber(visionSubsystem.getColorsOrder());
+
             super.run();
     }
 
@@ -52,5 +60,6 @@ public class AutoBase extends Gornetix {
             trieurSubsystem.setMoulinStoragePositionColor(1, TrieurSubsystem.ArtifactColor.GREEN);
             trieurSubsystem.setMoulinStoragePositionColor(3, TrieurSubsystem.ArtifactColor.PURPLE);
             trieurSubsystem.setMoulinStoragePositionColor(5, TrieurSubsystem.ArtifactColor.PURPLE);
+            trieurSubsystem.setHowManyArtefacts(3);
     }
 }

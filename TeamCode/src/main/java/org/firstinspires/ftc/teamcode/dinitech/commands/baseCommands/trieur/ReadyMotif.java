@@ -37,6 +37,7 @@ public class ReadyMotif extends MoulinToPositionMargin {
         super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE); // Target is set dynamically in initialize()
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
+        addRequirements(visionSubsystem);
     }
 
     /**
@@ -44,7 +45,7 @@ public class ReadyMotif extends MoulinToPositionMargin {
      */
     @Override
     public void initialize(){
-        int colorsOrder = visionSubsystem.getColorsOrder();
+        int colorsOrder = visionSubsystem.getCachedMotif();
         // Check if the color order has been detected by the vision system.
         if (colorsOrder == -1){
             // Fallback: Rumble and move to a default position if no motif is detected.
@@ -60,19 +61,18 @@ public class ReadyMotif extends MoulinToPositionMargin {
             if (greenPosition == -1){
                 // Fallback if green position is not found.
                 super.initialize();
-                return;
-            }
-
-            if (colorsOrder == 21){
-                moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(greenPosition, 2);
-            } else if (colorsOrder == 22){
-                // Adjust if green is the second artifact in the motif.
-                moulinTargetPosition = greenPosition;
             } else {
-                // Adjust if green is the third artifact in the motif.
-                moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(greenPosition, 2);
+                if (colorsOrder == 21){
+                    super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(greenPosition, 2);
+                } else if (colorsOrder == 22){
+                    // Adjust if green is the second artifact in the motif.
+                    super.moulinTargetPosition = greenPosition;
+                } else {
+                    // Adjust if green is the third artifact in the motif.
+                    super.moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(greenPosition, 2);
+                }
+                super.initialize(); // Execute the rotation.
             }
-            super.initialize(); // Execute the rotation.
         }
     }
 }

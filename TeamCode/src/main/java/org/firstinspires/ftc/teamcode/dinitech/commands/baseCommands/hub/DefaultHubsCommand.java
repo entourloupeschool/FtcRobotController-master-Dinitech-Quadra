@@ -38,8 +38,6 @@ public class DefaultHubsCommand extends CommandBase {
         return (a << 24) | (r << 16) | (g << 8) | b;
     }
 
-
-
     public DefaultHubsCommand(HubsSubsystem hubsSubsystem, TrieurSubsystem trieurSubsystem) {
         this.hubsSubsystem = hubsSubsystem;
         this.trieurSubsystem = trieurSubsystem;

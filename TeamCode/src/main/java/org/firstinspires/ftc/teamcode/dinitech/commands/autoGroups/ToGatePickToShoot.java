@@ -58,20 +58,19 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                 GatePickEndPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         gatePower, false)),
+                                new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
                                 new WaitCommand(WAIT_FOR_3BALL),
-                                new ParallelCommandGroup(
-                                        new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
-                                        // Go to Shooting Pos
-                                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                                .addPath(new BezierCurve(
-                                                        drivePedroSubsystem::getPose,
-                                                        GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.5*TILE_DIM : 2*TILE_DIM)),
-                                                        endPose))
-                                                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                        drivePedroSubsystem::getHeading,
-                                                        endPose.getHeading(),
-                                                        LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                                AUTO_ROBOT_CONSTRAINTS, true))),
+                                // Go to Shooting Pos
+                                new FollowPath(drivePedroSubsystem, builder -> builder
+                                        .addPath(new BezierCurve(
+                                                drivePedroSubsystem::getPose,
+                                                GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.5*TILE_DIM : 2*TILE_DIM)),
+                                                endPose))
+                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                drivePedroSubsystem::getHeading,
+                                                endPose.getHeading(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                        AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
         );

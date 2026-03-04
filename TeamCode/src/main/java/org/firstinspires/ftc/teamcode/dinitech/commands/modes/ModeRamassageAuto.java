@@ -7,8 +7,6 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNextVeryLoose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.PrepShootTrieur;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TryDetectArtefact;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -31,22 +29,18 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
         addCommands(
                 new ReadyTrieurForPick(trieurSubsystem),
                 new TryDetectArtefact(trieurSubsystem, gamepadSubsystem),
-                new InstantCommand(()->trieurSubsystem.etape = trieurSubsystem.etape +1),
                 new ConditionalCommand(
                         new SequentialCommandGroup(
                                 new MoulinNextNextVeryLoose(trieurSubsystem),
-                                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem),
-                                new InstantCommand(()->trieurSubsystem.etape = trieurSubsystem.etape +1),
-                                new ConditionalCommand(
-                                        new SequentialCommandGroup(
-                                                new MoulinNextNextVeryLoose(trieurSubsystem),
-                                                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem),
-                                                new InstantCommand(()->trieurSubsystem.etape = trieurSubsystem.etape +1)),
-                                        new InstantCommand(),
-                                        trieurSubsystem::getNewRegister)),
+                                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem)),
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),
-                new InstantCommand(()->trieurSubsystem.etape = trieurSubsystem.etape +1),
+                new ConditionalCommand(
+                        new SequentialCommandGroup(
+                                new MoulinNextNextVeryLoose(trieurSubsystem),
+                                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem)),
+                        new InstantCommand(),
+                        trieurSubsystem::getNewRegister),
                 new PrepShootTrieur(trieurSubsystem, visionSubsystem, gamepadSubsystem)
         );
     }

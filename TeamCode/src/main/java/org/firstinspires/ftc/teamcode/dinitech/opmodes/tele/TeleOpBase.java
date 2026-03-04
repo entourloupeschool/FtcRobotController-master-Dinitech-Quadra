@@ -45,7 +45,10 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeShootTeleOp;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
+import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
+import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 import java.util.Objects;
 
@@ -62,13 +65,27 @@ public class TeleOpBase extends Gornetix {
 
             drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive(true);
 
-//            visionSubsystem.setDefaultCommand(new OptimizedUpdatesAprilTagsDetections(visionSubsystem, drivePedroSubsystem, trieurSubsystem, shooterSubsystem));
+            if(MoulinPositionColorsStorage.getLastMoulinPositionColors() != null){
+                TrieurSubsystem.ArtifactColor[] newMPC = MoulinPositionColorsStorage.getLastMoulinPositionColors();
+                for (int i = 1; i < newMPC.length + 1; i++){
+                    if (newMPC[i] != TrieurSubsystem.ArtifactColor.NONE){
+                        trieurSubsystem.setMoulinStoragePositionColor(i, newMPC[i]);
+                        trieurSubsystem.setHowManyArtefacts(trieurSubsystem.getHowManyArtefacts() + 1);
+                    }
+                }
+                MoulinPositionColorsStorage.clearLastMoulinPositionColors();
+            }
 
-            new SequentialCommandGroup(
-                    new SetDefault(visionSubsystem, new OnlyMotifDetections(visionSubsystem)),
-                    new SetDefault(gamepadSubsystem, new DefaultGamepadCommand(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, gamepadSubsystem)),
-                    new SetDefault(drivePedroSubsystem, new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)),
-                    new SetDefault(shooterSubsystem, new TeleShooter(shooterSubsystem, gamepadSubsystem))).schedule();
+            if (MotifStorage.getMotifNumber() != -1){
+                visionSubsystem.setCachedMotif(MotifStorage.getMotifNumber());
+                MotifStorage.clearMotifNumber();
+            } else {
+                visionSubsystem.setDefaultCommand(new OnlyMotifDetections(visionSubsystem));
+            }
+
+            gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, gamepadSubsystem));
+            drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
+            shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
 
             setupGamePadsButtonBindings();
 
@@ -134,21 +151,19 @@ public class TeleOpBase extends Gornetix {
         m_Operator.bump_right.whenPressed(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
         m_Operator.bump_left.whenPressed(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
 
-        new Trigger(()->trieurSubsystem.howManyArtifacts() >= 2)
-                .whenActive(new SetDefault(shooterSubsystem, new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)));
+        new Trigger(()->trieurSubsystem.getHowManyArtefacts() >= 2)
+                .whenActive(new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem))));
         new Trigger(trieurSubsystem::getIsFull)
                 .whenActive(new ModeShootTeleOp(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem, hubsSubsystem));
 
-        new Trigger(() -> trieurSubsystem.howManyArtifacts() == 0)
+        new Trigger(() -> trieurSubsystem.getHowManyArtefacts() == 0)
                 .whenActive(new SequentialCommandGroup(
                         new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
                         new ParallelCommandGroup(
                                 new MaxPowerChargeur(chargeurSubsystem),
-                                new SetDefault(shooterSubsystem, new TeleShooter(shooterSubsystem, gamepadSubsystem)),
-                                new SetDefault(drivePedroSubsystem, new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem))),
-                        new ParallelCommandGroup(
-                                new StopShooter(shooterSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem))));
+                                new InstantCommand(()->shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem))),
+                                new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)))),
+                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)));
     }
 
 }

@@ -34,7 +34,7 @@ public class Globals {
     public static double GATEPICK_POWER = 0.18;
     public static double SUPER_POWER_ROW_PICK_ARTEFACTS = 1;
     public static int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
-    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 45;
+    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 40;
     public static long WAIT_AT_END_ROW = 200;
     public static final Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
     public static final Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
@@ -150,7 +150,7 @@ public class Globals {
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 20 * (MOULIN_POSITION_TOLERANCE + 2);
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 40;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
-        public static int WAIT_HIGH_SPEED_TRIEUR = 800;
+        public static int WAIT_HIGH_SPEED_TRIEUR = 400;
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.9;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
@@ -171,7 +171,7 @@ public class Globals {
         public static int CURRENT_SHOOT_OVERFLOW = 350;
         public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
         public static final double SPEED_MARGIN = 15;
-        public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 3;
+        public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 2.2;
         public static final double SPEED_INCREMENT_SHOOTER = 10;
         public static final double MAX_RANGE_TO_SHOOT_CM = 345;
         public static final double MIN_RANGE_TO_SHOOT_CM = 97;

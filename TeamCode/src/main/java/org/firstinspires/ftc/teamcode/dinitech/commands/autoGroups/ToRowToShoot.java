@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_C
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierCurve;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Set
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
+import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAutoVintage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -40,8 +42,6 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
-                        new MaxPowerChargeur(chargeurSubsystem),
-                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(
@@ -63,7 +63,9 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                 drivePedroSubsystem::getHeading,
                                                 endPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true))),
+                                        AUTO_ROBOT_CONSTRAINTS, true)),
+                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                        new MaxPowerChargeur(chargeurSubsystem)),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
         );

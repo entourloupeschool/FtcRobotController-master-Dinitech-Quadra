@@ -69,7 +69,6 @@ public class AutoBlueGoalSuper extends BlueAuto {
                                 new ParallelCommandGroup(
                                         new StopChargeur(chargeurSubsystem),
                                         new StopShooter(shooterSubsystem)))
-
             ).schedule();
     }
 

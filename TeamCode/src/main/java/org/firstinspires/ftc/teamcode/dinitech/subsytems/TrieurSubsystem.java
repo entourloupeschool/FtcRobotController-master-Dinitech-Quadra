@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrent;
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
+import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.MagneticSwitch;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Trappe;
@@ -43,11 +44,12 @@ import java.util.Arrays;
  * </ul>
  */
 public class TrieurSubsystem extends SubsystemBase {
-    public int etape = 0;
+    public String etape = "0";
     /**
      * Represents the possible colors of an artifact.
      */
     public enum ArtifactColor {
+        IMP,    // NOT A STORAGE POS
         NONE,   // No artifact
         GREEN,  // Green artifact
         PURPLE, // Purple artifact
@@ -63,12 +65,28 @@ public class TrieurSubsystem extends SubsystemBase {
     private final TelemetryManager telemetryM;
 
     private final ArtifactColor[] moulinStoragePositionColors = new ArtifactColor[6];
+
+    public ArtifactColor[] getMoulinStoragePositionColors(){
+        return moulinStoragePositionColors;
+    }
+
     private ArtifactColor lastDetectedColor = ArtifactColor.NONE;
     private int overcurrentCounts = 0;
+    private int howManyArtefacts = 0;
+
+    public int getHowManyArtefacts() {
+        return howManyArtefacts;
+    }
+
+    public void setHowManyArtefacts(int howManyArtefacts) {
+        this.howManyArtefacts = howManyArtefacts;
+
+        setIsFull(howManyArtefacts == 3);
+    }
 
     private int detectTimeout;
 
-    public void setDetectTimeout(int detectTimeout) {
+    public void setDetectionTimeout(int detectTimeout) {
         this.detectTimeout = detectTimeout;
     }
 
@@ -114,9 +132,11 @@ public class TrieurSubsystem extends SubsystemBase {
         this.telemetryM = telemetryM;
 
         clearAllStoredColors();
+
         setWentRecalibrationOpposite(true);
         setWantsMotifShoot(false);
-        setDetectTimeout(MODE_RAMASSAGE_TELE_TIMEOUT);
+        setDetectionTimeout(MODE_RAMASSAGE_TELE_TIMEOUT);
+        setHowManyArtefacts(0);
     }
 
     /**
@@ -280,6 +300,8 @@ public class TrieurSubsystem extends SubsystemBase {
      * moulin storage slot.
      */
     public void registerArtefact() {
+        setHowManyArtefacts(getHowManyArtefacts() + 1);
+
         ArtifactColor detectedColor = detectBottomArtifactColor();
 
         // Store the color at the current moulin storage Pos
@@ -320,10 +342,6 @@ public class TrieurSubsystem extends SubsystemBase {
      */
     public void setMoulinStoragePositionColor(int pos, ArtifactColor color) {
         moulinStoragePositionColors[pos - 1] = color;
-
-        if (howManyArtifacts() == 3) {
-            setIsFull(true);
-        }
     }
 
     /**
@@ -346,16 +364,21 @@ public class TrieurSubsystem extends SubsystemBase {
             throw new IllegalArgumentException("Invalid storage pos: " + pos);
         }
         setMoulinStoragePositionColor(pos, ArtifactColor.NONE);
-
-        setIsFull(false);
+        setHowManyArtefacts(getHowManyArtefacts() - 1);
     }
 
     /**
      * Clears all stored artifact colors, resetting the moulin to an empty state.
      */
     public void clearAllStoredColors() {
-        Arrays.fill(moulinStoragePositionColors, ArtifactColor.NONE);
-        setIsFull(false);
+        moulinStoragePositionColors[0] = ArtifactColor.NONE;
+        moulinStoragePositionColors[2] = ArtifactColor.NONE;
+        moulinStoragePositionColors[4] = ArtifactColor.NONE;
+        moulinStoragePositionColors[1] = ArtifactColor.IMP;
+        moulinStoragePositionColors[3] = ArtifactColor.IMP;
+        moulinStoragePositionColors[5] = ArtifactColor.IMP;
+
+        setHowManyArtefacts(0);
     }
 
     /**
@@ -527,20 +550,6 @@ public class TrieurSubsystem extends SubsystemBase {
         return isFull;
     }
 
-    /**
-     * Counts the number of artifacts currently stored in the moulin.
-     * @return The number of stored artifacts (0-3).
-     */
-    public int howManyArtifacts() {
-        int count = 0;
-        for (ArtifactColor color : moulinStoragePositionColors) {
-            if (color != ArtifactColor.NONE) {
-                count++;
-            }
-        }
-        return count;
-    }
-
     private boolean isMoulinBusy() {
         return moulin.isBusy();
     }
@@ -572,6 +581,7 @@ public class TrieurSubsystem extends SubsystemBase {
                 if (getOvercurrentCounts() > 10){
                     setMoulinPower(0);
                 }
+                etape = "overCurrent";
 
                 telemetryM.addLine("Moulin Over Current");
                 return;
@@ -661,9 +671,10 @@ public class TrieurSubsystem extends SubsystemBase {
 //        printMagneticTelemetryManager(telemetryM);
 //        printMoulinTelemetryManager(telemetryM);
 //        printStoredArtifactsTelemetryManager(telemetryM);
-        updateColorSensors();
-        printDistanceTelemetryManager(telemetryM);
+//        updateColorSensors();
+//        printDistanceTelemetryManager(telemetryM);
         telemetryM.addData("etape", etape);
+        printMoulinTelemetryManager(telemetryM);
 //        printColorTelemetryManager(telemetryM);
     }
 
@@ -676,20 +687,21 @@ public class TrieurSubsystem extends SubsystemBase {
     }
 
     private void printMoulinTelemetryManager(final TelemetryManager telemetryM) {
-        telemetryM.addData("moulin ticks", getMoulinMotorPosition());
-        telemetryM.addData("moulinTarget", getMoulinMotorTargetPosition());
+//        telemetryM.addData("moulin ticks", getMoulinMotorPosition());
+//        telemetryM.addData("moulinTarget", getMoulinMotorTargetPosition());
 //        telemetryM.addData("moulinSpeed", getMoulinSpeed());
-        int currentPos = getMoulinPosition();
-        telemetryM.addData("current moulin pos", currentPos);
-        telemetryM.addData("is storage", Moulin.isStoragePosition(currentPos));
-        telemetryM.addData("is shoot", Moulin.isShootingPosition(currentPos));
-        telemetryM.addData("MoulinNNext 1", Moulin.getNNextPosition(currentPos, 1));
-        telemetryM.addData("MoulinNNext 2", Moulin.getNNextPosition(currentPos, 2));
+//        int currentPos = getMoulinPosition();
+//        telemetryM.addData("current moulin pos", currentPos);
+//        telemetryM.addData("is storage", Moulin.isStoragePosition(currentPos));
+//        telemetryM.addData("is shoot", Moulin.isShootingPosition(currentPos));
+//        telemetryM.addData("MoulinNNext 1", Moulin.getNNextPosition(currentPos, 1));
+//        telemetryM.addData("MoulinNNext 2", Moulin.getNNextPosition(currentPos, 2));
 
 //        telemetryM.addData("moulin at target", !isMoulinBusy());
 //        telemetryM.addData("shootGreenPos", getClosestShootingPositionForColor(ArtifactColor.GREEN));
 //        telemetryM.addData("shootPurplePos", getClosestShootingPositionForColor(ArtifactColor.PURPLE));
         telemetryM.addLine("getPosWithColor");
+        telemetryM.addData("howMany", getHowManyArtefacts());
         for (int i = 0; i < moulinStoragePositionColors.length; i++) {
             telemetryM.addData(String.valueOf(i), moulinStoragePositionColors[i]);
         }

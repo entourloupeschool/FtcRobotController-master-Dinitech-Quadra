@@ -28,7 +28,7 @@ public class ReadyTrieurForPick extends ConditionalCommand {
 
                 // if condition is false.
                 new SequentialCommandGroup(
-                        new CloseTrappe(trieurSubsystem),
+                        new WaitCloseTrappe(trieurSubsystem),
                         new MoulinNextStorage(trieurSubsystem)),
                 
                 // Condition.
