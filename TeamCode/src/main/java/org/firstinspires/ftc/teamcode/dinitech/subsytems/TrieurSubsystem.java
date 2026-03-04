@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DISTANCE_ART
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAGNETIC_ON_MOULIN_POSITION;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TELE_TIMEOUT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OVER_CURRENT_BACKOFF_TICKS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
@@ -42,6 +43,7 @@ import java.util.Arrays;
  * </ul>
  */
 public class TrieurSubsystem extends SubsystemBase {
+    public int etape = 0;
     /**
      * Represents the possible colors of an artifact.
      */
@@ -63,6 +65,16 @@ public class TrieurSubsystem extends SubsystemBase {
     private final ArtifactColor[] moulinStoragePositionColors = new ArtifactColor[6];
     private ArtifactColor lastDetectedColor = ArtifactColor.NONE;
     private int overcurrentCounts = 0;
+
+    private int detectTimeout;
+
+    public void setDetectTimeout(int detectTimeout) {
+        this.detectTimeout = detectTimeout;
+    }
+
+    public int getDetectTimeout() {
+        return detectTimeout;
+    }
 
     public void setOvercurrentCounts(int overcurrentCounts) {
         overcurrentCounts = overcurrentCounts;
@@ -104,6 +116,7 @@ public class TrieurSubsystem extends SubsystemBase {
         clearAllStoredColors();
         setWentRecalibrationOpposite(true);
         setWantsMotifShoot(false);
+        setDetectTimeout(MODE_RAMASSAGE_TELE_TIMEOUT);
     }
 
     /**
@@ -485,10 +498,17 @@ public class TrieurSubsystem extends SubsystemBase {
     public void setNewRegister(boolean register) {
         newRegister = register;
     }
+    public boolean getNewRegister(){
+        return newRegister;
+    }
 
 
     public void setNewColoredRegister(boolean coloredRegister) {
         newColoredRegister = coloredRegister;
+    }
+
+    public boolean getNewColoredRegister(){
+        return newColoredRegister;
     }
 
     /**
@@ -541,8 +561,6 @@ public class TrieurSubsystem extends SubsystemBase {
     private void moulinLogic() {
         if (isMoulinRestAtTarget()) {
             setMoulinPower(0);
-            setNewRegister(false);
-            setNewColoredRegister(false);
 
         } else if (isMoulinOverCurrent()) {
 
@@ -645,6 +663,7 @@ public class TrieurSubsystem extends SubsystemBase {
 //        printStoredArtifactsTelemetryManager(telemetryM);
         updateColorSensors();
         printDistanceTelemetryManager(telemetryM);
+        telemetryM.addData("etape", etape);
 //        printColorTelemetryManager(telemetryM);
     }
 

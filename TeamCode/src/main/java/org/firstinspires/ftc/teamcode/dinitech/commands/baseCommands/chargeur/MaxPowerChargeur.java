@@ -18,7 +18,7 @@ public class MaxPowerChargeur extends CommandBase {
     @Override
     public void initialize(){
         chargeurSubsystem.setMotorPower(ROULEAU_MOTOR_MAX_POWER);
-        chargeurSubsystem.setNormalizedSpeedTapis(TAPIS_MAX_SPEED);
+//        chargeurSubsystem.setNormalizedSpeedTapis(TAPIS_MAX_SPEED);
 
     }
 

@@ -47,7 +47,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
 
                 new ParallelCommandGroup(
                         new MaxPowerChargeur(chargeurSubsystem),
-                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, MODE_RAMASSAGE_AUTO_TIMEOUT),
+                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(

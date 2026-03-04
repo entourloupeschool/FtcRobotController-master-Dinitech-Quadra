@@ -42,7 +42,7 @@ public class AutoBlueGoal extends BlueAuto {
     @Override
     public void initialize() {
             super.initialize();
-            
+
             drivePedroSubsystem.getDrive().prepAuto(BLUE_GOAL_POSE);
 
             new SequentialCommandGroup(

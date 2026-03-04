@@ -27,26 +27,26 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
      * @param gamepadSubsystem  The gamepad subsystem, passed down to child commands for haptic feedback.
      */
     public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem,
-                             GamepadSubsystem gamepadSubsystem, int detectArtefactTimeout) {
-        TryDetectArtefact detectArtefact1 = new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout);
-        TryDetectArtefact detectArtefact2 = new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout);
-        TryDetectArtefact detectArtefact3 = new TryDetectArtefact(trieurSubsystem, gamepadSubsystem, detectArtefactTimeout);
-
+                             GamepadSubsystem gamepadSubsystem) {
         addCommands(
                 new ReadyTrieurForPick(trieurSubsystem),
-                detectArtefact1,
+                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem),
+                new InstantCommand(()->trieurSubsystem.etape = trieurSubsystem.etape +1),
                 new ConditionalCommand(
-                        new InstantCommand(),
                         new SequentialCommandGroup(
                                 new MoulinNextNextVeryLoose(trieurSubsystem),
-                                detectArtefact2,
+                                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem),
+                                new InstantCommand(()->trieurSubsystem.etape = trieurSubsystem.etape +1),
                                 new ConditionalCommand(
-                                        new InstantCommand(),
                                         new SequentialCommandGroup(
                                                 new MoulinNextNextVeryLoose(trieurSubsystem),
-                                                detectArtefact3),
-                                        detectArtefact2::endedByTimeout)),
-                        detectArtefact1::endedByTimeout),
+                                                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem),
+                                                new InstantCommand(()->trieurSubsystem.etape = trieurSubsystem.etape +1)),
+                                        new InstantCommand(),
+                                        trieurSubsystem::getNewRegister)),
+                        new InstantCommand(),
+                        trieurSubsystem::getNewRegister),
+                new InstantCommand(()->trieurSubsystem.etape = trieurSubsystem.etape +1),
                 new PrepShootTrieur(trieurSubsystem, visionSubsystem, gamepadSubsystem)
         );
     }

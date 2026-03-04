@@ -37,15 +37,20 @@ public class TryDetectArtefact extends CommandBase {
      * @param trieurSubsystem  The sorter subsystem, used to find artifacts by color.
      * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
      */
-    public TryDetectArtefact(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem, int timeout) {
+    public TryDetectArtefact(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.trieurSubsystem = trieurSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
-        this.initialTimeout = timeout;
+        this.initialTimeout = trieurSubsystem.getDetectTimeout();
+
+        addRequirements(trieurSubsystem);
     }
 
     @Override
     public void initialize() {
-        timeout = initialTimeout;
+        trieurSubsystem.setNewRegister(false);
+        trieurSubsystem.setNewColoredRegister(false);
+
+        timeout = trieurSubsystem.getDetectTimeout();
         endedByTimeout = false;
         trieurSubsystem.clearSamplesColorSensors();
         waitRumbleEffect = new Gamepad.RumbleEffect.Builder()

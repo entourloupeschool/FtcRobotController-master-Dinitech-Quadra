@@ -66,7 +66,7 @@ public class ChargeurSubsystem extends SubsystemBase {
     }
 
     public void incrementChargeurPower(double increment){
-        incrementSpeedTapis(3, increment);
+//        incrementSpeedTapis(3, increment);
         incrementMotorPower(increment);
     }
 

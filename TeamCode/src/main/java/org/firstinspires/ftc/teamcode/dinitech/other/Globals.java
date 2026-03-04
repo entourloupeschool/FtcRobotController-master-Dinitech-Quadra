@@ -19,8 +19,8 @@ public class Globals {
      * Auto Phase globals
      */
     public static final double AUTO_ROBOT_CONSTRAINTS = 1;
-    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 1.4;
-    public static final double BRAKING_START_PEDRO_DINITECH = 1.4;
+    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.85; // 1.4
+    public static final double BRAKING_START_PEDRO_DINITECH = 1.3; // 1.4
     public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.9;
     public static final double TILE_DIM = 24;
     public static final double SCALE_Y_TILE = 1.05;
@@ -212,7 +212,9 @@ public class Globals {
      * @return The speed value, also positive
      */
     public static double linearSpeedFromPedroRange(double rangeInch) {
-        return 4.571 * rangeInch + 1148.145;
+        return 4.6 * rangeInch + 1148.145;
+//        return 4.571 * rangeInch + 1148.145;
+
     }
 
         /**
