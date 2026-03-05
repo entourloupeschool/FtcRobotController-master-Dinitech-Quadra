@@ -184,6 +184,7 @@ public class Globals {
         public static final double CLOSE_SHOOT_SHOOTER_VELOCITY = 1400;
         public static final double MID_SHOOT_SHOOTER_VELOCITY = 1600;
         public static final double LONG_SHOOT_SHOOTER_VELOCITY = 1850;
+
         public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 80;
         public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 1.33;
         public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;

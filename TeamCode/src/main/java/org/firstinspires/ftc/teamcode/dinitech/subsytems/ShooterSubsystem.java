@@ -12,11 +12,11 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_SHOOTER_VE
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_SHOOTER_VELOCITY_AGGRESSIVE_3R;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUNNING_AVERAGE_SHOOTER_CURRENT_SIZE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOTER_MOTOR_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_SUPER_INTEL;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_VISION_SHOOT;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -39,6 +39,11 @@ import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
  * @see DcMotorEx
  */
 public class ShooterSubsystem extends SubsystemBase {
+    private enum VelocityPidProfile {
+        BASE,
+        LOADED
+    }
+
     private final DcMotorEx dcMotorEx;
     private final TelemetryManager telemetryM;
     private final DcMotor.RunMode runMode = DcMotor.RunMode.RUN_USING_ENCODER;
@@ -66,6 +71,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private double targetSpeed = 0;
     private double lastTimeStamp, accel, lastVelo;
     private ShooterUsageState usageState;
+    private VelocityPidProfile activeVelocityPidProfile;
 
     /**
      * Constructs a new ShooterSubsystem.
@@ -80,8 +86,7 @@ public class ShooterSubsystem extends SubsystemBase {
         dcMotorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         dcMotorEx.setMode(runMode);
 
-        setPIDFVelocity(P_SHOOTER_VELOCITY_AGGRESSIVE, I_SHOOTER_VELOCITY_AGGRESSIVE,
-                D_SHOOTER_VELOCITY_AGGRESSIVE_3R, F_SHOOTER_VELOCITY_AGGRESSIVE);
+        applyVelocityPidProfile(VelocityPidProfile.BASE);
 
         lastTimeStamp = (double) System.nanoTime() / 1E9;
 
@@ -235,6 +240,42 @@ public class ShooterSubsystem extends SubsystemBase {
         dcMotorEx.setVelocityPIDFCoefficients(p, i, d, f);
     }
 
+    private void applyVelocityPidProfile(VelocityPidProfile profile) {
+        if (profile == activeVelocityPidProfile) {
+            return;
+        }
+
+        switch (profile) {
+            case BASE:
+                setPIDFVelocity(P_SHOOTER_VELOCITY_AGGRESSIVE, I_SHOOTER_VELOCITY_AGGRESSIVE,
+                        D_SHOOTER_VELOCITY_AGGRESSIVE, F_SHOOTER_VELOCITY_AGGRESSIVE);
+                break;
+            case LOADED:
+                setPIDFVelocity(P_SHOOTER_VELOCITY_AGGRESSIVE_3R, I_SHOOTER_VELOCITY_AGGRESSIVE_3R,
+                        D_SHOOTER_VELOCITY_AGGRESSIVE_3R, F_SHOOTER_VELOCITY_AGGRESSIVE_3R);
+                break;
+        }
+
+        activeVelocityPidProfile = profile;
+    }
+
+    private void updateVelocityPidProfileForLoad() {
+        double targetSpeed = getTargetSpeed();
+        if (targetSpeed <= 0) {
+            applyVelocityPidProfile(VelocityPidProfile.BASE);
+            return;
+        }
+
+        double speedError = targetSpeed - getVelocity();
+        double enterLoadedThreshold = SPEED_MARGIN * 2.0;
+
+        if (activeVelocityPidProfile == VelocityPidProfile.BASE && speedError > enterLoadedThreshold) {
+            applyVelocityPidProfile(VelocityPidProfile.LOADED);
+        } else if (activeVelocityPidProfile == VelocityPidProfile.LOADED && speedError < SPEED_MARGIN) {
+            applyVelocityPidProfile(VelocityPidProfile.BASE);
+        }
+    }
+
     /**
      * Gets the current PIDF coefficients for the motor's velocity control.
      * @return The PIDF coefficients.
@@ -299,6 +340,7 @@ public class ShooterSubsystem extends SubsystemBase {
             telemetryM.addLine("shooter motor over current");
         }
 
+        updateVelocityPidProfileForLoad();
         lastMotorCurrents.add(getVoltage());
 
         printShooterTelemetry(telemetryM);
@@ -308,6 +350,7 @@ public class ShooterSubsystem extends SubsystemBase {
         telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
         telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
         telemetryM.addData("Shooter State", getUsageState());
+        telemetryM.addData("Shooter PIDF profile", activeVelocityPidProfile);
         telemetryM.addData("targetReachedSUPERINTEL", isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL));
 //        telemetryM.addData("targetSpeedStabilized", isTargetSpeedStabilized());
 //        telemetryM.addData("current", getVoltage());
