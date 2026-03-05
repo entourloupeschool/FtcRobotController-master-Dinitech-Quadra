@@ -1,17 +1,18 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
 
-import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
-import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_GOAL_POSE;
 
-public class RedAuto extends AutoBase {
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
+
+public class RedGoalAuto extends AutoBase {
 
     @Override
     public void initialize() {
             super.initialize();
             hubsSubsystem.setTeam(HubsSubsystem.Team.RED);
+            drivePedroSubsystem.getDrive().prepAuto(RED_GOAL_POSE);
+
     }
 
     @Override
