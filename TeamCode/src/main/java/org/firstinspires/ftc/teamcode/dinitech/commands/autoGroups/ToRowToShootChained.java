@@ -50,7 +50,6 @@ public class ToRowToShootChained extends SequentialCommandGroup {
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
                                 new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
-                                // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierCurve(
                                                 drivePedroSubsystem::getPose,

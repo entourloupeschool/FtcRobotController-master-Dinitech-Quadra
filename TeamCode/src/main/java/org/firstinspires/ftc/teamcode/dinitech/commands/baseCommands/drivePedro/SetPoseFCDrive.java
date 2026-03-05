@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
 
 /**
@@ -13,21 +14,27 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
  */
 public class SetPoseFCDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
+    private final HubsSubsystem hubsSubsystem;
     private final Pose inputPose;
     /**
      * Creates a new ResetHeadingFCDrive command.
      *
      * @param drivePedroSubsystem   The drive subsystem to control.
      */
-    public SetPoseFCDrive(DrivePedroSubsystem drivePedroSubsystem, Pose inputPose) {
+    public SetPoseFCDrive(DrivePedroSubsystem drivePedroSubsystem, HubsSubsystem hubsSubsystem, Pose inputPose) {
         this.drivePedroSubsystem = drivePedroSubsystem;
+        this.hubsSubsystem = hubsSubsystem;
         this.inputPose = inputPose;
         addRequirements(drivePedroSubsystem);
     }
 
     @Override
     public void initialize(){
-        drivePedroSubsystem.getDrive().setPose(inputPose);
+        if (hubsSubsystem.getTeam() == HubsSubsystem.Team.RED){
+            drivePedroSubsystem.getDrive().setPose(inputPose.mirror());
+        } else {
+            drivePedroSubsystem.getDrive().setPose(inputPose);
+        }
         drivePedroSubsystem.setDriverInputPose(true);
     }
 

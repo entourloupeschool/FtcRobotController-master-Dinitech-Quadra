@@ -15,6 +15,8 @@ public class Globals {
     public static double BLUE_TEAM_HEADING = Math.PI;
     public static double RED_TEAM_HEADING = 0;
 
+    public static Pose RESET_POSE_BLUE = new Pose(111.7, 55.7, Math.PI);
+
     /**
      * Auto Phase globals
      */

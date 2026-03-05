@@ -44,6 +44,7 @@ public class AutoBlueGoal extends BlueAuto {
             super.initialize();
 
             drivePedroSubsystem.getDrive().prepAuto(BLUE_GOAL_POSE);
+            trieurSubsystem.setWantsMotifShoot(true);
 
             new SequentialCommandGroup(
                     // Obelisk and MoulinCalibrate

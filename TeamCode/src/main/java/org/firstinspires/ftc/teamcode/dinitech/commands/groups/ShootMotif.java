@@ -36,8 +36,7 @@ public class ShootMotif extends ConditionalCommand {
                 // Command to run if the color order has been detected
                 new SequentialCommandGroup(
                         new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
-                        new ShootRevolution(trieurSubsystem, new InstantCommand())
-                ),
+                        new ShootRevolution(trieurSubsystem, new InstantCommand())),
                 // Command to run if no color order is detected
                 new InstantCommand(),
                 // Condition: Check if the vision subsystem has a color order

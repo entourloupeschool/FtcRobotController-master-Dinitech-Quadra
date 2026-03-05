@@ -5,8 +5,11 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_HIGH_SPEED_TRIEUR;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.ParallelRaceGroup;
+import com.arcrobotics.ftclib.command.SelectCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
@@ -14,9 +17,12 @@ import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.MaxSpeedShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.WaitVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedIntel;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextShootIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+
+import java.util.HashMap;
 
 /**
  * A command group that performs a full revolution of the moulin to shoot all loaded artifacts.
@@ -39,20 +45,41 @@ public class ShootHighSpeedIntel extends SequentialCommandGroup {
      * shooting logic, such as a velocity determined by computer vision.
      *
      * @param trieurSubsystem  The sorter subsystem.
-     * @param shooterCommand   The custom command to run for controlling the shooter.
      */
-    public ShootHighSpeedIntel(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Command shooterCommand) {
-        addCommands(
-                shooterCommand, // Rev up the shooter
-                new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
-                new MoulinHighSpeedIntel(trieurSubsystem, shooterSubsystem)
-        );
-    }
 
     public ShootHighSpeedIntel(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
         addCommands(
-                new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
-                new MoulinHighSpeedIntel(trieurSubsystem, shooterSubsystem)
+                new SelectCommand(
+                        new HashMap<Object, Command>(){{
+                            put(0, new InstantCommand());
+                            put(1, oneArtefact(trieurSubsystem, shooterSubsystem));
+                            put(2, twoArtefact(trieurSubsystem, shooterSubsystem));
+                            put(3, threeArtefact(trieurSubsystem, shooterSubsystem));}},
+                        trieurSubsystem::getHowManyArtefacts)
         );
+    }
+
+    private SequentialCommandGroup oneArtefact(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem){
+        return new SequentialCommandGroup(
+                new OpenWaitTrappe(trieurSubsystem),
+                new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem));
+    }
+
+    private SequentialCommandGroup twoArtefact(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem){
+        return new SequentialCommandGroup(
+                oneArtefact(trieurSubsystem, shooterSubsystem),
+                new ParallelRaceGroup(
+                        new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
+                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
+                new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem));
+    }
+
+    private SequentialCommandGroup threeArtefact(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem){
+        return new SequentialCommandGroup(
+                twoArtefact(trieurSubsystem, shooterSubsystem),
+                new ParallelRaceGroup(
+                        new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
+                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
+                new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem));
     }
 }

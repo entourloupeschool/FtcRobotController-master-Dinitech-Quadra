@@ -20,7 +20,6 @@ public class MoulinToPositionMargin extends CommandBase {
     protected int moulinTargetPosition;
     protected boolean makeShort;
     protected int margin;
-
     private int initialAbsRemainingDistance;
 
     /**

@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LONG_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MID_SHOOT_SHOOTER_VELOCITY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RESET_POSE_BLUE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOT_REVOLUTION_THEN_WAIT;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -19,6 +20,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.To
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FieldCentricDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.MaxPowerDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetHeadingFCDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SetPoseFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SlowDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchAimLockType;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchTeamAndFlipPose;
@@ -113,7 +115,7 @@ public class TeleOpBase extends Gornetix {
         m_Driver.square.whenPressed(new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem));
         m_Driver.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem));
 
-        m_Driver.start.whenPressed(new SwitchTeamAndFlipPose(drivePedroSubsystem, hubsSubsystem));
+        m_Driver.start.whenPressed(new SetPoseFCDrive(drivePedroSubsystem, hubsSubsystem, RESET_POSE_BLUE));
         m_Driver.back.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
 
         m_Driver.bump_left.toggleWhenPressed(

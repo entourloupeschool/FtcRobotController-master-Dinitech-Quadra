@@ -67,7 +67,6 @@ public class PedroAimLockedDrive extends CommandBase {
         Pose currentPose = drivePedroSubsystem.getPose();
         Pose goalPose = hubsSubsystem.getGoalPose();
 
-        //        double headingOffset = hubsSubsystem.getOnBlueTeam() ? BLUE_TEAM_HEADING : RED_TEAM_HEADING; // Example offset based on team
         double headingGoal = Math.atan2(currentPose.getY() - goalPose.getY(), currentPose.getX() - goalPose.getX());
         double headingError = MathFunctions.getTurnDirection(currentPose.getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(currentPose.getHeading(), headingGoal);
         double clampedError = Math.max(Math.min(headingError, CLAMPING_HEADING_ERROR), -CLAMPING_HEADING_ERROR);
