@@ -9,22 +9,17 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.F_MOULIN_AGG
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.I_MOULIN_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_MOTOR_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_TOLERANCE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_SPEED_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_MOULIN_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_MOULIN_SPEED_TOLERANCE_LOOSE;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 
 /**
  * Represents the Moulin mechanism, a rotating system with 6 discrete positions for handling game elements.

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
@@ -7,8 +8,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_AUDIENCE_SHOOT_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY;
-
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -57,7 +56,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                 RowPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         rowPower, true),
-                                new SetVelocityShooterRequire(shooterSubsystem, endPose.getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
+                                new SetVelocityShooterRequire(shooterSubsystem, endPose.getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY),
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierCurve(
                                                 drivePedroSubsystem::getPose,
@@ -100,7 +99,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                 hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? RowPose.getHeading() : RowPose.mirror().getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         rowPower, true),
-                                new SetVelocityShooterRequire(shooterSubsystem, RowPose.getY() > 50 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
+                                new SetVelocityShooterRequire(shooterSubsystem, RowPose.getY() > 50 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY),
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierCurve(
                                                 drivePedroSubsystem::getPose,

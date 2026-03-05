@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_END_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_POSE;
@@ -9,7 +10,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_END_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY;
+
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_FOR_3BALL;
 
@@ -65,7 +66,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                 GatePickEndPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         gatePower, false),
-                                new SetVelocityShooter(shooterSubsystem, endPose.getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
+                                new SetVelocityShooter(shooterSubsystem, endPose.getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY),
                                 new WaitCommand(WAIT_FOR_3BALL),
                                 // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder
@@ -110,7 +111,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                 hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? BLUE_RAMP_END_POSE.getHeading() : RED_RAMP_END_POSE.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         gatePower, false),
-                                new SetVelocityShooter(shooterSubsystem, SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY),
+                                new SetVelocityShooter(shooterSubsystem, AUDIENCE_AUTO_SHOOTER_VELOCITY),
                                 new WaitCommand(WAIT_FOR_3BALL),
                                 // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder

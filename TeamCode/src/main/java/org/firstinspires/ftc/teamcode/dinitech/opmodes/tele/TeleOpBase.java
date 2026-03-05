@@ -77,9 +77,10 @@ public class TeleOpBase extends Gornetix {
 
             if(MoulinPositionColorsStorage.getLastMoulinPositionColors() != null){
                 TrieurSubsystem.ArtifactColor[] newMPC = MoulinPositionColorsStorage.getLastMoulinPositionColors();
-                for (int i = 1; i < newMPC.length + 1; i++){
-                    if (newMPC[i] != TrieurSubsystem.ArtifactColor.NONE){
-                        trieurSubsystem.setMoulinStoragePositionColor(i, newMPC[i]);
+                for (int i = 0; i < newMPC.length; i++){
+                    TrieurSubsystem.ArtifactColor color = newMPC[i];
+                    if (color != TrieurSubsystem.ArtifactColor.NONE){
+                        trieurSubsystem.setMoulinStoragePositionColor(i+1, color);
                         trieurSubsystem.setHowManyArtefacts(trieurSubsystem.getHowManyArtefacts() + 1);
                     }
                 }
@@ -114,7 +115,7 @@ public class TeleOpBase extends Gornetix {
             lastHowManyArtefacts = currentGetHowManyArtefacts;
             if (currentGetHowManyArtefacts == 0) modeRamassage();
 
-            if (currentGetHowManyArtefacts == 2) shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem));
+            if (currentGetHowManyArtefacts == 2) new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem).schedule();
 
             if(currentGetHowManyArtefacts == 3) modeShoot();
         }
@@ -175,14 +176,14 @@ public class TeleOpBase extends Gornetix {
     }
 
     private void modeShoot(){
-        shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem));
-        drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem));
+        new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem).schedule();
+        new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem)), drivePedroSubsystem).schedule();
         new StopChargeur(chargeurSubsystem).schedule();
     }
 
     private void modeRamassage() {
-        shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
-        drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
+        new InstantCommand(() -> shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem)), shooterSubsystem).schedule();
+        new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)), drivePedroSubsystem).schedule();
         new SequentialCommandGroup(
                 new MaxPowerChargeur(chargeurSubsystem),
                 new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),

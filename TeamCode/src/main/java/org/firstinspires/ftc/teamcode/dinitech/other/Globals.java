@@ -23,21 +23,19 @@ public class Globals {
     public static final double AUTO_ROBOT_CONSTRAINTS = 1;
     public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.85; // 1.4
     public static final double BRAKING_START_PEDRO_DINITECH = 1.3; // 1.4
-    public static double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.9;
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.9;
     public static final double TILE_DIM = 24;
     public static final double SCALE_Y_TILE = 1.05;
-    public static double FOLLOWER_T_POSITION_END = 0.885;//0.93;
+    public static final double FOLLOWER_T_POSITION_END = 0.885;//0.93;
     public static double LENGTH_X_ROW = TILE_DIM * 0.865;
     public static double LENGTH_X_ROW_SUPER = 24;
     public static double LENGTH_X_ROW_SUPER_23RD = 30;
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
-    public static double GATEPICK_POWER = 0.18;
-    public static double SUPER_POWER_ROW_PICK_ARTEFACTS = 1;
-    public static int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
+    public static double GATEPICK_POWER = MAX_POWER_ROW_PICK_ARTEFACTS;
+    public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
     public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 40;
-    public static long WAIT_AT_END_ROW = 200;
     public static final Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
     public static final Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror();
 
@@ -51,14 +49,14 @@ public class Globals {
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
-    public static  final Pose BLUE_RAMP_POSE = new Pose(17, 64, 0);
+    public static final Pose BLUE_RAMP_POSE = new Pose(17, 64, 0);
     public static double GATEPICK_LENGTH_BACKUP_X = 4;
     public static double GATEPICK_LENGTH_BACKUP_Y = 1;
-    public static  final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() - GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() - GATEPICK_LENGTH_BACKUP_Y, Math.toRadians(-28));
+    public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() - GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() - GATEPICK_LENGTH_BACKUP_Y, Math.toRadians(-28));
     public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
-    public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = 1405;
-    public static final double SMALL_TRIANGLE_AUTO_SHOOTER_VELOCITY = 1730;
+    public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));
+    public static final double AUDIENCE_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(BLUE_AUDIENCE_SHOOT_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 84, 0);
     public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
     public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
@@ -88,8 +86,8 @@ public class Globals {
     public static final double RUMBLE_POWER = 1;
     public static final int RUMBLE_DURATION_1 = 100;
     public static final int RUMBLE_DURATION_2 = 200;
-    public static int RUMBLE_DURATION_3 = 20;
-    public static int RUMBLE_DURATION_4 = 40;
+    public static final int RUMBLE_DURATION_3 = 20;
+    public static final int RUMBLE_DURATION_4 = 40;
 
 
 
@@ -113,12 +111,8 @@ public class Globals {
         public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
         public static final double PAR_POD_Y_MM = -127;
         public static final double PERP_POD_X_MM = 143;
-        public static double PEDRO_AIMING_CONTROLLER_P =0.1874;
-        public static double PEDRO_AIMING_CONTROLLER_I =0.0;
-        public static double PEDRO_AIMING_CONTROLLER_D =0.0;
-        public static double PEDRO_AIMING_CONTROLLER_F =0.57;
-        public static double CLAMPING_HEADING_ERROR = 0.39;
-        public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED = 3;
+        public static final double CLAMPING_HEADING_ERROR = 0.39;
+        public static final int NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED = 3;
 
 
 
@@ -126,7 +120,6 @@ public class Globals {
     /**
          ******** Trieur
          */
-        public static int MOULIN_TICKS_TO_WAIT_DOUBLE_SERVO = 10;
         public static final String TRAPPE_SERVO_NAME = "porte";
         public static final double TRAPPE_OPEN_POSITION = 0;
         public static final double TRAPPE_CLOSE_POSITION = -130;
@@ -142,10 +135,6 @@ public class Globals {
         public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
         public static int MOULIN_POSITION_TOLERANCE = 1; // 2;
         public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
-
-        public static final int SCALE_MOULIN_POSITION_TOLERANCE_LOOSE = 3;
-        public static final int SCALE_MOULIN_SPEED_TOLERANCE_LOOSE = 3;
-        public static final int MOULIN_POSITION_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_LOOSE;
         public static int SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE = 8;
         public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE;
 
@@ -159,18 +148,18 @@ public class Globals {
         public static long WAIT_FOR_3BALL = 2200;
 
         //PIDF MOULIN (TURRET)
-        public static double P_MOULIN_AGGRESSIVE = 8.457;
-        public static double I_MOULIN_AGGRESSIVE = 11.8;
-        public static double D_MOULIN_AGGRESSIVE = 0.803;
-        public static double F_MOULIN_AGGRESSIVE = 0.0;
-        public static double ADJUST_CONSTANT = 0.005;
+        public static final double P_MOULIN_AGGRESSIVE = 8.457;
+        public static final double I_MOULIN_AGGRESSIVE = 11.8;
+        public static final double D_MOULIN_AGGRESSIVE = 0.803;
+        public static final double F_MOULIN_AGGRESSIVE = 0.0;
+        public static final double ADJUST_CONSTANT = 0.005;
 
         /**
          * *******Shooter
          */
         public static final String SHOOTER_MOTOR_NAME = "shooter";
-        public static int RUNNING_AVERAGE_SHOOTER_CURRENT_SIZE = 5;
-        public static int CURRENT_SHOOT_OVERFLOW = 280;
+        public static final int RUNNING_AVERAGE_SHOOTER_CURRENT_SIZE = 5;
+        public static final int CURRENT_SHOOT_OVERFLOW = 280;
         public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
         public static final double SPEED_MARGIN = 15;
         public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 4;
@@ -194,7 +183,7 @@ public class Globals {
         public static double I_SHOOTER_VELOCITY_AGGRESSIVE_3R = 0;
         public static double D_SHOOTER_VELOCITY_AGGRESSIVE_3R = 5.745;
         public static double F_SHOOTER_VELOCITY_AGGRESSIVE_3R = F_SHOOTER_VELOCITY_AGGRESSIVE * 5;
-        public static long SHOOT_REVOLUTION_THEN_WAIT = 500;
+        public static final long SHOOT_REVOLUTION_THEN_WAIT = 500;
         public static final double MIN_RANGE_SHOOTER_SPEED = 1420;
         public static final double MAX_RANGE_SHOOTER_SPEED = 1970;
 
@@ -214,15 +203,15 @@ public class Globals {
         return A_DIFFS * rangeCM + 1204.879; //
     }
 
+    public static double a_Pedro = 3.616;
+    public static double b_Pedro = 1269.19;
     /**
      * Gives back a linear speed from a range in inches
      * @param rangeInch The range value in inches, positive.
      * @return The speed value, also positive
      */
     public static double linearSpeedFromPedroRange(double rangeInch) {
-        return 4.6 * rangeInch + 1148.145;
-//        return 4.571 * rangeInch + 1148.145;
-
+        return a_Pedro * rangeInch + b_Pedro;
     }
 
         /**
@@ -232,10 +221,10 @@ public class Globals {
         public static final String CHARGEUR_SERVO_GAUCHE_MOTOR_NAME = "chargeur_servo_gauche";
         public static final String CHARGEUR_SERVO_DROITE_MOTOR_NAME = "chargeur_servo_droite";
 
-        public static double ROULEAU_MOTOR_MAX_POWER = 0.85;
+        public static final double ROULEAU_MOTOR_MAX_POWER = 0.85;
         public static final double TAPIS_MAX_SPEED = 0.99;
         public static final double SCALE_CHARGEUR_MOTOR_POWER = 1;
-        public static double CHARGEUR_INCREMENT = 0.1;
+        public static final double CHARGEUR_INCREMENT = 0.1;
 
         /**
          ******** Sensors
@@ -274,15 +263,15 @@ public class Globals {
         public static final double FY = 515.8231389;//0.0;// 515.8231389; //1;
         public static final double CX = 328.1776587;// 0.0;// 328.1776587; //1;
         public static final double CY = 237.3745503;//0.0;// 237.3745503; //1;
-        public static double CAMERA_POSITION_X = -9.8;
-        public static double CAMERA_POSITION_Y = 2.8;
-        public static double CAMERA_POSITION_Z = 43.0;
-        public static double CAMERA_ORIENTATION_YAW = 0;
-        public static double CAMERA_ORIENTATION_PITCH = -90; // https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_localization/apriltag-localization.html
-        public static double CAMERA_ORIENTATION_ROLL = 0;
+        public static final double CAMERA_POSITION_X = -9.8;
+        public static final double CAMERA_POSITION_Y = 2.8;
+        public static final double CAMERA_POSITION_Z = 43.0;
+        public static final double CAMERA_ORIENTATION_YAW = 0;
+        public static final double CAMERA_ORIENTATION_PITCH = -90; // https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_localization/apriltag-localization.html
+        public static final double CAMERA_ORIENTATION_ROLL = 0;
         // Choose a camera resolution. Not all cameras support all resolutions.
-        public static int CAMERA_WIDTH = 1280;// 1280; // 640;
-        public static int CAMERA_HEIGHT = 800;// 800; // 480;
+        public static final int CAMERA_WIDTH = 1280;// 1280; // 640;
+        public static final int CAMERA_HEIGHT = 800;// 800; // 480;
         public static final Size CAMERA_RESOLUTION = new Size(CAMERA_WIDTH, CAMERA_HEIGHT); // new Size(640, 480);
 
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.
@@ -308,9 +297,6 @@ public class Globals {
 
         public static final double aAT_LINE = 1.4;
         public static final double bAT_LINE = 59;
-
-
-        public static double VISION_RE_POSE_AT_RANGE = 50;
 
 
         /**

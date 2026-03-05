@@ -222,14 +222,6 @@ public class TrieurSubsystem extends SubsystemBase {
     public void setMoulinMotorTargetPosition(int targetPosition) {
         moulin.setTargetPositionMotor(targetPosition);
     }
-
-    /**
-     * Checks if the moulin has stabilized at its target position.
-     * @return True if stabilized, false otherwise.
-     */
-    public boolean isMoulinTargetStabilized(){
-        return moulin.isTargetStabilized();
-    }
     
     /**
      * Determines if the moulin motor's power should be cut.
