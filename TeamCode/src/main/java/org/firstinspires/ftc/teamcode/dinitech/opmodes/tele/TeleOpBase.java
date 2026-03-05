@@ -109,9 +109,9 @@ public class TeleOpBase extends Gornetix {
         if (lastHowManyArtefacts != currentGetHowManyArtefacts){
             lastHowManyArtefacts = currentGetHowManyArtefacts;
             if (currentGetHowManyArtefacts == 0){
+                new PrepModeRamassageTeleOp(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem).schedule();
                 new SequentialCommandGroup(
                         new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
-                        new PrepModeRamassageTeleOp(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem),
                         new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)).schedule();
             }
             if (currentGetHowManyArtefacts == 2){
