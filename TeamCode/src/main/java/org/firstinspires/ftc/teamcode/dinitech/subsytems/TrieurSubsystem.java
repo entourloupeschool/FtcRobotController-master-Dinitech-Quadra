@@ -72,15 +72,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
     private ArtifactColor lastDetectedColor = ArtifactColor.NONE;
     private int overcurrentCounts = 0;
-    private double rotationCompletion = -1;
 
-    public double getRotationCompletion(){
-        return rotationCompletion;
-    }
-
-    public void setRotationCompletion(double newRC){
-        this.rotationCompletion = newRC;
-    }
     private int howManyArtefacts = 0;
 
     public int getHowManyArtefacts() {
@@ -581,7 +573,6 @@ public class TrieurSubsystem extends SubsystemBase {
     private void moulinLogic() {
         if (isMoulinRestAtTarget()) {
             setMoulinPower(0);
-            setRotationCompletion(-1);
 
         } else if (isMoulinOverCurrent()) {
 

@@ -30,15 +30,6 @@ public class AutoBase extends Gornetix {
             lastHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
 
             trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT);
-
-            new Trigger(trieurSubsystem::getIsFull).whenActive(new StopChargeur(chargeurSubsystem));
-
-            new Trigger(()-> trieurSubsystem.getHowManyArtefacts() != lastHowManyArtefacts).whenActive(() -> {
-                        lastHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
-                        MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors());});
-
-            new Trigger(() -> visionSubsystem.hasColorOrder()).whenActive(()->
-                    MotifStorage.setMotifNumber(visionSubsystem.getCachedMotif()));
     }
 
     /**
@@ -48,6 +39,19 @@ public class AutoBase extends Gornetix {
     public void run() {
             // save pose to pose storage
             PoseStorage.setLastPose(drivePedroSubsystem.getPose());
+
+            int currentHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
+            if(currentHowManyArtefacts != lastHowManyArtefacts){
+                lastHowManyArtefacts = currentHowManyArtefacts;
+                MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors());
+                if (currentHowManyArtefacts == 3) {
+                    chargeurSubsystem.setChargeurPower(0);
+                }
+            }
+
+            if (MotifStorage.getMotifNumber() == -1){
+                if (visionSubsystem.hasColorOrder()) MotifStorage.setMotifNumber(visionSubsystem.getCachedMotif());
+            }
 
             super.run();
     }

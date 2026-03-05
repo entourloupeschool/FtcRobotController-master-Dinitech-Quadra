@@ -28,8 +28,8 @@ public class ModeShootTeleOp extends SequentialCommandGroup {
     public ModeShootTeleOp(DrivePedroSubsystem drivePedroSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem) {
         addCommands(
             new StopChargeur(chargeurSubsystem),
-            new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem))),
-            new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem)))
+            new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem),
+            new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem)), drivePedroSubsystem)
         );
     }
 }

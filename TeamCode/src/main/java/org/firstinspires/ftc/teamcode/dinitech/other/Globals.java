@@ -51,9 +51,9 @@ public class Globals {
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
-    public static  final Pose BLUE_RAMP_POSE = new Pose(20, 62, 0);
-    public static final double GATEPICK_LENGTH_BACKUP_X = 3;
-    public static final double GATEPICK_LENGTH_BACKUP_Y = 4;
+    public static  final Pose BLUE_RAMP_POSE = new Pose(17, 64, 0);
+    public static double GATEPICK_LENGTH_BACKUP_X = 4;
+    public static double GATEPICK_LENGTH_BACKUP_Y = 1;
     public static  final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() - GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() - GATEPICK_LENGTH_BACKUP_Y, Math.toRadians(-28));
     public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
@@ -152,7 +152,7 @@ public class Globals {
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 15 * (MOULIN_POSITION_TOLERANCE + 2);
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 40;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
-        public static int WAIT_HIGH_SPEED_TRIEUR = 400;
+        public static int WAIT_HIGH_SPEED_TRIEUR = 300;
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.9;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
@@ -169,11 +169,11 @@ public class Globals {
          * *******Shooter
          */
         public static final String SHOOTER_MOTOR_NAME = "shooter";
-        public static int RUNNING_AVERAGE_SHOOTER_CURRENT_SIZE = 10;
-        public static int CURRENT_SHOOT_OVERFLOW = 350;
+        public static int RUNNING_AVERAGE_SHOOTER_CURRENT_SIZE = 5;
+        public static int CURRENT_SHOOT_OVERFLOW = 280;
         public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
         public static final double SPEED_MARGIN = 15;
-        public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 2.2;
+        public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 3.5;
         public static final double SPEED_INCREMENT_SHOOTER = 10;
         public static final double MAX_RANGE_TO_SHOOT_CM = 345;
         public static final double MIN_RANGE_TO_SHOOT_CM = 97;
@@ -184,11 +184,16 @@ public class Globals {
         public static final double CLOSE_SHOOT_SHOOTER_VELOCITY = 1400;
         public static final double MID_SHOOT_SHOOTER_VELOCITY = 1600;
         public static final double LONG_SHOOT_SHOOTER_VELOCITY = 1850;
-        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 80;//2.807486;
+        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 80;
         public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 1.33;
         public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;
-        public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 2.1; //13.272119;
-        public static long SHOOT_REVOLUTION_THEN_WAIT = 800;
+        public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 2.1;
+
+        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE_3R = P_SHOOTER_VELOCITY_AGGRESSIVE;
+        public static final double I_SHOOTER_VELOCITY_AGGRESSIVE_3R = 1.66;
+        public static final double D_SHOOTER_VELOCITY_AGGRESSIVE_3R = 0.745;
+        public static final double F_SHOOTER_VELOCITY_AGGRESSIVE_3R = 3.04;
+        public static long SHOOT_REVOLUTION_THEN_WAIT = 500;
         public static final double MIN_RANGE_SHOOTER_SPEED = 1420;
         public static final double MAX_RANGE_SHOOTER_SPEED = 1970;
 

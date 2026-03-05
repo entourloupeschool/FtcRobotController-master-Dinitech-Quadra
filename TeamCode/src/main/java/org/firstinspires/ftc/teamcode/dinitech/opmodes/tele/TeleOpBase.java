@@ -16,9 +16,11 @@ import com.arcrobotics.ftclib.command.button.Trigger;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.ToggleChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FieldCentricDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.MaxPowerDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.PedroAimLockedDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetHeadingFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SetPoseFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SlowDrive;
@@ -45,6 +47,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedInt
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeShootTeleOp;
+import org.firstinspires.ftc.teamcode.dinitech.commands.modes.PrepModeRamassageTeleOp;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
@@ -54,6 +57,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import java.util.Objects;
 
 public class TeleOpBase extends Gornetix {
+    private int lastHowManyArtefacts = 0;
+    private int currentGetHowManyArtefacts = 0;
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
      */
@@ -75,6 +80,8 @@ public class TeleOpBase extends Gornetix {
                     }
                 }
                 MoulinPositionColorsStorage.clearLastMoulinPositionColors();
+                lastHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
+                currentGetHowManyArtefacts = lastHowManyArtefacts;
             }
 
             if (MotifStorage.getMotifNumber() != -1){
@@ -98,7 +105,24 @@ public class TeleOpBase extends Gornetix {
      */
     @Override
     public void run() {
-            super.run();
+        currentGetHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
+        if (lastHowManyArtefacts != currentGetHowManyArtefacts){
+            lastHowManyArtefacts = currentGetHowManyArtefacts;
+            if (currentGetHowManyArtefacts == 0){
+                new SequentialCommandGroup(
+                        new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
+                        new PrepModeRamassageTeleOp(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem),
+                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)).schedule();
+            }
+            if (currentGetHowManyArtefacts == 2){
+                new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem).schedule();
+            }
+            if(currentGetHowManyArtefacts == 3){
+                new ModeShootTeleOp(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem, hubsSubsystem).schedule();
+            }
+        }
+
+        super.run();
     }
 
     /**
@@ -151,20 +175,6 @@ public class TeleOpBase extends Gornetix {
 
         m_Operator.bump_right.whenPressed(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
         m_Operator.bump_left.whenPressed(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
-
-        new Trigger(()->trieurSubsystem.getHowManyArtefacts() >= 2)
-                .whenActive(new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem))));
-        new Trigger(trieurSubsystem::getIsFull)
-                .whenActive(new ModeShootTeleOp(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem, hubsSubsystem));
-
-        new Trigger(() -> trieurSubsystem.getHowManyArtefacts() == 0)
-                .whenActive(new SequentialCommandGroup(
-                        new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
-                        new ParallelCommandGroup(
-                                new MaxPowerChargeur(chargeurSubsystem),
-                                new InstantCommand(()->shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem))),
-                                new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)))),
-                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)));
     }
 
 }

@@ -43,6 +43,7 @@ public class AutoRedGoal extends RedAuto {
             super.initialize();
 
             drivePedroSubsystem.getDrive().prepAuto(RED_GOAL_POSE);
+            trieurSubsystem.setWantsMotifShoot(true);
 
             new SequentialCommandGroup(
                     // Obelisk and MoulinCalibrate
@@ -51,7 +52,7 @@ public class AutoRedGoal extends RedAuto {
 
                     new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                             FIRST_ROW_RED_POSE, CLOSE_SHOOT_RED_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
-                            LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/2),
+                            LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.7),
 
                     new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                             SECOND_ROW_RED_POSE, CLOSE_SHOOT_RED_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,

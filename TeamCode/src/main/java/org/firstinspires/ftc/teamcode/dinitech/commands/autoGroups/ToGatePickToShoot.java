@@ -7,6 +7,8 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_FOR_3BALL;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -15,13 +17,16 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.InverseMaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNextVeryLoose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
+import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAutoGate;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -47,7 +52,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
 
                 new ParallelCommandGroup(
                         new MaxPowerChargeur(chargeurSubsystem),
-                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                        new ModeRamassageAutoGate(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(

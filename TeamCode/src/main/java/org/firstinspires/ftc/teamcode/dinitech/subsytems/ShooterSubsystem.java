@@ -2,12 +2,17 @@ package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CURRENT_SHOOT_OVERFLOW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.D_SHOOTER_VELOCITY_AGGRESSIVE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.D_SHOOTER_VELOCITY_AGGRESSIVE_3R;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.F_SHOOTER_VELOCITY_AGGRESSIVE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.F_SHOOTER_VELOCITY_AGGRESSIVE_3R;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.I_SHOOTER_VELOCITY_AGGRESSIVE;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.I_SHOOTER_VELOCITY_AGGRESSIVE_3R;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_SHOOTER_VELOCITY_AGGRESSIVE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_SHOOTER_VELOCITY_AGGRESSIVE_3R;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUNNING_AVERAGE_SHOOTER_CURRENT_SIZE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOTER_MOTOR_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_SUPER_INTEL;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_VISION_SHOOT;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -76,8 +81,7 @@ public class ShooterSubsystem extends SubsystemBase {
         dcMotorEx.setMode(runMode);
 
         setPIDFVelocity(P_SHOOTER_VELOCITY_AGGRESSIVE, I_SHOOTER_VELOCITY_AGGRESSIVE,
-                D_SHOOTER_VELOCITY_AGGRESSIVE,
-                F_SHOOTER_VELOCITY_AGGRESSIVE);
+                D_SHOOTER_VELOCITY_AGGRESSIVE_3R, F_SHOOTER_VELOCITY_AGGRESSIVE);
 
         lastTimeStamp = (double) System.nanoTime() / 1E9;
 
@@ -301,9 +305,10 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     private void printShooterTelemetry(final TelemetryManager telemetryM) {
-//        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
-//        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
+        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
+        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
         telemetryM.addData("Shooter State", getUsageState());
+        telemetryM.addData("targetReachedSUPERINTEL", isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL));
 //        telemetryM.addData("targetSpeedStabilized", isTargetSpeedStabilized());
 //        telemetryM.addData("current", getVoltage());
 //        telemetryM.addData("currentSTD", getMotorCurrentStd());

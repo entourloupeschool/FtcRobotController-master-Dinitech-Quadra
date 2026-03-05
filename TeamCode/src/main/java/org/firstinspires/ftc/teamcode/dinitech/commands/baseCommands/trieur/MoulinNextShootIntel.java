@@ -66,13 +66,17 @@ public class MoulinNextShootIntel extends MoulinToPositionMargin {
             super.initialize();
             hasLaunched = true;
         }
-        if (trieurSubsystem.getRotationCompletion() >= 0.95 && hasLaunched && super.moulinTargetPosition != -1){
-            trieurSubsystem.clearMoulinStoragePositionColor(Moulin.getOppositePosition(super.moulinTargetPosition));
-        }
     }
 
     @Override
     public boolean isFinished(){
         return hasLaunched && super.isFinished();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        if (super.moulinTargetPosition != -1) trieurSubsystem.clearMoulinStoragePositionColor(Moulin.getOppositePosition(super.moulinTargetPosition));
+        super.end(interrupted);
+
     }
 }

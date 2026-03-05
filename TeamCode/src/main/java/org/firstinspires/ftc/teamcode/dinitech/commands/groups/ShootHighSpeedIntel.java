@@ -36,7 +36,7 @@ import java.util.HashMap;
  * </ol>
  * It also includes cleanup logic to reset the state of the subsystems upon completion or interruption.
  */
-public class ShootHighSpeedIntel extends SequentialCommandGroup {
+public class ShootHighSpeedIntel extends SelectCommand {
 
     /**
      * A protected constructor for subclasses to provide a custom shooter command.
@@ -48,38 +48,35 @@ public class ShootHighSpeedIntel extends SequentialCommandGroup {
      */
 
     public ShootHighSpeedIntel(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
-        addCommands(
-                new SelectCommand(
-                        new HashMap<Object, Command>(){{
-                            put(0, new InstantCommand());
-                            put(1, oneArtefact(trieurSubsystem, shooterSubsystem));
-                            put(2, twoArtefact(trieurSubsystem, shooterSubsystem));
-                            put(3, threeArtefact(trieurSubsystem, shooterSubsystem));}},
-                        trieurSubsystem::getHowManyArtefacts)
+        super(
+            new HashMap<Object, Command>(){{
+                put(0, new InstantCommand());
+
+                put(1, new SequentialCommandGroup(
+                        new OpenWaitTrappe(trieurSubsystem),
+                        new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem)));
+
+                put(2, new SequentialCommandGroup(
+                        new OpenWaitTrappe(trieurSubsystem),
+                        new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem),
+                        new ParallelRaceGroup(
+                                new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
+                                new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
+                        new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem)));
+
+                put(3, new SequentialCommandGroup(
+                        new OpenWaitTrappe(trieurSubsystem),
+                        new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem),
+                        new ParallelRaceGroup(
+                                new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
+                                new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
+                        new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem),
+                        new ParallelRaceGroup(
+                                new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
+                                new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
+                        new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem)));}},
+
+            trieurSubsystem::getHowManyArtefacts
         );
-    }
-
-    private SequentialCommandGroup oneArtefact(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem){
-        return new SequentialCommandGroup(
-                new OpenWaitTrappe(trieurSubsystem),
-                new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem));
-    }
-
-    private SequentialCommandGroup twoArtefact(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem){
-        return new SequentialCommandGroup(
-                oneArtefact(trieurSubsystem, shooterSubsystem),
-                new ParallelRaceGroup(
-                        new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
-                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
-                new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem));
-    }
-
-    private SequentialCommandGroup threeArtefact(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem){
-        return new SequentialCommandGroup(
-                twoArtefact(trieurSubsystem, shooterSubsystem),
-                new ParallelRaceGroup(
-                        new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
-                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
-                new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem));
     }
 }

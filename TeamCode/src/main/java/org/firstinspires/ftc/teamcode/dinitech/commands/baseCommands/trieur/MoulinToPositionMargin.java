@@ -20,7 +20,6 @@ public class MoulinToPositionMargin extends CommandBase {
     protected int moulinTargetPosition;
     protected boolean makeShort;
     protected int margin;
-    private int initialAbsRemainingDistance;
 
     /**
      * Creates a new MoulinToPosition command.
@@ -44,18 +43,9 @@ public class MoulinToPositionMargin extends CommandBase {
      */
     @Override
     public void initialize() {
-        trieurSubsystem.setRotationCompletion(-1);
         if (moulinTargetPosition != -1){
             trieurSubsystem.moulinToPosition(moulinTargetPosition, makeShort);
-
-            initialAbsRemainingDistance = Math.abs(trieurSubsystem.getMoulinMotorRemainingDistance());
-            trieurSubsystem.setRotationCompletion(0);
         }
-    }
-
-    @Override
-    public void execute(){
-        trieurSubsystem.setRotationCompletion(1 - (double) Math.abs(trieurSubsystem.getMoulinMotorRemainingDistance()) / initialAbsRemainingDistance);
     }
 
     /**
@@ -65,21 +55,6 @@ public class MoulinToPositionMargin extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return moulinTargetPosition == -1 || (trieurSubsystem.getRotationCompletion() > 0.1 && trieurSubsystem.isMoulinMotorCloseToTarget(margin));
-    }
-
-    /**
-     * Stops the motor at the end of the command and handles interruptions.
-     *
-     * @param interrupted Whether the command was interrupted.
-     */
-    @Override
-    public void end(boolean interrupted) {
-        // If the command was interrupted before completion, reset the motor's target
-        // to its current position to prevent further movement.
-        trieurSubsystem.setRotationCompletion(-1);
-        if (interrupted) {
-            trieurSubsystem.resetTargetMoulinMotor();
-        }
+        return moulinTargetPosition == -1 || trieurSubsystem.isMoulinMotorCloseToTarget(margin);
     }
 }

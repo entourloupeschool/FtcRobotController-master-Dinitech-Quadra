@@ -31,6 +31,8 @@ public class BlueRampPicksTest extends BlueAuto {
 
             drivePedroSubsystem.getDrive().prepAuto(FIELD_CENTER_90HEADING_POSE);
 
+            trieurSubsystem.clearAllStoredColors();
+
             new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                 BLUE_RAMP_POSE, BLUE_RAMP_END_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5).schedule();
     }
