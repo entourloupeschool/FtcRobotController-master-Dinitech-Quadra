@@ -112,8 +112,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                         : (RowPose.getY() > 50 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE)).getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME))
                                         .addParametricCallback(0.75, () -> {
-                                                if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();
-                                        }).build(),
+                                                if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
                         new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                         new MaxPowerChargeur(chargeurSubsystem)),

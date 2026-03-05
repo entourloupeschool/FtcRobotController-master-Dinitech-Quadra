@@ -102,7 +102,9 @@ public class ToRowToShootChained extends SequentialCommandGroup {
                                                 (hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE
                                                         ? (RowPose.getY() > 50 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE)
                                                         : (RowPose.getY() > 50 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE)).getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
+                                        .addParametricCallback(0.75, () -> {
+                                            if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true))),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
