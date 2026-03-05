@@ -36,7 +36,7 @@ public class TwoGateFromGoal extends SequentialCommandGroup {
 
                 //SECOND ROW FIRST
                 new ToRowToShootChained(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem,
-                        SECOND_ROW_BLUE_POSE, LENGTH_X_ROW_SUPER_23RD, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
+                        SECOND_ROW_BLUE_POSE, LENGTH_X_ROW_SUPER_23RD, 0.6),
 
                 new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                         hubsSubsystem, GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
@@ -46,7 +46,7 @@ public class TwoGateFromGoal extends SequentialCommandGroup {
 
                 //FIRST ROW LAST
                 new ToRowToShootChained(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem,
-                        FIRST_ROW_BLUE_POSE, LENGTH_X_ROW_SUPER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.8),
+                        FIRST_ROW_BLUE_POSE, LENGTH_X_ROW_SUPER, 0.6),
 
                 new ParallelCommandGroup(
                         new StopChargeur(chargeurSubsystem),

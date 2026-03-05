@@ -34,8 +34,7 @@ public class ThreeRowsFromGoal extends SequentialCommandGroup {
     public ThreeRowsFromGoal(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, GamepadSubsystem gamepadSubsystem, double rowPower){
         addCommands(
                 // Obelisk and MoulinCalibrate
-                new InitToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem,
-                        hubsSubsystem),
+                new InitToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem),
 
                 new SequentialCommandGroup(
                         new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem,

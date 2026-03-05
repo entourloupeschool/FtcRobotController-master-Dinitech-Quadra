@@ -21,7 +21,7 @@ public class Globals {
      * Auto Phase globals
      */
     public static final double AUTO_ROBOT_CONSTRAINTS = 1;
-    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.85; // 1.4
+    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.75; // 0.85
     public static final double BRAKING_START_PEDRO_DINITECH = 1.3; // 1.4
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.9;
     public static final double TILE_DIM = 24;
@@ -104,7 +104,6 @@ public class Globals {
         public static final Pose BEGIN_POSE = new Pose(0, 0, 0);
         public static final double TELE_DRIVE_POWER = 0.3;
         public static final double TELE_DRIVE_POWER_TRIGGER_SCALE = 1 - TELE_DRIVE_POWER;
-        public static final int DRIVER_POWER_SCALER_TO_THE_POWER = 3;
         public static final double SLOW_DRIVE_SCALE = 1;
         public static final double THROUGH_BORE_ENCODER_COUNTS_PER_REV = 8192; // https://revrobotics.eu/rev-11-1271/
         public static final double DEAD_WHEEL_DIAMETER_MM = 50.8; // https://revrobotics.eu/ION-Omni-Wheels/
