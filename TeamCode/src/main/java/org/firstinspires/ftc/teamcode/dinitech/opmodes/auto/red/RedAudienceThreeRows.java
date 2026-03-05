@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.red;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_ROW_PICK_ARTEFACTS;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -8,8 +9,8 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ThreeRowsFrom
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.RedAudienceAutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
-@Autonomous(name = "RedAudienceThreeRowsSlow", group = "Red")
-public class RedAudienceThreeRowsSlow extends RedAudienceAutoBase {
+@Autonomous(name = "RedAudienceThreeRows", group = "Red")
+public class RedAudienceThreeRows extends RedAudienceAutoBase {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -18,9 +19,7 @@ public class RedAudienceThreeRowsSlow extends RedAudienceAutoBase {
     public void initialize() {
             super.initialize();
 
-            trieurSubsystem.setWantsMotifShoot(true);
-
-            new ThreeRowsFromAudience(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, hubsSubsystem, gamepadSubsystem, MAX_POWER_ROW_PICK_ARTEFACTS).schedule();
+            new ThreeRowsFromAudience(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, hubsSubsystem, gamepadSubsystem, AUTO_ROBOT_CONSTRAINTS).schedule();
     }
 
     /**

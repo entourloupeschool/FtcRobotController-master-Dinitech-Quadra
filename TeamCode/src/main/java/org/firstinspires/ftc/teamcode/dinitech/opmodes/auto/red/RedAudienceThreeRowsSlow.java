@@ -1,34 +1,15 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.red;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_RED_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X_ROW;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_ROW_PICK_ARTEFACTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_AUDIENCE_SHOOT_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_POSE;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_RED_POSE;
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_RED_POSE;
-
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.pedropathing.geometry.BezierLine;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToMotifShoot;
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ToRowToShoot;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.RedGoalAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ThreeRowsFromAudience;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.RedAudienceAutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
-@Autonomous(name = "RedAudience", group = "Red")
-public class AutoRedGoalAudienceBase extends RedGoalAutoBase {
+@Autonomous(name = "RedAudienceThreeRowsSlow", group = "Red")
+public class RedAudienceThreeRowsSlow extends RedAudienceAutoBase {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -37,37 +18,9 @@ public class AutoRedGoalAudienceBase extends RedGoalAutoBase {
     public void initialize() {
             super.initialize();
 
+            trieurSubsystem.setWantsMotifShoot(true);
 
-            new SequentialCommandGroup(
-                        // Obelisk and MoulinCalibrate
-                        new InitToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, gamepadSubsystem,
-                                RED_AUDIENCE_SHOOT_POSE),
-
-                        new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                THIRD_ROW_RED_POSE, RED_AUDIENCE_SHOOT_POSE,
-                                LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.8),
-
-                        new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                SECOND_ROW_RED_POSE, CLOSE_SHOOT_RED_POSE,
-                                LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
-
-                        new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                FIRST_ROW_RED_POSE, CLOSE_SHOOT_RED_POSE,
-                                LENGTH_X_ROW, MAX_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.3),
-
-                        new ParallelCommandGroup(
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                RED_RAMP_POSE.withX(RED_RAMP_POSE.getX() - 5))
-                                        ).setLinearHeadingInterpolation(drivePedroSubsystem.getPose().getHeading(), RED_RAMP_POSE.getHeading(), LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true),
-                                new ParallelCommandGroup(
-                                        new StopChargeur(chargeurSubsystem),
-                                        new StopShooter(shooterSubsystem)))
-
-
-                ).schedule();
+            new ThreeRowsFromAudience(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, hubsSubsystem, gamepadSubsystem, MAX_POWER_ROW_PICK_ARTEFACTS).schedule();
     }
 
     /**

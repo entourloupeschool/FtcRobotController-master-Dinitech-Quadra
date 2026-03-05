@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases;
 
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_GOAL_POSE;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
-public class RedGoalAuto extends AutoBase {
+public class RedGoalAutoBase extends AutoBase {
 
     @Override
     public void initialize() {

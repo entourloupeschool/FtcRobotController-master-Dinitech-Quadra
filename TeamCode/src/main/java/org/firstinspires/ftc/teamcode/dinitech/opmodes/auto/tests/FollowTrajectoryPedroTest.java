@@ -8,15 +8,15 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.AutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.BlueGoalAutoBase;
 
 //@Autonomous(name = "FollowTrajectoryPedroTest - Dinitech", group = "Test")
 @Disabled
-public class FollowTrajectoryPedroTest extends AutoBase {
+public class FollowTrajectoryPedroTest extends BlueGoalAutoBase {
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
      */

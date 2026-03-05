@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LONG_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MID_SHOOT_SHOOTER_VELOCITY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CONTINUOUS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RESET_POSE_BLUE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOT_REVOLUTION_THEN_WAIT;
 
@@ -59,6 +60,9 @@ import java.util.Objects;
 public class TeleOpBase extends Gornetix {
     private int lastHowManyArtefacts = 0;
     private int currentGetHowManyArtefacts = 0;
+    private double rightTriggerValue = 0;
+    private double leftTriggerValue = 0;
+
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
      */
@@ -108,19 +112,17 @@ public class TeleOpBase extends Gornetix {
         currentGetHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
         if (lastHowManyArtefacts != currentGetHowManyArtefacts){
             lastHowManyArtefacts = currentGetHowManyArtefacts;
-            if (currentGetHowManyArtefacts == 0){
-                new PrepModeRamassageTeleOp(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem).schedule();
-                new SequentialCommandGroup(
-                        new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
-                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)).schedule();
-            }
-            if (currentGetHowManyArtefacts == 2){
-                new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem).schedule();
-            }
-            if(currentGetHowManyArtefacts == 3){
-                new ModeShootTeleOp(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, gamepadSubsystem, hubsSubsystem).schedule();
-            }
+            if (currentGetHowManyArtefacts == 0) modeRamassage();
+
+            if (currentGetHowManyArtefacts == 2) shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem));
+
+            if(currentGetHowManyArtefacts == 3) modeShoot();
         }
+
+        rightTriggerValue = m_Operator.getRightTriggerValue();
+        leftTriggerValue = m_Operator.getLeftTriggerValue();
+        if (rightTriggerValue > 0.01)trieurSubsystem.incrementMoulinTargetPosition(rightTriggerValue * rightTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
+        if (leftTriggerValue > 0.01)trieurSubsystem.incrementMoulinTargetPosition(- leftTriggerValue * leftTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
 
         super.run();
     }
@@ -168,13 +170,23 @@ public class TeleOpBase extends Gornetix {
                 new PrepShootTrieur(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                 new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true))));
 
-        new Trigger(() -> m_Operator.getRightTriggerValue() > 0.01)
-                .whileActiveOnce(new MoulinRotate(trieurSubsystem, gamepadSubsystem));
-        new Trigger(() -> m_Operator.getLeftTriggerValue() > 0.01)
-                .whileActiveOnce(new MoulinAntiRotate(trieurSubsystem, gamepadSubsystem));
-
         m_Operator.bump_right.whenPressed(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
         m_Operator.bump_left.whenPressed(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
+    }
+
+    private void modeShoot(){
+        shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem));
+        drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem));
+        new StopChargeur(chargeurSubsystem).schedule();
+    }
+
+    private void modeRamassage() {
+        shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem));
+        drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
+        new SequentialCommandGroup(
+                new MaxPowerChargeur(chargeurSubsystem),
+                new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
+                new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)).schedule();
     }
 
 }

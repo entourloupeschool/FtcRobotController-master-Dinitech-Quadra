@@ -68,8 +68,8 @@ public class Globals {
     //RED SIDE
     public static final Pose RED_BASKET_POSE = BLUE_BASKET_POSE.mirror();
 
-    public static final Pose RED_SMALL_TRIANGLE_POSE = BLUE_AUDIENCE_POSE.mirror();
-    public static final Pose RED_SMALL_TRIANGLE_SHOOT_POSE = BLUE_AUDIENCE_SHOOT_POSE.mirror();
+    public static final Pose RED_AUDIENCE_POSE = BLUE_AUDIENCE_POSE.mirror();
+    public static final Pose RED_AUDIENCE_SHOOT_POSE = BLUE_AUDIENCE_SHOOT_POSE.mirror();
 
     public static final Pose RED_GOAL_POSE = BLUE_GOAL_POSE.mirror();
     public static final Pose RED_RAMP_POSE = BLUE_RAMP_POSE.mirror();

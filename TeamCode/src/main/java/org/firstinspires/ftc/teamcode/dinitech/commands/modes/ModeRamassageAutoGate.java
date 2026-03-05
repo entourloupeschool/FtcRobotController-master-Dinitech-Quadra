@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.InverseMaxPowerChargeur;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNextVeryLoose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.PrepShootTrieur;
@@ -31,7 +32,9 @@ public class ModeRamassageAutoGate extends SequentialCommandGroup {
     public ModeRamassageAutoGate(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem,
                                  GamepadSubsystem gamepadSubsystem, ChargeurSubsystem chargeurSubsystem) {
         addCommands(
-                new TrieurReadyEmptyStorage(trieurSubsystem),
+                new ParallelCommandGroup(
+                        new TrieurReadyEmptyStorage(trieurSubsystem),
+                        new MaxPowerChargeur(chargeurSubsystem)),
                 new TryDetectArtefact(trieurSubsystem, gamepadSubsystem),
                 new ConditionalCommand(
                         new SequentialCommandGroup(

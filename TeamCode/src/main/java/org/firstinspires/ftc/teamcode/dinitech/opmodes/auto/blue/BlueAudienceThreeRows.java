@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.blue;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_ROW_PICK_ARTEFACTS;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -7,8 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ThreeRowsFromAudience;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.BlueAudienceAutoBase;
 
-@Autonomous(name = "BlueAudienceThreeRowsSlow", group = "Blue")
-public class BlueAudienceThreeRowsSlow extends BlueAudienceAutoBase {
+@Autonomous(name = "BlueAudienceThreeRows", group = "Blue")
+public class BlueAudienceThreeRows extends BlueAudienceAutoBase {
 
 
     /**
@@ -18,10 +19,7 @@ public class BlueAudienceThreeRowsSlow extends BlueAudienceAutoBase {
     public void initialize() {
             super.initialize();
 
-        trieurSubsystem.setWantsMotifShoot(true);
-
-        new ThreeRowsFromAudience(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, hubsSubsystem, gamepadSubsystem, MAX_POWER_ROW_PICK_ARTEFACTS).schedule();
-
+            new ThreeRowsFromAudience(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, hubsSubsystem, gamepadSubsystem, AUTO_ROBOT_CONSTRAINTS).schedule();
     }
 
     /**

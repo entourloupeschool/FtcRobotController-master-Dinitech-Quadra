@@ -1,11 +1,8 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases;
 
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_AUTO_TIMEOUT;
 
-import com.arcrobotics.ftclib.command.button.Trigger;
-
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetections;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;

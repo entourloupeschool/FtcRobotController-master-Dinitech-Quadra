@@ -1,16 +1,16 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_SMALL_TRIANGLE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_AUDIENCE_POSE;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
-public class RedAudienceAuto extends AutoBase {
+public class RedAudienceAutoBase extends AutoBase {
 
     @Override
     public void initialize() {
             super.initialize();
             hubsSubsystem.setTeam(HubsSubsystem.Team.RED);
-            drivePedroSubsystem.getDrive().prepAuto(RED_SMALL_TRIANGLE_POSE);
+            drivePedroSubsystem.getDrive().prepAuto(RED_AUDIENCE_POSE);
 
     }
 

@@ -1,21 +1,19 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 
 
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToMotifShoot;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.AutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.BlueGoalAutoBase;
 
 //@Autonomous(name = "TestVeryLoose - Dinitech", group = "Test")
 @Disabled
 
-public class BlueGoalTestVeryLoose extends AutoBase {
+public class BlueGoalTestVeryLoose extends BlueGoalAutoBase {
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -24,13 +22,7 @@ public class BlueGoalTestVeryLoose extends AutoBase {
     public void initialize() {
             super.initialize();
 
-            drivePedroSubsystem.getDrive().prepAuto(BLUE_GOAL_POSE);
-
-            new SequentialCommandGroup(
-                    // Obelisk and MoulinCalibrate
-                    new InitToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, gamepadSubsystem, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY)
-
-            ).schedule();
+            new InitToMotifShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, gamepadSubsystem, CLOSE_SHOOT_BLUE_POSE).schedule();
     }
 
     /**
