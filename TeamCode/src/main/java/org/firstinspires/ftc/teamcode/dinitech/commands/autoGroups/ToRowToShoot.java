@@ -3,8 +3,7 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 
-import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.InstantCommand;
+
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierCurve;
@@ -15,10 +14,9 @@ import com.pedropathing.paths.HeadingInterpolator;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAutoVintage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -30,7 +28,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
     public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose RowPose, Pose endPose, double shooterVelocity, double lengthBackup, double rowPower, double endTime){
         addCommands(
                 new ParallelCommandGroup(
-                        new ReadyTrieurForPick(trieurSubsystem),
+                        new TrieurReadyEmptyStorage(trieurSubsystem),
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,

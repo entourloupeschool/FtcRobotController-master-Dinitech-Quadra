@@ -54,7 +54,8 @@ public class ShootHighSpeedIntel extends SelectCommand {
 
                 put(1, new SequentialCommandGroup(
                         new OpenWaitTrappe(trieurSubsystem),
-                        new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem)));
+                        new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem),
+                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)));
 
                 put(2, new SequentialCommandGroup(
                         new OpenWaitTrappe(trieurSubsystem),
@@ -62,7 +63,8 @@ public class ShootHighSpeedIntel extends SelectCommand {
                         new ParallelRaceGroup(
                                 new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
                                 new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
-                        new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem)));
+                        new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem),
+                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)));
 
                 put(3, new SequentialCommandGroup(
                         new OpenWaitTrappe(trieurSubsystem),
@@ -74,7 +76,8 @@ public class ShootHighSpeedIntel extends SelectCommand {
                         new ParallelRaceGroup(
                                 new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
                                 new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
-                        new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem)));}},
+                        new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem),
+                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)));}},
 
             trieurSubsystem::getHowManyArtefacts
         );

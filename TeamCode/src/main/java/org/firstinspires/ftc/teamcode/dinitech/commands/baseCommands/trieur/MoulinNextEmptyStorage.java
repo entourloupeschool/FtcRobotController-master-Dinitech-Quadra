@@ -16,14 +16,14 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * <p>
  * This command always rotates in the positive (forward) direction.
  */
-public class MoulinNextStorage extends MoulinToPositionMargin {
+public class MoulinNextEmptyStorage extends MoulinToPositionMargin {
 
     /**
      * Creates a new MoulinNext command.
      *
      * @param trieurSubsystem The sorter subsystem that controls the moulin.
      */
-    public MoulinNextStorage(TrieurSubsystem trieurSubsystem) {
+    public MoulinNextEmptyStorage(TrieurSubsystem trieurSubsystem) {
         // The actual target position is determined at execution time.
         super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
     }
@@ -35,13 +35,25 @@ public class MoulinNextStorage extends MoulinToPositionMargin {
     @Override
     public void initialize() {
         int currentPos = trieurSubsystem.getMoulinPosition();
+        int targetPos = super.moulinTargetPosition;
+
         // Set the parameters for the parent command.
         if (Moulin.isStoragePosition(currentPos)){
-            super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPos, 2);
+            targetPos = trieurSubsystem.getNNextMoulinPosition(currentPos, 2);
         } else {
-            super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(currentPos, 1);
+            targetPos = trieurSubsystem.getNNextMoulinPosition(currentPos, 1);
         }
 
+        TrieurSubsystem.ArtifactColor targetPosColor = trieurSubsystem.getMoulinStoragePositionColor(targetPos);
+        if(targetPosColor == TrieurSubsystem.ArtifactColor.GREEN || targetPosColor == TrieurSubsystem.ArtifactColor.PURPLE){
+            targetPos = trieurSubsystem.getNNextMoulinPosition(currentPos, 2);
+            targetPosColor = trieurSubsystem.getMoulinStoragePositionColor(targetPos);
+            if(targetPosColor == TrieurSubsystem.ArtifactColor.GREEN || targetPosColor == TrieurSubsystem.ArtifactColor.PURPLE){
+                targetPos = trieurSubsystem.getNNextMoulinPosition(currentPos, 2);
+            }
+        }
+
+        super.moulinTargetPosition = targetPos;
         // Start the movement.
         super.initialize();
     }

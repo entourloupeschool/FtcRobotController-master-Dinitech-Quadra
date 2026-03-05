@@ -5,9 +5,10 @@ import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNextVeryLoose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.PrepShootTrieur;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TryDetectArtefact;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -27,17 +28,17 @@ public class ModeRamassageAuto extends SequentialCommandGroup {
     public ModeRamassageAuto(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem,
                              GamepadSubsystem gamepadSubsystem) {
         addCommands(
-                new ReadyTrieurForPick(trieurSubsystem),
+                new TrieurReadyEmptyStorage(trieurSubsystem),
                 new TryDetectArtefact(trieurSubsystem, gamepadSubsystem),
                 new ConditionalCommand(
                         new SequentialCommandGroup(
-                                new MoulinNextNextVeryLoose(trieurSubsystem),
+                                new MoulinNextEmptyStorage(trieurSubsystem),
                                 new TryDetectArtefact(trieurSubsystem, gamepadSubsystem)),
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),
                 new ConditionalCommand(
                         new SequentialCommandGroup(
-                                new MoulinNextNextVeryLoose(trieurSubsystem),
+                                new MoulinNextEmptyStorage(trieurSubsystem),
                                 new TryDetectArtefact(trieurSubsystem, gamepadSubsystem)),
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),

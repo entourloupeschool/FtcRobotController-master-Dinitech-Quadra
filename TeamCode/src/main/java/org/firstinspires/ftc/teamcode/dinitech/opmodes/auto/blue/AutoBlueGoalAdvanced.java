@@ -21,6 +21,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ToGatePickToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ToRowToShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ToRowToShootChained;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
@@ -45,7 +46,7 @@ public class AutoBlueGoalAdvanced extends BlueAuto {
                                 CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
                         //SECOND ROW FIRST
-                        new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
+                        new ToRowToShootChained(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                                 SECOND_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
                                 LENGTH_X_ROW_SUPER_23RD, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
@@ -56,7 +57,7 @@ public class AutoBlueGoalAdvanced extends BlueAuto {
                                 BLUE_RAMP_POSE, BLUE_RAMP_END_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5),
 
                         //FIRST ROW LAST
-                        new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
+                        new ToRowToShootChained(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                                 FIRST_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY,
                                 LENGTH_X_ROW_SUPER, SUPER_POWER_ROW_PICK_ARTEFACTS, LINEAR_HEADING_INTERPOLATION_END_TIME/1.8),
 

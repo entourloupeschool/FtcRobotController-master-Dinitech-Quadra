@@ -152,7 +152,7 @@ public class Globals {
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 15 * (MOULIN_POSITION_TOLERANCE + 2);
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 40;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
-        public static int WAIT_HIGH_SPEED_TRIEUR = 300;
+        public static int WAIT_HIGH_SPEED_TRIEUR = 200;
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.9;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
@@ -173,7 +173,7 @@ public class Globals {
         public static int CURRENT_SHOOT_OVERFLOW = 280;
         public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
         public static final double SPEED_MARGIN = 15;
-        public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 3.5;
+        public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 4;
         public static final double SPEED_INCREMENT_SHOOTER = 10;
         public static final double MAX_RANGE_TO_SHOOT_CM = 345;
         public static final double MIN_RANGE_TO_SHOOT_CM = 97;
@@ -187,13 +187,13 @@ public class Globals {
 
         public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 80;
         public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 1.33;
-        public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0;
+        public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0.005;
         public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 2.1;
 
-        public static final double P_SHOOTER_VELOCITY_AGGRESSIVE_3R = P_SHOOTER_VELOCITY_AGGRESSIVE;
-        public static final double I_SHOOTER_VELOCITY_AGGRESSIVE_3R = 1.66;
-        public static final double D_SHOOTER_VELOCITY_AGGRESSIVE_3R = 0.745;
-        public static final double F_SHOOTER_VELOCITY_AGGRESSIVE_3R = 3.04;
+        public static double P_SHOOTER_VELOCITY_AGGRESSIVE_3R = P_SHOOTER_VELOCITY_AGGRESSIVE;
+        public static double I_SHOOTER_VELOCITY_AGGRESSIVE_3R = 0;
+        public static double D_SHOOTER_VELOCITY_AGGRESSIVE_3R = 5.745;
+        public static double F_SHOOTER_VELOCITY_AGGRESSIVE_3R = F_SHOOTER_VELOCITY_AGGRESSIVE * 5;
         public static long SHOOT_REVOLUTION_THEN_WAIT = 500;
         public static final double MIN_RANGE_SHOOTER_SPEED = 1420;
         public static final double MAX_RANGE_SHOOTER_SPEED = 1970;

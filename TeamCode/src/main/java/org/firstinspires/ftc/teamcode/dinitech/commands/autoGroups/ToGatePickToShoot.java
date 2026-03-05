@@ -2,13 +2,9 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_AUTO_TIMEOUT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_FOR_3BALL;
 
-import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.ConditionalCommand;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -17,15 +13,12 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.InverseMaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNextVeryLoose;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
+
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAutoGate;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -38,7 +31,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
     public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose GatePickEndPose, Pose endPose, double shooterVelocity, double gatePower, double endTime){
         addCommands(
                 new ParallelCommandGroup(
-                        new ReadyTrieurForPick(trieurSubsystem),
+                        new TrieurReadyEmptyStorage(trieurSubsystem),
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierCurve(
                                         drivePedroSubsystem::getPose,

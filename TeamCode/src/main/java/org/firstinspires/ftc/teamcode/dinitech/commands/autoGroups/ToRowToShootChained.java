@@ -14,8 +14,8 @@ import com.pedropathing.paths.HeadingInterpolator;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyTrieurForPick;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -29,7 +29,7 @@ public class ToRowToShootChained extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
-                                new ReadyTrieurForPick(trieurSubsystem),
+                                new TrieurReadyEmptyStorage(trieurSubsystem),
                                 new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)),
                         new MaxPowerChargeur(chargeurSubsystem),
                         new SequentialCommandGroup(
