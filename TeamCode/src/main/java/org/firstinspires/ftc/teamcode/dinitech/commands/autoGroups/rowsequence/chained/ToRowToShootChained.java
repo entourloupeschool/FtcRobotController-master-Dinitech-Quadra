@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
+package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.chained;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
@@ -30,7 +30,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToRowToShootChained extends SequentialCommandGroup {
-    public ToRowToShootChained(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose RowPose, Pose endPose, double lengthBackup, double endTime){
+    public ToRowToShootChained(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose RowPose, Pose endPose, double lengthBackup, double endTime, double shooterVelocity){
         addCommands(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
@@ -51,7 +51,7 @@ public class ToRowToShootChained extends SequentialCommandGroup {
                                                 RowPose.getHeading(),
                                                 endTime)).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
-                                new SetVelocityShooterRequire(shooterSubsystem, () -> endPose.getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY),
+                                new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierCurve(
                                                 drivePedroSubsystem::getPose,
@@ -60,47 +60,6 @@ public class ToRowToShootChained extends SequentialCommandGroup {
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
                                                 endPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
-                                        .addParametricCallback(0.75, () -> {
-                                            if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true))),
-
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
-        );
-    }
-
-    public ToRowToShootChained(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem, Pose RowPose, double lengthBackup, double endTime){
-        addCommands(
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new TrieurReadyEmptyStorage(trieurSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)),
-                        new MaxPowerChargeur(chargeurSubsystem),
-                        new SequentialCommandGroup(
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPaths(
-                                                new BezierLine(
-                                                    drivePedroSubsystem::getPose,
-                                                    RowPose.withX(hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? RowPose.getX() : RowPose.mirror().getX())),
-                                                new BezierLine(
-                                                    drivePedroSubsystem::getPose,
-                                                    RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? lengthBackup : -lengthBackup))))
-                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? RowPose.getHeading() : RowPose.mirror().getHeading(),
-                                                endTime)).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true),
-                                new SetVelocityShooterRequire(shooterSubsystem, () -> RowPose.getY() > 50 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY),
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierCurve(
-                                                drivePedroSubsystem::getPose,
-                                                RowPose.withX(hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? RowPose.getX() : RowPose.mirror().getX()),
-                                                hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? (RowPose.getY() > 50 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (RowPose.getY() > 50 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE)))
-                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                (hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE
-                                                        ? (RowPose.getY() > 50 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE)
-                                                        : (RowPose.getY() > 50 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE)).getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME))
                                         .addParametricCallback(0.75, () -> {
                                             if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),

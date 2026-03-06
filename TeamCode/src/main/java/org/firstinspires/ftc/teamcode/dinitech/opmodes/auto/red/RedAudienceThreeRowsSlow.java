@@ -4,7 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_RO
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ThreeRowsFromAudience;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.BlueThreeRowsFromAudience;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.RedAudienceAutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
@@ -20,7 +20,7 @@ public class RedAudienceThreeRowsSlow extends RedAudienceAutoBase {
 
             trieurSubsystem.setWantsMotifShoot(true);
 
-            new ThreeRowsFromAudience(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, hubsSubsystem, gamepadSubsystem, MAX_POWER_ROW_PICK_ARTEFACTS).schedule();
+            new BlueThreeRowsFromAudience(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, gamepadSubsystem, MAX_POWER_ROW_PICK_ARTEFACTS).schedule();
     }
 
     /**

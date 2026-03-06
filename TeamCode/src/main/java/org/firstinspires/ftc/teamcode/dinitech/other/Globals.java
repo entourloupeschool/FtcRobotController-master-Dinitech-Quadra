@@ -7,7 +7,10 @@ import com.bylazar.configurables.annotations.Configurable;
 
 import com.pedropathing.geometry.Pose;
 
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.vision.VisionPortal;
+
+import java.util.Dictionary;
 
 @Configurable
 public class Globals {
@@ -202,8 +205,8 @@ public class Globals {
         return A_DIFFS * rangeCM + 1204.879; //
     }
 
-    public static double a_Pedro = 3.616;
-    public static double b_Pedro = 1269.19;
+    public static double a_Pedro = 5.25;
+    public static double b_Pedro = 1210;
     /**
      * Gives back a linear speed from a range in inches
      * @param rangeInch The range value in inches, positive.

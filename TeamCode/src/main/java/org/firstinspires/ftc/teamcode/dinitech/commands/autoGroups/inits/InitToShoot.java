@@ -1,9 +1,7 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
+package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
@@ -22,18 +20,17 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Set
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 public class InitToShoot extends SequentialCommandGroup {
 
-    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose ShootPosition){
+    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose ShootPosition, double shootVelocity){
         addCommands(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new InstantCommand(),
-                                new SetVelocityShooterRequire(shooterSubsystem, () -> ShootPosition.getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY)),
+                                new SetVelocityShooterRequire(shooterSubsystem, shootVelocity)),
 
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
@@ -49,28 +46,7 @@ public class InitToShoot extends SequentialCommandGroup {
         );
     }
 
-    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, HubsSubsystem hubsSubsystem){
-        addCommands(
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new InstantCommand(),
-                                new SetVelocityShooterRequire(shooterSubsystem, () -> drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY)),
-
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        drivePedroSubsystem::getPose,
-                                        hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE))
-                                ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                        drivePedroSubsystem::getHeading,
-                                        (hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE)).getHeading(),
-                                        LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true)),
-
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
-        );
-    }
-
-    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, HubsSubsystem hubsSubsystem, double shooterVelocity){
+    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, double shooterVelocity){
         addCommands(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
@@ -80,10 +56,10 @@ public class InitToShoot extends SequentialCommandGroup {
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,
-                                        hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE))
+                                        drivePedroSubsystem.getPose().getX() < 72 ? (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE))
                                 ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                         drivePedroSubsystem::getHeading,
-                                        (hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE)).getHeading(),
+                                        (drivePedroSubsystem.getPose().getX() < 72 ? (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE)).getHeading(),
                                         LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 

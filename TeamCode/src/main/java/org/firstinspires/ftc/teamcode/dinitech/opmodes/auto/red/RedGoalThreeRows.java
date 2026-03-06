@@ -4,7 +4,8 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_C
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ThreeRowsFromGoal;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.BlueThreeRowsFromGoal;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.RedThreeRowsFromGoal;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.RedGoalAutoBase;
 
 @Autonomous(name = "RedGoalThreeRows", group = "Red")
@@ -16,7 +17,8 @@ public class RedGoalThreeRows extends RedGoalAutoBase {
     @Override
     public void initialize() {
             super.initialize();
-        new ThreeRowsFromGoal(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, hubsSubsystem, gamepadSubsystem, AUTO_ROBOT_CONSTRAINTS).schedule();
+
+            new RedThreeRowsFromGoal(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, gamepadSubsystem, AUTO_ROBOT_CONSTRAINTS).schedule();
 
     }
 

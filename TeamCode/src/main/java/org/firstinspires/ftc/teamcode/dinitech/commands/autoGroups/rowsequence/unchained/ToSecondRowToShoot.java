@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence;
+package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.unchained;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;

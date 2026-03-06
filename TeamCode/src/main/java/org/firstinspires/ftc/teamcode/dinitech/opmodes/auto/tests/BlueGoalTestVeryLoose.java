@@ -5,7 +5,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToMotifShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToMotifShoot;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueGoalAutoBase;
 
 //@Autonomous(name = "TestVeryLoose - Dinitech", group = "Test")

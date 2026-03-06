@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence;
+package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.unchained;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
