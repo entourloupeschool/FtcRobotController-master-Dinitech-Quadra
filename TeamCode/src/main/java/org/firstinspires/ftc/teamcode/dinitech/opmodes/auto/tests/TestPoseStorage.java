@@ -4,8 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.AutoBase;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.BlueGoalAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueGoalAutoBase;
 
 //@Autonomous(name = "TestPoseStorage - Dinitech", group = "Test")
 @Disabled

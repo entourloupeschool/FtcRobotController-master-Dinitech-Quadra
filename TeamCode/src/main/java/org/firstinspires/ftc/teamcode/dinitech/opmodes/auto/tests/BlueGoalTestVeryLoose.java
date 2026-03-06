@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.tests;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.InitToMotifShoot;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.AutoBase;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.BlueGoalAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueGoalAutoBase;
 
 //@Autonomous(name = "TestVeryLoose - Dinitech", group = "Test")
 @Disabled

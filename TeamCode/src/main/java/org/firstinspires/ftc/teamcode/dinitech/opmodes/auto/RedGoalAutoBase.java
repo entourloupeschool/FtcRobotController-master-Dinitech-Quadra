@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_GOAL_POSE;

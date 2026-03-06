@@ -39,20 +39,17 @@ public class ToRowToShootChained extends SequentialCommandGroup {
                         new MaxPowerChargeur(chargeurSubsystem),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                RowPose))
+                                        .addPaths(
+                                                new BezierLine(
+                                                    drivePedroSubsystem::getPose,
+                                                    RowPose),
+                                                new BezierLine(
+                                                        drivePedroSubsystem::getPose,
+                                                        RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? lengthBackup : -lengthBackup))))
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
                                                 RowPose.getHeading(),
-                                                endTime))
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? lengthBackup : -lengthBackup))))
-                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                RowPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                                endTime)).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
                                 new SetVelocityShooterRequire(shooterSubsystem, endPose.getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY),
                                 new FollowPath(drivePedroSubsystem, builder -> builder
@@ -63,7 +60,9 @@ public class ToRowToShootChained extends SequentialCommandGroup {
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
                                                 endPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
+                                        .addParametricCallback(0.75, () -> {
+                                            if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true))),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)

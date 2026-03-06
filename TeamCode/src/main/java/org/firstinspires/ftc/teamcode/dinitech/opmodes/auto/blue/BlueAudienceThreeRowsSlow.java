@@ -5,7 +5,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_RO
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ThreeRowsFromAudience;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.BlueAudienceAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueAudienceAutoBase;
 
 @Autonomous(name = "BlueAudienceThreeRowsSlow", group = "Blue")
 public class BlueAudienceThreeRowsSlow extends BlueAudienceAutoBase {

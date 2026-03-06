@@ -1,12 +1,11 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.red;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAX_POWER_ROW_PICK_ARTEFACTS;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ThreeRowsFromAudience;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.RedAudienceAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.RedAudienceAutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 @Autonomous(name = "RedAudienceThreeRows", group = "Red")

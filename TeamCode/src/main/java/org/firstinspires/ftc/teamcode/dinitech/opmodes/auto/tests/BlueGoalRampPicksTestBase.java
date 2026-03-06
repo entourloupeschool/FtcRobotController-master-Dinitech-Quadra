@@ -10,7 +10,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADI
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ToGatePickToShoot;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.BlueGoalAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueGoalAutoBase;
 
 @Autonomous(name = "BlueRampPicksTest - Dinitech", group = "Test")
 public class BlueGoalRampPicksTestBase extends BlueGoalAutoBase {

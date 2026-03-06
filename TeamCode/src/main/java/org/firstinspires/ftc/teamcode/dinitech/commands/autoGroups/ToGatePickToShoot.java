@@ -122,7 +122,9 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
                                                 hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? CLOSE_SHOOT_BLUE_POSE.getHeading() : CLOSE_SHOOT_RED_POSE.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
+                                        .addParametricCallback(0.75, () -> {
+                                            if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true))),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ThreeRowsFromGoal;
 
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.RedGoalAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.RedGoalAutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 @Autonomous(name = "RedGoalThreeRowsSlow", group = "Red")

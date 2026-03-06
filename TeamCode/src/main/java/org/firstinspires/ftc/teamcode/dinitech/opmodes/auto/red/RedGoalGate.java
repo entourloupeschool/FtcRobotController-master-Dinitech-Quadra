@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.red;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.TwoGateFromGoal;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.RedGoalAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.RedGoalAutoBase;
 
 @Autonomous(name = "RedGoalGate", group = "Red")
 public class RedGoalGate extends RedGoalAutoBase {

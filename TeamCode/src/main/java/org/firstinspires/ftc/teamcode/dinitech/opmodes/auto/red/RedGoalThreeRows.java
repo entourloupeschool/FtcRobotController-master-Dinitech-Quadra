@@ -5,7 +5,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_C
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ThreeRowsFromGoal;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.bases.RedGoalAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.RedGoalAutoBase;
 
 @Autonomous(name = "RedGoalThreeRows", group = "Red")
 public class RedGoalThreeRows extends RedGoalAutoBase {
