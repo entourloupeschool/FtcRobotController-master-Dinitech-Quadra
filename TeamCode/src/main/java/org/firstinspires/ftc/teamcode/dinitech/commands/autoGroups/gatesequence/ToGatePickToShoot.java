@@ -26,6 +26,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.Ma
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAutoGate;
@@ -111,7 +112,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                 hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? BLUE_RAMP_END_POSE.getHeading() : RED_RAMP_END_POSE.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         gatePower, false),
-                                new SetVelocityShooter(shooterSubsystem, AUDIENCE_AUTO_SHOOTER_VELOCITY),
+                                new SetVelocityShooterRequire(shooterSubsystem, AUDIENCE_AUTO_SHOOTER_VELOCITY),
                                 new WaitCommand(WAIT_FOR_3BALL),
                                 // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder

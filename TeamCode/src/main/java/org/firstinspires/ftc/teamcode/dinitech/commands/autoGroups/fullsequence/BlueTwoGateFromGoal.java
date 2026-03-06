@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
+package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.GATEPICK_POWER;
@@ -10,6 +10,9 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_B
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.gatesequence.ToGatePickToShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.chained.ToRowToShootChained;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
@@ -13,47 +12,25 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
-public class InitToShoot extends SequentialCommandGroup {
+public class InitGoalToShoot extends SequentialCommandGroup {
 
-    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose ShootPosition){
+    public InitGoalToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, HubsSubsystem hubsSubsystem){
         addCommands(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new InstantCommand(),
-                                new SetVelocityShooterRequire(shooterSubsystem, ShootPosition.getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY)),
-
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        drivePedroSubsystem::getPose,
-                                        ShootPosition)
-                                ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                        drivePedroSubsystem::getHeading,
-                                        ShootPosition.getHeading(),
-                                        LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true)),
-
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
-        );
-    }
-
-    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, HubsSubsystem hubsSubsystem){
-        addCommands(
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new InstantCommand(),
-                                new SetVelocityShooterRequire(shooterSubsystem, drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY)),
+                                new SetVelocityShooterRequire(shooterSubsystem,CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY)),
 
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
@@ -68,4 +45,5 @@ public class InitToShoot extends SequentialCommandGroup {
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
         );
     }
+
 }

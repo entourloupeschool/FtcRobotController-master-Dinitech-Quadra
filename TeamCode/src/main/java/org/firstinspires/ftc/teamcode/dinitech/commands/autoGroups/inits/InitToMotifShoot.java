@@ -22,6 +22,7 @@ import com.pedropathing.paths.HeadingInterpolator;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
@@ -39,7 +40,7 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new InstantCommand(),
-                                new SetVelocityShooter(shooterSubsystem, ShootPosition.getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY)),
+                                new SetVelocityShooterRequire(shooterSubsystem, () -> ShootPosition.getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY)),
 
                         new ParallelCommandGroup(
                                 // Go to Shooting Pos
@@ -75,8 +76,8 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new InstantCommand(),
-                                new SetVelocityShooter(shooterSubsystem,
-                                        (hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE))
+                                new SetVelocityShooterRequire(shooterSubsystem,
+                                        () -> (hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE))
                                                 .getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY)),
 
                         new ParallelCommandGroup(
