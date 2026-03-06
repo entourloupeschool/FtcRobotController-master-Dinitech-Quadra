@@ -52,14 +52,20 @@ public class InitToShoot extends SequentialCommandGroup {
                                 new InstantCommand(),
                                 new SetVelocityShooterRequire(shooterSubsystem, () -> drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY : AUDIENCE_AUTO_SHOOTER_VELOCITY)),
 
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        drivePedroSubsystem::getPose,
-                                        drivePedroSubsystem.getPose().getY() > 72 ? hubsSubsystem.getTeam().getCloseShootPose() : hubsSubsystem.getTeam().getAudienceShootPose())
-                                ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                        drivePedroSubsystem::getHeading,
-                                        (drivePedroSubsystem.getPose().getY() > 72 ? hubsSubsystem.getTeam().getCloseShootPose() : hubsSubsystem.getTeam().getAudienceShootPose()).getHeading(),
-                                        LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                        new FollowPath(drivePedroSubsystem, builder -> {
+                                Pose targetShootPose = drivePedroSubsystem.getPose().getY() > 72
+                                        ? hubsSubsystem.getTeam().getCloseShootPose()
+                                        : hubsSubsystem.getTeam().getAudienceShootPose();
+
+                                return builder
+                                        .addPath(new BezierLine(
+                                                drivePedroSubsystem::getPose,
+                                                targetShootPose)
+                                        ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                drivePedroSubsystem::getHeading,
+                                                targetShootPose.getHeading(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build();
+                        },
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
@@ -73,14 +79,20 @@ public class InitToShoot extends SequentialCommandGroup {
                                 new InstantCommand(),
                                 new SetVelocityShooter(shooterSubsystem, shooterVelocity)),
 
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierLine(
-                                        drivePedroSubsystem::getPose,
-                                        hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE))
-                                ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                        drivePedroSubsystem::getHeading,
-                                        (hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE ? (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE)).getHeading(),
-                                        LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                        new FollowPath(drivePedroSubsystem, builder -> {
+                                Pose targetShootPose = drivePedroSubsystem.getPose().getY() > 72
+                                        ? hubsSubsystem.getTeam().getCloseShootPose()
+                                        : hubsSubsystem.getTeam().getAudienceShootPose();
+
+                                return builder
+                                        .addPath(new BezierLine(
+                                                drivePedroSubsystem::getPose,
+                                                targetShootPose)
+                                        ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                drivePedroSubsystem::getHeading,
+                                                targetShootPose.getHeading(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build();
+                        },
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
