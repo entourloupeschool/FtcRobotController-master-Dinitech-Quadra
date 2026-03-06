@@ -1,12 +1,9 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.gatesequence;
+package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
-
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
-
-
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_FOR_3BALL;
 
@@ -19,9 +16,10 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
-
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAutoGate;
@@ -32,50 +30,21 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-public class ToGatePickToShoot extends SequentialCommandGroup {
-    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose GatePickEndPose, Pose endPose, double gatePower){
+public class EndSequence extends ParallelCommandGroup {
+    public EndSequence(DrivePedroSubsystem drivePedroSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, Pose rampPose){
         addCommands(
+                new FollowPath(drivePedroSubsystem, builder -> builder
+                        .addPath(new BezierLine(
+                                drivePedroSubsystem::getPose,
+                                rampPose))
+                        .setLinearHeadingInterpolation(
+                                drivePedroSubsystem.getPose().getHeading(),
+                                rampPose.getHeading(),
+                                LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
+                        AUTO_ROBOT_CONSTRAINTS, true),
                 new ParallelCommandGroup(
-                        new TrieurReadyEmptyStorage(trieurSubsystem),
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierCurve(
-                                        drivePedroSubsystem::getPose,
-                                        GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.5*TILE_DIM : 1.5*TILE_DIM)),
-                                        GatePickPose))
-                                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                        drivePedroSubsystem::getHeading,
-                                        GatePickPose.getHeading(),
-                                        LINEAR_HEADING_INTERPOLATION_END_TIME/1.5)).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true)),
-
-                new ParallelCommandGroup(
-                        new MaxPowerChargeur(chargeurSubsystem),
-                        new ModeRamassageAutoGate(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem),
-                        new SequentialCommandGroup(
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                GatePickEndPose))
-                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                GatePickEndPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        gatePower, false),
-                                new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
-                                new WaitCommand(WAIT_FOR_3BALL),
-                                // Go to Shooting Pos
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierCurve(
-                                                drivePedroSubsystem::getPose,
-                                                GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.5*TILE_DIM : 2*TILE_DIM)),
-                                                endPose))
-                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                endPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true))),
-
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
+                        new StopChargeur(chargeurSubsystem),
+                        new StopShooter(shooterSubsystem))
         );
     }
 }

@@ -1,13 +1,27 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_END_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HEADING;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_BLUE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_RED_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_AUDIENCE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_BASKET_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_AUDIENCE_SHOOT_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_GOAL_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_END_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_BLUE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_RED_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_BLUE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_RED_POSE;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.pedropathing.geometry.Pose;
@@ -24,16 +38,53 @@ public class HubsSubsystem extends SubsystemBase {
 
 
     public enum Team {
-        BLUE(CLOSE_SHOOT_BLUE_POSE, BLUE_AUDIENCE_SHOOT_POSE),
-        RED(CLOSE_SHOOT_RED_POSE, RED_AUDIENCE_SHOOT_POSE),
-        NONE(FIELD_CENTER_90HEADING_POSE, FIELD_CENTER_90HEADING_POSE);
+        BLUE(FIELD_CENTER_90HEADING_POSE,
+                BLUE_GOAL_POSE,
+                BLUE_AUDIENCE_POSE,
+                CLOSE_SHOOT_BLUE_POSE,
+                BLUE_AUDIENCE_SHOOT_POSE,
+                FIRST_ROW_BLUE_POSE,
+                SECOND_ROW_BLUE_POSE,
+                THIRD_ROW_BLUE_POSE,
+                BLUE_RAMP_POSE,
+                BLUE_RAMP_END_POSE),
+        RED(FIELD_CENTER_90HEADING_POSE,
+                RED_GOAL_POSE,
+                RED_AUDIENCE_POSE,
+                CLOSE_SHOOT_RED_POSE,
+                RED_AUDIENCE_SHOOT_POSE,
+                FIRST_ROW_RED_POSE,
+                SECOND_ROW_RED_POSE,
+                THIRD_ROW_RED_POSE,
+                RED_RAMP_POSE,
+                RED_RAMP_END_POSE),
+
+        NONE(FIELD_CENTER_90HEADING_POSE, null, null, null,null , null, null, null,null, null);
+
+        private final Pose resetPose;
+        private final Pose goalInitPose;
+        private final Pose audienceInitPose;
 
         private final Pose closeShootPose;
         private final Pose audienceShootPose;
+        private final Pose firstRowPose;
+        private final Pose secondRowPose;
 
-        Team(Pose closeShootPose, Pose audienceShootPose) {
+        private final Pose thirdRowPose;
+        private final Pose rampPose;
+        private final Pose endRampPose;
+        
+        Team(Pose resetPose, Pose goalInitPose, Pose audienceInitPose, Pose closeShootPose, Pose audienceShootPose, Pose firstRowPose, Pose secondRowPose, Pose thirdRowPose, Pose rampPose, Pose endRampPose) {
+            this.resetPose = resetPose;
+            this.goalInitPose = goalInitPose;
+            this.audienceInitPose = audienceInitPose;
             this.closeShootPose = closeShootPose;
             this.audienceShootPose = audienceShootPose;
+            this.firstRowPose = firstRowPose;
+            this.secondRowPose = secondRowPose;
+            this.thirdRowPose = thirdRowPose;
+            this.rampPose = rampPose;
+            this.endRampPose = endRampPose;
         }
 
         public Pose getCloseShootPose() {
@@ -43,6 +94,22 @@ public class HubsSubsystem extends SubsystemBase {
         public Pose getAudienceShootPose() {
             return audienceShootPose;
         }
+        
+        public Pose getFirstRowPose(){return firstRowPose;}
+        
+        public Pose getSecondRowPose(){return secondRowPose;}
+
+        public Pose getThirdRowPose(){return thirdRowPose;}
+
+        public Pose getRampPose(){return rampPose;}
+        
+        public Pose getEndRampPose(){return endRampPose;}
+
+
+        public Pose getResetPose() {return resetPose;}
+        public Pose getGoalInitPose() {return goalInitPose;}
+        public Pose getAudienceInitPose() {return audienceInitPose;}
+
     }
 
     private Team team = Team.NONE;

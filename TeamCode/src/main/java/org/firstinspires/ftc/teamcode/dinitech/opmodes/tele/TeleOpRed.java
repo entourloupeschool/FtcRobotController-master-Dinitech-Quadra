@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.tele;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SetPoseFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
 @TeleOp(name = "TeleOpRed", group = "TeleOp")
@@ -11,6 +12,7 @@ public class TeleOpRed extends TeleOpBase {
     public void initialize() {
             super.initialize();
             hubsSubsystem.setTeam(HubsSubsystem.Team.RED);
+            m_Driver.start.whenPressed(new SetPoseFCDrive(drivePedroSubsystem, hubsSubsystem, hubsSubsystem.getTeam().getResetPose()));
     }
 
     @Override

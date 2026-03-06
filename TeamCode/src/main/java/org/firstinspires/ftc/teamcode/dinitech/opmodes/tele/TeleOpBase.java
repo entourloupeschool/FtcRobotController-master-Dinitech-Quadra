@@ -142,7 +142,6 @@ public class TeleOpBase extends Gornetix {
         m_Driver.square.whenPressed(new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem));
         m_Driver.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem));
 
-        m_Driver.start.whenPressed(new SetPoseFCDrive(drivePedroSubsystem, hubsSubsystem, RESET_POSE_BLUE));
         m_Driver.back.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
 
         m_Driver.bump_left.toggleWhenPressed(

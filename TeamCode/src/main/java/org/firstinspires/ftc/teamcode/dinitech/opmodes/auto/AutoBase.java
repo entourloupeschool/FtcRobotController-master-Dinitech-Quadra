@@ -29,9 +29,6 @@ public class AutoBase extends Gornetix {
             trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT);
     }
 
-    /**
-     * Main OpMode loop. Updates gamepad states.
-     */
     @Override
     public void run() {
             // save pose to pose storage
@@ -53,9 +50,6 @@ public class AutoBase extends Gornetix {
             super.run();
     }
 
-    /**
-     * auto set artefact colors
-     */
     private void autoSetArtefactColors(){
             trieurSubsystem.setMoulinStoragePositionColor(1, TrieurSubsystem.ArtifactColor.GREEN);
             trieurSubsystem.setMoulinStoragePositionColor(3, TrieurSubsystem.ArtifactColor.PURPLE);

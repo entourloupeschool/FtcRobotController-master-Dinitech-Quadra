@@ -4,8 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_C
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.BlueThreeRowsFromAudience;
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.RedThreeRowsFromAudience;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.ThreeRowsFromAudience;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.RedAudienceAutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
@@ -19,7 +18,7 @@ public class RedAudienceThreeRows extends RedAudienceAutoBase {
     public void initialize() {
             super.initialize();
 
-            new RedThreeRowsFromAudience(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, gamepadSubsystem, AUTO_ROBOT_CONSTRAINTS).schedule();
+        new ThreeRowsFromAudience(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, gamepadSubsystem, hubsSubsystem, AUTO_ROBOT_CONSTRAINTS).schedule();
     }
 
     /**

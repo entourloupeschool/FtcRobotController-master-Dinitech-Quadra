@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HE
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FlipFieldCentricDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SetPoseFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
 @TeleOp(name = "TeleOpBlue", group = "TeleOp")
@@ -14,8 +15,11 @@ public class TeleOpBlue extends TeleOpBase {
     public void initialize() {
             super.initialize();
             hubsSubsystem.setTeam(HubsSubsystem.Team.BLUE);
+            m_Driver.start.whenPressed(new SetPoseFCDrive(drivePedroSubsystem, hubsSubsystem, hubsSubsystem.getTeam().getResetPose()));
 
             new FlipFieldCentricDrive(drivePedroSubsystem, BLUE_TEAM_HEADING).initialize();
+
+
     }
 
     @Override

@@ -27,7 +27,7 @@ public class BlueGoalRampPicksTestBase extends BlueGoalAutoBase {
             trieurSubsystem.clearAllStoredColors();
 
             new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                BLUE_RAMP_POSE, BLUE_RAMP_END_POSE, CLOSE_SHOOT_BLUE_POSE, GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME/1.5).schedule();
+                hubsSubsystem.getTeam().getRampPose(), hubsSubsystem.getTeam().getEndRampPose(), hubsSubsystem.getTeam().getCloseShootPose(), GATEPICK_POWER).schedule();
     }
 
     /**

@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
+
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_AUDIENCE_SHOOT_POSE;
 
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -47,42 +44,6 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                                         ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
                                                 ShootPosition.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true),
-                                new SequentialCommandGroup(
-                                        // Race: wait for hasColorOrder OR wait for path to finish
-                                        new ParallelRaceGroup(
-                                                new WaitUntilCommand(visionSubsystem::hasColorOrder),
-                                                new WaitUntilCommand(() -> drivePedroSubsystem.getDrive().isPathQuasiDone())),
-                                        // Only run ReadyMotif if hasColorOrder became true, otherwise skip
-                                        new ConditionalCommand(
-                                                new SequentialCommandGroup(
-                                                        new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
-                                                        new OpenWaitTrappe(trieurSubsystem)),
-                                                new OpenWaitTrappe(trieurSubsystem),
-                                                visionSubsystem::hasColorOrder)))),
-
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
-        );
-    }
-
-
-    public InitToMotifShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, double shootVelocity){
-        addCommands(
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new InstantCommand(),
-                                new SetVelocityShooterRequire(shooterSubsystem, shootVelocity)),
-
-                        new ParallelCommandGroup(
-                                // Go to Shooting Pos
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                drivePedroSubsystem.getPose().getX() < 72 ? (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE))
-                                        ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                (drivePedroSubsystem.getPose().getX() < 72 ? (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_BLUE_POSE : BLUE_AUDIENCE_SHOOT_POSE) : (drivePedroSubsystem.getPose().getY() > 72 ? CLOSE_SHOOT_RED_POSE : RED_AUDIENCE_SHOOT_POSE)).getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
                                 new SequentialCommandGroup(
