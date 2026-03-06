@@ -1,28 +1,26 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIRST_ROW_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X_ROW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_AUDIENCE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_BLUE_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_RED_POSE;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.Pose;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.unchained.ToFirstRowToShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.unchained.ToRowToShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.unchained.ToSecondRowToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.unchained.ToThirdRowToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
@@ -31,34 +29,35 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Sto
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-public class RedThreeRowsFromAudience extends SequentialCommandGroup {
+public class BlueThreeRowsFromAudience extends SequentialCommandGroup {
 
-    public RedThreeRowsFromAudience(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, double rowPower){
+    public BlueThreeRowsFromAudience(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem, double rowPower){
         addCommands(
-                new InitToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
+                new InitToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(), AUDIENCE_AUTO_SHOOTER_VELOCITY),
 
                 new SequentialCommandGroup(
                         new ToThirdRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                THIRD_ROW_RED_POSE, RED_AUDIENCE_SHOOT_POSE, LENGTH_X_ROW, rowPower),
+                                THIRD_ROW_BLUE_POSE, BLUE_AUDIENCE_SHOOT_POSE, LENGTH_X_ROW, rowPower),
 
                         new ToSecondRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                SECOND_ROW_RED_POSE, CLOSE_SHOOT_RED_POSE, LENGTH_X_ROW, rowPower),
+                                SECOND_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, LENGTH_X_ROW, rowPower),
 
                         new ToFirstRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                                FIRST_ROW_RED_POSE, CLOSE_SHOOT_RED_POSE, LENGTH_X_ROW, rowPower),
+                                FIRST_ROW_BLUE_POSE, CLOSE_SHOOT_BLUE_POSE, LENGTH_X_ROW, rowPower),
 
                         new ParallelCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
-                                                RED_RAMP_POSE.withX(RED_RAMP_POSE.getX() - 5)))
+                                                BLUE_RAMP_POSE.withX(BLUE_RAMP_POSE.getX() + 5)))
                                         .setLinearHeadingInterpolation(
                                                 drivePedroSubsystem.getPose().getHeading(),
-                                                RED_RAMP_POSE.getHeading(),
+                                                BLUE_RAMP_POSE.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
                                 new ParallelCommandGroup(
