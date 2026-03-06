@@ -3,14 +3,12 @@ package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DISTANCE_ARTEFACT_IN_TRIEUR;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAGNETIC_ON_MOULIN_POSITION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TELE_TIMEOUT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OVER_CURRENT_BACKOFF_TICKS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION_OVERCURRENT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_TELE_INCREMENT;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getDegreesFromTicks;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.bylazar.telemetry.TelemetryManager;
@@ -19,7 +17,6 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrent;
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
-import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.MagneticSwitch;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Trappe;
@@ -184,9 +181,13 @@ public class TrieurSubsystem extends SubsystemBase {
      * Gets the remaining distance to the target position for the moulin motor.
      * @return The remaining distance in ticks.
      */
-    public int getMoulinMotorRemainingDistance() {
-        return moulin.getRemainingDistance();
+    public int getMoulinMotorRemainingTicks() {
+        return moulin.getRemainingTicks();
     }
+    public double getMoulinMotorRemainingDegrees() {
+        return getDegreesFromTicks(getMoulinMotorRemainingTicks());
+    }
+
 
     /**
      * Resets the moulin motor's target to its current position, stopping any movement.
@@ -602,10 +603,10 @@ public class TrieurSubsystem extends SubsystemBase {
      */
     private void recalibrateMoulin() {
         // Get the absolute value of the remaining distance to the target position
-        int remainingDistance = Math.abs(getMoulinMotorRemainingDistance());
+        int remainingTicks = Math.abs(getMoulinMotorRemainingTicks());
         
         // Calculate how many intervals of INTERVALLE_TICKS_MOULIN fit into the remaining distance
-        double intervals = (double) remainingDistance / INTERVALLE_TICKS_MOULIN;
+        double intervals = (double) remainingTicks / INTERVALLE_TICKS_MOULIN;
         
         // Round the number of intervals to the nearest integer
         int intPartOfRounded = (int) Math.round(intervals);

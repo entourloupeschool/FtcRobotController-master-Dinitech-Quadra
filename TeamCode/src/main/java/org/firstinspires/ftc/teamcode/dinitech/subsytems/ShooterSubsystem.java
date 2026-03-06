@@ -343,7 +343,7 @@ public class ShooterSubsystem extends SubsystemBase {
         updateVelocityPidProfileForLoad();
         lastMotorCurrents.add(getVoltage());
 
-        printShooterTelemetry(telemetryM);
+//        printShooterTelemetry(telemetryM);
     }
 
     private void printShooterTelemetry(final TelemetryManager telemetryM) {

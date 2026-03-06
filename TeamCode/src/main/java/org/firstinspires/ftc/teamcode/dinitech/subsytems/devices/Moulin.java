@@ -381,8 +381,8 @@ public class Moulin {
      * Gets the remaining distance to the target position.
      * @return The remaining distance in encoder ticks.
      */
-    public int getRemainingDistance() {
-        return getTargetMotorPosition() - getMotorPosition();
+    public int getRemainingTicks() {
+        return Math.abs(getTargetMotorPosition() - getMotorPosition());
     }
 
     /**
@@ -402,7 +402,7 @@ public class Moulin {
     }
 
     public boolean isMotorCloseToTarget(int margin){
-        return Math.abs(getRemainingDistance()) < margin;
+        return getRemainingTicks() < margin;
     }
 
     /**

@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 /**
@@ -21,7 +18,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * Because this command never finishes, it ensures that the vision subsystem is always
  * providing the most current data possible.
  */
-public class OnlyMotifDetections extends CommandBase {
+public class OnlyMotifDetection extends CommandBase {
     private final VisionSubsystem visionSubsystem;
 
     /**
@@ -29,7 +26,7 @@ public class OnlyMotifDetections extends CommandBase {
      *
      * @param visionSubsystem The vision subsystem to continuously update.
      */
-    public OnlyMotifDetections(VisionSubsystem visionSubsystem){
+    public OnlyMotifDetection(VisionSubsystem visionSubsystem){
         this.visionSubsystem = visionSubsystem;
 
         addRequirements(visionSubsystem);
@@ -46,11 +43,8 @@ public class OnlyMotifDetections extends CommandBase {
      */
     @Override
     public void execute(){
-        if (!visionSubsystem.hasColorOrder()) {
-            if (!visionSubsystem.getAprilTagProcessorEnabled()) visionSubsystem.setAprilTagProcessorEnabled(true);
-
-//            visionSubsystem.optimizeDecimation();
-            visionSubsystem.updateAprilTagDetections();
+        if (!visionSubsystem.hasMotif()){
+            visionSubsystem.updateMotifDetection();
         } else {
             if (visionSubsystem.getAprilTagProcessorEnabled()){
                 visionSubsystem.setAprilTagProcessorEnabled(false);

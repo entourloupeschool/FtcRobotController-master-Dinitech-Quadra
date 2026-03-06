@@ -14,27 +14,21 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
  */
 public class SetPoseFCDrive extends CommandBase {
     private final DrivePedroSubsystem drivePedroSubsystem;
-    private final HubsSubsystem hubsSubsystem;
-    private final Pose inputPose;
+    protected Pose inputPose;
     /**
      * Creates a new ResetHeadingFCDrive command.
      *
      * @param drivePedroSubsystem   The drive subsystem to control.
      */
-    public SetPoseFCDrive(DrivePedroSubsystem drivePedroSubsystem, HubsSubsystem hubsSubsystem, Pose inputPose) {
+    public SetPoseFCDrive(DrivePedroSubsystem drivePedroSubsystem, Pose inputPose) {
         this.drivePedroSubsystem = drivePedroSubsystem;
-        this.hubsSubsystem = hubsSubsystem;
         this.inputPose = inputPose;
         addRequirements(drivePedroSubsystem);
     }
 
     @Override
     public void initialize(){
-        if (hubsSubsystem.getTeam() == HubsSubsystem.Team.RED){
-            drivePedroSubsystem.getDrive().setPose(inputPose.mirror());
-        } else {
-            drivePedroSubsystem.getDrive().setPose(inputPose);
-        }
+        drivePedroSubsystem.getDrive().setPose(inputPose);
         drivePedroSubsystem.setDriverInputPose(true);
     }
 

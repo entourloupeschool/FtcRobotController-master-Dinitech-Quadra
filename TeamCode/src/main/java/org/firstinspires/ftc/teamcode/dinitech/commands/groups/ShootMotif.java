@@ -40,7 +40,7 @@ public class ShootMotif extends ConditionalCommand {
                 // Command to run if no color order is detected
                 new InstantCommand(),
                 // Condition: Check if the vision subsystem has a color order
-                visionSubsystem::hasColorOrder
+                visionSubsystem::hasMotif
         );
     }
 }

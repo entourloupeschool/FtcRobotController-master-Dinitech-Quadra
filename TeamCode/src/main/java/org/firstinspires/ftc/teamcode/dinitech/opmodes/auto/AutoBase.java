@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_AUTO_TIMEOUT;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetections;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetection;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
@@ -20,7 +20,7 @@ public class AutoBase extends Gornetix {
             super.initialize();
 
             drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
-            visionSubsystem.setDefaultCommand(new OnlyMotifDetections(visionSubsystem));
+            visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));
 
             autoSetArtefactColors();
             MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors());
@@ -44,7 +44,7 @@ public class AutoBase extends Gornetix {
             }
 
             if (MotifStorage.getMotifNumber() == -1){
-                if (visionSubsystem.hasColorOrder()) MotifStorage.setMotifNumber(visionSubsystem.getCachedMotif());
+                if (visionSubsystem.hasMotif()) MotifStorage.setMotifNumber(visionSubsystem.getCachedMotif());
             }
 
             super.run();

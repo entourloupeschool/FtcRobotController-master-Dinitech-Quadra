@@ -6,14 +6,12 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LONG_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MID_SHOOT_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CONTINUOUS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RESET_POSE_BLUE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOT_REVOLUTION_THEN_WAIT;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.arcrobotics.ftclib.command.button.Trigger;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.StopRobot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
@@ -23,32 +21,27 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.MaxPowerDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.PedroAimLockedDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetHeadingFCDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SetPoseFCDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetPoseFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SlowDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchAimLockType;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchTeamAndFlipPose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.DefaultGamepadCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.PedroShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.WaitVelocityShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.TeleShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SwitchUsageStateShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinAntiRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.PrepShootTrieur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.ToggleTrappe;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetections;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetection;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeShootTeleOp;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.PrepModeRamassageTeleOp;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
@@ -60,8 +53,6 @@ import java.util.Objects;
 public class TeleOpBase extends Gornetix {
     private int lastHowManyArtefacts = 0;
     private int currentGetHowManyArtefacts = 0;
-    private double rightTriggerValue = 0;
-    private double leftTriggerValue = 0;
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -93,7 +84,7 @@ public class TeleOpBase extends Gornetix {
                 visionSubsystem.setCachedMotif(MotifStorage.getMotifNumber());
                 MotifStorage.clearMotifNumber();
             } else {
-                visionSubsystem.setDefaultCommand(new OnlyMotifDetections(visionSubsystem));
+                visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));
             }
 
             gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, gamepadSubsystem));
@@ -120,10 +111,10 @@ public class TeleOpBase extends Gornetix {
             if(currentGetHowManyArtefacts == 3) modeShoot();
         }
 
-        rightTriggerValue = m_Operator.getRightTriggerValue();
-        leftTriggerValue = m_Operator.getLeftTriggerValue();
+        double rightTriggerValue = m_Operator.getRightTriggerValue();
+        double leftTriggerValue = m_Operator.getLeftTriggerValue();
         if (rightTriggerValue > 0.01)trieurSubsystem.incrementMoulinTargetPosition(rightTriggerValue * rightTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
-        if (leftTriggerValue > 0.01)trieurSubsystem.incrementMoulinTargetPosition(- leftTriggerValue * leftTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
+        if (leftTriggerValue > 0.01)trieurSubsystem.incrementMoulinTargetPosition(-leftTriggerValue * leftTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
 
         super.run();
     }
@@ -142,6 +133,7 @@ public class TeleOpBase extends Gornetix {
         m_Driver.square.whenPressed(new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem));
         m_Driver.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem));
 
+        m_Driver.start.whenPressed(new ResetPoseFCDrive(drivePedroSubsystem, hubsSubsystem));
         m_Driver.back.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
 
         m_Driver.bump_left.toggleWhenPressed(

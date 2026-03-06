@@ -72,7 +72,6 @@ public class VisionSubsystem extends SubsystemBase {
 
     private boolean hasCurrentATDetections = false;
     private int cachedMotif = -1;
-    private boolean hasDetectedMotif = false;
     private double decimation = 1;
     private int lastATGoalID = 20;
 
@@ -127,14 +126,29 @@ public class VisionSubsystem extends SubsystemBase {
                         aTPoseXSamples.add(detection.ftcPose.x);
                         aTPoseYSamples.add(detection.ftcPose.y);
                         updateCachedAverages();
-                    } else if (!hasDetectedMotif) {
+                    } else if (!hasMotif()) {
                         cachedMotif = detection.id;
-                        hasDetectedMotif = true;
                     }
                 } else {
                     setHasCurrentAprilTagDetections(false);
                 }
             }
+    }
+    
+    public void updateMotifDetection(){
+        List<AprilTagDetection> detections = aprilTagProcessor.getDetections();
+        hasCurrentATDetections = !detections.isEmpty();
+        if (hasCurrentATDetections) {
+            for (AprilTagDetection detection : detections){
+                if (detection.metadata != null) {
+                    int detectionId = detection.id;
+                    if (detectionId == 21 || detectionId == 22 || detectionId == 23){
+                        cachedMotif = detectionId;
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public void updateCachedAverages() {
@@ -225,15 +239,14 @@ public class VisionSubsystem extends SubsystemBase {
 //            telemetryM.addData("yawRaw", getRobotPoseYaw());
 //        }
 
-        telemetryM.addData("hasDetectedMotif", hasDetectedMotif);
+        telemetryM.addData("hasDetectedMotif", hasMotif());
     }
 
     public int getCachedMotif() { return cachedMotif; }
     public void setCachedMotif(int val){
         cachedMotif = val;
-        hasDetectedMotif = val != -1;
     }
-    public boolean hasColorOrder() { return hasDetectedMotif; }
+    public boolean hasMotif() { return getCachedMotif() != -1; }
 
     public void setAprilTagProcessorEnabled(boolean val){ if (visionPortal != null) visionPortal.setProcessorEnabled(aprilTagProcessor, val); }
     public boolean getAprilTagProcessorEnabled(){ return visionPortal != null && visionPortal.getProcessorEnabled(aprilTagProcessor); }

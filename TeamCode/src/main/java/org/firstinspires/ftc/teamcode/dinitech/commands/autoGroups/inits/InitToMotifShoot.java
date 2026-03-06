@@ -49,7 +49,7 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                                 new SequentialCommandGroup(
                                         // Race: wait for hasColorOrder OR wait for path to finish
                                         new ParallelRaceGroup(
-                                                new WaitUntilCommand(visionSubsystem::hasColorOrder),
+                                                new WaitUntilCommand(visionSubsystem::hasMotif),
                                                 new WaitUntilCommand(() -> drivePedroSubsystem.getDrive().isPathQuasiDone())),
                                         // Only run ReadyMotif if hasColorOrder became true, otherwise skip
                                         new ConditionalCommand(
@@ -57,7 +57,7 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                                                         new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                                                         new OpenWaitTrappe(trieurSubsystem)),
                                                 new OpenWaitTrappe(trieurSubsystem),
-                                                visionSubsystem::hasColorOrder)))),
+                                                visionSubsystem::hasMotif)))),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
         );

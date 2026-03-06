@@ -37,7 +37,6 @@ public class ReadyMotif extends MoulinToPositionMargin {
         super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE); // Target is set dynamically in initialize()
         this.visionSubsystem = visionSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
-        addRequirements(visionSubsystem);
     }
 
     /**
@@ -45,34 +44,26 @@ public class ReadyMotif extends MoulinToPositionMargin {
      */
     @Override
     public void initialize(){
-        int colorsOrder = visionSubsystem.getCachedMotif();
-        // Check if the color order has been detected by the vision system.
-        if (colorsOrder == -1){
-            // Fallback: Rumble and move to a default position if no motif is detected.
+        int motif = visionSubsystem.getCachedMotif();
+        int greenPosition = trieurSubsystem.getPosWithColor(TrieurSubsystem.ArtifactColor.GREEN);
+
+        if (motif == -1 || greenPosition == -1){
+            // Fallback: Rumble and move to a default position if no motif is detected or no green artefacts stored.
             gamepadSubsystem.customRumble(new Gamepad.RumbleEffect.Builder()
                     .addStep(0.5, 0.5, RUMBLE_DURATION_4)
                     .build(), 3, true);
             super.initialize();
         } else {
-            // Calculate the target position. The logic aligns the moulin based on the
-            // location of the green artifact in the sequence.
-            int greenPosition = trieurSubsystem.getPosWithColor(TrieurSubsystem.ArtifactColor.GREEN);
-
-            if (greenPosition == -1){
-                // Fallback if green position is not found.
-                super.initialize();
+            if (motif == 21){
+                super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(greenPosition, 2);
+            } else if (motif == 22){
+                // Adjust if green is the second artifact in the motif.
+                super.moulinTargetPosition = greenPosition;
             } else {
-                if (colorsOrder == 21){
-                    super.moulinTargetPosition = trieurSubsystem.getNNextMoulinPosition(greenPosition, 2);
-                } else if (colorsOrder == 22){
-                    // Adjust if green is the second artifact in the motif.
-                    super.moulinTargetPosition = greenPosition;
-                } else {
-                    // Adjust if green is the third artifact in the motif.
-                    super.moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(greenPosition, 2);
-                }
-                super.initialize(); // Execute the rotation.
+                // Adjust if green is the third artifact in the motif.
+                super.moulinTargetPosition = trieurSubsystem.getNPreviousMoulinPosition(greenPosition, 2);
             }
+            super.initialize(); // Execute the rotation.
         }
     }
 }

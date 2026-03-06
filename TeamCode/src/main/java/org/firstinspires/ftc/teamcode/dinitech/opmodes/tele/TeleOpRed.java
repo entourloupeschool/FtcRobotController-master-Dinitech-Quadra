@@ -12,7 +12,6 @@ public class TeleOpRed extends TeleOpBase {
     public void initialize() {
             super.initialize();
             hubsSubsystem.setTeam(HubsSubsystem.Team.RED);
-            m_Driver.start.whenPressed(new SetPoseFCDrive(drivePedroSubsystem, hubsSubsystem, hubsSubsystem.getTeam().getResetPose()));
     }
 
     @Override

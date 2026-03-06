@@ -15,10 +15,7 @@ public class TeleOpBlue extends TeleOpBase {
     public void initialize() {
             super.initialize();
             hubsSubsystem.setTeam(HubsSubsystem.Team.BLUE);
-            m_Driver.start.whenPressed(new SetPoseFCDrive(drivePedroSubsystem, hubsSubsystem, hubsSubsystem.getTeam().getResetPose()));
-
             new FlipFieldCentricDrive(drivePedroSubsystem, BLUE_TEAM_HEADING).initialize();
-
 
     }
 

@@ -18,7 +18,8 @@ public class Globals {
     public static double BLUE_TEAM_HEADING = Math.PI;
     public static double RED_TEAM_HEADING = 0;
 
-    public static Pose RESET_POSE_BLUE = new Pose(111.7, 55.7, Math.PI);
+    public static Pose RESET_POSE_RED = new Pose(32.2, 40.8, Math.PI);
+    public static Pose RESET_POSE_BLUE = RESET_POSE_RED.rotate(BLUE_TEAM_HEADING, true);
 
 
     /**
@@ -137,8 +138,12 @@ public class Globals {
 
         public static final String MOULIN_MOTOR_NAME = "moulin";
 
-        public static int INTERVALLE_TICKS_MOULIN = 638; //240;//384;// MOTOR_TICKS_PER_REV * RAPPORT_TRANSMISSION /
-                                                              // Moulin.TOTAL_POSITIONS;
+        public static int INTERVALLE_TICKS_MOULIN = 638;
+        public static final double ONE_DEGREE_TICKS = (double) 60 / INTERVALLE_TICKS_MOULIN;
+        public static double getDegreesFromTicks(int ticks){
+            return ONE_DEGREE_TICKS * ticks;
+        }
+
         public static final double POWER_MOULIN_ROTATION = 1;
         public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
         public static int MOULIN_POSITION_TOLERANCE = 1; // 2;
@@ -188,7 +193,7 @@ public class Globals {
         public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 2.1;
 
         public static double P_SHOOTER_VELOCITY_AGGRESSIVE_3R = P_SHOOTER_VELOCITY_AGGRESSIVE;
-        public static double I_SHOOTER_VELOCITY_AGGRESSIVE_3R = 0;
+        public static double I_SHOOTER_VELOCITY_AGGRESSIVE_3R = 0.0001;
         public static double D_SHOOTER_VELOCITY_AGGRESSIVE_3R = 5.745;
         public static double F_SHOOTER_VELOCITY_AGGRESSIVE_3R = F_SHOOTER_VELOCITY_AGGRESSIVE * 5;
         public static final long SHOOT_REVOLUTION_THEN_WAIT = 500;
@@ -211,8 +216,8 @@ public class Globals {
         return A_DIFFS * rangeCM + 1204.879; //
     }
 
-    public static double a_Pedro = 5.25;
-    public static double b_Pedro = 1210;
+    public static final double a_Pedro = 5.25;
+    public static final double b_Pedro = 1210;
     /**
      * Gives back a linear speed from a range in inches
      * @param rangeInch The range value in inches, positive.
