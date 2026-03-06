@@ -20,6 +20,7 @@ public class Globals {
 
     public static Pose RESET_POSE_BLUE = new Pose(111.7, 55.7, Math.PI);
 
+
     /**
      * Auto Phase globals
      */

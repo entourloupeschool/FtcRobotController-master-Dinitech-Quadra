@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HEADING;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_BASKET_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_GOAL_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_AUDIENCE_SHOOT_POSE;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.pedropathing.geometry.Pose;
@@ -21,9 +24,25 @@ public class HubsSubsystem extends SubsystemBase {
 
 
     public enum Team {
-        BLUE,
-        RED,
-        NONE
+        BLUE(CLOSE_SHOOT_BLUE_POSE, BLUE_AUDIENCE_SHOOT_POSE),
+        RED(CLOSE_SHOOT_RED_POSE, RED_AUDIENCE_SHOOT_POSE),
+        NONE(FIELD_CENTER_90HEADING_POSE, FIELD_CENTER_90HEADING_POSE);
+
+        private final Pose closeShootPose;
+        private final Pose audienceShootPose;
+
+        Team(Pose closeShootPose, Pose audienceShootPose) {
+            this.closeShootPose = closeShootPose;
+            this.audienceShootPose = audienceShootPose;
+        }
+
+        public Pose getCloseShootPose() {
+            return closeShootPose;
+        }
+
+        public Pose getAudienceShootPose() {
+            return audienceShootPose;
+        }
     }
 
     private Team team = Team.NONE;
