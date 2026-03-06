@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADI
 
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.T_PARAMETRIC_DONT_SHOOT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_FOR_3BALL;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
@@ -33,7 +34,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToGatePickToShoot extends SequentialCommandGroup {
-    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose GatePickEndPose, Pose endPose, double gatePower){
+    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose GatePickEndPose, Pose endPose, double gatePower, double endTime){
         addCommands(
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
@@ -45,7 +46,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                         drivePedroSubsystem::getHeading,
                                         GatePickPose.getHeading(),
-                                        LINEAR_HEADING_INTERPOLATION_END_TIME/1.5)).build(),
+                                        endTime)).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
@@ -72,7 +73,9 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
                                                 endPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
+                                        .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
+                                            if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true))),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)

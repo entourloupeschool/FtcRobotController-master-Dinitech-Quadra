@@ -12,12 +12,12 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToThirdRowToShoot extends ToRowToShoot {
-    public ToThirdRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem, double lengthBackup, double rowPower){
-        super(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem.getTeam().getThirdRowPose(), hubsSubsystem.getTeam().getAudienceShootPose(), lengthBackup, rowPower, LINEAR_HEADING_INTERPOLATION_END_TIME/1.3, AUDIENCE_AUTO_SHOOTER_VELOCITY);
+    public ToThirdRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem, double lengthBackup, double endTime, double rowPower){
+        super(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem.getTeam().getThirdRowPose(), hubsSubsystem.getTeam().getAudienceShootPose(), lengthBackup, rowPower, endTime, AUDIENCE_AUTO_SHOOTER_VELOCITY);
     }
 
-    public ToThirdRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem, double lengthBackup){
-        super(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem.getTeam().getThirdRowPose(), hubsSubsystem.getTeam().getAudienceShootPose(), lengthBackup,LINEAR_HEADING_INTERPOLATION_END_TIME/1.3, AUDIENCE_AUTO_SHOOTER_VELOCITY);
+    public ToThirdRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem, double lengthBackup, double endTime){
+        super(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem.getTeam().getThirdRowPose(), hubsSubsystem.getTeam().getAudienceShootPose(), lengthBackup,endTime, AUDIENCE_AUTO_SHOOTER_VELOCITY);
     }
 
 }

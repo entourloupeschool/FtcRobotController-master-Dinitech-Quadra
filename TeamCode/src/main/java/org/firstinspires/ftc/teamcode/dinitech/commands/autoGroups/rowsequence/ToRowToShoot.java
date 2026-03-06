@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.T_PARAMETRIC_DONT_SHOOT;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -24,7 +25,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToRowToShoot extends SequentialCommandGroup {
-    public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose RowPose, Pose endPose, double lengthBackup, double rowPower, double endTime, double shooterVeolocity){
+    public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose RowPose, Pose endPose, double lengthBackup, double rowPower, double endTime, double shooterVelocity){
         addCommands(
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
@@ -49,7 +50,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                 RowPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         rowPower, true),
-                                new SetVelocityShooterRequire(shooterSubsystem, shooterVeolocity),
+                                new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierCurve(
                                                 drivePedroSubsystem::getPose,
@@ -58,7 +59,9 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
                                                 endPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
+                                        .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
+                                            if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
                         new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                         new MaxPowerChargeur(chargeurSubsystem)),
@@ -98,7 +101,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                 drivePedroSubsystem::getHeading,
                                                 endPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME))
-                                        .addParametricCallback(0.75, () -> {
+                                        .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true))),
 

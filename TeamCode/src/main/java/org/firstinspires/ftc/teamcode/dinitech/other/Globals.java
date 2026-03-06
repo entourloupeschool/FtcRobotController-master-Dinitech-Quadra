@@ -28,12 +28,17 @@ public class Globals {
     public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.75; // 0.85
     public static final double BRAKING_START_PEDRO_DINITECH = 1.3; // 1.4
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.9;
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT = 0.7;
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.5;
+
+
     public static final double TILE_DIM = 24;
     public static final double SCALE_Y_TILE = 1.05;
     public static final double FOLLOWER_T_POSITION_END = 0.885;//0.93;
     public static double LENGTH_X_ROW = TILE_DIM * 0.865;
     public static double LENGTH_X_ROW_SUPER = 24;
     public static double LENGTH_X_ROW_SUPER_23RD = 30;
+    public static double T_PARAMETRIC_DONT_SHOOT = 0.65;
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
