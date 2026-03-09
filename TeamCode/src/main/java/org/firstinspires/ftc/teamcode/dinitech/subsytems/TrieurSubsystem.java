@@ -41,7 +41,6 @@ import java.util.Arrays;
  * </ul>
  */
 public class TrieurSubsystem extends SubsystemBase {
-    public String etape = "0";
     /**
      * Represents the possible colors of an artifact.
      */
@@ -577,7 +576,6 @@ public class TrieurSubsystem extends SubsystemBase {
                 if (getOvercurrentCounts() > 10){
                     setMoulinPower(0);
                 }
-                etape = "overCurrent";
 
                 telemetryM.addLine("Moulin Over Current");
                 return;
@@ -671,7 +669,6 @@ public class TrieurSubsystem extends SubsystemBase {
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
 //        printDistanceTelemetryManager(telemetryM);
-        telemetryM.addData("etape", etape);
         printMoulinTelemetryManager(telemetryM);
 //        printColorTelemetryManager(telemetryM);
     }

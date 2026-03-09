@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.Blinker;
 
+import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
@@ -68,12 +69,12 @@ public class DefaultHubsCommand extends CommandBase {
         }
 
         // Set initial pattern
-        updatePattern(trieurSubsystem.isTrappeOpen(), hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE);
+        updatePattern(trieurSubsystem.isTrappeOpen(), hubsSubsystem.getTeam() == TeamPoses.Team.BLUE);
     }
     @Override
     public void execute() {
         boolean currentTrappeOpen = trieurSubsystem.isTrappeOpen();
-        boolean currentIsBlue = hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE;
+        boolean currentIsBlue = hubsSubsystem.getTeam() == TeamPoses.Team.BLUE;
 
         // Only update pattern when trappe state or team color changes
         if (!patternSet || currentTrappeOpen != lastTrappeOpen || currentIsBlue != lastIsBlue) {

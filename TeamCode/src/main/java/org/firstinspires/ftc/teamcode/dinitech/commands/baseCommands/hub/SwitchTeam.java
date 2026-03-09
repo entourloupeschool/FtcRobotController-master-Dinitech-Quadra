@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.hub;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+
+import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
 public class SwitchTeam extends CommandBase {
@@ -12,10 +14,10 @@ public class SwitchTeam extends CommandBase {
 
     @Override
     public void initialize() {
-        if (hubsSubsystem.getTeam() == HubsSubsystem.Team.BLUE){
-            hubsSubsystem.setTeam(HubsSubsystem.Team.RED);
-        } else if (hubsSubsystem.getTeam() == HubsSubsystem.Team.RED){
-            hubsSubsystem.setTeam(HubsSubsystem.Team.BLUE);
+        if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE){
+            hubsSubsystem.setTeam(TeamPoses.Team.RED);
+        } else if (hubsSubsystem.getTeam() == TeamPoses.Team.RED){
+            hubsSubsystem.setTeam(TeamPoses.Team.BLUE);
         }
     }
 

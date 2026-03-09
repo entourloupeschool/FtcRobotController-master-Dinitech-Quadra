@@ -28,7 +28,6 @@ public class OnlyMotifDetection extends CommandBase {
      */
     public OnlyMotifDetection(VisionSubsystem visionSubsystem){
         this.visionSubsystem = visionSubsystem;
-
         addRequirements(visionSubsystem);
     }
 

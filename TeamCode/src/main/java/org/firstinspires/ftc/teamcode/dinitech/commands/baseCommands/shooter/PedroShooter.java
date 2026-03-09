@@ -42,7 +42,7 @@ public class PedroShooter extends CommandBase {
 
     @Override
     public void execute() {
-        double range = drivePedroSubsystem.getPose().distanceFrom(hubsSubsystem.getGoalPose());
+        double range = drivePedroSubsystem.getPose().distanceFrom(hubsSubsystem.getTeam().getBasketPose());
         shooterSubsystem.setVelocity(linearSpeedFromPedroRange(range));
     }
 }

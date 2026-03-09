@@ -33,7 +33,12 @@ public class InstantPedroShooter extends CommandBase {
     public void initialize(){
         shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.PEDRO);
 
-        double range = drivePedroSubsystem.getPose().distanceFrom(hubsSubsystem.getGoalPose());
+        double range = drivePedroSubsystem.getPose().distanceFrom(hubsSubsystem.getTeam().getBasketPose());
         shooterSubsystem.setVelocity(linearSpeedFromPedroRange(range));
+    }
+
+    @Override
+    public boolean isFinished() {
+        return true;
     }
 }

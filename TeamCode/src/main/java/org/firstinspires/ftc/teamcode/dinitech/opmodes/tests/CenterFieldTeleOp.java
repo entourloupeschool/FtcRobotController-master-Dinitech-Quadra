@@ -1,23 +1,20 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.tele;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HEADING;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FlipFieldCentricDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SetPoseFCDrive;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.tele.TeleOpBase;
 import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
-@TeleOp(name = "TeleOpBlue", group = "TeleOp")
-public class TeleOpBlue extends TeleOpBase {
+@TeleOp(name = "CenterFieldTeleOp", group = "Tests")
+public class CenterFieldTeleOp extends TeleOpBase {
     @Override
     public void initialize() {
             super.initialize();
             hubsSubsystem.setTeam(TeamPoses.Team.BLUE);
-            new FlipFieldCentricDrive(drivePedroSubsystem, BLUE_TEAM_HEADING).initialize();
-
+            drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEADING_POSE);
     }
 
     @Override

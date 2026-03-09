@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_1;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_3;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.bylazar.telemetry.TelemetryManager;
@@ -35,6 +38,37 @@ public class GamepadSubsystem extends SubsystemBase {
                 .addStep(0.9, 0.9, 50)
                 .addStep(0.5, 0.5, 20)
                 .addStep(0.9, 0.9, 50)
+                .build();
+    public final Gamepad.RumbleEffect trappeOpenRumble = new Gamepad.RumbleEffect.Builder()
+            .addStep(0.35, 0, RUMBLE_DURATION_1)
+                .build();
+    public final Gamepad.RumbleEffect moulinOverCurrentRumble = new Gamepad.RumbleEffect.Builder()
+            .addStep(1, 1, RUMBLE_DURATION_1)
+            .addStep(0.5, 0.5, RUMBLE_DURATION_3)
+            .build();
+    public final Gamepad.RumbleEffect shooterVelocityTargetStabilizedRumble = new Gamepad.RumbleEffect.Builder()
+            .addStep(0, 0.15, RUMBLE_DURATION_3)
+                .addStep(0, 0.25, RUMBLE_DURATION_3)
+                .addStep(0.15, 0.35, RUMBLE_DURATION_3)
+                .addStep(0.25, 0.45, RUMBLE_DURATION_3)
+                .addStep(0.35, 0.55, RUMBLE_DURATION_3)
+                .addStep(0.45, 0.65, RUMBLE_DURATION_3)
+                .addStep(0.55, 0.55, RUMBLE_DURATION_3)
+                .addStep(0.65, 0.45, RUMBLE_DURATION_3)
+                .addStep(0.55, 0.35, RUMBLE_DURATION_3)
+                .addStep(0.45, 0.25, RUMBLE_DURATION_3)
+                .addStep(0.35, 0.15, RUMBLE_DURATION_3)
+                .addStep(0.25, 0, RUMBLE_DURATION_3)
+                .addStep(0.15, 0, RUMBLE_DURATION_3)
+                .build();
+
+    public final Gamepad.RumbleEffect aimLockedDriveRumble = new Gamepad.RumbleEffect.Builder()
+            .addStep(0, 0.15, RUMBLE_DURATION_3)
+                .addStep(0.15, 0.30, RUMBLE_DURATION_3)
+                .addStep(0.30, 0.45, RUMBLE_DURATION_3)
+                .addStep(0.45, 0.30, RUMBLE_DURATION_3)
+                .addStep(0.30, 0.15, RUMBLE_DURATION_3)
+                .addStep(0.15, 0, RUMBLE_DURATION_3)
                 .build();
 
     /**

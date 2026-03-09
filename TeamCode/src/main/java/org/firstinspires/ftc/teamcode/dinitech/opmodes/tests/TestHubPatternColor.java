@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.RobotBase;
+import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
@@ -39,7 +40,7 @@ public class TestHubPatternColor extends RobotBase {
 
         hubsSubsystem = new HubsSubsystem(hardwareMap);
         register(hubsSubsystem);
-        hubsSubsystem.setTeam(HubsSubsystem.Team.BLUE);
+        hubsSubsystem.setTeam(TeamPoses.Team.BLUE);
 
         // Add steps: each Step has a color (ARGB int) and duration in milliseconds
         pattern.add(new Blinker.Step(0xFF00FF00, 500, TimeUnit.MILLISECONDS));  // Green for 500ms

@@ -12,14 +12,15 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.T_PARAMETRIC
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_FOR_3BALL;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 
@@ -50,7 +51,6 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
-                        new MaxPowerChargeur(chargeurSubsystem),
                         new ModeRamassageAutoGate(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
@@ -61,9 +61,11 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                 drivePedroSubsystem::getHeading,
                                                 GatePickEndPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        gatePower, false),
+                                        gatePower, true),
                                 new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
-                                new WaitCommand(WAIT_FOR_3BALL),
+                                new ParallelRaceGroup(
+                                        new WaitCommand(WAIT_FOR_3BALL),
+                                        new WaitUntilCommand(trieurSubsystem::getIsFull)),
                                 // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierCurve(

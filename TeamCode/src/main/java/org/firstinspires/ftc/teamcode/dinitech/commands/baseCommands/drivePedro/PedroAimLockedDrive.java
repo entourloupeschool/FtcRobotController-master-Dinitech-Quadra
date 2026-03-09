@@ -65,7 +65,7 @@ public class PedroAimLockedDrive extends CommandBase {
     public void execute() {
         double rightX = driver.getRightX();
         Pose currentPose = drivePedroSubsystem.getPose();
-        Pose goalPose = hubsSubsystem.getGoalPose();
+        Pose goalPose = hubsSubsystem.getTeam().getBasketPose();
 
         double headingGoal = Math.atan2(currentPose.getY() - goalPose.getY(), currentPose.getX() - goalPose.getX());
         double headingError = MathFunctions.getTurnDirection(currentPose.getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(currentPose.getHeading(), headingGoal);

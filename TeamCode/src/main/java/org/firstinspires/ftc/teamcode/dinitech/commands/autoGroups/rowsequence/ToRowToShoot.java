@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_C
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.T_PARAMETRIC_DONT_SHOOT;
 
+import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierCurve;
@@ -25,6 +26,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToRowToShoot extends SequentialCommandGroup {
+
     public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose RowPose, Pose endPose, double lengthBackup, double rowPower, double endTime, double shooterVelocity){
         addCommands(
                 new ParallelCommandGroup(
@@ -50,6 +52,52 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                 RowPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         rowPower, true),
+                                new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
+                                new FollowPath(drivePedroSubsystem, builder -> builder
+                                        .addPath(new BezierCurve(
+                                                drivePedroSubsystem::getPose,
+                                                RowPose,
+                                                endPose))
+                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                drivePedroSubsystem::getHeading,
+                                                endPose.getHeading(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
+                                        .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
+                                            if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
+                                        AUTO_ROBOT_CONSTRAINTS, true)),
+                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                        new MaxPowerChargeur(chargeurSubsystem)),
+
+                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
+        );
+    }
+
+    public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose RowPose, Pose endPose, CommandBase openGateTrajectoryCommand, double lengthBackup, double rowPower, double endTime, double shooterVelocity){
+        addCommands(
+                new ParallelCommandGroup(
+                        new TrieurReadyEmptyStorage(trieurSubsystem),
+                        new FollowPath(drivePedroSubsystem, builder -> builder
+                                .addPath(new BezierLine(
+                                        drivePedroSubsystem::getPose,
+                                        RowPose))
+                                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                        drivePedroSubsystem::getHeading,
+                                        RowPose.getHeading(),
+                                        endTime)).build(),
+                                AUTO_ROBOT_CONSTRAINTS, true)),
+
+                new ParallelCommandGroup(
+                        new SequentialCommandGroup(
+                                new FollowPath(drivePedroSubsystem, builder -> builder
+                                        .addPath(new BezierLine(
+                                                drivePedroSubsystem::getPose,
+                                                RowPose.withX(RowPose.getX() + (RowPose.getX() > 72 ? lengthBackup : -lengthBackup))))
+                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                drivePedroSubsystem::getHeading,
+                                                RowPose.getHeading(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                        rowPower, true),
+                                openGateTrajectoryCommand,
                                 new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierCurve(

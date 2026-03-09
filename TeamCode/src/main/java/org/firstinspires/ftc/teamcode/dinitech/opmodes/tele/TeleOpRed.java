@@ -1,17 +1,15 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tele;
 
-
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SetPoseFCDrive;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 
 @TeleOp(name = "TeleOpRed", group = "TeleOp")
 public class TeleOpRed extends TeleOpBase {
     @Override
     public void initialize() {
             super.initialize();
-            hubsSubsystem.setTeam(HubsSubsystem.Team.RED);
+            hubsSubsystem.setTeam(TeamPoses.Team.RED);
     }
 
     @Override

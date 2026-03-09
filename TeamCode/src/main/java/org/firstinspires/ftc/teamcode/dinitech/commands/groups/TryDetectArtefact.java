@@ -25,8 +25,6 @@ public class TryDetectArtefact extends CommandBase {
 
     private final TrieurSubsystem trieurSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
-    private Gamepad.RumbleEffect waitRumbleEffect;
-    private Gamepad.RumbleEffect unfoundRumbleEffect;
     private int timeout;
     private boolean isFound;
 
