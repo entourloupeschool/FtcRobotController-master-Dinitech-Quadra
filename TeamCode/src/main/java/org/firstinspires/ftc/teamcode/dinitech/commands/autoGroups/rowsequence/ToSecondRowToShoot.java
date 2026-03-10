@@ -21,8 +21,4 @@ public class ToSecondRowToShoot extends ToRowToShoot {
     public ToSecondRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem, CommandBase openGateTrajectoryCommand, double lengthBackup, double endTime, double rowPower){
         super(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem.getTeam().getSecondRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), openGateTrajectoryCommand, lengthBackup, rowPower, endTime, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY);
     }
-
-    public ToSecondRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem, double lengthBackup, double endTime){
-        super(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem.getTeam().getSecondRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), lengthBackup, endTime, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY);
-    }
 }

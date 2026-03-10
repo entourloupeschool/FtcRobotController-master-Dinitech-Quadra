@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.GATEPICK_POWER;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X_ROW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -42,13 +43,12 @@ public class TwoGateFromGoal extends SequentialCommandGroup {
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierCurve(
                                         drivePedroSubsystem::getPose,
-                                        hubsSubsystem.getTeam().getRampPose().withY(hubsSubsystem.getTeam().getRampPose().getY() + 1.5),
+                                        hubsSubsystem.getTeam().getRampPose().withY(hubsSubsystem.getTeam().getRampPose().getY() + 4),
                                         hubsSubsystem.getTeam().getRampPose()))
                                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                         drivePedroSubsystem::getHeading,
-                                        hubsSubsystem.getTeam().getSecondRowPose().getHeading(),
-                                        LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT))
-                                .build(),
+                                        hubsSubsystem.getTeam().getRampPose().getHeading(),
+                                        LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT)).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true),
                         LENGTH_X_ROW, LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT, AUTO_ROBOT_CONSTRAINTS),
 
