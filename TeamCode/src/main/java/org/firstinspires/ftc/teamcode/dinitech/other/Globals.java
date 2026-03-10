@@ -32,15 +32,15 @@ public class Globals {
     public static final double AUTO_ROBOT_CONSTRAINTS = 1;
     public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.64; // 0.75
     public static final double BRAKING_START_PEDRO_DINITECH = 1.3; // 1.4
-    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.88;
-    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT = 0.7;
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.85;
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT = 0.68;
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.52;
 
 
     public static final double TILE_DIM = 24;
     public static final double SCALE_Y_TILE = 1.05;
     public static final double FOLLOWER_T_POSITION_END = 0.885;
-    public static double LENGTH_X_ROW = TILE_DIM * 0.865;
+    public static double LENGTH_X_ROW = TILE_DIM * 0.87;
     public static double LENGTH_X_ROW_SUPER = 24;
     public static double LENGTH_X_ROW_SUPER_23RD = 30;
     public static double T_PARAMETRIC_DONT_SHOOT = 0.65;
@@ -66,7 +66,7 @@ public class Globals {
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
-    public static final Pose BLUE_RAMP_POSE = new Pose(17.57, 64.43, -0.162);
+    public static final Pose BLUE_RAMP_POSE = new Pose(17.51, 63.2, -0.162);
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
     public static double GATEPICK_LENGTH_BACKUP_Y = -1.9;
     public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.41);
@@ -145,12 +145,17 @@ public class Globals {
 
         public static final String MOULIN_MOTOR_NAME = "moulin";
 
-        public static int REVOLUTION_MOULIN_TICKS = 1834;
-        public static final int INTERVALLE_TICKS_MOULIN = Math.round((float) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS);
-        public static final double ONE_DEGREE_TICKS = (double) 60 / INTERVALLE_TICKS_MOULIN;
+        public static int REVOLUTION_MOULIN_TICKS = 1833;
+        public static final int INTERVALLE_TICKS_MOULIN = Math.round((float) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS); // =305
+        public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.18°
         public static double getDegreesFromTicks(int ticks){
-            return ONE_DEGREE_TICKS * ticks;
+            return TICKS_TO_DEGREE * ticks;
         }
+        public static int getTicksFromDegrees(double degrees){
+            return (int) (degrees / TICKS_TO_DEGREE);}
+
+
+
 
         public static final double POWER_MOULIN_ROTATION = 1;
         public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
@@ -160,9 +165,9 @@ public class Globals {
         public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE;
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 15 * (MOULIN_POSITION_TOLERANCE + 2);
-        public static int MOULIN_ROTATE_SPEED_CALIBRATION = 40;
+        public static int MOULIN_ROTATE_SPEED_CALIBRATION = 18;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
-        public static int WAIT_HIGH_SPEED_TRIEUR = 100;
+        public static int WAIT_HIGH_SPEED_TRIEUR = 150;
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.9;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
@@ -252,7 +257,8 @@ public class Globals {
         public static final String CS3_NAME = "cs3";
         public static final String MAGNETIC_SWITCH_NAME = "m_s";
         public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
-        public static int OFFSET_MAGNETIC_POS = (int) Math.round(INTERVALLE_TICKS_MOULIN * 0.05956112853);
+        public static int OFFSET_MAGNETIC_POS = (int) Math.round(REVOLUTION_MOULIN_TICKS * 0.0250817);
+        public static double SCALE_RECALIBRATION = 0.7;
         public static final double DETECT_PURPLE_RED_RGB = 0.694;
         public static final double DETECT_PURPLE_GREEN_RGB = 0.612;
         public static final double DETECT_PURPLE_BLUE_RGB = 0.851;

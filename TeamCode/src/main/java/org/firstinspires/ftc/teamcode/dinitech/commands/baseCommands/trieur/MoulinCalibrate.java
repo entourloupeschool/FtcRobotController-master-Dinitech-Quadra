@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAGNETIC_ON_MOULIN_POSITION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CALIBRATION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 
 /**
  * A command to calibrate the moulin's position using a magnetic switch.
@@ -22,6 +24,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  */
 public class MoulinCalibrate extends CommandBase {
     private final TrieurSubsystem trieurSubsystem;
+    private boolean leftMagneticSwitch;
+    private boolean isOnMagneticSwitch;
 
     /**
      * Creates a new MoulinCalibrate command.
@@ -33,33 +37,38 @@ public class MoulinCalibrate extends CommandBase {
         addRequirements(trieurSubsystem);
     }
 
+    @Override
+    public void initialize() {
+        leftMagneticSwitch = false;
+        isOnMagneticSwitch = false;
+    }
+
     /**
      * Continuously increments the motor's target position to ensure it keeps rotating
      * until the magnetic switch is found.
      */
     @Override
     public void execute() {
-        trieurSubsystem.incrementMoulinTargetPosition(MOULIN_ROTATE_SPEED_CALIBRATION);
+        if (!isOnMagneticSwitch) trieurSubsystem.incrementMoulinTargetPosition(MOULIN_ROTATE_SPEED_CALIBRATION);
 
-        if (trieurSubsystem.isMagneticSwitch()) {
+        if (trieurSubsystem.isMagneticSwitch() && !isOnMagneticSwitch) {
+            isOnMagneticSwitch = true;
             trieurSubsystem.resetTargetMoulinMotor();
             trieurSubsystem.incrementMoulinTargetPosition(INTERVALLE_TICKS_MOULIN + OFFSET_MAGNETIC_POS);
-            trieurSubsystem.hardSetMoulinPosition(1);
+            trieurSubsystem.hardSetMoulinPosition(Moulin.getNPreviousPosition(MAGNETIC_ON_MOULIN_POSITION, 1));
         }
+
+        if (isOnMagneticSwitch && !trieurSubsystem.isMagneticSwitch()) leftMagneticSwitch = true;
     }
 
-    /**
-     * The command is finished when the magnetic switch is pressed
-     *
-     * @return True if the command should end.
-     */
     @Override
     public boolean isFinished() {
-        return trieurSubsystem.isMagneticSwitch();
+        return leftMagneticSwitch;
     }
 
     @Override
     public void end(boolean interrupted) {
         trieurSubsystem.setHasInitCalibration(true);
     }
+
 }

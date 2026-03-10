@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSA
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_RECALIBRATION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_TELE_INCREMENT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getDegreesFromTicks;
 
@@ -70,6 +71,7 @@ public class TrieurSubsystem extends SubsystemBase {
     private int overcurrentCounts = 0;
 
     private int howManyArtefacts = 0;
+    private int lastRecalibrationIncrement = 0;
 
     public int getHowManyArtefacts() {
         return howManyArtefacts;
@@ -581,7 +583,7 @@ public class TrieurSubsystem extends SubsystemBase {
             setWentRecalibrationOpposite(true);
         } else if (isMagneticSwitch() && wentRecalibrationOpposite() && hasInitCalibration()) {
             setWentRecalibrationOpposite(false);
-//            recalibrateMoulin();
+            recalibrateMoulin();
         }
     }
 
@@ -606,15 +608,16 @@ public class TrieurSubsystem extends SubsystemBase {
         
         // Convert the fractional difference back to ticks for fine adjustment
         int diffTicks = (int) Math.round(absDiff * INTERVALLE_TICKS_MOULIN);
+        lastRecalibrationIncrement = diffTicks;
 
         // If there's a fine adjustment needed, apply it in the appropriate direction
         if (diffTicks != 0) {
             if (differenceToIntRounded > 0) {
                 // If we rounded down, subtract the difference to correct the target position
-                incrementMoulinTargetPosition(OFFSET_MAGNETIC_POS - diffTicks);
+                incrementMoulinTargetPosition(Math.round((OFFSET_MAGNETIC_POS - diffTicks) * SCALE_RECALIBRATION));
             } else {
                 // If we rounded up, add the difference to correct the target position
-                incrementMoulinTargetPosition(OFFSET_MAGNETIC_POS + diffTicks);
+                incrementMoulinTargetPosition(Math.round((OFFSET_MAGNETIC_POS + diffTicks) * SCALE_RECALIBRATION));
             }
         }
     }
@@ -689,6 +692,7 @@ public class TrieurSubsystem extends SubsystemBase {
 //        for (int i = 0; i < moulinStoragePositionColors.length; i++) {
 //            telemetryM.addData(String.valueOf(i), moulinStoragePositionColors[i]);
 //        }
+        telemetryM.addData("recalibration", lastRecalibrationIncrement);
     }
 
     private void printColorTelemetryManager(final TelemetryManager telemetryM) {

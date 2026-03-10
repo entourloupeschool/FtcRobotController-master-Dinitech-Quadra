@@ -48,7 +48,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                         drivePedroSubsystem::getHeading,
                                         GatePickPose.getHeading(),
                                         endTime)).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true)),
+                                AUTO_ROBOT_CONSTRAINTS, false)),
 
                 new ParallelCommandGroup(
                         new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem),
@@ -61,7 +61,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                 drivePedroSubsystem::getHeading,
                                                 GatePickEndPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        gatePower, true),
+                                        gatePower, false),
                                 new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
                                 new ParallelRaceGroup(
                                         new WaitCommand(WAIT_FOR_3BALL),

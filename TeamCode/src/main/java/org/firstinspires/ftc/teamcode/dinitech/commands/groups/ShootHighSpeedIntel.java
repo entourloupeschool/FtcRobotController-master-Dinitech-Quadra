@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_HIGH_SPEED_TRIEUR;
+
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
 import com.arcrobotics.ftclib.command.SelectCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.MaxSpeedShooter;
@@ -49,14 +52,14 @@ public class ShootHighSpeedIntel extends SelectCommand {
                 put(1, new SequentialCommandGroup(
                         new OpenWaitTrappe(trieurSubsystem),
                         new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem),
-                        new WaitShoot(shooterSubsystem)));
+                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)));
 
                 put(2, new SequentialCommandGroup(
                         new OpenWaitTrappe(trieurSubsystem),
                         new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem),
                         new WaitShoot(shooterSubsystem),
                         new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem),
-                        new WaitShoot(shooterSubsystem)));
+                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)));
 
                 put(3, new SequentialCommandGroup(
                         new OpenWaitTrappe(trieurSubsystem),
@@ -65,7 +68,7 @@ public class ShootHighSpeedIntel extends SelectCommand {
                         new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem),
                         new WaitShoot(shooterSubsystem),
                         new MoulinNextShootIntel(trieurSubsystem, shooterSubsystem),
-                        new WaitShoot(shooterSubsystem)));}},
+                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)));}},
 
             trieurSubsystem::getHowManyArtefacts
         );

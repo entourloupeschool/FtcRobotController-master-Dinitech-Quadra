@@ -44,8 +44,8 @@ public class TwoGateFromGoal extends SequentialCommandGroup {
                                 .addPath(new BezierCurve(
                                         drivePedroSubsystem::getPose,
                                         hubsSubsystem.getTeam().getRampPose()
-                                                .withY(hubsSubsystem.getTeam().getRampPose().getY() + 3)
-                                                .withX(hubsSubsystem.getTeam().getRampPose().getX() + (hubsSubsystem.getTeam().getRampPose().getX() > 72 ? -2 : 2)),
+                                                .withY(hubsSubsystem.getTeam().getRampPose().getY() + 2)
+                                                .withX(hubsSubsystem.getTeam().getRampPose().getX() + (hubsSubsystem.getTeam().getRampPose().getX() > 72 ? -6 : 6)),
                                         hubsSubsystem.getTeam().getRampPose().withY(hubsSubsystem.getTeam().getRampPose().getY() + 2),
                                         hubsSubsystem.getTeam().getRampPose()))
                                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
