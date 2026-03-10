@@ -45,8 +45,7 @@ public class TwoGateFromGoal extends SequentialCommandGroup {
                                         drivePedroSubsystem::getPose,
                                         hubsSubsystem.getTeam().getRampPose()
                                                 .withY(hubsSubsystem.getTeam().getRampPose().getY() + 2)
-                                                .withX(hubsSubsystem.getTeam().getRampPose().getX() + (hubsSubsystem.getTeam().getRampPose().getX() > 72 ? -6 : 6)),
-                                        hubsSubsystem.getTeam().getRampPose().withY(hubsSubsystem.getTeam().getRampPose().getY() + 2),
+                                                .withX(hubsSubsystem.getTeam().getRampPose().getX() + (hubsSubsystem.getTeam().getRampPose().getX() > 72 ? -9 : 9)),
                                         hubsSubsystem.getTeam().getRampPose()))
                                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                         drivePedroSubsystem::getHeading,

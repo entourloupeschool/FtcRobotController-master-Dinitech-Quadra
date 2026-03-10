@@ -65,10 +65,10 @@ public class Globals {
 
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
-    public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 7 / 4 * Math.PI);
+    public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 3 / 4 * Math.PI);
     public static final Pose BLUE_RAMP_POSE = new Pose(17.51, 63.2, -0.162);
-    public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
-    public static double GATEPICK_LENGTH_BACKUP_Y = -1.9;
+    public static double GATEPICK_LENGTH_BACKUP_X = -1.1;
+    public static double GATEPICK_LENGTH_BACKUP_Y = -2.2;
     public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.41);
     public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
@@ -294,8 +294,8 @@ public class Globals {
         public static final double CAMERA_ORIENTATION_PITCH = -90; // https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_localization/apriltag-localization.html
         public static final double CAMERA_ORIENTATION_ROLL = 0;
         // Choose a camera resolution. Not all cameras support all resolutions.
-        public static final int CAMERA_WIDTH = 1280;// 1280; // 640;
-        public static final int CAMERA_HEIGHT = 800;// 800; // 480;
+        public static final int CAMERA_WIDTH = 640;// 1280; // 640;
+        public static final int CAMERA_HEIGHT = 480;// 800; // 480;
         public static final Size CAMERA_RESOLUTION = new Size(CAMERA_WIDTH, CAMERA_HEIGHT); // new Size(640, 480);
 
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_SUPER_INTEL;
 
@@ -19,19 +18,15 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * <p>
  * This command always rotates in the positive (forward) direction.
  */
-public class MoulinNextShootIntel extends MoulinToPositionMargin {
-    private final ShooterSubsystem shooterSubsystem;
-    private boolean hasLaunched;
+public class MoulinNextShootIntelSuper extends MoulinToPositionMargin {
     /**
      * Creates a new MoulinNext command.
      *
      * @param trieurSubsystem The sorter subsystem that controls the moulin.
      */
-    public MoulinNextShootIntel(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
+    public MoulinNextShootIntelSuper(TrieurSubsystem trieurSubsystem) {
         // The actual target position is determined at execution time.
         super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
-        this.shooterSubsystem = shooterSubsystem;
-        this.hasLaunched = false;
     }
 
     /**
@@ -40,8 +35,6 @@ public class MoulinNextShootIntel extends MoulinToPositionMargin {
      */
     @Override
     public void initialize() {
-        hasLaunched = false;
-
         int currentPos = trieurSubsystem.getMoulinPosition();
 
         for (int i = 1; i < Moulin.TOTAL_POSITIONS + 1; i++) {
@@ -54,23 +47,7 @@ public class MoulinNextShootIntel extends MoulinToPositionMargin {
             }
         }
 
-        if (super.moulinTargetPosition == -1){
-            super.initialize();
-            hasLaunched = true;
-        }
-    }
-
-    @Override
-    public void execute(){
-        if (shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL) && !hasLaunched){
-            super.initialize();
-            hasLaunched = true;
-        }
-    }
-
-    @Override
-    public boolean isFinished(){
-        return hasLaunched && super.isFinished();
+        super.initialize();
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.MaxSpeedShooter;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextShootIntel;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextShootIntelSuper;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
@@ -71,6 +72,36 @@ public class ShootHighSpeedIntel extends SelectCommand {
                         new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)));}},
 
             trieurSubsystem::getHowManyArtefacts
+        );
+    }
+
+    public ShootHighSpeedIntel(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, boolean superShoot) {
+        super(
+                new HashMap<Object, Command>(){{
+                    put(0, new InstantCommand());
+
+                    put(1, new SequentialCommandGroup(
+                            new OpenWaitTrappe(trieurSubsystem),
+                            new MoulinNextShootIntelSuper(trieurSubsystem),
+                            new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)));
+
+                    put(2, new SequentialCommandGroup(
+                            new OpenWaitTrappe(trieurSubsystem),
+                            new MoulinNextShootIntelSuper(trieurSubsystem),
+                            new WaitShoot(shooterSubsystem),
+                            new MoulinNextShootIntelSuper(trieurSubsystem),
+                            new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)));
+
+                    put(3, new SequentialCommandGroup(
+                            new OpenWaitTrappe(trieurSubsystem),
+                            new MoulinNextShootIntelSuper(trieurSubsystem),
+                            new WaitShoot(shooterSubsystem),
+                            new MoulinNextShootIntelSuper(trieurSubsystem),
+                            new WaitShoot(shooterSubsystem),
+                            new MoulinNextShootIntelSuper(trieurSubsystem),
+                            new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)));}},
+
+                trieurSubsystem::getHowManyArtefacts
         );
     }
 }
