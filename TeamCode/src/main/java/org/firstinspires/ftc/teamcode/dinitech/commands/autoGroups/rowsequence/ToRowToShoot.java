@@ -63,7 +63,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                 shootPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME))
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
-                                            if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
+                                            if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem)),
 
@@ -108,47 +108,9 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                 shootPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME))
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
-                                            if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
+                                            if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem)),
-
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
-        );
-    }
-
-    public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose rowPose, Pose shootPose, double lengthBackup, double endTime, double shooterVelocity){
-        addCommands(
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new TrieurReadyEmptyStorage(trieurSubsystem),
-                                new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem)),
-                        new SequentialCommandGroup(
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPaths(
-                                                new BezierLine(
-                                                        drivePedroSubsystem::getPose,
-                                                        rowPose),
-                                                new BezierLine(
-                                                        drivePedroSubsystem::getPose,
-                                                        rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? lengthBackup : -lengthBackup))))
-                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                rowPose.getHeading(),
-                                                endTime)).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true),
-                                new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierCurve(
-                                                drivePedroSubsystem::getPose,
-                                                rowPose,
-                                                shootPose))
-                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                shootPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
-                                        .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
-                                            if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true))),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
         );

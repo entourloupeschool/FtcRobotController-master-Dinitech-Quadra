@@ -70,7 +70,7 @@ public class RamassageAuto extends SequentialCommandGroup {
                 new ConditionalCommand(
                         new InverseMaxPowerChargeur(chargeurSubsystem),
                         new InstantCommand(),
-                        trieurSubsystem::getIsFull),
+                        trieurSubsystem::isFull),
                 new PrepShootTrieur(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                 new StopChargeur(chargeurSubsystem)
         );

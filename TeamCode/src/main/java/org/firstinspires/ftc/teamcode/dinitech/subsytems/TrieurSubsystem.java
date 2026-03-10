@@ -77,8 +77,6 @@ public class TrieurSubsystem extends SubsystemBase {
 
     public void setHowManyArtefacts(int howManyArtefacts) {
         this.howManyArtefacts = howManyArtefacts;
-
-        setIsFull(howManyArtefacts == 3);
     }
 
     private int detectionTimeout;
@@ -529,21 +527,11 @@ public class TrieurSubsystem extends SubsystemBase {
         return newColoredRegister;
     }
 
-    /**
-     * Sets the full state of the trieur.
-     * @param newIsFull The new full state.
-     */
-    public void setIsFull(boolean newIsFull) {
-        isFull = newIsFull;
+    public boolean isFull() {
+        return getHowManyArtefacts() == 3;
     }
-
-    /**
-     * Gets the full state of the trieur.
-     * @return True if the trieur is full.
-     */
-    public boolean getIsFull() {
-        return isFull;
-    }
+    
+    public boolean isEmpty(){return getHowManyArtefacts() == 0;}
 
     private boolean isMoulinBusy() {
         return moulin.isBusy();
@@ -735,7 +723,7 @@ public class TrieurSubsystem extends SubsystemBase {
         }
 
         telemetryM.addData("Last registered color", getLastDetectedColor());
-        telemetryM.addData("isFull", getIsFull());
+        telemetryM.addData("isFull", isFull());
         telemetryM.addData("Green shooting positions", getClosestShootingPositionForColor(ArtifactColor.GREEN));
         telemetryM.addData("Purple shooting positions", getClosestShootingPositionForColor(ArtifactColor.PURPLE));
     }

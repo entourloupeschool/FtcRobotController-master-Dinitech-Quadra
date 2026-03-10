@@ -54,7 +54,7 @@ public class OptimizedUpdatesAprilTagsDetections extends CommandBase {
      */
     @Override
     public void execute(){
-        if (trieurSubsystem.getIsFull() || shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.VISION
+        if (trieurSubsystem.isFull() || shooterSubsystem.getUsageState() == ShooterSubsystem.ShooterUsageState.VISION
                 || drivePedroSubsystem.getDriveAimLockType() == DrivePedroSubsystem.DriveAimLockType.VISION_AIM) {
             if (!visionSubsystem.getAprilTagProcessorEnabled()) visionSubsystem.setAprilTagProcessorEnabled(true);
 

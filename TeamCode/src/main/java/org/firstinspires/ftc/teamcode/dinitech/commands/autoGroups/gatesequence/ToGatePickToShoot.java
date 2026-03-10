@@ -65,19 +65,19 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                 new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
                                 new ParallelRaceGroup(
                                         new WaitCommand(WAIT_FOR_3BALL),
-                                        new WaitUntilCommand(trieurSubsystem::getIsFull)),
+                                        new WaitUntilCommand(trieurSubsystem::isFull)),
                                 // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierCurve(
                                                 drivePedroSubsystem::getPose,
-                                                GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -2*TILE_DIM : 2*TILE_DIM)),
+                                                GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -2.1*TILE_DIM : 2.1*TILE_DIM)),
                                                 shootPose))
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
                                                 shootPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME))
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
-                                            if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
+                                            if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true))),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)

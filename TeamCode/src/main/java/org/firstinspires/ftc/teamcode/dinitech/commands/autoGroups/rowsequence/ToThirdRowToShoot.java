@@ -17,8 +17,4 @@ public class ToThirdRowToShoot extends ToRowToShoot {
         super(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem.getTeam().getThirdRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), lengthBackup, rowPower, endTime, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY);
     }
 
-    public ToThirdRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem, double lengthBackup, double endTime){
-        super(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem.getTeam().getThirdRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), lengthBackup, endTime, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY);
-    }
-
 }
