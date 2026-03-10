@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -65,8 +65,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
-                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem),
-                        new MaxPowerChargeur(chargeurSubsystem)),
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem)),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
         );
@@ -111,8 +110,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
-                        new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem),
-                        new MaxPowerChargeur(chargeurSubsystem)),
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem)),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
         );
@@ -123,8 +121,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new TrieurReadyEmptyStorage(trieurSubsystem),
-                                new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)),
-                        new MaxPowerChargeur(chargeurSubsystem),
+                                new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem)),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPaths(

@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Set
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAutoGate;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -51,7 +51,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
-                        new ModeRamassageAutoGate(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem),
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(

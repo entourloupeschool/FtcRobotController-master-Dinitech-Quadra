@@ -41,7 +41,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.Only
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
@@ -131,7 +131,7 @@ public class TeleOpBase extends Gornetix {
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
         m_Driver.square.whenPressed(new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem));
-        m_Driver.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem));
+        m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem));
 
         m_Driver.start.whenPressed(new ResetPoseFCDrive(drivePedroSubsystem, hubsSubsystem));
         m_Driver.back.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
@@ -178,7 +178,7 @@ public class TeleOpBase extends Gornetix {
         new SequentialCommandGroup(
                 new MaxPowerChargeur(chargeurSubsystem),
                 new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
-                new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)).schedule();
+                new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)).schedule();
     }
 
 }

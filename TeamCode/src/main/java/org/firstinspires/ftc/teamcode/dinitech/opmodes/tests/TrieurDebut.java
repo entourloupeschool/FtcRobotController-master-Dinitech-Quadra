@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.Moul
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.StopMoulin;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
-import org.firstinspires.ftc.teamcode.dinitech.commands.modes.ModeRamassageAuto;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.RobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -74,7 +74,7 @@ public class TrieurDebut extends RobotBase {
         GamepadWrapper m_Operator = gamepadSubsystem.getOperator();
 
         // Driver controls
-        m_Driver.circle.toggleWhenPressed(new ModeRamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem));
+        m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem));
 
         m_Driver.square.whenPressed(new ToggleChargeur(chargeurSubsystem));
 

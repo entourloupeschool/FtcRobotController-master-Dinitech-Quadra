@@ -55,7 +55,7 @@ public class Globals {
 
     public static final Pose FIELD_CENTER_90HEADING_POSE = new Pose(72, 72, Math.PI/2);
     public static Pose RESET_POSE_RED = new Pose(32.9, 38.8, 0);
-    public static Pose RESET_POSE_BLUE = RESET_POSE_RED.withY(105.2);
+    public static Pose RESET_POSE_BLUE = new Pose(-110.6, -38.8, 0);
 
 
     //BLUE SIDE
