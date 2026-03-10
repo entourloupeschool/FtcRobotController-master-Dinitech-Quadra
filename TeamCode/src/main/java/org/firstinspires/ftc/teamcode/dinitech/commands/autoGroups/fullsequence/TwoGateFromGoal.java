@@ -43,13 +43,16 @@ public class TwoGateFromGoal extends SequentialCommandGroup {
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierCurve(
                                         drivePedroSubsystem::getPose,
-                                        hubsSubsystem.getTeam().getRampPose().withY(hubsSubsystem.getTeam().getRampPose().getY() + 4),
+                                        hubsSubsystem.getTeam().getRampPose()
+                                                .withY(hubsSubsystem.getTeam().getRampPose().getY() + 3)
+                                                .withX(hubsSubsystem.getTeam().getRampPose().getX() + (hubsSubsystem.getTeam().getRampPose().getX() > 72 ? -2 : 2)),
+                                        hubsSubsystem.getTeam().getRampPose().withY(hubsSubsystem.getTeam().getRampPose().getY() + 2),
                                         hubsSubsystem.getTeam().getRampPose()))
                                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                         drivePedroSubsystem::getHeading,
                                         hubsSubsystem.getTeam().getRampPose().getHeading(),
                                         LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT)).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true),
+                                AUTO_ROBOT_CONSTRAINTS, false),
                         LENGTH_X_ROW, LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT, AUTO_ROBOT_CONSTRAINTS),
 
                 new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,

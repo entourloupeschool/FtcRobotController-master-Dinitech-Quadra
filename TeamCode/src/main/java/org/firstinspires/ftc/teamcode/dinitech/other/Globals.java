@@ -29,9 +29,9 @@ public class Globals {
      * Auto Phase globals
      */
     public static final double AUTO_ROBOT_CONSTRAINTS = 1;
-    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.61; // 0.75
+    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.67; // 0.75
     public static final double BRAKING_START_PEDRO_DINITECH = 1.3; // 1.4
-    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.9;
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.88;
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT = 0.7;
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.5;
 
@@ -68,7 +68,7 @@ public class Globals {
     public static final Pose BLUE_RAMP_POSE = new Pose(17.57, 64.43, -0.162);
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
     public static double GATEPICK_LENGTH_BACKUP_Y = -1.9;
-    public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.404);
+    public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.41);
     public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));

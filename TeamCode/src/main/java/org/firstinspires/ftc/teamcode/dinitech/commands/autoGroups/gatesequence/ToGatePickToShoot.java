@@ -35,7 +35,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToGatePickToShoot extends SequentialCommandGroup {
-    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose GatePickEndPose, Pose endPose, double gatePower, double endTime){
+    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose GatePickEndPose, Pose shootPose, double gatePower, double endTime){
         addCommands(
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
@@ -70,11 +70,11 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierCurve(
                                                 drivePedroSubsystem::getPose,
-                                                GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.5*TILE_DIM : 2*TILE_DIM)),
-                                                endPose))
+                                                GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -2*TILE_DIM : 2*TILE_DIM)),
+                                                shootPose))
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
-                                                endPose.getHeading(),
+                                                shootPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME))
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.getHowManyArtefacts() == 0) this.cancel();}).build(),
