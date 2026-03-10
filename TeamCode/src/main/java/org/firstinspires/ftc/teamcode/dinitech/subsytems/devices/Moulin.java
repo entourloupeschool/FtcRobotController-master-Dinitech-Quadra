@@ -12,6 +12,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_MOTOR
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_SPEED_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_MOULIN_AGGRESSIVE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.REVOLUTION_MOULIN_TICKS;
 
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -193,7 +194,7 @@ public class Moulin {
      * full rotation of the moulin
      */
     public void revolution(){
-        incrementTargetMotorPosition(INTERVALLE_TICKS_MOULIN * TOTAL_POSITIONS);
+        incrementTargetMotorPosition(REVOLUTION_MOULIN_TICKS);
     }
 
     /**

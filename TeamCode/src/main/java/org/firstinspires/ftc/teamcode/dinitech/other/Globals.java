@@ -8,6 +8,7 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 import java.util.Dictionary;
@@ -144,7 +145,8 @@ public class Globals {
 
         public static final String MOULIN_MOTOR_NAME = "moulin";
 
-        public static int INTERVALLE_TICKS_MOULIN = 638;
+        public static int REVOLUTION_MOULIN_TICKS = 1834;
+        public static final int INTERVALLE_TICKS_MOULIN = Math.round((float) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS);
         public static final double ONE_DEGREE_TICKS = (double) 60 / INTERVALLE_TICKS_MOULIN;
         public static double getDegreesFromTicks(int ticks){
             return ONE_DEGREE_TICKS * ticks;

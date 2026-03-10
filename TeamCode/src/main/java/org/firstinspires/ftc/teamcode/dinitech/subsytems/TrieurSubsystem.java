@@ -671,7 +671,7 @@ public class TrieurSubsystem extends SubsystemBase {
     }
 
     private void printMoulinTelemetryManager(final TelemetryManager telemetryM) {
-//        telemetryM.addData("moulin ticks", getMoulinMotorPosition());
+        telemetryM.addData("moulin ticks", getMoulinMotorPosition());
 //        telemetryM.addData("moulinTarget", getMoulinMotorTargetPosition());
 //        telemetryM.addData("moulinSpeed", getMoulinSpeed());
 //        int currentPos = getMoulinPosition();
@@ -681,14 +681,14 @@ public class TrieurSubsystem extends SubsystemBase {
 //        telemetryM.addData("MoulinNNext 1", Moulin.getNNextPosition(currentPos, 1));
 //        telemetryM.addData("MoulinNNext 2", Moulin.getNNextPosition(currentPos, 2));
 
-//        telemetryM.addData("moulin at target", !isMoulinBusy());
+        telemetryM.addData("moulin at target", !isMoulinBusy());
 //        telemetryM.addData("shootGreenPos", getClosestShootingPositionForColor(ArtifactColor.GREEN));
 //        telemetryM.addData("shootPurplePos", getClosestShootingPositionForColor(ArtifactColor.PURPLE));
-        telemetryM.addLine("getPosWithColor");
-        telemetryM.addData("howMany", getHowManyArtefacts());
-        for (int i = 0; i < moulinStoragePositionColors.length; i++) {
-            telemetryM.addData(String.valueOf(i), moulinStoragePositionColors[i]);
-        }
+//        telemetryM.addLine("getPosWithColor");
+//        telemetryM.addData("howMany", getHowManyArtefacts());
+//        for (int i = 0; i < moulinStoragePositionColors.length; i++) {
+//            telemetryM.addData(String.valueOf(i), moulinStoragePositionColors[i]);
+//        }
     }
 
     private void printColorTelemetryManager(final TelemetryManager telemetryM) {
