@@ -1,16 +1,12 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_MOTOR_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_CHARGEUR_MOTOR_POWER;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.ChargeurDoubleServo;
 
 /**
  * A command-based subsystem for controlling the Chargeur (loader/intake) mechanism.

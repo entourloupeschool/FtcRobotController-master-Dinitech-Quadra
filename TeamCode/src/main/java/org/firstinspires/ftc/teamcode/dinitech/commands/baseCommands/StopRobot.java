@@ -10,26 +10,22 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Sto
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 /**
  * A Sequential Command Group that stops the robot.
  */
 public class StopRobot extends SequentialCommandGroup {
-    public StopRobot(DrivePedroSubsystem drivePedroSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem){
+    public StopRobot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem){
         addCommands(
                 new ParallelCommandGroup(
                         new StopChargeur(chargeurSubsystem),
-                        new StopShooter(shooterSubsystem)
-                ),
-                new InstantCommand(
-                        () -> {
-                            CommandScheduler.getInstance().cancelAll();}
-                ),
-                new InstantCommand(
-                        drivePedroSubsystem::stopAllMotors
-                )
+                        new StopShooter(shooterSubsystem),
+                        new InstantCommand(trieurSubsystem::resetTargetMoulinMotor, trieurSubsystem)),
+                new InstantCommand(() -> {CommandScheduler.getInstance().cancelAll();}),
+                new InstantCommand(drivePedroSubsystem::stopAllMotors, drivePedroSubsystem)
         );
 
-        addRequirements(drivePedroSubsystem, chargeurSubsystem, shooterSubsystem);
+        addRequirements(drivePedroSubsystem, trieurSubsystem, chargeurSubsystem, shooterSubsystem);
     }
 }

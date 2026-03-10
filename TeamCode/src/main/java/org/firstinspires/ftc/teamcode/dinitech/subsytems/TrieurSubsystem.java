@@ -101,7 +101,7 @@ public class TrieurSubsystem extends SubsystemBase {
     private boolean newColoredRegister = false;
     private boolean isFull = false;
     private boolean wentRecalibrationOpposite = true;
-    private boolean hasInitCalibration = false;
+    private boolean hasInitCalibration;
     
     public boolean hasInitCalibration() {
         return hasInitCalibration;
@@ -132,6 +132,7 @@ public class TrieurSubsystem extends SubsystemBase {
         setWantsMotifShoot(false);
         setDetectionTimeout(MODE_RAMASSAGE_TELE_TIMEOUT);
         setHowManyArtefacts(0);
+        setHasInitCalibration(false);
     }
 
     /**
@@ -580,7 +581,7 @@ public class TrieurSubsystem extends SubsystemBase {
             setWentRecalibrationOpposite(true);
         } else if (isMagneticSwitch() && wentRecalibrationOpposite() && hasInitCalibration()) {
             setWentRecalibrationOpposite(false);
-            recalibrateMoulin();
+//            recalibrateMoulin();
         }
     }
 

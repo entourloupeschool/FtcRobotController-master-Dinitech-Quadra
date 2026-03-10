@@ -29,16 +29,16 @@ public class Globals {
      * Auto Phase globals
      */
     public static final double AUTO_ROBOT_CONSTRAINTS = 1;
-    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.67; // 0.75
+    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.64; // 0.75
     public static final double BRAKING_START_PEDRO_DINITECH = 1.3; // 1.4
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.88;
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT = 0.7;
-    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.5;
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.52;
 
 
     public static final double TILE_DIM = 24;
     public static final double SCALE_Y_TILE = 1.05;
-    public static final double FOLLOWER_T_POSITION_END = 0.885;//0.93;
+    public static final double FOLLOWER_T_POSITION_END = 0.885;
     public static double LENGTH_X_ROW = TILE_DIM * 0.865;
     public static double LENGTH_X_ROW_SUPER = 24;
     public static double LENGTH_X_ROW_SUPER_23RD = 30;
@@ -46,7 +46,7 @@ public class Globals {
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
-    public static double GATEPICK_POWER = MAX_POWER_ROW_PICK_ARTEFACTS;
+    public static final double GATEPICK_POWER = MAX_POWER_ROW_PICK_ARTEFACTS;
     public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
     public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 23;
     public static final Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
@@ -54,8 +54,8 @@ public class Globals {
 
 
     public static final Pose FIELD_CENTER_90HEADING_POSE = new Pose(72, 72, Math.PI/2);
-    public static Pose RESET_POSE_RED = new Pose(32.9, 38.8, 0);
-    public static Pose RESET_POSE_BLUE = new Pose(-110.6, -38.8, 0);
+    public static final Pose RESET_POSE_RED = new Pose(32.9, 38.8, 0);
+    public static final Pose RESET_POSE_BLUE = new Pose(-110.6, -38.8, 0);
 
 
     //BLUE SIDE
@@ -189,9 +189,6 @@ public class Globals {
         public static final double DIFF_MIN_MAX_RANGE_TO_SHOOT = MAX_RANGE_TO_SHOOT_CM - MIN_RANGE_TO_SHOOT_CM; // = 248;
         public static final double TELE_SHOOTER_SCALER = 30;
         public static final double SPEED_MARGIN_VISION_SHOOT = SPEED_MARGIN;
-        public static final double CLOSE_SHOOT_SHOOTER_VELOCITY = 1400;
-        public static final double MID_SHOOT_SHOOTER_VELOCITY = 1600;
-        public static final double LONG_SHOOT_SHOOTER_VELOCITY = 1850;
 
         public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 80;
         public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 1.33;
