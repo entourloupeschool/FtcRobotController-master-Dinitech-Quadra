@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN_DOUBLE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAGNETIC_ON_MOULIN_POSITION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CALIBRATION;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
@@ -54,7 +54,7 @@ public class MoulinCalibrate extends CommandBase {
         if (trieurSubsystem.isMagneticSwitch() && !isOnMagneticSwitch) {
             isOnMagneticSwitch = true;
             trieurSubsystem.resetTargetMoulinMotor();
-            trieurSubsystem.incrementMoulinTargetPosition(INTERVALLE_TICKS_MOULIN + OFFSET_MAGNETIC_POS);
+            trieurSubsystem.incrementMoulinTargetPosition(INTERVALLE_TICKS_MOULIN_DOUBLE + OFFSET_MAGNETIC_POS);
             trieurSubsystem.hardSetMoulinPosition(Moulin.getNPreviousPosition(MAGNETIC_ON_MOULIN_POSITION, 1));
         }
 

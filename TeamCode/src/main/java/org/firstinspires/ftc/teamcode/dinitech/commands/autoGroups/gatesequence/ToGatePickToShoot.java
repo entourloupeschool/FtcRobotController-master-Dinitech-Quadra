@@ -80,7 +80,56 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                             if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true))),
 
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
+                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
+        );
+    }
+
+    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose shootPose, double gatePower, double endTime){
+        addCommands(
+                new ParallelCommandGroup(
+                        new TrieurReadyEmptyStorage(trieurSubsystem),
+                        new FollowPath(drivePedroSubsystem, builder -> builder
+                                .addPath(new BezierCurve(
+                                        drivePedroSubsystem::getPose,
+                                        GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.7*TILE_DIM : 1.7*TILE_DIM)),
+                                        GatePickPose))
+                                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                        drivePedroSubsystem::getHeading,
+                                        GatePickPose.getHeading(),
+                                        endTime)).build(),
+                                AUTO_ROBOT_CONSTRAINTS, false)),
+
+                new ParallelCommandGroup(
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem),
+                        new SequentialCommandGroup(
+                                new FollowPath(drivePedroSubsystem, builder -> builder
+                                        .addPath(new BezierLine(
+                                                drivePedroSubsystem::getPose,
+                                                GatePickPose.withY(GatePickPose.getY() - 2)))
+                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                drivePedroSubsystem::getHeading,
+                                                GatePickPose.getHeading() / 2,
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                        gatePower, false),
+                                new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
+                                new ParallelRaceGroup(
+                                        new WaitCommand(WAIT_FOR_3BALL),
+                                        new WaitUntilCommand(trieurSubsystem::isFull)),
+                                // Go to Shooting Pos
+                                new FollowPath(drivePedroSubsystem, builder -> builder
+                                        .addPath(new BezierCurve(
+                                                drivePedroSubsystem::getPose,
+                                                GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -2.1*TILE_DIM : 2.1*TILE_DIM)),
+                                                shootPose))
+                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                                drivePedroSubsystem::getHeading,
+                                                shootPose.getHeading(),
+                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
+                                        .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
+                                            if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
+                                        AUTO_ROBOT_CONSTRAINTS, true))),
+
+                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
         );
     }
 }

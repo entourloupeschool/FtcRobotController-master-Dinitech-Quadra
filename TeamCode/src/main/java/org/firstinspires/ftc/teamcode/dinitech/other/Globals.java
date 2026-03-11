@@ -40,10 +40,11 @@ public class Globals {
     public static final double TILE_DIM = 24;
     public static final double SCALE_Y_TILE = 1.05;
     public static final double FOLLOWER_T_POSITION_END = 0.885;
-    public static double LENGTH_X_ROW = TILE_DIM * 0.87;
+    public static double LENGTH_X_ROW = TILE_DIM * 0.73;
     public static double LENGTH_X_ROW_SUPER = 24;
     public static double LENGTH_X_ROW_SUPER_23RD = 30;
-    public static double T_PARAMETRIC_DONT_SHOOT = 0.65;
+    public static double T_PARAMETRIC_DONT_SHOOT = 0.55;
+    public static long WAIT_INIT_SHOOTER = 180;
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
@@ -62,14 +63,14 @@ public class Globals {
     //BLUE SIDE
     public static final Pose BLUE_BASKET_POSE = new Pose(10.5, 135.5, 0);
     public static final Pose ROTATED_BLUE_BASKET_POSE = BLUE_BASKET_POSE.rotate(BLUE_TEAM_HEADING, false);
-
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
-    public static final Pose BLUE_GOAL_POSE = new Pose(22, 121, (double) 3 / 4 * Math.PI);
-    public static final Pose BLUE_RAMP_POSE = new Pose(17.51, 63.2, -0.162);
-    public static double GATEPICK_LENGTH_BACKUP_X = -1.1;
-    public static double GATEPICK_LENGTH_BACKUP_Y = -2.2;
-    public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.41);
+    public static final Pose BLUE_GOAL_POSE = new Pose(21.8, 121.2, (double) 3 / 4 * Math.PI);
+    public static final Pose BLUE_RAMP_POSE = new Pose(16.5, 61.8, -0.162);
+    public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
+    public static double GATEPICK_LENGTH_BACKUP_Y = -2.9;
+    public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.71);
+    public static final Pose BLUE_OPEN_RAMP_PICK_POSE = new Pose(13, 57.6, -0.85);
     public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));
@@ -89,6 +90,7 @@ public class Globals {
     public static final Pose RED_GOAL_POSE = BLUE_GOAL_POSE.mirror();
     public static final Pose RED_RAMP_POSE = BLUE_RAMP_POSE.mirror();
     public static final Pose RED_RAMP_END_POSE = BLUE_RAMP_END_POSE.mirror();
+    public static final Pose RED_OPEN_RAMP_PICK_POSE = BLUE_OPEN_RAMP_PICK_POSE.mirror();
 
     public static final Pose OBELISK_RED_POSE = OBELISK_BLUE_POSE.mirror();
 
@@ -146,8 +148,8 @@ public class Globals {
         public static final String MOULIN_MOTOR_NAME = "moulin";
 
         public static int REVOLUTION_MOULIN_TICKS = 1833;
-        public static final int INTERVALLE_TICKS_MOULIN = Math.round((float) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS); // =305
-        public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.18°
+        public static double INTERVALLE_TICKS_MOULIN_DOUBLE = (double) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS; // = 305.5
+        public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.196°
         public static double getDegreesFromTicks(int ticks){
             return TICKS_TO_DEGREE * ticks;
         }
@@ -167,7 +169,7 @@ public class Globals {
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 15 * (MOULIN_POSITION_TOLERANCE + 2);
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 18;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
-        public static int WAIT_HIGH_SPEED_TRIEUR = 150;
+        public static int WAIT_HIGH_SPEED_TRIEUR = 170;
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.9;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
@@ -188,7 +190,7 @@ public class Globals {
         public static final int CURRENT_SHOOT_OVERFLOW = 280;
         public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
         public static final double SPEED_MARGIN = 15;
-        public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 5;
+        public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 4;
         public static final double SPEED_INCREMENT_SHOOTER = 10;
         public static final double MAX_RANGE_TO_SHOOT_CM = 345;
         public static final double MIN_RANGE_TO_SHOOT_CM = 97;

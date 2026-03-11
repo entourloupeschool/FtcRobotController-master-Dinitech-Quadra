@@ -17,6 +17,7 @@ import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence.RampEnd;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.gatesequence.ToGatePickToShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToPedroShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.ToFirstRowToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.ToSecondRowToShoot;
@@ -36,7 +37,7 @@ public class TwoGateFromGoal extends SequentialCommandGroup {
     public TwoGateFromGoal(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem) {
 
         addCommands(
-                new InitToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
+                new InitToPedroShooter(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
                 new ToSecondRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                         hubsSubsystem,
@@ -45,7 +46,7 @@ public class TwoGateFromGoal extends SequentialCommandGroup {
                                         drivePedroSubsystem::getPose,
                                         hubsSubsystem.getTeam().getRampPose()
                                                 .withY(hubsSubsystem.getTeam().getRampPose().getY() + 2)
-                                                .withX(hubsSubsystem.getTeam().getRampPose().getX() + (hubsSubsystem.getTeam().getRampPose().getX() > 72 ? -9 : 9)),
+                                                .withX(hubsSubsystem.getTeam().getRampPose().getX() + (hubsSubsystem.getTeam().getRampPose().getX() > 72 ? -10 : 10)),
                                         hubsSubsystem.getTeam().getRampPose()))
                                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                         drivePedroSubsystem::getHeading,
@@ -57,7 +58,7 @@ public class TwoGateFromGoal extends SequentialCommandGroup {
                 new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                         hubsSubsystem.getTeam().getRampPose(), hubsSubsystem.getTeam().getEndRampPose(), hubsSubsystem.getTeam().getCloseShootPose(), GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT),
 
-                new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true)),
+                new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem),
 
                 new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                         hubsSubsystem.getTeam().getRampPose(), hubsSubsystem.getTeam().getEndRampPose(), hubsSubsystem.getTeam().getCloseShootPose(), GATEPICK_POWER, LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT),

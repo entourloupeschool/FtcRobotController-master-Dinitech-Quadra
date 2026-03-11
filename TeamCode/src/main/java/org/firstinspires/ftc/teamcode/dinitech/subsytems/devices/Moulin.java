@@ -6,7 +6,7 @@ import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENC
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.D_MOULIN_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.F_MOULIN_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN_DOUBLE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.I_MOULIN_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_MOTOR_NAME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_TOLERANCE;
@@ -54,6 +54,15 @@ public class Moulin {
     public static final int MIN_POSITION = 1;
     public static final int MAX_POSITION = 6;
     public static final int TOTAL_POSITIONS = 6;
+    private double targetTick;
+    public double getTargetTick(){
+        return targetTick;
+    }
+
+    public void setTargetTick(double targetTick) {
+        this.targetTick = targetTick;
+    }
+
 
     private final DcMotorEx dcMotorEx;
     private int moulinPosition;
@@ -63,6 +72,7 @@ public class Moulin {
         dcMotorEx.setDirection(DcMotorSimple.Direction.REVERSE);
 
         resetMotor();
+
         hardSetPosition(1);
     }
 
@@ -168,7 +178,7 @@ public class Moulin {
                     + MIN_POSITION + " and " + MAX_POSITION);
         }
 
-        int newTargetTicks;
+        double newTargetTicks;
 
         if (makeShort) {
             // Use shortest path logic - calculate relative to current position
@@ -176,13 +186,13 @@ public class Moulin {
 
             // Calculate target position by moving the optimal number of steps from current
             // position
-            newTargetTicks = (optimalStateDifference * INTERVALLE_TICKS_MOULIN);
+            newTargetTicks = (optimalStateDifference * INTERVALLE_TICKS_MOULIN_DOUBLE);
         } else {
             // Go through all states in positive direction (clockwise)
             int stateDifference = calculatePositivePositionDifference(moulinPosition, targetPos);
 
             // Calculate target position by going the specified number of steps forward
-            newTargetTicks = (stateDifference * INTERVALLE_TICKS_MOULIN);
+            newTargetTicks = (stateDifference * INTERVALLE_TICKS_MOULIN_DOUBLE);
         }
 
         incrementTargetMotorPosition(newTargetTicks);
@@ -293,8 +303,9 @@ public class Moulin {
      * Sets the target position for the motor.
      * @param position The target position in encoder ticks.
      */
-    public void setTargetPositionMotor(int position) {
-        dcMotorEx.setTargetPosition(position);
+    public void setTargetPositionMotor(double position) {
+        setTargetTick(position);
+        dcMotorEx.setTargetPosition((int) Math.round(position));
     }
 
     /**
@@ -302,7 +313,7 @@ public class Moulin {
      * @param incr The amount to increment the position by, in encoder ticks.
      */
     public void incrementTargetMotorPosition(double incr) {
-        int newTargetPosition = (int) incr + getTargetMotorPosition();
+        double newTargetPosition = incr + getTargetTick();
         setTargetPositionMotor(newTargetPosition);
     }
 

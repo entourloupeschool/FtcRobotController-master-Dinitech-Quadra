@@ -67,7 +67,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         AUTO_ROBOT_CONSTRAINTS, true)),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem)),
 
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
+                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
         );
     }
 
@@ -101,7 +101,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierCurve(
                                                 drivePedroSubsystem::getPose,
-                                                rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? -5 : 5)),
+                                                rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? -8 : 8)),
                                                 shootPose))
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
@@ -112,7 +112,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         AUTO_ROBOT_CONSTRAINTS, true)),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem)),
 
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
+                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
         );
     }
 }

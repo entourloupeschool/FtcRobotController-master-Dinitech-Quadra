@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DISTANCE_ARTEFACT_IN_TRIEUR;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN_DOUBLE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TELE_TIMEOUT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
@@ -220,7 +220,7 @@ public class TrieurSubsystem extends SubsystemBase {
      * Sets the moulin motor's target position directly.
      * @param targetPosition The target position in ticks.
      */
-    public void setMoulinMotorTargetPosition(int targetPosition) {
+    public void setMoulinMotorTargetPosition(double targetPosition) {
         moulin.setTargetPositionMotor(targetPosition);
     }
     
@@ -558,20 +558,20 @@ public class TrieurSubsystem extends SubsystemBase {
             setMoulinPower(0);
 
         } else if (isMoulinOverCurrent()) {
-
                 if (getOvercurrentCounts() == 0 && getCurrentCommand() != null){
                     getCurrentCommand().cancel();
                     new MoulinCorrectOverCurrent(this).schedule();
                 }
                 setOvercurrentCounts(getOvercurrentCounts() + 1);
+
                 if (getOvercurrentCounts() > 10){
                     setMoulinPower(0);
                 }
 
                 telemetryM.addLine("Moulin Over Current");
                 return;
-        } else {
 
+        } else {
             setMoulinPower(POWER_MOULIN_ROTATION);
             setOvercurrentCounts(0);
             setMoulinPower(POWER_MOULIN_ROTATION);
@@ -583,7 +583,7 @@ public class TrieurSubsystem extends SubsystemBase {
             setWentRecalibrationOpposite(true);
         } else if (isMagneticSwitch() && wentRecalibrationOpposite() && hasInitCalibration()) {
             setWentRecalibrationOpposite(false);
-            recalibrateMoulin();
+//            recalibrateMoulin();
         }
     }
 
@@ -595,7 +595,7 @@ public class TrieurSubsystem extends SubsystemBase {
         int remainingTicks = Math.abs(getMoulinMotorRemainingTicks());
         
         // Calculate how many intervals of INTERVALLE_TICKS_MOULIN fit into the remaining distance
-        double intervals = (double) remainingTicks / INTERVALLE_TICKS_MOULIN;
+        double intervals = (double) remainingTicks / INTERVALLE_TICKS_MOULIN_DOUBLE;
         
         // Round the number of intervals to the nearest integer
         int intPartOfRounded = (int) Math.round(intervals);
@@ -607,7 +607,7 @@ public class TrieurSubsystem extends SubsystemBase {
         double absDiff = Math.abs(differenceToIntRounded);
         
         // Convert the fractional difference back to ticks for fine adjustment
-        int diffTicks = (int) Math.round(absDiff * INTERVALLE_TICKS_MOULIN);
+        int diffTicks = (int) Math.round(absDiff * INTERVALLE_TICKS_MOULIN_DOUBLE);
         lastRecalibrationIncrement = diffTicks;
 
         // If there's a fine adjustment needed, apply it in the appropriate direction
@@ -675,6 +675,8 @@ public class TrieurSubsystem extends SubsystemBase {
 
     private void printMoulinTelemetryManager(final TelemetryManager telemetryM) {
         telemetryM.addData("moulin ticks", getMoulinMotorPosition());
+        telemetryM.addData("moulinMotorTarget Double", moulin.getTargetTick());
+        telemetryM.addData("moulinMotorTarget Int", moulin.getTargetMotorPosition());
 //        telemetryM.addData("moulinTarget", getMoulinMotorTargetPosition());
 //        telemetryM.addData("moulinSpeed", getMoulinSpeed());
 //        int currentPos = getMoulinPosition();

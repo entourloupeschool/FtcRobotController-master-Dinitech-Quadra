@@ -75,4 +75,22 @@ public class RamassageAuto extends SequentialCommandGroup {
                 new StopChargeur(chargeurSubsystem)
         );
     }
+
+    public RamassageAuto(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
+            addCommands(
+                    new TryDetectArtefact(trieurSubsystem, gamepadSubsystem),
+                    new ConditionalCommand(
+                            new SequentialCommandGroup(
+                                    new MoulinNextEmptyStorage(trieurSubsystem),
+                                    new TryDetectArtefact(trieurSubsystem, gamepadSubsystem)),
+                            new InstantCommand(),
+                            trieurSubsystem::getNewRegister),
+                    new ConditionalCommand(
+                            new SequentialCommandGroup(
+                                    new MoulinNextEmptyStorage(trieurSubsystem),
+                                    new TryDetectArtefact(trieurSubsystem, gamepadSubsystem)),
+                            new InstantCommand(),
+                            trieurSubsystem::getNewRegister)
+            );
+    }
 }

@@ -37,7 +37,7 @@ public class InitToShoot extends SequentialCommandGroup {
                                         LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
+                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
         );
     }
 }

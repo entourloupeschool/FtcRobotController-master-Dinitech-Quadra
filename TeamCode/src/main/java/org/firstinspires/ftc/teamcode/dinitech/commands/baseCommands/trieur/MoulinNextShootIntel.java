@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_SUPER_INTEL;
 
