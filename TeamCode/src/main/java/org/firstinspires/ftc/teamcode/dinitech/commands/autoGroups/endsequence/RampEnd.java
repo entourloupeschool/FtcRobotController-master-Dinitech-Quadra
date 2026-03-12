@@ -20,7 +20,7 @@ public class RampEnd extends ParallelCommandGroup {
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierLine(
                                 drivePedroSubsystem::getPose,
-                                rampPose.withX(rampPose.getX() + (rampPose.getX() > 72 ? -5 : 5))))
+                                rampPose.withX(rampPose.getX() + (rampPose.getX() > 72 ? -8 : 8))))
                         .setLinearHeadingInterpolation(
                                 drivePedroSubsystem.getPose().getHeading(),
                                 rampPose.getHeading(),

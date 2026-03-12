@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.red.mr;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.TwoGateFromGoalMR;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueGoalAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.mr.TwoGateFromGoalMR;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.RedGoalAutoBase;
 
 //@Autonomous(name = "RedGoalGateTwoRowsMR", group = "Red")

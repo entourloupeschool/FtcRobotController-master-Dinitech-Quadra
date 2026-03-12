@@ -9,6 +9,5 @@ public class BlueGoalAutoBase extends AutoBase {
             super.initialize();
             hubsSubsystem.setTeam(TeamPoses.Team.BLUE);
             drivePedroSubsystem.getDrive().prepAuto(hubsSubsystem.getTeam().getGoalInitPose());
-
     }
 }

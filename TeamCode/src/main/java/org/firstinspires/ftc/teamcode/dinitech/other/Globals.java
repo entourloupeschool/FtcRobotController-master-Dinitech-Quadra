@@ -21,8 +21,6 @@ public class Globals {
 
     public static long TELEMETRY_UPDATE_INTERVAL_MS = 500;
     public static double BLUE_TEAM_HEADING = Math.PI;
-    public static double RED_TEAM_HEADING = 0;
-
 
 
 
@@ -30,15 +28,15 @@ public class Globals {
      * Auto Phase globals
      */
     public static final double AUTO_ROBOT_CONSTRAINTS = 1;
-    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.8; // 0.75
-    public static final double BRAKING_START_PEDRO_DINITECH = 1.1; // 1.4
-    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.83;
+    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.85; // 0.75
+    public static final double BRAKING_START_PEDRO_DINITECH = 0.6; // 1.4
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.81;
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT = 0.68;
-    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.52;
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.55;
 
 
     public static final double TILE_DIM = 24;
-    public static final double SCALE_Y_TILE = 1.05;
+    public static final double SCALE_Y_TILE = 1.03;
     public static final double FOLLOWER_T_POSITION_END = 0.885;
     public static double LENGTH_X_ROW = TILE_DIM * 0.73;
     public static double LENGTH_X_ROW_SUPER = 24;
@@ -57,7 +55,7 @@ public class Globals {
 
     public static final Pose FIELD_CENTER_90HEADING_POSE = new Pose(72, 72, Math.PI/2);
     public static final Pose RESET_POSE_RED = new Pose(32.9, 38.8, 0);
-    public static final Pose RESET_POSE_BLUE = new Pose(-110.6, -38.8, 0);
+    public static final Pose RESET_POSE_BLUE = new Pose(-110.6, -38.8, Math.PI);
 
 
     //BLUE SIDE
@@ -66,7 +64,7 @@ public class Globals {
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.8, 121.2, (double) 3 / 4 * Math.PI);
-    public static final Pose BLUE_RAMP_POSE = new Pose(16.5, 62.8, -0.162);
+    public static final Pose BLUE_RAMP_POSE = new Pose(16.1, 63, -0.162);
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
     public static double GATEPICK_LENGTH_BACKUP_Y = -2.9;
     public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.71);
@@ -77,7 +75,7 @@ public class Globals {
     public static final double AUDIENCE_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(BLUE_AUDIENCE_SHOOT_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 82, 0);
     public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM * SCALE_Y_TILE);
-    public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY() - TILE_DIM * SCALE_Y_TILE);
+    public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY() - TILE_DIM);
     public static final Pose BLUE_VOID_POSE = new Pose(50, 62, Math.PI);
 
 
@@ -173,7 +171,7 @@ public class Globals {
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 15 * (MOULIN_POSITION_TOLERANCE + 2);
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 18;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
-        public static int WAIT_HIGH_SPEED_TRIEUR = 170;
+        public static int WAIT_HIGH_SPEED_TRIEUR = 185;
         public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.9;
         public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
         public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected

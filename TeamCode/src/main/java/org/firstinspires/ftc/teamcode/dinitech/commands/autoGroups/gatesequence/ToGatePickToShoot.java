@@ -35,14 +35,14 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToGatePickToShoot extends SequentialCommandGroup {
-    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose GatePickEndPose, Pose shootPose, double gatePower, double endTime){
+    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose shootPose, double gatePower, double endTime, boolean shortcutBackPath){
         addCommands(
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierCurve(
                                         drivePedroSubsystem::getPose,
-                                        GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.5*TILE_DIM : 1.5*TILE_DIM)),
+                                        GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.7*TILE_DIM : 1.7*TILE_DIM)),
                                         GatePickPose))
                                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                         drivePedroSubsystem::getHeading,
@@ -56,10 +56,10 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
-                                                GatePickEndPose))
+                                                GatePickPose.withY(GatePickPose.getY() - 2)))
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
-                                                GatePickEndPose.getHeading(),
+                                                GatePickPose.getHeading() / 2,
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         gatePower, false),
                                 new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
@@ -68,9 +68,8 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                         new WaitUntilCommand(trieurSubsystem::isFull)),
                                 // Go to Shooting Pos
                                 new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierCurve(
+                                        .addPath(new BezierLine(
                                                 drivePedroSubsystem::getPose,
-                                                GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -2.1*TILE_DIM : 2.1*TILE_DIM)),
                                                 shootPose))
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
