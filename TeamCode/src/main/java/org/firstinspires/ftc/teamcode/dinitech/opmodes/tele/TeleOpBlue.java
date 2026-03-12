@@ -19,15 +19,8 @@ public class TeleOpBlue extends TeleOpBase {
             if (PoseStorage.getLastPose() == null){
                 drivePedroSubsystem.getDrive().setPose(hubsSubsystem.getTeam().getResetPose());
             } else {
-                drivePedroSubsystem.getDrive().setPose(PoseStorage.getLastPose());
+                drivePedroSubsystem.setPose(PoseStorage.getLastPose().rotate(BLUE_TEAM_HEADING, true));
                 PoseStorage.clearLastPose();
-
-                new FlipFieldCentricDrive(drivePedroSubsystem, BLUE_TEAM_HEADING).initialize();
             }
-    }
-
-    @Override
-    public void run() {
-            super.run();
     }
 }

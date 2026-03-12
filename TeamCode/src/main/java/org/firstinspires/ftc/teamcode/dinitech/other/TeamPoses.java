@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_PO
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_OPEN_RAMP_PICK_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_END_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_VOID_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
@@ -18,6 +19,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_GOAL_POS
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_OPEN_RAMP_PICK_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_END_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_VOID_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RESET_POSE_BLUE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RESET_POSE_RED;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROTATED_BLUE_BASKET_POSE;
@@ -41,7 +43,7 @@ public class TeamPoses {
                 BLUE_RAMP_POSE,
                 BLUE_RAMP_END_POSE,
                 ROTATED_BLUE_BASKET_POSE,
-                BLUE_OPEN_RAMP_PICK_POSE),
+                BLUE_OPEN_RAMP_PICK_POSE, BLUE_VOID_POSE),
         RED(RESET_POSE_RED,
                 RED_GOAL_POSE,
                 RED_AUDIENCE_POSE,
@@ -53,9 +55,9 @@ public class TeamPoses {
                 RED_RAMP_POSE,
                 RED_RAMP_END_POSE,
                 RED_BASKET_POSE,
-                RED_OPEN_RAMP_PICK_POSE),
+                RED_OPEN_RAMP_PICK_POSE, RED_VOID_POSE),
 
-        NONE(FIELD_CENTER_90HEADING_POSE, null, null, null,null , null, null, null,null, null, null, null);
+        NONE(FIELD_CENTER_90HEADING_POSE, null, null, null,null , null, null, null,null, null, null, null, null);
 
         private final Pose resetPose;
         private final Pose goalInitPose;
@@ -71,8 +73,9 @@ public class TeamPoses {
         private final Pose endRampPose;
         private final Pose basketPose;
         private final Pose openRampPickPose;
+        private final Pose voidPose;
 
-        Team(Pose resetPose, Pose goalInitPose, Pose audienceInitPose, Pose closeShootPose, Pose audienceShootPose, Pose firstRowPose, Pose secondRowPose, Pose thirdRowPose, Pose rampPose, Pose endRampPose, Pose basketPose, Pose openRampPickPose) {
+        Team(Pose resetPose, Pose goalInitPose, Pose audienceInitPose, Pose closeShootPose, Pose audienceShootPose, Pose firstRowPose, Pose secondRowPose, Pose thirdRowPose, Pose rampPose, Pose endRampPose, Pose basketPose, Pose openRampPickPose, Pose voidPose) {
             this.resetPose = resetPose;
             this.goalInitPose = goalInitPose;
             this.audienceInitPose = audienceInitPose;
@@ -85,6 +88,7 @@ public class TeamPoses {
             this.endRampPose = endRampPose;
             this.basketPose = basketPose;
             this.openRampPickPose = openRampPickPose;
+            this.voidPose = voidPose;
         }
 
         public Pose getCloseShootPose() {
@@ -111,5 +115,6 @@ public class TeamPoses {
         public Pose getAudienceInitPose() {return audienceInitPose;}
         public Pose getBasketPose() {return basketPose;}
         public Pose getOpenRampPickPose() {return openRampPickPose;}
+        public Pose getVoidPose(){return voidPose;}
     }
 }

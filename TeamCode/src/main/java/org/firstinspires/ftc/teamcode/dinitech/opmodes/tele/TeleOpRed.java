@@ -19,9 +19,4 @@ public class TeleOpRed extends TeleOpBase {
                 PoseStorage.clearLastPose();
             }
     }
-
-    @Override
-    public void run() {
-            super.run();
-    }
 }

@@ -1,30 +1,21 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.blue.mr;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.red.mr;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.TwoGateFromGoalMR;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueGoalAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.RedGoalAutoBase;
 
-@Autonomous(name = "BlueGoalGateTwoRowsMR", group = "Blue")
-public class BlueGoalGateTwoRowsMR extends BlueGoalAutoBase {
+//@Autonomous(name = "RedGoalGateTwoRowsMR", group = "Red")
+@Disabled
 
-    /**
-     * Initialize the teleop OpMode, gamepads, buttons, and default commands.
-     */
+public class RedGoalGateTwoRowsMR extends RedGoalAutoBase {
+
     @Override
     public void initialize() {
             super.initialize();
 
         new TwoGateFromGoalMR(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem).schedule();
     }
-
-    /**
-     * Main OpMode loop. Updates gamepad states.
-     */
-    @Override
-    public void run() {
-            super.run();
-    }
-
-
 }

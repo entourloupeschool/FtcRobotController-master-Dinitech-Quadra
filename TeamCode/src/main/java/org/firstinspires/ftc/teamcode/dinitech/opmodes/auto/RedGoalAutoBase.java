@@ -10,10 +10,4 @@ public class RedGoalAutoBase extends AutoBase {
             hubsSubsystem.setTeam(TeamPoses.Team.RED);
             drivePedroSubsystem.getDrive().prepAuto(hubsSubsystem.getTeam().getGoalInitPose());
     }
-
-    @Override
-    public void run() {
-            super.run();
-    }
-
 }

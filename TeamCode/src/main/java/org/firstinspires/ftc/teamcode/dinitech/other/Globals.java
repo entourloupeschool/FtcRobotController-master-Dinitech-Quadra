@@ -30,9 +30,9 @@ public class Globals {
      * Auto Phase globals
      */
     public static final double AUTO_ROBOT_CONSTRAINTS = 1;
-    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.64; // 0.75
-    public static final double BRAKING_START_PEDRO_DINITECH = 1.3; // 1.4
-    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.85;
+    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.8; // 0.75
+    public static final double BRAKING_START_PEDRO_DINITECH = 1.1; // 1.4
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.83;
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT = 0.68;
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.52;
 
@@ -44,7 +44,7 @@ public class Globals {
     public static double LENGTH_X_ROW_SUPER = 24;
     public static double LENGTH_X_ROW_SUPER_23RD = 30;
     public static double T_PARAMETRIC_DONT_SHOOT = 0.55;
-    public static long WAIT_INIT_SHOOTER = 180;
+    public static long WAIT_INIT_SHOOTER = 200;
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
@@ -66,18 +66,19 @@ public class Globals {
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.8, 121.2, (double) 3 / 4 * Math.PI);
-    public static final Pose BLUE_RAMP_POSE = new Pose(16.5, 61.8, -0.162);
+    public static final Pose BLUE_RAMP_POSE = new Pose(16.5, 62.8, -0.162);
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
     public static double GATEPICK_LENGTH_BACKUP_Y = -2.9;
     public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.71);
-    public static final Pose BLUE_OPEN_RAMP_PICK_POSE = new Pose(13, 57.6, -0.85);
+    public static final Pose BLUE_OPEN_RAMP_PICK_POSE = new Pose(14, 58.5, -0.75);
     public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
-    public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.925*Math.PI/4);
+    public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.945 * Math.PI/4);
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final double AUDIENCE_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(BLUE_AUDIENCE_SHOOT_POSE.distanceFrom(BLUE_BASKET_POSE));
-    public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 84, 0);
-    public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
-    public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY()-TILE_DIM*SCALE_Y_TILE);
+    public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 82, 0);
+    public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM * SCALE_Y_TILE);
+    public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY() - TILE_DIM * SCALE_Y_TILE);
+    public static final Pose BLUE_VOID_POSE = new Pose(50, 62, Math.PI);
 
 
 
@@ -98,6 +99,9 @@ public class Globals {
     public static final Pose FIRST_ROW_RED_POSE = FIRST_ROW_BLUE_POSE.mirror();
     public static final Pose SECOND_ROW_RED_POSE = SECOND_ROW_BLUE_POSE.mirror();
     public static final Pose THIRD_ROW_RED_POSE = THIRD_ROW_BLUE_POSE.mirror();
+
+    public static final Pose RED_VOID_POSE = BLUE_VOID_POSE.mirror();
+
 
     /**
      * Gamepads

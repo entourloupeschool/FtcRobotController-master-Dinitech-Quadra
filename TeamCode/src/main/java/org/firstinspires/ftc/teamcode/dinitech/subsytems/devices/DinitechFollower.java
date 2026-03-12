@@ -34,7 +34,7 @@ public class DinitechFollower {
             .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(3, 0.02, 0.15, 0.006))
 
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.052,0,0.012,0.01,0.006))
-            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.033,0.0001,0.002,0.6,0.006))
+            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.05,0.0012,0.0025,0.6,0.006))
 
 //            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.042,0,0.012,0.01,0.006))
 //            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.036,0.0001,0.002,0.6,0.006))

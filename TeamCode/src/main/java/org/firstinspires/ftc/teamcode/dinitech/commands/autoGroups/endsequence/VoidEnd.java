@@ -14,16 +14,16 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 
-public class RampEnd extends ParallelCommandGroup {
-    public RampEnd(DrivePedroSubsystem drivePedroSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, Pose rampPose){
+public class VoidEnd extends ParallelCommandGroup {
+    public VoidEnd(DrivePedroSubsystem drivePedroSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, Pose voidPose){
         addCommands(
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierLine(
                                 drivePedroSubsystem::getPose,
-                                rampPose))
+                                voidPose))
                         .setLinearHeadingInterpolation(
                                 drivePedroSubsystem.getPose().getHeading(),
-                                rampPose.getHeading(),
+                                voidPose.getHeading(),
                                 LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
                         AUTO_ROBOT_CONSTRAINTS, true),
                 new ParallelCommandGroup(

@@ -11,9 +11,4 @@ public class BlueGoalAutoBase extends AutoBase {
             drivePedroSubsystem.getDrive().prepAuto(hubsSubsystem.getTeam().getGoalInitPose());
 
     }
-
-    @Override
-    public void run() {
-            super.run();
-    }
 }

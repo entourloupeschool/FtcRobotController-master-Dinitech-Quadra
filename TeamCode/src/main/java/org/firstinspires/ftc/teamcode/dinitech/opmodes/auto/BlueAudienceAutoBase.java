@@ -13,9 +13,4 @@ public class BlueAudienceAutoBase extends AutoBase {
             drivePedroSubsystem.getDrive().prepAuto(hubsSubsystem.getTeam().getAudienceInitPose());
 
     }
-
-    @Override
-    public void run() {
-            super.run();
-    }
 }

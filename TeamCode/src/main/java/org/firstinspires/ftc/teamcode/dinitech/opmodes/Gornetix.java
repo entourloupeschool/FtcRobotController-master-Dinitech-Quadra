@@ -50,12 +50,4 @@ public class Gornetix extends RobotBase {
         hubsSubsystem.setDefaultCommand(new DefaultHubsCommand(hubsSubsystem, trieurSubsystem));
     }
 
-    /**
-     * Main OpMode loop. Handles voltage monitoring and cache clearing.
-     */
-    @Override
-    public void run() {
-        super.run();
-    }
-
 }
