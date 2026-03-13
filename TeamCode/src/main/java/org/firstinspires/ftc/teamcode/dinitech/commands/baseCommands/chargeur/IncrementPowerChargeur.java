@@ -16,7 +16,7 @@ public class IncrementPowerChargeur extends CommandBase {
 
     @Override
     public void initialize(){
-        chargeurSubsystem.incrementChargeurPower(powerIncrement);
+        chargeurSubsystem.incrementTargetPower(powerIncrement);
     }
 
     @Override

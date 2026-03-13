@@ -57,7 +57,7 @@ public class RobotBase extends CommandOpMode {
 
         runningAverageFrequencies.add(getFrequency());
 //        telemetryM.addData("hz", freq);
-        telemetryM.addData("average hz", getRunningAverageFreq());
+        telemetryM.addData("average hz", runningAverageFrequencies.getAverage());
 //        telemetryM.addData("hz", freq);
 
         timer.reset();
@@ -79,9 +79,5 @@ public class RobotBase extends CommandOpMode {
 
     public double getFrequency() {
         return 1 / getElapsedTime();
-    }
-
-    public double getRunningAverageFreq(){
-        return runningAverageFrequencies.getAverage();
     }
 }

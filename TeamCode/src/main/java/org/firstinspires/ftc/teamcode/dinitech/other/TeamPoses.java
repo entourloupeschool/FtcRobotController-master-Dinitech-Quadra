@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.other;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_GOAL_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_OPEN_RAMP_PICK_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_END_POSE;
@@ -20,9 +21,8 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_OPEN_RAM
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_END_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_RAMP_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RED_VOID_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RESET_POSE_BLUE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RESET_POSE_RED;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROTATED_BLUE_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROTATED_RESET_POSE_BLUE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SECOND_ROW_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.THIRD_ROW_BLUE_POSE;
@@ -32,7 +32,7 @@ import com.pedropathing.geometry.Pose;
 
 public class TeamPoses {
     public enum Team {
-        BLUE(RESET_POSE_BLUE,
+        BLUE(ROTATED_RESET_POSE_BLUE,
                 BLUE_GOAL_POSE,
                 BLUE_AUDIENCE_POSE,
                 CLOSE_SHOOT_BLUE_POSE,
@@ -42,7 +42,7 @@ public class TeamPoses {
                 THIRD_ROW_BLUE_POSE,
                 BLUE_RAMP_POSE,
                 BLUE_RAMP_END_POSE,
-                ROTATED_BLUE_BASKET_POSE,
+                BLUE_BASKET_POSE,
                 BLUE_OPEN_RAMP_PICK_POSE, BLUE_VOID_POSE),
         RED(RESET_POSE_RED,
                 RED_GOAL_POSE,

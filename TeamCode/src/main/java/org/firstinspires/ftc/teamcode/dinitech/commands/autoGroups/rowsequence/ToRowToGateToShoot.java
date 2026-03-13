@@ -9,6 +9,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.T_PARAMETRIC
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
@@ -63,7 +64,8 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                                 drivePedroSubsystem::getHeading,
                                                 openRampPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT)).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, false),
+                                        AUTO_ROBOT_CONSTRAINTS, true),
+                                new WaitCommand(2000),
                                 new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierCurve(
@@ -119,7 +121,8 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                                 drivePedroSubsystem::getHeading,
                                                 openRampPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT)).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, false),
+                                        AUTO_ROBOT_CONSTRAINTS, true),
+                                new WaitCommand(2000),
                                 new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(

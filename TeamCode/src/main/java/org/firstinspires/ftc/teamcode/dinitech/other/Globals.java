@@ -42,7 +42,7 @@ public class Globals {
     public static double LENGTH_X_ROW_SUPER = 24;
     public static double LENGTH_X_ROW_SUPER_23RD = 30;
     public static double T_PARAMETRIC_DONT_SHOOT = 0.55;
-    public static long WAIT_INIT_SHOOTER = 200;
+    public static long WAIT_INIT_SHOOTER = 350;
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
@@ -54,13 +54,15 @@ public class Globals {
 
 
     public static final Pose FIELD_CENTER_90HEADING_POSE = new Pose(72, 72, Math.PI/2);
-    public static final Pose RESET_POSE_RED = new Pose(32.9, 38.8, 0);
-    public static final Pose RESET_POSE_BLUE = new Pose(-110.6, -38.8, Math.PI);
+    public static final Pose RESET_POSE_RED = new Pose(38.5, 33.5, 0);
+    public static final Pose RESET_POSE_BLUE = RESET_POSE_RED.mirror();
+    public static final Pose ROTATED_RESET_POSE_BLUE = RESET_POSE_BLUE.rotate(BLUE_TEAM_HEADING, true);
+
 
 
     //BLUE SIDE
-    public static final Pose BLUE_BASKET_POSE = new Pose(10.5, 135.5, 0);
-    public static final Pose ROTATED_BLUE_BASKET_POSE = BLUE_BASKET_POSE.rotate(BLUE_TEAM_HEADING, false);
+    public static final Pose BLUE_BASKET_POSE = new Pose(12, 135.5, 0);
+    public static final Pose ROTATED_BLUE_BASKET_POSE = BLUE_BASKET_POSE.rotate(BLUE_TEAM_HEADING, true);
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.8, 121.2, (double) 3 / 4 * Math.PI);
@@ -230,8 +232,8 @@ public class Globals {
         return A_DIFFS * rangeCM + 1204.879; //
     }
 
-    public static final double a_Pedro = 5.25;
-    public static final double b_Pedro = 1210;
+    public static final double a_Pedro = 5.95;//5.25;
+    public static final double b_Pedro = 1060; //1210;
     /**
      * Gives back a linear speed from a range in inches
      * @param rangeInch The range value in inches, positive.

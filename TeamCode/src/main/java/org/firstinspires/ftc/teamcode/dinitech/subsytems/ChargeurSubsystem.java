@@ -21,6 +21,19 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class ChargeurSubsystem extends SubsystemBase {
     private final MotorEx motorEx;
     public final TelemetryManager telemetryM;
+    private boolean isOvercurrent;
+
+    private double targetPower;
+    public double getTargetPower(){
+        return targetPower;
+    }
+    public void setTargetPower(double targetPower){
+        this.targetPower = targetPower;
+    }
+
+    public void incrementTargetPower(double increment){
+        setTargetPower(getTargetPower() + increment);
+    }
 
     /**
      * Constructs a new ChargeurSubsystem.
@@ -35,6 +48,8 @@ public class ChargeurSubsystem extends SubsystemBase {
         motorEx.setInverted(false);
 
         this.telemetryM = telemetryM;
+        isOvercurrent = false;
+        setTargetPower(0);
     }
 
 
@@ -125,9 +140,15 @@ public class ChargeurSubsystem extends SubsystemBase {
     public void periodic(){
         // Automatically stop the motor if an over-current condition is detected.
         if (isOverCurrent()){
-            setMotorPower(0);
+            motorEx.set(0);
             telemetryM.addLine("chargeur motor over current");
+        } else {
+            setMotorPower(targetPower);
         }
+
+
+
+
 //        printChargeurTelemetry(telemetryM);
     }
 

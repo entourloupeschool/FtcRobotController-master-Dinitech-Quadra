@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROTATED_BLUE_BASKET_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER_TRIGGER_SCALE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
@@ -206,7 +207,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         dinitechPedroMecanumDrive.update();
         // This method is called periodically by the CommandScheduler.
         printDriveTelemetry(telemetryM);
-        debugPedro(telemetryM);
+//        debugPedro(telemetryM);
     }
 
     private void debugPedro(TelemetryManager telemetryM) {
@@ -227,12 +228,13 @@ public class DrivePedroSubsystem extends SubsystemBase {
         telemetryM.addData("drive usage", getDriveUsage());
         telemetryM.addData("drive reference", getDriveReference());
         telemetryM.addData("aimLockType", getDriveAimLockType());
+        telemetryM.addData("distanceFromGoal", getPose().distanceFrom(ROTATED_BLUE_BASKET_POSE));
 
-        Pose pose = getPose();
-        telemetryM.addLine("Robot Pose:");
-        telemetryM.addData("x", pose.getX());
-        telemetryM.addData("y", pose.getY());
-        telemetryM.addData("heading", pose.getHeading());
+//        Pose pose = getPose();
+//        telemetryM.addLine("Robot Pose:");
+//        telemetryM.addData("x", pose.getX());
+//        telemetryM.addData("y", pose.getY());
+//        telemetryM.addData("heading", pose.getHeading());
 
     }
 

@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADI
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence.RampEnd;
@@ -26,6 +27,8 @@ public class ThreeRowsFromGoalWithGateOpen extends SequentialCommandGroup {
     public ThreeRowsFromGoalWithGateOpen(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem, double rowPower){
         addCommands(
                 new InitToPedroShooter(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
+
+                new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem),
 
                 new ToRowToGateToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                         hubsSubsystem.getTeam().getSecondRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), hubsSubsystem.getTeam().getRampPose(), LENGTH_X_ROW, rowPower, LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),

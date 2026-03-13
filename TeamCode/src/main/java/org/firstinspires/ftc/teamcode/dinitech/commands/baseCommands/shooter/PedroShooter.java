@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROTATED_BLUE_BASKET_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedFromPedroRange;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedFromRange;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.pedropathing.geometry.Pose;
 
+import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
@@ -18,6 +20,7 @@ public class PedroShooter extends CommandBase {
     private final ShooterSubsystem shooterSubsystem;
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final HubsSubsystem hubsSubsystem;
+    private Pose basketPose;
 
 
     /**
@@ -32,17 +35,22 @@ public class PedroShooter extends CommandBase {
         this.shooterSubsystem = shooterSubsystem;
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.hubsSubsystem = hubsSubsystem;
+        this.basketPose = hubsSubsystem.getTeam().getBasketPose();
         addRequirements(shooterSubsystem);
     }
 
     @Override
     public void initialize(){
         shooterSubsystem.setUsageState(ShooterSubsystem.ShooterUsageState.PEDRO);
+        if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE && drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.TELE){
+            basketPose = ROTATED_BLUE_BASKET_POSE;
+        } else {
+            basketPose = hubsSubsystem.getTeam().getBasketPose();
+        }
     }
 
     @Override
     public void execute() {
-        double range = drivePedroSubsystem.getPose().distanceFrom(hubsSubsystem.getTeam().getBasketPose());
-        shooterSubsystem.setVelocity(linearSpeedFromPedroRange(range));
+        shooterSubsystem.setVelocity(linearSpeedFromPedroRange(drivePedroSubsystem.getPose().distanceFrom(basketPose)));
     }
 }

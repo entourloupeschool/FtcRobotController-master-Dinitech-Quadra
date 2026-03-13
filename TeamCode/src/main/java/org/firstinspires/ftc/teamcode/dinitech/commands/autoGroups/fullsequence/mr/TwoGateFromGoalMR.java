@@ -11,6 +11,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADI
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence.RampEnd;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence.VoidEnd;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.gatesequence.OnlyOpenGate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToShoot;
@@ -41,7 +42,7 @@ public class TwoGateFromGoalMR extends SequentialCommandGroup {
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                         hubsSubsystem.getTeam().getFirstRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), LENGTH_X_ROW, AUTO_ROBOT_CONSTRAINTS, LINEAR_HEADING_INTERPOLATION_END_TIME, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
-                new VoidEnd(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getVoidPose())
+                new RampEnd(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getRampPose())
         );
     }
 }

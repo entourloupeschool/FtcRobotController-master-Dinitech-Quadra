@@ -1,14 +1,14 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_INCREMENT;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CONTINUOUS;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.rouleau.IncrementPowerRouleau;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.rouleau.MaxPowerRouleau;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.rouleau.StopRouleau;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.IncrementPowerChargeur;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.RobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
@@ -17,11 +17,13 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-//@TeleOp(name = "ChargeurDebut - Dinitech", group = "Test")
-@Disabled
+@TeleOp(name = "ChargeurDebut - Dinitech", group = "Test")
+//@Disabled
 
 public class ChargeurDebut extends RobotBase {
     private GamepadSubsystem gamepadSubsystem;
+    private GamepadWrapper m_Driver;
+    private GamepadWrapper m_Operator;
     private TrieurSubsystem trieurSubsystem;
     private ChargeurSubsystem chargeurSubsystem;
     private VisionSubsystem visionSubsystem;
@@ -35,6 +37,8 @@ public class ChargeurDebut extends RobotBase {
 
         gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
+        m_Driver = gamepadSubsystem.getDriver();
+        m_Operator = gamepadSubsystem.getOperator();
 
         visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
         register(visionSubsystem);
@@ -58,6 +62,11 @@ public class ChargeurDebut extends RobotBase {
      */
     @Override
     public void run() {
+        double rightTriggerValue = m_Driver.getRightTriggerValue();
+        double leftTriggerValue = m_Driver.getLeftTriggerValue();
+        if (rightTriggerValue > 0.01) chargeurSubsystem.incrementTargetPower(rightTriggerValue * rightTriggerValue * 0.3);
+        if (leftTriggerValue > 0.01) chargeurSubsystem.incrementTargetPower(-leftTriggerValue * leftTriggerValue * 0.3);
+
         super.run();
     }
 
@@ -65,16 +74,7 @@ public class ChargeurDebut extends RobotBase {
      * Setup GamePads and Buttons and their associated commands.
      */
     private void setupGamePadsButtonBindings() {
-        GamepadWrapper m_Driver = gamepadSubsystem.getDriver();
-        GamepadWrapper m_Operator = gamepadSubsystem.getOperator();
-
-        // Driver controls
-        m_Driver.square.whenPressed(new MaxPowerRouleau(chargeurSubsystem));
-        m_Driver.triangle.whenPressed(new StopRouleau(chargeurSubsystem));
-
-
-
-        m_Operator.triangle.whenPressed(new IncrementPowerRouleau(chargeurSubsystem, CHARGEUR_INCREMENT));
-        m_Operator.cross.whenPressed(new IncrementPowerRouleau(chargeurSubsystem, -CHARGEUR_INCREMENT));
+        m_Driver.square.whenPressed(new MaxPowerChargeur(chargeurSubsystem));
+        m_Driver.triangle.whenPressed(new StopChargeur(chargeurSubsystem));
     }
 }

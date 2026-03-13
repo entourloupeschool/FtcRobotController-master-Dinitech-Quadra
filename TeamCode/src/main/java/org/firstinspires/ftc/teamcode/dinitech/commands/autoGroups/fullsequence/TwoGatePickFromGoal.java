@@ -24,8 +24,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-public class TwoGateFromGoalGilles extends SequentialCommandGroup {
-    public TwoGateFromGoalGilles(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem) {
+public class TwoGatePickFromGoal extends SequentialCommandGroup {
+    public TwoGatePickFromGoal(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem) {
 
         addCommands(
                 new InitToPedroShooter(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
@@ -49,7 +49,6 @@ public class TwoGateFromGoalGilles extends SequentialCommandGroup {
                         hubsSubsystem.getTeam().getFirstRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), LENGTH_X_ROW, AUTO_ROBOT_CONSTRAINTS, LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, true),
 
                 new RampEnd(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getRampPose())
-
         );
     }
 }

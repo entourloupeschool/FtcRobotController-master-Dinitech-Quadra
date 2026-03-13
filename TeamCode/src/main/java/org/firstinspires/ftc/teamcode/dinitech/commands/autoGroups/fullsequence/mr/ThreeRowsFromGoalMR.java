@@ -11,6 +11,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.paths.HeadingInterpolator;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence.RampEnd;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence.VoidEnd;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToPedroShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.ToRowToGateToShoot;
@@ -39,7 +40,7 @@ public class ThreeRowsFromGoalMR extends SequentialCommandGroup {
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                         hubsSubsystem.getTeam().getThirdRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), LENGTH_X_ROW, rowPower, LINEAR_HEADING_INTERPOLATION_END_TIME, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, true),
 
-                new VoidEnd(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getVoidPose())
+                new RampEnd(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getRampPose())
         );
     }
 

@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADI
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence.RampEnd;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToPedroShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.ToRowToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
@@ -28,7 +29,9 @@ public class TwoRowsFromGoalMR extends SequentialCommandGroup {
                         hubsSubsystem.getTeam().getFirstRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), LENGTH_X_ROW, rowPower, LINEAR_HEADING_INTERPOLATION_END_TIME, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
-                        hubsSubsystem.getTeam().getSecondRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), LENGTH_X_ROW, rowPower, LINEAR_HEADING_INTERPOLATION_END_TIME, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY)
+                        hubsSubsystem.getTeam().getSecondRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), LENGTH_X_ROW, rowPower, LINEAR_HEADING_INTERPOLATION_END_TIME, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
+
+                new RampEnd(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getRampPose())
 
         );
     }

@@ -224,7 +224,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-//        aprilTagProcessorTelemetryManager();
+        aprilTagProcessorTelemetryManager();
 //        telemetryM.addData("vision usage state", getUsageState());
     }
 
