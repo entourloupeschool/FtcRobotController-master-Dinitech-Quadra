@@ -228,14 +228,12 @@ public class DrivePedroSubsystem extends SubsystemBase {
         telemetryM.addData("drive usage", getDriveUsage());
         telemetryM.addData("drive reference", getDriveReference());
         telemetryM.addData("aimLockType", getDriveAimLockType());
-        telemetryM.addData("distanceFromGoal", getPose().distanceFrom(ROTATED_BLUE_BASKET_POSE));
 
-//        Pose pose = getPose();
-//        telemetryM.addLine("Robot Pose:");
-//        telemetryM.addData("x", pose.getX());
-//        telemetryM.addData("y", pose.getY());
-//        telemetryM.addData("heading", pose.getHeading());
-
+        Pose pose = getPose();
+        telemetryM.addLine("Robot Pose:");
+        telemetryM.addData("x", pose.getX());
+        telemetryM.addData("y", pose.getY());
+        telemetryM.addData("heading", pose.getHeading());
     }
 
     public DinitechPedroMecanumDrive getDrive() {

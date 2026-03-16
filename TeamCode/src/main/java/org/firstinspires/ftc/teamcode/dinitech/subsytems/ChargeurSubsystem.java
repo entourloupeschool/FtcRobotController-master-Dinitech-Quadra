@@ -21,7 +21,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class ChargeurSubsystem extends SubsystemBase {
     private final MotorEx motorEx;
     public final TelemetryManager telemetryM;
-    private boolean isOvercurrent;
 
     private double targetPower;
     public double getTargetPower(){
@@ -48,7 +47,6 @@ public class ChargeurSubsystem extends SubsystemBase {
         motorEx.setInverted(false);
 
         this.telemetryM = telemetryM;
-        isOvercurrent = false;
         setTargetPower(0);
     }
 

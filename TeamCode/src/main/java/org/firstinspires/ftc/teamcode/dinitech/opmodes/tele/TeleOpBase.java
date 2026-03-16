@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CONTINUOUS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOT_REVOLUTION_THEN_WAIT;
 
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -89,20 +90,20 @@ public class TeleOpBase extends Gornetix {
 
     @Override
     public void run() {
-        currentGetHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
-        if (lastHowManyArtefacts != currentGetHowManyArtefacts){
-            lastHowManyArtefacts = currentGetHowManyArtefacts;
-            if (currentGetHowManyArtefacts == 0) modeRamassage();
-
-            if (currentGetHowManyArtefacts == 2) new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem).schedule();
-
-            if(currentGetHowManyArtefacts == 3) modeShoot();
-        }
+//        currentGetHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
+//        if (lastHowManyArtefacts != currentGetHowManyArtefacts){
+//            lastHowManyArtefacts = currentGetHowManyArtefacts;
+//            if (currentGetHowManyArtefacts == 0) modeRamassage();
+//
+//            if (currentGetHowManyArtefacts == 2) new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem).schedule();
+//
+//            if(currentGetHowManyArtefacts == 3) modeShoot();
+//        }
 
         double rightTriggerValue = m_Operator.getRightTriggerValue();
         double leftTriggerValue = m_Operator.getLeftTriggerValue();
-        if (rightTriggerValue > 0.01)trieurSubsystem.incrementMoulinTargetPosition(rightTriggerValue * rightTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
-        if (leftTriggerValue > 0.01)trieurSubsystem.incrementMoulinTargetPosition(-leftTriggerValue * leftTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
+        if (rightTriggerValue > 0.05)trieurSubsystem.incrementMoulinTargetPosition(rightTriggerValue * rightTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
+        if (leftTriggerValue > 0.05)trieurSubsystem.incrementMoulinTargetPosition(-leftTriggerValue * leftTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
 
         super.run();
     }
@@ -116,7 +117,8 @@ public class TeleOpBase extends Gornetix {
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
         m_Driver.square.whenPressed(new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem));
-        m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem));
+
+        m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false));
 
         m_Driver.start.whenPressed(new ResetPoseFCDrive(drivePedroSubsystem, hubsSubsystem));
         m_Driver.back.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));

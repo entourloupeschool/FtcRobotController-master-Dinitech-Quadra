@@ -63,6 +63,8 @@ public class TrieurDebut extends RobotBase {
      */
     @Override
     public void run() {
+        telemetryM.addData("chargeurPower", chargeurSubsystem.getMotorPower());
+        telemetryM.addData("targetPower", chargeurSubsystem.getTargetPower());
         super.run();
     }
 

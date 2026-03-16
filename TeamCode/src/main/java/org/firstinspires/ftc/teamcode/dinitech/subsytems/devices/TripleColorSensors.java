@@ -21,7 +21,7 @@ public class TripleColorSensors {
     /** The three color sensors with integrated averaging. */
     public final AveragingColorSensor colorSensor1;
     public final AveragingColorSensor colorSensor2;
-    public final AveragingColorSensor colorSensor3;
+//    public final AveragingColorSensor colorSensor3;
 
     /**
      * Constructs a new TripleColorSensors instance.
@@ -31,7 +31,7 @@ public class TripleColorSensors {
     public TripleColorSensors(HardwareMap hardwareMap) {
         this.colorSensor1 = new AveragingColorSensor(hardwareMap.get(NormalizedColorSensor.class, CS1_NAME));
         this.colorSensor2 = new AveragingColorSensor(hardwareMap.get(NormalizedColorSensor.class, CS2_NAME));
-        this.colorSensor3 = new AveragingColorSensor(hardwareMap.get(NormalizedColorSensor.class, CS3_NAME));
+//        this.colorSensor3 = new AveragingColorSensor(hardwareMap.get(NormalizedColorSensor.class, CS3_NAME));
     }
 
     /**
@@ -56,9 +56,6 @@ public class TripleColorSensors {
             case 2:
                 colorSensor2.update();
                 break;
-            case 3:
-                colorSensor3.update();
-                break;
         }
     }
 
@@ -68,7 +65,6 @@ public class TripleColorSensors {
     public void clearSamplesAllSensors() {
         colorSensor1.clearSamples();
         colorSensor2.clearSamples();
-        colorSensor3.clearSamples();
     }
 
     /**
@@ -83,9 +79,6 @@ public class TripleColorSensors {
                 break;
             case 2:
                 colorSensor2.clearSamples();
-                break;
-            case 3:
-                colorSensor3.clearSamples();
                 break;
         }
     }
@@ -102,8 +95,6 @@ public class TripleColorSensors {
                 return colorSensor1.isGreen();
             case 2:
                 return colorSensor2.isGreen();
-            case 3:
-                return colorSensor3.isGreen();
             default:
                 return false;
         }
@@ -121,8 +112,6 @@ public class TripleColorSensors {
                 return colorSensor1.isPurple();
             case 2:
                 return colorSensor2.isPurple();
-            case 3:
-                return colorSensor3.isPurple();
             default:
                 return false;
         }
@@ -140,8 +129,6 @@ public class TripleColorSensors {
                 return !colorSensor1.isGreen() && !colorSensor1.isPurple();
             case 2:
                 return !colorSensor2.isGreen() && !colorSensor2.isPurple();
-            case 3:
-                return !colorSensor3.isGreen() && !colorSensor3.isPurple();
             default:
                 return false;
         }
@@ -177,8 +164,6 @@ public class TripleColorSensors {
                 return colorSensor1.getDistance();
             case 2:
                 return colorSensor2.getDistance();
-            case 3:
-                return colorSensor3.getDistance();
             default:
                 return 0;
         }
@@ -197,8 +182,6 @@ public class TripleColorSensors {
                 return colorSensor1.getDistance() < distanceCM;
             case 2:
                 return colorSensor2.getDistance() < distanceCM;
-            case 3:
-                return colorSensor3.getDistance() < distanceCM;
             case 4:
                 return colorSensor1.getDistance() < distanceCM && colorSensor2.getDistance() < distanceCM;
             default:
@@ -223,9 +206,6 @@ public class TripleColorSensors {
                 double distance2 = colorSensor2.getDistance();
                 return distance2 > distanceCM - margin && distance2 < distanceCM + margin;
             case 3:
-                double distance3 = colorSensor3.getDistance();
-                return distance3 > distanceCM - margin && distance3 < distanceCM + margin;
-            case 4:
                 double dist1 = colorSensor1.getDistance();
                 double dist2 = colorSensor2.getDistance();
                 return dist1 > distanceCM - margin && dist1 < distanceCM + margin
@@ -247,8 +227,6 @@ public class TripleColorSensors {
                 return colorSensor1.getSampleCount();
             case 2:
                 return colorSensor2.getSampleCount();
-            case 3:
-                return colorSensor3.getSampleCount();
             default:
                 return 0;
         }
@@ -260,8 +238,6 @@ public class TripleColorSensors {
                 return colorSensor1.getAverageBlue();
             case 2:
                 return colorSensor2.getAverageBlue();
-            case 3:
-                return colorSensor3.getAverageBlue();
             default:
                 return 0;
         }
@@ -273,8 +249,6 @@ public class TripleColorSensors {
                 return colorSensor1.getAverageRed();
             case 2:
                 return colorSensor2.getAverageRed();
-            case 3:
-                return colorSensor3.getAverageRed();
             default:
                 return 0;
         }
@@ -286,8 +260,6 @@ public class TripleColorSensors {
                 return colorSensor1.getAverageGreen();
             case 2:
                 return colorSensor2.getAverageGreen();
-            case 3:
-                return colorSensor3.getAverageGreen();
             default:
                 return 0;
         }
@@ -298,8 +270,6 @@ public class TripleColorSensors {
                 return colorSensor1.getAverageHue();
             case 2:
                 return colorSensor2.getAverageHue();
-            case 3:
-                return colorSensor3.getAverageHue();
             default:
                 return 0;
         }
@@ -311,8 +281,6 @@ public class TripleColorSensors {
                 return colorSensor1.getAverageSaturation();
             case 2:
                 return colorSensor2.getAverageSaturation();
-            case 3:
-                return colorSensor3.getAverageSaturation();
             default:
                 return 0;
         }

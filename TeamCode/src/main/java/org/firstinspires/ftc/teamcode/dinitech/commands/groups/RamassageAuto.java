@@ -49,7 +49,7 @@ public class RamassageAuto extends SequentialCommandGroup {
     }
 
     public RamassageAuto(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem,
-                         GamepadSubsystem gamepadSubsystem, ChargeurSubsystem chargeurSubsystem) {
+                         GamepadSubsystem gamepadSubsystem, ChargeurSubsystem chargeurSubsystem, boolean shouldInversePowerChargeur) {
         addCommands(
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
@@ -68,9 +68,12 @@ public class RamassageAuto extends SequentialCommandGroup {
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),
                 new ConditionalCommand(
-                        new InverseMaxPowerChargeur(chargeurSubsystem),
+                        new ConditionalCommand(
+                                new InverseMaxPowerChargeur(chargeurSubsystem),
+                                new InstantCommand(),
+                                trieurSubsystem::isFull),
                         new InstantCommand(),
-                        trieurSubsystem::isFull),
+                        ()->shouldInversePowerChargeur),
                 new PrepShootTrieur(trieurSubsystem, visionSubsystem, gamepadSubsystem),
                 new StopChargeur(chargeurSubsystem)
         );

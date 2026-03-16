@@ -261,18 +261,17 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private void updateVelocityPidProfileForLoad() {
         double targetSpeed = getTargetSpeed();
-        if (targetSpeed <= 0) {
+        if (targetSpeed <= 10) {
             applyVelocityPidProfile(VelocityPidProfile.BASE);
             return;
         }
 
         double speedError = targetSpeed - getVelocity();
-        double enterLoadedThreshold = SPEED_MARGIN * 2.0;
 
-        if (activeVelocityPidProfile == VelocityPidProfile.BASE && speedError > enterLoadedThreshold) {
-            applyVelocityPidProfile(VelocityPidProfile.LOADED);
-        } else if (activeVelocityPidProfile == VelocityPidProfile.LOADED && speedError < SPEED_MARGIN) {
+        if (activeVelocityPidProfile == VelocityPidProfile.LOADED && speedError > SPEED_MARGIN * 2) {
             applyVelocityPidProfile(VelocityPidProfile.BASE);
+        } else if (activeVelocityPidProfile == VelocityPidProfile.BASE && speedError < SPEED_MARGIN * 2) {
+            applyVelocityPidProfile(VelocityPidProfile.LOADED);
         }
     }
 
@@ -340,7 +339,7 @@ public class ShooterSubsystem extends SubsystemBase {
             telemetryM.addLine("shooter motor over current");
         }
 
-//        updateVelocityPidProfileForLoad();
+        updateVelocityPidProfileForLoad();
         lastMotorCurrents.add(getVoltage());
 
 //        printShooterTelemetry(telemetryM);

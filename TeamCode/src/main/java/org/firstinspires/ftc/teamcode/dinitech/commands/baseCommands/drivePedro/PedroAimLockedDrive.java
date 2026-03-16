@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLAMPING_HEADING_ERROR;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROTATED_BLUE_BASKET_POSE;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.math.MathFunctions;
 
+import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
@@ -33,6 +35,7 @@ public class PedroAimLockedDrive extends CommandBase {
     private final HubsSubsystem hubsSubsystem;
 
     private final GamepadWrapper driver;
+    private Pose basketPose;
 
     /**
      * Creates a new TeleDriveLocked command.
@@ -46,6 +49,7 @@ public class PedroAimLockedDrive extends CommandBase {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.hubsSubsystem = hubsSubsystem;
         this.driver = gamepadSubsystem.getDriver();
+        this.basketPose = hubsSubsystem.getTeam().getBasketPose();
 
         addRequirements(drivePedroSubsystem);
     }
@@ -56,6 +60,12 @@ public class PedroAimLockedDrive extends CommandBase {
         drivePedroSubsystem.setDriveReference(DrivePedroSubsystem.DriveReference.FC);
         drivePedroSubsystem.setDriveAimLockType(DrivePedroSubsystem.DriveAimLockType.PEDRO_AIM);
         drivePedroSubsystem.setLastTeleDriverPowerScale(1);
+
+        if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE){
+            basketPose = ROTATED_BLUE_BASKET_POSE;
+        } else {
+            basketPose = hubsSubsystem.getTeam().getBasketPose();
+        }
     }
 
     /**
@@ -65,9 +75,8 @@ public class PedroAimLockedDrive extends CommandBase {
     public void execute() {
         double rightX = driver.getRightX();
         Pose currentPose = drivePedroSubsystem.getPose();
-        Pose goalPose = hubsSubsystem.getTeam().getBasketPose();
 
-        double headingGoal = Math.atan2(currentPose.getY() - goalPose.getY(), currentPose.getX() - goalPose.getX());
+        double headingGoal = Math.atan2(currentPose.getY() - basketPose.getY(), currentPose.getX() - basketPose.getX());
         double headingError = MathFunctions.getTurnDirection(currentPose.getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(currentPose.getHeading(), headingGoal);
         double clampedError = Math.max(Math.min(headingError, CLAMPING_HEADING_ERROR), -CLAMPING_HEADING_ERROR);
 

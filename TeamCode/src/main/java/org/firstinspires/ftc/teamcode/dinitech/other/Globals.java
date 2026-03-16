@@ -72,7 +72,7 @@ public class Globals {
     public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.71);
     public static final Pose BLUE_OPEN_RAMP_PICK_POSE = new Pose(14, 58.5, -0.75);
     public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
-    public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 2.945 * Math.PI/4);
+    public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 3 * Math.PI/4);
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final double AUDIENCE_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(BLUE_AUDIENCE_SHOOT_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 82, 0);
@@ -153,7 +153,7 @@ public class Globals {
 
         public static int REVOLUTION_MOULIN_TICKS = 1833;
         public static double INTERVALLE_TICKS_MOULIN_DOUBLE = (double) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS; // = 305.5
-        public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.196°
+        public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.1963993453°
         public static double getDegreesFromTicks(int ticks){
             return TICKS_TO_DEGREE * ticks;
         }
@@ -165,7 +165,7 @@ public class Globals {
 
         public static final double POWER_MOULIN_ROTATION = 1;
         public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
-        public static int MOULIN_POSITION_TOLERANCE = 1; // 2;
+        public static int MOULIN_POSITION_TOLERANCE = 0; // 2;
         public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
         public static int SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE = 8;
         public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE;
@@ -232,8 +232,8 @@ public class Globals {
         return A_DIFFS * rangeCM + 1204.879; //
     }
 
-    public static final double a_Pedro = 5.95;//5.25;
-    public static final double b_Pedro = 1060; //1210;
+    public static double a_Pedro = 5.87; // 5.95;
+    public static double b_Pedro = 1190; // 1060;
     /**
      * Gives back a linear speed from a range in inches
      * @param rangeInch The range value in inches, positive.
@@ -263,8 +263,10 @@ public class Globals {
         public static final String CS3_NAME = "cs3";
         public static final String MAGNETIC_SWITCH_NAME = "m_s";
         public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
-        public static int OFFSET_MAGNETIC_POS = (int) Math.round(REVOLUTION_MOULIN_TICKS * 0.0250817);
-        public static double SCALE_RECALIBRATION = 0.7;
+        public static int OFFSET_MAGNETIC_POS = 41; // (int) Math.round(REVOLUTION_MOULIN_TICKS * 0.0250817);
+        public static double SCALE_RECALIBRATION = getTicksFromDegrees(2); // = 15.2750000028
+        public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
+
         public static final double DETECT_PURPLE_RED_RGB = 0.694;
         public static final double DETECT_PURPLE_GREEN_RGB = 0.612;
         public static final double DETECT_PURPLE_BLUE_RGB = 0.851;

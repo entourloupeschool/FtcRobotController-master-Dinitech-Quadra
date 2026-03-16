@@ -65,7 +65,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
-                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem)),
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
         );
@@ -108,7 +108,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
-                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem)),
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)),
 
                 new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
         );

@@ -51,7 +51,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                 AUTO_ROBOT_CONSTRAINTS, false)),
 
                 new ParallelCommandGroup(
-                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem),
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, true),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(
@@ -99,7 +99,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                 AUTO_ROBOT_CONSTRAINTS, false)),
 
                 new ParallelCommandGroup(
-                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem),
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, true),
                         new SequentialCommandGroup(
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(new BezierLine(

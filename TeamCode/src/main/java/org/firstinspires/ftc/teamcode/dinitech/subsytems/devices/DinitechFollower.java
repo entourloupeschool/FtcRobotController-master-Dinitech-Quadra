@@ -64,7 +64,7 @@ public class DinitechFollower {
             .distanceUnit(DistanceUnit.MM)
             .hardwareMapName("pinpoint")
             .customEncoderResolution(ENCODER_RESOLUTION) //through bore encoder https://www.revrobotics.com/rev-11-1271/ wheels: https://www.revrobotics.com/ION-Omni-Wheels/ // https://docs.revrobotics.com/rev-crossover-products/sensors/tbe/specs
-            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
+            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, BRAKING_STRENGTH_PEDRO_DINITECH, BRAKING_START_PEDRO_DINITECH);
