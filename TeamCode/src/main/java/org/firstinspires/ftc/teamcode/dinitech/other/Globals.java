@@ -184,7 +184,7 @@ public class Globals {
         public static double I_MOULIN_AGGRESSIVE = 11.8;
         public static double D_MOULIN_AGGRESSIVE = 0.803;
         public static double F_MOULIN_AGGRESSIVE = 0.0;
-        public static final double ADJUST_CONSTANT = 0.005;
+        public static final double ADJUST_CONSTANT = 0.015;
 
         /**
          * *******Shooter

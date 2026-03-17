@@ -16,16 +16,16 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * <p>
  * This command always rotates in the positive (forward) direction.
  */
-public class MoulinNext extends MoulinToPositionMargin {
+public class MoulinNextStrict extends MoulinToPositionMargin {
 
     /**
      * Creates a new MoulinNext command.
      *
      * @param trieurSubsystem The sorter subsystem that controls the moulin.
      */
-    public MoulinNext(TrieurSubsystem trieurSubsystem) {
+    public MoulinNextStrict(TrieurSubsystem trieurSubsystem) {
         // The actual target position is determined at execution time.
-        super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
+        super(trieurSubsystem, -1, false, 0);
     }
 
     /**

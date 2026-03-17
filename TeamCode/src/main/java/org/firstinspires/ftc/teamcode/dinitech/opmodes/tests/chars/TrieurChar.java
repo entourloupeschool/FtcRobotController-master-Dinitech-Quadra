@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNextStrict;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextStrict;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 
@@ -62,12 +64,12 @@ public class TrieurChar extends Gornetix {
         double leftTrigger = m_Driver.getLeftTriggerValue();
 
         if (rightTrigger > 0.01) {
-            adjustSelectedParameter(rightTrigger * rightTrigger * ADJUST_CONSTANT);
+            adjustSelectedParameter(rightTrigger * rightTrigger * rightTrigger  * ADJUST_CONSTANT);
             trieurSubsystem.setPIDF(pMoulin, iMoulin, dMoulin, fMoulin);
         }
 
         if (leftTrigger > 0.01) {
-            adjustSelectedParameter(-leftTrigger * leftTrigger * ADJUST_CONSTANT);
+            adjustSelectedParameter(-leftTrigger * leftTrigger * leftTrigger * ADJUST_CONSTANT);
             trieurSubsystem.setPIDF(pMoulin, iMoulin, dMoulin, fMoulin);
         }
 
@@ -84,12 +86,12 @@ public class TrieurChar extends Gornetix {
         m_Operator = gamepadSubsystem.getOperator();
 
         m_Operator.bump_right.whenPressed(new SequentialCommandGroup(
+                new MoulinNextNextStrict(trieurSubsystem),
+                new MoulinNextStrict(trieurSubsystem)));
+        m_Operator.bump_left.whenPressed(new SequentialCommandGroup(
                 new MoulinNextNext(trieurSubsystem),
-                new WaitCommand(1),
-                new MoulinNextNext(trieurSubsystem),
-                new WaitCommand(1),
+                new WaitCommand(10),
                 new MoulinNext(trieurSubsystem)));
-        m_Operator.bump_left.whenPressed(new MoulinRevolution(trieurSubsystem));
 
         m_Operator.dpad_down.whenPressed(
                 () -> {
