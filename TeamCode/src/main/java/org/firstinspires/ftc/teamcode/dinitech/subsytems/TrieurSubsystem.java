@@ -136,6 +136,8 @@ public class TrieurSubsystem extends SubsystemBase {
         setDetectionTimeout(MODE_RAMASSAGE_TELE_TIMEOUT);
         setHowManyArtefacts(0);
         setHasInitCalibration(false);
+
+        setMoulinPower(POWER_MOULIN_ROTATION);
     }
 
     /**
@@ -560,7 +562,7 @@ public class TrieurSubsystem extends SubsystemBase {
      */
     private void moulinLogic() {
         if (isMoulinRestAtTarget()) {
-            setMoulinPower(0);
+//            setMoulinPower(0);
 
         } else if (isMoulinOverCurrent()) {
                 if (getOvercurrentCounts() == 0){
@@ -579,7 +581,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
         } else {
             setOvercurrentCounts(0);
-            setMoulinPower(POWER_MOULIN_ROTATION);
+//            setMoulinPower(POWER_MOULIN_ROTATION);
             lastMoulinMotorTicks.add(getMoulinMotorPosition());
 
         }
@@ -616,7 +618,7 @@ public class TrieurSubsystem extends SubsystemBase {
         double diffTicks = Math.abs(differenceToIntRounded) * INTERVALLE_TICKS_MOULIN_DOUBLE;
         lastRecalibrationIncrement = diffTicks;
 
-        double scaler = Math.min(Math.pow(diffTicks/SCALE_RECALIBRATION, POWER_SCALER_RECALIBRATION), 1.1);
+        double scaler = Math.pow(Math.min(diffTicks/SCALE_RECALIBRATION, 0.9), POWER_SCALER_RECALIBRATION);
 
         incrementMoulinTargetPosition(differenceToIntRounded > 0 ? - diffTicks * scaler : diffTicks * scaler);
     }

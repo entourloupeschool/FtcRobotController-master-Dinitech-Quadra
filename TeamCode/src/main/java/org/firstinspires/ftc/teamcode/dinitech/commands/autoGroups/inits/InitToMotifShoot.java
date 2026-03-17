@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
@@ -59,7 +59,7 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                                                 new OpenWaitTrappe(trieurSubsystem),
                                                 visionSubsystem::hasMotif)))),
 
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem)
+                new ShootAll(trieurSubsystem, shooterSubsystem)
         );
     }
 }

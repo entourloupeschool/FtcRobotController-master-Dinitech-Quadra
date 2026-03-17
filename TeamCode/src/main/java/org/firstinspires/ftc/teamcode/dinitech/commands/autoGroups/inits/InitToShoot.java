@@ -11,9 +11,9 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -25,7 +25,7 @@ public class InitToShoot extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new InstantCommand(),
-                                new SetVelocityShooterRequire(shooterSubsystem, shootVelocity)),
+                                new SetVelocityShooter(shooterSubsystem, shootVelocity)),
 
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
@@ -37,7 +37,7 @@ public class InitToShoot extends SequentialCommandGroup {
                                         LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, true)
         );
     }
 }

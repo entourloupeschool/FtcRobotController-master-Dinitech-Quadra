@@ -24,7 +24,7 @@ import com.pedropathing.paths.HeadingInterpolator;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
@@ -79,7 +79,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                             if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true))),
 
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, true)
         );
     }
 
@@ -128,7 +128,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                             if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true))),
 
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, true)
         );
     }
 }

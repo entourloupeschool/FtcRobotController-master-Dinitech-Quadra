@@ -7,7 +7,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CONTINUOUS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOT_REVOLUTION_THEN_WAIT;
 
-import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -38,16 +37,14 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.Prep
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.ToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetection;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
-import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
-
-import java.util.Objects;
 
 public class TeleOpBase extends Gornetix {
     private int lastHowManyArtefacts = 0;
@@ -90,15 +87,15 @@ public class TeleOpBase extends Gornetix {
 
     @Override
     public void run() {
-//        currentGetHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
-//        if (lastHowManyArtefacts != currentGetHowManyArtefacts){
-//            lastHowManyArtefacts = currentGetHowManyArtefacts;
-//            if (currentGetHowManyArtefacts == 0) modeRamassage();
-//
-//            if (currentGetHowManyArtefacts == 2) new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem).schedule();
-//
-//            if(currentGetHowManyArtefacts == 3) modeShoot();
-//        }
+        currentGetHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
+        if (lastHowManyArtefacts != currentGetHowManyArtefacts){
+            lastHowManyArtefacts = currentGetHowManyArtefacts;
+            if (currentGetHowManyArtefacts == 0) modeRamassage();
+
+            if (currentGetHowManyArtefacts == 2) new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem).schedule();
+
+            if(currentGetHowManyArtefacts == 3) modeShoot();
+        }
 
         double rightTriggerValue = m_Operator.getRightTriggerValue();
         double leftTriggerValue = m_Operator.getLeftTriggerValue();
@@ -116,7 +113,7 @@ public class TeleOpBase extends Gornetix {
         // Driver controls
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
-        m_Driver.square.whenPressed(new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem));
+        m_Driver.square.whenPressed(new ShootHighSpeedRevolution(trieurSubsystem, shooterSubsystem));
 
         m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false));
 

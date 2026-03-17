@@ -4,7 +4,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_C
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.T_PARAMETRIC_DONT_SHOOT;
 
-import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierCurve;
@@ -12,10 +11,9 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
@@ -67,7 +65,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         AUTO_ROBOT_CONSTRAINTS, true)),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)),
 
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, true)
         );
     }
 
@@ -110,7 +108,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         AUTO_ROBOT_CONSTRAINTS, true)),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)),
 
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, true)
         );
     }
 }

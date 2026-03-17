@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * <p>
  * This command always rotates in the positive (forward) direction.
  */
-public class MoulinNextShootIntel extends MoulinToPositionMargin {
+public class MoulinNextArtefactShootWaitVelocity extends MoulinToPositionMargin {
     private final ShooterSubsystem shooterSubsystem;
     private boolean hasLaunched;
     /**
@@ -26,7 +26,7 @@ public class MoulinNextShootIntel extends MoulinToPositionMargin {
      *
      * @param trieurSubsystem The sorter subsystem that controls the moulin.
      */
-    public MoulinNextShootIntel(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
+    public MoulinNextArtefactShootWaitVelocity(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
         // The actual target position is determined at execution time.
         super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
         this.shooterSubsystem = shooterSubsystem;

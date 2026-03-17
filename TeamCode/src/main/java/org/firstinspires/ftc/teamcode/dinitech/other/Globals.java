@@ -64,7 +64,7 @@ public class Globals {
     public static final Pose BLUE_BASKET_POSE = new Pose(12, 135.5, 0);
     public static final Pose ROTATED_BLUE_BASKET_POSE = BLUE_BASKET_POSE.rotate(BLUE_TEAM_HEADING, true);
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
-    public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(60, 20, Math.toRadians(115));
+    public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 23, Math.toRadians(118));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.8, 121.2, (double) 3 / 4 * Math.PI);
     public static final Pose BLUE_RAMP_POSE = new Pose(16.1, 63, -0.162);
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
@@ -131,8 +131,8 @@ public class Globals {
         public static final double THROUGH_BORE_ENCODER_COUNTS_PER_REV = 8192; // https://revrobotics.eu/rev-11-1271/
         public static final double DEAD_WHEEL_DIAMETER_MM = 50.8; // https://revrobotics.eu/ION-Omni-Wheels/
         public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
-        public static final double PAR_POD_Y_MM = -127;
-        public static final double PERP_POD_X_MM = 143;
+        public static final double PAR_POD_Y_MM = -144.5;//-127;
+        public static final double PERP_POD_X_MM = 147;//143;
         public static final double CLAMPING_HEADING_ERROR = 0.39;
         public static final int NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED = 3;
 
@@ -180,10 +180,10 @@ public class Globals {
         public static long WAIT_FOR_3BALL = 3800;
 
         //PIDF MOULIN (TURRET)
-        public static final double P_MOULIN_AGGRESSIVE = 8.457;
-        public static final double I_MOULIN_AGGRESSIVE = 11.8;
-        public static final double D_MOULIN_AGGRESSIVE = 0.803;
-        public static final double F_MOULIN_AGGRESSIVE = 0.0;
+        public static double P_MOULIN_AGGRESSIVE = 8.457;
+        public static double I_MOULIN_AGGRESSIVE = 11.8;
+        public static double D_MOULIN_AGGRESSIVE = 0.803;
+        public static double F_MOULIN_AGGRESSIVE = 0.0;
         public static final double ADJUST_CONSTANT = 0.005;
 
         /**
@@ -194,7 +194,7 @@ public class Globals {
         public static final int CURRENT_SHOOT_OVERFLOW = 280;
         public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
         public static final double SPEED_MARGIN = 15;
-        public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 4;
+        public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 3;
         public static final double SPEED_INCREMENT_SHOOTER = 10;
         public static final double MAX_RANGE_TO_SHOOT_CM = 345;
         public static final double MIN_RANGE_TO_SHOOT_CM = 97;

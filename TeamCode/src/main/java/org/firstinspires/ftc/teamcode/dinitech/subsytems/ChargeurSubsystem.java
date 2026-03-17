@@ -44,7 +44,7 @@ public class ChargeurSubsystem extends SubsystemBase {
         this.motorEx = new MotorEx(hardwareMap, CHARGEUR_MOTOR_NAME);
         motorEx.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
         motorEx.setRunMode(Motor.RunMode.RawPower);
-        motorEx.setInverted(false);
+        motorEx.setInverted(true);
 
         this.telemetryM = telemetryM;
         setTargetPower(0);

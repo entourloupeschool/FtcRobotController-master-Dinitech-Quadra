@@ -6,7 +6,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADI
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TILE_DIM;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.T_PARAMETRIC_DONT_SHOOT;
 
-import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -18,7 +17,7 @@ import com.pedropathing.paths.HeadingInterpolator;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedIntel;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -81,7 +80,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                         AUTO_ROBOT_CONSTRAINTS, true)),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, true)),
 
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, true)
         );
     }
 
@@ -137,7 +136,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                         AUTO_ROBOT_CONSTRAINTS, true)),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)),
 
-                new ShootHighSpeedIntel(trieurSubsystem, shooterSubsystem, true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, true)
         );
     }
 }

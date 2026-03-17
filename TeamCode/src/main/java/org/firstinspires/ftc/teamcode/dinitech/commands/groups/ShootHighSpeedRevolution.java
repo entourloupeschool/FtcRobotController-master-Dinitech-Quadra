@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_SUPER_INTEL;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_HIGH_SPEED_TRIEUR;
 
 import com.arcrobotics.ftclib.command.Command;
@@ -29,24 +30,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  */
 public class ShootHighSpeedRevolution extends SequentialCommandGroup {
 
-    /**
-     * A protected constructor for subclasses to provide a custom shooter command.
-     * <p>
-     * This allows replacing the default {@link MaxSpeedShooter} behavior with a different
-     * shooting logic, such as a velocity determined by computer vision.
-     *
-     * @param trieurSubsystem  The sorter subsystem.
-     * @param shooterCommand   The custom command to run for controlling the shooter.
-     */
-    public ShootHighSpeedRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Command shooterCommand) {
-        addCommands(
-                shooterCommand, // Rev up the shooter
-                new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
-                new MoulinHighSpeedRevolution(trieurSubsystem, new WaitCommand(WAIT_HIGH_SPEED_TRIEUR), new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN))), // Perform a full revolution
-                new InstantCommand(trieurSubsystem::clearAllStoredColors)
-        );
-    }
-
     public ShootHighSpeedRevolution(TrieurSubsystem trieurSubsystem, Command shooterCommand) {
         addCommands(
                 shooterCommand, // Rev up the shooter
@@ -59,7 +42,7 @@ public class ShootHighSpeedRevolution extends SequentialCommandGroup {
     public ShootHighSpeedRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
         addCommands(
                 new OpenWaitTrappe(trieurSubsystem), // Wait for the trappe to open fully
-                new MoulinHighSpeedRevolution(trieurSubsystem, new WaitCommand(WAIT_HIGH_SPEED_TRIEUR), new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN))), // Perform a full revolution
+                new MoulinHighSpeedRevolution(trieurSubsystem, new WaitCommand(WAIT_HIGH_SPEED_TRIEUR), new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL))), // Perform a full revolution
                 new InstantCommand(trieurSubsystem::clearAllStoredColors)
         );
     }
