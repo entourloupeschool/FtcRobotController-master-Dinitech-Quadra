@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.other;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HEADING;
+
 import com.bylazar.field.FieldManager;
 import com.bylazar.field.PanelsField;
 import com.bylazar.field.Style;
@@ -50,7 +52,7 @@ public class DrawingDinitech {
             drawRobot(new Pose(closestPoint.getX(), closestPoint.getY(), follower.getCurrentPath().getHeadingGoal(follower.getCurrentPath().getClosestPointTValue())), robotLook);
         }
         drawPoseHistory(follower.getPoseHistory(), historyLook);
-        drawRobot(follower.getPose(), historyLook);
+        drawRobot(follower.getPose().rotate(BLUE_TEAM_HEADING, true), historyLook);
 
         sendPacket();
     }
