@@ -160,8 +160,9 @@ public class TeleOpBase extends Gornetix {
         new InstantCommand(() -> shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem)), shooterSubsystem).schedule();
         new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)), drivePedroSubsystem).schedule();
         new SequentialCommandGroup(
-                new MaxPowerChargeur(chargeurSubsystem),
                 new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
+                new MoulinCalibrationSequence(trieurSubsystem),
+                new MaxPowerChargeur(chargeurSubsystem),
                 new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)).schedule();
     }
 

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN_SUPER_INTEL;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
@@ -61,7 +62,7 @@ public class MoulinNextArtefactShootWaitVelocity extends MoulinToPositionMargin 
 
     @Override
     public void execute(){
-        if (shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL) && !hasLaunched){
+        if (shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN) && !hasLaunched){
             super.initialize();
             hasLaunched = true;
         }

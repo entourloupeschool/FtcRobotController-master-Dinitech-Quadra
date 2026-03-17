@@ -54,14 +54,14 @@ public class Globals {
 
 
     public static final Pose FIELD_CENTER_90HEADING_POSE = new Pose(72, 72, Math.PI/2);
-    public static final Pose RESET_POSE_RED = new Pose(38.5, 33.5, 0);
+    public static final Pose RESET_POSE_RED = new Pose(38.6, 33.4, 0);
     public static final Pose RESET_POSE_BLUE = RESET_POSE_RED.mirror();
     public static final Pose ROTATED_RESET_POSE_BLUE = RESET_POSE_BLUE.rotate(BLUE_TEAM_HEADING, true);
 
 
 
     //BLUE SIDE
-    public static final Pose BLUE_BASKET_POSE = new Pose(12, 135.5, 0);
+    public static final Pose BLUE_BASKET_POSE = new Pose(10, 136, 0);
     public static final Pose ROTATED_BLUE_BASKET_POSE = BLUE_BASKET_POSE.rotate(BLUE_TEAM_HEADING, true);
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 23, Math.toRadians(118));
@@ -131,8 +131,8 @@ public class Globals {
         public static final double THROUGH_BORE_ENCODER_COUNTS_PER_REV = 8192; // https://revrobotics.eu/rev-11-1271/
         public static final double DEAD_WHEEL_DIAMETER_MM = 50.8; // https://revrobotics.eu/ION-Omni-Wheels/
         public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
-        public static final double PAR_POD_Y_MM = -144.5;//-127;
-        public static final double PERP_POD_X_MM = 147;//143;
+        public static final double PAR_POD_Y_MM = -142.2; // -144.5;
+        public static final double PERP_POD_X_MM = 143.2; //147;//143;
         public static final double CLAMPING_HEADING_ERROR = 0.39;
         public static final int NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED = 3;
 
@@ -212,7 +212,7 @@ public class Globals {
         public static double I_SHOOTER_VELOCITY_AGGRESSIVE_3R = 0.0001;
         public static double D_SHOOTER_VELOCITY_AGGRESSIVE_3R = 5.745;
         public static double F_SHOOTER_VELOCITY_AGGRESSIVE_3R = F_SHOOTER_VELOCITY_AGGRESSIVE * 5;
-        public static final long SHOOT_REVOLUTION_THEN_WAIT = 500;
+        public static final long SHOOT_REVOLUTION_THEN_WAIT = 300;
         public static final double MIN_RANGE_SHOOTER_SPEED = 1420;
         public static final double MAX_RANGE_SHOOTER_SPEED = 1970;
 
@@ -232,8 +232,9 @@ public class Globals {
         return A_DIFFS * rangeCM + 1204.879; //
     }
 
-    public static double a_Pedro = 5.87; // 5.95;
-    public static double b_Pedro = 1190; // 1060;
+    public static double a_Pedro = 5; // 5.95;
+    public static double b_Pedro = 1030; // 1060;
+
     /**
      * Gives back a linear speed from a range in inches
      * @param rangeInch The range value in inches, positive.

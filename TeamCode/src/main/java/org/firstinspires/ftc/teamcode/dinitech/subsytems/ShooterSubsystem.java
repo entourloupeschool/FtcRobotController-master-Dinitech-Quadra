@@ -233,9 +233,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     private void applyVelocityPidProfile(VelocityPidProfile profile) {
-        if (profile == activeVelocityPidProfile) {
-            return;
-        }
+        if (profile == activeVelocityPidProfile) return;
 
         switch (profile) {
             case BASE:
@@ -317,13 +315,13 @@ public class ShooterSubsystem extends SubsystemBase {
         updateVelocityPidProfileForLoad();
         lastMotorCurrents.add(getVoltage());
 
-//        printShooterTelemetry(telemetryM);
+        printShooterTelemetry(telemetryM);
     }
 
     private void printShooterTelemetry(final TelemetryManager telemetryM) {
-        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
-        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
-//        telemetryM.addData("Shooter State", getUsageState());
+//        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
+//        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
+        telemetryM.addData("Shooter State", getUsageState());
 //        telemetryM.addData("Shooter PIDF profile", activeVelocityPidProfile);
 //        telemetryM.addData("targetReachedSUPERINTEL", isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL));
 //        telemetryM.addData("targetSpeedStabilized", isTargetSpeedStabilized());
