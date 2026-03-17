@@ -44,7 +44,7 @@ public class MoulinToPositionMargin extends CommandBase {
     @Override
     public void initialize() {
         if (moulinTargetPosition != -1){
-            trieurSubsystem.moulinToPosition(moulinTargetPosition, makeShort);
+            trieurSubsystem.moulinRotateToPosition(moulinTargetPosition, makeShort);
         }
     }
 

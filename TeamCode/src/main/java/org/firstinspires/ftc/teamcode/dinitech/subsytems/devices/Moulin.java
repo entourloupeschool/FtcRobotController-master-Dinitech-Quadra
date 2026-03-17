@@ -73,7 +73,7 @@ public class Moulin {
 
         resetMotor();
 
-        hardSetPosition(1);
+        setPosition(1);
     }
 
     /**
@@ -83,10 +83,10 @@ public class Moulin {
      */
     public void resetMotor() {
         dcMotorEx.setMode(STOP_AND_RESET_ENCODER);
-        setTargetPositionMotor(getMotorPosition());
+        setTargetMotorPosition(getMotorPosition());
         dcMotorEx.setMode(RUN_TO_POSITION);
         dcMotorEx.setZeroPowerBehavior(BRAKE);
-        setTargetPositionMotorTolerance(MOULIN_POSITION_TOLERANCE);
+        setTargetMotorPositionTolerance(MOULIN_POSITION_TOLERANCE);
         setPIDF(P_MOULIN_AGGRESSIVE, I_MOULIN_AGGRESSIVE, D_MOULIN_AGGRESSIVE, F_MOULIN_AGGRESSIVE);
 
     }
@@ -134,7 +134,6 @@ public class Moulin {
      * @return The resulting position.
      */
     public static int getNPreviousPosition(int pos, int n) {
-
         int resultPos = pos;
         for (int i = 0; i < n; i++) {
             resultPos = getPreviousPosition(resultPos);
@@ -147,9 +146,7 @@ public class Moulin {
      * This does not move the motor, but updates the software's understanding of the position.
      * @param pos The new position to set.
      */
-    public void hardSetPosition(int pos) {
-        moulinPosition = anyIntToMoulinPosition(pos);
-    }
+    public void setPosition(int pos) {moulinPosition = anyIntToMoulinPosition(pos);}
 
     /**
      * Converts any integer to a valid moulin position (1-6).
@@ -172,7 +169,7 @@ public class Moulin {
      *                  all states in positive direction
      * @throws IllegalArgumentException if state is not between 1 and 6
      */
-    public void setPosition(int targetPos, boolean makeShort) {
+    public void rotateToPosition(int targetPos, boolean makeShort) {
         if (!isValidPosition(targetPos)) {
             throw new IllegalArgumentException("Invalid moulin state: " + targetPos + ". Must be between "
                     + MIN_POSITION + " and " + MAX_POSITION);
@@ -196,16 +193,14 @@ public class Moulin {
         }
 
         incrementTargetMotorPosition(newTargetTicks);
-        hardSetPosition(targetPos);
+        setPosition(targetPos);
     }
 
     /**
-     * Bypass the setPosition
+     * Bypass the rotateToPosition
      * full rotation of the moulin
      */
-    public void revolution(){
-        incrementTargetMotorPosition(REVOLUTION_MOULIN_TICKS);
-    }
+    public void revolution() {incrementTargetMotorPosition(REVOLUTION_MOULIN_TICKS);}
 
     /**
      * Calculate the positive (clockwise) path between current and target state
@@ -301,20 +296,19 @@ public class Moulin {
 
     /**
      * Sets the target position for the motor.
-     * @param position The target position in encoder ticks.
+     * @param tickPosition The target position in encoder ticks.
      */
-    public void setTargetPositionMotor(double position) {
-        setTargetTick(position);
-        dcMotorEx.setTargetPosition((int) Math.round(position));
+    public void setTargetMotorPosition(double tickPosition) {
+        setTargetTick(tickPosition);
+        dcMotorEx.setTargetPosition((int) Math.round(tickPosition));
     }
 
     /**
      * Increments the target motor position by a specified amount.
-     * @param incr The amount to increment the position by, in encoder ticks.
+     * @param tickIncrement The amount to increment the position by, in encoder ticks.
      */
-    public void incrementTargetMotorPosition(double incr) {
-        double newTargetPosition = incr + getTargetTick();
-        setTargetPositionMotor(newTargetPosition);
+    public void incrementTargetMotorPosition(double tickIncrement) {
+        setTargetMotorPosition(tickIncrement + getTargetTick());
     }
 
     /**
@@ -369,7 +363,7 @@ public class Moulin {
      * Sets the target position tolerance for the motor.
      * @param error The allowed error in encoder ticks.
      */
-    public void setTargetPositionMotorTolerance(int error) {
+    public void setTargetMotorPositionTolerance(int error) {
         dcMotorEx.setTargetPositionTolerance(error); // allowed maximum error
     }
 

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_1;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_3;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -33,7 +34,7 @@ public class DefaultGamepadCommand extends CommandBase {
     public void execute() {
         if (trieurSubsystem.isMoulinOverCurrent()){gamepadSubsystem.customRumble(gamepadSubsystem.moulinOverCurrentRumble, 3, true);}
         else {
-            if (shooterSubsystem.getVelocity() > 20 && shooterSubsystem.isTargetSpeedStabilized() && !gamepadSubsystem.isRumbling(2)){
+            if (shooterSubsystem.getVelocity() > 20 && shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN) && !gamepadSubsystem.isRumbling(2)){
                 gamepadSubsystem.customRumble(gamepadSubsystem.shooterVelocityTargetStabilizedRumble, 2, true);
             }
 

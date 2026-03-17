@@ -145,8 +145,8 @@ public class TrieurSubsystem extends SubsystemBase {
      * @param pos The target position (1-6).
      * @param makeShort Whether to take the shortest path.
      */
-    public void moulinToPosition(int pos, boolean makeShort) {
-        moulin.setPosition(pos, makeShort);
+    public void moulinRotateToPosition(int pos, boolean makeShort) {
+        moulin.rotateToPosition(pos, makeShort);
     }
 
     /**
@@ -228,7 +228,7 @@ public class TrieurSubsystem extends SubsystemBase {
      * @param targetPosition The target position in ticks.
      */
     public void setMoulinMotorTargetPosition(double targetPosition) {
-        moulin.setTargetPositionMotor(targetPosition);
+        moulin.setTargetMotorPosition(targetPosition);
     }
     
     /**
@@ -627,8 +627,8 @@ public class TrieurSubsystem extends SubsystemBase {
      * Forcibly sets the moulin's internal logical position.
      * @param pos The new position.
      */
-    public void hardSetMoulinPosition(int pos){
-        moulin.hardSetPosition(pos);
+    public void setMoulinPosition(int pos){
+        moulin.setPosition(pos);
     }
 
     /**

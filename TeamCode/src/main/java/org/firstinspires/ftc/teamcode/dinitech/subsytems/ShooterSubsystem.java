@@ -69,7 +69,6 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     private double targetSpeed = 0;
-    private double lastTimeStamp, accel, lastVelo;
     private ShooterUsageState usageState;
     private VelocityPidProfile activeVelocityPidProfile;
 
@@ -88,8 +87,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         applyVelocityPidProfile(VelocityPidProfile.BASE);
 
-        lastTimeStamp = (double) System.nanoTime() / 1E9;
-
+        setPower(1);
         setVelocity(0);
         setUsageState(ShooterUsageState.NONE);
 
@@ -110,7 +108,6 @@ public class ShooterSubsystem extends SubsystemBase {
      */
     public void setVelocity(double velocity) {
         if (velocity >= 0){
-            setPower(1);
             targetSpeed = velocity;
             dcMotorEx.setVelocity(velocity);
         }
@@ -193,11 +190,6 @@ public class ShooterSubsystem extends SubsystemBase {
      */
     public boolean isSpeedAround(double target, double margin) {
         return Math.abs(getVelocity() - target) <= margin;
-    }
-
-
-    public boolean isTargetSpeedStabilized() {
-        return Math.abs(getRawAcceleration()) == 0 && isSpeedAround(getTargetSpeed(), SPEED_MARGIN_VISION_SHOOT);
     }
 
     /**
@@ -312,23 +304,6 @@ public class ShooterSubsystem extends SubsystemBase {
      */
     public ShooterUsageState getUsageState() {
         return usageState;
-    }
-
-    /**
-     * Calculates the raw acceleration of the shooter motor.
-     * @return The acceleration in ticks per second squared.
-     */
-    public double getRawAcceleration(){
-        double velo = getVelocity();
-        if (velo != lastVelo) {
-            double currentTime = (double) System.nanoTime() / 1E9;
-            double dt = currentTime - lastTimeStamp;
-            accel = (velo - lastVelo) / dt;
-            lastVelo = velo;
-            lastTimeStamp = currentTime;
-            return accel;
-        }
-        return 0;
     }
 
 
