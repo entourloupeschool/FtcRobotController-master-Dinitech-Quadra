@@ -28,10 +28,10 @@ public class ThreeRowsFromGoalWithGateOpen extends SequentialCommandGroup {
     public ThreeRowsFromGoalWithGateOpen(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, ChargeurSubsystem chargeurSubsystem, GamepadSubsystem gamepadSubsystem, HubsSubsystem hubsSubsystem, double rowPower){
         addCommands(
                 new InitToPedroShooter(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), hubsSubsystem.getTeam().getCloseShootVelocity()),
-                
-                new LookMotifPath(drivePedroSubsystem, hubsSubsystem.getTeam().getLookMotifPose()),
 
                 new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem),
+
+                new LookMotifPath(drivePedroSubsystem, hubsSubsystem.getTeam().getLookMotifPose()),
 
                 new ToRowToGateToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem,
                         hubsSubsystem.getTeam().getSecondRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), hubsSubsystem.getTeam().getRampPose(), LENGTH_X_ROW, rowPower, LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT, hubsSubsystem.getTeam().getCloseShootVelocity()),

@@ -53,7 +53,7 @@ public class Globals {
 
     public static final double TILE_DIM = 24;
     public static final double SCALE_Y_TILE = 1.0;
-    public static final double FOLLOWER_T_POSITION_END = 0.885;
+    public static final double FOLLOWER_T_POSITION_END = 0.91;
     public static final double LENGTH_X_ROW = TILE_DIM * 0.78;
     public static final double LENGTH_X_ROW_SUPER = 24;
     public static final double LENGTH_X_ROW_SUPER_23RD = 30;
@@ -82,7 +82,7 @@ public class Globals {
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 23, Math.toRadians(113));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.9, 121.1,3 * Math.PI / 4);
-    public static final Pose BLUE_RAMP_POSE = new Pose(15.3, 62.2, 0); // heading = -0.162
+    public static final Pose BLUE_RAMP_POSE = new Pose(16.3, 62.4, 0); // heading = -0.162
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
     public static double GATEPICK_LENGTH_BACKUP_Y = -2.9;
     public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.71);
@@ -91,10 +91,13 @@ public class Globals {
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 3 * Math.PI/4);
     public static final Pose LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE = new Pose(55, 85, Math.toRadians(79));
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));
-    public static final double AUDIENCE_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(BLUE_AUDIENCE_SHOOT_POSE.distanceFrom(BLUE_BASKET_POSE));
+    public static final double AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(BLUE_AUDIENCE_SHOOT_POSE.distanceFrom(BLUE_BASKET_POSE));
+    public static final double INIT_SHOOT_AUTO_SHOOTER_VELOCITY = 5;
     public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 82, 0);
-    public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE.withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM * SCALE_Y_TILE);
-    public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE.withY(SECOND_ROW_BLUE_POSE.getY() - TILE_DIM);
+    public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE
+            .withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM * SCALE_Y_TILE);
+    public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE
+            .withY(SECOND_ROW_BLUE_POSE.getY() - TILE_DIM);
     public static final Pose BLUE_VOID_POSE = new Pose(50, 62, Math.PI);
 
 
@@ -182,9 +185,9 @@ public class Globals {
 
         public static final double POWER_MOULIN_ROTATION = 1;
         public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
-        public static int MOULIN_POSITION_TOLERANCE = getTicksFromDegrees(1);
+        public static int MOULIN_POSITION_TOLERANCE = getTicksFromDegrees(1.1);
         public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
-        public static double VERY_LOOSE_DEGREES = 4;
+        public static double VERY_LOOSE_DEGREES = 2.5;
 
         public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = getTicksFromDegrees(VERY_LOOSE_DEGREES);
 
@@ -198,9 +201,9 @@ public class Globals {
         public static long WAIT_FOR_3BALL = 3800;
 
         //PIDF MOULIN (TURRET)
-        public static double P_MOULIN_AGGRESSIVE = 8.457;
-        public static double I_MOULIN_AGGRESSIVE = 16.413;
-        public static double D_MOULIN_AGGRESSIVE = 1.18;
+        public static double P_MOULIN_AGGRESSIVE = 5.954;//8.457;
+        public static double I_MOULIN_AGGRESSIVE = 8.418;//16.413;
+        public static double D_MOULIN_AGGRESSIVE = 3.4;//1.18;
         public static double F_MOULIN_AGGRESSIVE = 0.0;
         public static final double ADJUST_CONSTANT = 0.015;
 
@@ -209,7 +212,7 @@ public class Globals {
          */
         public static final String SHOOTER_MOTOR_NAME = "shooter";
         public static final int RUNNING_AVERAGE_SHOOTER_CURRENT_SIZE = 5;
-        public static final int CURRENT_SHOOT_OVERFLOW = 280;
+        public static final int CURRENT_SHOOT_OVERFLOW = 2000;
         public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
         public static final double SPEED_MARGIN = 15;
         public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 3;
@@ -272,7 +275,7 @@ public class Globals {
         public static final String MAGNETIC_SWITCH_NAME = "m_s";
         public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
         public static int OFFSET_MAGNETIC_POS = 41; // (int) Math.round(REVOLUTION_MOULIN_TICKS * 0.0250817);
-        public static double SCALE_RECALIBRATION = getTicksFromDegrees(3.5);
+        public static double SCALE_RECALIBRATION = getTicksFromDegrees(3);
         public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
 
         public static final double DETECT_PURPLE_RED_RGB = 0.694;

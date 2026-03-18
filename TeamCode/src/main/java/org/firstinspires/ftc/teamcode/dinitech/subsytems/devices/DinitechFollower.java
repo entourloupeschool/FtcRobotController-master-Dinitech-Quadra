@@ -30,10 +30,12 @@ public class DinitechFollower {
             .translationalPIDFCoefficients(new PIDFCoefficients(0.115, 1.0E-4, 0.012, 0.025))
             .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.115, 0, 0.012, 0.005))
 
-            .headingPIDFCoefficients(new PIDFCoefficients(1, 0, 0.15, 0.01))
+            .headingPIDFCoefficients(new PIDFCoefficients(1, 0.05, 0.15, 0.01))
+//            .headingPIDFCoefficients(new PIDFCoefficients(1, 0, 0.15, 0.01))
             .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(3, 0.02, 0.15, 0.006))
 
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.065,0,0.012,0.01,0.006))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.065,0.002,0.012,0.01,0.006))
+//            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.065,0,0.012,0.01,0.006))
             .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.05,0.0012,0.0025,0.6,0.006))
 
 //            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.042,0,0.012,0.01,0.006))

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INIT_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -26,7 +27,7 @@ public class InitToShoot extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
-                                new SetVelocityShooterRequire(shooterSubsystem, 5),
+                                new SetVelocityShooterRequire(shooterSubsystem, INIT_SHOOT_AUTO_SHOOTER_VELOCITY),
                                 new SetVelocityShooterRequire(shooterSubsystem, shootVelocity)),
 
                         new FollowPath(drivePedroSubsystem, builder -> builder

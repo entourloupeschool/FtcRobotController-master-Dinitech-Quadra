@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tele;
 
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_AUTO_SHOOTER_VELOCITY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CONTINUOUS;
@@ -135,11 +134,11 @@ public class TeleOpBase extends Gornetix {
 
         m_Operator.right_stick_button.whenPressed(new SwitchUsageStateShooter(shooterSubsystem, drivePedroSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
 
-        m_Operator.square.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem,(CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY + AUDIENCE_AUTO_SHOOTER_VELOCITY)/2),
+        m_Operator.square.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem,(CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY + AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY)/2),
                 new StopShooter(shooterSubsystem), true);
         m_Operator.cross.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
                 new StopShooter(shooterSubsystem), true);
-        m_Operator.triangle.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, AUDIENCE_AUTO_SHOOTER_VELOCITY),
+        m_Operator.triangle.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
                 new StopShooter(shooterSubsystem), true);
         m_Operator.circle.whenPressed(new SequentialCommandGroup(
                 new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true)),

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_START_PEDRO_DINITECH;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_STRENGTH_PEDRO_DINITECH;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INIT_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_INIT_SHOOTER;
 
@@ -27,7 +28,7 @@ public class InitToPedroShooter extends ParallelCommandGroup {
     public InitToPedroShooter(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose ShootPosition, double shootVelocity){
         addCommands(
                 new SequentialCommandGroup(
-                        new InstantCommand(),
+                        new SetVelocityShooterRequire(shooterSubsystem, INIT_SHOOT_AUTO_SHOOTER_VELOCITY),
                         new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
                         new WaitCommand(WAIT_INIT_SHOOTER),
                         new ShootAll(trieurSubsystem, shooterSubsystem, false)),
@@ -40,8 +41,8 @@ public class InitToPedroShooter extends ParallelCommandGroup {
                                 drivePedroSubsystem::getHeading,
                                 ShootPosition.getHeading(),
                                 LINEAR_HEADING_INTERPOLATION_END_TIME))
-                        .setBrakingStrength(BRAKING_STRENGTH_PEDRO_DINITECH/4)
-                        .setBrakingStart(BRAKING_START_PEDRO_DINITECH*1.5).build(),
+                        .setBrakingStrength(BRAKING_STRENGTH_PEDRO_DINITECH/5)
+                        .setBrakingStart(BRAKING_START_PEDRO_DINITECH).build(),
                         AUTO_ROBOT_CONSTRAINTS, true)
         );
     }

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.other;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_AUTO_SHOOTER_VELOCITY;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
@@ -47,7 +47,7 @@ public class TeamPoses {
                 BLUE_RAMP_POSE,
                 BLUE_RAMP_END_POSE,
                 BLUE_BASKET_POSE,
-                BLUE_OPEN_RAMP_PICK_POSE, BLUE_VOID_POSE, LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_AUTO_SHOOTER_VELOCITY),
+                BLUE_OPEN_RAMP_PICK_POSE, BLUE_VOID_POSE, LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
         RED(RESET_POSE_RED,
                 RED_GOAL_POSE,
                 RED_AUDIENCE_POSE,
@@ -59,9 +59,9 @@ public class TeamPoses {
                 RED_RAMP_POSE,
                 RED_RAMP_END_POSE,
                 RED_BASKET_POSE,
-                RED_OPEN_RAMP_PICK_POSE, RED_VOID_POSE, LOOK_MOTIF_CLOSE_SHOOT_RED_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_AUTO_SHOOTER_VELOCITY),
+                RED_OPEN_RAMP_PICK_POSE, RED_VOID_POSE, LOOK_MOTIF_CLOSE_SHOOT_RED_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
-        NONE(FIELD_CENTER_90HEADING_POSE, null, null, null,null , null, null, null,null, null, null, null, null, null, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_AUTO_SHOOTER_VELOCITY);
+        NONE(FIELD_CENTER_90HEADING_POSE, null, null, null,null , null, null, null,null, null, null, null, null, null, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY);
 
         private final Pose resetPose;
         private final Pose goalInitPose;

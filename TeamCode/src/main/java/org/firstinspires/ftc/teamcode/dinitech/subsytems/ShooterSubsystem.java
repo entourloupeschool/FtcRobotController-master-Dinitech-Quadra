@@ -54,7 +54,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public boolean isCurrentOverflow(){
-        return getMotorCurrentStd() > CURRENT_SHOOT_OVERFLOW;
+        return getVoltage() > CURRENT_SHOOT_OVERFLOW;
     }
 
     /**
@@ -325,8 +325,8 @@ public class ShooterSubsystem extends SubsystemBase {
 //        telemetryM.addData("Shooter PIDF profile", activeVelocityPidProfile);
 //        telemetryM.addData("targetReachedSUPERINTEL", isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL));
 //        telemetryM.addData("targetSpeedStabilized", isTargetSpeedStabilized());
-//        telemetryM.addData("current", getVoltage());
-//        telemetryM.addData("currentSTD", getMotorCurrentStd());
+        telemetryM.addData("current", getVoltage());
+        telemetryM.addData("currentSTD", getMotorCurrentStd());
 
     }
 }

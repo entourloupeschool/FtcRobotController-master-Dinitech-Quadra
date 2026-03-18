@@ -56,7 +56,10 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                         .addPath(new BezierCurve(
                                                 drivePedroSubsystem::getPose,
                                                 openRampPose
-                                                        .withX(openRampPose.getX() + (openRampPose.getX() > 72 ? -TILE_DIM/2 : TILE_DIM/2))
+                                                        .withX(openRampPose.getX() + (openRampPose.getX() > 72 ? -TILE_DIM/1.5 : TILE_DIM/1.5))
+                                                        .withY(openRampPose.getY() -4),
+                                                openRampPose
+                                                        .withX(openRampPose.getX() + (openRampPose.getX() > 72 ? -TILE_DIM/1.5 : TILE_DIM/1.5))
                                                         .withY(openRampPose.getY() +  4),
                                                 openRampPose))
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
@@ -78,7 +81,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
-                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, true)),
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, true)
         );
@@ -113,7 +116,10 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                         .addPath(new BezierCurve(
                                                 drivePedroSubsystem::getPose,
                                                 openRampPose
-                                                        .withX(openRampPose.getX() + (openRampPose.getX() > 72 ? -TILE_DIM/2 : TILE_DIM/2))
+                                                        .withX(openRampPose.getX() + (openRampPose.getX() > 72 ? -TILE_DIM/1.5 : TILE_DIM/1.5))
+                                                        .withY(openRampPose.getY() -4),
+                                                openRampPose
+                                                        .withX(openRampPose.getX() + (openRampPose.getX() > 72 ? -TILE_DIM/1.5 : TILE_DIM/1.5))
                                                         .withY(openRampPose.getY() +  4),
                                                 openRampPose))
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
