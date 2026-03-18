@@ -81,14 +81,15 @@ public class Globals {
     public static final Pose ROTATED_BLUE_BASKET_POSE = BLUE_BASKET_POSE.rotate(BLUE_TEAM_HEADING, true);
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 23, Math.toRadians(113));
-    public static final Pose BLUE_GOAL_POSE = new Pose(21.9, 121.1,3 * Math.PI / 4 );
-    public static final Pose BLUE_RAMP_POSE = new Pose(15.3, 61.9, -0.162);
+    public static final Pose BLUE_GOAL_POSE = new Pose(21.9, 121.1,3 * Math.PI / 4);
+    public static final Pose BLUE_RAMP_POSE = new Pose(15.3, 62.2, 0); // heading = -0.162
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
     public static double GATEPICK_LENGTH_BACKUP_Y = -2.9;
     public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.71);
     public static final Pose BLUE_OPEN_RAMP_PICK_POSE = new Pose(14, 58.5, -0.75);
     public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, 3 * Math.PI/4);
+    public static final Pose LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE = new Pose(55, 85, Math.toRadians(79));
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final double AUDIENCE_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(BLUE_AUDIENCE_SHOOT_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 82, 0);
@@ -112,6 +113,7 @@ public class Globals {
     public static final Pose OBELISK_RED_POSE = OBELISK_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
 
     public static final Pose CLOSE_SHOOT_RED_POSE = CLOSE_SHOOT_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
+    public static final Pose LOOK_MOTIF_CLOSE_SHOOT_RED_POSE = LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
     public static final Pose FIRST_ROW_RED_POSE = FIRST_ROW_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
     public static final Pose SECOND_ROW_RED_POSE = SECOND_ROW_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
     public static final Pose THIRD_ROW_RED_POSE = THIRD_ROW_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);

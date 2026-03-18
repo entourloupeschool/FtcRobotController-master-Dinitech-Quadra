@@ -40,7 +40,7 @@ public class InitToPedroShooter extends ParallelCommandGroup {
                                 drivePedroSubsystem::getHeading,
                                 ShootPosition.getHeading(),
                                 LINEAR_HEADING_INTERPOLATION_END_TIME))
-                        .setBrakingStrength(BRAKING_STRENGTH_PEDRO_DINITECH/3)
+                        .setBrakingStrength(BRAKING_STRENGTH_PEDRO_DINITECH/4)
                         .setBrakingStart(BRAKING_START_PEDRO_DINITECH*1.5).build(),
                         AUTO_ROBOT_CONSTRAINTS, true)
         );
