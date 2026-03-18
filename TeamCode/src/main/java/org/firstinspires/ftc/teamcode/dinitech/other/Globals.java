@@ -28,27 +28,37 @@ public class Globals {
     public static long TELEMETRY_UPDATE_INTERVAL_MS = 500;
     public static double BLUE_TEAM_HEADING = Math.PI;
 
+    public static double a_Pedro = 5.85; // 5.95;
+    public static double b_Pedro = 930; // 1060;
 
+    /**
+     * Gives back a linear speed from a range in inches
+     * @param rangeInch The range value in inches, positive.
+     * @return The speed value, also positive
+     */
+    public static double linearSpeedFromPedroRange(double rangeInch) {
+        return a_Pedro * rangeInch + b_Pedro;
+    }
 
     /**
      * Auto Phase globals
      */
     public static final double AUTO_ROBOT_CONSTRAINTS = 1;
-    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.85; // 0.75
-    public static final double BRAKING_START_PEDRO_DINITECH = 0.6; // 1.4
+    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.7; // 0.75
+    public static final double BRAKING_START_PEDRO_DINITECH = 1; // 1.4
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.81;
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT = 0.68;
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.55;
 
 
     public static final double TILE_DIM = 24;
-    public static final double SCALE_Y_TILE = 1.03;
+    public static final double SCALE_Y_TILE = 1.0;
     public static final double FOLLOWER_T_POSITION_END = 0.885;
-    public static double LENGTH_X_ROW = TILE_DIM * 0.73;
-    public static double LENGTH_X_ROW_SUPER = 24;
-    public static double LENGTH_X_ROW_SUPER_23RD = 30;
-    public static double T_PARAMETRIC_DONT_SHOOT = 0.55;
-    public static long WAIT_INIT_SHOOTER = 350;
+    public static final double LENGTH_X_ROW = TILE_DIM * 0.78;
+    public static final double LENGTH_X_ROW_SUPER = 24;
+    public static final double LENGTH_X_ROW_SUPER_23RD = 30;
+    public static final double T_PARAMETRIC_DONT_SHOOT = 0.55;
+    public static final long WAIT_INIT_SHOOTER = 50;
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
@@ -170,7 +180,7 @@ public class Globals {
 
         public static final double POWER_MOULIN_ROTATION = 1;
         public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
-        public static int MOULIN_POSITION_TOLERANCE = 0; // 2;
+        public static int MOULIN_POSITION_TOLERANCE = getTicksFromDegrees(1);
         public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
         public static double VERY_LOOSE_DEGREES = 4;
 
@@ -238,17 +248,7 @@ public class Globals {
         return A_DIFFS * rangeCM + 1204.879; //
     }
 
-    public static double a_Pedro = 5; // 5.95;
-    public static double b_Pedro = 1030; // 1060;
 
-    /**
-     * Gives back a linear speed from a range in inches
-     * @param rangeInch The range value in inches, positive.
-     * @return The speed value, also positive
-     */
-    public static double linearSpeedFromPedroRange(double rangeInch) {
-        return a_Pedro * rangeInch + b_Pedro;
-    }
 
         /**
          * *******Chargeur

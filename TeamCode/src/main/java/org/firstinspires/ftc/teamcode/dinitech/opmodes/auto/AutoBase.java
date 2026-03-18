@@ -19,10 +19,12 @@ public class AutoBase extends Gornetix {
     public void initialize() {
             super.initialize();
 
-            drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
-//            visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));
 
+            drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
+
+            visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));
             autoSetArtefactColors();
+
             MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors());
             lastHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
 

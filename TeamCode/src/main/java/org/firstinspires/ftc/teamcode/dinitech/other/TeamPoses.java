@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.other;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
@@ -8,6 +9,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_OPEN_RA
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_END_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_RAMP_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_VOID_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
@@ -43,7 +45,7 @@ public class TeamPoses {
                 BLUE_RAMP_POSE,
                 BLUE_RAMP_END_POSE,
                 BLUE_BASKET_POSE,
-                BLUE_OPEN_RAMP_PICK_POSE, BLUE_VOID_POSE),
+                BLUE_OPEN_RAMP_PICK_POSE, BLUE_VOID_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_AUTO_SHOOTER_VELOCITY),
         RED(RESET_POSE_RED,
                 RED_GOAL_POSE,
                 RED_AUDIENCE_POSE,
@@ -55,9 +57,9 @@ public class TeamPoses {
                 RED_RAMP_POSE,
                 RED_RAMP_END_POSE,
                 RED_BASKET_POSE,
-                RED_OPEN_RAMP_PICK_POSE, RED_VOID_POSE),
+                RED_OPEN_RAMP_PICK_POSE, RED_VOID_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_AUTO_SHOOTER_VELOCITY),
 
-        NONE(FIELD_CENTER_90HEADING_POSE, null, null, null,null , null, null, null,null, null, null, null, null);
+        NONE(FIELD_CENTER_90HEADING_POSE, null, null, null,null , null, null, null,null, null, null, null, null, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_AUTO_SHOOTER_VELOCITY);
 
         private final Pose resetPose;
         private final Pose goalInitPose;
@@ -74,8 +76,11 @@ public class TeamPoses {
         private final Pose basketPose;
         private final Pose openRampPickPose;
         private final Pose voidPose;
+        private final double closeShootVelocity;
+        private final double audienceShootVelocity;
 
-        Team(Pose resetPose, Pose goalInitPose, Pose audienceInitPose, Pose closeShootPose, Pose audienceShootPose, Pose firstRowPose, Pose secondRowPose, Pose thirdRowPose, Pose rampPose, Pose endRampPose, Pose basketPose, Pose openRampPickPose, Pose voidPose) {
+
+        Team(Pose resetPose, Pose goalInitPose, Pose audienceInitPose, Pose closeShootPose, Pose audienceShootPose, Pose firstRowPose, Pose secondRowPose, Pose thirdRowPose, Pose rampPose, Pose endRampPose, Pose basketPose, Pose openRampPickPose, Pose voidPose, double closeShootVelocity, double audienceShootVelocity) {
             this.resetPose = resetPose;
             this.goalInitPose = goalInitPose;
             this.audienceInitPose = audienceInitPose;
@@ -89,6 +94,16 @@ public class TeamPoses {
             this.basketPose = basketPose;
             this.openRampPickPose = openRampPickPose;
             this.voidPose = voidPose;
+            this.closeShootVelocity = closeShootVelocity;
+            this.audienceShootVelocity = audienceShootVelocity;
+        }
+
+        public double getCloseShootVelocity() {
+            return closeShootVelocity;
+        }
+
+        public double getAudienceShootVelocity() {
+            return audienceShootVelocity;
         }
 
         public Pose getCloseShootPose() {

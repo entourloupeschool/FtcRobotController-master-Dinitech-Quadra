@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_START_PEDRO_DINITECH;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_STRENGTH_PEDRO_DINITECH;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_INIT_SHOOTER;
 
@@ -12,6 +14,7 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
@@ -32,11 +35,13 @@ public class InitToPedroShooter extends ParallelCommandGroup {
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierLine(
                                 drivePedroSubsystem::getPose,
-                                ShootPosition)
-                        ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                ShootPosition))
+                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                 drivePedroSubsystem::getHeading,
                                 ShootPosition.getHeading(),
-                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                LINEAR_HEADING_INTERPOLATION_END_TIME))
+                        .setBrakingStrength(BRAKING_STRENGTH_PEDRO_DINITECH/3)
+                        .setBrakingStart(BRAKING_START_PEDRO_DINITECH*1.5).build(),
                         AUTO_ROBOT_CONSTRAINTS, true)
         );
     }
