@@ -20,50 +20,23 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  */
 public class RamassageAuto extends SequentialCommandGroup {
 
-    /**
-     * Creates a new ModeRamassage command group.
-     *
-     * @param trieurSubsystem   The sorter subsystem, which manages artifact storage and state.
-     * @param gamepadSubsystem  The gamepad subsystem, passed down to child commands for haptic feedback.
-     */
-    public RamassageAuto(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem,
-                         GamepadSubsystem gamepadSubsystem) {
-        addCommands(
-                new TrieurReadyEmptyStorage(trieurSubsystem),
-                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem),
-                new ConditionalCommand(
-                        new SequentialCommandGroup(
-                                new MoulinNextEmptyStorage(trieurSubsystem),
-                                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem)),
-                        new InstantCommand(),
-                        trieurSubsystem::getNewRegister),
-                new ConditionalCommand(
-                        new SequentialCommandGroup(
-                                new MoulinNextEmptyStorage(trieurSubsystem),
-                                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem)),
-                        new InstantCommand(),
-                        trieurSubsystem::getNewRegister),
-                new PrepShootTrieur(trieurSubsystem, visionSubsystem, gamepadSubsystem)
-        );
-    }
-
     public RamassageAuto(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem,
                          GamepadSubsystem gamepadSubsystem, ChargeurSubsystem chargeurSubsystem, boolean shouldInversePowerChargeur) {
         addCommands(
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
                         new MaxPowerChargeur(chargeurSubsystem)),
-                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem),
+                new TryDetectArtefactRumble(trieurSubsystem, gamepadSubsystem),
                 new ConditionalCommand(
                         new SequentialCommandGroup(
                                 new MoulinNextEmptyStorage(trieurSubsystem),
-                                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem)),
+                                new TryDetectArtefactRumble(trieurSubsystem, gamepadSubsystem)),
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),
                 new ConditionalCommand(
                         new SequentialCommandGroup(
                                 new MoulinNextEmptyStorage(trieurSubsystem),
-                                new TryDetectArtefact(trieurSubsystem, gamepadSubsystem)),
+                                new TryDetectArtefactRumble(trieurSubsystem, gamepadSubsystem)),
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),
                 new ConditionalCommand(
@@ -78,21 +51,34 @@ public class RamassageAuto extends SequentialCommandGroup {
         );
     }
 
-    public RamassageAuto(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
-            addCommands(
-                    new TryDetectArtefact(trieurSubsystem, gamepadSubsystem),
-                    new ConditionalCommand(
-                            new SequentialCommandGroup(
-                                    new MoulinNextEmptyStorage(trieurSubsystem),
-                                    new TryDetectArtefact(trieurSubsystem, gamepadSubsystem)),
-                            new InstantCommand(),
-                            trieurSubsystem::getNewRegister),
-                    new ConditionalCommand(
-                            new SequentialCommandGroup(
-                                    new MoulinNextEmptyStorage(trieurSubsystem),
-                                    new TryDetectArtefact(trieurSubsystem, gamepadSubsystem)),
-                            new InstantCommand(),
-                            trieurSubsystem::getNewRegister)
-            );
+    public RamassageAuto(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem,
+                         ChargeurSubsystem chargeurSubsystem, boolean shouldInversePowerChargeur) {
+        addCommands(
+                new ParallelCommandGroup(
+                        new TrieurReadyEmptyStorage(trieurSubsystem),
+                        new MaxPowerChargeur(chargeurSubsystem)),
+                new TryDetectArtefact(trieurSubsystem),
+                new ConditionalCommand(
+                        new SequentialCommandGroup(
+                                new MoulinNextEmptyStorage(trieurSubsystem),
+                                new TryDetectArtefact(trieurSubsystem)),
+                        new InstantCommand(),
+                        trieurSubsystem::getNewRegister),
+                new ConditionalCommand(
+                        new SequentialCommandGroup(
+                                new MoulinNextEmptyStorage(trieurSubsystem),
+                                new TryDetectArtefact(trieurSubsystem)),
+                        new InstantCommand(),
+                        trieurSubsystem::getNewRegister),
+                new ConditionalCommand(
+                        new ConditionalCommand(
+                                new InverseMaxPowerChargeur(chargeurSubsystem),
+                                new InstantCommand(),
+                                trieurSubsystem::isFull),
+                        new InstantCommand(),
+                        ()->shouldInversePowerChargeur),
+                new PrepShootTrieur(trieurSubsystem, visionSubsystem),
+                new StopChargeur(chargeurSubsystem)
+        );
     }
 }

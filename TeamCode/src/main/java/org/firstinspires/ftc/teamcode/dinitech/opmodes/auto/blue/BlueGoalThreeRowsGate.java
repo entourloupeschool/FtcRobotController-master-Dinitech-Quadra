@@ -15,6 +15,6 @@ public class BlueGoalThreeRowsGate extends BlueGoalAutoBase {
     public void initialize() {
             super.initialize();
 
-        new ThreeRowsFromGoalWithGateOpen(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, gamepadSubsystem, hubsSubsystem, AUTO_ROBOT_CONSTRAINTS/2).schedule();
+        new ThreeRowsFromGoalWithGateOpen(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, hubsSubsystem, AUTO_ROBOT_CONSTRAINTS/2).schedule();
     }
 }

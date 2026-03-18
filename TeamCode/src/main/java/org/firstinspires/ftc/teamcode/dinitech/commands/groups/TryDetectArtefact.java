@@ -1,43 +1,32 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.qualcomm.robotcore.hardware.Gamepad;
-
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.Rumble;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 /**
- * A command that attempts to shoot an artifact of a specific color.
+ * A command that attempts to detect an artifact.
  * <p>
- * This command checks if an artifact of the specified color is available in the
- * {@link TrieurSubsystem}.
+ * This command checks if an artifact is available in the {@link TrieurSubsystem}.
  * <ul>
- *     <li>If a matching artifact is found, it executes a command to
- *     rotate the moulin to the appropriate shooting position and launch the artifact.</li>
- *     <li>If no matching artifact is found, it triggers a {@link Rumble} command to provide
- *     haptic feedback to the driver.</li>
+ *     <li>If an artifact is found, it registers it in the sorter.</li>
+ *     <li>If the command is still waiting or reaches timeout, subclasses can react by overriding
+ *     the hook methods.</li>
  * </ul>
- * <p>
- * The shooting position is evaluated once at initialization time to avoid race conditions.
  */
 public class TryDetectArtefact extends CommandBase {
 
     private final TrieurSubsystem trieurSubsystem;
-    private final GamepadSubsystem gamepadSubsystem;
     private int timeout;
     private boolean isFound;
 
 
     /**
-     * Creates a new ShootColor command.
+     * Creates a new detection command.
      *
-     * @param trieurSubsystem  The sorter subsystem, used to find artifacts by color.
-     * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
+     * @param trieurSubsystem The sorter subsystem, used to detect and register artifacts.
      */
-    public TryDetectArtefact(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
+    public TryDetectArtefact(TrieurSubsystem trieurSubsystem) {
         this.trieurSubsystem = trieurSubsystem;
-        this.gamepadSubsystem = gamepadSubsystem;
     }
 
     @Override
@@ -57,12 +46,18 @@ public class TryDetectArtefact extends CommandBase {
             trieurSubsystem.registerArtefact();
             isFound = true;
         } else if (timeout == 0) {
-            gamepadSubsystem.customRumble(gamepadSubsystem.unfoundRumbleEffect, 2, true);
+            onTimeoutReached();
         } else {
-            gamepadSubsystem.customRumble(gamepadSubsystem.waitRumbleEffect, 2, true);
+            onWaitingForArtefact();
         }
 
         timeout -= 1;
+    }
+
+    protected void onTimeoutReached() {
+    }
+
+    protected void onWaitingForArtefact() {
     }
 
 

@@ -2,23 +2,19 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-public class TryDetectArtefactWithRumble extends TryDetectArtefact {
+public class ReadyMotifRumble extends ReadyMotif {
 
     private final GamepadSubsystem gamepadSubsystem;
 
-    public TryDetectArtefactWithRumble(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
-        super(trieurSubsystem);
+    public ReadyMotifRumble(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem) {
+        super(trieurSubsystem, visionSubsystem);
         this.gamepadSubsystem = gamepadSubsystem;
     }
 
     @Override
-    protected void onTimeoutReached() {
-        gamepadSubsystem.customRumble(gamepadSubsystem.unfoundRumbleEffect, 2, true);
-    }
-
-    @Override
-    protected void onWaitingForArtefact() {
-        gamepadSubsystem.customRumble(gamepadSubsystem.waitRumbleEffect, 2, true);
+    protected void onCantMotif() {
+        gamepadSubsystem.customRumble(gamepadSubsystem.cantMotifRumble, 3, true);
     }
 }

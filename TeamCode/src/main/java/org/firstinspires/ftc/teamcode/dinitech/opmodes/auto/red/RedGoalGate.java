@@ -12,6 +12,6 @@ public class RedGoalGate extends RedGoalAutoBase {
     public void initialize() {
             super.initialize();
 
-            new TwoGatePickFromGoal(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem).schedule();
+            new TwoGatePickFromGoal(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem).schedule();
     }
 }

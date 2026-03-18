@@ -76,7 +76,7 @@ public class TrieurDebut extends RobotBase {
         GamepadWrapper m_Operator = gamepadSubsystem.getOperator();
 
         // Driver controls
-        m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem));
+        m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false));
 
         m_Driver.square.whenPressed(new ToggleChargeur(chargeurSubsystem));
 

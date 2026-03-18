@@ -42,15 +42,26 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 public class TeleOpBase extends Gornetix {
+    private GamepadSubsystem gamepadSubsystem;
+    private GamepadWrapper m_Driver;
+    private GamepadWrapper m_Operator;
+
     private int lastHowManyArtefacts = 0;
     private int currentGetHowManyArtefacts = 0;
 
     @Override
     public void initialize() {
             super.initialize();
+
+            gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
+            register(gamepadSubsystem);
+            m_Driver = gamepadSubsystem.getDriver();
+            m_Operator = gamepadSubsystem.getOperator();
 
             drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEADING_POSE);
             drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive(true);
@@ -161,7 +172,7 @@ public class TeleOpBase extends Gornetix {
                 new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
                 new MoulinCalibrationSequence(trieurSubsystem),
                 new MaxPowerChargeur(chargeurSubsystem),
-                new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem)).schedule();
+                new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)).schedule();
     }
 
 }

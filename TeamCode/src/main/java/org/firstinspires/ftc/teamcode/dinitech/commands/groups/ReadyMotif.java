@@ -1,11 +1,8 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
+package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_4;
 
-import com.qualcomm.robotcore.hardware.Gamepad;
-
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinToPositionMargin;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
@@ -23,20 +20,16 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  */
 public class ReadyMotif extends MoulinToPositionMargin {
     private final VisionSubsystem visionSubsystem;
-    private final GamepadSubsystem gamepadSubsystem;
-
 
     /**
      * Creates a new ReadyMotif command.
      *
      * @param trieurSubsystem  The sorter subsystem for moulin control.
      * @param visionSubsystem  The vision subsystem to get the color motif from.
-     * @param gamepadSubsystem The gamepad subsystem for providing haptic feedback.
      */
-    public ReadyMotif(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem){
+    public ReadyMotif(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem){
         super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE); // Target is set dynamically in initialize()
         this.visionSubsystem = visionSubsystem;
-        this.gamepadSubsystem = gamepadSubsystem;
     }
 
     /**
@@ -49,9 +42,7 @@ public class ReadyMotif extends MoulinToPositionMargin {
 
         if (motif == -1 || greenPosition == -1){
             // Fallback: Rumble and move to a default position if no motif is detected or no green artefacts stored.
-            gamepadSubsystem.customRumble(new Gamepad.RumbleEffect.Builder()
-                    .addStep(0.5, 0.5, RUMBLE_DURATION_4)
-                    .build(), 3, true);
+            onCantMotif();
             super.initialize();
         } else {
             if (motif == 21){
@@ -65,5 +56,9 @@ public class ReadyMotif extends MoulinToPositionMargin {
             }
             super.initialize(); // Execute the rotation.
         }
+    }
+
+
+    protected void onCantMotif() {
     }
 }

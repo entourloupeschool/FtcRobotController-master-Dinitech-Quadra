@@ -14,7 +14,7 @@ public class BlueGoalGateTwoRowsMR extends BlueGoalAutoBase {
     public void initialize() {
             super.initialize();
 
-        new TwoGateFromGoalMR(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem).schedule();
+        new TwoGateFromGoalMR(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem).schedule();
     }
 
 }

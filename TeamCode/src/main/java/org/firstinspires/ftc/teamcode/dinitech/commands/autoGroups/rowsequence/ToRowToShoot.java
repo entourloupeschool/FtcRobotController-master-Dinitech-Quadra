@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToRowToShoot extends SequentialCommandGroup {
 
-    public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose rowPose, Pose shootPose, double lengthBackup, double rowPower, double endTime, double shooterVelocity){
+    public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, Pose rowPose, Pose shootPose, double lengthBackup, double rowPower, double endTime, double shooterVelocity){
         addCommands(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
@@ -66,13 +66,13 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
-                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)),
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false)),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, true)
         );
     }
 
-    public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose rowPose, Pose shootPose, double lengthBackup, double rowPower, double endTime, double shooterVelocity, boolean shortcutBackPath){
+    public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, Pose rowPose, Pose shootPose, double lengthBackup, double rowPower, double endTime, double shooterVelocity, boolean shortcutBackPath){
         addCommands(
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
@@ -109,7 +109,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
-                        new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)),
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false)),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, true)
         );

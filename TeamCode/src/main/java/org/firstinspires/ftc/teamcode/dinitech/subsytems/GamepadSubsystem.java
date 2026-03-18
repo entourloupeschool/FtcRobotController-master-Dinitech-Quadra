@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_1;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_3;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_4;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -29,6 +30,9 @@ public class GamepadSubsystem extends SubsystemBase {
     /** The wrapper for the operator's gamepad. */
     private final GamepadWrapper operator;
 
+    public final Gamepad.RumbleEffect cantMotifRumble = new Gamepad.RumbleEffect.Builder()
+            .addStep(0.5, 0.5, RUMBLE_DURATION_4)
+            .build();
     public final Gamepad.RumbleEffect waitRumbleEffect = new Gamepad.RumbleEffect.Builder()
             .addStep(0.5, 0.5, 20)
                 .build();

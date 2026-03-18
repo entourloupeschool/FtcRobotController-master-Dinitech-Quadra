@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -14,7 +13,16 @@ public class PrepShootTrieur extends ConditionalCommand {
     public PrepShootTrieur(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem){
         super(
                 new SequentialCommandGroup(
-                        new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                        new ReadyMotifRumble(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                        new OpenWaitTrappe(trieurSubsystem)),
+                new OpenWaitTrappe(trieurSubsystem),
+                trieurSubsystem::wantsMotifShoot
+        );
+    }
+    public PrepShootTrieur(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem){
+        super(
+                new SequentialCommandGroup(
+                        new ReadyMotif(trieurSubsystem, visionSubsystem),
                         new OpenWaitTrappe(trieurSubsystem)),
                 new OpenWaitTrappe(trieurSubsystem),
                 trieurSubsystem::wantsMotifShoot
