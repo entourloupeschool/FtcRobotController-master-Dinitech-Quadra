@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.other;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HEADING;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROBOT_LENGTH_INCH;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROBOT_WIDTH_INCH;
 
@@ -48,7 +49,7 @@ public class DrawingDinitech {
             drawRobot(new Pose(closestPoint.getX(), closestPoint.getY(), follower.getCurrentPath().getHeadingGoal(follower.getCurrentPath().getClosestPointTValue())), robotLook);
         }
         drawPoseHistory(follower.getPoseHistory(), historyLook);
-        drawRobot(follower.getPose(), historyLook);
+        drawRobot(follower.getPose().rotate(BLUE_TEAM_HEADING, true), historyLook);
 
         sendPacket();
     }

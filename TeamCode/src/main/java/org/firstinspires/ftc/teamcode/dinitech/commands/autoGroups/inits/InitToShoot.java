@@ -13,6 +13,8 @@ import com.pedropathing.paths.HeadingInterpolator;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequireExec;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
@@ -24,8 +26,8 @@ public class InitToShoot extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
-                                new InstantCommand(),
-                                new SetVelocityShooter(shooterSubsystem, shootVelocity)),
+                                new SetVelocityShooterRequire(shooterSubsystem, 5),
+                                new SetVelocityShooterRequire(shooterSubsystem, shootVelocity)),
 
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(

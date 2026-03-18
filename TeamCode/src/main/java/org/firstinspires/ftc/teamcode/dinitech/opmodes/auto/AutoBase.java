@@ -20,7 +20,7 @@ public class AutoBase extends Gornetix {
             super.initialize();
 
             drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
-            visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));
+//            visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));
 
             autoSetArtefactColors();
             MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors());
@@ -38,9 +38,6 @@ public class AutoBase extends Gornetix {
             if(currentHowManyArtefacts != lastHowManyArtefacts){
                 lastHowManyArtefacts = currentHowManyArtefacts;
                 MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors());
-                if (currentHowManyArtefacts == 3) {
-                    chargeurSubsystem.setChargeurPower(0);
-                }
             }
 
             if (MotifStorage.getMotifNumber() == -1){
