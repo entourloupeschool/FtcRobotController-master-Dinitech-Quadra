@@ -24,6 +24,7 @@ import com.pedropathing.paths.HeadingInterpolator;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
@@ -35,10 +36,12 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToGatePickToShoot extends SequentialCommandGroup {
-    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose shootPose, double gatePower, double endTime, boolean shortcutBackPath){
+    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, GamepadSubsystem gamepadSubsystem, Pose GatePickPose, Pose shootPose, double gatePower, double endTime, double shootVelocity, boolean shortcutBackPath){
         addCommands(
                 new ParallelCommandGroup(
-                        new TrieurReadyEmptyStorage(trieurSubsystem),
+                        new SequentialCommandGroup(
+                                new MoulinCalibrationSequence(trieurSubsystem),
+                                new TrieurReadyEmptyStorage(trieurSubsystem)),
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierCurve(
                                         drivePedroSubsystem::getPose,
@@ -48,7 +51,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                         drivePedroSubsystem::getHeading,
                                         GatePickPose.getHeading(),
                                         endTime)).build(),
-                                AUTO_ROBOT_CONSTRAINTS, false)),
+                                AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
                         new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, true),
@@ -62,7 +65,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                 GatePickPose.getHeading() / 2,
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
                                         gatePower, false),
-                                new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
+                                new SetVelocityShooter(shooterSubsystem, shootVelocity),
                                 new ParallelRaceGroup(
                                         new WaitCommand(WAIT_FOR_3BALL),
                                         new WaitUntilCommand(trieurSubsystem::isFull)),
