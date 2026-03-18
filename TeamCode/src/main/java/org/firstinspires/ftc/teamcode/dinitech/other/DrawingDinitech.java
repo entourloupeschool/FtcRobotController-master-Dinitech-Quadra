@@ -1,19 +1,16 @@
 package org.firstinspires.ftc.teamcode.dinitech.other;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HEADING;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROBOT_LENGTH_INCH;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROBOT_WIDTH_INCH;
 
 import com.bylazar.field.FieldManager;
 import com.bylazar.field.PanelsField;
 import com.bylazar.field.Style;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.math.Vector;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.PoseHistory;
-
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPedroMecanumDrive;
 
 /**
  * This is the Drawing class. It handles the drawing of stuff on Panels Dashboard, like the robot.
@@ -22,14 +19,13 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPedroMe
  * @version 1.1, 5/19/2025
  */
 public class DrawingDinitech {
-    public static final double ROBOT_RADIUS = 9; // woah
     private static final FieldManager panelsField = PanelsField.INSTANCE.getField();
 
     private static final Style robotLook = new Style(
-            "", "#3F51B5", 0.75
+            "", "#3F51B5", 0.35
     );
     private static final Style historyLook = new Style(
-            "", "#4CAF50", 0.75
+            "", "#4CAF50", 0.35
     );
 
     /**
@@ -69,18 +65,50 @@ public class DrawingDinitech {
             return;
         }
 
-        panelsField.setStyle(style);
-        panelsField.moveCursor(pose.getX(), pose.getY());
-        panelsField.circle(ROBOT_RADIUS);
+        double centerX = pose.getX();
+        double centerY = pose.getY();
+        double heading = pose.getHeading();
 
-        Vector v = pose.getHeadingAsUnitVector();
-        v.setMagnitude(v.getMagnitude() * ROBOT_RADIUS);
-        double x1 = pose.getX() + v.getXComponent() / 2, y1 = pose.getY() + v.getYComponent() / 2;
-        double x2 = pose.getX() + v.getXComponent(), y2 = pose.getY() + v.getYComponent();
+        double halfLength = ROBOT_LENGTH_INCH / 2.0;
+        double halfWidth = ROBOT_WIDTH_INCH / 2.0;
+
+        // Heading unit vector (front direction of the robot)
+        double headingX = Math.cos(heading);
+        double headingY = Math.sin(heading);
+
+        // Left-normal unit vector for width direction
+        double leftX = -headingY;
+        double leftY = headingX;
+
+        double frontLeftX = centerX + headingX * halfLength + leftX * halfWidth;
+        double frontLeftY = centerY + headingY * halfLength + leftY * halfWidth;
+
+        double frontRightX = centerX + headingX * halfLength - leftX * halfWidth;
+        double frontRightY = centerY + headingY * halfLength - leftY * halfWidth;
+
+        double rearRightX = centerX - headingX * halfLength - leftX * halfWidth;
+        double rearRightY = centerY - headingY * halfLength - leftY * halfWidth;
+
+        double rearLeftX = centerX - headingX * halfLength + leftX * halfWidth;
+        double rearLeftY = centerY - headingY * halfLength + leftY * halfWidth;
 
         panelsField.setStyle(style);
-        panelsField.moveCursor(x1, y1);
-        panelsField.line(x2, y2);
+        panelsField.moveCursor(frontLeftX, frontLeftY);
+        panelsField.line(frontRightX, frontRightY);
+        panelsField.moveCursor(frontRightX, frontRightY);
+        panelsField.line(rearRightX, rearRightY);
+        panelsField.moveCursor(rearRightX, rearRightY);
+        panelsField.line(rearLeftX, rearLeftY);
+        panelsField.moveCursor(rearLeftX, rearLeftY);
+        panelsField.line(frontLeftX, frontLeftY);
+
+        // Front heading indicator from center to front midpoint
+        double frontMidX = centerX + headingX * halfLength;
+        double frontMidY = centerY + headingY * halfLength;
+
+        panelsField.setStyle(style);
+        panelsField.moveCursor(centerX, centerY);
+        panelsField.line(frontMidX, frontMidY);
     }
 
     /**

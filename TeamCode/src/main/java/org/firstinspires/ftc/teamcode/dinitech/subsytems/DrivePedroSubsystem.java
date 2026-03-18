@@ -235,7 +235,6 @@ public class DrivePedroSubsystem extends SubsystemBase {
         telemetryM.addData("y", pose.getY());
         telemetryM.addData("heading", pose.getHeading());
         telemetryM.addData("distance", pose.distanceFrom(ROTATED_BLUE_BASKET_POSE));
-
     }
 
     public DinitechPedroMecanumDrive getDrive() {
