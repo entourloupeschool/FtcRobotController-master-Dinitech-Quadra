@@ -32,14 +32,14 @@ public class ShootAll extends SelectCommand {
                 put(1, new SequentialCommandGroup(
                         new OpenWaitTrappe(trieurSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR*2L)));
+                        new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));
 
                 put(2, new SequentialCommandGroup(
                         new OpenWaitTrappe(trieurSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
                         new WaitShoot(shooterSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR*2L)));
+                        new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));
 
                 put(3, new SequentialCommandGroup(
                         new OpenWaitTrappe(trieurSubsystem),
@@ -48,7 +48,7 @@ public class ShootAll extends SelectCommand {
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
                         new WaitShoot(shooterSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR* 2L)));}},
+                        new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));}},
 
             trieurSubsystem::getHowManyArtefacts
         );
@@ -66,7 +66,7 @@ public class ShootAll extends SelectCommand {
                                     new InstantCommand(),
                                     ()->waitSpeed),
                             new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitCommand(WAIT_HIGH_SPEED_TRIEUR*2L)));
+                            new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));
 
                     put(2, new SequentialCommandGroup(
                             new OpenWaitTrappe(trieurSubsystem),
@@ -77,7 +77,7 @@ public class ShootAll extends SelectCommand {
                             new MoulinNextArtefactShoot(trieurSubsystem),
                             new WaitShoot(shooterSubsystem),
                             new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitCommand(WAIT_HIGH_SPEED_TRIEUR*2L)));
+                            new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));
 
                     put(3, new SequentialCommandGroup(
                             new OpenWaitTrappe(trieurSubsystem),
@@ -90,7 +90,7 @@ public class ShootAll extends SelectCommand {
                             new MoulinNextArtefactShoot(trieurSubsystem),
                             new WaitShoot(shooterSubsystem),
                             new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitCommand(WAIT_HIGH_SPEED_TRIEUR*2L)));}},
+                            new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));}},
 
                 trieurSubsystem::getHowManyArtefacts
         );
