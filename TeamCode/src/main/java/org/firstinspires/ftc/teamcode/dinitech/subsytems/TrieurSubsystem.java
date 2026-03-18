@@ -653,16 +653,12 @@ public class TrieurSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         moulinLogic();
-//        telemetryM.addData("std", lastMoulinMotorTicks.getStd());
-//        telemetryM.addData("std0", lastMoulinMotorTicks.getStd() == 0);
-//        telemetryM.addData("isBusy", isMoulinBusy());
 
 //        printMagneticTelemetryManager(telemetryM);
-//        printMoulinTelemetryManager(telemetryM);
+        printMoulinTelemetryManager(telemetryM);
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
 //        printDistanceTelemetryManager(telemetryM);
-//        printMoulinTelemetryManager(telemetryM);
 //        printColorTelemetryManager(telemetryM);
     }
 

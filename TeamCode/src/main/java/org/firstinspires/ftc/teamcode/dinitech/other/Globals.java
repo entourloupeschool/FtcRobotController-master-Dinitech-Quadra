@@ -15,9 +15,14 @@ import java.util.Dictionary;
 
 @Configurable
 public class Globals {
+
     public static double ROBOT_LENGTH_CM = 42.95;
+    public static double ROBOT_LENGTH_INCH = cmToInch(ROBOT_LENGTH_CM); // = 16.91
     public static double ROBOT_WIDTH_CM = 44.8;
+    public static double ROBOT_WIDTH_INCH = cmToInch(ROBOT_WIDTH_CM); // = 17.638
     public static double ROBOT_LENGTH_CHARGEUR_CM = 44.95;
+    public static double ROBOT_LENGTH_CHARGEUR_INCH = cmToInch(ROBOT_LENGTH_CHARGEUR_CM);
+
 
     public static long TELEMETRY_UPDATE_INTERVAL_MS = 500;
     public static double BLUE_TEAM_HEADING = Math.PI;
@@ -61,12 +66,12 @@ public class Globals {
 
 
     //BLUE SIDE
-    public static final Pose BLUE_BASKET_POSE = new Pose(10, 136, 0);
+    public static final Pose BLUE_BASKET_POSE = new Pose(8, 136, 0);
     public static final Pose ROTATED_BLUE_BASKET_POSE = BLUE_BASKET_POSE.rotate(BLUE_TEAM_HEADING, true);
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
-    public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 23, Math.toRadians(118));
-    public static final Pose BLUE_GOAL_POSE = new Pose(21.8, 121.2, (double) 3 / 4 * Math.PI);
-    public static final Pose BLUE_RAMP_POSE = new Pose(16.1, 63, -0.162);
+    public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 23, Math.toRadians(113));
+    public static final Pose BLUE_GOAL_POSE = new Pose(21.8, 121.2,3 * Math.PI / 4 );
+    public static final Pose BLUE_RAMP_POSE = new Pose(15.3, 61.9, -0.162);
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
     public static double GATEPICK_LENGTH_BACKUP_Y = -2.9;
     public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.71);
@@ -153,10 +158,10 @@ public class Globals {
 
         public static int REVOLUTION_MOULIN_TICKS = 1833;
         public static double INTERVALLE_TICKS_MOULIN_DOUBLE = (double) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS; // = 305.5
-        public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.1963993453°
+        public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.1964°
+        // 1° = 5.1 ticks
         public static double getDegreesFromTicks(int ticks){
-            return TICKS_TO_DEGREE * ticks;
-        }
+            return TICKS_TO_DEGREE * ticks;}
         public static int getTicksFromDegrees(double degrees){
             return (int) (degrees / TICKS_TO_DEGREE);}
 
@@ -167,8 +172,9 @@ public class Globals {
         public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
         public static int MOULIN_POSITION_TOLERANCE = 0; // 2;
         public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
-        public static int SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE = 8;
-        public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = (MOULIN_POSITION_TOLERANCE + 1) * SCALE_MOULIN_POSITION_TOLERANCE_VERY_LOOSE;
+        public static double VERY_LOOSE_DEGREES = 4;
+
+        public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = getTicksFromDegrees(VERY_LOOSE_DEGREES);
 
         public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 15 * (MOULIN_POSITION_TOLERANCE + 2);
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 18;
@@ -181,8 +187,8 @@ public class Globals {
 
         //PIDF MOULIN (TURRET)
         public static double P_MOULIN_AGGRESSIVE = 8.457;
-        public static double I_MOULIN_AGGRESSIVE = 11.8;
-        public static double D_MOULIN_AGGRESSIVE = 0.803;
+        public static double I_MOULIN_AGGRESSIVE = 16.413;
+        public static double D_MOULIN_AGGRESSIVE = 1.18;
         public static double F_MOULIN_AGGRESSIVE = 0.0;
         public static final double ADJUST_CONSTANT = 0.015;
 
@@ -253,7 +259,6 @@ public class Globals {
 
         public static final double ROULEAU_MOTOR_MAX_POWER = 0.85;
         public static final double TAPIS_MAX_SPEED = 0.99;
-        public static final double SCALE_CHARGEUR_MOTOR_POWER = 1;
         public static final double CHARGEUR_INCREMENT = 0.1;
 
         /**
@@ -265,7 +270,7 @@ public class Globals {
         public static final String MAGNETIC_SWITCH_NAME = "m_s";
         public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
         public static int OFFSET_MAGNETIC_POS = 41; // (int) Math.round(REVOLUTION_MOULIN_TICKS * 0.0250817);
-        public static double SCALE_RECALIBRATION = getTicksFromDegrees(2); // = 15.2750000028
+        public static double SCALE_RECALIBRATION = getTicksFromDegrees(3.5);
         public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
 
         public static final double DETECT_PURPLE_RED_RGB = 0.694;

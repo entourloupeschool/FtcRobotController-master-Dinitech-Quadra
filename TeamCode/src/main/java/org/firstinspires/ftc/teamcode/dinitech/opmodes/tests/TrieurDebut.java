@@ -83,7 +83,6 @@ public class TrieurDebut extends RobotBase {
         m_Driver.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
         m_Driver.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
         m_Driver.dpad_up.whenPressed(new MoulinHighSpeedRevolution(trieurSubsystem));
-        m_Driver.dpad_down.whenPressed(new StopMoulin(trieurSubsystem));
 
         m_Driver.bump_right.whileHeld(new MoulinRotate(trieurSubsystem, gamepadSubsystem));
         m_Driver.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem, gamepadSubsystem));

@@ -25,7 +25,7 @@ public class MoulinNextStrict extends MoulinToPositionMargin {
      */
     public MoulinNextStrict(TrieurSubsystem trieurSubsystem) {
         // The actual target position is determined at execution time.
-        super(trieurSubsystem, -1, false, 0);
+        super(trieurSubsystem, -1, false, 1);
     }
 
     /**
