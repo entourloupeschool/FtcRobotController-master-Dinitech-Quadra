@@ -49,7 +49,7 @@ public class DrawingDinitech {
             drawRobot(new Pose(closestPoint.getX(), closestPoint.getY(), follower.getCurrentPath().getHeadingGoal(follower.getCurrentPath().getClosestPointTValue())), robotLook);
         }
         drawPoseHistory(follower.getPoseHistory(), historyLook);
-        drawRobot(follower.getPose().rotate(BLUE_TEAM_HEADING, true), historyLook);
+        drawRobot(follower.getPose(), historyLook);
 
         sendPacket();
     }

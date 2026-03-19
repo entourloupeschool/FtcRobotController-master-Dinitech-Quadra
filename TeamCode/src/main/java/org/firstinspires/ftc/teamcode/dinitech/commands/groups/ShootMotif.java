@@ -34,7 +34,20 @@ public class ShootMotif extends ConditionalCommand {
         super(
                 // Command to run if the color order has been detected
                 new SequentialCommandGroup(
-                        new ReadyMotif(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                        new ReadyMotifRumble(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                        new ShootRevolution(trieurSubsystem, new InstantCommand())),
+                // Command to run if no color order is detected
+                new InstantCommand(),
+                // Condition: Check if the vision subsystem has a color order
+                visionSubsystem::hasMotif
+        );
+    }
+
+    public ShootMotif(TrieurSubsystem trieurSubsystem, VisionSubsystem visionSubsystem){
+        super(
+                // Command to run if the color order has been detected
+                new SequentialCommandGroup(
+                        new ReadyMotif(trieurSubsystem, visionSubsystem),
                         new ShootRevolution(trieurSubsystem, new InstantCommand())),
                 // Command to run if no color order is detected
                 new InstantCommand(),

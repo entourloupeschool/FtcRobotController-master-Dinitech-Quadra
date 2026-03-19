@@ -27,26 +27,23 @@ public class DinitechFollower {
             .forwardZeroPowerAcceleration(-52.3857)
             .lateralZeroPowerAcceleration(-100.4664)
 
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.115, 0.008, 0.012, 0.025))
-            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.115, 0.02, 0.012, 0.005))
+//            .translationalPIDFCoefficients(new PIDFCoefficients(0.17, 0.08, 0.012, 0.025))
+//            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.2, 0.08, 0.012, 0.006))
+            .translationalPIDFCoefficients(new PIDFCoefficients(1, 0.05, 0.15, 0.01))
+            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(2.5, 0.08, 0.12, 0.006))
 
             .headingPIDFCoefficients(new PIDFCoefficients(1, 0.05, 0.15, 0.01))
-//            .headingPIDFCoefficients(new PIDFCoefficients(1, 0, 0.15, 0.01))
             .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(3, 0.1, 0.15, 0.006))
 
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.065,0.002,0.012,0.01,0.006))
-//            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.065,0,0.012,0.01,0.006))
-            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.05,0.0012,0.0025,0.6,0.006))
-
-//            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.042,0,0.012,0.01,0.006))
-//            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.036,0.0001,0.002,0.6,0.006))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.065,0.003,0.009,0.6,0.006))
+            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.5,0.02,0.0025,0.2,0.0009))
 
 
             .centripetalScaling(0.0005)
 
             .useSecondaryTranslationalPIDF(true)
             .useSecondaryHeadingPIDF(true)
-            .useSecondaryDrivePIDF(false);
+            .useSecondaryDrivePIDF(true);
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
             .rightFrontMotorName("rightFront")

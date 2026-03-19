@@ -52,13 +52,17 @@ public class Globals {
 
 
     public static final double TILE_DIM = 24;
-    public static final double SCALE_Y_TILE = 1.0;
+    public static final double SCALE_Y_TILE = 1.11;
     public static final double FOLLOWER_T_POSITION_END = 0.91;
     public static final double LENGTH_X_ROW = TILE_DIM * 0.78;
     public static final double LENGTH_X_ROW_SUPER = 24;
     public static final double LENGTH_X_ROW_SUPER_23RD = 30;
     public static final double T_PARAMETRIC_DONT_SHOOT = 0.55;
-    public static final long WAIT_INIT_SHOOTER = 50;
+    public static final long WAIT_INIT_SHOOTER = 5;
+
+    public static final double UNSHORTCUT_LENGTH = 10;
+    public static final double BRAKING_STRENGTH_FAR = 0.8;
+    public static final double BRAKING_STRENGTH_VERY_FAR = 0.6;
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
@@ -82,7 +86,7 @@ public class Globals {
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 23, Math.toRadians(113));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.9, 121.1,3 * Math.PI / 4);
-    public static final Pose BLUE_RAMP_POSE = new Pose(16.3, 62.4, 0); // heading = -0.162
+    public static final Pose BLUE_RAMP_POSE = new Pose(16.5, 62.2, 0); // heading = -0.162
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
     public static double GATEPICK_LENGTH_BACKUP_Y = -2.9;
     public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.71);
@@ -92,13 +96,15 @@ public class Globals {
     public static final Pose LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE = new Pose(55, 85, Math.toRadians(79));
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final double AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(BLUE_AUDIENCE_SHOOT_POSE.distanceFrom(BLUE_BASKET_POSE));
-    public static final double INIT_SHOOT_AUTO_SHOOTER_VELOCITY = 5;
-    public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 82, 0);
+    public static final double INIT_SHOOT_AUTO_SHOOTER_VELOCITY = 3;
+    public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 83.5, 0);
     public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE
-            .withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM * SCALE_Y_TILE);
+            .withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM);
     public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE
-            .withY(SECOND_ROW_BLUE_POSE.getY() - TILE_DIM);
+            .withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM);
     public static final Pose BLUE_VOID_POSE = new Pose(50, 62, Math.PI);
+    public static final Pose BLUE_WALL_PICK_POSE = new Pose(14.5, 20, Math.toRadians(-55));
+
 
 
 
@@ -122,6 +128,9 @@ public class Globals {
     public static final Pose THIRD_ROW_RED_POSE = THIRD_ROW_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
 
     public static final Pose RED_VOID_POSE = BLUE_VOID_POSE.mirror(FIELD_SIDE_LENGTH);
+    public static final Pose RED_WALL_PICK_POSE = BLUE_WALL_PICK_POSE.mirror(FIELD_SIDE_LENGTH);
+    public static final double LENGTH_WALL_PICK = 20;
+
 
 
     /**
@@ -166,7 +175,7 @@ public class Globals {
         public static final double TRAPPE_OPEN_POSITION = 0;
         public static final double TRAPPE_CLOSE_POSITION = -130;
         public static final double TRAPPE_TELE_INCREMENT = 0.5;
-        public static final long TRAPPE_OPEN_TIME = 450;
+        public static final long TRAPPE_OPEN_TIME = 470;
         public static final long TRAPPE_CLOSE_TIME = TRAPPE_OPEN_TIME;
 
         public static final String MOULIN_MOTOR_NAME = "moulin";
@@ -201,10 +210,10 @@ public class Globals {
         public static long WAIT_FOR_3BALL = 3800;
 
         //PIDF MOULIN (TURRET)
-        public static double P_MOULIN_AGGRESSIVE = 5.954;//8.457;
-        public static double I_MOULIN_AGGRESSIVE = 8.418;//16.413;
-        public static double D_MOULIN_AGGRESSIVE = 3.4;//1.18;
-        public static double F_MOULIN_AGGRESSIVE = 0.0;
+        public static double P_MOULIN_AGGRESSIVE = 5.954;// 6.54
+        public static double I_MOULIN_AGGRESSIVE = 8.418;//11.03
+        public static double D_MOULIN_AGGRESSIVE = 3.4;//0.7
+        public static double F_MOULIN_AGGRESSIVE = 0.0;//1.493
         public static final double ADJUST_CONSTANT = 0.015;
 
         /**

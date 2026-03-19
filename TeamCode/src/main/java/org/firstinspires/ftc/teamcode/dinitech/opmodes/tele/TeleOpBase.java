@@ -35,21 +35,20 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.Moul
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.PrepShootTrieur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.ToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetection;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixGamepads;
 import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-public class TeleOpBase extends Gornetix {
-    private GamepadSubsystem gamepadSubsystem;
-    private GamepadWrapper m_Driver;
-    private GamepadWrapper m_Operator;
+public class TeleOpBase extends GornetixGamepads {
 
     private int lastHowManyArtefacts = 0;
     private int currentGetHowManyArtefacts = 0;
@@ -57,11 +56,6 @@ public class TeleOpBase extends Gornetix {
     @Override
     public void initialize() {
             super.initialize();
-
-            gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
-            register(gamepadSubsystem);
-            m_Driver = gamepadSubsystem.getDriver();
-            m_Operator = gamepadSubsystem.getOperator();
 
             drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEADING_POSE);
             drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive(true);
@@ -122,7 +116,7 @@ public class TeleOpBase extends Gornetix {
         // Driver controls
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
-        m_Driver.square.whenPressed(new ShootHighSpeedRevolution(trieurSubsystem, shooterSubsystem));
+        m_Driver.square.whenPressed(new ShootAll(trieurSubsystem, shooterSubsystem, true));
 
         m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false));
 
@@ -145,9 +139,9 @@ public class TeleOpBase extends Gornetix {
 
         m_Operator.right_stick_button.whenPressed(new SwitchUsageStateShooter(shooterSubsystem, drivePedroSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
 
-        m_Operator.square.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem,(CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY + AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY)/2),
+        m_Operator.square.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY ),
                 new StopShooter(shooterSubsystem), true);
-        m_Operator.cross.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
+        m_Operator.cross.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY * 0.8),
                 new StopShooter(shooterSubsystem), true);
         m_Operator.triangle.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
                 new StopShooter(shooterSubsystem), true);

@@ -18,6 +18,7 @@ import com.pedropathing.paths.HeadingInterpolator;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenWaitTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
@@ -31,8 +32,8 @@ public class InitToPedroShooter extends ParallelCommandGroup {
                         new SetVelocityShooterRequire(shooterSubsystem, INIT_SHOOT_AUTO_SHOOTER_VELOCITY),
                         new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
                         new WaitCommand(WAIT_INIT_SHOOTER),
-                        new ShootAll(trieurSubsystem, shooterSubsystem, false)),
-
+                        new ShootAll(trieurSubsystem, shooterSubsystem, true)),
+                new OpenWaitTrappe(trieurSubsystem),
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierLine(
                                 drivePedroSubsystem::getPose,
@@ -41,8 +42,7 @@ public class InitToPedroShooter extends ParallelCommandGroup {
                                 drivePedroSubsystem::getHeading,
                                 ShootPosition.getHeading(),
                                 LINEAR_HEADING_INTERPOLATION_END_TIME))
-                        .setBrakingStrength(BRAKING_STRENGTH_PEDRO_DINITECH/5)
-                        .setBrakingStart(BRAKING_START_PEDRO_DINITECH).build(),
+                        .setBrakingStrength(BRAKING_STRENGTH_PEDRO_DINITECH/7).build(),
                         AUTO_ROBOT_CONSTRAINTS, true)
         );
     }

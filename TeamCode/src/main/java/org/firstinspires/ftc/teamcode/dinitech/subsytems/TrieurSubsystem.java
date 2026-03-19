@@ -102,7 +102,6 @@ public class TrieurSubsystem extends SubsystemBase {
 
     private boolean newRegister = false;
     private boolean newColoredRegister = false;
-    private boolean isFull = false;
     private boolean wentRecalibrationOpposite = true;
     private boolean hasInitCalibration;
     
@@ -653,9 +652,10 @@ public class TrieurSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         moulinLogic();
+        telemetryM.addData("wantsMotif", wantsMotifShoot());
 
 //        printMagneticTelemetryManager(telemetryM);
-//        printMoulinTelemetryManager(telemetryM);
+        printMoulinTelemetryManager(telemetryM);
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
 //        printDistanceTelemetryManager(telemetryM);

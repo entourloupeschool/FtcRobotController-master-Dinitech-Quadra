@@ -1,19 +1,16 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.blue.mr;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.red.mr;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.mr.TwoRowsFromGoalMR;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.mr.WallPickFromAudience;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueAudienceAutoBase;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueGoalAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.RedAudienceAutoBase;
 
-@Autonomous(name = "BlueAudienceWallPick", group = "Blue")
+@Autonomous(name = "RedAudienceWallPickMR", group = "Red")
 //@Disabled
 
-public class BlueAudienceWallPick extends BlueAudienceAutoBase {
+public class RedAudienceWallPickMR extends RedAudienceAutoBase {
 
     @Override
     public void initialize() {

@@ -1,15 +1,15 @@
-package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.blue;
+package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.red;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.ThreeRowsFromGoal;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.ThreeRowsFromGoalWithGateOpen;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueGoalAutoBase;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.RedGoalAutoBase;
 
-@Autonomous(name = "BlueGoalThreeRowsWithGate", group = "Blue")
-public class BlueGoalThreeRowsGate extends BlueGoalAutoBase {
+@Autonomous(name = "RedGoalThreeRowsWithGate", group = "Red")
+public class RedGoalThreeRowsGate extends RedGoalAutoBase {
 
     @Override
     public void initialize() {

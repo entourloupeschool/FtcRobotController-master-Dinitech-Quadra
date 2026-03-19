@@ -207,7 +207,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         dinitechPedroMecanumDrive.update();
         // This method is called periodically by the CommandScheduler.
         printDriveTelemetry(telemetryM);
-        debugPedro(telemetryM);
+//        debugPedro(telemetryM);
     }
 
     private void debugPedro(TelemetryManager telemetryM) {

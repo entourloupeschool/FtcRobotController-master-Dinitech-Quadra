@@ -10,10 +10,11 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.TeleShooter;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
+import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixGamepads;
 
 @TeleOp(name = "ShooterChar - Dinitech", group = "Char")
 
-public class ShooterChar extends Gornetix {
+public class ShooterChar extends GornetixGamepads {
 
     private double pShooter;
     private double iShooter;
