@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 public class InitToShoot extends SequentialCommandGroup {
 
-    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose ShootPosition, double shootVelocity){
+    public InitToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose ShootPosition, double shootVelocity, double endTime){
         addCommands(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
@@ -37,7 +37,7 @@ public class InitToShoot extends SequentialCommandGroup {
                                 ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                         drivePedroSubsystem::getHeading,
                                         ShootPosition.getHeading(),
-                                        LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                        endTime)).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, true)

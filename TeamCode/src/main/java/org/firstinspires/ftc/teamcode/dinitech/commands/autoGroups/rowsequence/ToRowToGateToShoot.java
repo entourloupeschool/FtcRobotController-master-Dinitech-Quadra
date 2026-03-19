@@ -44,7 +44,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                         drivePedroSubsystem::getHeading,
                                         rowPose.getHeading(),
                                         endTime))
-                                .setBrakingStrength(BRAKING_STRENGTH_PEDRO_DINITECH * scaleBrakingStrength).build(),
+                                .setBrakingStrength(scaleBrakingStrength).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
@@ -72,7 +72,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                                 drivePedroSubsystem::getHeading,
                                                 openRampPose.getHeading(),
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT))
-                                        .setBrakingStrength(BRAKING_STRENGTH_PEDRO_DINITECH * scaleBrakingStrength).build(),
+                                        .setBrakingStrength(scaleBrakingStrength).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
                                 new WaitCommand(2000),
                                 new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
@@ -88,9 +88,10 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
                                                 shootPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
+                                                endTime))
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
-                                            if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
+                                            if (trieurSubsystem.isEmpty()) this.cancel();})
+                                        .setBrakingStrength(scaleBrakingStrength).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false)),
 

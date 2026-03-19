@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 public class InitToPedroShooter extends ParallelCommandGroup {
 
-    public InitToPedroShooter(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose ShootPosition, double shootVelocity){
+    public InitToPedroShooter(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose ShootPosition, double shootVelocity, double endTime){
         addCommands(
                 new SequentialCommandGroup(
                         new SetVelocityShooterRequire(shooterSubsystem, INIT_SHOOT_AUTO_SHOOTER_VELOCITY),
@@ -41,7 +41,7 @@ public class InitToPedroShooter extends ParallelCommandGroup {
                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                 drivePedroSubsystem::getHeading,
                                 ShootPosition.getHeading(),
-                                LINEAR_HEADING_INTERPOLATION_END_TIME))
+                                endTime))
                         .setBrakingStrength(BRAKING_STRENGTH_PEDRO_DINITECH/7).build(),
                         AUTO_ROBOT_CONSTRAINTS, true)
         );

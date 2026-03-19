@@ -40,7 +40,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         drivePedroSubsystem::getHeading,
                                         rowPose.getHeading(),
                                         endTime))
-                                .setBrakingStrength(BRAKING_STRENGTH_PEDRO_DINITECH * scaleBrakingStrength).build(),
+                                .setBrakingStrength(scaleBrakingStrength).build(),
                                 AUTO_ROBOT_CONSTRAINTS, true)),
 
                 new ParallelCommandGroup(
@@ -67,10 +67,10 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
                                                 shootPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
+                                                endTime))
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.isEmpty()) this.cancel();})
-                                        .setBrakingStrength(BRAKING_STRENGTH_PEDRO_DINITECH * scaleBrakingStrength).build(),
+                                        .setBrakingStrength(scaleBrakingStrength).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true)),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false)),
 

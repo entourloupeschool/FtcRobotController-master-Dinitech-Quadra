@@ -52,17 +52,30 @@ public class Globals {
 
 
     public static final double TILE_DIM = 24;
-    public static final double SCALE_Y_TILE = 1.11;
     public static final double FOLLOWER_T_POSITION_END = 0.91;
     public static final double LENGTH_X_ROW = TILE_DIM * 0.78;
-    public static final double LENGTH_X_ROW_SUPER = 24;
-    public static final double LENGTH_X_ROW_SUPER_23RD = 30;
     public static final double T_PARAMETRIC_DONT_SHOOT = 0.55;
     public static final long WAIT_INIT_SHOOTER = 5;
 
     public static final double UNSHORTCUT_LENGTH = 10;
-    public static final double BRAKING_STRENGTH_FAR = 0.8;
-    public static final double BRAKING_STRENGTH_VERY_FAR = 0.6;
+    public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 20;
+
+    public static double getBrakingStrengthScaleFromRange(double range) {
+        if (range < MIN_RANGE_SCALE_BRAKING_STRENGTH){
+            return BRAKING_STRENGTH_PEDRO_DINITECH;
+        } else {
+            return BRAKING_STRENGTH_PEDRO_DINITECH * MIN_RANGE_SCALE_BRAKING_STRENGTH / range;
+        }
+    }
+
+    public static final double MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME = 37.0;
+    public static double getLinearInterpolationHeadingEndTimeFromRange(double range){
+        if (range > MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME){
+            return LINEAR_HEADING_INTERPOLATION_END_TIME;
+        } else {
+            return LINEAR_HEADING_INTERPOLATION_END_TIME * range / MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME;
+        }
+    }
 
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;

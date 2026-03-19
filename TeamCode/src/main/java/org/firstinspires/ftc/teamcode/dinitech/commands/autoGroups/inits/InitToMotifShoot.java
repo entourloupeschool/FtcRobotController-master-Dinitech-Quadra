@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class InitToMotifShoot extends SequentialCommandGroup {
 
-    public InitToMotifShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, Pose ShootPosition, double shootVelocity){
+    public InitToMotifShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, Pose ShootPosition, double shootVelocity, double endTime){
         addCommands(
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
@@ -44,7 +44,7 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                                         ).setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
                                                 drivePedroSubsystem::getHeading,
                                                 ShootPosition.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
+                                                endTime)).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
                                 new SequentialCommandGroup(
                                         // Race: wait for hasColorOrder OR wait for path to finish

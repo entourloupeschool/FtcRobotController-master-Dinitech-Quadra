@@ -37,16 +37,16 @@ public class ShootAll extends SelectCommand {
                 put(2, new SequentialCommandGroup(
                         new OpenWaitTrappe(trieurSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                        new WaitShoot(shooterSubsystem),
+                        new WaitShoot(shooterSubsystem, trieurSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
                         new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));
 
                 put(3, new SequentialCommandGroup(
                         new OpenWaitTrappe(trieurSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                        new WaitShoot(shooterSubsystem),
+                        new WaitShoot(shooterSubsystem, trieurSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                        new WaitShoot(shooterSubsystem),
+                        new WaitShoot(shooterSubsystem, trieurSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
                         new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));}},
 
@@ -75,7 +75,7 @@ public class ShootAll extends SelectCommand {
                                     new InstantCommand(),
                                     ()->waitSpeed),
                             new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitShoot(shooterSubsystem),
+                            new WaitShoot(shooterSubsystem, trieurSubsystem),
                             new MoulinNextArtefactShoot(trieurSubsystem),
                             new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));
 
@@ -86,9 +86,9 @@ public class ShootAll extends SelectCommand {
                                     new InstantCommand(),
                                     ()->waitSpeed),
                             new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitShoot(shooterSubsystem),
+                            new WaitShoot(shooterSubsystem, trieurSubsystem),
                             new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitShoot(shooterSubsystem),
+                            new WaitShoot(shooterSubsystem, trieurSubsystem),
                             new MoulinNextArtefactShoot(trieurSubsystem),
                             new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));}},
 

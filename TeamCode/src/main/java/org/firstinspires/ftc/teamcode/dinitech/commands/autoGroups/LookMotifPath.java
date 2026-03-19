@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 
 public class LookMotifPath extends SequentialCommandGroup {
-    public LookMotifPath(DrivePedroSubsystem drivePedroSubsystem, Pose lookMotifPose){
+    public LookMotifPath(DrivePedroSubsystem drivePedroSubsystem, Pose lookMotifPose, double scaleBrakingStrength, double endTime){
         addCommands(
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierLine(
@@ -26,7 +26,8 @@ public class LookMotifPath extends SequentialCommandGroup {
                         .setLinearHeadingInterpolation(
                                 drivePedroSubsystem.getPose().getHeading(),
                                 lookMotifPose.getHeading(),
-                                LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT).build(),
+                                endTime)
+                        .setBrakingStrength(scaleBrakingStrength).build(),
                         AUTO_ROBOT_CONSTRAINTS, true)
         );
     }

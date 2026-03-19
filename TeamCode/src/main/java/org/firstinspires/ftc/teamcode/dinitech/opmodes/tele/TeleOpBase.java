@@ -165,7 +165,7 @@ public class TeleOpBase extends GornetixGamepads {
         new SequentialCommandGroup(
                 new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
                 new MoulinCalibrationSequence(trieurSubsystem),
-                new MaxPowerChargeur(chargeurSubsystem),
+                new WaitCommand(100),
                 new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)).schedule();
     }
 
