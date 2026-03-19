@@ -1,0 +1,46 @@
+package org.firstinspires.ftc.teamcode.dinitech.opmodes;
+
+
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.hub.DefaultHubsCommand;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetection;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
+
+public class Gornetix extends RobotBase {
+    public TrieurSubsystem trieurSubsystem;
+    public VisionSubsystem visionSubsystem;
+    public ShooterSubsystem shooterSubsystem;
+    public ChargeurSubsystem chargeurSubsystem;
+    public DrivePedroSubsystem drivePedroSubsystem;
+
+    /**
+     * Initialize all hardware and subsystems.
+     */
+    @Override
+    public void initialize() {
+        super.initialize();
+
+        visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
+        register(visionSubsystem);
+
+        drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, telemetryM);
+        register(drivePedroSubsystem);
+
+        trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
+        register(trieurSubsystem);
+
+        chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetryM);
+        register(chargeurSubsystem);
+
+        shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetryM);
+        register(shooterSubsystem);
+
+        hubsSubsystem.setDefaultCommand(new DefaultHubsCommand(hubsSubsystem, trieurSubsystem));
+    }
+
+}
