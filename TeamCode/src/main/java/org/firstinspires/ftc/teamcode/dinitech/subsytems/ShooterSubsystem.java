@@ -311,13 +311,13 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     private void printShooterTelemetry(final TelemetryManager telemetryM) {
-        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
-        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
+//        telemetryM.addData("Shooter Speed (ticks/s)", getVelocity());
+//        telemetryM.addData("Target Speed (ticks/s)", getTargetSpeed());
         telemetryM.addData("Shooter State", getUsageState());
 //        telemetryM.addData("Shooter PIDF profile", activeVelocityPidProfile);
 //        telemetryM.addData("targetReachedSUPERINTEL", isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL));
 //        telemetryM.addData("targetSpeedStabilized", isTargetSpeedStabilized());
-        telemetryM.addData("current", getVoltage());
+//        telemetryM.addData("current", getVoltage());
 
     }
 }

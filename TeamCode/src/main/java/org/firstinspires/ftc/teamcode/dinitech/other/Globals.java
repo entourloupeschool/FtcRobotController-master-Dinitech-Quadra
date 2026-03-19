@@ -44,7 +44,7 @@ public class Globals {
      * Auto Phase globals
      */
     public static final double AUTO_ROBOT_CONSTRAINTS = 1;
-    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.7; // 0.75
+    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.85; // 0.75
     public static final double BRAKING_START_PEDRO_DINITECH = 1; // 1.4
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.81;
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT = 0.68;
@@ -58,7 +58,7 @@ public class Globals {
     public static final long WAIT_INIT_SHOOTER = 5;
 
     public static final double UNSHORTCUT_LENGTH = 10;
-    public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 20;
+    public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 15;
 
     public static double getBrakingStrengthScaleFromRange(double range) {
         if (range < MIN_RANGE_SCALE_BRAKING_STRENGTH){

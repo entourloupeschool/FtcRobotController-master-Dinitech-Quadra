@@ -655,7 +655,7 @@ public class TrieurSubsystem extends SubsystemBase {
         telemetryM.addData("wantsMotif", wantsMotifShoot());
 
 //        printMagneticTelemetryManager(telemetryM);
-        printMoulinTelemetryManager(telemetryM);
+//        printMoulinTelemetryManager(telemetryM);
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
 //        printDistanceTelemetryManager(telemetryM);
