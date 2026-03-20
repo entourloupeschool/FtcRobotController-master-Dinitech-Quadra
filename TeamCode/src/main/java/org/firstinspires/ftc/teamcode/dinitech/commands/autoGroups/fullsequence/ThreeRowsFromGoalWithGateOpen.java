@@ -14,6 +14,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.LookMotifPath;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.RaceLookMotifPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence.RampEnd;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToPedroShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.ToRowToGateToShoot;
@@ -35,7 +36,7 @@ public class ThreeRowsFromGoalWithGateOpen extends SequentialCommandGroup {
 
                 new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem),
 
-                new LookMotifPath(drivePedroSubsystem, hubsSubsystem.getTeam().getLookMotifPose(),
+                new RaceLookMotifPath(drivePedroSubsystem, visionSubsystem, hubsSubsystem.getTeam().getLookMotifPose(),
                         getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getCloseShootPose().distanceFrom(hubsSubsystem.getTeam().getLookMotifPose())),
                         getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getCloseShootPose().distanceFrom(hubsSubsystem.getTeam().getLookMotifPose()))),
 
