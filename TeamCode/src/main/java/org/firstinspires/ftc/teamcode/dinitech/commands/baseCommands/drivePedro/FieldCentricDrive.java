@@ -51,8 +51,6 @@ public class FieldCentricDrive extends CommandBase {
         drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.TELE);
         drivePedroSubsystem.setDriveReference(DrivePedroSubsystem.DriveReference.FC);
         drivePedroSubsystem.setDriveAimLockType(DrivePedroSubsystem.DriveAimLockType.NONE);
-
-        drivePedroSubsystem.setLastTeleDriverPowerScale(1);
     }
 
     /**

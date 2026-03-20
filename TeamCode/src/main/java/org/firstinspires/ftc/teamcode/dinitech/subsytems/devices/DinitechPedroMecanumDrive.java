@@ -56,14 +56,6 @@ public class DinitechPedroMecanumDrive {
         follower.setHeading(heading);
     }
 
-    public double getPoseX(){
-        return follower.getPose().getX();
-    }
-    public double getPoseY(){
-        return follower.getPose().getY();
-    }
-
-
     public void startTeleOpDrive(boolean useBrakeMode){
         follower.startTeleOpDrive(true);
     }

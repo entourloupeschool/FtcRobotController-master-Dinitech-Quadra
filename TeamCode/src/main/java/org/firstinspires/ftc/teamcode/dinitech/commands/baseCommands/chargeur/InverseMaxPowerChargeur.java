@@ -17,7 +17,7 @@ public class InverseMaxPowerChargeur extends CommandBase {
 
     @Override
     public void initialize(){
-        chargeurSubsystem.setTargetPower(-ROULEAU_MOTOR_MAX_POWER);
+        chargeurSubsystem.setTargetPower(-ROULEAU_MOTOR_MAX_POWER/1.5);
     }
 
 

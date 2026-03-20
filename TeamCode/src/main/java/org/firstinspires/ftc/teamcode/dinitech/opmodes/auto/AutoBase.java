@@ -19,6 +19,7 @@ public class AutoBase extends Gornetix {
     public void initialize() {
             super.initialize();
 
+            trieurSubsystem.openTrappe();
 
             drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
 

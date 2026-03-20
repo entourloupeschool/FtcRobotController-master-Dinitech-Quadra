@@ -44,7 +44,7 @@ public class Globals {
      * Auto Phase globals
      */
     public static final double AUTO_ROBOT_CONSTRAINTS = 1;
-    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.85; // 0.75
+    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.76; // 0.75
     public static final double BRAKING_START_PEDRO_DINITECH = 1; // 1.4
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.81;
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT = 0.68;
@@ -52,13 +52,13 @@ public class Globals {
 
 
     public static final double TILE_DIM = 24;
-    public static final double FOLLOWER_T_POSITION_END = 0.91;
-    public static final double LENGTH_X_ROW = TILE_DIM * 0.78;
+    public static final double FOLLOWER_T_POSITION_END = 0.89;//0.91;
+    public static final double LENGTH_X_ROW = TILE_DIM * 0.82;
     public static final double T_PARAMETRIC_DONT_SHOOT = 0.55;
     public static final long WAIT_INIT_SHOOTER = 5;
 
     public static final double UNSHORTCUT_LENGTH = 10;
-    public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 15;
+    public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 20.0;
 
     public static double getBrakingStrengthScaleFromRange(double range) {
         if (range < MIN_RANGE_SCALE_BRAKING_STRENGTH){
@@ -97,24 +97,24 @@ public class Globals {
     public static final Pose BLUE_BASKET_POSE = new Pose(8, 136, 0);
     public static final Pose ROTATED_BLUE_BASKET_POSE = BLUE_BASKET_POSE.rotate(BLUE_TEAM_HEADING, true);
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
-    public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 23, Math.toRadians(113));
+    public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 21, Math.toRadians(112.5));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.9, 121.1,3 * Math.PI / 4);
-    public static final Pose BLUE_RAMP_POSE = new Pose(16.5, 62.2, 0); // heading = -0.162
+    public static final Pose BLUE_RAMP_POSE = new Pose(16.7, 62.2, 0); // heading = -0.162
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
     public static double GATEPICK_LENGTH_BACKUP_Y = -2.9;
     public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.71);
     public static final Pose BLUE_OPEN_RAMP_PICK_POSE = new Pose(14, 58.5, -0.75);
     public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
-    public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, Math.toRadians(131));
-    public static final Pose LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE = new Pose(55, 85, Math.toRadians(79));
+    public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, Math.toRadians(134));
+    public static final Pose LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE = new Pose(55, 85, Math.toRadians(63));
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final double AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(BLUE_AUDIENCE_SHOOT_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final double INIT_SHOOT_AUTO_SHOOTER_VELOCITY = 3;
-    public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 83.5, 0);
+    public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 82, 0);
     public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE
-            .withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM);
+            .withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM * 1.04);
     public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE
-            .withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM);
+            .withY(SECOND_ROW_BLUE_POSE.getY() - TILE_DIM * 1.04);
     public static final Pose BLUE_VOID_POSE = new Pose(50, 62, Math.PI);
     public static final Pose BLUE_WALL_PICK_POSE = new Pose(14.5, 20, Math.toRadians(-55));
 
@@ -169,7 +169,7 @@ public class Globals {
          */
         public static final double TELE_DRIVE_POWER = 0.3;
         public static final double TELE_DRIVE_POWER_TRIGGER_SCALE = 1 - TELE_DRIVE_POWER;
-        public static final double SLOW_DRIVE_SCALE = 1;
+        public static final double SLOW_DRIVE_SCALE = 0.3;
         public static final double THROUGH_BORE_ENCODER_COUNTS_PER_REV = 8192; // https://revrobotics.eu/rev-11-1271/
         public static final double DEAD_WHEEL_DIAMETER_MM = 50.8; // https://revrobotics.eu/ION-Omni-Wheels/
         public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);

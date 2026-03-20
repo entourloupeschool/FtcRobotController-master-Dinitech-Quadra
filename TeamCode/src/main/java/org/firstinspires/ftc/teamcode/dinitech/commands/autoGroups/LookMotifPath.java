@@ -5,7 +5,9 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADI
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 
@@ -29,6 +31,7 @@ public class LookMotifPath extends SequentialCommandGroup {
                                 endTime)
                         .setBrakingStrength(scaleBrakingStrength).build(),
                         AUTO_ROBOT_CONSTRAINTS, true)
+
         );
     }
 }

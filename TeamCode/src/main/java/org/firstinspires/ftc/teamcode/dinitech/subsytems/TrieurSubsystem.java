@@ -656,7 +656,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
 //        printMagneticTelemetryManager(telemetryM);
 //        printMoulinTelemetryManager(telemetryM);
-//        printStoredArtifactsTelemetryManager(telemetryM);
+        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
 //        printDistanceTelemetryManager(telemetryM);
 //        printColorTelemetryManager(telemetryM);
@@ -719,9 +719,9 @@ public class TrieurSubsystem extends SubsystemBase {
 
     private void printStoredArtifactsTelemetryManager(final TelemetryManager telemetryM) {
         telemetryM.addLine("=== Stored Artifacts ===");
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 6; i++) {
             ArtifactColor color = getMoulinStoragePositionColor(i);
-            if (color != ArtifactColor.NONE) {
+            if (color != ArtifactColor.NONE && color != ArtifactColor.IMP) {
                 telemetryM.addData("Storage position " + i, color.toString());
             }
         }

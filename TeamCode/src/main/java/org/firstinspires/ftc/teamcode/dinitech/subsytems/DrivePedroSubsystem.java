@@ -154,6 +154,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriveUsage(DriveUsage.TELE);
         setDriveReference(DriveReference.FC);
         setDriveAimLockType(DriveAimLockType.NONE);
+        setLastTeleDriverPowerScale(1);
 
         this.telemetryM = telemetryM;
     }
@@ -166,6 +167,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
         setDriveUsage(DriveUsage.TELE);
         setDriveReference(DriveReference.FC);
         setDriveAimLockType(DriveAimLockType.NONE);
+        setLastTeleDriverPowerScale(1);
 
         this.telemetryM = telemetryM;
     }
@@ -180,7 +182,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
      */
     public void teleDriveHybrid(final double translationX, final double translationY, final double rotation,
                                 final double powerScaler, boolean fieldCentric) {
-        if (powerScaler != 0) {
+        if (powerScaler >= 0.02) {
             setLastTeleDriverPowerScale(TELE_DRIVE_POWER_TRIGGER_SCALE * pickCustomPowerFunc(1 - powerScaler, 1)
                     + TELE_DRIVE_POWER);
         }

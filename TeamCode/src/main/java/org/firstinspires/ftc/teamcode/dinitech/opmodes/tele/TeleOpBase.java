@@ -5,12 +5,15 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CONTINUOUS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOT_REVOLUTION_THEN_WAIT;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SLOW_DRIVE_SCALE;
 
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.StopRobot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.InverseMaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.ToggleChargeur;
@@ -29,6 +32,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Tel
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SwitchUsageStateShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedIntel;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 
@@ -116,7 +120,11 @@ public class TeleOpBase extends GornetixGamepads {
         // Driver controls
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
-        m_Driver.square.whenPressed(new ShootAll(trieurSubsystem, shooterSubsystem, true));
+        m_Driver.square.whenPressed(
+                new ConditionalCommand(
+                        new MoulinHighSpeedRevolution(trieurSubsystem, shooterSubsystem),
+                        new ShootAll(trieurSubsystem, shooterSubsystem, true),
+                        ()->trieurSubsystem.isEmpty()));
 
         m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false));
 
@@ -135,7 +143,15 @@ public class TeleOpBase extends GornetixGamepads {
         m_Operator.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
         m_Operator.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
 
+        m_Operator.dpad_down.toggleWhenPressed(
+                new InverseMaxPowerChargeur(chargeurSubsystem),
+                new StopChargeur(chargeurSubsystem), true);
+
         m_Operator.back.whenPressed(new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(!trieurSubsystem.wantsMotifShoot())));
+
+        m_Operator.start.whenPressed(new InstantCommand(()->{
+            trieurSubsystem.setHowManyArtefacts(0);
+            trieurSubsystem.clearAllStoredColors();}));
 
         m_Operator.right_stick_button.whenPressed(new SwitchUsageStateShooter(shooterSubsystem, drivePedroSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
 
@@ -145,6 +161,7 @@ public class TeleOpBase extends GornetixGamepads {
                 new StopShooter(shooterSubsystem), true);
         m_Operator.triangle.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
                 new StopShooter(shooterSubsystem), true);
+
         m_Operator.circle.whenPressed(new SequentialCommandGroup(
                 new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true)),
                 new PrepShootTrieur(trieurSubsystem, visionSubsystem, gamepadSubsystem)));
@@ -164,8 +181,8 @@ public class TeleOpBase extends GornetixGamepads {
         new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)), drivePedroSubsystem).schedule();
         new SequentialCommandGroup(
                 new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
-                new MoulinCalibrationSequence(trieurSubsystem),
-                new WaitCommand(100),
+//                new MoulinCalibrationSequence(trieurSubsystem),
+//                new WaitCommand(100),
                 new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)).schedule();
     }
 
