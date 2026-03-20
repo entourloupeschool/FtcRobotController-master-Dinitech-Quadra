@@ -22,8 +22,8 @@ public class AutoBase extends Gornetix {
             trieurSubsystem.openTrappe();
 
             drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
+//            visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));
 
-            visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));
             autoSetArtefactColors();
 
             MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors(), trieurSubsystem.getHowManyArtefacts());

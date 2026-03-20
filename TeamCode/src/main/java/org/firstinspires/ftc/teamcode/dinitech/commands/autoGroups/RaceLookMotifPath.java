@@ -28,7 +28,7 @@ public class RaceLookMotifPath extends ParallelRaceGroup {
                                 endTime))
                         .setBrakingStrength(scaleBrakingStrength).build(),
                         AUTO_ROBOT_CONSTRAINTS, true),
-                    new UntilMotifDetection(visionSubsystem)
+                new UntilMotifDetection(visionSubsystem)
         );
     }
     public RaceLookMotifPath(DrivePedroSubsystem drivePedroSubsystem, VisionSubsystem visionSubsystem, Pose lookMotifPose){
