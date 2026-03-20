@@ -26,7 +26,7 @@ public class AutoBase extends Gornetix {
             visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));
             autoSetArtefactColors();
 
-            MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors());
+            MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors(), trieurSubsystem.getHowManyArtefacts());
             lastHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
 
             trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT);
@@ -40,7 +40,7 @@ public class AutoBase extends Gornetix {
             int currentHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
             if(currentHowManyArtefacts != lastHowManyArtefacts){
                 lastHowManyArtefacts = currentHowManyArtefacts;
-                MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors());
+                MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors(), trieurSubsystem.getHowManyArtefacts());
             }
 
             if (MotifStorage.getMotifNumber() == -1){

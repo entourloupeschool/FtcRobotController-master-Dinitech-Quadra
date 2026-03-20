@@ -33,9 +33,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
     public ToRowToGateToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, Pose rowPose, Pose shootPose, Pose openRampPose, double lengthBackup, double rowPower, double endTime, double shooterVelocity, boolean shortcutBackPath, double scaleBrakingStrength){
         addCommands(
                 new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new MoulinCalibrationSequence(trieurSubsystem),
-                                new TrieurReadyEmptyStorage(trieurSubsystem)),
+                        new TrieurReadyEmptyStorage(trieurSubsystem),
                         new FollowPath(drivePedroSubsystem, builder -> builder
                                 .addPath(new BezierLine(
                                         drivePedroSubsystem::getPose,
@@ -74,7 +72,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT))
                                         .setBrakingStrength(scaleBrakingStrength).build(),
                                         AUTO_ROBOT_CONSTRAINTS, true),
-                                new WaitCommand(2000),
+                                new WaitCommand(1000),
                                 new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
                                 new FollowPath(drivePedroSubsystem, builder -> builder
                                         .addPath(shortcutBackPath ?

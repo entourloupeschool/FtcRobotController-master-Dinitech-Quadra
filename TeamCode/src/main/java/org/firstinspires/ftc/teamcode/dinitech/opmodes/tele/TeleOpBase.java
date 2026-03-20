@@ -68,14 +68,15 @@ public class TeleOpBase extends GornetixGamepads {
                 TrieurSubsystem.ArtifactColor[] newMPC = MoulinPositionColorsStorage.getLastMoulinPositionColors();
                 for (int i = 0; i < newMPC.length; i++){
                     TrieurSubsystem.ArtifactColor color = newMPC[i];
-                    if (color != TrieurSubsystem.ArtifactColor.NONE){
+                    if (color != TrieurSubsystem.ArtifactColor.NONE && color != TrieurSubsystem.ArtifactColor.IMP){
                         trieurSubsystem.setMoulinStoragePositionColor(i+1, color);
-                        trieurSubsystem.setHowManyArtefacts(trieurSubsystem.getHowManyArtefacts() + 1);
                     }
                 }
                 MoulinPositionColorsStorage.clearLastMoulinPositionColors();
+
+                trieurSubsystem.setHowManyArtefacts(MoulinPositionColorsStorage.getHowManyArtefactStorage());
                 lastHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
-                currentGetHowManyArtefacts = lastHowManyArtefacts;
+                MoulinPositionColorsStorage.clearHowManyArtefactStorage();
             }
 
             if (MotifStorage.getMotifNumber() != -1){

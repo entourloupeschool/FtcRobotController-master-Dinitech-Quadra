@@ -52,28 +52,30 @@ public class Globals {
 
 
     public static final double TILE_DIM = 24;
-    public static final double FOLLOWER_T_POSITION_END = 0.89;//0.91;
-    public static final double LENGTH_X_ROW = TILE_DIM * 0.82;
+    public static final double FOLLOWER_T_POSITION_END = 0.93;//0.91;
+    public static final double LENGTH_X_ROW = TILE_DIM * 0.86;
+    public static final double LENGTH_X_ROW_3RD = TILE_DIM * 1;
+
     public static final double T_PARAMETRIC_DONT_SHOOT = 0.55;
     public static final long WAIT_INIT_SHOOTER = 5;
 
     public static final double UNSHORTCUT_LENGTH = 10;
-    public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 20.0;
+    public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 30.0;
 
     public static double getBrakingStrengthScaleFromRange(double range) {
         if (range < MIN_RANGE_SCALE_BRAKING_STRENGTH){
             return BRAKING_STRENGTH_PEDRO_DINITECH;
         } else {
-            return BRAKING_STRENGTH_PEDRO_DINITECH * MIN_RANGE_SCALE_BRAKING_STRENGTH / range;
+            return BRAKING_STRENGTH_PEDRO_DINITECH * Math.pow(MIN_RANGE_SCALE_BRAKING_STRENGTH / range, 2);
         }
     }
 
-    public static final double MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME = 37.0;
+    public static final double MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME = 35.0;
     public static double getLinearInterpolationHeadingEndTimeFromRange(double range){
         if (range > MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME){
             return LINEAR_HEADING_INTERPOLATION_END_TIME;
         } else {
-            return LINEAR_HEADING_INTERPOLATION_END_TIME * range / MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME;
+            return LINEAR_HEADING_INTERPOLATION_END_TIME * Math.pow(range / MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME, 2);
         }
     }
 
@@ -99,7 +101,7 @@ public class Globals {
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 21, Math.toRadians(112.5));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.9, 121.1,3 * Math.PI / 4);
-    public static final Pose BLUE_RAMP_POSE = new Pose(16.7, 62.2, 0); // heading = -0.162
+    public static final Pose BLUE_RAMP_POSE = new Pose(16.7, 62.05, 0); // heading = -0.162
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
     public static double GATEPICK_LENGTH_BACKUP_Y = -2.9;
     public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.71);
@@ -110,9 +112,9 @@ public class Globals {
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final double AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(BLUE_AUDIENCE_SHOOT_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final double INIT_SHOOT_AUTO_SHOOTER_VELOCITY = 3;
-    public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43, 82, 0);
+    public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43.2, 82, 0);
     public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE
-            .withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM * 1.04);
+            .withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM);
     public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE
             .withY(SECOND_ROW_BLUE_POSE.getY() - TILE_DIM * 1.04);
     public static final Pose BLUE_VOID_POSE = new Pose(50, 62, Math.PI);

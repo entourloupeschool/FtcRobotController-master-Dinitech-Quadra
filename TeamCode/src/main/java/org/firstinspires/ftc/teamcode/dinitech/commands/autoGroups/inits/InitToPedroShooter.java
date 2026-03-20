@@ -33,7 +33,6 @@ public class InitToPedroShooter extends ParallelCommandGroup {
                         new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
                         new WaitCommand(WAIT_INIT_SHOOTER),
                         new ShootAll(trieurSubsystem, shooterSubsystem, true)),
-                new OpenWaitTrappe(trieurSubsystem),
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierLine(
                                 drivePedroSubsystem::getPose,
