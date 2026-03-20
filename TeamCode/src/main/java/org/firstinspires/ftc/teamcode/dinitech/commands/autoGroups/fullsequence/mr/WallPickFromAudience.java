@@ -4,19 +4,13 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_SHO
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_WALL_PICK;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LENGTH_X_ROW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.cmToInch;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getBrakingStrengthScaleFromRange;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationHeadingEndTimeFromRange;
 
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.ToWallToShoot;
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence.RampEnd;
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToPedroShooter;
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToQuickShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.ToRowToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -29,7 +23,7 @@ public class WallPickFromAudience extends SequentialCommandGroup {
 
     public WallPickFromAudience(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, double rowPower){
         addCommands(
-                new InitToPedroShooter(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(), hubsSubsystem.getTeam().getAudienceShootVelocity(),
+                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(), hubsSubsystem.getTeam().getAudienceShootVelocity(),
                         getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getAudienceInitPose().distanceFrom(hubsSubsystem.getTeam().getAudienceShootPose()))),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,

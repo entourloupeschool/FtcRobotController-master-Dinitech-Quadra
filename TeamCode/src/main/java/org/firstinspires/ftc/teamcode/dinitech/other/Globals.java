@@ -58,6 +58,7 @@ public class Globals {
 
     public static final double T_PARAMETRIC_DONT_SHOOT = 0.55;
     public static final long WAIT_INIT_SHOOTER = 5;
+    public static final long WAIT_INIT_PEDRO_SHOOTER = 180;
 
     public static final double UNSHORTCUT_LENGTH = 10;
     public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 30.0;

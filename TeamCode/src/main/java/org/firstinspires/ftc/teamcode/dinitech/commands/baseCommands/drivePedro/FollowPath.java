@@ -46,6 +46,7 @@ public class FollowPath extends CommandBase {
     private PathChain pathChain;
     private final double maxPower;
     private final boolean holdEnd;
+    private final Runnable onExecuteCallback;
 
     /**
      * Creates a FollowPath command using a PathSupplier (lambda-friendly).
@@ -57,11 +58,26 @@ public class FollowPath extends CommandBase {
      * @param holdEnd Whether to hold position at the end
      */
     public FollowPath(DrivePedroSubsystem drivePedroSubsystem, PathSupplier pathSupplier, double maxPower, boolean holdEnd) {
+        this(drivePedroSubsystem, pathSupplier, maxPower, holdEnd, null);
+    }
+
+    /**
+     * Creates a FollowPath command using a PathSupplier (lambda-friendly), with an
+     * optional callback called every scheduler loop while the path is active.
+     *
+     * @param drivePedroSubsystem The drive subsystem
+     * @param pathSupplier Lambda that receives a PathBuilder and returns a PathChain
+     * @param maxPower Maximum power (0-1)
+     * @param holdEnd Whether to hold position at the end
+     * @param onExecuteCallback Optional callback run in execute(); may be null
+     */
+    public FollowPath(DrivePedroSubsystem drivePedroSubsystem, PathSupplier pathSupplier, double maxPower, boolean holdEnd, Runnable onExecuteCallback) {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.pathSupplier = pathSupplier;
         this.pathChain = null;
         this.maxPower = maxPower;
         this.holdEnd = holdEnd;
+        this.onExecuteCallback = onExecuteCallback;
 
         addRequirements(drivePedroSubsystem);
     }
@@ -80,6 +96,7 @@ public class FollowPath extends CommandBase {
         this.pathChain = pathChain;
         this.maxPower = maxPower;
         this.holdEnd = holdEnd;
+        this.onExecuteCallback = null;
 
         addRequirements(drivePedroSubsystem);
     }
@@ -160,6 +177,13 @@ public class FollowPath extends CommandBase {
         }
 
         drivePedroSubsystem.followPathChain(pathChain, maxPower, holdEnd);
+    }
+
+    @Override
+    public void execute() {
+        if (onExecuteCallback != null) {
+            onExecuteCallback.run();
+        }
     }
 
     @Override

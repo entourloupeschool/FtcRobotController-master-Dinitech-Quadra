@@ -95,4 +95,35 @@ public class ShootAll extends SelectCommand {
                 trieurSubsystem::getHowManyArtefacts
         );
     }
+
+    public ShootAll(TrieurSubsystem trieurSubsystem) {
+        super(
+                new HashMap<Object, Command>(){{
+                    put(0, new InstantCommand());
+
+                    put(1, new SequentialCommandGroup(
+                            new OpenWaitTrappe(trieurSubsystem),
+                            new MoulinNextArtefactShoot(trieurSubsystem),
+                            new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.1))));
+
+                    put(2, new SequentialCommandGroup(
+                            new OpenWaitTrappe(trieurSubsystem),
+                            new MoulinNextArtefactShoot(trieurSubsystem),
+                            new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
+                            new MoulinNextArtefactShoot(trieurSubsystem),
+                            new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.1))));
+
+                    put(3, new SequentialCommandGroup(
+                            new OpenWaitTrappe(trieurSubsystem),
+                            new MoulinNextArtefactShoot(trieurSubsystem),
+                            new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
+                            new MoulinNextArtefactShoot(trieurSubsystem),
+                            new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
+                            new MoulinNextArtefactShoot(trieurSubsystem),
+                            new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.1))));}},
+
+                trieurSubsystem::getHowManyArtefacts
+        );
+    }
+
 }
