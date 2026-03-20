@@ -27,6 +27,7 @@ public class TryDetectArtefact extends CommandBase {
      */
     public TryDetectArtefact(TrieurSubsystem trieurSubsystem) {
         this.trieurSubsystem = trieurSubsystem;
+        addRequirements(trieurSubsystem);
     }
 
     @Override

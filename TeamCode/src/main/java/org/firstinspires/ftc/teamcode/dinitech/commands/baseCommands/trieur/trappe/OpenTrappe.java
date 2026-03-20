@@ -20,6 +20,7 @@ public class OpenTrappe extends CommandBase {
      */
     public OpenTrappe(TrieurSubsystem trieurSubsystem){
         this.trieurSubsystem = trieurSubsystem;
+        addRequirements(trieurSubsystem);
     }
 
     /**

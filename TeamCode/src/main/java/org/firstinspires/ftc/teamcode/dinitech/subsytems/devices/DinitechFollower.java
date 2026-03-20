@@ -29,16 +29,16 @@ public class DinitechFollower {
 
 //            .translationalPIDFCoefficients(new PIDFCoefficients(0.17, 0.08, 0.012, 0.025))
 //            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.2, 0.08, 0.012, 0.006))
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.6, 0.08, 0.02, 0.01))
-            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.31, 0.0001, 0.0001, 0.01))
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.37, 0.07, 0.02, 0.01))
+            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.28, 0.0001, 0.0001, 0.01))
             .useSecondaryTranslationalPIDF(true)
 
             .headingPIDFCoefficients(new PIDFCoefficients(1.5, 0.005, 0.15, 0.01))
-            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(3, 0.04, 0.15, 0.01))
+            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(3, 0.06, 0.15, 0.01))
             .useSecondaryHeadingPIDF(true)
 
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.09,0.001,0.012,0.3,0.01))
-            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.005,0.0003,0.0002,0.3,0.01))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.082,0.001,0.012,0.3,0.01))
+            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.0045,0.0003,0.0002,0.3,0.01))
             .useSecondaryDrivePIDF(true)
 
             .centripetalScaling(0.0005);

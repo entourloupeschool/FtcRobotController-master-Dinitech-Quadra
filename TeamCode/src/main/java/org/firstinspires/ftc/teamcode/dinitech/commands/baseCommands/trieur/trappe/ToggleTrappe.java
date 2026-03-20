@@ -21,6 +21,7 @@ public class ToggleTrappe extends CommandBase {
      */
     public ToggleTrappe(TrieurSubsystem trieurSubsystem){
         this.trieurSubsystem = trieurSubsystem;
+        addRequirements(trieurSubsystem);
     }
 
     /**
