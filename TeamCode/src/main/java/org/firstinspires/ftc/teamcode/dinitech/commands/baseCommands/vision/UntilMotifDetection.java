@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
  * Because this command never finishes, it ensures that the vision subsystem is always
  * providing the most current data possible.
  */
-public class OnlyMotifDetection extends CommandBase {
+public class UntilMotifDetection extends CommandBase {
     private final VisionSubsystem visionSubsystem;
 
     /**
@@ -26,7 +26,7 @@ public class OnlyMotifDetection extends CommandBase {
      *
      * @param visionSubsystem The vision subsystem to continuously update.
      */
-    public OnlyMotifDetection(VisionSubsystem visionSubsystem){
+    public UntilMotifDetection(VisionSubsystem visionSubsystem){
         this.visionSubsystem = visionSubsystem;
         addRequirements(visionSubsystem);
     }
@@ -59,6 +59,6 @@ public class OnlyMotifDetection extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return false;
+        return visionSubsystem.hasMotif();
     }
 }
