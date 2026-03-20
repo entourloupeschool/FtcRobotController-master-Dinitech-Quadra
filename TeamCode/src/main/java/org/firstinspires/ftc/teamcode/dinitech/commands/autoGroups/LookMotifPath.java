@@ -10,6 +10,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
@@ -25,10 +26,10 @@ public class LookMotifPath extends SequentialCommandGroup {
                         .addPath(new BezierLine(
                                 drivePedroSubsystem::getPose,
                                 lookMotifPose))
-                        .setLinearHeadingInterpolation(
-                                drivePedroSubsystem.getPose().getHeading(),
+                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
+                                drivePedroSubsystem::getHeading,
                                 lookMotifPose.getHeading(),
-                                endTime)
+                                endTime))
                         .setBrakingStrength(scaleBrakingStrength).build(),
                         AUTO_ROBOT_CONSTRAINTS, true)
 

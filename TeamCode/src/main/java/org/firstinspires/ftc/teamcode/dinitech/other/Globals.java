@@ -84,6 +84,7 @@ public class Globals {
     public static final double GATEPICK_POWER = MAX_POWER_ROW_PICK_ARTEFACTS;
     public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
     public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 23;
+    public static final Pose OBELISK_POSE = new Pose(72, 145, Math.PI/2);
     public static final Pose END_GAME_RED_POSE = new Pose(38.5, 33.5, 0);
     public static final Pose END_GAME_BLUE_POSE = END_GAME_RED_POSE.mirror(FIELD_SIDE_LENGTH);
 
@@ -101,12 +102,11 @@ public class Globals {
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 21, Math.toRadians(112.5));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.9, 121.1,3 * Math.PI / 4);
-    public static final Pose BLUE_RAMP_POSE = new Pose(16.7, 62.05, 0); // heading = -0.162
+    public static final Pose BLUE_RAMP_POSE = new Pose(16.8, 62.05, 0); // heading = -0.162
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
     public static double GATEPICK_LENGTH_BACKUP_Y = -2.9;
     public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.71);
     public static final Pose BLUE_OPEN_RAMP_PICK_POSE = new Pose(14, 58.5, -0.75);
-    public static final Pose OBELISK_BLUE_POSE = new Pose(61.4, 82.1, Math.PI/2.1);
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, Math.toRadians(134));
     public static final Pose LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE = new Pose(55, 85, Math.toRadians(63));
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));
@@ -133,8 +133,6 @@ public class Globals {
     public static final Pose RED_RAMP_POSE = BLUE_RAMP_POSE.mirror(FIELD_SIDE_LENGTH);
     public static final Pose RED_RAMP_END_POSE = BLUE_RAMP_END_POSE.mirror(FIELD_SIDE_LENGTH);
     public static final Pose RED_OPEN_RAMP_PICK_POSE = BLUE_OPEN_RAMP_PICK_POSE.mirror(FIELD_SIDE_LENGTH);
-
-    public static final Pose OBELISK_RED_POSE = OBELISK_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
 
     public static final Pose CLOSE_SHOOT_RED_POSE = CLOSE_SHOOT_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
     public static final Pose LOOK_MOTIF_CLOSE_SHOOT_RED_POSE = LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
@@ -337,8 +335,8 @@ public class Globals {
         public static final double CAMERA_ORIENTATION_PITCH = -90; // https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_localization/apriltag-localization.html
         public static final double CAMERA_ORIENTATION_ROLL = 0;
         // Choose a camera resolution. Not all cameras support all resolutions.
-        public static final int CAMERA_WIDTH = 640;// 1280; // 640;
-        public static final int CAMERA_HEIGHT = 480;// 800; // 480;
+        public static final int CAMERA_WIDTH = 1280;// 1280; // 640;
+        public static final int CAMERA_HEIGHT = 800;// 800; // 480;
         public static final Size CAMERA_RESOLUTION = new Size(CAMERA_WIDTH, CAMERA_HEIGHT); // new Size(640, 480);
 
         // Set the stream format; MJPEG uses less bandwidth than default YUY2.

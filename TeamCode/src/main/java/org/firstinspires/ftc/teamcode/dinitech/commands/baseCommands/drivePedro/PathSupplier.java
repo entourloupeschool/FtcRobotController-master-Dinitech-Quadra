@@ -20,6 +20,12 @@ import com.pedropathing.paths.PathChain;
  *     .build(),
  *     0.8, true);
  * </pre>
+ *
+ * <p>For the common "drive from current pose to target pose with project-default heading and braking"
+ * case, prefer:
+ * <pre>
+ * new FollowPath(driveSubsystem, targetPose, 0.8, true);
+ * </pre>
  */
 @FunctionalInterface
 public interface PathSupplier {
