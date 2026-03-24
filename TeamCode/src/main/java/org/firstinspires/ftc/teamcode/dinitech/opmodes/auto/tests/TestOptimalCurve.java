@@ -21,15 +21,15 @@ public class TestOptimalCurve extends BlueTestResetPoseAutoBase {
             super.initialize();
 
             new SequentialCommandGroup(
-                    OptimalPath.cubic(drivePedroSubsystem, RESET_POSE_RED, CLOSE_SHOOT_RED_POSE, hubsSubsystem.getTeam().getCloseShootPose(),  AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.triangle(drivePedroSubsystem, CLOSE_SHOOT_RED_POSE, hubsSubsystem.getTeam().getCloseShootPose(),  AUTO_ROBOT_CONSTRAINTS, true),
                     new WaitCommand(1000),
-                    OptimalPath.cubic(drivePedroSubsystem, CLOSE_SHOOT_RED_POSE, RESET_POSE_BLUE, RESET_POSE_RED, AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.triangle(drivePedroSubsystem, CLOSE_SHOOT_RED_POSE, RESET_POSE_RED, AUTO_ROBOT_CONSTRAINTS, true),
                     new WaitCommand(1000),
-                    OptimalPath.cubic(drivePedroSubsystem, CLOSE_SHOOT_RED_POSE, RESET_POSE_BLUE, hubsSubsystem.getTeam().getAudienceShootPose(),  AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.line(drivePedroSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(),  AUTO_ROBOT_CONSTRAINTS, true),
                     new WaitCommand(1000),
-                    OptimalPath.cubic(drivePedroSubsystem, RESET_POSE_BLUE, hubsSubsystem.getTeam().getCloseShootPose(), CLOSE_SHOOT_RED_POSE, AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.triangle(drivePedroSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), CLOSE_SHOOT_RED_POSE, AUTO_ROBOT_CONSTRAINTS, true),
                     new WaitCommand(1000),
-                    OptimalPath.cubic(drivePedroSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), RESET_POSE_RED, RESET_POSE_BLUE, AUTO_ROBOT_CONSTRAINTS, true)
+                    OptimalPath.triangle(drivePedroSubsystem, RESET_POSE_RED, RESET_POSE_BLUE, AUTO_ROBOT_CONSTRAINTS, true)
             ).schedule();
     }
 

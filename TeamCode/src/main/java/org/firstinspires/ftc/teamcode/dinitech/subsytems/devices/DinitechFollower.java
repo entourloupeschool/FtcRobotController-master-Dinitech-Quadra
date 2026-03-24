@@ -24,7 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @Configurable
 public class DinitechFollower {
-    public static double kF = 0.015;
+    public static double kF = 0.012;
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)
             .forwardZeroPowerAcceleration(-52.3857)

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getBrakingStrengthScaleFromRange;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationHeadingEndTimeFromRange;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.geometry.BezierCurve;
@@ -59,7 +60,6 @@ public final class OptimalPath extends FollowPath {
                     BezierCurve curve = new BezierCurve(startPose, controlPoint1, targetPose);
                     return new PathPlan(
                             builder.addPath(curve),
-                            // Bezier control-point heading is intentionally ignored; only geometry matters.
                             new PathMetrics(
                                     tangentAngleFromStartDerivative(curve),
                                     curve.approximateLength()));});
@@ -75,7 +75,6 @@ public final class OptimalPath extends FollowPath {
                 BezierCurve curve = new BezierCurve(startPose, controlPoint1, controlPoint2, targetPose);
                 return new PathPlan(
                     builder.addPath(curve),
-                    // Tangent at start of cubic is defined by start -> controlPoint1.
                     new PathMetrics(
                         tangentAngleFromStartDerivative(curve),
                         curve.approximateLength()));});
@@ -91,7 +90,6 @@ public final class OptimalPath extends FollowPath {
                     BezierCurve curve = new BezierCurve(startPose, controlPoint1, controlPoint2, controlPoint3, targetPose);
                     return new PathPlan(
                             builder.addPath(curve),
-                            // Tangent at start of cubic is defined by start -> controlPoint1.
                             new PathMetrics(
                                     tangentAngleFromStartDerivative(curve),
                                     curve.approximateLength()));});
@@ -106,7 +104,6 @@ public final class OptimalPath extends FollowPath {
                     BezierCurve curve = new BezierCurve(startPose, controlPoint1, controlPoint2, controlPoint3, controlPoint4, targetPose);
                     return new PathPlan(
                             builder.addPath(curve),
-                            // Tangent at start of cubic is defined by start -> controlPoint1.
                             new PathMetrics(
                                     tangentAngleFromStartDerivative(curve),
                                     curve.approximateLength()));});
@@ -148,7 +145,7 @@ public final class OptimalPath extends FollowPath {
                 range);
 
         if (!headingPlan.usePiecewise) {
-            return HeadingInterpolator.linear(startHeading, targetHeading);
+            return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(range));
         }
 
         return HeadingInterpolator.piecewise(
@@ -261,8 +258,8 @@ public final class OptimalPath extends FollowPath {
     }
 
     private static double tangentAngleFromStartDerivative(BezierCurve curve) {
-        Vector derivative = curve.getDerivative(0);
-        return Math.atan2(derivative.getYComponent(), derivative.getXComponent());
+        Vector firstDerivative = curve.getDerivative(0.01);
+        return Math.atan2(firstDerivative.getYComponent(), firstDerivative.getXComponent());
     }
 
     private static double clamp01(double value) {
