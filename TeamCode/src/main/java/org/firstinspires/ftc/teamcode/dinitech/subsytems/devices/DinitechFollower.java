@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PAR_POD_Y_MM
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PERP_POD_X_MM;
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
@@ -21,25 +22,24 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+@Configurable
 public class DinitechFollower {
+    public static double kF = 0.015;
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)
             .forwardZeroPowerAcceleration(-52.3857)
             .lateralZeroPowerAcceleration(-100.4664)
 
-//            .translationalPIDFCoefficients(new PIDFCoefficients(0.17, 0.08, 0.012, 0.025))
-//            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.2, 0.08, 0.012, 0.006))
-//            .translationalPIDFCoefficients(new PIDFCoefficients(0.31, 0.07, 0.02, 0.01))
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.11, 0.007, 0.03, 0.01))
-            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.25, 0.0001, 0.0001, 0.01))
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.55, 0.007, 0.03, kF))
+            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.25, 0.0001, 0.0001, kF))
             .useSecondaryTranslationalPIDF(false)
 
-            .headingPIDFCoefficients(new PIDFCoefficients(1.5, 0.005, 0.15, 0.01))
-            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(3, 0.06, 0.15, 0.01))
-            .useSecondaryHeadingPIDF(true)
+            .headingPIDFCoefficients(new PIDFCoefficients(1.5, 0.005, 0.03, kF))
+            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(3, 0.06, 0.15, kF))
+            .useSecondaryHeadingPIDF(false)
 
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.11,0.001,0.012,0.3,0.01))
-            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.0045,0.0003,0.0002,0.3,0.01))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.11,0.001,0.012,0.3, kF))
+            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.0045,0.0003,0.0002,0.3, kF))
             .useSecondaryDrivePIDF(false)
 
             .centripetalScaling(0.0005);

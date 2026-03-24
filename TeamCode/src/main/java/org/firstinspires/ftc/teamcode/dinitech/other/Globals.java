@@ -52,7 +52,7 @@ public class Globals {
 
 
     public static final double TILE_DIM = 24;
-    public static final double FOLLOWER_T_POSITION_END = 0.93;//0.91;
+    public static final double FOLLOWER_T_POSITION_END = 0.9;//0.91;
     public static final double LENGTH_X_ROW = TILE_DIM * 0.86;
     public static final double LENGTH_X_ROW_3RD = TILE_DIM * 1;
 
@@ -214,7 +214,7 @@ public class Globals {
 
         public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = getTicksFromDegrees(VERY_LOOSE_DEGREES);
 
-        public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 15 * (MOULIN_POSITION_TOLERANCE + 2);
+        public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 5 * (MOULIN_POSITION_TOLERANCE + 2);
         public static int MOULIN_ROTATE_SPEED_CALIBRATION = 18;
         public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
         public static int WAIT_HIGH_SPEED_TRIEUR = 185;

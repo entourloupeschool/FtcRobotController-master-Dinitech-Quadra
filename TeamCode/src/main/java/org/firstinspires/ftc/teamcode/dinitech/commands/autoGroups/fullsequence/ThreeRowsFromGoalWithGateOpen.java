@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInt
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.LookMotifPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.RaceLookMotifPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence.RampEnd;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToQuickShoot;
@@ -24,12 +25,12 @@ public class ThreeRowsFromGoalWithGateOpen extends SequentialCommandGroup {
 
     public ThreeRowsFromGoalWithGateOpen(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, double rowPower){
         addCommands(
-                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), hubsSubsystem.getTeam().getCloseShootVelocity(),
+                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), hubsSubsystem.getTeam().getCloseShootVelocity(),
                         getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getCloseShootPose().distanceFrom(hubsSubsystem.getTeam().getGoalInitPose()))),
 
                 new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem),
 
-                new RaceLookMotifPath(drivePedroSubsystem, visionSubsystem, hubsSubsystem.getTeam().getLookMotifPose(),
+                new LookMotifPath(drivePedroSubsystem, hubsSubsystem.getTeam().getLookMotifPose(),
                         getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getCloseShootPose().distanceFrom(hubsSubsystem.getTeam().getLookMotifPose())),
                         getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getCloseShootPose().distanceFrom(hubsSubsystem.getTeam().getLookMotifPose()))),
 

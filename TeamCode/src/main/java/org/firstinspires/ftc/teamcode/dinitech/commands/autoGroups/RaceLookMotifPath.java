@@ -4,12 +4,11 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_C
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OBELISK_POSE;
 
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.UntilMotifDetection;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;

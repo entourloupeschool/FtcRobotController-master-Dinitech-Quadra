@@ -43,11 +43,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
  * <p><b>Position Mapping:</b>
  * <ul>
  *     <li>Position 1: Storage slot.</li>
- *     <li>Position 2: Shoot position 5.</li>
+ *     <li>Position 2: Shoot position of position 5.</li>
  *     <li>Position 3: Storage slot.</li>
- *     <li>Position 4: Shoot position 1.</li>
+ *     <li>Position 4: Shoot position of position 1.</li>
  *     <li>Position 5: Storage slot.</li>
- *     <li>Position 6: Shoot position 3.</li>
+ *     <li>Position 6: Shoot position of position 3.</li>
  * </ul>
  */
 public class Moulin {
@@ -62,7 +62,6 @@ public class Moulin {
     public void setTargetTick(double targetTick) {
         this.targetTick = targetTick;
     }
-
 
     private final DcMotorEx dcMotorEx;
     private int moulinPosition;

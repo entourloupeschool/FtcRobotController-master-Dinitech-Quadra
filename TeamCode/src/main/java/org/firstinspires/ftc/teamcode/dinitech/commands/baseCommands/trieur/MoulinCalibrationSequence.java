@@ -37,6 +37,7 @@ public class MoulinCalibrationSequence extends SequentialCommandGroup {
      */
     public MoulinCalibrationSequence(TrieurSubsystem trieurSubsystem) {
         addCommands(
+                new InstantCommand(),
                 new WaitCloseTrappe(trieurSubsystem),
                 new MoulinCalibrate(trieurSubsystem)
         );

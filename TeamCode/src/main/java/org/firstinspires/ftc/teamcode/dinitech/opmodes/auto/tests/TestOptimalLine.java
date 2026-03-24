@@ -12,9 +12,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.OptimalPath;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueTestResetPoseAutoBase;
 
-@Autonomous(name = "TestOptimalLineV2 - Dinitech", group = "Test")
+@Autonomous(name = "TestOptimalLine - Dinitech", group = "Test")
 //@Disabled
-public class TestOptimalLineV2 extends BlueTestResetPoseAutoBase {
+public class TestOptimalLine extends BlueTestResetPoseAutoBase {
 
     @Override
     public void initialize() {

@@ -564,14 +564,14 @@ public class TrieurSubsystem extends SubsystemBase {
 //            setMoulinPower(0);
 
         } else if (isMoulinOverCurrent()) {
-                if (getOvercurrentCounts() == 0){
-                    if (getCurrentCommand() != null) getCurrentCommand().cancel();
-                    new MoulinCorrectOverCurrent(this).schedule();
-                }
+//                if (getOvercurrentCounts() == 0){
+//                    if (getCurrentCommand() != null) getCurrentCommand().cancel();
+//                    new MoulinCorrectOverCurrent(this).schedule();
+//                }
                 setOvercurrentCounts(getOvercurrentCounts() + 1);
 
                 if (getOvercurrentCounts() > 10){
-                    setMoulinPower(0);
+//                    setMoulinPower(0);
                     resetTargetMoulinMotor();
                 }
 
@@ -656,7 +656,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
 //        printMagneticTelemetryManager(telemetryM);
 //        printMoulinTelemetryManager(telemetryM);
-        printStoredArtifactsTelemetryManager(telemetryM);
+//        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
 //        printDistanceTelemetryManager(telemetryM);
 //        printColorTelemetryManager(telemetryM);

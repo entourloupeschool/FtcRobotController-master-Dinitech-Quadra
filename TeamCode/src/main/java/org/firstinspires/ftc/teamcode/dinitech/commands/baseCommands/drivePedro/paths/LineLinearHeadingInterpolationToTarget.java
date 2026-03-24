@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro;
+package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getBrakingStrengthScaleFromRange;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationHeadingEndTimeFromRange;
@@ -7,7 +7,6 @@ import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
-import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 
@@ -73,33 +72,4 @@ public class LineLinearHeadingInterpolationToTarget extends FollowPath {
         };
     }
 
-    private static PathSupplier createDefaultBezierCurveToTargetPoseSupplier(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose targetPose) {
-        return builder -> {
-            double range = drivePedroSubsystem.getPose().distanceFrom(targetPose);
-
-            return builder
-                    .addPath(new BezierCurve(drivePedroSubsystem::getPose, controlPoint1, targetPose))
-                    .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                            drivePedroSubsystem::getHeading,
-                            targetPose.getHeading(),
-                            getLinearInterpolationHeadingEndTimeFromRange(range)))
-                    .setBrakingStrength(getBrakingStrengthScaleFromRange(range))
-                    .build();
-        };
-    }
-
-    private static PathSupplier createDefaultBezierCurveToTargetPoseSupplier(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose targetPose) {
-        return builder -> {
-            double range = drivePedroSubsystem.getPose().distanceFrom(targetPose);
-
-            return builder
-                    .addPath(new BezierCurve(drivePedroSubsystem::getPose, controlPoint1, controlPoint2, targetPose))
-                    .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                            drivePedroSubsystem::getHeading,
-                            targetPose.getHeading(),
-                            getLinearInterpolationHeadingEndTimeFromRange(range)))
-                    .setBrakingStrength(getBrakingStrengthScaleFromRange(range))
-                    .build();
-        };
-    }
 }

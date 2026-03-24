@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_STRENGTH_PEDRO_DINITECH;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME_SHORT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getBrakingStrengthScaleFromRange;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationHeadingEndTimeFromRange;
 
@@ -14,7 +11,7 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.paths.HeadingInterpolator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FollowPath;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.FollowPath;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueGoalAutoBase;
 
 @Autonomous(name = "TestLateral - Dinitech", group = "Test")
@@ -113,11 +110,4 @@ public class TestLateral extends BlueGoalAutoBase {
                             AUTO_ROBOT_CONSTRAINTS, true)
             ).schedule();
     }
-
-    @Override
-    public void run() {
-            super.run();
-    }
-
-
 }

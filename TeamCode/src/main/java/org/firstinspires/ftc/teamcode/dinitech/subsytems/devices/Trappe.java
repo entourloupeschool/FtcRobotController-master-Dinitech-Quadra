@@ -26,7 +26,6 @@ public class Trappe extends SingleServo {
      */
     public Trappe(final HardwareMap hardwareMap){
         super(hardwareMap);
-        close();
     }
 
 

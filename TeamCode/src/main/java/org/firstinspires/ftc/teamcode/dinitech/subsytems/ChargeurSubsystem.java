@@ -140,8 +140,10 @@ public class ChargeurSubsystem extends SubsystemBase {
         if (isOverCurrent()){
             motorEx.set(0);
             telemetryM.addLine("chargeur motor over current");
+
         } else {
             setMotorPower(targetPower);
+
         }
 
 

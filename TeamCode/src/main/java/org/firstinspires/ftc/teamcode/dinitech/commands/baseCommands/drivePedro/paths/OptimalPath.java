@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 public final class OptimalPath extends FollowPath {
 
     /** Distance needed for a full PI radians rotation. */
-    public static double ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES = 50.0;
+    public static double ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES = 55.0;
 
     /** Below this range we skip tangent and use linear heading only. */
     public static double MIN_RANGE_FOR_PIECEWISE_INCHES = 50.0;

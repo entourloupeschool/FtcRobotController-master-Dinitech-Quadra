@@ -182,8 +182,8 @@ public class TeleOpBase extends GornetixGamepads {
         new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)), drivePedroSubsystem).schedule();
         new SequentialCommandGroup(
                 new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
-//                new MoulinCalibrationSequence(trieurSubsystem),
-//                new WaitCommand(100),
+                new MoulinCalibrationSequence(trieurSubsystem),
+                new WaitCommand(100),
                 new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)).schedule();
     }
 
