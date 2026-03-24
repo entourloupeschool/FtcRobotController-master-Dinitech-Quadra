@@ -114,10 +114,11 @@ public class FollowPath extends CommandBase {
      * @param holdEnd Whether to hold position at the end
      */
     public FollowPath(DrivePedroSubsystem drivePedroSubsystem, Pose targetPose, double maxPower, boolean holdEnd) {
-        this(drivePedroSubsystem, createDefaultBezierLineToTargetPoseSupplier(drivePedroSubsystem, targetPose), maxPower, holdEnd);
+        this(drivePedroSubsystem, createDefaultBezierLineToTargetPoseLinearHeadingInterpolationSupplier(drivePedroSubsystem, targetPose), maxPower, holdEnd);
     }
 
-    private static PathSupplier createDefaultBezierLineToTargetPoseSupplier(DrivePedroSubsystem drivePedroSubsystem, Pose targetPose) {
+
+    private static PathSupplier createDefaultBezierLineToTargetPoseLinearHeadingInterpolationSupplier(DrivePedroSubsystem drivePedroSubsystem, Pose targetPose) {
         return builder -> {
             double range = drivePedroSubsystem.getPose().distanceFrom(targetPose);
 
@@ -184,6 +185,7 @@ public class FollowPath extends CommandBase {
         if (onExecuteCallback != null) {
             onExecuteCallback.run();
         }
+        super.execute();
     }
 
     @Override
