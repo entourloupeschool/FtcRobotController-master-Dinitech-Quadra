@@ -6,6 +6,7 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.math.Vector;
 import com.pedropathing.paths.HeadingInterpolator;
 import com.pedropathing.paths.PathBuilder;
 
@@ -50,7 +51,7 @@ public final class OptimalPath extends FollowPath {
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
 
-    public static OptimalPath quadratic(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose targetPose, double maxPower, boolean holdEnd) {
+    public static OptimalPath triangle(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose targetPose, double maxPower, boolean holdEnd) {
         PathSupplier supplier = createSupplier(
                 drivePedroSubsystem,
                 targetPose,
@@ -60,7 +61,7 @@ public final class OptimalPath extends FollowPath {
                             builder.addPath(curve),
                             // Bezier control-point heading is intentionally ignored; only geometry matters.
                             new PathMetrics(
-                                    angleBetween(startPose, controlPoint1),
+                                    tangentAngleFromStartDerivative(curve),
                                     curve.approximateLength()));});
 
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
@@ -76,8 +77,39 @@ public final class OptimalPath extends FollowPath {
                     builder.addPath(curve),
                     // Tangent at start of cubic is defined by start -> controlPoint1.
                     new PathMetrics(
-                        angleBetween(startPose, controlPoint1),
+                        tangentAngleFromStartDerivative(curve),
                         curve.approximateLength()));});
+
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
+    }
+
+    public static OptimalPath penta(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose controlPoint3, Pose targetPose, double maxPower, boolean holdEnd) {
+        PathSupplier supplier = createSupplier(
+                drivePedroSubsystem,
+                targetPose,
+                (builder, startPose) -> {
+                    BezierCurve curve = new BezierCurve(startPose, controlPoint1, controlPoint2, controlPoint3, targetPose);
+                    return new PathPlan(
+                            builder.addPath(curve),
+                            // Tangent at start of cubic is defined by start -> controlPoint1.
+                            new PathMetrics(
+                                    tangentAngleFromStartDerivative(curve),
+                                    curve.approximateLength()));});
+
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
+    }
+    public static OptimalPath octo(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose controlPoint3, Pose controlPoint4, Pose targetPose, double maxPower, boolean holdEnd) {
+        PathSupplier supplier = createSupplier(
+                drivePedroSubsystem,
+                targetPose,
+                (builder, startPose) -> {
+                    BezierCurve curve = new BezierCurve(startPose, controlPoint1, controlPoint2, controlPoint3, controlPoint4, targetPose);
+                    return new PathPlan(
+                            builder.addPath(curve),
+                            // Tangent at start of cubic is defined by start -> controlPoint1.
+                            new PathMetrics(
+                                    tangentAngleFromStartDerivative(curve),
+                                    curve.approximateLength()));});
 
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
@@ -88,22 +120,17 @@ public final class OptimalPath extends FollowPath {
             PathPlanProvider pathPlanProvider
     ) {
         return builder -> {
-            Pose startPose = drivePedroSubsystem.getPose();
-            double startHeading = drivePedroSubsystem.getHeading();
-            PathPlan pathPlan = pathPlanProvider.get(builder, startPose);
-            PathMetrics pathMetrics = pathPlan.pathMetrics;
-            double tangentAngle = pathMetrics.tangentAngle;
-            double range = pathMetrics.range;
+            PathPlan pathPlan = pathPlanProvider.get(builder, drivePedroSubsystem.getPose());
 
             HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeading(
-                    startHeading,
-                    tangentAngle,
+                    drivePedroSubsystem.getHeading(),
+                    pathPlan.pathMetrics.tangentAngle,
                     targetPose.getHeading(),
-                    range);
+                    pathPlan.pathMetrics.range);
 
             return pathPlan.builder
                 .setHeadingInterpolation(headingInterpolator)
-                .setBrakingStrength(getBrakingStrengthScaleFromRange(range))
+                .setBrakingStrength(getBrakingStrengthScaleFromRange(pathPlan.pathMetrics.range))
                 .build();
         };
     }
@@ -231,6 +258,11 @@ public final class OptimalPath extends FollowPath {
 
     private static double angleBetween(Pose from, Pose to) {
         return Math.atan2(to.getY() - from.getY(), to.getX() - from.getX());
+    }
+
+    private static double tangentAngleFromStartDerivative(BezierCurve curve) {
+        Vector derivative = curve.getDerivative(0);
+        return Math.atan2(derivative.getYComponent(), derivative.getXComponent());
     }
 
     private static double clamp01(double value) {
