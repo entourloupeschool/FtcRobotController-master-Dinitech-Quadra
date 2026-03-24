@@ -210,7 +210,6 @@ public final class OptimalPath extends FollowPath {
                     tFinalHeading,
                     tangentSpan,
                     Math.abs(deltaStart) + Math.abs(deltaEnd));
-
         }
     }
 
