@@ -39,8 +39,16 @@ public final class OptimalPath extends FollowPath {
         PathSupplier supplier = createSupplier(
                 drivePedroSubsystem,
                 targetPose,
-                (builder, startPose) -> builder.addPath(new BezierLine(startPose, targetPose)),
-                startPose -> angleBetween(startPose, targetPose)
+            (builder, startPose) -> {
+                BezierLine line = new BezierLine(startPose, targetPose);
+                return new PathPlan(
+                    builder.addPath(line),
+                    new PathMetrics(
+                angleBetween(startPose, targetPose),
+                startPose.distanceFrom(targetPose)
+                    )
+                );
+            }
         );
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
@@ -49,9 +57,17 @@ public final class OptimalPath extends FollowPath {
         PathSupplier supplier = createSupplier(
                 drivePedroSubsystem,
                 targetPose,
-                (builder, startPose) -> builder.addPath(new BezierCurve(startPose, controlPoint1, targetPose)),
-                // Bezier control-point heading is intentionally ignored; only geometry matters.
-                startPose -> angleBetween(startPose, controlPoint1)
+                (builder, startPose) -> {
+                    BezierCurve curve = new BezierCurve(startPose, controlPoint1, targetPose);
+                    return new PathPlan(
+                            builder.addPath(curve),
+                            // Bezier control-point heading is intentionally ignored; only geometry matters.
+                            new PathMetrics(
+                                    angleBetween(startPose, controlPoint1),
+                                    curve.approximateLength()
+                            )
+                    );
+                }
         );
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
@@ -60,9 +76,17 @@ public final class OptimalPath extends FollowPath {
         PathSupplier supplier = createSupplier(
                 drivePedroSubsystem,
                 targetPose,
-                (builder, startPose) -> builder.addPath(new BezierCurve(startPose, controlPoint1, controlPoint2, targetPose)),
-                // Tangent at start of cubic is defined by start -> controlPoint1.
-                startPose -> angleBetween(startPose, controlPoint1)
+            (builder, startPose) -> {
+                BezierCurve curve = new BezierCurve(startPose, controlPoint1, controlPoint2, targetPose);
+                return new PathPlan(
+                    builder.addPath(curve),
+                    // Tangent at start of cubic is defined by start -> controlPoint1.
+                    new PathMetrics(
+                        angleBetween(startPose, controlPoint1),
+                        curve.approximateLength()
+                    )
+                );
+            }
         );
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
@@ -70,14 +94,15 @@ public final class OptimalPath extends FollowPath {
     private static PathSupplier createSupplier(
             DrivePedroSubsystem drivePedroSubsystem,
             Pose targetPose,
-            PathBuilderConfigurator pathConfigurator,
-            TangentAngleProvider tangentAngleProvider
+            PathPlanProvider pathPlanProvider
     ) {
         return builder -> {
             Pose startPose = drivePedroSubsystem.getPose();
             double startHeading = drivePedroSubsystem.getHeading();
-            double range = startPose.distanceFrom(targetPose);
-            double tangentAngle = tangentAngleProvider.get(startPose);
+            PathPlan pathPlan = pathPlanProvider.get(builder, startPose);
+            PathMetrics pathMetrics = pathPlan.pathMetrics;
+            double tangentAngle = pathMetrics.tangentAngle;
+            double range = pathMetrics.range;
 
             HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeading(
                     startHeading,
@@ -86,7 +111,7 @@ public final class OptimalPath extends FollowPath {
                     range
             );
 
-            return pathConfigurator.configure(builder, startPose)
+                return pathPlan.builder
                     .setHeadingInterpolation(headingInterpolator)
                     .setBrakingStrength(getBrakingStrengthScaleFromRange(range))
                     .build();
@@ -226,13 +251,28 @@ public final class OptimalPath extends FollowPath {
     }
 
     @FunctionalInterface
-    private interface PathBuilderConfigurator {
-        PathBuilder configure(PathBuilder builder, Pose startPose);
+    private interface PathPlanProvider {
+        PathPlan get(PathBuilder builder, Pose startPose);
     }
 
-    @FunctionalInterface
-    private interface TangentAngleProvider {
-        double get(Pose startPose);
+    private static final class PathPlan {
+        final PathBuilder builder;
+        final PathMetrics pathMetrics;
+
+        PathPlan(PathBuilder builder, PathMetrics pathMetrics) {
+            this.builder = builder;
+            this.pathMetrics = pathMetrics;
+        }
+    }
+
+    private static final class PathMetrics {
+        final double tangentAngle;
+        final double range;
+
+        PathMetrics(double tangentAngle, double range) {
+            this.tangentAngle = tangentAngle;
+            this.range = range;
+        }
     }
 
     private static final class HeadingPlan {
