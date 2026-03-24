@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 public final class OptimalPath extends FollowPath {
 
     /** Distance needed for a full PI radians rotation. */
-    public static double ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES = 55.0;
+    public static double ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES = 40.0;
 
     /** Below this range we skip tangent and use linear heading only. */
     public static double MIN_RANGE_FOR_PIECEWISE_INCHES = 50.0;
@@ -43,11 +43,31 @@ public final class OptimalPath extends FollowPath {
                 targetPose,
             (builder, startPose) -> {
                 BezierLine line = new BezierLine(startPose, targetPose);
+                double angleBetween = angleBetween(startPose, targetPose);
                 return new PathPlan(
                     builder.addPath(line),
                     new PathMetrics(
-                        angleBetween(startPose, targetPose),
-                        startPose.distanceFrom(targetPose)));});
+                            angleBetween,
+                            startPose.distanceFrom(targetPose),
+                            t -> angleBetween));});
+
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
+    }
+
+    public static OptimalPath lineSpecificTangent(DrivePedroSubsystem drivePedroSubsystem, Pose targetPose, boolean useReverseTangent, double maxPower, boolean holdEnd) {
+        PathSupplier supplier = createSupplierSpecificTangent(
+                drivePedroSubsystem,
+                targetPose,
+                (builder, startPose) -> {
+                    BezierLine line = new BezierLine(startPose, targetPose);
+                    return new PathPlan(
+                            builder.addPath(line),
+                            new PathMetrics(
+                                    angleBetween(startPose, targetPose),
+                                startPose.distanceFrom(targetPose),
+                                t -> angleBetween(startPose, targetPose)));
+                },
+                useReverseTangent);
 
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
@@ -61,8 +81,27 @@ public final class OptimalPath extends FollowPath {
                     return new PathPlan(
                             builder.addPath(curve),
                             new PathMetrics(
-                                    tangentAngleFromStartDerivative(curve),
-                                    curve.approximateLength()));});
+                                    tangentAngleFromDerivative(curve, 0),
+                                curve.approximateLength(),
+                                t -> tangentAngleFromDerivative(curve, t)));});
+
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
+    }
+
+    public static OptimalPath triangleSpecificTangent(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose targetPose, boolean useReverseTangent, double maxPower, boolean holdEnd) {
+        PathSupplier supplier = createSupplierSpecificTangent(
+                drivePedroSubsystem,
+                targetPose,
+                (builder, startPose) -> {
+                    BezierCurve curve = new BezierCurve(startPose, controlPoint1, targetPose);
+                    return new PathPlan(
+                            builder.addPath(curve),
+                            new PathMetrics(
+                                    tangentAngleFromDerivative(curve, 0),
+                                curve.approximateLength(),
+                                t -> tangentAngleFromDerivative(curve, t)));
+                },
+                useReverseTangent);
 
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
@@ -76,8 +115,27 @@ public final class OptimalPath extends FollowPath {
                 return new PathPlan(
                     builder.addPath(curve),
                     new PathMetrics(
-                        tangentAngleFromStartDerivative(curve),
-                        curve.approximateLength()));});
+                        tangentAngleFromDerivative(curve, 0),
+                        curve.approximateLength(),
+                        t -> tangentAngleFromDerivative(curve, t)));});
+
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
+    }
+
+    public static OptimalPath cubicSpecificTangent(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose targetPose, boolean useReverseTangent, double maxPower, boolean holdEnd) {
+        PathSupplier supplier = createSupplierSpecificTangent(
+                drivePedroSubsystem,
+                targetPose,
+                (builder, startPose) -> {
+                    BezierCurve curve = new BezierCurve(startPose, controlPoint1, controlPoint2, targetPose);
+                    return new PathPlan(
+                            builder.addPath(curve),
+                            new PathMetrics(
+                                    tangentAngleFromDerivative(curve, 0),
+                                curve.approximateLength(),
+                                t -> tangentAngleFromDerivative(curve, t)));
+                },
+                useReverseTangent);
 
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
@@ -91,11 +149,31 @@ public final class OptimalPath extends FollowPath {
                     return new PathPlan(
                             builder.addPath(curve),
                             new PathMetrics(
-                                    tangentAngleFromStartDerivative(curve),
-                                    curve.approximateLength()));});
+                                    tangentAngleFromDerivative(curve, 0),
+                                curve.approximateLength(),
+                                t -> tangentAngleFromDerivative(curve, t)));});
 
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
+
+    public static OptimalPath pentaSpecificTangent(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose controlPoint3, Pose targetPose, boolean useReverseTangent, double maxPower, boolean holdEnd) {
+        PathSupplier supplier = createSupplierSpecificTangent(
+                drivePedroSubsystem,
+                targetPose,
+                (builder, startPose) -> {
+                    BezierCurve curve = new BezierCurve(startPose, controlPoint1, controlPoint2, controlPoint3, targetPose);
+                    return new PathPlan(
+                            builder.addPath(curve),
+                            new PathMetrics(
+                                    tangentAngleFromDerivative(curve, 0),
+                                curve.approximateLength(),
+                                t -> tangentAngleFromDerivative(curve, t)));
+                },
+                useReverseTangent);
+
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
+    }
+
     public static OptimalPath octo(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose controlPoint3, Pose controlPoint4, Pose targetPose, double maxPower, boolean holdEnd) {
         PathSupplier supplier = createSupplier(
                 drivePedroSubsystem,
@@ -105,8 +183,27 @@ public final class OptimalPath extends FollowPath {
                     return new PathPlan(
                             builder.addPath(curve),
                             new PathMetrics(
-                                    tangentAngleFromStartDerivative(curve),
-                                    curve.approximateLength()));});
+                                    tangentAngleFromDerivative(curve, 0),
+                                curve.approximateLength(),
+                                t -> tangentAngleFromDerivative(curve, t)));});
+
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
+    }
+
+    public static OptimalPath octoSpecificTangent(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose controlPoint3, Pose controlPoint4, Pose targetPose, boolean useReverseTangent, double maxPower, boolean holdEnd) {
+        PathSupplier supplier = createSupplierSpecificTangent(
+                drivePedroSubsystem,
+                targetPose,
+                (builder, startPose) -> {
+                    BezierCurve curve = new BezierCurve(startPose, controlPoint1, controlPoint2, controlPoint3, controlPoint4, targetPose);
+                    return new PathPlan(
+                            builder.addPath(curve),
+                            new PathMetrics(
+                                    tangentAngleFromDerivative(curve, 0),
+                                curve.approximateLength(),
+                                t -> tangentAngleFromDerivative(curve, t)));
+                },
+                useReverseTangent);
 
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
@@ -121,7 +218,7 @@ public final class OptimalPath extends FollowPath {
 
             HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeading(
                     drivePedroSubsystem.getHeading(),
-                    pathPlan.pathMetrics.tangentAngle,
+                    pathPlan.pathMetrics,
                     targetPose.getHeading(),
                     pathPlan.pathMetrics.range);
 
@@ -132,15 +229,38 @@ public final class OptimalPath extends FollowPath {
         };
     }
 
+            private static PathSupplier createSupplierSpecificTangent(
+                DrivePedroSubsystem drivePedroSubsystem,
+                Pose targetPose,
+                PathPlanProvider pathPlanProvider,
+                boolean useReverseTangent
+            ) {
+            return builder -> {
+                PathPlan pathPlan = pathPlanProvider.get(builder, drivePedroSubsystem.getPose());
+
+                HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeadingSpecificTangent(
+                    drivePedroSubsystem.getHeading(),
+                    pathPlan.pathMetrics,
+                    targetPose.getHeading(),
+                    pathPlan.pathMetrics.range,
+                    useReverseTangent);
+
+                return pathPlan.builder
+                    .setHeadingInterpolation(headingInterpolator)
+                    .setBrakingStrength(getBrakingStrengthScaleFromRange(pathPlan.pathMetrics.range))
+                    .build();
+            };
+            }
+
     private static HeadingInterpolator HeadingInterpolatorPieceWiseHeading(
             double startHeading,
-            double tangentAngle,
+            PathMetrics pathMetrics,
             double targetHeading,
             double range
     ) {
         HeadingPlan headingPlan = OptimizePieceWiseHeading.optimize(
                 startHeading,
-                tangentAngle,
+            pathMetrics,
                 targetHeading,
                 range);
 
@@ -148,11 +268,14 @@ public final class OptimalPath extends FollowPath {
             return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(range));
         }
 
+        double headingAtTangentStart = tangentHeadingAt(pathMetrics, headingPlan.tTangent, headingPlan.useReverseTangent);
+        double headingAtFinalT = tangentHeadingAt(pathMetrics, headingPlan.tFinalHeading, headingPlan.useReverseTangent);
+
         return HeadingInterpolator.piecewise(
                 new HeadingInterpolator.PiecewiseNode(
                         0.0,
                         headingPlan.tTangent,
-                        HeadingInterpolator.linear(startHeading, headingPlan.effectiveTangentHeading)),
+                HeadingInterpolator.linear(startHeading, headingAtTangentStart)),
 
                 new HeadingInterpolator.PiecewiseNode(
                         headingPlan.tTangent,
@@ -162,19 +285,60 @@ public final class OptimalPath extends FollowPath {
                 new HeadingInterpolator.PiecewiseNode(
                         headingPlan.tFinalHeading,
                         1.0,
-                        HeadingInterpolator.linear(headingPlan.effectiveTangentHeading, targetHeading))
+                    HeadingInterpolator.linear(headingAtFinalT, targetHeading))
         );
     }
 
+            private static HeadingInterpolator HeadingInterpolatorPieceWiseHeadingSpecificTangent(
+                double startHeading,
+                PathMetrics pathMetrics,
+                double targetHeading,
+                double range,
+                boolean useReverseTangent
+            ) {
+            HeadingPlan headingPlan = OptimizePieceWiseHeading.optimizeSpecificTangent(
+                startHeading,
+                pathMetrics,
+                targetHeading,
+                range,
+                useReverseTangent);
+
+            if (!headingPlan.usePiecewise) {
+                return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(range));
+            }
+
+            double headingAtTangentStart = tangentHeadingAt(pathMetrics, headingPlan.tTangent, headingPlan.useReverseTangent);
+            double headingAtFinalT = tangentHeadingAt(pathMetrics, headingPlan.tFinalHeading, headingPlan.useReverseTangent);
+
+            return HeadingInterpolator.piecewise(
+                new HeadingInterpolator.PiecewiseNode(
+                    0.0,
+                    headingPlan.tTangent,
+                    HeadingInterpolator.linear(startHeading, headingAtTangentStart)),
+
+                new HeadingInterpolator.PiecewiseNode(
+                    headingPlan.tTangent,
+                    headingPlan.tFinalHeading,
+                    headingPlan.tangentInterpolator),
+
+                new HeadingInterpolator.PiecewiseNode(
+                    headingPlan.tFinalHeading,
+                    1.0,
+                    HeadingInterpolator.linear(headingAtFinalT, targetHeading))
+            );
+            }
+
     private static final class OptimizePieceWiseHeading {
 
-        static HeadingPlan optimize(double startHeading, double tangentAngle, double targetHeading, double range) {
+        public static int T_SEARCH_STEPS = 240;
+
+        static HeadingPlan optimize(double startHeading, PathMetrics pathMetrics, double targetHeading, double range) {
             if (range < MIN_RANGE_FOR_PIECEWISE_INCHES) {
                 return HeadingPlan.linearOnly();
             }
 
-            CandidatePlan forward = buildCandidate(startHeading, normalizeAngle(tangentAngle), targetHeading, false, range);
-            CandidatePlan reverse = buildCandidate(startHeading, normalizeAngle(tangentAngle + Math.PI), targetHeading, true, range);
+            CandidatePlan forward = buildCandidate(startHeading, targetHeading, false, pathMetrics, range);
+            CandidatePlan reverse = buildCandidate(startHeading, targetHeading, true, pathMetrics, range);
 
             CandidatePlan best = selectBest(forward, reverse);
             if (!best.validForPiecewise) {
@@ -183,11 +347,32 @@ public final class OptimalPath extends FollowPath {
 
             return new HeadingPlan(
                     true,
-                    best.effectiveTangentHeading,
                     best.tangentInterpolator,
                     best.tTangent,
-                    best.tFinalHeading);
+                    best.tFinalHeading,
+                    best.useReverseTangent);
 
+        }
+
+        static HeadingPlan optimizeSpecificTangent(double startHeading, PathMetrics pathMetrics, double targetHeading, double range, boolean useReverseTangent) {
+            if (range < MIN_RANGE_FOR_PIECEWISE_INCHES) {
+                return HeadingPlan.linearOnly();
+            }
+
+            CandidatePlan forward = buildCandidate(startHeading, targetHeading, false, pathMetrics, range);
+            CandidatePlan reverse = buildCandidate(startHeading, targetHeading, true, pathMetrics, range);
+
+            CandidatePlan forced = useReverseTangent ? reverse : forward;
+            if (!forced.validForPiecewise) {
+                return HeadingPlan.linearOnly();
+            }
+
+            return new HeadingPlan(
+                    true,
+                    forced.tangentInterpolator,
+                    forced.tTangent,
+                    forced.tFinalHeading,
+                    forced.useReverseTangent);
         }
 
         private static CandidatePlan selectBest(CandidatePlan a, CandidatePlan b) {
@@ -205,35 +390,65 @@ public final class OptimalPath extends FollowPath {
 
         private static CandidatePlan buildCandidate(
                 double startHeading,
-                double effectiveTangentHeading,
                 double targetHeading,
                 boolean reverse,
+                PathMetrics pathMetrics,
                 double range
         ) {
-            double deltaStart = smallestAngleDifference(effectiveTangentHeading, startHeading);
-            double deltaEnd = smallestAngleDifference(targetHeading, effectiveTangentHeading);
-
-            double tRotateToTangent = requiredFractionForRotation(deltaStart, range);
-            double tRotateToFinal = requiredFractionForRotation(deltaEnd, range);
-            double totalRotationFraction = tRotateToTangent + tRotateToFinal;
-
-            double tTangent = clamp01(tRotateToTangent);
-            double tFinalHeading = clamp01(1.0 - tRotateToFinal);
-            if (tFinalHeading < tTangent) {
-                tFinalHeading = tTangent;
-            }
+            double tTangent = findTangentEntryTime(startHeading, reverse, pathMetrics, range);
+            double tFinalHeading = findFinalAlignmentStartTime(targetHeading, reverse, pathMetrics, range);
 
             double tangentSpan = Math.max(0.0, tFinalHeading - tTangent);
-            boolean validForPiecewise = totalRotationFraction < 1.0 && tangentSpan > 1e-4;
+            boolean validForPiecewise = tangentSpan > 1e-4;
+
+            double headingAtTangentStart = tangentHeadingAt(pathMetrics, tTangent, reverse);
+            double headingAtFinalT = tangentHeadingAt(pathMetrics, tFinalHeading, reverse);
+
+            double deltaStart = smallestAngleDifference(headingAtTangentStart, startHeading);
+            double deltaEnd = smallestAngleDifference(targetHeading, headingAtFinalT);
 
             return new CandidatePlan(
-                    effectiveTangentHeading,
                     reverse ? HeadingInterpolator.tangent.reverse() : HeadingInterpolator.tangent,
                     validForPiecewise,
                     tTangent,
                     tFinalHeading,
                     tangentSpan,
-                    Math.abs(deltaStart) + Math.abs(deltaEnd));
+                    Math.abs(deltaStart) + Math.abs(deltaEnd),
+                    reverse);
+        }
+
+        private static double findTangentEntryTime(
+                double startHeading,
+                boolean reverse,
+                PathMetrics pathMetrics,
+                double range
+        ) {
+            for (int i = 0; i <= T_SEARCH_STEPS; i++) {
+                double t = i / (double) T_SEARCH_STEPS;
+                double tangentHeading = tangentHeadingAt(pathMetrics, t, reverse);
+                double deltaStart = smallestAngleDifference(tangentHeading, startHeading);
+                if (requiredFractionForRotation(deltaStart, range) <= t) {
+                    return t;
+                }
+            }
+            return 1.0;
+        }
+
+        private static double findFinalAlignmentStartTime(
+                double targetHeading,
+                boolean reverse,
+                PathMetrics pathMetrics,
+                double range
+        ) {
+            for (int i = T_SEARCH_STEPS; i >= 0; i--) {
+                double t = i / (double) T_SEARCH_STEPS;
+                double tangentHeading = tangentHeadingAt(pathMetrics, t, reverse);
+                double deltaEnd = smallestAngleDifference(targetHeading, tangentHeading);
+                if (requiredFractionForRotation(deltaEnd, range) <= (1.0 - t)) {
+                    return t;
+                }
+            }
+            return 0.0;
         }
     }
 
@@ -257,9 +472,14 @@ public final class OptimalPath extends FollowPath {
         return Math.atan2(to.getY() - from.getY(), to.getX() - from.getX());
     }
 
-    private static double tangentAngleFromStartDerivative(BezierCurve curve) {
-        Vector firstDerivative = curve.getDerivative(0.01);
+    private static double tangentAngleFromDerivative(BezierCurve curve, double t) {
+        Vector firstDerivative = curve.getDerivative(t);
         return Math.atan2(firstDerivative.getYComponent(), firstDerivative.getXComponent());
+    }
+
+    private static double tangentHeadingAt(PathMetrics pathMetrics, double t, boolean useReverseTangent) {
+        double tangentHeading = pathMetrics.tangentAngleAtTProvider.getTangentAngleAt(t);
+        return normalizeAngle(tangentHeading + (useReverseTangent ? Math.PI : 0.0));
     }
 
     private static double clamp01(double value) {
@@ -284,64 +504,71 @@ public final class OptimalPath extends FollowPath {
     private static final class PathMetrics {
         final double tangentAngle;
         final double range;
+        final TangentAngleAtTProvider tangentAngleAtTProvider;
 
-        PathMetrics(double tangentAngle, double range) {
+        PathMetrics(double tangentAngle, double range, TangentAngleAtTProvider tangentAngleAtTProvider) {
             this.tangentAngle = tangentAngle;
             this.range = range;
+            this.tangentAngleAtTProvider = tangentAngleAtTProvider;
         }
     }
 
     private static final class HeadingPlan {
         final boolean usePiecewise;
-        final double effectiveTangentHeading;
         final HeadingInterpolator tangentInterpolator;
         final double tTangent;
         final double tFinalHeading;
+        final boolean useReverseTangent;
 
         HeadingPlan(
                 boolean usePiecewise,
-                double effectiveTangentHeading,
                 HeadingInterpolator tangentInterpolator,
                 double tTangent,
-                double tFinalHeading
+                double tFinalHeading,
+                boolean useReverseTangent
         ) {
             this.usePiecewise = usePiecewise;
-            this.effectiveTangentHeading = effectiveTangentHeading;
             this.tangentInterpolator = tangentInterpolator;
             this.tTangent = tTangent;
             this.tFinalHeading = tFinalHeading;
+            this.useReverseTangent = useReverseTangent;
         }
 
         static HeadingPlan linearOnly() {
-            return new HeadingPlan(false, 0.0, HeadingInterpolator.tangent, 0.0, 1.0);
+            return new HeadingPlan(false, HeadingInterpolator.tangent, 0.0, 1.0, false);
         }
     }
 
     private static final class CandidatePlan {
-        final double effectiveTangentHeading;
         final HeadingInterpolator tangentInterpolator;
         final boolean validForPiecewise;
         final double tTangent;
         final double tFinalHeading;
         final double tangentSpan;
         final double totalRotation;
+        final boolean useReverseTangent;
 
         CandidatePlan(
-                double effectiveTangentHeading,
                 HeadingInterpolator tangentInterpolator,
                 boolean validForPiecewise,
                 double tTangent,
                 double tFinalHeading,
                 double tangentSpan,
-                double totalRotation
+                double totalRotation,
+                boolean useReverseTangent
         ) {
-            this.effectiveTangentHeading = effectiveTangentHeading;
             this.tangentInterpolator = tangentInterpolator;
             this.validForPiecewise = validForPiecewise;
             this.tTangent = tTangent;
             this.tFinalHeading = tFinalHeading;
             this.tangentSpan = tangentSpan;
             this.totalRotation = totalRotation;
+            this.useReverseTangent = useReverseTangent;
         }
+    }
+
+    @FunctionalInterface
+    private interface TangentAngleAtTProvider {
+        double getTangentAngleAt(double t);
     }
 }

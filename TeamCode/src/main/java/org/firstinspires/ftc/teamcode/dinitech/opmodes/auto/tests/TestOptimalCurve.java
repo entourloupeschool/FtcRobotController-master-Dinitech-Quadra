@@ -21,15 +21,15 @@ public class TestOptimalCurve extends BlueTestResetPoseAutoBase {
             super.initialize();
 
             new SequentialCommandGroup(
-                    OptimalPath.triangle(drivePedroSubsystem, CLOSE_SHOOT_RED_POSE, hubsSubsystem.getTeam().getCloseShootPose(),  AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.triangleSpecificTangent(drivePedroSubsystem, CLOSE_SHOOT_RED_POSE, hubsSubsystem.getTeam().getCloseShootPose(), false, AUTO_ROBOT_CONSTRAINTS, true),
                     new WaitCommand(1000),
-                    OptimalPath.triangle(drivePedroSubsystem, CLOSE_SHOOT_RED_POSE, RESET_POSE_RED, AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.triangleSpecificTangent(drivePedroSubsystem, CLOSE_SHOOT_RED_POSE, RESET_POSE_RED, true, AUTO_ROBOT_CONSTRAINTS, true),
                     new WaitCommand(1000),
                     OptimalPath.line(drivePedroSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(),  AUTO_ROBOT_CONSTRAINTS, true),
                     new WaitCommand(1000),
-                    OptimalPath.triangle(drivePedroSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), CLOSE_SHOOT_RED_POSE, AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.triangleSpecificTangent(drivePedroSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), CLOSE_SHOOT_RED_POSE, false, AUTO_ROBOT_CONSTRAINTS, true),
                     new WaitCommand(1000),
-                    OptimalPath.triangle(drivePedroSubsystem, RESET_POSE_RED, RESET_POSE_BLUE, AUTO_ROBOT_CONSTRAINTS, true)
+                    OptimalPath.triangleSpecificTangent(drivePedroSubsystem, RESET_POSE_RED, RESET_POSE_BLUE, true, AUTO_ROBOT_CONSTRAINTS, true)
             ).schedule();
     }
 
