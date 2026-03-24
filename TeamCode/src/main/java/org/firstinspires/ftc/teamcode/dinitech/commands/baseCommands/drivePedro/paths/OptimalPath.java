@@ -44,12 +44,9 @@ public final class OptimalPath extends FollowPath {
                 return new PathPlan(
                     builder.addPath(line),
                     new PathMetrics(
-                angleBetween(startPose, targetPose),
-                startPose.distanceFrom(targetPose)
-                    )
-                );
-            }
-        );
+                        angleBetween(startPose, targetPose),
+                        startPose.distanceFrom(targetPose)));});
+
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
 
@@ -64,11 +61,8 @@ public final class OptimalPath extends FollowPath {
                             // Bezier control-point heading is intentionally ignored; only geometry matters.
                             new PathMetrics(
                                     angleBetween(startPose, controlPoint1),
-                                    curve.approximateLength()
-                            )
-                    );
-                }
-        );
+                                    curve.approximateLength()));});
+
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
 
@@ -83,11 +77,8 @@ public final class OptimalPath extends FollowPath {
                     // Tangent at start of cubic is defined by start -> controlPoint1.
                     new PathMetrics(
                         angleBetween(startPose, controlPoint1),
-                        curve.approximateLength()
-                    )
-                );
-            }
-        );
+                        curve.approximateLength()));});
+
         return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
 
@@ -108,13 +99,12 @@ public final class OptimalPath extends FollowPath {
                     startHeading,
                     tangentAngle,
                     targetPose.getHeading(),
-                    range
-            );
+                    range);
 
-                return pathPlan.builder
-                    .setHeadingInterpolation(headingInterpolator)
-                    .setBrakingStrength(getBrakingStrengthScaleFromRange(range))
-                    .build();
+            return pathPlan.builder
+                .setHeadingInterpolation(headingInterpolator)
+                .setBrakingStrength(getBrakingStrengthScaleFromRange(range))
+                .build();
         };
     }
 
@@ -128,8 +118,7 @@ public final class OptimalPath extends FollowPath {
                 startHeading,
                 tangentAngle,
                 targetHeading,
-                range
-        );
+                range);
 
         if (!headingPlan.usePiecewise) {
             return HeadingInterpolator.linear(startHeading, targetHeading);
@@ -139,18 +128,17 @@ public final class OptimalPath extends FollowPath {
                 new HeadingInterpolator.PiecewiseNode(
                         0.0,
                         headingPlan.tTangent,
-                        HeadingInterpolator.linear(startHeading, headingPlan.effectiveTangentHeading)
-                ),
+                        HeadingInterpolator.linear(startHeading, headingPlan.effectiveTangentHeading)),
+
                 new HeadingInterpolator.PiecewiseNode(
                         headingPlan.tTangent,
                         headingPlan.tFinalHeading,
-                        headingPlan.tangentInterpolator
-                ),
+                        headingPlan.tangentInterpolator),
+
                 new HeadingInterpolator.PiecewiseNode(
                         headingPlan.tFinalHeading,
                         1.0,
-                        HeadingInterpolator.linear(headingPlan.effectiveTangentHeading, targetHeading)
-                )
+                        HeadingInterpolator.linear(headingPlan.effectiveTangentHeading, targetHeading))
         );
     }
 
@@ -174,8 +162,8 @@ public final class OptimalPath extends FollowPath {
                     best.effectiveTangentHeading,
                     best.tangentInterpolator,
                     best.tTangent,
-                    best.tFinalHeading
-            );
+                    best.tFinalHeading);
+
         }
 
         private static CandidatePlan selectBest(CandidatePlan a, CandidatePlan b) {
@@ -221,8 +209,8 @@ public final class OptimalPath extends FollowPath {
                     tTangent,
                     tFinalHeading,
                     tangentSpan,
-                    Math.abs(deltaStart) + Math.abs(deltaEnd)
-            );
+                    Math.abs(deltaStart) + Math.abs(deltaEnd));
+
         }
     }
 
