@@ -24,6 +24,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.ResetPoseFCDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SlowDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.SwitchAimLockType;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.ToClosestShootPose;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad.DefaultGamepadCommand;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.PedroShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.WaitVelocityShooter;
@@ -119,7 +120,9 @@ public class TeleOpBase extends GornetixGamepads {
         m_Operator.touchpadButton.whenActive(new StopRobot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem));
 
         // Driver controls
-        m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
+//        m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
+        m_Driver.cross.whenPressed(new ToClosestShootPose(drivePedroSubsystem, hubsSubsystem));
+
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
         m_Driver.square.whenPressed(
                 new ConditionalCommand(

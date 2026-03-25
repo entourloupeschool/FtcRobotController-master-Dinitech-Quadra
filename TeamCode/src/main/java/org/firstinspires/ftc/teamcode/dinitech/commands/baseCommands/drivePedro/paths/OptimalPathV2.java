@@ -9,7 +9,6 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.math.Vector;
 import com.pedropathing.paths.HeadingInterpolator;
 import com.pedropathing.paths.PathBuilder;
 
@@ -27,25 +26,33 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
  * </ol>
  */
 @Configurable
-public final class OptimalPathV2 extends FollowPath {
-    private static double tangentHeadingAtTCurve(BezierCurve curve, double t) {
-        return curve.getDerivative(t).getTheta();
-    }
-    private static double getDistanceNeededToRotate(double angle) {
-        return ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES * (angle / Math.PI);
-    }
-
-    private static double getTTangentFromRange(double range, double fullPathRange) {
-        return getDistanceNeededToRotate(range) / fullPathRange;
-    }
-
+public class OptimalPathV2 extends FollowPath {
     /** Distance needed for a full PI radians rotation. */
     public static double ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES = 40.0;
+    public static double DELTA_T = 0.01;
+    public static int nDCompute = 3;
 
-    /** Below this range we skip tangent and use linear heading only. */
-    public static double MIN_RANGE_FOR_PIECEWISE_INCHES = 50.0;
+    private static double getTangentAtTCurve(BezierCurve curve, double t) {
+        return curve.getDerivative(t).getTheta();
+    }
 
-    public static int T_SEARCH_STEPS = 240;
+    private static double tangentAtLine(BezierLine line) {
+        return line.getEndTangent().getTheta();
+    }
+    
+    private static double getDistanceNeededToRotate(double angle) {
+        return ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES * (Math.abs(angle) / Math.PI);
+    }
+
+    private static double clamp01(double value) {
+        return Math.max(0.0, Math.min(1.0, value));
+    }
+
+    private static double getTangentHeadingAt(BezierCurve curve, double t, boolean forwardTangent) {
+        double tangent = getTangentAtTCurve(curve, clamp01(t));
+        return forwardTangent ? tangent : normalizeAngle(tangent + Math.PI);
+    }
+
 
     public OptimalPathV2(DrivePedroSubsystem drivePedroSubsystem, PathSupplier pathSupplier, double maxPower, boolean holdEnd) {
         super(drivePedroSubsystem, pathSupplier, maxPower, holdEnd);
@@ -54,30 +61,30 @@ public final class OptimalPathV2 extends FollowPath {
     public static OptimalPathV2 line(DrivePedroSubsystem drivePedroSubsystem, Pose targetPose, double maxPower, boolean holdEnd) {
         PathSupplier supplier = createLineSupplier(
                 drivePedroSubsystem,
-                targetPose);
+                (currentPose, currentHeading) -> targetPose);
 
         return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
 
-    private static PathSupplier createLineSupplier(DrivePedroSubsystem dS, Pose targetPose){
-        return builder -> {
-            Pose currentDSPose = dS.getPose();
-            BezierLine line = new BezierLine(currentDSPose, targetPose);
-            double range = currentDSPose.distanceFrom(targetPose);
+    protected static PathSupplier createLineSupplier(
+            DrivePedroSubsystem drivePedroSubsystem,
+            TargetPoseProvider targetPoseProvider
+    ) {
+        return createSupplier(
+                drivePedroSubsystem,
+                (builder, currentPose, currentHeading) -> {
+                    Pose targetPose = targetPoseProvider.getTargetPose(currentPose, currentHeading);
+                    BezierLine line = new BezierLine(currentPose, targetPose);
+                    double range = currentPose.distanceFrom(targetPose);
 
-            HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeadingLine(
-                    dS.getHeading(),
-                    line,
-                    targetPose.getHeading(),
-                    range);
+                    HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeadingLine(
+                            currentHeading,
+                            line,
+                            targetPose.getHeading(),
+                            range);
 
-            return builder.addPath(
-                    line)
-                    .setHeadingInterpolation(headingInterpolator)
-                    .setBrakingStrength(getBrakingStrengthScaleFromRange(range))
-                    .build();
-
-        };
+                    return new PathPlan(builder.addPath(line), headingInterpolator, range);
+                });
     }
 
     private static HeadingInterpolator HeadingInterpolatorPieceWiseHeadingLine(
@@ -87,7 +94,11 @@ public final class OptimalPathV2 extends FollowPath {
             double fullPathRange
     ){
 
-        double forwardTangentAtLine = tangentHeadingAtLine(line);
+        if (fullPathRange <= 1e-6) {
+            return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(fullPathRange));
+        }
+
+        double forwardTangentAtLine = tangentAtLine(line);
         double reverseTangentAtLine = normalizeAngle(forwardTangentAtLine + Math.PI);
 
         double startDeltaForward = getSmallestAngleDifference(forwardTangentAtLine, startHeading);
@@ -115,85 +126,97 @@ public final class OptimalPathV2 extends FollowPath {
 
         }
 
-        if (distanceForStartDelta + distanceForEndDelta < MIN_RANGE_FOR_PIECEWISE_INCHES) {
-            return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(MIN_RANGE_FOR_PIECEWISE_INCHES));
+        if (distanceForStartDelta + distanceForEndDelta > fullPathRange) {
+            return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(fullPathRange));
         }
 
         // Now compute tTangent and tFinalHeading
-        double tTangent = getTTangentFromRange(distanceForStartDelta, fullPathRange);
-        double tFinalHeading = 1 - getTTangentFromRange(distanceForEndDelta, fullPathRange);
+        double tTangentBegin = clamp01(distanceForStartDelta / fullPathRange);
+        double tTangentEnd = clamp01(1 - distanceForEndDelta / fullPathRange);
+
+        if (tTangentEnd - tTangentBegin <= 1e-4) {
+            return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(fullPathRange));
+        }
+
         return HeadingInterpolator.piecewise(
-                new HeadingInterpolator.PiecewiseNode(0, tTangent,
-                        HeadingInterpolator.linear(startHeading, tangent)),
-                new HeadingInterpolator.PiecewiseNode(tTangent, tFinalHeading,
+                new HeadingInterpolator.PiecewiseNode(0, tTangentBegin,
+                        HeadingInterpolator.linear(startHeading, tangent,
+                                getLinearInterpolationHeadingEndTimeFromRange(distanceForStartDelta))),
+                new HeadingInterpolator.PiecewiseNode(tTangentBegin, tTangentEnd,
                         forwardTangent ? HeadingInterpolator.tangent : HeadingInterpolator.tangent.reverse()),
-                new HeadingInterpolator.PiecewiseNode(tFinalHeading, 1,
-                        HeadingInterpolator.linear(tangent, targetHeading)));
+                new HeadingInterpolator.PiecewiseNode(tTangentEnd, 1,
+                        HeadingInterpolator.linear(tangent, targetHeading,
+                                getLinearInterpolationHeadingEndTimeFromRange(distanceForEndDelta))));
     }
 
-    private static double tangentHeadingAtLine(BezierLine line) {
-        return line.getEndTangent().getTheta();
-    }
-
-    public static OptimalPathV2 tri(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose targetPose, double maxPower, boolean holdEnd) {
-        PathSupplier supplier = createCurveSupplier(
+    public static OptimalPathV2 curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose targetPose, double maxPower, boolean holdEnd) {
+        PathSupplier supplier = createSupplier(
                 drivePedroSubsystem,
-                controlPoint1,
-                targetPose);
+            (builder, currentPose, currentHeading) -> {
+                BezierCurve curve = new BezierCurve(currentPose, controlPoint1, targetPose);
+                double range = curve.approximateLength();
 
-        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
-    }
-    public static OptimalPathV2 quad(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose targetPose, double maxPower, boolean holdEnd) {
-        PathSupplier supplier = createCurveSupplier(
-                drivePedroSubsystem,
-                controlPoint1,
-                controlPoint2,
-                targetPose);
-
-        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
-    }
-
-    private static PathSupplier createCurveSupplier(DrivePedroSubsystem dS, Pose controlPoint1, Pose targetPose){
-        return builder -> {
-            Pose currentDSPose = dS.getPose();
-            BezierCurve curve = new BezierCurve(currentDSPose, controlPoint1, targetPose);
-            double range = curve.approximateLength();
-
-            HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeadingCurve(
-                    dS.getHeading(),
+                HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeadingCurve(
+                    currentHeading,
                     curve,
                     targetPose.getHeading(),
                     range);
 
-            return builder.addPath(
-                    curve)
-                    .setHeadingInterpolation(headingInterpolator)
-                    .setBrakingStrength(getBrakingStrengthScaleFromRange(range))
-                    .build();
+                return new PathPlan(builder.addPath(curve), headingInterpolator, range);
+            });
 
-        };
+        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
+    public static OptimalPathV2 curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose targetPose, double maxPower, boolean holdEnd) {
+        PathSupplier supplier = createSupplier(
+                drivePedroSubsystem,
+            (builder, currentPose, currentHeading) -> {
+                BezierCurve curve = new BezierCurve(currentPose, controlPoint1, controlPoint2, targetPose);
+                double range = curve.approximateLength();
 
-    private static PathSupplier createCurveSupplier(DrivePedroSubsystem dS, Pose controlPoint1, Pose controlPoint2, Pose targetPose){
-        return builder -> {
-            Pose currentDSPose = dS.getPose();
-            BezierCurve curve = new BezierCurve(currentDSPose, controlPoint1, controlPoint2, targetPose);
-            double range = curve.approximateLength();
-
-            HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeadingCurve(
-                    dS.getHeading(),
+                HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeadingCurve(
+                    currentHeading,
                     curve,
                     targetPose.getHeading(),
                     range);
 
-            return builder.addPath(
-                            curve)
-                    .setHeadingInterpolation(headingInterpolator)
-                    .setBrakingStrength(getBrakingStrengthScaleFromRange(range))
-                    .build();
+                return new PathPlan(builder.addPath(curve), headingInterpolator, range);
+            });
 
-        };
+        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
+
+    public static OptimalPathV2 curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose controlPoint3, Pose targetPose, double maxPower, boolean holdEnd) {
+        PathSupplier supplier = createSupplier(
+                drivePedroSubsystem,
+            (builder, currentPose, currentHeading) -> {
+                BezierCurve curve = new BezierCurve(currentPose, controlPoint1, controlPoint2, controlPoint3, targetPose);
+                double range = curve.length();
+
+                HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeadingCurve(
+                    currentHeading,
+                    curve,
+                    targetPose.getHeading(),
+                    range);
+
+                return new PathPlan(builder.addPath(curve), headingInterpolator, range);
+            });
+
+        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
+    }
+
+        private static PathSupplier createSupplier(
+            DrivePedroSubsystem drivePedroSubsystem,
+            PathPlanProvider pathPlanProvider
+        ) {
+        return builder -> {
+            PathPlan pathPlan = pathPlanProvider.get(builder, drivePedroSubsystem.getPose(), drivePedroSubsystem.getHeading());
+            return pathPlan.builder
+                .setHeadingInterpolation(pathPlan.headingInterpolator)
+                .setBrakingStrength(getBrakingStrengthScaleFromRange(pathPlan.range))
+                .build();
+        };
+        }
 
 
     private static HeadingInterpolator HeadingInterpolatorPieceWiseHeadingCurve(
@@ -203,10 +226,17 @@ public final class OptimalPathV2 extends FollowPath {
             double fullPathRange
     ) {
 
-        double forwardTangentAtBeginCurve = tangentHeadingAtTCurve(curve, 0);
+        if (fullPathRange <= 1e-6) {
+            return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(fullPathRange));
+        }
+
+        double tBeginSample = clamp01(DELTA_T);
+        double tEndSample = clamp01(1 - DELTA_T);
+
+        double forwardTangentAtBeginCurve = getTangentAtTCurve(curve, tBeginSample);
         double reverseTangentAtBeginCurve = normalizeAngle(forwardTangentAtBeginCurve + Math.PI);
 
-        double forwardTangentAtEndCurve = tangentHeadingAtTCurve(curve, 1);
+        double forwardTangentAtEndCurve = getTangentAtTCurve(curve, tEndSample);
         double reverseTangentAtEndCurve = normalizeAngle(forwardTangentAtEndCurve + Math.PI);
 
         double startDeltaForward = getSmallestAngleDifference(forwardTangentAtBeginCurve, startHeading);
@@ -230,26 +260,74 @@ public final class OptimalPathV2 extends FollowPath {
 
         }
 
-        if (distanceForStartDelta + distanceForEndDelta < MIN_RANGE_FOR_PIECEWISE_INCHES) {
+        if (distanceForStartDelta + distanceForEndDelta > fullPathRange) {
             return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(fullPathRange));
         }
 
-        double tTangentBegin = getTTangentFromRange(distanceForStartDelta, fullPathRange);
-        double tangentBegin = tangentHeadingAtTCurve(curve, tTangentBegin);
+        double tTangentBegin = clamp01(distanceForStartDelta / fullPathRange);
+        double tTangentEnd = clamp01(1 - distanceForEndDelta / fullPathRange);
 
-        double tTangentEnd = 1 - getTTangentFromRange(distanceForEndDelta, fullPathRange);
-        double tangentEnd = tangentHeadingAtTCurve(curve, tTangentEnd);
+        if (tTangentEnd - tTangentBegin <= 1e-4) {
+            return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(fullPathRange));
+        }
+
+        double tangentBegin = getTangentHeadingAt(curve, tTangentBegin, forwardTangent);
+        double tangentEnd = getTangentHeadingAt(curve, tTangentEnd, forwardTangent);
+
+        for (int i = 0 ; i < nDCompute ; i++){
+            double startDelta = getSmallestAngleDifference(tangentBegin, startHeading);
+            double endDelta = getSmallestAngleDifference(tangentEnd, targetHeading);
+
+            distanceForStartDelta = getDistanceNeededToRotate(startDelta);
+            distanceForEndDelta = getDistanceNeededToRotate(endDelta);
+
+            tTangentBegin = clamp01(distanceForStartDelta / fullPathRange);
+            tTangentEnd = clamp01(1 - distanceForEndDelta / fullPathRange);
+
+            if (tTangentEnd - tTangentBegin <= 1e-4) {
+                return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(fullPathRange));
+            }
+
+            tangentBegin = getTangentHeadingAt(curve, tTangentBegin, forwardTangent);
+            tangentEnd = getTangentHeadingAt(curve, tTangentEnd, forwardTangent);
+        }
 
         return HeadingInterpolator.piecewise(
                 new HeadingInterpolator.PiecewiseNode(0, tTangentBegin,
-                        HeadingInterpolator.linear(startHeading, tangentBegin)),
+                        HeadingInterpolator.linear(startHeading, tangentBegin,
+                                getLinearInterpolationHeadingEndTimeFromRange(distanceForStartDelta))),
 
-                new HeadingInterpolator.PiecewiseNode(tangentBegin, tTangentEnd, forwardTangent ? HeadingInterpolator.tangent : HeadingInterpolator.tangent.reverse()),
+            new HeadingInterpolator.PiecewiseNode(tTangentBegin, tTangentEnd,
+                    forwardTangent ? HeadingInterpolator.tangent : HeadingInterpolator.tangent.reverse()),
 
                 new HeadingInterpolator.PiecewiseNode(tTangentEnd, 1,
-                        HeadingInterpolator.linear(tangentEnd, targetHeading)));
+                        HeadingInterpolator.linear(tangentEnd, targetHeading,
+                                getLinearInterpolationHeadingEndTimeFromRange(distanceForEndDelta)))
+        );
 
     }
 
+
+    @FunctionalInterface
+    private interface PathPlanProvider {
+        PathPlan get(PathBuilder builder, Pose startPose, double startHeading);
+    }
+
+    @FunctionalInterface
+    protected interface TargetPoseProvider {
+        Pose getTargetPose(Pose currentPose, double currentHeading);
+    }
+
+    private static final class PathPlan {
+        final PathBuilder builder;
+        final HeadingInterpolator headingInterpolator;
+        final double range;
+
+        PathPlan(PathBuilder builder, HeadingInterpolator headingInterpolator, double range) {
+            this.builder = builder;
+            this.headingInterpolator = headingInterpolator;
+            this.range = range;
+        }
+    }
 
 }

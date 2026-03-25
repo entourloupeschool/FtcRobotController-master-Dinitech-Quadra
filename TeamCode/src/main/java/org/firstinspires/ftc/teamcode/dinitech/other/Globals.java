@@ -7,15 +7,130 @@ import com.bylazar.configurables.annotations.Configurable;
 
 import com.pedropathing.geometry.Pose;
 
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
+
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-import java.util.Dictionary;
-
 @Configurable
 public class Globals {
+    public static final class Vec2 {
+        public final double x;
+        public final double y;
+
+        public Vec2(double x, double y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public Vec2 add(Vec2 other) {
+            return new Vec2(x + other.x, y + other.y);
+        }
+
+        public Vec2 subtract(Vec2 other) {
+            return new Vec2(x - other.x, y - other.y);
+        }
+
+        public double dot(Vec2 other) {
+            return x * other.x + y * other.y;
+        }
+
+        public double magnitude() {
+            return Math.sqrt(x * x + y * y);
+        }
+
+        public Vec2 normalize() {
+            double mag = magnitude();
+            return new Vec2(x / mag, y / mag);
+        }
+
+        public Vec2 multiply(double scalar) {
+            return new Vec2(x * scalar, y * scalar);
+        }
+
+        public double euclidianDistance(Vec2 other) {
+            return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2));
+        }
+    }
+
+
     public static final double FIELD_SIDE_LENGTH = 144.0;
+
+    /**
+     * A launch zone is a triangular surface from which the robot is allowed to shoot. It is defined by 3 vectors. Inside the triangle, the robot can shoot.
+     */
+    public static final Vec2[] LAUNCH_ZONE_BIG = new Vec2[] {
+            new Vec2(8, 135),
+            new Vec2(72, 72),
+            new Vec2(136, 135)
+    };
+    public static final Vec2[] LAUNCH_ZONE_SMALL = new Vec2[] {
+            new Vec2(49, 0),
+            new Vec2(72, 23),
+            new Vec2(95, 0)
+    };
+
+    /**
+     * a function to get the closest Vec2 inside a launch zone from a given Vec2. If the given Vec2 is inside the launch zone, it is returned. Otherwise, the closest point on the edge of the triangle is returned.
+     */
+    public static Vec2 getClosestVec2InLaunchZone(Vec2 point) {
+        Vec2 closest = null;
+        double minDist = Double.MAX_VALUE;
+
+        for (int i = 0; i < LAUNCH_ZONE_BIG.length; i++) {
+            Vec2 a = LAUNCH_ZONE_BIG[i];
+            Vec2 b = LAUNCH_ZONE_BIG[(i + 1) % LAUNCH_ZONE_BIG.length];
+            Vec2 closestOnEdge = getClosestPointOnLineSegment(point, a, b);
+            double dist = point.euclidianDistance(closestOnEdge);
+            if (dist < minDist) {
+                minDist = dist;
+                closest = closestOnEdge;
+            }
+        }
+
+        // Check if the point is inside the triangle using barycentric coordinates
+        double areaABC = area(LAUNCH_ZONE_BIG[0], LAUNCH_ZONE_BIG[1], LAUNCH_ZONE_BIG[2]);
+        double areaPAB = area(point, LAUNCH_ZONE_BIG[0], LAUNCH_ZONE_BIG[1]);
+        double areaPBC = area(point, LAUNCH_ZONE_BIG[1], LAUNCH_ZONE_BIG[2]);
+        double areaPCA = area(point, LAUNCH_ZONE_BIG[2], LAUNCH_ZONE_BIG[0]);
+
+        if (areaPAB + areaPBC + areaPCA <= areaABC) {
+            return point; // The point is inside the triangle
+        }
+
+        for (int i = 0; i < LAUNCH_ZONE_SMALL.length; i++) {
+            Vec2 a = LAUNCH_ZONE_SMALL[i];
+            Vec2 b = LAUNCH_ZONE_SMALL[(i + 1) % LAUNCH_ZONE_SMALL.length];
+            Vec2 closestOnEdge = getClosestPointOnLineSegment(point, a, b);
+            double dist = point.euclidianDistance(closestOnEdge);
+            if (dist < minDist) {
+                minDist = dist;
+                closest = closestOnEdge;
+            }
+        }
+
+        // Check if the point is inside the triangle using barycentric coordinates
+        areaABC = area(LAUNCH_ZONE_SMALL[0], LAUNCH_ZONE_SMALL[1], LAUNCH_ZONE_SMALL[2]);
+        areaPAB = area(point, LAUNCH_ZONE_SMALL[0], LAUNCH_ZONE_SMALL[1]);
+        areaPBC = area(point, LAUNCH_ZONE_SMALL[1], LAUNCH_ZONE_SMALL[2]);
+        areaPCA = area(point, LAUNCH_ZONE_SMALL[2], LAUNCH_ZONE_SMALL[0]);
+
+        if (areaPAB + areaPBC + areaPCA <= areaABC) {
+            return point; // The point is inside the triangle
+        }
+
+        return closest; // The point is outside the triangle, return the closest point on the edge
+    }
+
+    private static double area(Vec2 a, Vec2 b, Vec2 c) {
+        return Math.abs((a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) / 2.0);
+    }
+
+    private static Vec2 getClosestPointOnLineSegment(Vec2 p, Vec2 a, Vec2 b) {
+        Vec2 ab = b.subtract(a);
+        double t = (p.subtract(a)).dot(ab) / ab.dot(ab);
+        t = Math.max(0, Math.min(1, t));
+        return a.add(ab.multiply(t));
+    }
 
     public static double ROBOT_LENGTH_CM = 42.95;
     public static double ROBOT_LENGTH_INCH = cmToInch(ROBOT_LENGTH_CM); // = 16.91
@@ -71,7 +186,7 @@ public class Globals {
         }
     }
 
-    public static final double MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME = 35.0;
+    public static final double MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME = 40.0;
     public static double getLinearInterpolationHeadingEndTimeFromRange(double range){
         if (range > MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME){
             return LINEAR_HEADING_INTERPOLATION_END_TIME;

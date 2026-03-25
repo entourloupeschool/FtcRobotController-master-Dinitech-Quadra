@@ -34,7 +34,7 @@ public class DinitechFollower {
             .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.25, 0.0001, 0.0001, kF))
             .useSecondaryTranslationalPIDF(false)
 
-            .headingPIDFCoefficients(new PIDFCoefficients(1.5, 0.005, 0.03, kF))
+            .headingPIDFCoefficients(new PIDFCoefficients(2, 0.005, 0.03, kF))
             .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(3, 0.06, 0.15, kF))
             .useSecondaryHeadingPIDF(false)
 

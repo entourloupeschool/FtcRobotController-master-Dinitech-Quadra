@@ -1,18 +1,26 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths;
 
-import static com.pedropathing.math.MathFunctions.getSmallestAngleDifference;
-import static com.pedropathing.math.MathFunctions.normalizeAngle;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getBrakingStrengthScaleFromRange;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationHeadingEndTimeFromRange;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_AUDIENCE_SHOOT_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HEADING;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_BLUE_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_SIDE_LENGTH;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROBOT_LENGTH_INCH;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROBOT_WIDTH_INCH;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROTATED_BLUE_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getClosestVec2InLaunchZone;
 
+import com.arcrobotics.ftclib.command.CommandBase;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.bylazar.configurables.annotations.Configurable;
-import com.pedropathing.geometry.BezierCurve;
-import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.HeadingInterpolator;
-import com.pedropathing.paths.PathBuilder;
 
+import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
+import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
 /**
  * Path builder tuned to maximize tangent heading travel while minimizing rotation demand.
@@ -25,243 +33,39 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
  *   <li>Pick tangent or reverse-tangent based on the smallest total heading change.</li>
  * </ol>
  */
-@Configurable
-public final class OptimalPathV2 extends FollowPath {
-    /** Distance needed for a full PI radians rotation. */
-    public static double ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES = 30.0;
+public class ToClosestShootPose extends SequentialCommandGroup {
+    protected Pose shootPose;
 
-    private static double getTangentAtTCurve(BezierCurve curve, double t) {
-        return curve.getDerivative(t).getTheta();
-    }
+    public ToClosestShootPose(DrivePedroSubsystem drivePedroSubsystem, HubsSubsystem hubsSubsystem){
+        addCommands(
+                new InstantCommand(()->{
+                    Pose currentPose = drivePedroSubsystem.getPose();
+                    Pose basketPose = hubsSubsystem.getTeam().getBasketPose();
 
-    private static double tangentAtLine(BezierLine line) {
-        return line.getEndTangent().getTheta();
-    }
-    
-    private static double getDistanceNeededToRotate(double angle) {
-        return ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES * (angle / Math.PI);
-    }
+                    if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) {
+                        currentPose = currentPose.rotate(BLUE_TEAM_HEADING, false);
+                        basketPose = ROTATED_BLUE_BASKET_POSE;
+                    }
 
-    private static double getTTangentFromRange(double range, double fullPathRange) {
-        return getDistanceNeededToRotate(range) / fullPathRange;
-    }
+                    Globals.Vec2 currentVec = new Globals.Vec2(currentPose.getX(), currentPose.getY());
 
+                    Globals.Vec2 shootVec = getClosestVec2InLaunchZone(currentVec);
 
-    public OptimalPathV2(DrivePedroSubsystem drivePedroSubsystem, PathSupplier pathSupplier, double maxPower, boolean holdEnd) {
-        super(drivePedroSubsystem, pathSupplier, maxPower, holdEnd);
-    }
+                    Globals.Vec2 basketVec = new Globals.Vec2(basketPose.getX(), basketPose.getY());
+                    Globals.Vec2 shootToBasketVec = basketVec.subtract(shootVec);
 
-    public static OptimalPathV2 line(DrivePedroSubsystem drivePedroSubsystem, Pose targetPose, double maxPower, boolean holdEnd) {
-        PathSupplier supplier = createSupplier(
-                drivePedroSubsystem,
-            (builder, currentPose, currentHeading) -> {
-                BezierLine line = new BezierLine(currentPose, targetPose);
-                double range = currentPose.distanceFrom(targetPose);
+                    double shootToBasketAngle = Math.atan2(shootToBasketVec.y, shootToBasketVec.x);
 
-                HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeadingLine(
-                    currentHeading,
-                    line,
-                    targetPose.getHeading(),
-                    range);
+                    shootPose = new Pose(shootVec.x, shootVec.y, shootToBasketAngle);
 
-                return new PathPlan(builder.addPath(line), headingInterpolator, range);
-            });
-
-        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
-    }
-
-    private static HeadingInterpolator HeadingInterpolatorPieceWiseHeadingLine(
-            double startHeading,
-            BezierLine line,
-            double targetHeading,
-            double fullPathRange
-    ){
-
-        double forwardTangentAtLine = tangentAtLine(line);
-        double reverseTangentAtLine = normalizeAngle(forwardTangentAtLine + Math.PI);
-
-        double startDeltaForward = getSmallestAngleDifference(forwardTangentAtLine, startHeading);
-        double endDeltaForward = getSmallestAngleDifference(forwardTangentAtLine, targetHeading);
-
-        double startDeltaBackward = getSmallestAngleDifference(reverseTangentAtLine, startHeading);
-        double endDeltaBackward= getSmallestAngleDifference(reverseTangentAtLine, targetHeading);
-
-        // Minimize total rotation by picking tangent or reverse tangent based on which has smaller total angle change.
-        boolean forwardTangent = !(startDeltaForward + endDeltaForward > startDeltaBackward + endDeltaBackward);
-
-        double distanceForStartDelta;
-        double distanceForEndDelta;
-        double tangent;
-
-        if (forwardTangent) {
-            distanceForStartDelta = getDistanceNeededToRotate(startDeltaForward);
-            distanceForEndDelta = getDistanceNeededToRotate(endDeltaForward);
-            tangent = forwardTangentAtLine;
-
-        } else {
-            distanceForStartDelta = getDistanceNeededToRotate(startDeltaBackward);
-            distanceForEndDelta = getDistanceNeededToRotate(endDeltaBackward);
-            tangent = reverseTangentAtLine;
-
-        }
-
-        if (distanceForStartDelta + distanceForEndDelta > fullPathRange) {
-            return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(fullPathRange));
-        }
-
-        // Now compute tTangent and tFinalHeading
-        double tTangent = getTTangentFromRange(distanceForStartDelta, fullPathRange);
-        double tFinalHeading = 1 - getTTangentFromRange(distanceForEndDelta, fullPathRange);
-        return HeadingInterpolator.piecewise(
-                new HeadingInterpolator.PiecewiseNode(0, tTangent,
-                        HeadingInterpolator.linear(startHeading, tangent)),
-                new HeadingInterpolator.PiecewiseNode(tTangent, tFinalHeading,
-                        forwardTangent ? HeadingInterpolator.tangent : HeadingInterpolator.tangent.reverse()),
-                new HeadingInterpolator.PiecewiseNode(tFinalHeading, 1,
-                        HeadingInterpolator.linear(tangent, targetHeading)));
-    }
-
-    public static OptimalPathV2 curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose targetPose, double maxPower, boolean holdEnd) {
-        PathSupplier supplier = createSupplier(
-                drivePedroSubsystem,
-            (builder, currentPose, currentHeading) -> {
-                BezierCurve curve = new BezierCurve(currentPose, controlPoint1, targetPose);
-                double range = curve.approximateLength();
-
-                HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeadingCurve(
-                    currentHeading,
-                    curve,
-                    targetPose.getHeading(),
-                    range);
-
-                return new PathPlan(builder.addPath(curve), headingInterpolator, range);
-            });
-
-        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
-    }
-    public static OptimalPathV2 curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose targetPose, double maxPower, boolean holdEnd) {
-        PathSupplier supplier = createSupplier(
-                drivePedroSubsystem,
-            (builder, currentPose, currentHeading) -> {
-                BezierCurve curve = new BezierCurve(currentPose, controlPoint1, controlPoint2, targetPose);
-                double range = curve.approximateLength();
-
-                HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeadingCurve(
-                    currentHeading,
-                    curve,
-                    targetPose.getHeading(),
-                    range);
-
-                return new PathPlan(builder.addPath(curve), headingInterpolator, range);
-            });
-
-        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
-    }
-
-    public static OptimalPathV2 curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose controlPoint3, Pose targetPose, double maxPower, boolean holdEnd) {
-        PathSupplier supplier = createSupplier(
-                drivePedroSubsystem,
-            (builder, currentPose, currentHeading) -> {
-                BezierCurve curve = new BezierCurve(currentPose, controlPoint1, controlPoint2, controlPoint3, targetPose);
-                double range = curve.approximateLength();
-
-                HeadingInterpolator headingInterpolator = HeadingInterpolatorPieceWiseHeadingCurve(
-                    currentHeading,
-                    curve,
-                    targetPose.getHeading(),
-                    range);
-
-                return new PathPlan(builder.addPath(curve), headingInterpolator, range);
-            });
-
-        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
-    }
-
-        private static PathSupplier createSupplier(
-            DrivePedroSubsystem drivePedroSubsystem,
-            PathPlanProvider pathPlanProvider
-        ) {
-        return builder -> {
-            PathPlan pathPlan = pathPlanProvider.get(builder, drivePedroSubsystem.getPose(), drivePedroSubsystem.getHeading());
-            return pathPlan.builder
-                .setHeadingInterpolation(pathPlan.headingInterpolator)
-                .setBrakingStrength(getBrakingStrengthScaleFromRange(pathPlan.range))
-                .build();
-        };
-        }
-
-
-    private static HeadingInterpolator HeadingInterpolatorPieceWiseHeadingCurve(
-            double startHeading,
-            BezierCurve curve,
-            double targetHeading,
-            double fullPathRange
-    ) {
-
-        double forwardTangentAtBeginCurve = getTangentAtTCurve(curve, 0);
-        double reverseTangentAtBeginCurve = normalizeAngle(forwardTangentAtBeginCurve + Math.PI);
-
-        double forwardTangentAtEndCurve = getTangentAtTCurve(curve, 1);
-        double reverseTangentAtEndCurve = normalizeAngle(forwardTangentAtEndCurve + Math.PI);
-
-        double startDeltaForward = getSmallestAngleDifference(forwardTangentAtBeginCurve, startHeading);
-        double endDeltaForward = getSmallestAngleDifference(forwardTangentAtEndCurve, targetHeading);
-
-        double startDeltaBackward = getSmallestAngleDifference(reverseTangentAtBeginCurve, startHeading);
-        double endDeltaBackward = getSmallestAngleDifference(reverseTangentAtEndCurve, targetHeading);
-
-        boolean forwardTangent = !(startDeltaForward + endDeltaForward > startDeltaBackward + endDeltaBackward);
-
-        double distanceForStartDelta;
-        double distanceForEndDelta;
-
-        if (forwardTangent) {
-            distanceForStartDelta = getDistanceNeededToRotate(startDeltaForward);
-            distanceForEndDelta = getDistanceNeededToRotate(endDeltaForward);
-
-        } else {
-            distanceForStartDelta = getDistanceNeededToRotate(startDeltaBackward);
-            distanceForEndDelta = getDistanceNeededToRotate(endDeltaBackward);
-
-        }
-
-        if (distanceForStartDelta + distanceForEndDelta > fullPathRange) {
-            return HeadingInterpolator.linear(startHeading, targetHeading, getLinearInterpolationHeadingEndTimeFromRange(fullPathRange));
-        }
-
-        double tTangentBegin = getTTangentFromRange(distanceForStartDelta, fullPathRange);
-        double tangentBegin = getTangentAtTCurve(curve, tTangentBegin);
-
-        double tTangentEnd = 1 - getTTangentFromRange(distanceForEndDelta, fullPathRange);
-        double tangentEnd = getTangentAtTCurve(curve, tTangentEnd);
-
-        return HeadingInterpolator.piecewise(
-                new HeadingInterpolator.PiecewiseNode(0, tTangentBegin,
-                        HeadingInterpolator.linear(startHeading, tangentBegin)),
-
-                new HeadingInterpolator.PiecewiseNode(tangentBegin, tTangentEnd, forwardTangent ? HeadingInterpolator.tangent : HeadingInterpolator.tangent.reverse()),
-
-                new HeadingInterpolator.PiecewiseNode(tTangentEnd, 1,
-                        HeadingInterpolator.linear(tangentEnd, targetHeading)));
+                    if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) {
+                        shootPose = shootPose.rotate(BLUE_TEAM_HEADING, true);
+                    }
+                }),
+                OptimalPathV2.line(drivePedroSubsystem, shootPose, AUTO_ROBOT_CONSTRAINTS, true)
+        );
 
     }
 
-
-    @FunctionalInterface
-    private interface PathPlanProvider {
-        PathPlan get(PathBuilder builder, Pose startPose, double startHeading);
-    }
-
-    private static final class PathPlan {
-        final PathBuilder builder;
-        final HeadingInterpolator headingInterpolator;
-        final double range;
-
-        PathPlan(PathBuilder builder, HeadingInterpolator headingInterpolator, double range) {
-            this.builder = builder;
-            this.headingInterpolator = headingInterpolator;
-            this.range = range;
-        }
-    }
 
 }
