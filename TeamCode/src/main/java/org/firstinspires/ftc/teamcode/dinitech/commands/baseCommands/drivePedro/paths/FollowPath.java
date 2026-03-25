@@ -34,7 +34,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
  * </pre>
  */
 public class FollowPath extends CommandBase {
-    private final DrivePedroSubsystem drivePedroSubsystem;
+    public final DrivePedroSubsystem drivePedroSubsystem;
     private final PathSupplier pathSupplier;
     private PathChain pathChain;
     private final double maxPower;

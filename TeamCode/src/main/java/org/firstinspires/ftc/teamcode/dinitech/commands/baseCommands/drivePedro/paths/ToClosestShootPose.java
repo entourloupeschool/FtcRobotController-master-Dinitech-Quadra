@@ -4,17 +4,20 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_C
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HEADING;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROTATED_BLUE_BASKET_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getClosestVec2InLaunchZone;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedFromPedroRange;
 
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.Pose;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.FieldCentricDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.PedroAimLockedDrive;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPedroMecanumDrive;
 
 /**
  * Path builder tuned to maximize tangent heading travel while minimizing rotation demand.
@@ -27,43 +30,64 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
  *   <li>Pick tangent or reverse-tangent based on the smallest total heading change.</li>
  * </ol>
  */
-public class ToClosestShootPose extends SequentialCommandGroup {
-    public ToClosestShootPose(DrivePedroSubsystem drivePedroSubsystem, HubsSubsystem hubsSubsystem, GamepadSubsystem gamepadSubsystem){
-        addCommands(
-                new OptimalPath(
-                        drivePedroSubsystem,
-                        OptimalPath.createLineSupplier(
-                                drivePedroSubsystem,
-                                (currentPose, currentHeading) -> computeShootPose(currentPose, hubsSubsystem)),
-                        AUTO_ROBOT_CONSTRAINTS,
-                        true)
-
-        );
+public class ToClosestShootPose extends OptimalPath {
+    private final DrivePedroSubsystem drivePedroSubsystem;
+    private final TrieurSubsystem trieurSubsystem;
+    private final ShooterSubsystem shooterSubsystem;
+    private final HubsSubsystem hubsSubsystem;
+    private final GamepadSubsystem gamepadSubsystem;
+    public ToClosestShootPose(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, HubsSubsystem hubsSubsystem, GamepadSubsystem gamepadSubsystem){
+        super(
+        drivePedroSubsystem,
+        OptimalPath.createLineSupplier(
+            drivePedroSubsystem,
+            (currentPose, currentHeading) -> computeShootPose(currentPose, hubsSubsystem, shooterSubsystem)),
+        AUTO_ROBOT_CONSTRAINTS,
+        true);
+        this.drivePedroSubsystem = drivePedroSubsystem;
+        this.trieurSubsystem = trieurSubsystem;
+        this.shooterSubsystem = shooterSubsystem;
+        this.hubsSubsystem = hubsSubsystem;
+        this.gamepadSubsystem = gamepadSubsystem;
+        addRequirements(shooterSubsystem);
 
     }
 
-    private static Pose computeShootPose(Pose currentPose, HubsSubsystem hubsSubsystem) {
+    @Override
+    public void end(boolean interrupted){
+        DinitechPedroMecanumDrive drive = drivePedroSubsystem.dinitechPedroMecanumDrive;
+
+        if (interrupted) {drive.getFollower().pausePathFollowing();}
+        else new ShootAll(trieurSubsystem, shooterSubsystem, true).schedule();
+
+        drive.startTeleOpDrive(true);
+
+        drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem));
+
+        super.end(interrupted);
+    }
+
+    private static Pose computeShootPose(Pose currentPose, HubsSubsystem hubsSubsystem, ShooterSubsystem shooterSubsystem) {
         Pose basketPose = hubsSubsystem.getTeam().getBasketPose();
         if (basketPose == null) {
             return currentPose;
         }
 
         Pose workingPose = currentPose;
-        if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) {
-            workingPose = currentPose.rotate(BLUE_TEAM_HEADING, false);
-        }
+        if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) workingPose = currentPose.rotate(BLUE_TEAM_HEADING, false);
 
         Globals.Vec2 currentVec = new Globals.Vec2(workingPose.getX(), workingPose.getY());
-        Globals.Vec2 shootVec = getClosestVec2InLaunchZone(currentVec);
+        Globals.Vec2 shootVec = getClosestVec2InLaunchZone(currentVec, 1);
 
         Globals.Vec2 basketVec = new Globals.Vec2(basketPose.getX(), basketPose.getY());
         Globals.Vec2 shootToBasketVec = basketVec.subtract(shootVec);
         double shootToBasketAngle = Math.atan2(shootToBasketVec.y, shootToBasketVec.x);
 
         Pose shootPose = new Pose(shootVec.x, shootVec.y, shootToBasketAngle);
-        if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) {
-            shootPose = shootPose.rotate(BLUE_TEAM_HEADING, true);
-        }
+
+        if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) shootPose = shootPose.rotate(BLUE_TEAM_HEADING, true);
+
+        shooterSubsystem.setVelocity(linearSpeedFromPedroRange(shootPose.distanceFrom(workingPose)));
 
         return shootPose;
     }

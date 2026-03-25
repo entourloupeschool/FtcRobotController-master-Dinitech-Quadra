@@ -12,7 +12,15 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 public class DinitechPedroMecanumDrive {
     private final Follower follower;
+    private double followerTEnd = FOLLOWER_T_POSITION_END;
 
+    public void setFollowerTEnd(double followerTEnd) {
+        this.followerTEnd = followerTEnd;
+    }
+
+    public double getFollowerTEnd(){
+        return followerTEnd;
+    }
     /**
      * The constructor for the DinitechPedroMecanumDrive class.
      * @param hardwareMap The hardware map for accessing robot hardware.
@@ -78,7 +86,9 @@ public class DinitechPedroMecanumDrive {
     }
 
     public boolean isPathQuasiDone(){
-        return follower.getCurrentTValue() > FOLLOWER_T_POSITION_END;
+        if (followerTEnd <= FOLLOWER_T_POSITION_END) return follower.getCurrentTValue() > followerTEnd;
+
+        return follower.getCurrentTValue() >= followerTEnd && follower.getHeadingError() < follower.getCurrentPath().getPathEndHeadingConstraint()/1.5;
     }
 
     public void setMaxPower(double globalMaxPower) {

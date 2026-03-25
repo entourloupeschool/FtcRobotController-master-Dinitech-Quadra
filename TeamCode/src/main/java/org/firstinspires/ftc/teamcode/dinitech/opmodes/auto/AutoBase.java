@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FOLLOWER_T_POSITION_END;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FOLLOWER_T_POSITION_END_TELEOP;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_AUTO_TIMEOUT;
 
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
@@ -19,6 +21,8 @@ public class AutoBase extends Gornetix {
             super.initialize();
 
             trieurSubsystem.openTrappe();
+
+            drivePedroSubsystem.getDrive().setFollowerTEnd(FOLLOWER_T_POSITION_END);
 
             drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
 //            visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));

@@ -72,51 +72,57 @@ public class Globals {
     /**
      * a function to get the closest Vec2 inside a launch zone from a given Vec2. If the given Vec2 is inside the launch zone, it is returned. Otherwise, the closest point on the edge of the triangle is returned.
      */
-    public static Vec2 getClosestVec2InLaunchZone(Vec2 point) {
+    public static Vec2 getClosestVec2InLaunchZone(Vec2 point, int lauchZoneNumber) {
         Vec2 closest = null;
         double minDist = Double.MAX_VALUE;
 
-        for (int i = 0; i < LAUNCH_ZONE_BIG.length; i++) {
-            Vec2 a = LAUNCH_ZONE_BIG[i];
-            Vec2 b = LAUNCH_ZONE_BIG[(i + 1) % LAUNCH_ZONE_BIG.length];
-            Vec2 closestOnEdge = getClosestPointOnLineSegment(point, a, b);
-            double dist = point.euclidianDistance(closestOnEdge);
-            if (dist < minDist) {
-                minDist = dist;
-                closest = closestOnEdge;
+        double areaABC, areaPAB, areaPBC, areaPCA;
+
+        if (lauchZoneNumber == 1 || lauchZoneNumber == 3) {
+            for (int i = 0; i < LAUNCH_ZONE_BIG.length; i++) {
+                Vec2 a = LAUNCH_ZONE_BIG[i];
+                Vec2 b = LAUNCH_ZONE_BIG[(i + 1) % LAUNCH_ZONE_BIG.length];
+                Vec2 closestOnEdge = getClosestPointOnLineSegment(point, a, b);
+                double dist = point.euclidianDistance(closestOnEdge);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closest = closestOnEdge;
+                }
+            }
+
+            // Check if the point is inside the triangle using barycentric coordinates
+            areaABC = area(LAUNCH_ZONE_BIG[0], LAUNCH_ZONE_BIG[1], LAUNCH_ZONE_BIG[2]);
+            areaPAB = area(point, LAUNCH_ZONE_BIG[0], LAUNCH_ZONE_BIG[1]);
+            areaPBC = area(point, LAUNCH_ZONE_BIG[1], LAUNCH_ZONE_BIG[2]);
+            areaPCA = area(point, LAUNCH_ZONE_BIG[2], LAUNCH_ZONE_BIG[0]);
+
+            if (areaPAB + areaPBC + areaPCA <= areaABC) {
+                return point; // The point is inside the triangle
+            }
+        }
+        if (lauchZoneNumber == 2 || lauchZoneNumber == 3) {
+            for (int i = 0; i < LAUNCH_ZONE_SMALL.length; i++) {
+                Vec2 a = LAUNCH_ZONE_SMALL[i];
+                Vec2 b = LAUNCH_ZONE_SMALL[(i + 1) % LAUNCH_ZONE_SMALL.length];
+                Vec2 closestOnEdge = getClosestPointOnLineSegment(point, a, b);
+                double dist = point.euclidianDistance(closestOnEdge);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closest = closestOnEdge;
+                }
+            }
+
+            // Check if the point is inside the triangle using barycentric coordinates
+            areaABC = area(LAUNCH_ZONE_SMALL[0], LAUNCH_ZONE_SMALL[1], LAUNCH_ZONE_SMALL[2]);
+            areaPAB = area(point, LAUNCH_ZONE_SMALL[0], LAUNCH_ZONE_SMALL[1]);
+            areaPBC = area(point, LAUNCH_ZONE_SMALL[1], LAUNCH_ZONE_SMALL[2]);
+            areaPCA = area(point, LAUNCH_ZONE_SMALL[2], LAUNCH_ZONE_SMALL[0]);
+
+            if (areaPAB + areaPBC + areaPCA <= areaABC) {
+                return point; // The point is inside the triangle
             }
         }
 
-        // Check if the point is inside the triangle using barycentric coordinates
-        double areaABC = area(LAUNCH_ZONE_BIG[0], LAUNCH_ZONE_BIG[1], LAUNCH_ZONE_BIG[2]);
-        double areaPAB = area(point, LAUNCH_ZONE_BIG[0], LAUNCH_ZONE_BIG[1]);
-        double areaPBC = area(point, LAUNCH_ZONE_BIG[1], LAUNCH_ZONE_BIG[2]);
-        double areaPCA = area(point, LAUNCH_ZONE_BIG[2], LAUNCH_ZONE_BIG[0]);
-
-        if (areaPAB + areaPBC + areaPCA <= areaABC) {
-            return point; // The point is inside the triangle
-        }
-
-        for (int i = 0; i < LAUNCH_ZONE_SMALL.length; i++) {
-            Vec2 a = LAUNCH_ZONE_SMALL[i];
-            Vec2 b = LAUNCH_ZONE_SMALL[(i + 1) % LAUNCH_ZONE_SMALL.length];
-            Vec2 closestOnEdge = getClosestPointOnLineSegment(point, a, b);
-            double dist = point.euclidianDistance(closestOnEdge);
-            if (dist < minDist) {
-                minDist = dist;
-                closest = closestOnEdge;
-            }
-        }
-
-        // Check if the point is inside the triangle using barycentric coordinates
-        areaABC = area(LAUNCH_ZONE_SMALL[0], LAUNCH_ZONE_SMALL[1], LAUNCH_ZONE_SMALL[2]);
-        areaPAB = area(point, LAUNCH_ZONE_SMALL[0], LAUNCH_ZONE_SMALL[1]);
-        areaPBC = area(point, LAUNCH_ZONE_SMALL[1], LAUNCH_ZONE_SMALL[2]);
-        areaPCA = area(point, LAUNCH_ZONE_SMALL[2], LAUNCH_ZONE_SMALL[0]);
-
-        if (areaPAB + areaPBC + areaPCA <= areaABC) {
-            return point; // The point is inside the triangle
-        }
 
         return closest; // The point is outside the triangle, return the closest point on the edge
     }
@@ -168,6 +174,7 @@ public class Globals {
 
     public static final double TILE_DIM = 24;
     public static final double FOLLOWER_T_POSITION_END = 0.9;//0.91;
+    public static double FOLLOWER_T_POSITION_END_TELEOP = 0.94;
     public static final double LENGTH_X_ROW = TILE_DIM * 0.86;
     public static final double LENGTH_X_ROW_3RD = TILE_DIM * 1;
 

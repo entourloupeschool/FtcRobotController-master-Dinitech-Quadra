@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.tele;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FOLLOWER_T_POSITION_END;
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FOLLOWER_T_POSITION_END_TELEOP;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CONTINUOUS;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOT_REVOLUTION_THEN_WAIT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SLOW_DRIVE_SCALE;
@@ -51,6 +53,7 @@ import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPedroMecanumDrive;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 public class TeleOpBase extends GornetixGamepads {
@@ -62,8 +65,11 @@ public class TeleOpBase extends GornetixGamepads {
     public void initialize() {
             super.initialize();
 
-            drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEADING_POSE);
-            drivePedroSubsystem.dinitechPedroMecanumDrive.startTeleOpDrive(true);
+            DinitechPedroMecanumDrive drive = drivePedroSubsystem.dinitechPedroMecanumDrive;
+
+            drive.setPose(FIELD_CENTER_90HEADING_POSE);
+            drive.setFollowerTEnd(FOLLOWER_T_POSITION_END_TELEOP);
+            drive.startTeleOpDrive(true);
 
             if (MoulinPositionColorsStorage.getLastMoulinPositionColors() != null){
                 TrieurSubsystem.ArtifactColor[] newMPC = MoulinPositionColorsStorage.getLastMoulinPositionColors();
@@ -120,9 +126,7 @@ public class TeleOpBase extends GornetixGamepads {
         m_Operator.touchpadButton.whenActive(new StopRobot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem));
 
         // Driver controls
-//        m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
-        m_Driver.cross.whenPressed(new ToClosestShootPose(drivePedroSubsystem, hubsSubsystem, gamepadSubsystem)
-                .interruptOn(()->m_Driver.usingLeftStick()));
+        m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
 
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
         m_Driver.square.whenPressed(
@@ -175,7 +179,7 @@ public class TeleOpBase extends GornetixGamepads {
         m_Operator.bump_left.whenPressed(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
     }
 
-    private void modeShoot(){
+    protected void modeShoot(){
         new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem).schedule();
         new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem)), drivePedroSubsystem).schedule();
         new StopChargeur(chargeurSubsystem).schedule();
