@@ -59,24 +59,33 @@ public class Globals {
      * A launch zone is a triangular surface from which the robot is allowed to shoot. It is defined by 3 vectors. Inside the triangle, the robot can shoot.
      */
     public static final Vec2[] LAUNCH_ZONE_BIG = new Vec2[] {
-            new Vec2(8, 135),
+            new Vec2(10, 133),
             new Vec2(72, 72),
-            new Vec2(136, 135)
+            new Vec2(133, 133)
     };
     public static final Vec2[] LAUNCH_ZONE_SMALL = new Vec2[] {
-            new Vec2(49, 0),
+            new Vec2(59, 0),
             new Vec2(72, 23),
-            new Vec2(95, 0)
+            new Vec2(85, 0)
     };
 
     /**
-     * a function to get the closest Vec2 inside a launch zone from a given Vec2. If the given Vec2 is inside the launch zone, it is returned. Otherwise, the closest point on the edge of the triangle is returned.
+     * Gets the closest center target so the robot can face the basket and still touch a launch zone.
+     *
+     * The robot center is intentionally kept outside the zone: we find the closest point on the selected
+     * launch zone edge, then back off by half robot length plus a safety margin in the opposite direction
+     * of the basket-facing vector.
      */
-    public static Vec2 getClosestVec2InLaunchZone(Vec2 point, int lauchZoneNumber) {
+    public static Vec2 getClosestVec2InLaunchZone(Vec2 point, Vec2 basketPoint, int lauchZoneNumber) {
         Vec2 closest = null;
         double minDist = Double.MAX_VALUE;
 
-        double areaABC, areaPAB, areaPBC, areaPCA;
+        if ((lauchZoneNumber == 1 || lauchZoneNumber == 3) && isPointInsideTriangle(point, LAUNCH_ZONE_BIG)) {
+            return point;
+        }
+        if ((lauchZoneNumber == 2 || lauchZoneNumber == 3) && isPointInsideTriangle(point, LAUNCH_ZONE_SMALL)) {
+            return point;
+        }
 
         if (lauchZoneNumber == 1 || lauchZoneNumber == 3) {
             for (int i = 0; i < LAUNCH_ZONE_BIG.length; i++) {
@@ -89,17 +98,8 @@ public class Globals {
                     closest = closestOnEdge;
                 }
             }
-
-            // Check if the point is inside the triangle using barycentric coordinates
-            areaABC = area(LAUNCH_ZONE_BIG[0], LAUNCH_ZONE_BIG[1], LAUNCH_ZONE_BIG[2]);
-            areaPAB = area(point, LAUNCH_ZONE_BIG[0], LAUNCH_ZONE_BIG[1]);
-            areaPBC = area(point, LAUNCH_ZONE_BIG[1], LAUNCH_ZONE_BIG[2]);
-            areaPCA = area(point, LAUNCH_ZONE_BIG[2], LAUNCH_ZONE_BIG[0]);
-
-            if (areaPAB + areaPBC + areaPCA <= areaABC) {
-                return point; // The point is inside the triangle
-            }
         }
+
         if (lauchZoneNumber == 2 || lauchZoneNumber == 3) {
             for (int i = 0; i < LAUNCH_ZONE_SMALL.length; i++) {
                 Vec2 a = LAUNCH_ZONE_SMALL[i];
@@ -111,24 +111,35 @@ public class Globals {
                     closest = closestOnEdge;
                 }
             }
-
-            // Check if the point is inside the triangle using barycentric coordinates
-            areaABC = area(LAUNCH_ZONE_SMALL[0], LAUNCH_ZONE_SMALL[1], LAUNCH_ZONE_SMALL[2]);
-            areaPAB = area(point, LAUNCH_ZONE_SMALL[0], LAUNCH_ZONE_SMALL[1]);
-            areaPBC = area(point, LAUNCH_ZONE_SMALL[1], LAUNCH_ZONE_SMALL[2]);
-            areaPCA = area(point, LAUNCH_ZONE_SMALL[2], LAUNCH_ZONE_SMALL[0]);
-
-            if (areaPAB + areaPBC + areaPCA <= areaABC) {
-                return point; // The point is inside the triangle
-            }
         }
 
+        if (closest == null) {
+            return point;
+        }
 
-        return closest; // The point is outside the triangle, return the closest point on the edge
+        Vec2 basketDirection = basketPoint.subtract(closest);
+        double basketDirectionMagnitude = basketDirection.magnitude();
+        if (basketDirectionMagnitude < 1e-6) {
+            return closest;
+        }
+
+        Vec2 headingToBasket = basketDirection.multiply(1.0 / basketDirectionMagnitude);
+        double centerBackoff = ROBOT_LENGTH_INCH / 2.0 + LAUNCH_ZONE_TOUCH_MARGIN_INCH;
+
+        return closest.subtract(headingToBasket.multiply(centerBackoff));
     }
 
     private static double area(Vec2 a, Vec2 b, Vec2 c) {
         return Math.abs((a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) / 2.0);
+    }
+
+    private static boolean isPointInsideTriangle(Vec2 p, Vec2[] triangle) {
+        double areaABC = area(triangle[0], triangle[1], triangle[2]);
+        double areaPAB = area(p, triangle[0], triangle[1]);
+        double areaPBC = area(p, triangle[1], triangle[2]);
+        double areaPCA = area(p, triangle[2], triangle[0]);
+
+        return areaPAB + areaPBC + areaPCA <= areaABC + 1e-3;
     }
 
     private static Vec2 getClosestPointOnLineSegment(Vec2 p, Vec2 a, Vec2 b) {
@@ -142,6 +153,7 @@ public class Globals {
     public static double ROBOT_LENGTH_INCH = cmToInch(ROBOT_LENGTH_CM); // = 16.91
     public static double ROBOT_WIDTH_CM = 44.8;
     public static double ROBOT_WIDTH_INCH = cmToInch(ROBOT_WIDTH_CM); // = 17.638
+    public static double LAUNCH_ZONE_TOUCH_MARGIN_INCH = 5.0;
     public static double ROBOT_LENGTH_CHARGEUR_CM = 44.95;
     public static double ROBOT_LENGTH_CHARGEUR_INCH = cmToInch(ROBOT_LENGTH_CHARGEUR_CM);
 

@@ -57,7 +57,7 @@ public class ToClosestShootPose extends OptimalPath {
     public void end(boolean interrupted){
         DinitechPedroMecanumDrive drive = drivePedroSubsystem.dinitechPedroMecanumDrive;
 
-        if (interrupted) {drive.getFollower().pausePathFollowing();}
+        if (interrupted) drive.getFollower().pausePathFollowing();
         else new ShootAll(trieurSubsystem, shooterSubsystem, true).schedule();
 
         drive.startTeleOpDrive(true);
@@ -72,14 +72,15 @@ public class ToClosestShootPose extends OptimalPath {
         if (basketPose == null) {
             return currentPose;
         }
+        Globals.Vec2 basketVec = new Globals.Vec2(basketPose.getX(), basketPose.getY());
+
 
         Pose workingPose = currentPose;
         if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) workingPose = currentPose.rotate(BLUE_TEAM_HEADING, false);
 
         Globals.Vec2 currentVec = new Globals.Vec2(workingPose.getX(), workingPose.getY());
-        Globals.Vec2 shootVec = getClosestVec2InLaunchZone(currentVec, 1);
+        Globals.Vec2 shootVec = getClosestVec2InLaunchZone(currentVec, basketVec,1);
 
-        Globals.Vec2 basketVec = new Globals.Vec2(basketPose.getX(), basketPose.getY());
         Globals.Vec2 shootToBasketVec = basketVec.subtract(shootVec);
         double shootToBasketAngle = Math.atan2(shootToBasketVec.y, shootToBasketVec.x);
 
@@ -87,10 +88,8 @@ public class ToClosestShootPose extends OptimalPath {
 
         if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) shootPose = shootPose.rotate(BLUE_TEAM_HEADING, true);
 
-        shooterSubsystem.setVelocity(linearSpeedFromPedroRange(shootPose.distanceFrom(workingPose)));
+        shooterSubsystem.setVelocity(linearSpeedFromPedroRange(shootVec.euclidianDistance(basketVec)));
 
         return shootPose;
     }
-
-
 }
