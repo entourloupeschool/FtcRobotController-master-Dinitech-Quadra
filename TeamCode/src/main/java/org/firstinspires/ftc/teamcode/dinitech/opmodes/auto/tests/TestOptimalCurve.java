@@ -11,27 +11,26 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.OptimalPath;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.OptimalPathV2;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueTestResetPoseAutoBase;
 
-@Autonomous(name = "TestOptimalCurveV2 - Dinitech", group = "Test")
+@Autonomous(name = "TestOptimalCurve - Dinitech", group = "Test")
 //@Disabled
-public class TestOptimalCurveV2 extends BlueTestResetPoseAutoBase {
+public class TestOptimalCurve extends BlueTestResetPoseAutoBase {
 
     @Override
     public void initialize() {
             super.initialize();
 
             new SequentialCommandGroup(
-                    OptimalPathV2.curve(drivePedroSubsystem, CLOSE_SHOOT_RED_POSE, hubsSubsystem.getTeam().getCloseShootPose(), AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.curve(drivePedroSubsystem, CLOSE_SHOOT_RED_POSE, hubsSubsystem.getTeam().getCloseShootPose(), AUTO_ROBOT_CONSTRAINTS, true),
                     new WaitCommand(1000),
-                    OptimalPathV2.curve(drivePedroSubsystem, FIELD_CENTER_90HEADING_POSE, RESET_POSE_RED, AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.curve(drivePedroSubsystem, FIELD_CENTER_90HEADING_POSE, RESET_POSE_RED, AUTO_ROBOT_CONSTRAINTS, true),
                     new WaitCommand(1000),
-                    OptimalPathV2.line(drivePedroSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(),  AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.line(drivePedroSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(),  AUTO_ROBOT_CONSTRAINTS, true),
                     new WaitCommand(1000),
-                    OptimalPathV2.curve(drivePedroSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), CLOSE_SHOOT_RED_POSE, AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.curve(drivePedroSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), CLOSE_SHOOT_RED_POSE, AUTO_ROBOT_CONSTRAINTS, true),
                     new WaitCommand(1000),
-                    OptimalPathV2.curve(drivePedroSubsystem, FIELD_CENTER_90HEADING_POSE, RESET_POSE_BLUE, AUTO_ROBOT_CONSTRAINTS, true)
+                    OptimalPath.curve(drivePedroSubsystem, FIELD_CENTER_90HEADING_POSE, RESET_POSE_BLUE, AUTO_ROBOT_CONSTRAINTS, true)
             ).schedule();
     }
 

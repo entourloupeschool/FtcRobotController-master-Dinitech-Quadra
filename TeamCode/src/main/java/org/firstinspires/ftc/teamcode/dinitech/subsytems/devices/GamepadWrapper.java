@@ -159,6 +159,12 @@ public class GamepadWrapper {
     public double getLeftY() {
         return gamepadEx.getLeftY();
     }
+
+    public boolean usingLeftStick(){
+        boolean getLeftX = Math.abs(getLeftX()) > 0.1;
+        boolean getLeftY = Math.abs(getLeftY()) > 0.1;
+        return getLeftX || getLeftY;
+    }
     
     /**
      * Gets the current value of the right analog stick's X-axis.
@@ -175,7 +181,13 @@ public class GamepadWrapper {
     public double getRightY() {
         return gamepadEx.getRightY();
     }
-    
+
+    public boolean usingRightStick(){
+        boolean getRightX = Math.abs(getRightX()) > 0.1;
+        boolean getRightY = Math.abs(getRightY()) > 0.1;
+        return getRightX || getRightY;
+    }
+
     /**
      * Gets the current value of the left trigger.
      * @return The left trigger value, from 0.0 (unpressed) to 1.0 (fully pressed).

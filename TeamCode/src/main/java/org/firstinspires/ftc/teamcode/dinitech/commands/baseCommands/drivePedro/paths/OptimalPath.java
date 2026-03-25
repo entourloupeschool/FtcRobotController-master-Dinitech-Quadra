@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
  * </ol>
  */
 @Configurable
-public class OptimalPathV2 extends FollowPath {
+public class OptimalPath extends FollowPath {
     /** Distance needed for a full PI radians rotation. */
     public static double ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES = 45.0;
     public static double DELTA_T = 0.01;
@@ -54,16 +54,16 @@ public class OptimalPathV2 extends FollowPath {
     }
 
 
-    public OptimalPathV2(DrivePedroSubsystem drivePedroSubsystem, PathSupplier pathSupplier, double maxPower, boolean holdEnd) {
+    public OptimalPath(DrivePedroSubsystem drivePedroSubsystem, PathSupplier pathSupplier, double maxPower, boolean holdEnd) {
         super(drivePedroSubsystem, pathSupplier, maxPower, holdEnd);
     }
 
-    public static OptimalPathV2 line(DrivePedroSubsystem drivePedroSubsystem, Pose targetPose, double maxPower, boolean holdEnd) {
+    public static OptimalPath line(DrivePedroSubsystem drivePedroSubsystem, Pose targetPose, double maxPower, boolean holdEnd) {
         PathSupplier supplier = createLineSupplier(
                 drivePedroSubsystem,
                 (currentPose, currentHeading) -> targetPose);
 
-        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
 
     protected static PathSupplier createLineSupplier(
@@ -149,7 +149,7 @@ public class OptimalPathV2 extends FollowPath {
                                 getLinearInterpolationHeadingEndTimeFromRange(distanceForEndDelta))));
     }
 
-    public static OptimalPathV2 curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose targetPose, double maxPower, boolean holdEnd) {
+    public static OptimalPath curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose targetPose, double maxPower, boolean holdEnd) {
         PathSupplier supplier = createSupplier(
                 drivePedroSubsystem,
             (builder, currentPose, currentHeading) -> {
@@ -165,9 +165,9 @@ public class OptimalPathV2 extends FollowPath {
                 return new PathPlan(builder.addPath(curve), headingInterpolator, range);
             });
 
-        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
-    public static OptimalPathV2 curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose targetPose, double maxPower, boolean holdEnd) {
+    public static OptimalPath curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose targetPose, double maxPower, boolean holdEnd) {
         PathSupplier supplier = createSupplier(
                 drivePedroSubsystem,
             (builder, currentPose, currentHeading) -> {
@@ -183,10 +183,10 @@ public class OptimalPathV2 extends FollowPath {
                 return new PathPlan(builder.addPath(curve), headingInterpolator, range);
             });
 
-        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
 
-    public static OptimalPathV2 curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose controlPoint3, Pose targetPose, double maxPower, boolean holdEnd) {
+    public static OptimalPath curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose controlPoint3, Pose targetPose, double maxPower, boolean holdEnd) {
         PathSupplier supplier = createSupplier(
                 drivePedroSubsystem,
             (builder, currentPose, currentHeading) -> {
@@ -202,7 +202,7 @@ public class OptimalPathV2 extends FollowPath {
                 return new PathPlan(builder.addPath(curve), headingInterpolator, range);
             });
 
-        return new OptimalPathV2(drivePedroSubsystem, supplier, maxPower, holdEnd);
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
     }
 
         private static PathSupplier createSupplier(
