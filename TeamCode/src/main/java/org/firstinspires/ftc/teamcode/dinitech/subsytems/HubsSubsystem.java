@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.Blinker;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,7 +11,9 @@ import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 import java.util.Collection;
 import java.util.List;
 
+@Configurable
 public class HubsSubsystem extends SubsystemBase {
+    public static long TELEMETRY_UPDATE_INTERVAL_MS = 500;
     private final List<LynxModule> hubs;
 
 
@@ -28,8 +31,6 @@ public class HubsSubsystem extends SubsystemBase {
     public HubsSubsystem(HardwareMap hardwareMap){
         hubs = hardwareMap.getAll(LynxModule.class);
         init();
-
-        setTeam(TeamPoses.Team.NONE);
     }
 
     public void init(){

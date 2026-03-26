@@ -1,13 +1,9 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SLOW_DRIVE_SCALE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.SLOW_DRIVE_SCALE;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
-
 /**
  * A command for controlling the robot's drive base at a reduced speed.
  * <p>

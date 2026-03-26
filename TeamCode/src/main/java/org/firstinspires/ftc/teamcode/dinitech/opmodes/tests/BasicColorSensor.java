@@ -1,25 +1,17 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CS1_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DETECT_GREEN_BLUE_RGB;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DETECT_GREEN_GREEN_RGB;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DETECT_GREEN_RED_RGB;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DETECT_PURPLE_BLUE_RGB;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DETECT_PURPLE_GREEN_RGB;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DETECT_PURPLE_RED_RGB;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.GREEN_HUE_HIGHER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.GREEN_HUE_LOWER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MARGIN_GREEN_RGB_DETECTION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MARGIN_PURPLE_RGB_DETECTION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.GAIN_DETECTION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PURPLE_HUE_HIGHER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PURPLE_HUE_LOWER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SAMPLE_SIZE_TEST;
 
 
-import android.graphics.Color;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.DETECT_GREEN_BLUE_RGB;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.DETECT_GREEN_GREEN_RGB;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.DETECT_GREEN_RED_RGB;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.DETECT_PURPLE_BLUE_RGB;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.DETECT_PURPLE_GREEN_RGB;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.DETECT_PURPLE_RED_RGB;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MARGIN_GREEN_RGB_DETECTION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MARGIN_PURPLE_RGB_DETECTION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.SAMPLE_SIZE_TEST;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
@@ -27,7 +19,6 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.RobotBase;
 
 import java.util.ArrayList;
 import java.util.List;

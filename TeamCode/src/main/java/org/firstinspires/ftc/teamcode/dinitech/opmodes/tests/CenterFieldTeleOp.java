@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.FieldDefinitions.FIELD_CENTER_90HEADING_POSE;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 

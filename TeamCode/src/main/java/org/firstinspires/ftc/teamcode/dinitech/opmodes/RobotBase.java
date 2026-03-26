@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELEMETRY_UPDATE_INTERVAL_MS;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem.TELEMETRY_UPDATE_INTERVAL_MS;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
@@ -9,6 +9,7 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
+import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 
 public class RobotBase extends CommandOpMode {
@@ -36,6 +37,8 @@ public class RobotBase extends CommandOpMode {
 
         hubsSubsystem = new HubsSubsystem(hardwareMap);
         register(hubsSubsystem);
+        hubsSubsystem.setTeam(TeamPoses.Team.NONE);
+
     }
 
     /**

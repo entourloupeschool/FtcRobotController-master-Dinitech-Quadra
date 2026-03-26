@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_MOTOR_NAME;
-
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
@@ -19,6 +17,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * @see MotorEx
  */
 public class ChargeurSubsystem extends SubsystemBase {
+    public static final String CHARGEUR_MOTOR_NAME = "chargeur";
+    public static final String CHARGEUR_SERVO_GAUCHE_MOTOR_NAME = "chargeur_servo_gauche";
+    public static final String CHARGEUR_SERVO_DROITE_MOTOR_NAME = "chargeur_servo_droite";
+    public static final double ROULEAU_MOTOR_MAX_POWER = 0.85;
     private final MotorEx motorEx;
     public final TelemetryManager telemetryM;
 

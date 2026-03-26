@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROTATED_BLUE_BASKET_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedFromPedroRange;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedFromRange;
+import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.ROTATED_BLUE_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem.linearSpeedFromPedroRange;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.pedropathing.geometry.Pose;

@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INIT_SHOOT_AUTO_SHOOTER_VELOCITY;
+
+import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.INIT_SHOOT_AUTO_SHOOTER_VELOCITY;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;

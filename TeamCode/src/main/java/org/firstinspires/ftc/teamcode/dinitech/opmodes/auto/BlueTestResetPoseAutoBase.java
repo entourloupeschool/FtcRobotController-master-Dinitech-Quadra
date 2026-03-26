@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RESET_POSE_BLUE;
-
+import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.RESET_POSE_BLUE;
 import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 
 public class BlueTestResetPoseAutoBase extends AutoBase {

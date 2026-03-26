@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_SERVO_DROITE_MOTOR_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CHARGEUR_SERVO_GAUCHE_MOTOR_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem.CHARGEUR_SERVO_DROITE_MOTOR_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem.CHARGEUR_SERVO_GAUCHE_MOTOR_NAME;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 

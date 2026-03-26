@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CS1_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CS2_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CS3_NAME;
+
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.CS1_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.CS2_NAME;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
@@ -21,7 +21,6 @@ public class TripleColorSensors {
     /** The three color sensors with integrated averaging. */
     public final AveragingColorSensor colorSensor1;
     public final AveragingColorSensor colorSensor2;
-//    public final AveragingColorSensor colorSensor3;
 
     /**
      * Constructs a new TripleColorSensors instance.
@@ -31,7 +30,6 @@ public class TripleColorSensors {
     public TripleColorSensors(HardwareMap hardwareMap) {
         this.colorSensor1 = new AveragingColorSensor(hardwareMap.get(NormalizedColorSensor.class, CS1_NAME));
         this.colorSensor2 = new AveragingColorSensor(hardwareMap.get(NormalizedColorSensor.class, CS2_NAME));
-//        this.colorSensor3 = new AveragingColorSensor(hardwareMap.get(NormalizedColorSensor.class, CS3_NAME));
     }
 
     /**

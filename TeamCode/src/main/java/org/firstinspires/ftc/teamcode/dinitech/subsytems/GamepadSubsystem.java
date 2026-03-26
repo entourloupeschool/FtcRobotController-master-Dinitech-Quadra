@@ -1,9 +1,4 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_1;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_3;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_4;
-
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.bylazar.telemetry.TelemetryManager;
@@ -23,6 +18,11 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
  * @see GamepadEx
  */
 public class GamepadSubsystem extends SubsystemBase {
+    public static final double RUMBLE_POWER = 1;
+    public static final int RUMBLE_DURATION_1 = 100;
+    public static final int RUMBLE_DURATION_2 = 200;
+    public static final int RUMBLE_DURATION_3 = 20;
+    public static final int RUMBLE_DURATION_4 = 40;
     private final TelemetryManager telemetryM;
 
     /** The wrapper for the driver's gamepad. */

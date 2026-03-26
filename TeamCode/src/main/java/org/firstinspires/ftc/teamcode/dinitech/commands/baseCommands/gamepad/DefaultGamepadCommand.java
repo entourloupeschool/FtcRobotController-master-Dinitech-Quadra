@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.gamepad;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_1;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_3;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem.SPEED_MARGIN;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;

@@ -1,20 +1,43 @@
 package org.firstinspires.ftc.teamcode.dinitech.other;
 
-public class FieldDefinitions {
-    public static final double TILE_DIM = 24;
-    public static final double FIELD_SIDE_LENGTH = 144.0;
+import static org.firstinspires.ftc.teamcode.dinitech.other.FieldDefinitions.TILE_DIM;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.BRAKING_STRENGTH_PEDRO_DINITECH;
 
-    /**
-     * A launch zone is a triangular surface from which the robot is allowed to shoot. It is defined by 3 vectors. Inside the triangle, the robot can shoot.
-     */
-    public static final Globals.Vec2[] LAUNCH_ZONE_BIG = new Globals.Vec2[] {
-            new Globals.Vec2(10, 133),
-            new Globals.Vec2(72, 72),
-            new Globals.Vec2(133, 133)
-    };
-    public static final Globals.Vec2[] LAUNCH_ZONE_SMALL = new Globals.Vec2[] {
-            new Globals.Vec2(59, 0),
-            new Globals.Vec2(72, 23),
-            new Globals.Vec2(85, 0)
-    };
+public class AutoPathsDefinitions {
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.81;
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.55;
+
+
+    public static final double FOLLOWER_T_POSITION_END = 0.9;//0.91;
+    public static double FOLLOWER_T_POSITION_END_TELEOP = 0.94;
+    public static final double LENGTH_X_ROW = TILE_DIM * 0.86;
+    public static final double LENGTH_X_ROW_3RD = TILE_DIM * 1;
+
+    public static final double T_PARAMETRIC_DONT_SHOOT = 0.55;
+    public static final long WAIT_INIT_SHOOTER = 5;
+    public static final long WAIT_INIT_PEDRO_SHOOTER = 180;
+
+    public static final double UNSHORTCUT_LENGTH = 10;
+    public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 30.0;
+
+    public static double getBrakingStrengthScaleFromRange(double range) {
+        if (range < MIN_RANGE_SCALE_BRAKING_STRENGTH){
+            return BRAKING_STRENGTH_PEDRO_DINITECH;
+        } else {
+            return BRAKING_STRENGTH_PEDRO_DINITECH * Math.pow(MIN_RANGE_SCALE_BRAKING_STRENGTH / range, 2);
+        }
+    }
+
+    public static final double MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME = 40.0;
+    public static double getLinearInterpolationHeadingEndTimeFromRange(double range){
+        if (range > MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME){
+            return LINEAR_HEADING_INTERPOLATION_END_TIME;
+        } else {
+            return LINEAR_HEADING_INTERPOLATION_END_TIME * range / MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME;
+        }
+    }
+
+
+    public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
+    public static final double GATEPICK_POWER = MAX_POWER_ROW_PICK_ARTEFACTS;
 }

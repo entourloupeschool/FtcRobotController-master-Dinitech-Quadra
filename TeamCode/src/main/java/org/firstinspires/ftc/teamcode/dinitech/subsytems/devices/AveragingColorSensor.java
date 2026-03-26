@@ -1,14 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
 
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.GAIN_DETECTION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.GREEN_HUE_HIGHER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.GREEN_HUE_LOWER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.GREEN_RED_RGB_HIGHER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.GREEN_SATURATION_LOWER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PURPLE_HUE_HIGHER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PURPLE_HUE_LOWER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SAMPLE_SIZE_TEST;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.GAIN_DETECTION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.SAMPLE_SIZE_TEST;
 
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;

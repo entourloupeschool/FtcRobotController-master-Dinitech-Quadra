@@ -1,23 +1,10 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DISTANCE_ARTEFACT_IN_TRIEUR;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN_DOUBLE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MODE_RAMASSAGE_TELE_TIMEOUT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_MOULIN_ROTATION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.POWER_SCALER_RECALIBRATION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SCALE_RECALIBRATION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_TELE_INCREMENT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getDegreesFromTicks;
-
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrent;
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.MagneticSwitch;
@@ -43,6 +30,77 @@ import java.util.Arrays;
  * </ul>
  */
 public class TrieurSubsystem extends SubsystemBase {
+    public static final String CS1_NAME = "cs1";
+    public static final String CS2_NAME = "cs2";
+    public static final float GAIN_DETECTION = 20;
+    public static final int SAMPLE_SIZE_TEST = 2;
+
+    public static final double DETECT_PURPLE_RED_RGB = 0.694;
+    public static final double DETECT_PURPLE_GREEN_RGB = 0.612;
+    public static final double DETECT_PURPLE_BLUE_RGB = 0.851;
+    public static final double MARGIN_PURPLE_RGB_DETECTION = 0.25;
+
+    public static final double DETECT_GREEN_RED_RGB = 0.2;
+    public static final double DETECT_GREEN_GREEN_RGB = 0.9;
+    public static final double DETECT_GREEN_BLUE_RGB = 0.2;
+    public static final double MARGIN_GREEN_RGB_DETECTION = 0.35;
+
+    public static final double GREEN_HUE_LOWER = 150;
+    public static final double GREEN_HUE_HIGHER = 170;
+    public static final double GREEN_SATURATION_LOWER = 0.58;
+    public static final double GREEN_RED_RGB_HIGHER = 0.014;
+    public static final double PURPLE_HUE_LOWER = 180;
+    public static final double PURPLE_HUE_HIGHER = 260;
+    public static final String MAGNETIC_SWITCH_NAME = "m_s";
+
+    public static final String TRAPPE_SERVO_NAME = "porte";
+    public static final double TRAPPE_OPEN_POSITION = 0;
+    public static final double TRAPPE_CLOSE_POSITION = -130;
+    public static final double TRAPPE_TELE_INCREMENT = 0.5;
+    public static final long TRAPPE_OPEN_TIME = 470;
+    public static final long TRAPPE_CLOSE_TIME = TRAPPE_OPEN_TIME;
+
+    public static final String MOULIN_MOTOR_NAME = "moulin";
+
+    public static int REVOLUTION_MOULIN_TICKS = 1833;
+    public static double INTERVALLE_TICKS_MOULIN_DOUBLE = (double) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS; // = 305.5
+    public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.1964°
+    // 1° = 5.1 ticks
+    public static double getDegreesFromTicks(int ticks){
+        return TICKS_TO_DEGREE * ticks;}
+    public static int getTicksFromDegrees(double degrees){
+        return (int) (degrees / TICKS_TO_DEGREE);}
+
+
+    public static final double POWER_MOULIN_ROTATION = 1;
+    public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
+    public static int MOULIN_POSITION_TOLERANCE = getTicksFromDegrees(1.1);
+    public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
+    public static double VERY_LOOSE_DEGREES = 2.5;
+
+    public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = getTicksFromDegrees(VERY_LOOSE_DEGREES);
+
+    public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 5 * (MOULIN_POSITION_TOLERANCE + 2);
+    public static int MOULIN_ROTATE_SPEED_CALIBRATION = 18;
+    public static int OFFSET_MAGNETIC_POS = 41; // (int) Math.round(REVOLUTION_MOULIN_TICKS * 0.0250817);
+    public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
+    public static double SCALE_RECALIBRATION = getTicksFromDegrees(3);
+    public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
+    public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
+    public static int WAIT_HIGH_SPEED_TRIEUR = 185;
+    public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.9;
+    public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
+    public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
+    public static long WAIT_FOR_3BALL = 3800;
+
+    //PIDF MOULIN (TURRET)
+    public static double P_MOULIN_AGGRESSIVE = 5.954;// 6.54
+    public static double I_MOULIN_AGGRESSIVE = 8.418;//11.03
+    public static double D_MOULIN_AGGRESSIVE = 3.4;//0.7
+    public static double F_MOULIN_AGGRESSIVE = 0.0;//1.493
+    public static final double ADJUST_CONSTANT = 0.015;
+    public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
+    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 23;
     /**
      * Represents the possible colors of an artifact.
      */

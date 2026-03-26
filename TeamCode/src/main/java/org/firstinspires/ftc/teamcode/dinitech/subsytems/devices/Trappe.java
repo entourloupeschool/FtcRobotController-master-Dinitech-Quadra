@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_CLOSE_POSITION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_OPEN_POSITION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_SERVO_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TRAPPE_TELE_INCREMENT;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.TRAPPE_CLOSE_POSITION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.TRAPPE_OPEN_POSITION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.TRAPPE_SERVO_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.TRAPPE_TELE_INCREMENT;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 

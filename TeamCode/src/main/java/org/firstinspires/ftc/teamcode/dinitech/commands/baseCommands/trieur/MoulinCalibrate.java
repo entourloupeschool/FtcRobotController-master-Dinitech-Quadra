@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN_DOUBLE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAGNETIC_ON_MOULIN_POSITION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_ROTATE_SPEED_CALIBRATION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.OFFSET_MAGNETIC_POS;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.INTERVALLE_TICKS_MOULIN_DOUBLE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MAGNETIC_ON_MOULIN_POSITION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MOULIN_ROTATE_SPEED_CALIBRATION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.OFFSET_MAGNETIC_POS;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

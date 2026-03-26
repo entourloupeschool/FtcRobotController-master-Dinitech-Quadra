@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_START_PEDRO_DINITECH;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_STRENGTH_PEDRO_DINITECH;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ENCODER_RESOLUTION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PAR_POD_Y_MM;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PERP_POD_X_MM;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.ENCODER_RESOLUTION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.PAR_POD_Y_MM;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.PERP_POD_X_MM;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.BRAKING_START_PEDRO_DINITECH;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.BRAKING_STRENGTH_PEDRO_DINITECH;
 
 import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.control.PIDFCoefficients;

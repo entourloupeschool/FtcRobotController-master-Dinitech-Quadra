@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

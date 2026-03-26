@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.red.mr;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 

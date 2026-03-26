@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_STRENGTH_PEDRO_DINITECH;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INIT_SHOOT_AUTO_SHOOTER_VELOCITY;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_INIT_SHOOTER;
+import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.WAIT_INIT_SHOOTER;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.BRAKING_STRENGTH_PEDRO_DINITECH;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -26,7 +26,7 @@ public class InitToQuickShoot extends ParallelCommandGroup {
     public InitToQuickShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, Pose ShootPosition, double shootVelocity, double endTime){
         addCommands(
                 new SequentialCommandGroup(
-                        new SetVelocityShooterRequire(shooterSubsystem, INIT_SHOOT_AUTO_SHOOTER_VELOCITY),
+                        new InstantCommand(),
                         new ParallelCommandGroup(
                                 new MaxPowerChargeur(chargeurSubsystem),
                                 new SetVelocityShooterRequire(shooterSubsystem, shootVelocity)),
@@ -48,7 +48,7 @@ public class InitToQuickShoot extends ParallelCommandGroup {
     public InitToQuickShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, Pose ShootPosition, double shootVelocity, double endTime){
         addCommands(
                 new SequentialCommandGroup(
-                        new SetVelocityShooterRequire(shooterSubsystem, INIT_SHOOT_AUTO_SHOOTER_VELOCITY),
+                        new InstantCommand(),
                         new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
                         new WaitCommand(WAIT_INIT_SHOOTER),
                         new ShootAll(trieurSubsystem, shooterSubsystem, true)),

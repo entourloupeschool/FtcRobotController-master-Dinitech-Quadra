@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.linearSpeedFromRange;
-
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
@@ -33,7 +31,7 @@ public class VisionShooter extends CommandBase {
     @Override
     public void execute() {
         Double range = visionSubsystem.getRangeToAprilTag();
-        if (range != null) shooterSubsystem.setVelocity(linearSpeedFromRange(range));
+        if (range != null) shooterSubsystem.setVelocity(ShooterSubsystem.linearSpeedFromPedroRange(range));
     }
 
 

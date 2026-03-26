@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.other;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BLUE_TEAM_HEADING;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROBOT_LENGTH_INCH;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROBOT_WIDTH_INCH;
+import static org.firstinspires.ftc.teamcode.dinitech.other.RobotDefinitions.ROBOT_LENGTH_INCH;
+import static org.firstinspires.ftc.teamcode.dinitech.other.RobotDefinitions.ROBOT_WIDTH_INCH;
 
 import com.bylazar.field.FieldManager;
 import com.bylazar.field.PanelsField;

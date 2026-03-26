@@ -4,15 +4,15 @@ import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_TO_POSITION;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.D_MOULIN_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.F_MOULIN_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INTERVALLE_TICKS_MOULIN_DOUBLE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.I_MOULIN_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_MOTOR_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_POSITION_TOLERANCE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MOULIN_SPEED_TOLERANCE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_MOULIN_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.REVOLUTION_MOULIN_TICKS;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.D_MOULIN_AGGRESSIVE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.F_MOULIN_AGGRESSIVE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.INTERVALLE_TICKS_MOULIN_DOUBLE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.I_MOULIN_AGGRESSIVE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MOULIN_MOTOR_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MOULIN_POSITION_TOLERANCE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MOULIN_SPEED_TOLERANCE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.P_MOULIN_AGGRESSIVE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.REVOLUTION_MOULIN_TICKS;
 
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;

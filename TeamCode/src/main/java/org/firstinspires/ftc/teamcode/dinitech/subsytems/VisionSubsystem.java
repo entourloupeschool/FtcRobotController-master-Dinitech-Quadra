@@ -1,31 +1,12 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLAMP_BEARING;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CORRECTION_BASKET_OFFSET;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CX;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CY;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FX;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FY;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA1_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_PITCH;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_ROLL;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_ORIENTATION_YAW;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_POSITION_X;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_POSITION_Y;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_POSITION_Z;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CAMERA_RESOLUTION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_AT_SAMPLES;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.STREAM_FORMAT;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.aAT_LINE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.bAT_LINE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.cmToInch;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationOffsetBearing;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.inchToCm;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RunningAverage;
-import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem.MAX_RANGE_TO_SHOOT_CM;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem.MIN_RANGE_TO_SHOOT_CM;
 
+import android.util.Size;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.bylazar.telemetry.TelemetryManager;
@@ -54,6 +35,58 @@ import java.util.List;
  * A command-based subsystem that manages the robot's vision capabilities.
  */
 public class VisionSubsystem extends SubsystemBase {
+    public static final String CAMERA1_NAME = "CamColor";
+    public static final double FX = 516.3798424;//0.0;// 516.3798424;//1;
+    // https://github.com/jdhs-ftc/2025/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/atag/AprilTagLocalizer.kt
+    public static final double FY = 515.8231389;//0.0;// 515.8231389; //1;
+    public static final double CX = 328.1776587;// 0.0;// 328.1776587; //1;
+    public static final double CY = 237.3745503;//0.0;// 237.3745503; //1;
+    public static final double CAMERA_POSITION_X = -9.8;
+    public static final double CAMERA_POSITION_Y = 2.8;
+    public static final double CAMERA_POSITION_Z = 43.0;
+    public static final double CAMERA_ORIENTATION_YAW = 0;
+    public static final double CAMERA_ORIENTATION_PITCH = -90; // https://ftc-docs.firstinspires.org/en/latest/apriltag/vision_portal/apriltag_localization/apriltag-localization.html
+    public static final double CAMERA_ORIENTATION_ROLL = 0;
+    // Choose a camera resolution. Not all cameras support all resolutions.
+    public static final int CAMERA_WIDTH = 1280;// 1280; // 640;
+    public static final int CAMERA_HEIGHT = 800;// 800; // 480;
+    public static final Size CAMERA_RESOLUTION = new Size(CAMERA_WIDTH, CAMERA_HEIGHT); // new Size(640, 480);
+
+    // Set the stream format; MJPEG uses less bandwidth than default YUY2.
+    public static final VisionPortal.StreamFormat STREAM_FORMAT = VisionPortal.StreamFormat.MJPEG; // Or YUY2
+
+    public static final double CLAMP_BEARING = 73;
+    public static final double MIN_RANGE_VISION = MIN_RANGE_TO_SHOOT_CM; //CM
+    public static final double MAX_RANGE_VISION = MAX_RANGE_TO_SHOOT_CM; //CM
+
+    public static final double DIFF_RANGE_VISION = MAX_RANGE_VISION - MIN_RANGE_VISION; // = 248;
+
+    public static final double OFFSET_BEARING_AT_MIN_RANGE = -4.45; // DEGREES
+    public static final double OFFSET_BEARING_AT_MAX_RANGE = -1.8; //DEGREES
+    public static final double DIFF_OFFSET_BEARING_AT = OFFSET_BEARING_AT_MAX_RANGE - OFFSET_BEARING_AT_MIN_RANGE; // = -2.65
+    public static final double CORRECTION_BASKET_OFFSET = 0.21;
+    public static final double BASKET_Y_OFFSET = 8;
+    public static final int NUMBER_AT_SAMPLES = 3;
+    public static final int NUMBER_CUSTOM_POWER_FUNC_DRIVE_LOCKED = 4;
+    public static final double MIN_LINEAR = 0.005;
+    public static final double CUSTOM_POWER_LOCKED = 0.05;
+
+    public static final double DIFF_A_BEARING = DIFF_OFFSET_BEARING_AT / DIFF_RANGE_VISION; // = -0.01068548387
+
+    public static final double aAT_LINE = 1.4;
+    public static final double bAT_LINE = 59;
+
+    /**
+     * Calculates linear interpolation bearing offset using linear interpolation based on range.
+     * This helps correct for parallax error due to camera placement.
+     * @param range The range to the target.
+     * @return The calculated bearing offset.
+     */
+    public static double getLinearInterpolationOffsetBearing(double range) {
+        return DIFF_A_BEARING * range -5.4865;
+    }
+
+
     public final TelemetryManager telemetryM;
     public VisionPortal visionPortal = null;
     public AprilTagProcessor aprilTagProcessor;

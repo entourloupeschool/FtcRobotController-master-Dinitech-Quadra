@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.MAGNETIC_SWITCH_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MAGNETIC_SWITCH_NAME;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;

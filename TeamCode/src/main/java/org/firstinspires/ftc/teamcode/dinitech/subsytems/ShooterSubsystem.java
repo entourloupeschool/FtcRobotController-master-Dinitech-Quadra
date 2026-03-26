@@ -1,20 +1,11 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CURRENT_SHOOT_OVERFLOW;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.D_SHOOTER_VELOCITY_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.D_SHOOTER_VELOCITY_AGGRESSIVE_3R;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.F_SHOOTER_VELOCITY_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.F_SHOOTER_VELOCITY_AGGRESSIVE_3R;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.I_SHOOTER_VELOCITY_AGGRESSIVE;
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.I_SHOOTER_VELOCITY_AGGRESSIVE_3R;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_SHOOTER_VELOCITY_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.P_SHOOTER_VELOCITY_AGGRESSIVE_3R;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SHOOTER_MOTOR_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.SPEED_MARGIN;
-
+import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.BLUE_AUDIENCE_SHOOT_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.BLUE_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.CLOSE_SHOOT_BLUE_POSE;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -35,7 +26,42 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
  * @see SubsystemBase
  * @see DcMotorEx
  */
+@Configurable
 public class ShooterSubsystem extends SubsystemBase {
+    public static final String SHOOTER_MOTOR_NAME = "shooter";
+    public static final int RUNNING_AVERAGE_SHOOTER_CURRENT_SIZE = 5;
+    public static final int CURRENT_SHOOT_OVERFLOW = 1500;
+    public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
+    public static final double SPEED_MARGIN = 15;
+    public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 3;
+    public static final double SPEED_INCREMENT_SHOOTER = 10;
+    public static final double MAX_RANGE_TO_SHOOT_CM = 345;
+    public static final double MIN_RANGE_TO_SHOOT_CM = 97;
+    public static final double TELE_SHOOTER_SCALER = 30;
+
+    public static final double P_SHOOTER_VELOCITY_AGGRESSIVE = 80;
+    public static final double I_SHOOTER_VELOCITY_AGGRESSIVE = 1.33;
+    public static final double D_SHOOTER_VELOCITY_AGGRESSIVE = 0.005;
+    public static final double F_SHOOTER_VELOCITY_AGGRESSIVE = 2.1;
+
+    public static double P_SHOOTER_VELOCITY_AGGRESSIVE_3R = P_SHOOTER_VELOCITY_AGGRESSIVE;
+    public static double I_SHOOTER_VELOCITY_AGGRESSIVE_3R = 0.0001;
+    public static double D_SHOOTER_VELOCITY_AGGRESSIVE_3R = 5.745;
+    public static double F_SHOOTER_VELOCITY_AGGRESSIVE_3R = F_SHOOTER_VELOCITY_AGGRESSIVE * 5;
+    public static final long SHOOT_REVOLUTION_THEN_WAIT = 300;
+
+
+    public static double a_Pedro = 5.85; // 5.95;
+    public static double b_Pedro = 930; // 1060;
+
+    /**
+     * Gives back a linear speed from a range in inches
+     * @param rangeInch The range value in inches, positive.
+     * @return The speed value, also positive
+     */
+    public static double linearSpeedFromPedroRange(double rangeInch) {
+        return a_Pedro * rangeInch + b_Pedro;
+    }
     private enum VelocityPidProfile {
         BASE,
         LOADED

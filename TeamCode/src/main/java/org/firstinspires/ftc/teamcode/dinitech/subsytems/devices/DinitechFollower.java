@@ -1,13 +1,9 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_START_PEDRO_DINITECH;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.BRAKING_STRENGTH_PEDRO_DINITECH;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ENCODER_RESOLUTION;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PAR_POD_Y_MM;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.ENCODER_RESOLUTION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.PAR_POD_Y_MM;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.PERP_POD_X_MM;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.PERP_POD_X_MM;
-
-import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
@@ -22,8 +18,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+import com.bylazar.configurables.annotations.Configurable;
 @Configurable
 public class DinitechFollower {
+    public static final double AUTO_ROBOT_CONSTRAINTS = 1;
+    public static final double BRAKING_STRENGTH_PEDRO_DINITECH = 0.76; // 0.75
+    public static final double BRAKING_START_PEDRO_DINITECH = 1; // 1.4
     public static double kF = 0.012;
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)

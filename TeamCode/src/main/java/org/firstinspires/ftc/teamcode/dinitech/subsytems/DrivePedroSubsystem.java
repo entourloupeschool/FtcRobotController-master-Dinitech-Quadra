@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROTATED_BLUE_BASKET_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TELE_DRIVE_POWER_TRIGGER_SCALE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.pickCustomPowerFunc;
 
 
@@ -18,6 +15,16 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPedroMe
 
 
 public class DrivePedroSubsystem extends SubsystemBase {
+    public static final double TELE_DRIVE_POWER = 0.3;
+    public static final double TELE_DRIVE_POWER_TRIGGER_SCALE = 1 - TELE_DRIVE_POWER;
+    public static final double SLOW_DRIVE_SCALE = 0.3;
+    public static final double THROUGH_BORE_ENCODER_COUNTS_PER_REV = 8192; // https://revrobotics.eu/rev-11-1271/
+    public static final double DEAD_WHEEL_DIAMETER_MM = 50.8; // https://revrobotics.eu/ION-Omni-Wheels/
+    public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
+    public static final double PAR_POD_Y_MM = -142.2; // -144.5;
+    public static final double PERP_POD_X_MM = 143.2; //147;//143;
+    public static final double CLAMPING_HEADING_ERROR = 0.39;
+    public static final int NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED = 3;
     /**
      * The core drive system with PedroPathing integration.
      */

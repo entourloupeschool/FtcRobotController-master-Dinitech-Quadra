@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro
 
 import static com.pedropathing.math.MathFunctions.getSmallestAngleDifference;
 import static com.pedropathing.math.MathFunctions.normalizeAngle;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getBrakingStrengthScaleFromRange;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getLinearInterpolationHeadingEndTimeFromRange;
+import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.getBrakingStrengthScaleFromRange;
+import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.getLinearInterpolationHeadingEndTimeFromRange;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.geometry.BezierCurve;

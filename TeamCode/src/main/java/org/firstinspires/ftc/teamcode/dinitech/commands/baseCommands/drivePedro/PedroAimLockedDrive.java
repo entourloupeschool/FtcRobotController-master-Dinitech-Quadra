@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLAMPING_HEADING_ERROR;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROTATED_BLUE_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.ROTATED_BLUE_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.CLAMPING_HEADING_ERROR;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.pedropathing.geometry.Pose;

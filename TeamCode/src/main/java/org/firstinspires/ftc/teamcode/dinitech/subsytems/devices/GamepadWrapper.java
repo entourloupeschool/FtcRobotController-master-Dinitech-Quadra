@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_1;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_DURATION_2;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RUMBLE_POWER;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem.RUMBLE_DURATION_2;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem.RUMBLE_DURATION_1;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem.RUMBLE_POWER;
 
-import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.command.button.Trigger;

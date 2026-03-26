@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.INIT_SHOOT_AUTO_SHOOTER_VELOCITY;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.WAIT_INIT_PEDRO_SHOOTER;
+import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.WAIT_INIT_PEDRO_SHOOTER;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -25,7 +25,7 @@ public class InitToPedroShoot extends ParallelCommandGroup {
         final double startRangeToShootPose = drivePedroSubsystem.getPose().distanceFrom(ShootPosition);
         addCommands(
                 new SequentialCommandGroup(
-                        new SetVelocityShooterRequire(shooterSubsystem, INIT_SHOOT_AUTO_SHOOTER_VELOCITY),
+                        new InstantCommand(),
                         new WaitCommand(WAIT_INIT_PEDRO_SHOOTER),
                         new ShootAll(trieurSubsystem, shooterSubsystem)),
 
@@ -49,8 +49,7 @@ public class InitToPedroShoot extends ParallelCommandGroup {
                             double t = 1.0 - (remainingRangeToShootPose / startRangeToShootPose);
                             double clampedT = Math.max(0.0, Math.min(1.0, t));
 
-                            double targetVelocity = INIT_SHOOT_AUTO_SHOOTER_VELOCITY
-                                    + (shootVelocity - INIT_SHOOT_AUTO_SHOOTER_VELOCITY) * clampedT;
+                            double targetVelocity = shootVelocity * clampedT;
                             shooterSubsystem.setVelocity(targetVelocity);
                         })
         );

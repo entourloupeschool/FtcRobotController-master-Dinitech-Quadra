@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.tests;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.AUTO_ROBOT_CONSTRAINTS;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.CLOSE_SHOOT_RED_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.FIELD_CENTER_90HEADING_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RESET_POSE_BLUE;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.RESET_POSE_RED;
+import static org.firstinspires.ftc.teamcode.dinitech.other.FieldDefinitions.FIELD_CENTER_90HEADING_POSE;
+
+import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.CLOSE_SHOOT_RED_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.RESET_POSE_BLUE;
+import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.RESET_POSE_RED;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;

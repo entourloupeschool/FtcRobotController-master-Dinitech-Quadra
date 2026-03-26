@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur;
-
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.ROULEAU_MOTOR_MAX_POWER;
-import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.TAPIS_MAX_SPEED;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem.ROULEAU_MOTOR_MAX_POWER;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
