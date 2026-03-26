@@ -26,7 +26,7 @@ public class CancelFollowPath extends CommandBase {
     @Override
     public void initialize() {
         if (drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.AUTO){
-            drivePedroSubsystem.getDrive().startTeleOpDrive(true);
+            drivePedroSubsystem.startTeleOpDrive(true);
         }
         drivePedroSubsystem.setDriveReference(DrivePedroSubsystem.DriveReference.FC);
         drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.TELE);

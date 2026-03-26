@@ -13,9 +13,9 @@ public class TeleOpRed extends TeleOpBase {
             hubsSubsystem.setTeam(TeamPoses.Team.RED);
 
             if (PoseStorage.getLastPose() == null){
-                drivePedroSubsystem.getDrive().setPose(hubsSubsystem.getTeam().getResetPose());
+                drivePedroSubsystem.setPose(hubsSubsystem.getTeam().getResetPose());
             } else {
-                drivePedroSubsystem.getDrive().setPose(PoseStorage.getLastPose());
+                drivePedroSubsystem.setPose(PoseStorage.getLastPose());
                 PoseStorage.clearLastPose();
             }
     }

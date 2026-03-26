@@ -40,6 +40,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.PrepShootTrieur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.ToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetection;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAllAnyWay;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
@@ -47,7 +48,6 @@ import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixGamepads;
 import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPedroMecanumDrive;
 
 public class TeleOpBase extends GornetixGamepads {
 
@@ -58,11 +58,9 @@ public class TeleOpBase extends GornetixGamepads {
     public void initialize() {
             super.initialize();
 
-            DinitechPedroMecanumDrive drive = drivePedroSubsystem.dinitechPedroMecanumDrive;
-
-            drive.setPose(FIELD_CENTER_90HEADING_POSE);
-            drive.setFollowerTEnd(FOLLOWER_T_POSITION_END_TELEOP);
-            drive.startTeleOpDrive(true);
+            drivePedroSubsystem.setPose(FIELD_CENTER_90HEADING_POSE);
+            drivePedroSubsystem.setFollowerTEnd(FOLLOWER_T_POSITION_END_TELEOP);
+            drivePedroSubsystem.startTeleOpDrive(true);
 
             if (MoulinPositionColorsStorage.getLastMoulinPositionColors() != null){
                 TrieurSubsystem.ArtifactColor[] newMPC = MoulinPositionColorsStorage.getLastMoulinPositionColors();
@@ -122,11 +120,7 @@ public class TeleOpBase extends GornetixGamepads {
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
 
         m_Driver.triangle.whenPressed(new ToggleTrappe(trieurSubsystem));
-        m_Driver.square.whenPressed(
-                new ConditionalCommand(
-                        new MoulinHighSpeedRevolution(trieurSubsystem, shooterSubsystem),
-                        new ShootAll(trieurSubsystem, shooterSubsystem, true),
-                        ()->trieurSubsystem.isEmpty()));
+        m_Driver.square.whenPressed(new ShootAllAnyWay(trieurSubsystem, shooterSubsystem));
 
         m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false));
 

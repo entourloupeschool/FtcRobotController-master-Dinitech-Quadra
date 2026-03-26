@@ -34,7 +34,7 @@ public class DrivingAimChar extends GornetixGamepads {
     public void initialize() {
         super.initialize();
 
-        drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEADING_POSE);
+        drivePedroSubsystem.setPose(FIELD_CENTER_90HEADING_POSE);
         drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem));
 
         m_Operator.start.whenPressed(new SwitchTeamAndFlipPose(drivePedroSubsystem, hubsSubsystem));

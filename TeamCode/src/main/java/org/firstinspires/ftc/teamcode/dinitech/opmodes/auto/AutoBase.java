@@ -21,7 +21,7 @@ public class AutoBase extends Gornetix {
 
             trieurSubsystem.openTrappe();
 
-            drivePedroSubsystem.getDrive().setFollowerTEnd(FOLLOWER_T_POSITION_END);
+            drivePedroSubsystem.setFollowerTEnd(FOLLOWER_T_POSITION_END);
 
             drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
 //            visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));

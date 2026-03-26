@@ -105,7 +105,7 @@ public class Globals {
         }
 
         Vec2 headingToBasket = basketDirection.multiply(1.0 / basketDirectionMagnitude);
-        double centerBackoff = ROBOT_LENGTH_INCH / 2.0 + LAUNCH_ZONE_TOUCH_MARGIN_INCH;
+        double centerBackoff = (ROBOT_LENGTH_INCH/3) / 2.0 + LAUNCH_ZONE_TOUCH_MARGIN_INCH;
 
         return closest.subtract(headingToBasket.multiply(centerBackoff));
     }

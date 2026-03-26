@@ -6,10 +6,13 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.BLUE_TEAM_
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem.linearSpeedFromPedroRange;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
+import com.arcrobotics.ftclib.command.Command;
+import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.PedroAimLockedDrive;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAllAnyWay;
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -17,7 +20,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPedroMecanumDrive;
+
+import java.util.function.BooleanSupplier;
 
 /**
  * Path builder tuned to maximize tangent heading travel while minimizing rotation demand.
@@ -38,33 +42,41 @@ public class ToClosestShootPose extends OptimalPath {
     private final GamepadSubsystem gamepadSubsystem;
     public ToClosestShootPose(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, HubsSubsystem hubsSubsystem, GamepadSubsystem gamepadSubsystem){
         super(
-        drivePedroSubsystem,
-        OptimalPath.createLineSupplier(
-            drivePedroSubsystem,
-            (currentPose, currentHeading) -> computeShootPose(currentPose, hubsSubsystem, shooterSubsystem)),
-        AUTO_ROBOT_CONSTRAINTS,
-        true);
+                drivePedroSubsystem,
+                OptimalPath.createLineSupplier(
+                        drivePedroSubsystem,
+                        (currentPose, currentHeading) -> computeShootPose(currentPose, hubsSubsystem, shooterSubsystem)),
+                AUTO_ROBOT_CONSTRAINTS, true);
+
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.trieurSubsystem = trieurSubsystem;
         this.shooterSubsystem = shooterSubsystem;
         this.hubsSubsystem = hubsSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
-        addRequirements(shooterSubsystem);
 
+        addRequirements(shooterSubsystem);
     }
 
     @Override
     public void end(boolean interrupted){
-        DinitechPedroMecanumDrive drive = drivePedroSubsystem.dinitechPedroMecanumDrive;
 
-        if (interrupted) drive.getFollower().pausePathFollowing();
-        else new ShootAll(trieurSubsystem, shooterSubsystem, true).schedule();
+        if (interrupted) drivePedroSubsystem.pausePathFollowing();
+        else new ShootAllAnyWay(trieurSubsystem, shooterSubsystem).schedule();
 
-        drive.startTeleOpDrive(true);
+        drivePedroSubsystem.startTeleOpDrive(true);
 
         drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem));
 
         super.end(interrupted);
+    }
+
+    @Override
+    public Command interruptOn(BooleanSupplier condition) {
+        BooleanSupplier reunion = ()->
+                Math.hypot(gamepadSubsystem.getDriver().getLeftX(), gamepadSubsystem.getDriver().getLeftY()) > 0.02
+                || Math.hypot(gamepadSubsystem.getDriver().getRightX(), gamepadSubsystem.getDriver().getRightY()) > 0.02
+                || condition.getAsBoolean();
+        return super.interruptOn(reunion);
     }
 
     private static Pose computeShootPose(Pose currentPose, HubsSubsystem hubsSubsystem, ShooterSubsystem shooterSubsystem) {

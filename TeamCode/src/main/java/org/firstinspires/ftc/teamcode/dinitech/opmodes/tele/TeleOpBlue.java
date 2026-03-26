@@ -18,7 +18,7 @@ public class TeleOpBlue extends TeleOpBaseAutomations {
             hubsSubsystem.setTeam(TeamPoses.Team.BLUE);
 
             if (PoseStorage.getLastPose() == null){
-                drivePedroSubsystem.getDrive().setPose(hubsSubsystem.getTeam().getResetPose());
+                drivePedroSubsystem.setPose(hubsSubsystem.getTeam().getResetPose());
 
             } else {
                 drivePedroSubsystem.setPose(PoseStorage.getLastPose().rotate(BLUE_TEAM_HEADING, true));

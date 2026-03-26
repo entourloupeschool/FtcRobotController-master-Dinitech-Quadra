@@ -9,7 +9,7 @@ public class AutoPathsDefinitions {
 
 
     public static final double FOLLOWER_T_POSITION_END = 0.9;//0.91;
-    public static double FOLLOWER_T_POSITION_END_TELEOP = 0.94;
+    public static double FOLLOWER_T_POSITION_END_TELEOP = 0.96;
     public static final double LENGTH_X_ROW = TILE_DIM * 0.86;
     public static final double LENGTH_X_ROW_3RD = TILE_DIM * 1;
 

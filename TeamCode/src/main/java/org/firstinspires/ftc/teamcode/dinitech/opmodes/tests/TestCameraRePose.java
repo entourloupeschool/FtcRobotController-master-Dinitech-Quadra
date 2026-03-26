@@ -108,7 +108,7 @@ public class TestCameraRePose extends RobotBase {
                         AUTO_ROBOT_CONSTRAINTS, false)));
 
         driver.triangle.whenPressed(new CancelFollowPath(drivePedroSubsystem));
-        driver.square.toggleWhenPressed(new InstantCommand(() -> drivePedroSubsystem.getDrive().getFollower().pausePathFollowing()), new InstantCommand(() -> drivePedroSubsystem.getDrive().getFollower().resumePathFollowing()));
+        driver.square.toggleWhenPressed(new InstantCommand(() -> drivePedroSubsystem.pausePathFollowing()), new InstantCommand(() -> drivePedroSubsystem.resumePathFollowing()));
     }
 
     /**

@@ -14,7 +14,7 @@ public class CenterFieldTeleOp extends TeleOpBase {
     public void initialize() {
             super.initialize();
             hubsSubsystem.setTeam(TeamPoses.Team.BLUE);
-            drivePedroSubsystem.getDrive().setPose(FIELD_CENTER_90HEADING_POSE);
+            drivePedroSubsystem.setPose(FIELD_CENTER_90HEADING_POSE);
     }
 
     @Override
