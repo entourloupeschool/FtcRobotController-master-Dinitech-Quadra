@@ -101,7 +101,7 @@ public class FollowPath extends CommandBase {
 
         // Build the path at initialization if using a supplier
         if (pathChain == null && pathSupplier != null) {
-            pathChain = pathSupplier.build(drivePedroSubsystem.getDrive().getPathBuilder());
+            pathChain = pathSupplier.build(drivePedroSubsystem.getPathBuilder());
         }
 
         drivePedroSubsystem.followPathChain(pathChain, maxPower, holdEnd);

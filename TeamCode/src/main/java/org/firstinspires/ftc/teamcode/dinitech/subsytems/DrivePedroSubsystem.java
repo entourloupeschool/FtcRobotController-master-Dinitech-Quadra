@@ -10,6 +10,7 @@ import com.bylazar.telemetry.TelemetryManager;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.PathBuilder;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -83,6 +84,10 @@ public class DrivePedroSubsystem extends SubsystemBase {
 
     public void startTeleOpDrive(boolean b) {
         follower.startTeleOpDrive();
+    }
+
+    public PathBuilder getPathBuilder() {
+        return follower.pathBuilder();
     }
 
 

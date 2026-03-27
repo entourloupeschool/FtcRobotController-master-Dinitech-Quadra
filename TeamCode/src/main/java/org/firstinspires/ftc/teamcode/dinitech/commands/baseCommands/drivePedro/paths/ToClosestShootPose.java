@@ -7,11 +7,10 @@ import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.arcrobotics.ftclib.command.Command;
-import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.math.MathFunctions;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.PedroAimLockedDrive;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAllAnyWay;
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
@@ -90,17 +89,21 @@ public class ToClosestShootPose extends OptimalPath {
         Pose workingPose = currentPose;
         if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) workingPose = currentPose.rotate(BLUE_TEAM_HEADING, false);
 
-        Globals.Vec2 currentVec = new Globals.Vec2(workingPose.getX(), workingPose.getY());
-        Globals.Vec2 shootVec = getClosestVec2InLaunchZone(currentVec, basketVec,1);
+        Globals.Vec2 workingVec = new Globals.Vec2(workingPose.getX(), workingPose.getY());
+        Globals.Vec2 shootVec = getClosestVec2InLaunchZone(workingVec, basketVec,1);
+        boolean rotateInPlace = MathFunctions.roughlyEquals(workingVec.x, shootVec.x, 1)
+                && MathFunctions.roughlyEquals(workingVec.y, shootVec.y, 1);
 
-        Globals.Vec2 shootToBasketVec = basketVec.subtract(shootVec);
+        Globals.Vec2 targetVec = rotateInPlace ? workingVec : shootVec;
+
+        Globals.Vec2 shootToBasketVec = basketVec.subtract(targetVec);
         double shootToBasketAngle = Math.atan2(shootToBasketVec.y, shootToBasketVec.x);
 
-        Pose shootPose = new Pose(shootVec.x, shootVec.y, shootToBasketAngle);
+        Pose shootPose = new Pose(targetVec.x, targetVec.y, shootToBasketAngle);
 
         if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) shootPose = shootPose.rotate(BLUE_TEAM_HEADING, true);
 
-        shooterSubsystem.setVelocity(linearSpeedFromPedroRange(shootVec.euclidianDistance(basketVec)));
+        shooterSubsystem.setVelocity(linearSpeedFromPedroRange(targetVec.euclidianDistance(basketVec)));
 
         return shootPose;
     }
