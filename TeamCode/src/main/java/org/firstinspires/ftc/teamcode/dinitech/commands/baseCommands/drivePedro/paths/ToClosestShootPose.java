@@ -39,6 +39,7 @@ public class ToClosestShootPose extends OptimalPath {
     private final ShooterSubsystem shooterSubsystem;
     private final HubsSubsystem hubsSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
+    private static boolean rotateInPlace;
     public ToClosestShootPose(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, HubsSubsystem hubsSubsystem, GamepadSubsystem gamepadSubsystem){
         super(
                 drivePedroSubsystem,
@@ -53,6 +54,8 @@ public class ToClosestShootPose extends OptimalPath {
         this.hubsSubsystem = hubsSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
 
+        rotateInPlace = false;
+
         addRequirements(shooterSubsystem);
     }
 
@@ -60,7 +63,7 @@ public class ToClosestShootPose extends OptimalPath {
     public void end(boolean interrupted){
 
         if (interrupted) drivePedroSubsystem.pausePathFollowing();
-        else new ShootAllAnyWay(trieurSubsystem, shooterSubsystem).schedule();
+        else if (!rotateInPlace) new ShootAllAnyWay(trieurSubsystem, shooterSubsystem).schedule();
 
         drivePedroSubsystem.startTeleOpDrive(true);
 
@@ -91,19 +94,17 @@ public class ToClosestShootPose extends OptimalPath {
 
         Globals.Vec2 workingVec = new Globals.Vec2(workingPose.getX(), workingPose.getY());
         Globals.Vec2 shootVec = getClosestVec2InLaunchZone(workingVec, basketVec,1);
-        boolean rotateInPlace = MathFunctions.roughlyEquals(workingVec.x, shootVec.x, 1)
+        rotateInPlace = MathFunctions.roughlyEquals(workingVec.x, shootVec.x, 1)
                 && MathFunctions.roughlyEquals(workingVec.y, shootVec.y, 1);
 
-        Globals.Vec2 targetVec = rotateInPlace ? workingVec : shootVec;
-
-        Globals.Vec2 shootToBasketVec = basketVec.subtract(targetVec);
+        Globals.Vec2 shootToBasketVec = basketVec.subtract(shootVec);
         double shootToBasketAngle = Math.atan2(shootToBasketVec.y, shootToBasketVec.x);
 
-        Pose shootPose = new Pose(targetVec.x, targetVec.y, shootToBasketAngle);
+        Pose shootPose = new Pose(shootVec.x, shootVec.y, shootToBasketAngle);
 
         if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) shootPose = shootPose.rotate(BLUE_TEAM_HEADING, true);
 
-        shooterSubsystem.setVelocity(linearSpeedFromPedroRange(targetVec.euclidianDistance(basketVec)));
+        shooterSubsystem.setVelocity(linearSpeedFromPedroRange(shootVec.euclidianDistance(basketVec)));
 
         return shootPose;
     }
