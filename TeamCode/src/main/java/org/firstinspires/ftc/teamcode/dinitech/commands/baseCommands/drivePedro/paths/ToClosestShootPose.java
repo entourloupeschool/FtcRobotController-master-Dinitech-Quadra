@@ -86,7 +86,7 @@ public class ToClosestShootPose extends OptimalPath {
         if (basketPose == null) return currentPose;
 
         Globals.Vec2 basketVec = new Globals.Vec2(basketPose.getX(), basketPose.getY());
-        
+
         Pose workingPose = currentPose;
         if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) workingPose = currentPose.rotate(BLUE_TEAM_HEADING, false);
 

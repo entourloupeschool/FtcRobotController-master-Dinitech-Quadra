@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.OVER_CURRENT_BACKOFF_TICKS;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -20,6 +22,7 @@ public class MoulinToPositionMargin extends CommandBase {
     protected int moulinTargetPosition;
     protected boolean makeShort;
     protected int margin;
+    private boolean inCorrectionOfOvercurrent;
 
     /**
      * Creates a new MoulinToPosition command.
@@ -46,6 +49,25 @@ public class MoulinToPositionMargin extends CommandBase {
         if (moulinTargetPosition != -1){
             trieurSubsystem.moulinRotateToPosition(moulinTargetPosition, makeShort);
         }
+        inCorrectionOfOvercurrent = false;
+    }
+
+    @Override
+    public void execute(){
+        double beforeOverCurrentTarget = 0;
+        double targetCorrection = 0;
+        if (trieurSubsystem.getOvercurrentCounts() == 0 && !inCorrectionOfOvercurrent) {
+            beforeOverCurrentTarget = trieurSubsystem.getMoulinMotorTargetTicks();
+            targetCorrection = trieurSubsystem.getMoulinMotorPosition() + OVER_CURRENT_BACKOFF_TICKS;
+            inCorrectionOfOvercurrent = true;
+        }
+        if (inCorrectionOfOvercurrent) {
+            trieurSubsystem.setMoulinMotorTargetPosition(targetCorrection);
+            if (trieurSubsystem.isMoulinMotorCloseToTarget(margin)){
+                inCorrectionOfOvercurrent = false;
+                trieurSubsystem.setMoulinMotorTargetPosition(beforeOverCurrentTarget);
+            }
+        }
     }
 
     /**
@@ -55,6 +77,6 @@ public class MoulinToPositionMargin extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return moulinTargetPosition == -1 || trieurSubsystem.isMoulinMotorCloseToTarget(margin);
+        return (moulinTargetPosition == -1 || trieurSubsystem.isMoulinMotorCloseToTarget(margin)) && !inCorrectionOfOvercurrent;
     }
 }

@@ -29,11 +29,7 @@ public class ToggleTrappe extends CommandBase {
      */
     @Override
     public void initialize(){
-        if (trieurSubsystem.isTrappeOpen()){
-            trieurSubsystem.closeTrappe();
-        } else {
-            trieurSubsystem.openTrappe();
-        }
+        trieurSubsystem.toggleTrappe();
     }
 
     /**

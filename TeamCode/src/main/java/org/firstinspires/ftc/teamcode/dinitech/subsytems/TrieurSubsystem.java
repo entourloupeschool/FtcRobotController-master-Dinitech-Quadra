@@ -90,7 +90,7 @@ public class TrieurSubsystem extends SubsystemBase {
     public static int WAIT_HIGH_SPEED_TRIEUR = 185;
     public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.9;
     public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
-    public static final int OVER_CURRENT_BACKOFF_TICKS = 80; // Ticks to back off when over-current detected
+    public static final int OVER_CURRENT_BACKOFF_TICKS = - getTicksFromDegrees(10); // Ticks to back off when over-current detected
     public static long WAIT_FOR_3BALL = 3800;
 
     //PIDF MOULIN (TURRET)
@@ -101,6 +101,7 @@ public class TrieurSubsystem extends SubsystemBase {
     public static final double ADJUST_CONSTANT = 0.015;
     public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
     public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 23;
+
     /**
      * Represents the possible colors of an artifact.
      */
@@ -245,8 +246,11 @@ public class TrieurSubsystem extends SubsystemBase {
         return moulin.getRemainingTicks();
     }
 
+    public double getMoulinMotorTargetTicks() {
+        return moulin.getTargetTick();
+    }
     public double getMoulinMotorRemainingTicksDouble(){
-        return moulin.getTargetTick() - moulin.getMotorPosition();
+        return getMoulinMotorTargetTicks() - getMoulinMotorPosition();
     }
     public double getMoulinMotorRemainingDegrees() {
         return getDegreesFromTicks(getMoulinMotorRemainingTicks());
@@ -539,6 +543,9 @@ public class TrieurSubsystem extends SubsystemBase {
     public void openTrappe() {
         trappe.open();
     }
+    public void toggleTrappe() {
+        trappe.toggleTrappe();
+    }
 
     /**
      * Incrementally opens the trappe.
@@ -567,7 +574,7 @@ public class TrieurSubsystem extends SubsystemBase {
      * @return True if the trappe is open.
      */
     public boolean isTrappeOpen(){
-        return trappe.isDoorOpen();
+        return trappe.getTrappeIsOpen();
     }
 
     /**
@@ -618,18 +625,17 @@ public class TrieurSubsystem extends SubsystemBase {
      * This should be called periodically.
      */
     private void moulinLogic() {
+        lastMoulinMotorTicks.add(getMoulinMotorPosition());
+
         if (isMoulinRestAtTarget()) {
-//            setMoulinPower(0);
+            setMoulinPower(0);
 
         } else if (isMoulinOverCurrent()) {
-//                if (getOvercurrentCounts() == 0){
-//                    if (getCurrentCommand() != null) getCurrentCommand().cancel();
-//                    new MoulinCorrectOverCurrent(this).schedule();
-//                }
+
                 setOvercurrentCounts(getOvercurrentCounts() + 1);
 
                 if (getOvercurrentCounts() > 10){
-//                    setMoulinPower(0);
+                    setMoulinPower(0);
                     resetTargetMoulinMotor();
                 }
 
@@ -638,8 +644,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
         } else {
             setOvercurrentCounts(0);
-//            setMoulinPower(POWER_MOULIN_ROTATION);
-            lastMoulinMotorTicks.add(getMoulinMotorPosition());
+            setMoulinPower(POWER_MOULIN_ROTATION);
 
         }
 
@@ -721,7 +726,7 @@ public class TrieurSubsystem extends SubsystemBase {
     }
 
     private void printTrappeTelemetryManager(final TelemetryManager telemetryM) {
-        telemetryM.addData("trappe ouverte ?", trappe.isDoorOpen());
+        telemetryM.addData("trappe ouverte ?", trappe.getTrappeIsOpen());
     }
 
     private void printMagneticTelemetryManager(final TelemetryManager telemetryM) {

@@ -17,7 +17,15 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 public class Trappe extends SingleServo {
     /** State of the door (open/closed) */
-    private boolean doorIsOpen = false;
+    private boolean trappeIsOpen = false;
+    private void setTrappeIsOpen(boolean newTrappeIsOpen){
+        trappeIsOpen = newTrappeIsOpen;
+    }
+    public boolean getTrappeIsOpen(){
+        return trappeIsOpen;
+    }
+
+
 
     /**
      * Constructs a new Trappe instance.
@@ -42,7 +50,7 @@ public class Trappe extends SingleServo {
      */
     public void open() {
         rotateToAngle(TRAPPE_OPEN_POSITION);
-        doorIsOpen = true;
+        setTrappeIsOpen(true);
     }
 
 
@@ -51,15 +59,12 @@ public class Trappe extends SingleServo {
      */
     public void close() {
         rotateToAngle(TRAPPE_CLOSE_POSITION);
-        doorIsOpen = false;
+        setTrappeIsOpen(false);
     }
 
-    /**
-     * Checks if the trappe is currently open.
-     * @return True if the trappe is open, false otherwise.
-     */
-    public boolean isDoorOpen() {
-        return doorIsOpen;
+    public void toggleTrappe(){
+        if(getTrappeIsOpen()) close();
+        else open();
     }
 
     /**
@@ -75,6 +80,4 @@ public class Trappe extends SingleServo {
     public void incrementalRotationDown() {
         incrementalRotation(- TRAPPE_TELE_INCREMENT);
     }
-
-
 }
