@@ -14,6 +14,9 @@ import com.pedropathing.paths.PathBuilder;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Path builder tuned to maximize tangent heading travel while minimizing rotation demand.
  *
@@ -31,6 +34,8 @@ public class OptimalPath extends FollowPath {
     public static double ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES = 45.0;
     public static double DELTA_T = 0.01;
     public static int nDCompute = 3;
+
+    private final List<ParametricCallbackEntry> parametricCallbacks;
 
     private static double getTangentAtTCurve(BezierCurve curve, double t) {
         return curve.getDerivative(t).getTheta();
@@ -56,19 +61,40 @@ public class OptimalPath extends FollowPath {
 
     public OptimalPath(DrivePedroSubsystem drivePedroSubsystem, PathSupplier pathSupplier, double maxPower, boolean holdEnd) {
         super(drivePedroSubsystem, pathSupplier, maxPower, holdEnd);
+        this.parametricCallbacks = new ArrayList<>();
+    }
+
+    private OptimalPath(DrivePedroSubsystem drivePedroSubsystem, PathSupplier pathSupplier, double maxPower, boolean holdEnd, List<ParametricCallbackEntry> callbacks) {
+        super(drivePedroSubsystem, pathSupplier, maxPower, holdEnd);
+        this.parametricCallbacks = callbacks;
+    }
+
+    public OptimalPath withParametricCallback(double t, Runnable runnable) {
+        parametricCallbacks.add(new ParametricCallbackEntry(t, runnable));
+        return this;
     }
 
     public static OptimalPath line(DrivePedroSubsystem drivePedroSubsystem, Pose targetPose, double maxPower, boolean holdEnd) {
+        List<ParametricCallbackEntry> callbacks = new ArrayList<>();
         PathSupplier supplier = createLineSupplier(
                 drivePedroSubsystem,
-                (currentPose, currentHeading) -> targetPose);
+                (currentPose, currentHeading) -> targetPose,
+                callbacks);
 
-        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd, callbacks);
     }
 
     protected static PathSupplier createLineSupplier(
             DrivePedroSubsystem drivePedroSubsystem,
             TargetPoseProvider targetPoseProvider
+    ) {
+        return createLineSupplier(drivePedroSubsystem, targetPoseProvider, new ArrayList<>());
+    }
+
+    private static PathSupplier createLineSupplier(
+            DrivePedroSubsystem drivePedroSubsystem,
+            TargetPoseProvider targetPoseProvider,
+            List<ParametricCallbackEntry> callbacks
     ) {
         return createSupplier(
                 drivePedroSubsystem,
@@ -84,7 +110,8 @@ public class OptimalPath extends FollowPath {
                             range);
 
                     return new PathPlan(builder.addPath(line), headingInterpolator, range);
-                });
+                },
+                callbacks);
     }
 
     private static HeadingInterpolator HeadingInterpolatorPieceWiseHeadingLine(
@@ -150,6 +177,7 @@ public class OptimalPath extends FollowPath {
     }
 
     public static OptimalPath curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose targetPose, double maxPower, boolean holdEnd) {
+        List<ParametricCallbackEntry> callbacks = new ArrayList<>();
         PathSupplier supplier = createSupplier(
                 drivePedroSubsystem,
             (builder, currentPose, currentHeading) -> {
@@ -163,11 +191,13 @@ public class OptimalPath extends FollowPath {
                     range);
 
                 return new PathPlan(builder.addPath(curve), headingInterpolator, range);
-            });
+            },
+            callbacks);
 
-        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd, callbacks);
     }
     public static OptimalPath curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose targetPose, double maxPower, boolean holdEnd) {
+        List<ParametricCallbackEntry> callbacks = new ArrayList<>();
         PathSupplier supplier = createSupplier(
                 drivePedroSubsystem,
             (builder, currentPose, currentHeading) -> {
@@ -181,12 +211,14 @@ public class OptimalPath extends FollowPath {
                     range);
 
                 return new PathPlan(builder.addPath(curve), headingInterpolator, range);
-            });
+            },
+            callbacks);
 
-        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd, callbacks);
     }
 
     public static OptimalPath curve(DrivePedroSubsystem drivePedroSubsystem, Pose controlPoint1, Pose controlPoint2, Pose controlPoint3, Pose targetPose, double maxPower, boolean holdEnd) {
+        List<ParametricCallbackEntry> callbacks = new ArrayList<>();
         PathSupplier supplier = createSupplier(
                 drivePedroSubsystem,
             (builder, currentPose, currentHeading) -> {
@@ -200,21 +232,33 @@ public class OptimalPath extends FollowPath {
                     range);
 
                 return new PathPlan(builder.addPath(curve), headingInterpolator, range);
-            });
+            },
+            callbacks);
 
-        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd);
+        return new OptimalPath(drivePedroSubsystem, supplier, maxPower, holdEnd, callbacks);
     }
 
         private static PathSupplier createSupplier(
             DrivePedroSubsystem drivePedroSubsystem,
             PathPlanProvider pathPlanProvider
         ) {
+            return createSupplier(drivePedroSubsystem, pathPlanProvider, new ArrayList<>());
+        }
+
+        private static PathSupplier createSupplier(
+            DrivePedroSubsystem drivePedroSubsystem,
+            PathPlanProvider pathPlanProvider,
+            List<ParametricCallbackEntry> callbacks
+        ) {
         return builder -> {
             PathPlan pathPlan = pathPlanProvider.get(builder, drivePedroSubsystem.getPose(), drivePedroSubsystem.getHeading());
-            return pathPlan.builder
+            PathBuilder pathBuilder = pathPlan.builder
                 .setHeadingInterpolation(pathPlan.headingInterpolator)
-                .setBrakingStrength(getBrakingStrengthScaleFromRange(pathPlan.range))
-                .build();
+                .setBrakingStrength(getBrakingStrengthScaleFromRange(pathPlan.range));
+            for (ParametricCallbackEntry cb : callbacks) {
+                pathBuilder = pathBuilder.addParametricCallback(cb.t, cb.runnable);
+            }
+            return pathBuilder.build();
         };
         }
 
@@ -307,6 +351,16 @@ public class OptimalPath extends FollowPath {
 
     }
 
+
+    private static final class ParametricCallbackEntry {
+        final double t;
+        final Runnable runnable;
+
+        ParametricCallbackEntry(double t, Runnable runnable) {
+            this.t = t;
+            this.runnable = runnable;
+        }
+    }
 
     @FunctionalInterface
     private interface PathPlanProvider {

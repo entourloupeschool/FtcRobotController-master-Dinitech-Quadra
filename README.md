@@ -26,6 +26,7 @@ Stay updated with our progress, matches, and reveals:
 * 🎥 **YouTube**: [Dinitech Channel](https://www.youtube.com/channel/UCaTOewE9eect9wCToUA1e8g)
 * 📸 **Instagram**: [@dinitech.first](https://www.instagram.com/dinitech.first/)
 * 🏫 **High School**: [Lycée Professionnel Amédée Gordini](https://amedee-gordini.ent.auvergnerhonealpes.fr/)
+* **FTC Scout**: [FTC Scout](https://ftcscout.org/teams/25042?season=2024#FRCMP)
 
 ---
 
