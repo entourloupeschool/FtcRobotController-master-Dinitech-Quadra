@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.LINEAR_HEADING_INTERPOLATION_END_TIME;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -73,7 +72,7 @@ public class TestCameraRePose extends RobotBase {
                                 drivePedroSubsystem::getHeading,
                                 closePose.getHeading(),
                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                        AUTO_ROBOT_CONSTRAINTS, false),
+                        1, false),
 
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierCurve(
@@ -84,7 +83,7 @@ public class TestCameraRePose extends RobotBase {
                                 drivePedroSubsystem::getHeading,
                                 Math.PI,
                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                        AUTO_ROBOT_CONSTRAINTS, false),
+                        1, false),
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierCurve(
                                 drivePedroSubsystem::getPose,
@@ -94,7 +93,7 @@ public class TestCameraRePose extends RobotBase {
                                 drivePedroSubsystem::getHeading,
                                 farPose.getHeading(),
                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                        AUTO_ROBOT_CONSTRAINTS, false),
+                        1, false),
 
                 new FollowPath(drivePedroSubsystem, builder -> builder
                         .addPath(new BezierCurve(
@@ -105,29 +104,10 @@ public class TestCameraRePose extends RobotBase {
                                 drivePedroSubsystem::getHeading,
                                 initPose.getHeading(),
                                 LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                        AUTO_ROBOT_CONSTRAINTS, false)));
+                        1, false)));
 
         driver.triangle.whenPressed(new CancelFollowPath(drivePedroSubsystem));
         driver.square.toggleWhenPressed(new InstantCommand(() -> drivePedroSubsystem.pausePathFollowing()), new InstantCommand(() -> drivePedroSubsystem.resumePathFollowing()));
-    }
-
-    /**
-     * Main OpMode loop. Updates gamepad states.
-     */
-    @Override
-    public void run() {
-            super.run();
-
-//            if (visionSubsystem.getHasCurrentAprilTagDetections()){
-//                Double range = visionSubsystem.getRangeToAprilTag();
-//                if (range != null){
-//                    if (range < VISION_RE_POSE_AT_RANGE){
-//                        Pose visionPose = visionSubsystem.getLatestRobotPoseEstimationFromAT();
-//                        drivePedroSubsystem.getDrive().setPose(visionPose);
-//                        gamepadSubsystem.customRumble(customRumbleEffect, 1, true);
-//                    }
-//                }
-//            }
     }
 
 }

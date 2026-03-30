@@ -3,17 +3,16 @@ package org.firstinspires.ftc.teamcode.pedroPathing;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.ENCODER_RESOLUTION;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.PAR_POD_Y_MM;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.PERP_POD_X_MM;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.BRAKING_START_PEDRO_DINITECH;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.BRAKING_STRENGTH_PEDRO_DINITECH;
 
-import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.control.PIDFCoefficients;
+import com.pedropathing.control.PredictiveBrakingCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
 import com.pedropathing.ftc.drivetrains.MecanumConstants;
 import com.pedropathing.ftc.localization.constants.PinpointConstants;
 import com.pedropathing.paths.PathConstraints;
+
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -23,23 +22,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)
-            .forwardZeroPowerAcceleration(-52.3857)
-            .lateralZeroPowerAcceleration(-100.4664)
+            .headingPIDFCoefficients(new PIDFCoefficients(2, 0.005, 0.03, 0.012))
+            .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.1, 0.1153178675, 0.0022423725))
+            .centripetalScaling(0);
 
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.115, 0, 0.012, 0.025))
-            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(0.115, 0, 0.012, 0.025))
-
-            .headingPIDFCoefficients(new PIDFCoefficients(1, 0, 0.15, 0.01))
-            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(3, 0.02, 0.15, 0.006))
-
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.025,0,0.012,0.01,0.006))
-            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(0.025,0.001,0.012,0.6,0.006))
-
-            .centripetalScaling(0.0005)
-
-            .useSecondaryTranslationalPIDF(true)
-            .useSecondaryHeadingPIDF(true)
-            .useSecondaryDrivePIDF(true);
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
             .rightFrontMotorName("rightFront")
@@ -52,17 +39,14 @@ public class Constants {
             .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .xVelocity(80.2)
             .yVelocity(67.35);
-
     public static PinpointConstants localizerConstants = new PinpointConstants()
-            .forwardPodY(PAR_POD_Y_MM)
+            .forwardPodY(PAR_POD_Y_MM)  // https://pedropathing.com/docs/pathing/tuning/localization/pinpoint
             .strafePodX(PERP_POD_X_MM)
             .distanceUnit(DistanceUnit.MM)
             .hardwareMapName("pinpoint")
             .customEncoderResolution(ENCODER_RESOLUTION) //through bore encoder https://www.revrobotics.com/rev-11-1271/ wheels: https://www.revrobotics.com/ION-Omni-Wheels/ // https://docs.revrobotics.com/rev-crossover-products/sensors/tbe/specs
             .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);
-
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, BRAKING_STRENGTH_PEDRO_DINITECH, BRAKING_START_PEDRO_DINITECH);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)

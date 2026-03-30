@@ -56,7 +56,7 @@ public class MoulinToPositionMargin extends CommandBase {
     public void execute(){
         double beforeOverCurrentTarget = 0;
         double targetCorrection = 0;
-        if (trieurSubsystem.getOvercurrentCounts() == 0 && !inCorrectionOfOvercurrent) {
+        if (trieurSubsystem.getOvercurrentCounts() == 10 && !inCorrectionOfOvercurrent) {
             beforeOverCurrentTarget = trieurSubsystem.getMoulinMotorTargetTicks();
             targetCorrection = trieurSubsystem.getMoulinMotorPosition() + OVER_CURRENT_BACKOFF_TICKS;
             inCorrectionOfOvercurrent = true;

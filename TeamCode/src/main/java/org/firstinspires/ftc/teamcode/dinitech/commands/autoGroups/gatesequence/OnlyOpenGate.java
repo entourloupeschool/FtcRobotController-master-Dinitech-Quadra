@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.gatesequence
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.FieldDefinitions.TILE_DIM;
 
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -27,7 +26,7 @@ public class OnlyOpenGate extends SequentialCommandGroup {
                             drivePedroSubsystem::getHeading,
                             gatePickPose.getHeading(),
                             endTime)).build(),
-                    AUTO_ROBOT_CONSTRAINTS, false),
+                    1, false),
 
             new FollowPath(drivePedroSubsystem, builder -> builder
                     .addPath(new BezierLine(
@@ -48,7 +47,7 @@ public class OnlyOpenGate extends SequentialCommandGroup {
                             drivePedroSubsystem::getHeading,
                             gatePickPose.getHeading(),
                             LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                    AUTO_ROBOT_CONSTRAINTS, true)
+                    1, true)
 
         );
     }

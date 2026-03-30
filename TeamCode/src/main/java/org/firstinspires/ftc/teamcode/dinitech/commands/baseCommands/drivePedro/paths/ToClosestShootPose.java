@@ -4,7 +4,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.getClosestVe
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.BLUE_TEAM_HEADING;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem.linearSpeedFromPedroRange;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.pedropathing.geometry.Pose;
@@ -14,6 +13,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAllAnyWay;
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
@@ -37,20 +37,22 @@ public class ToClosestShootPose extends OptimalPath {
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final TrieurSubsystem trieurSubsystem;
     private final ShooterSubsystem shooterSubsystem;
+    private final ChargeurSubsystem chargeurSubsystem;
     private final HubsSubsystem hubsSubsystem;
     private final GamepadSubsystem gamepadSubsystem;
     private static boolean rotateInPlace;
-    public ToClosestShootPose(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, HubsSubsystem hubsSubsystem, GamepadSubsystem gamepadSubsystem){
+    public ToClosestShootPose(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, GamepadSubsystem gamepadSubsystem){
         super(
                 drivePedroSubsystem,
                 OptimalPath.createLineSupplier(
                         drivePedroSubsystem,
                         (currentPose, currentHeading) -> computeShootPose(currentPose, hubsSubsystem, shooterSubsystem)),
-                AUTO_ROBOT_CONSTRAINTS, true);
+                1, true);
 
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.trieurSubsystem = trieurSubsystem;
         this.shooterSubsystem = shooterSubsystem;
+        this.chargeurSubsystem = chargeurSubsystem;
         this.hubsSubsystem = hubsSubsystem;
         this.gamepadSubsystem = gamepadSubsystem;
 
@@ -63,7 +65,7 @@ public class ToClosestShootPose extends OptimalPath {
     public void end(boolean interrupted){
 
         if (interrupted) drivePedroSubsystem.pausePathFollowing();
-        else if (!rotateInPlace) new ShootAllAnyWay(trieurSubsystem, shooterSubsystem).schedule();
+        else if (!rotateInPlace) new ShootAllAnyWay(trieurSubsystem, shooterSubsystem, chargeurSubsystem).schedule();
 
         drivePedroSubsystem.startTeleOpDrive(true);
 

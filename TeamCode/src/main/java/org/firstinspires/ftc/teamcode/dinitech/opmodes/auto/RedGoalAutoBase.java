@@ -8,6 +8,6 @@ public class RedGoalAutoBase extends AutoBase {
     public void initialize() {
             super.initialize();
             hubsSubsystem.setTeam(TeamPoses.Team.RED);
-            drivePedroSubsystem.getDrive().prepAuto(hubsSubsystem.getTeam().getGoalInitPose());
+            drivePedroSubsystem.prepAuto(hubsSubsystem.getTeam().getGoalInitPose());
     }
 }

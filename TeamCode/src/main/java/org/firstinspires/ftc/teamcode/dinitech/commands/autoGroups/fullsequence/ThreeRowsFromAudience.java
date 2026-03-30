@@ -20,8 +20,7 @@ public class ThreeRowsFromAudience extends SequentialCommandGroup {
 
     public ThreeRowsFromAudience(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, double rowPower){
         addCommands(
-                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(), hubsSubsystem.getTeam().getAudienceShootVelocity(),
-                        getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getAudienceInitPose().distanceFrom(hubsSubsystem.getTeam().getAudienceShootPose()))),
+                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(), hubsSubsystem.getTeam().getAudienceShootVelocity()),
 
                 new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true)),
 

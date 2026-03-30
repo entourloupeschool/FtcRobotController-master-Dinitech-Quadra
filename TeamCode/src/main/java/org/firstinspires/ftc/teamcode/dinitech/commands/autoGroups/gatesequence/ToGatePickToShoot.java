@@ -5,7 +5,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions
 import static org.firstinspires.ftc.teamcode.dinitech.other.FieldDefinitions.TILE_DIM;
 import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.WAIT_FOR_3BALL;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
@@ -46,7 +45,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                         drivePedroSubsystem::getHeading,
                                         GatePickPose.getHeading(),
                                         endTime)).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true)),
+                                1, true)),
 
                 new ParallelCommandGroup(
                         new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, true),
@@ -75,9 +74,9 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME))
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true))),
+                                        1, true))),
 
-                new ShootAll(trieurSubsystem, shooterSubsystem, true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true)
         );
     }
 
@@ -94,7 +93,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                         drivePedroSubsystem::getHeading,
                                         GatePickPose.getHeading(),
                                         endTime)).build(),
-                                AUTO_ROBOT_CONSTRAINTS, false)),
+                                1, false)),
 
                 new ParallelCommandGroup(
                         new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, true),
@@ -124,9 +123,9 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                 LINEAR_HEADING_INTERPOLATION_END_TIME))
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true))),
+                                        1, true))),
 
-                new ShootAll(trieurSubsystem, shooterSubsystem, true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true)
         );
     }
 }

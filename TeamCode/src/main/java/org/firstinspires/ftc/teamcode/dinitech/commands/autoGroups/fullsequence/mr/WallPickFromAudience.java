@@ -23,8 +23,7 @@ public class WallPickFromAudience extends SequentialCommandGroup {
 
     public WallPickFromAudience(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, double rowPower){
         addCommands(
-                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(), hubsSubsystem.getTeam().getAudienceShootVelocity(),
-                        getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getAudienceInitPose().distanceFrom(hubsSubsystem.getTeam().getAudienceShootPose()))),
+                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(), hubsSubsystem.getTeam().getAudienceShootVelocity()),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
                         hubsSubsystem.getTeam().getThirdRowPose(), hubsSubsystem.getTeam().getAudienceShootPose(),
@@ -33,7 +32,7 @@ public class WallPickFromAudience extends SequentialCommandGroup {
                         hubsSubsystem.getTeam().getAudienceShootVelocity(), true,
                         getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getAudienceShootPose().distanceFrom(hubsSubsystem.getTeam().getThirdRowPose()))),
 
-                new ToWallToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem.getTeam().getWallPickPose(), hubsSubsystem.getTeam().getAudienceShootPose(), LENGTH_WALL_PICK, rowPower, LINEAR_HEADING_INTERPOLATION_END_TIME, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY)
+                new ToWallToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem.getTeam().getWallPickPose(), hubsSubsystem.getTeam().getAudienceShootPose(), LENGTH_WALL_PICK, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY)
         );
     }
 }

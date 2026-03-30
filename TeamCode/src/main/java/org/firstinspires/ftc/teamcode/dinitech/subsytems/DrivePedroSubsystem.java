@@ -15,7 +15,7 @@ import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.dinitech.other.DrawingDinitech;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechPredictiveFollower;
 
 @Configurable
 public class DrivePedroSubsystem extends SubsystemBase {
@@ -88,6 +88,11 @@ public class DrivePedroSubsystem extends SubsystemBase {
 
     public PathBuilder getPathBuilder() {
         return follower.pathBuilder();
+    }
+
+    public void prepAuto(Pose pose) {
+        follower.setStartingPose(pose);
+        follower.update();
     }
 
 
@@ -184,7 +189,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
      * @param telemetryM  The telemetry object for logging.
      */
     public DrivePedroSubsystem(HardwareMap hardwareMap, Pose beginPose, final TelemetryManager telemetryM) {
-        this.follower = DinitechFollower.createFollower(hardwareMap);
+        this.follower = DinitechPredictiveFollower.createFollower(hardwareMap);
         follower.setStartingPose(beginPose);
         follower.update();
 
@@ -198,7 +203,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
     }
 
     public DrivePedroSubsystem(HardwareMap hardwareMap, final TelemetryManager telemetryM) {
-        this.follower = DinitechFollower.createFollower(hardwareMap);
+        this.follower = DinitechPredictiveFollower.createFollower(hardwareMap);
 
         setDriverInputPose(false);
         setDriveUsage(DriveUsage.TELE);

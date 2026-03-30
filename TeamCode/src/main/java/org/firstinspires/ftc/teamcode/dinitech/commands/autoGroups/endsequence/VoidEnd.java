@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.LINEAR_HEADING_INTERPOLATION_END_TIME;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.pedropathing.geometry.BezierLine;
@@ -25,7 +24,7 @@ public class VoidEnd extends ParallelCommandGroup {
                                 drivePedroSubsystem.getPose().getHeading(),
                                 voidPose.getHeading(),
                                 LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                        AUTO_ROBOT_CONSTRAINTS, true),
+                        1, true),
                 new ParallelCommandGroup(
                         new StopChargeur(chargeurSubsystem),
                         new StopShooter(shooterSubsystem))

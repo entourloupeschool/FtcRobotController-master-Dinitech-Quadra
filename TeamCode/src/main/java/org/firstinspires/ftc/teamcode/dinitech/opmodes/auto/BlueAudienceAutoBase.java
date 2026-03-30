@@ -8,7 +8,7 @@ public class BlueAudienceAutoBase extends AutoBase {
     public void initialize() {
             super.initialize();
             hubsSubsystem.setTeam(TeamPoses.Team.BLUE);
-            drivePedroSubsystem.getDrive().prepAuto(hubsSubsystem.getTeam().getAudienceInitPose());
+            drivePedroSubsystem.prepAuto(hubsSubsystem.getTeam().getAudienceInitPose());
 
     }
 }

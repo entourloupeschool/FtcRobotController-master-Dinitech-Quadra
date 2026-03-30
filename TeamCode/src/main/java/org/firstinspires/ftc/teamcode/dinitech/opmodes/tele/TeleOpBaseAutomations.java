@@ -15,6 +15,6 @@ public class TeleOpBaseAutomations extends TeleOpBase {
     public void modeShoot(){
         schedule(new SequentialCommandGroup(
                 new StopChargeur(chargeurSubsystem),
-                new ToClosestShootPose(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, hubsSubsystem, gamepadSubsystem)));
+                new ToClosestShootPose(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem, gamepadSubsystem)));
     }
 }

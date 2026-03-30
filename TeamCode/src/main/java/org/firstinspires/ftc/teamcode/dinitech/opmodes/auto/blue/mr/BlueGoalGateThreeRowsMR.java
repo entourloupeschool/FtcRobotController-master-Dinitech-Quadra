@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.blue.mr;
 
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
@@ -15,6 +14,6 @@ public class BlueGoalGateThreeRowsMR extends BlueGoalAutoBase {
     public void initialize() {
             super.initialize();
 
-        new ThreeRowsFromGoalMR(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, hubsSubsystem, AUTO_ROBOT_CONSTRAINTS).schedule();
+        new ThreeRowsFromGoalMR(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, visionSubsystem, chargeurSubsystem, hubsSubsystem, 1).schedule();
     }
 }

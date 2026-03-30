@@ -1,9 +1,10 @@
-package org.firstinspires.ftc.teamcode.pedroPathing;
+package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
 
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.ENCODER_RESOLUTION;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.PAR_POD_Y_MM;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem.PERP_POD_X_MM;
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.control.PredictiveBrakingCoefficients;
 import com.pedropathing.follower.Follower;
@@ -12,18 +13,18 @@ import com.pedropathing.ftc.FollowerBuilder;
 import com.pedropathing.ftc.drivetrains.MecanumConstants;
 import com.pedropathing.ftc.localization.constants.PinpointConstants;
 import com.pedropathing.paths.PathConstraints;
-
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-public class Constants {
+@Configurable
+public class DinitechPredictiveFollower {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)
-            .headingPIDFCoefficients(new PIDFCoefficients(2, 0.005, 0.03, 0.012))
-            .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.1, 0.1153178675, 0.0022423725))
+            .headingPIDFCoefficients(new PIDFCoefficients(1, 0.05, 0.03, 0.012))
+            .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.25, 0.1153178675, 0.0022423725))
             .centripetalScaling(0);
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);

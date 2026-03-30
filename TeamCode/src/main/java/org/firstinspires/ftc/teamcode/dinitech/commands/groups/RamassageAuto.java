@@ -46,7 +46,7 @@ public class RamassageAuto extends SequentialCommandGroup {
                                 trieurSubsystem::isFull),
                         new InstantCommand(),
                         ()->shouldInversePowerChargeur),
-                new PrepShootTrieur(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                new PrepShootTrieur(trieurSubsystem, visionSubsystem,gamepadSubsystem),
                 new StopChargeur(chargeurSubsystem)
         );
     }

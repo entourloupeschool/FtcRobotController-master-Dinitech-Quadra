@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence;
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.LINEAR_HEADING_INTERPOLATION_END_TIME;
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.T_PARAMETRIC_DONT_SHOOT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.UNSHORTCUT_LENGTH;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -38,7 +37,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         rowPose.getHeading(),
                                         endTime))
                                 .setBrakingStrength(scaleBrakingStrength).build(),
-                                AUTO_ROBOT_CONSTRAINTS, true)),
+                                1, true)),
 
                 new ParallelCommandGroup(
                         new SequentialCommandGroup(
@@ -68,10 +67,10 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.isEmpty()) this.cancel();})
                                         .setBrakingStrength(scaleBrakingStrength).build(),
-                                        AUTO_ROBOT_CONSTRAINTS, true)),
+                                        1, true)),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false)),
 
-                new ShootAll(trieurSubsystem, shooterSubsystem, true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,true)
         );
     }
 }

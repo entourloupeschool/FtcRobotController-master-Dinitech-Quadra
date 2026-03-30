@@ -8,6 +8,6 @@ public class RedAudienceAutoBase extends AutoBase {
     public void initialize() {
             super.initialize();
             hubsSubsystem.setTeam(TeamPoses.Team.RED);
-            drivePedroSubsystem.getDrive().prepAuto(hubsSubsystem.getTeam().getAudienceInitPose());
+            drivePedroSubsystem.prepAuto(hubsSubsystem.getTeam().getAudienceInitPose());
     }
 }

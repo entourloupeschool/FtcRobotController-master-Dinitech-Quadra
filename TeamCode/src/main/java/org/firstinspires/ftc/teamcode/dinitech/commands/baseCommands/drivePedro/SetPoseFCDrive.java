@@ -28,7 +28,7 @@ public class SetPoseFCDrive extends CommandBase {
 
     @Override
     public void initialize(){
-        drivePedroSubsystem.getDrive().setPose(inputPose);
+        drivePedroSubsystem.setPose(inputPose);
         drivePedroSubsystem.setDriverInputPose(true);
     }
 

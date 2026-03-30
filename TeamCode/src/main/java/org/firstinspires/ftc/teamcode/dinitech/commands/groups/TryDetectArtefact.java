@@ -34,6 +34,7 @@ public class TryDetectArtefact extends CommandBase {
     public void initialize() {
         trieurSubsystem.setNewRegister(false);
         trieurSubsystem.setNewColoredRegister(false);
+        trieurSubsystem.clearSamplesColorSensors();
 
         timeout = trieurSubsystem.getDetectionTimeout();
         isFound = false;

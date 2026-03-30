@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.tests;
 import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.CLOSE_SHOOT_RED_POSE;
 import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.RESET_POSE_RED;
 import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.RESET_POSE_BLUE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -21,15 +20,15 @@ public class TestOptimalLine extends BlueTestResetPoseAutoBase {
             super.initialize();
 
             new SequentialCommandGroup(
-                    OptimalPath.line(drivePedroSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.line(drivePedroSubsystem, hubsSubsystem.getTeam().getCloseShootPose(), 1, true),
                     new WaitCommand(1000),
-                    OptimalPath.line(drivePedroSubsystem, RESET_POSE_RED, AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.line(drivePedroSubsystem, RESET_POSE_RED, 1, true),
                     new WaitCommand(1000),
-                    OptimalPath.line(drivePedroSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(), AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.line(drivePedroSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(), 1, true),
                     new WaitCommand(1000),
-                    OptimalPath.line(drivePedroSubsystem, CLOSE_SHOOT_RED_POSE, AUTO_ROBOT_CONSTRAINTS, true),
+                    OptimalPath.line(drivePedroSubsystem, CLOSE_SHOOT_RED_POSE, 1, true),
                     new WaitCommand(1000),
-                    OptimalPath.line(drivePedroSubsystem, RESET_POSE_BLUE, AUTO_ROBOT_CONSTRAINTS, true)
+                    OptimalPath.line(drivePedroSubsystem, RESET_POSE_BLUE, 1, true)
             ).schedule();
     }
 }

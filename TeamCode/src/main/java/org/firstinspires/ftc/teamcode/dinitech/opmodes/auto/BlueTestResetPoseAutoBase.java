@@ -8,6 +8,6 @@ public class BlueTestResetPoseAutoBase extends AutoBase {
     public void initialize() {
             super.initialize();
             hubsSubsystem.setTeam(TeamPoses.Team.BLUE);
-            drivePedroSubsystem.getDrive().prepAuto(RESET_POSE_BLUE);
+            drivePedroSubsystem.prepAuto(RESET_POSE_BLUE);
     }
 }

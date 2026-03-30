@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.OBELISK_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.pedropathing.geometry.BezierLine;
@@ -26,7 +25,7 @@ public class RaceLookMotifPath extends ParallelRaceGroup {
                                 lookMotifPose.getHeading(),
                                 endTime))
                         .setBrakingStrength(scaleBrakingStrength).build(),
-                        AUTO_ROBOT_CONSTRAINTS, true),
+                        1, true),
                 new UntilMotifDetection(visionSubsystem)
         );
     }
@@ -37,7 +36,7 @@ public class RaceLookMotifPath extends ParallelRaceGroup {
                                 drivePedroSubsystem::getPose,
                                 lookMotifPose))
                         .setHeadingInterpolation(HeadingInterpolator.facingPoint(OBELISK_POSE)).build(),
-                        AUTO_ROBOT_CONSTRAINTS, true),
+                        1, true),
                 new UntilMotifDetection(visionSubsystem)
         );
     }

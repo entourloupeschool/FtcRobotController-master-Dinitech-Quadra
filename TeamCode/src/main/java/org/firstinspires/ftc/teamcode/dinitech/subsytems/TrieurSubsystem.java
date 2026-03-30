@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
@@ -29,6 +30,7 @@ import java.util.Arrays;
  *     <li>Providing high-level methods for finding and shooting specific colored artifacts.</li>
  * </ul>
  */
+@Configurable
 public class TrieurSubsystem extends SubsystemBase {
     public static final String CS1_NAME = "cs1";
     public static final String CS2_NAME = "cs2";
@@ -88,14 +90,15 @@ public class TrieurSubsystem extends SubsystemBase {
     public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
     public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
     public static int WAIT_HIGH_SPEED_TRIEUR = 185;
-    public static final double DISTANCE_ARTEFACT_IN_TRIEUR = 3.9;
-    public static final double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
+    public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.2;
+    public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1;
     public static final int OVER_CURRENT_BACKOFF_TICKS = - getTicksFromDegrees(10); // Ticks to back off when over-current detected
+    public static final int MAX_OVERCURRENT_COUNT = 15;
     public static long WAIT_FOR_3BALL = 3800;
 
     //PIDF MOULIN (TURRET)
-    public static double P_MOULIN_AGGRESSIVE = 5.954;// 6.54
-    public static double I_MOULIN_AGGRESSIVE = 8.418;//11.03
+    public static double P_MOULIN_AGGRESSIVE = 8.5;// 6.54
+    public static double I_MOULIN_AGGRESSIVE = 10;//11.03
     public static double D_MOULIN_AGGRESSIVE = 3.4;//0.7
     public static double F_MOULIN_AGGRESSIVE = 0.0;//1.493
     public static final double ADJUST_CONSTANT = 0.015;
@@ -634,7 +637,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
                 setOvercurrentCounts(getOvercurrentCounts() + 1);
 
-                if (getOvercurrentCounts() > 10){
+                if (getOvercurrentCounts() > MAX_OVERCURRENT_COUNT){
                     setMoulinPower(0);
                     resetTargetMoulinMotor();
                 }
@@ -721,7 +724,7 @@ public class TrieurSubsystem extends SubsystemBase {
 //        printMoulinTelemetryManager(telemetryM);
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
-//        printDistanceTelemetryManager(telemetryM);
+        printDistanceTelemetryManager(telemetryM);
 //        printColorTelemetryManager(telemetryM);
     }
 
@@ -775,6 +778,7 @@ public class TrieurSubsystem extends SubsystemBase {
     }
 
     private void printDistanceTelemetryManager(final TelemetryManager telemetryM) {
+        updateColorSensors();
         telemetryM.addData("Artefact in Trieur", isArtefactInTrieur());
         telemetryM.addData("CS1 Distance", tripleColorSensors.getDistance(1));
         telemetryM.addData("CS2 Distance", tripleColorSensors.getDistance(2));

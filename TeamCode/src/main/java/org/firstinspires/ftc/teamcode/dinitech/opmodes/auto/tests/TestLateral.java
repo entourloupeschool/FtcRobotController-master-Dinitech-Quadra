@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.tests;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.getBrakingStrengthScaleFromRange;
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.getLinearInterpolationHeadingEndTimeFromRange;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.DinitechFollower.AUTO_ROBOT_CONSTRAINTS;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -32,7 +31,7 @@ public class TestLateral extends BlueGoalAutoBase {
                                     hubsSubsystem.getTeam().getCloseShootPose().getHeading(),
                                     getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getGoalInitPose().distanceFrom(hubsSubsystem.getTeam().getCloseShootPose()))))
                             .setBrakingStrength(getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getGoalInitPose().distanceFrom(hubsSubsystem.getTeam().getCloseShootPose()))).build(),
-                            AUTO_ROBOT_CONSTRAINTS, true),
+                            1, true),
                     new WaitCommand(2000),
 
                     new FollowPath(drivePedroSubsystem, builder -> builder
@@ -44,7 +43,7 @@ public class TestLateral extends BlueGoalAutoBase {
                                     hubsSubsystem.getTeam().getFirstRowPose().getHeading(),
                                     getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getFirstRowPose().distanceFrom(hubsSubsystem.getTeam().getCloseShootPose()))))
                             .setBrakingStrength(getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getFirstRowPose().distanceFrom(hubsSubsystem.getTeam().getCloseShootPose()))).build(),
-                            AUTO_ROBOT_CONSTRAINTS, true),
+                            1, true),
                     new WaitCommand(2000),
 
                     new FollowPath(drivePedroSubsystem, builder -> builder
@@ -57,7 +56,7 @@ public class TestLateral extends BlueGoalAutoBase {
                                     hubsSubsystem.getTeam().getSecondRowPose().getHeading(),
                                     getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getFirstRowPose().distanceFrom(hubsSubsystem.getTeam().getSecondRowPose()))))
                             .setBrakingStrength(getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getFirstRowPose().distanceFrom(hubsSubsystem.getTeam().getSecondRowPose()))).build(),
-                            AUTO_ROBOT_CONSTRAINTS, true),
+                            1, true),
                     new WaitCommand(2000),
 
                     new FollowPath(drivePedroSubsystem, builder -> builder
@@ -70,7 +69,7 @@ public class TestLateral extends BlueGoalAutoBase {
                                     hubsSubsystem.getTeam().getThirdRowPose().getHeading(),
                                     getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getSecondRowPose().distanceFrom(hubsSubsystem.getTeam().getThirdRowPose()))))
                             .setBrakingStrength(getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getSecondRowPose().distanceFrom(hubsSubsystem.getTeam().getThirdRowPose()))).build(),
-                            AUTO_ROBOT_CONSTRAINTS, true),
+                            1, true),
                     new WaitCommand(2000),
 
                     new FollowPath(drivePedroSubsystem, builder -> builder
@@ -82,7 +81,7 @@ public class TestLateral extends BlueGoalAutoBase {
                                     hubsSubsystem.getTeam().getAudienceShootPose().getHeading(),
                                     getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getThirdRowPose().distanceFrom(hubsSubsystem.getTeam().getAudienceShootPose()))))
                             .setBrakingStrength(getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getThirdRowPose().distanceFrom(hubsSubsystem.getTeam().getAudienceShootPose()))).build(),
-                            AUTO_ROBOT_CONSTRAINTS, true),
+                            1, true),
                     new WaitCommand(2000),
 
                     new FollowPath(drivePedroSubsystem, builder -> builder
@@ -94,7 +93,7 @@ public class TestLateral extends BlueGoalAutoBase {
                                     hubsSubsystem.getTeam().getThirdRowPose().getHeading(),
                                     getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getThirdRowPose().distanceFrom(hubsSubsystem.getTeam().getAudienceShootPose()))))
                             .setBrakingStrength(getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getThirdRowPose().distanceFrom(hubsSubsystem.getTeam().getAudienceShootPose()))).build(),
-                            AUTO_ROBOT_CONSTRAINTS, true),
+                            1, true),
                     new WaitCommand(2000),
 
                     new FollowPath(drivePedroSubsystem, builder -> builder
@@ -107,7 +106,7 @@ public class TestLateral extends BlueGoalAutoBase {
                                     hubsSubsystem.getTeam().getCloseShootPose().getHeading(),
                                     getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getCloseShootPose().distanceFrom(hubsSubsystem.getTeam().getThirdRowPose()))))
                             .setBrakingStrength(getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getCloseShootPose().distanceFrom(hubsSubsystem.getTeam().getThirdRowPose()))).build(),
-                            AUTO_ROBOT_CONSTRAINTS, true)
+                            1, true)
             ).schedule();
     }
 }
