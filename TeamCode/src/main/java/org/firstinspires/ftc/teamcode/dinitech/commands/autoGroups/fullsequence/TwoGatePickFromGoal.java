@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence;
 
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.GATEPICK_POWER;
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.LENGTH_X_ROW;
-import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.getBrakingStrengthScaleFromRange;
-import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.getLinearInterpolationHeadingEndTimeFromRange;
 
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MODE_RAMASSAGE_AUTO_TIMEOUT;
 
@@ -32,32 +29,24 @@ public class TwoGatePickFromGoal extends SequentialCommandGroup {
 
                 new LookMotifPath(drivePedroSubsystem, hubsSubsystem.getTeam().getLookMotifPose()),
 
-                new ToRowToGateToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
-                        hubsSubsystem.getTeam().getSecondRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), hubsSubsystem.getTeam().getRampPose(), LENGTH_X_ROW, 1,
-                        getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getCloseShootPose().distanceFrom(hubsSubsystem.getTeam().getSecondRowPose())), hubsSubsystem.getTeam().getCloseShootVelocity(), false,
-                        getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getCloseShootPose().distanceFrom(hubsSubsystem.getTeam().getSecondRowPose()))),
+                new ToRowToGateToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem,
+                        hubsSubsystem.getTeam().getSecondRowPose(), hubsSubsystem.getTeam().getCloseShootPose(), hubsSubsystem.getTeam().getRampPose(), LENGTH_X_ROW, 1, false),
 
                 new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT * 3), trieurSubsystem),
 
-                new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
-                        hubsSubsystem.getTeam().getOpenRampPickPose(), hubsSubsystem.getTeam().getCloseShootPose(), GATEPICK_POWER,
-                        getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getOpenRampPickPose().distanceFrom(hubsSubsystem.getTeam().getCloseShootPose()))),
+                new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem,
+                        hubsSubsystem.getTeam().getOpenRampPickPose(), hubsSubsystem.getTeam().getCloseShootPose(), false),
 
                 new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem),
 
-                new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
-                        hubsSubsystem.getTeam().getOpenRampPickPose(), hubsSubsystem.getTeam().getCloseShootPose(),
-                        GATEPICK_POWER,
-                        getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getCloseShootPose().distanceFrom(hubsSubsystem.getTeam().getOpenRampPickPose()))),
+                new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem,
+                        hubsSubsystem.getTeam().getOpenRampPickPose(), hubsSubsystem.getTeam().getCloseShootPose(), false),
 
                 new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT), trieurSubsystem),
 
-                new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
+                new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem,
                         hubsSubsystem.getTeam().getFirstRowPose(), hubsSubsystem.getTeam().getCloseShootPose(),
-                        LENGTH_X_ROW, 1,
-                        getLinearInterpolationHeadingEndTimeFromRange(hubsSubsystem.getTeam().getCloseShootPose().distanceFrom(hubsSubsystem.getTeam().getFirstRowPose())),
-                        hubsSubsystem.getTeam().getCloseShootVelocity(), true,
-                        getBrakingStrengthScaleFromRange(hubsSubsystem.getTeam().getCloseShootPose().distanceFrom(hubsSubsystem.getTeam().getFirstRowPose()))),
+                        LENGTH_X_ROW, 1, true),
 
                 new RampEnd(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getRampPose())
         );

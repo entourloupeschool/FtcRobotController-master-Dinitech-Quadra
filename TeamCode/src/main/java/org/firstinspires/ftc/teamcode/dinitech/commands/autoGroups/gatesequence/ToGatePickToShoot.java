@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.FieldDefinitions.TIL
 import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.WAIT_FOR_3BALL;
 
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -17,6 +18,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.FollowPath;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.OptimalPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooter;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
@@ -25,105 +27,40 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyS
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToGatePickToShoot extends SequentialCommandGroup {
-    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, Pose GatePickPose, Pose shootPose, double gatePower, double endTime, double shootVelocity, boolean shortcutBackPath){
-        addCommands(
-                new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new MoulinCalibrationSequence(trieurSubsystem),
-                                new TrieurReadyEmptyStorage(trieurSubsystem)),
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierCurve(
-                                        drivePedroSubsystem::getPose,
-                                        GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.7*TILE_DIM : 1.7*TILE_DIM)),
-                                        GatePickPose))
-                                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                        drivePedroSubsystem::getHeading,
-                                        GatePickPose.getHeading(),
-                                        endTime)).build(),
-                                1, true)),
 
-                new ParallelCommandGroup(
-                        new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, true),
-                        new SequentialCommandGroup(
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                GatePickPose.withY(GatePickPose.getY() - 2)))
-                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                GatePickPose.getHeading() / 2,
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        gatePower, false),
-                                new SetVelocityShooter(shooterSubsystem, shootVelocity),
-                                new ParallelRaceGroup(
-                                        new WaitCommand(WAIT_FOR_3BALL),
-                                        new WaitUntilCommand(trieurSubsystem::isFull)),
-                                // Go to Shooting Pos
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                shootPose))
-                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                shootPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
-                                        .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
-                                            if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
-                                        1, true))),
-
-                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true)
-        );
-    }
-
-    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, Pose GatePickPose, Pose shootPose, double gatePower, double endTime){
+    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, HubsSubsystem hubsSubsystem, Pose GatePickPose, Pose shootPose, boolean shortcutBackPath){
         addCommands(
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
-                        new FollowPath(drivePedroSubsystem, builder -> builder
-                                .addPath(new BezierCurve(
-                                        drivePedroSubsystem::getPose,
-                                        GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.7*TILE_DIM : 1.7*TILE_DIM)),
-                                        GatePickPose))
-                                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                        drivePedroSubsystem::getHeading,
-                                        GatePickPose.getHeading(),
-                                        endTime)).build(),
-                                1, false)),
+                        OptimalPath.curve(drivePedroSubsystem,
+                                GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -1.7*TILE_DIM : 1.7*TILE_DIM)),
+                                GatePickPose, 1, true)),
 
                 new ParallelCommandGroup(
                         new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, true),
                         new SequentialCommandGroup(
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                GatePickPose.withY(GatePickPose.getY() - 2)))
-                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                GatePickPose.getHeading() / 2,
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME)).build(),
-                                        gatePower, false),
-                                new SetVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
+                                OptimalPath.line(drivePedroSubsystem,
+                                        GatePickPose.withY(GatePickPose.getY() - 2).withHeading(GatePickPose.getHeading() / 2), 1, true),
+                                new SetVelocityShooter(shooterSubsystem, ShooterSubsystem.linearSpeedFromPedroRange(shootPose.distanceFrom(hubsSubsystem.getTeam().getBasketPose()))),
                                 new ParallelRaceGroup(
                                         new WaitCommand(WAIT_FOR_3BALL),
                                         new WaitUntilCommand(trieurSubsystem::isFull)),
                                 // Go to Shooting Pos
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierCurve(
-                                                drivePedroSubsystem::getPose,
-                                                GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -2.1*TILE_DIM : 2.1*TILE_DIM)),
-                                                shootPose))
-                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                shootPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
-                                        .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
-                                            if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
-                                        1, true))),
+                                shortcutBackPath ?
+                                        OptimalPath.line(drivePedroSubsystem,
+                                                shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
+                                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();}) :
+                                        OptimalPath.curve(drivePedroSubsystem,
+                                                        GatePickPose.withX(GatePickPose.getX() + (GatePickPose.getX() > 72 ? -2.1*TILE_DIM : 2.1*TILE_DIM)),
+                                                        shootPose, 1, true)
+                                                .withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
+                                                        () -> {if (trieurSubsystem.isEmpty()) this.cancel();}))),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true)
         );

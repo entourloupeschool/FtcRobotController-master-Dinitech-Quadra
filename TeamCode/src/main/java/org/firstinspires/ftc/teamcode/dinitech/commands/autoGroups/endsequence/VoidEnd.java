@@ -8,6 +8,7 @@ import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.FollowPath;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.OptimalPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -16,15 +17,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 public class VoidEnd extends ParallelCommandGroup {
     public VoidEnd(DrivePedroSubsystem drivePedroSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, Pose voidPose){
         addCommands(
-                new FollowPath(drivePedroSubsystem, builder -> builder
-                        .addPath(new BezierLine(
-                                drivePedroSubsystem::getPose,
-                                voidPose))
-                        .setLinearHeadingInterpolation(
-                                drivePedroSubsystem.getPose().getHeading(),
-                                voidPose.getHeading(),
-                                LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                        1, true),
+                OptimalPath.line(drivePedroSubsystem, voidPose, 1, true),
                 new ParallelCommandGroup(
                         new StopChargeur(chargeurSubsystem),
                         new StopShooter(shooterSubsystem))

@@ -44,17 +44,9 @@ public class ToWallToShoot extends SequentialCommandGroup {
                                                 new WaitCommand(2000)),
                                         new WaitUntilCommand(trieurSubsystem::isFull)),
                                 new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
-                                new FollowPath(drivePedroSubsystem, builder -> builder
-                                        .addPath(new BezierLine(
-                                                drivePedroSubsystem::getPose,
-                                                shootPose))
-                                        .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(
-                                                drivePedroSubsystem::getHeading,
-                                                shootPose.getHeading(),
-                                                LINEAR_HEADING_INTERPOLATION_END_TIME))
-                                        .addParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
-                                            if (trieurSubsystem.isEmpty()) this.cancel();}).build(),
-                                        1, true))),
+                                OptimalPath.line(drivePedroSubsystem, shootPose, 1, true)
+                                        .withParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
+                                            if (trieurSubsystem.isEmpty()) this.cancel();}))),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true)
         );

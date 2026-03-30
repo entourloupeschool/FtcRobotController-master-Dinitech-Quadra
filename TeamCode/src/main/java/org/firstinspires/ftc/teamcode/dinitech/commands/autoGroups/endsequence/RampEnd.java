@@ -7,6 +7,7 @@ import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.FollowPath;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.OptimalPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.StopShooter;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -15,15 +16,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 public class RampEnd extends ParallelCommandGroup {
     public RampEnd(DrivePedroSubsystem drivePedroSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, Pose rampPose){
         addCommands(
-                new FollowPath(drivePedroSubsystem, builder -> builder
-                        .addPath(new BezierLine(
-                                drivePedroSubsystem::getPose,
-                                rampPose.withX(rampPose.getX() + (rampPose.getX() > 72 ? -8 : 8))))
-                        .setLinearHeadingInterpolation(
-                                drivePedroSubsystem.getPose().getHeading(),
-                                rampPose.getHeading(),
-                                LINEAR_HEADING_INTERPOLATION_END_TIME).build(),
-                        1, true),
+                OptimalPath.line(drivePedroSubsystem,
+                        rampPose.withX(rampPose.getX() + (rampPose.getX() > 72 ? -8 : 8)), 1, true),
                 new ParallelCommandGroup(
                         new StopChargeur(chargeurSubsystem),
                         new StopShooter(shooterSubsystem))
