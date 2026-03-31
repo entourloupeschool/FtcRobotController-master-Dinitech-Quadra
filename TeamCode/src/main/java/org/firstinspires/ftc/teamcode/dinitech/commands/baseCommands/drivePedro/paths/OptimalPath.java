@@ -31,7 +31,7 @@ import java.util.List;
 @Configurable
 public class OptimalPath extends FollowPath {
     /** Distance needed for a full PI radians rotation. */
-    public static double ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES = 45.0;
+    public static double ROTATION_DISTANCE_FOR_PI_RADIANS_INCHES = 50.0;
     public static double DELTA_T = 0.01;
     public static int nDCompute = 3;
 

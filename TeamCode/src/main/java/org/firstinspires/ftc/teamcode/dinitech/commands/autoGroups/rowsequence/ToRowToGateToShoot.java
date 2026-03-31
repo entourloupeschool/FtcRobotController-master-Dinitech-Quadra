@@ -37,6 +37,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                 rowPose, 1, true)),
 
                 new ParallelCommandGroup(
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false),
                         new SequentialCommandGroup(
                                 OptimalPath.line(drivePedroSubsystem,
                                         rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? lengthBackup : -lengthBackup)), rowPower, true),
@@ -60,9 +61,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                         OptimalPath.curve(drivePedroSubsystem,
                                                 rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? -UNSHORTCUT_LENGTH : UNSHORTCUT_LENGTH)),
                                                 shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
-                                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();})),
-
-                        new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false)),
+                                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();}))),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,true)
         );

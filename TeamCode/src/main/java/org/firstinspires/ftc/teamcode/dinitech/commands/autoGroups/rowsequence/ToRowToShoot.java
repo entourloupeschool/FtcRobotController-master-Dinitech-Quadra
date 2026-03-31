@@ -36,16 +36,15 @@ public class ToRowToShoot extends SequentialCommandGroup {
 
                                 new SetVelocityShooterRequire(shooterSubsystem,
                                         ShooterSubsystem.linearSpeedFromPedroRange(
-                                                shootPose.distanceFrom(hubsSubsystem.getTeam().getBasketPose())))),
+                                                shootPose.distanceFrom(hubsSubsystem.getTeam().getBasketPose()))),
                                 shortcutBackPath ?
                                         OptimalPath.line(drivePedroSubsystem,
                                                 shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
-                                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();}) :
-                                        OptimalPath.curve(drivePedroSubsystem,
+                                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();})
+                                        : OptimalPath.curve(drivePedroSubsystem,
                                                 rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? -UNSHORTCUT_LENGTH : UNSHORTCUT_LENGTH)),
-                                                shootPose, 1, true)
-                                                .withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
-                                                        () -> {if (trieurSubsystem.isEmpty()) this.cancel();}),
+                                                shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
+                                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();})),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false)),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,true)

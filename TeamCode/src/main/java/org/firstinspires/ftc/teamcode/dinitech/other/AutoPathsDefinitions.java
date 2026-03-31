@@ -6,7 +6,7 @@ import com.bylazar.configurables.annotations.Configurable;
 
 @Configurable
 public class AutoPathsDefinitions {
-    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.81;
+    public static final double LINEAR_HEADING_INTERPOLATION_END_TIME = 0.85;
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.55;
 
 
@@ -30,12 +30,12 @@ public class AutoPathsDefinitions {
         }
     }
 
-    public static final double MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME = 40.0;
+    public static final double MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME = 25.0;
     public static double getLinearInterpolationHeadingEndTimeFromRange(double range){
-        if (range > MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME){
+        if (range >= MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME){
             return LINEAR_HEADING_INTERPOLATION_END_TIME;
         } else {
-            return LINEAR_HEADING_INTERPOLATION_END_TIME * range / MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME;
+            return LINEAR_HEADING_INTERPOLATION_END_TIME * Math.pow(range / MAX_RANGE_SCALE_LINEAR_INTERPOLATION_END_TIME, 2);
         }
     }
 
