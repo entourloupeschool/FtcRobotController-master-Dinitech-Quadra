@@ -8,7 +8,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.F_MOULIN_AGGRESSIVE;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.INTERVALLE_TICKS_MOULIN_DOUBLE;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.I_MOULIN_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MOULIN_MOTOR_NAME;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MOULIN_POSITION_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MOULIN_SPEED_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.P_MOULIN_AGGRESSIVE;
@@ -67,7 +66,7 @@ public class Moulin {
     private int moulinPosition;
 
     public Moulin(final HardwareMap hardwareMap) {
-        dcMotorEx = hardwareMap.get(DcMotorEx.class, MOULIN_MOTOR_NAME);
+        dcMotorEx = hardwareMap.get(DcMotorEx.class, "moulin");
         dcMotorEx.setDirection(DcMotorSimple.Direction.REVERSE);
 
         resetMotor();

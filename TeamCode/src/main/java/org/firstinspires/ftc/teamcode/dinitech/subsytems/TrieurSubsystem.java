@@ -62,9 +62,8 @@ public class TrieurSubsystem extends SubsystemBase {
     public static final long TRAPPE_OPEN_TIME = 470;
     public static final long TRAPPE_CLOSE_TIME = TRAPPE_OPEN_TIME;
 
-    public static final String MOULIN_MOTOR_NAME = "moulin";
 
-    public static int REVOLUTION_MOULIN_TICKS = 1833;
+    public static int REVOLUTION_MOULIN_TICKS = 8192;//1833;
     public static double INTERVALLE_TICKS_MOULIN_DOUBLE = (double) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS; // = 305.5
     public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.1964°
     // 1° = 5.1 ticks
@@ -197,8 +196,6 @@ public class TrieurSubsystem extends SubsystemBase {
         setDetectionTimeout(MODE_RAMASSAGE_TELE_TIMEOUT);
         setHowManyArtefacts(0);
         setHasInitCalibration(false);
-
-        setMoulinPower(POWER_MOULIN_ROTATION);
     }
 
     /**
@@ -724,7 +721,7 @@ public class TrieurSubsystem extends SubsystemBase {
 //        printMoulinTelemetryManager(telemetryM);
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
-        printDistanceTelemetryManager(telemetryM);
+//        printDistanceTelemetryManager(telemetryM);
 //        printColorTelemetryManager(telemetryM);
     }
 

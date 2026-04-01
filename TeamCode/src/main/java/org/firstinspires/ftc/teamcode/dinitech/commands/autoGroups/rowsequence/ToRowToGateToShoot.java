@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToRowToGateToShoot extends SequentialCommandGroup {
-    public ToRowToGateToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, HubsSubsystem hubsSubsystem, Pose rowPose, Pose shootPose, Pose openRampPose, double lengthBackup, double rowPower, boolean shortcutBackPath){
+    public ToRowToGateToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, HubsSubsystem hubsSubsystem, Pose rowPose, Pose shootPose, Pose openRampPose, double lengthBackup, double rowPower, boolean shortcutBackPath, long timeAtGate){
         double backupForGatePush = openRampPose.getX() + (openRampPose.getX() > 72 ? -TILE_DIM / 1.5 : TILE_DIM / 1.5);
         addCommands(
                 new ParallelCommandGroup(
@@ -50,7 +50,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                                 .withY(openRampPose.getY() +  4),
                                         openRampPose, 1, true),
 
-                                new WaitCommand(1000),
+                                new WaitCommand(timeAtGate),
                                 new SetVelocityShooterRequire(shooterSubsystem,
                                         ShooterSubsystem.linearSpeedFromPedroRange(
                                                 shootPose.distanceFrom(hubsSubsystem.getTeam().getBasketPose()))),
