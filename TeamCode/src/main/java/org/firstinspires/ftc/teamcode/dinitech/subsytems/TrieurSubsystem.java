@@ -63,7 +63,7 @@ public class TrieurSubsystem extends SubsystemBase {
     public static final long TRAPPE_CLOSE_TIME = TRAPPE_OPEN_TIME;
 
 
-    public static int REVOLUTION_MOULIN_TICKS = 8192;//1833;
+    public static int REVOLUTION_MOULIN_TICKS = 1833;//49152;//1833;
     public static double INTERVALLE_TICKS_MOULIN_DOUBLE = (double) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS; // = 305.5
     public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.1964°
     // 1° = 5.1 ticks
@@ -72,10 +72,10 @@ public class TrieurSubsystem extends SubsystemBase {
     public static int getTicksFromDegrees(double degrees){
         return (int) (degrees / TICKS_TO_DEGREE);}
 
-
     public static final double POWER_MOULIN_ROTATION = 1;
     public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
-    public static int MOULIN_POSITION_TOLERANCE = getTicksFromDegrees(1.1);
+    public static double ABSOLUTE_TOLERANCE_DEGREES = 4;
+    public static int MOULIN_POSITION_TOLERANCE = getTicksFromDegrees(ABSOLUTE_TOLERANCE_DEGREES);
     public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
     public static double VERY_LOOSE_DEGREES = 2.5;
 
@@ -83,7 +83,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
     public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 5 * (MOULIN_POSITION_TOLERANCE + 2);
     public static int MOULIN_ROTATE_SPEED_CALIBRATION = 18;
-    public static int OFFSET_MAGNETIC_POS = 41; // (int) Math.round(REVOLUTION_MOULIN_TICKS * 0.0250817);
+    public static int OFFSET_MAGNETIC_POS = (int) Math.round(REVOLUTION_MOULIN_TICKS * 0.0226);
     public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
     public static double SCALE_RECALIBRATION = getTicksFromDegrees(3);
     public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
@@ -718,7 +718,7 @@ public class TrieurSubsystem extends SubsystemBase {
         telemetryM.addData("wantsMotif", wantsMotifShoot());
 
 //        printMagneticTelemetryManager(telemetryM);
-//        printMoulinTelemetryManager(telemetryM);
+        printMoulinTelemetryManager(telemetryM);
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
 //        printDistanceTelemetryManager(telemetryM);
