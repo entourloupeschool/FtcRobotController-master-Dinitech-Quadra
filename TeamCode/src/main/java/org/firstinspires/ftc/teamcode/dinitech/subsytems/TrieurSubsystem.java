@@ -63,7 +63,7 @@ public class TrieurSubsystem extends SubsystemBase {
     public static final long TRAPPE_CLOSE_TIME = TRAPPE_OPEN_TIME;
 
 
-    public static int REVOLUTION_MOULIN_TICKS = 1833;//49152;//1833;
+    public static int REVOLUTION_MOULIN_TICKS = 49152;//49152;//1833;//49152;//8192*6 = 49152
     public static double INTERVALLE_TICKS_MOULIN_DOUBLE = (double) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS; // = 305.5
     public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.1964°
     // 1° = 5.1 ticks
@@ -300,7 +300,7 @@ public class TrieurSubsystem extends SubsystemBase {
         return moulin.shouldStopPower();
     }
 
-    public boolean isMoulinMotorCloseToTarget(int margin){
+    public boolean isMoulinMotorCloseToTarget(double margin){
         return moulin.isMotorCloseToTarget(margin);
     }
 
@@ -625,7 +625,10 @@ public class TrieurSubsystem extends SubsystemBase {
      * This should be called periodically.
      */
     private void moulinLogic() {
-        lastMoulinMotorTicks.add(getMoulinMotorPosition());
+//        lastMoulinMotorTicks.add(getMoulinMotorPosition());
+        double encoderPos = moulin.getEncoderPosition();
+        lastMoulinMotorTicks.add(encoderPos);
+        setMoulinPower(moulin.getPIDFPower(encoderPos));
 
         if (isMoulinRestAtTarget()) {
             setMoulinPower(0);
@@ -644,7 +647,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
         } else {
             setOvercurrentCounts(0);
-            setMoulinPower(POWER_MOULIN_ROTATION);
+//            setMoulinPower(POWER_MOULIN_ROTATION);
 
         }
 

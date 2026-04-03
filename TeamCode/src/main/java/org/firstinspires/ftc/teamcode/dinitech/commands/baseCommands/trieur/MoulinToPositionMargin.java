@@ -21,7 +21,7 @@ public class MoulinToPositionMargin extends CommandBase {
     protected final TrieurSubsystem trieurSubsystem;
     protected int moulinTargetPosition;
     protected boolean makeShort;
-    protected int margin;
+    protected double margin;
     private boolean inCorrectionOfOvercurrent;
 
     /**
@@ -32,7 +32,7 @@ public class MoulinToPositionMargin extends CommandBase {
      * @param makeShort            If true, the moulin will take the shortest path; otherwise, it will rotate forward.
      * @param margin               Margin to reach to end the command.
      */
-    public MoulinToPositionMargin(TrieurSubsystem trieurSubsystem, int moulinTargetPosition, boolean makeShort, int margin) {
+    public MoulinToPositionMargin(TrieurSubsystem trieurSubsystem, int moulinTargetPosition, boolean makeShort, double margin) {
         this.trieurSubsystem = trieurSubsystem;
         this.moulinTargetPosition = moulinTargetPosition;
         this.makeShort = makeShort;
