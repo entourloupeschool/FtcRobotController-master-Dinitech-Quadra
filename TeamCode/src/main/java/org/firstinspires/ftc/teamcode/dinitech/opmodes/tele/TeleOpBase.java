@@ -5,10 +5,9 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.FieldDefinitions.FIE
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY;
 import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MOULIN_ROTATE_SPEED_CONTINUOUS;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem.SHOOT_REVOLUTION_THEN_WAIT;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MOULIN_ROTATE_SPEED_CONTINUOUS;
 
-import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -36,6 +35,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.Moul
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.PrepShootTrieur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.ToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetection;
@@ -134,10 +134,12 @@ public class TeleOpBase extends GornetixGamepads {
         m_Driver.bump_right.whenPressed(new SwitchAimLockType(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
 
         // Operator controls
-        m_Operator.dpad_up.whenPressed(new MoulinHighSpeedIntel(trieurSubsystem, shooterSubsystem));
+//        m_Operator.dpad_up.whenPressed(new MoulinHighSpeedIntel(trieurSubsystem, shooterSubsystem));
+        m_Operator.dpad_up.whenPressed(new MoulinRevolution(trieurSubsystem));
 
         m_Operator.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
         m_Operator.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
+
 
         m_Operator.dpad_down.toggleWhenPressed(
                 new InverseMaxPowerChargeur(chargeurSubsystem),

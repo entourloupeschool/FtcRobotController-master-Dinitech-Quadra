@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
 
-
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.CS1_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.CS2_NAME;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 
@@ -17,6 +13,28 @@ import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
  * @see AveragingColorSensor
  */
 public class TripleColorSensors {
+    public static final String CS1_NAME = "cs1";
+    public static final String CS2_NAME = "cs2";
+    public static final float GAIN_DETECTION = 20;
+    public static final int SAMPLE_SIZE_TEST = 2;
+
+    public static final double DETECT_PURPLE_RED_RGB = 0.694;
+    public static final double DETECT_PURPLE_GREEN_RGB = 0.612;
+    public static final double DETECT_PURPLE_BLUE_RGB = 0.851;
+    public static final double MARGIN_PURPLE_RGB_DETECTION = 0.25;
+
+    public static final double DETECT_GREEN_RED_RGB = 0.2;
+    public static final double DETECT_GREEN_GREEN_RGB = 0.9;
+    public static final double DETECT_GREEN_BLUE_RGB = 0.2;
+    public static final double MARGIN_GREEN_RGB_DETECTION = 0.35;
+
+    public static final double GREEN_HUE_LOWER = 150;
+    public static final double GREEN_HUE_HIGHER = 170;
+    public static final double GREEN_SATURATION_LOWER = 0.58;
+    public static final double GREEN_RED_RGB_HIGHER = 0.014;
+    public static final double PURPLE_HUE_LOWER = 180;
+    public static final double PURPLE_HUE_HIGHER = 260;
+    public static final String MAGNETIC_SWITCH_NAME = "m_s";
 
     /** The three color sensors with integrated averaging. */
     public final AveragingColorSensor colorSensor1;

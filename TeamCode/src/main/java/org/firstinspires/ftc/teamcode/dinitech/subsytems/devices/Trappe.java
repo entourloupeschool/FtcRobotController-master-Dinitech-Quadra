@@ -1,9 +1,4 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.TRAPPE_CLOSE_POSITION;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.TRAPPE_OPEN_POSITION;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.TRAPPE_SERVO_NAME;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.TRAPPE_TELE_INCREMENT;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -16,6 +11,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * @see SingleServo
  */
 public class Trappe extends SingleServo {
+    public static final String TRAPPE_SERVO_NAME = "porte";
+    public static final double TRAPPE_OPEN_POSITION = 0;
+    public static final double TRAPPE_CLOSE_POSITION = -130;
+    public static final double TRAPPE_TELE_INCREMENT = 0.5;
+    public static final long TRAPPE_OPEN_TIME = 470;
+    public static final long TRAPPE_CLOSE_TIME = TRAPPE_OPEN_TIME;
+
     /** State of the door (open/closed) */
     private boolean trappeIsOpen = false;
     private void setTrappeIsOpen(boolean newTrappeIsOpen){

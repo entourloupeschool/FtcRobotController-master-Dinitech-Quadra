@@ -23,7 +23,7 @@ public class InitToPedroShootV2 extends ParallelCommandGroup {
         addCommands(
                 new SequentialCommandGroup(
                         new InstantCommand(),
-                        new SetVelocityShooterRequire(shooterSubsystem, ShooterSubsystem.linearSpeedFromPedroRange(shootPose.distanceFrom(hubsSubsystem.getTeam().getBasketPose()))),
+                        new SetVelocityShooterRequire(shooterSubsystem, shootPose.distanceFrom(hubsSubsystem.getTeam().getBasketPose())),
                         new WaitCommand(WAIT_INIT_PEDRO_SHOOTER),
                         new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, false)),
 

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
-
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MAGNETIC_SWITCH_NAME;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors.MAGNETIC_SWITCH_NAME;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.TouchSensor;

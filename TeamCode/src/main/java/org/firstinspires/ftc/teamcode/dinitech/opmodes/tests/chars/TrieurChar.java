@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests.chars;
 
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.ADJUST_CONSTANT;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.ADJUST_CONSTANT;
 
 import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;

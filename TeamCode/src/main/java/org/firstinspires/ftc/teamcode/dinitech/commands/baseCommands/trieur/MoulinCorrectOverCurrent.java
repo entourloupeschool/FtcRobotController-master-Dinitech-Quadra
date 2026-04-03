@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.OVER_CURRENT_BACKOFF_TICKS;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.POWER_MOULIN_ROTATION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.OVER_CURRENT_BACKOFF_TICKS;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.POWER_MOULIN_ROTATION;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests.chars;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.FieldDefinitions.FIELD_CENTER_90HEADING_POSE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.ADJUST_CONSTANT;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.ADJUST_CONSTANT;
 
 
 import com.arcrobotics.ftclib.command.RunCommand;

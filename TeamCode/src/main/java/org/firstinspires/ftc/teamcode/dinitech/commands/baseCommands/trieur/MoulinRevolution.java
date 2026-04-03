@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -42,7 +44,7 @@ public class MoulinRevolution extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return trieurSubsystem.shouldMoulinStopPower();
+        return trieurSubsystem.isMoulinEncoderCloseToTarget(MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
     }
 
 

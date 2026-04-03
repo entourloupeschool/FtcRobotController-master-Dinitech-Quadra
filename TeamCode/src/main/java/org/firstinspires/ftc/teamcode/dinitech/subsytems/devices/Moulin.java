@@ -5,18 +5,10 @@ import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_WITHOUT_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.D_MOULIN_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.F_MOULIN_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.INTERVALLE_TICKS_MOULIN_DOUBLE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.I_MOULIN_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MOULIN_POSITION_TOLERANCE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MOULIN_SPEED_TOLERANCE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.P_MOULIN_AGGRESSIVE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.REVOLUTION_MOULIN_TICKS;
 
-
-import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
-import com.pedropathing.control.PIDFController;
+import com.arcrobotics.ftclib.controller.PIDFController;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.ftc.localization.Encoder;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -53,7 +45,53 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
  *     <li>Position 6: Shoot position of position 3.</li>
  * </ul>
  */
+@Configurable
 public class Moulin {
+    public static int REVOLUTION_MOULIN_TICKS = 40960;//49152;//1833;//49152;//8192*6 = 49152
+    public static double INTERVALLE_TICKS_MOULIN_DOUBLE = (double) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS; // = 305.5
+    public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.1964°
+    // 1° = 5.1 ticks
+    public static double getDegreesFromTicks(int ticks){
+        return TICKS_TO_DEGREE * ticks;}
+    public static double getTicksFromDegrees(double degrees){
+        return  degrees / TICKS_TO_DEGREE;}
+
+    public static final double POWER_MOULIN_ROTATION = 1;
+    public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
+    public static double ABSOLUTE_TOLERANCE_DEGREES = 1;
+    public static double MOULIN_POSITION_TOLERANCE = getTicksFromDegrees(ABSOLUTE_TOLERANCE_DEGREES);
+    public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
+    public static double VERY_LOOSE_DEGREES = 2.5;
+
+    public static final double MOULIN_POSITION_VERY_LOOSE_TOLERANCE = getTicksFromDegrees(VERY_LOOSE_DEGREES);
+
+    public static final double MOULIN_ROTATE_SPEED_CONTINUOUS = 5 * (MOULIN_POSITION_TOLERANCE + 2);
+    public static double MOULIN_ROTATE_SPEED_CALIBRATION = 300;
+    public static int OFFSET_MAGNETIC_POS = -200;
+    public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
+    public static double SCALE_RECALIBRATION = getTicksFromDegrees(3);
+    public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
+    public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
+    public static int WAIT_HIGH_SPEED_TRIEUR = 200;
+    public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.2;
+    public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1;
+    public static final double OVER_CURRENT_BACKOFF_TICKS = - getTicksFromDegrees(10); // Ticks to back off when over-current detected
+    public static final int MAX_OVERCURRENT_COUNT = 15;
+    public static long WAIT_FOR_3BALL = 3800;
+
+    //PIDF MOULIN (TURRET)
+    public static double P_MOULIN_AGGRESSIVE = 8.5;// 6.54
+    public static double I_MOULIN_AGGRESSIVE = 10;//11.03
+    public static double D_MOULIN_AGGRESSIVE = 3.4;//0.7
+    public static double F_MOULIN_AGGRESSIVE = 0.0;//1.493
+
+    public static double P_MOULIN_ENCODER = 0.00036;
+    public static double I_MOULIN_ENCODER = 0.076;
+    public static double D_MOULIN_ENCODER = 0.000018;
+
+    public static double ADJUST_CONSTANT = 0.0015;
+    public static final String MOTOR_NAME = "moulin";
+
     public static final int MIN_POSITION = 1;
     public static final int MAX_POSITION = 6;
     public static final int TOTAL_POSITIONS = 6;
@@ -65,28 +103,22 @@ public class Moulin {
     public void setTargetTick(double targetTick) {
         this.targetTick = targetTick;
     }
-
     private final DcMotorEx dcMotorEx;
-    private final Encoder encoder;
-
     private final PIDFController pidfController;
-    
     private int moulinPosition;
 
     public Moulin(final HardwareMap hardwareMap) {
-        dcMotorEx = hardwareMap.get(DcMotorEx.class, "moulin");
+        dcMotorEx = hardwareMap.get(DcMotorEx.class, MOTOR_NAME);
         dcMotorEx.setDirection(DcMotorSimple.Direction.REVERSE);
 //        resetMotor();
 
-        encoder = new Encoder(hardwareMap.get(DcMotorEx.class, "moulin"));
-        encoder.reset();
-
+        dcMotorEx.setMode(STOP_AND_RESET_ENCODER);
         dcMotorEx.setZeroPowerBehavior(BRAKE);
         dcMotorEx.setMode(RUN_WITHOUT_ENCODER);
 
-        pidfController = new PIDFController(new com.pedropathing.control.PIDFCoefficients(P_MOULIN_AGGRESSIVE, I_MOULIN_AGGRESSIVE, D_MOULIN_AGGRESSIVE, F_MOULIN_AGGRESSIVE));
-        pidfController.updatePosition(getEncoderPosition());
-        pidfController.setTargetPosition(getEncoderPosition());
+        pidfController = new PIDFController(P_MOULIN_ENCODER, I_MOULIN_ENCODER, D_MOULIN_ENCODER, 0);
+        pidfController.setSetPoint(getMotorPosition());
+        pidfController.setTolerance(MOULIN_POSITION_TOLERANCE);
 
         setPosition(1);
     }
@@ -104,10 +136,6 @@ public class Moulin {
         setTargetMotorPositionTolerance((int) Math.round(MOULIN_POSITION_TOLERANCE));
         setPIDF(P_MOULIN_AGGRESSIVE, I_MOULIN_AGGRESSIVE, D_MOULIN_AGGRESSIVE, F_MOULIN_AGGRESSIVE);
 
-    }
-
-    public double getEncoderPosition(){
-        return encoder.getDeltaPosition();
     }
 
     /**
@@ -174,9 +202,7 @@ public class Moulin {
      */
     public static int anyIntToMoulinPosition(int intPos) {
         int normalizedPos = ((intPos % TOTAL_POSITIONS) + TOTAL_POSITIONS) % TOTAL_POSITIONS; // ensure positive modulo
-        if (normalizedPos == 0) {
-            return TOTAL_POSITIONS;
-        }
+        if (normalizedPos == 0) return TOTAL_POSITIONS;
         return normalizedPos;
     }
 
@@ -212,7 +238,7 @@ public class Moulin {
         }
 
 //        incrementTargetMotorPosition(newTargetTicks);
-        incremenetTargetEncoderPosition(newTargetTicks);
+        incrementTargetEncoderPos(newTargetTicks);
 
         setPosition(targetPos);
     }
@@ -221,7 +247,7 @@ public class Moulin {
      * Bypass the rotateToPosition
      * full rotation of the moulin
      */
-    public void revolution() {incrementTargetMotorPosition(REVOLUTION_MOULIN_TICKS);}
+    public void revolution() {incrementTargetEncoderPos(REVOLUTION_MOULIN_TICKS);}
 
     /**
      * Calculate the positive (clockwise) path between current and target state
@@ -324,13 +350,9 @@ public class Moulin {
         dcMotorEx.setTargetPosition((int) Math.round(tickPosition));
     }
 
-    public void setTargetEncoderPosition(double targetEncoderPosition){
-        setTargetTick(targetEncoderPosition);
-        pidfController.setTargetPosition(targetEncoderPosition);
-    }
-
-    public double getTargetEncoderPosition(){
-        return pidfController.getTargetPosition();
+    public void setTargetEncoderPos(double pos){
+        setTargetTick(pos);
+        pidfController.setSetPoint(pos);
     }
 
 
@@ -342,9 +364,10 @@ public class Moulin {
         setTargetMotorPosition(tickIncrement + getTargetTick());
     }
 
-    public void incremenetTargetEncoderPosition(double encoderIncrement) {
-        setTargetEncoderPosition(encoderIncrement + getTargetTick());
-    };
+    public void incrementTargetEncoderPos(double increment){
+        setTargetEncoderPos(getTargetEncoderPos() + increment);
+    }
+
 
     /**
      * Gets the current target position of the motor.
@@ -352,6 +375,10 @@ public class Moulin {
      */
     public int getTargetMotorPosition() {
         return dcMotorEx.getTargetPosition();
+    }
+
+    public double getTargetEncoderPos(){
+        return pidfController.getSetPoint();
     }
     
     /**
@@ -426,9 +453,11 @@ public class Moulin {
         return Math.abs(getTargetMotorPosition() - getMotorPosition());
     }
 
-    public double getEncoderRemainingTicks(){
-        return Math.abs(pidfController.getTargetPosition() - getEncoderPosition());
+    public double getEncoderRemainingTicks() {
+        return Math.abs(getTargetEncoderPos() - getMotorPosition());
     }
+
+
 
     /**
      * Checks if the motor is over-current.
@@ -446,11 +475,6 @@ public class Moulin {
         return !isBusy() && Math.abs(getSpeed()) < MOULIN_SPEED_TOLERANCE;
     }
 
-    public boolean isMotorCloseToTarget(double margin){
-//        return getRemainingTicks() < margin;
-        return getEncoderRemainingTicks() < margin;
-
-    }
 
     /**
      * Determines if the motor power should be cut.
@@ -492,9 +516,9 @@ public class Moulin {
     public void setPIDF(double p, double i, double d, double f) {
 //        dcMotorEx.setVelocityPIDFCoefficients(p, i, d, f);
 //        dcMotorEx.setPositionPIDFCoefficients(p);
-        // https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/mobilebasic
+//        // https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/mobilebasic
 
-        pidfController.setCoefficients(new com.pedropathing.control.PIDFCoefficients(p, i, d, f));
+        pidfController.setPIDF(p, i, d, f);
     }
 
     /**
@@ -502,14 +526,23 @@ public class Moulin {
      * @return The PIDF coefficients.
      */
     public PIDFCoefficients getPIDF() {
-//        return dcMotorEx.getPIDFCoefficients(RUN_USING_ENCODER);
-        com.pedropathing.control.PIDFCoefficients pidfCoefficients = pidfController.getCoefficients();
-
-        return new PIDFCoefficients(pidfCoefficients.P, pidfCoefficients.I, pidfCoefficients.D, pidfCoefficients.F);
+        return new PIDFCoefficients(pidfController.getP(), pidfController.getI(), pidfController.getD(), pidfController.getF());
     }
 
-    public double getPIDFPower(double encoderPosition) {
-        pidfController.updatePosition(encoderPosition);
-        return pidfController.run();
+    public boolean isCloseToTarget(double margin) {
+        return getRemainingTicks() < margin;
+    }
+
+    public boolean  isEncoderCloseToTarget(double margin){
+        return getEncoderRemainingTicks() < margin;
+    }
+
+
+    public double getPIDFRun(double currentPos) {
+        return pidfController.calculate(currentPos);
+    }
+
+    public void resetEncoderTarget() {
+        pidfController.setSetPoint(getMotorPosition());
     }
 }

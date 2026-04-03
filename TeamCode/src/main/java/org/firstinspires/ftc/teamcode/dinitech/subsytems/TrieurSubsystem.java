@@ -1,5 +1,16 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems;
 
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.DISTANCE_ARTEFACT_IN_TRIEUR;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.INTERVALLE_TICKS_MOULIN_DOUBLE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MAX_OVERCURRENT_COUNT;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.OFFSET_MAGNETIC_POS;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.POWER_MOULIN_ROTATION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.POWER_SCALER_RECALIBRATION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.SCALE_RECALIBRATION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.getDegreesFromTicks;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.TelemetryManager;
@@ -32,77 +43,12 @@ import java.util.Arrays;
  */
 @Configurable
 public class TrieurSubsystem extends SubsystemBase {
-    public static final String CS1_NAME = "cs1";
-    public static final String CS2_NAME = "cs2";
-    public static final float GAIN_DETECTION = 20;
-    public static final int SAMPLE_SIZE_TEST = 2;
-
-    public static final double DETECT_PURPLE_RED_RGB = 0.694;
-    public static final double DETECT_PURPLE_GREEN_RGB = 0.612;
-    public static final double DETECT_PURPLE_BLUE_RGB = 0.851;
-    public static final double MARGIN_PURPLE_RGB_DETECTION = 0.25;
-
-    public static final double DETECT_GREEN_RED_RGB = 0.2;
-    public static final double DETECT_GREEN_GREEN_RGB = 0.9;
-    public static final double DETECT_GREEN_BLUE_RGB = 0.2;
-    public static final double MARGIN_GREEN_RGB_DETECTION = 0.35;
-
-    public static final double GREEN_HUE_LOWER = 150;
-    public static final double GREEN_HUE_HIGHER = 170;
-    public static final double GREEN_SATURATION_LOWER = 0.58;
-    public static final double GREEN_RED_RGB_HIGHER = 0.014;
-    public static final double PURPLE_HUE_LOWER = 180;
-    public static final double PURPLE_HUE_HIGHER = 260;
-    public static final String MAGNETIC_SWITCH_NAME = "m_s";
-
-    public static final String TRAPPE_SERVO_NAME = "porte";
-    public static final double TRAPPE_OPEN_POSITION = 0;
-    public static final double TRAPPE_CLOSE_POSITION = -130;
-    public static final double TRAPPE_TELE_INCREMENT = 0.5;
-    public static final long TRAPPE_OPEN_TIME = 470;
-    public static final long TRAPPE_CLOSE_TIME = TRAPPE_OPEN_TIME;
-
-
-    public static int REVOLUTION_MOULIN_TICKS = 49152;//49152;//1833;//49152;//8192*6 = 49152
-    public static double INTERVALLE_TICKS_MOULIN_DOUBLE = (double) REVOLUTION_MOULIN_TICKS / Moulin.TOTAL_POSITIONS; // = 305.5
-    public static final double TICKS_TO_DEGREE = (double) 360 / REVOLUTION_MOULIN_TICKS; // 1 tick = 0.1964°
-    // 1° = 5.1 ticks
-    public static double getDegreesFromTicks(int ticks){
-        return TICKS_TO_DEGREE * ticks;}
-    public static double getTicksFromDegrees(double degrees){
-        return  degrees / TICKS_TO_DEGREE;}
-
-    public static final double POWER_MOULIN_ROTATION = 1;
-    public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
-    public static double ABSOLUTE_TOLERANCE_DEGREES = 4;
-    public static double MOULIN_POSITION_TOLERANCE = getTicksFromDegrees(ABSOLUTE_TOLERANCE_DEGREES);
-    public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
-    public static double VERY_LOOSE_DEGREES = 2.5;
-
-    public static final double MOULIN_POSITION_VERY_LOOSE_TOLERANCE = getTicksFromDegrees(VERY_LOOSE_DEGREES);
-
-    public static final double MOULIN_ROTATE_SPEED_CONTINUOUS = 5 * (MOULIN_POSITION_TOLERANCE + 2);
-    public static int MOULIN_ROTATE_SPEED_CALIBRATION = 18;
-    public static int OFFSET_MAGNETIC_POS = (int) Math.round(REVOLUTION_MOULIN_TICKS * 0.0226);
-    public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
-    public static double SCALE_RECALIBRATION = getTicksFromDegrees(3);
-    public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
-    public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
-    public static int WAIT_HIGH_SPEED_TRIEUR = 185;
-    public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.2;
-    public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1;
-    public static final double OVER_CURRENT_BACKOFF_TICKS = - getTicksFromDegrees(10); // Ticks to back off when over-current detected
-    public static final int MAX_OVERCURRENT_COUNT = 15;
-    public static long WAIT_FOR_3BALL = 3800;
-
-    //PIDF MOULIN (TURRET)
-    public static double P_MOULIN_AGGRESSIVE = 8.5;// 6.54
-    public static double I_MOULIN_AGGRESSIVE = 10;//11.03
-    public static double D_MOULIN_AGGRESSIVE = 3.4;//0.7
-    public static double F_MOULIN_AGGRESSIVE = 0.0;//1.493
-    public static final double ADJUST_CONSTANT = 0.015;
     public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
     public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 23;
+
+    public void resetMoulinEncoderTarget() {
+        moulin.resetEncoderTarget();
+    }
 
     /**
      * Represents the possible colors of an artifact.
@@ -196,6 +142,8 @@ public class TrieurSubsystem extends SubsystemBase {
         setDetectionTimeout(MODE_RAMASSAGE_TELE_TIMEOUT);
         setHowManyArtefacts(0);
         setHasInitCalibration(false);
+
+//        setMoulinPower(POWER_MOULIN_ROTATION);
     }
 
     /**
@@ -284,6 +232,10 @@ public class TrieurSubsystem extends SubsystemBase {
         moulin.incrementTargetMotorPosition(incr);
     }
 
+    public void incrementMoulinEncoderTargetPosition(double incr) {
+        moulin.incrementTargetEncoderPos(incr);
+    }
+
     /**
      * Sets the moulin motor's target position directly.
      * @param targetPosition The target position in ticks.
@@ -301,8 +253,13 @@ public class TrieurSubsystem extends SubsystemBase {
     }
 
     public boolean isMoulinMotorCloseToTarget(double margin){
-        return moulin.isMotorCloseToTarget(margin);
+        return moulin.isCloseToTarget(margin);
     }
+
+    public boolean isMoulinEncoderCloseToTarget(double margin){
+        return moulin.isEncoderCloseToTarget(margin);
+    }
+
 
     /**
      * Gets the moulin position n steps after the given position.
@@ -551,14 +508,14 @@ public class TrieurSubsystem extends SubsystemBase {
      * Incrementally opens the trappe.
      */
     public void incrOpenTrappe() {
-        incrTrappe(TRAPPE_TELE_INCREMENT);
+        incrTrappe(Trappe.TRAPPE_TELE_INCREMENT);
     }
 
     /**
      * Incrementally closes the trappe.
      */
     public void incrCloseTrappe() {
-        incrTrappe(-TRAPPE_TELE_INCREMENT);
+        incrTrappe(-Trappe.TRAPPE_TELE_INCREMENT);
     }
 
     /**
@@ -625,13 +582,11 @@ public class TrieurSubsystem extends SubsystemBase {
      * This should be called periodically.
      */
     private void moulinLogic() {
-//        lastMoulinMotorTicks.add(getMoulinMotorPosition());
-        double encoderPos = moulin.getEncoderPosition();
-        lastMoulinMotorTicks.add(encoderPos);
-        setMoulinPower(moulin.getPIDFPower(encoderPos));
+        lastMoulinMotorTicks.add(getMoulinMotorPosition());
+
+        moulin.setPower(moulin.getPIDFRun(getMoulinMotorPosition()));
 
         if (isMoulinRestAtTarget()) {
-            setMoulinPower(0);
 
         } else if (isMoulinOverCurrent()) {
 
@@ -647,7 +602,6 @@ public class TrieurSubsystem extends SubsystemBase {
 
         } else {
             setOvercurrentCounts(0);
-//            setMoulinPower(POWER_MOULIN_ROTATION);
 
         }
 

@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
-
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.GAIN_DETECTION;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.SAMPLE_SIZE_TEST;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors.GAIN_DETECTION;
 
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
@@ -141,7 +139,7 @@ public class AveragingColorSensor {
      */
     private void addSampleToList(List<Double> list, double value) {
         list.add(value);
-        if (list.size() > SAMPLE_SIZE_TEST) {
+        if (list.size() > TripleColorSensors.SAMPLE_SIZE_TEST) {
             list.remove(0);
         }
     }

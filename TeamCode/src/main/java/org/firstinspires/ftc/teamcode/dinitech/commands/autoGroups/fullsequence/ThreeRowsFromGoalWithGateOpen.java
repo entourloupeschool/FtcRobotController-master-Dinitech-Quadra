@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.LENGTH_X_ROW_3RD;
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.getBrakingStrengthScaleFromRange;
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.getLinearInterpolationHeadingEndTimeFromRange;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MODE_RAMASSAGE_AUTO_TIMEOUT;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence.R
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToPedroShootV2;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.ToRowToGateToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.ToRowToShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.OptimalPath;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
@@ -37,15 +39,18 @@ public class ThreeRowsFromGoalWithGateOpen extends SequentialCommandGroup {
                         hubsSubsystem.getTeam().getSecondRowPose(), closeShootPose, hubsSubsystem.getTeam().getRampPose(),
                         LENGTH_X_ROW, rowPower, false, 200),
 
+                new InstantCommand(()->trieurSubsystem.setDetectionTimeout((int) (MODE_RAMASSAGE_AUTO_TIMEOUT * 1.5)), trieurSubsystem),
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem,
                         hubsSubsystem.getTeam().getThirdRowPose(), closeShootPose,
                         LENGTH_X_ROW_3RD, rowPower, false),
+
+                new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT), trieurSubsystem),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem,
                         hubsSubsystem.getTeam().getFirstRowPose(), closeShootPose,
                         LENGTH_X_ROW, rowPower, true),
 
-                new RampEnd(drivePedroSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getRampPose())
+                new RampEnd(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getRampPose())
         );
     }
 

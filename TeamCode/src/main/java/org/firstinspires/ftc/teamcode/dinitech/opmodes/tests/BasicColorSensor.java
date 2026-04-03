@@ -1,16 +1,14 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
-
-
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.DETECT_GREEN_BLUE_RGB;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.DETECT_GREEN_GREEN_RGB;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.DETECT_GREEN_RED_RGB;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.DETECT_PURPLE_BLUE_RGB;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.DETECT_PURPLE_GREEN_RGB;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.DETECT_PURPLE_RED_RGB;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MARGIN_GREEN_RGB_DETECTION;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MARGIN_PURPLE_RGB_DETECTION;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.SAMPLE_SIZE_TEST;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors.DETECT_GREEN_BLUE_RGB;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors.DETECT_GREEN_GREEN_RGB;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors.DETECT_GREEN_RED_RGB;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors.DETECT_PURPLE_BLUE_RGB;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors.DETECT_PURPLE_GREEN_RGB;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors.DETECT_PURPLE_RED_RGB;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors.MARGIN_GREEN_RGB_DETECTION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors.MARGIN_PURPLE_RGB_DETECTION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors.SAMPLE_SIZE_TEST;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -19,8 +17,8 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @TeleOp(name ="BasicColorSensor - Dinitech", group = "Basic")

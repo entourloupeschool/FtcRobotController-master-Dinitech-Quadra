@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.OVER_CURRENT_BACKOFF_TICKS;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.OVER_CURRENT_BACKOFF_TICKS;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
@@ -63,7 +63,7 @@ public class MoulinToPositionMargin extends CommandBase {
         }
         if (inCorrectionOfOvercurrent) {
             trieurSubsystem.setMoulinMotorTargetPosition(targetCorrection);
-            if (trieurSubsystem.isMoulinMotorCloseToTarget(margin)){
+            if (trieurSubsystem.isMoulinEncoderCloseToTarget(margin)){
                 inCorrectionOfOvercurrent = false;
                 trieurSubsystem.setMoulinMotorTargetPosition(beforeOverCurrentTarget);
             }
@@ -77,6 +77,6 @@ public class MoulinToPositionMargin extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return (moulinTargetPosition == -1 || trieurSubsystem.isMoulinMotorCloseToTarget(margin)) && !inCorrectionOfOvercurrent;
+        return (moulinTargetPosition == -1 || trieurSubsystem.isMoulinEncoderCloseToTarget(margin)) && !inCorrectionOfOvercurrent;
     }
 }

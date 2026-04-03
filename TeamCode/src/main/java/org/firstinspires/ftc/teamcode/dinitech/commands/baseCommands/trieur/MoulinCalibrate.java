@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.INTERVALLE_TICKS_MOULIN_DOUBLE;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MAGNETIC_ON_MOULIN_POSITION;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MOULIN_ROTATE_SPEED_CALIBRATION;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.OFFSET_MAGNETIC_POS;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.INTERVALLE_TICKS_MOULIN_DOUBLE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MAGNETIC_ON_MOULIN_POSITION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MOULIN_ROTATE_SPEED_CALIBRATION;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.OFFSET_MAGNETIC_POS;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
@@ -49,12 +49,13 @@ public class MoulinCalibrate extends CommandBase {
      */
     @Override
     public void execute() {
-        if (!isOnMagneticSwitch) trieurSubsystem.incrementMoulinTargetPosition(MOULIN_ROTATE_SPEED_CALIBRATION);
+        if (!isOnMagneticSwitch) trieurSubsystem.incrementMoulinEncoderTargetPosition(MOULIN_ROTATE_SPEED_CALIBRATION);
 
         if (trieurSubsystem.isMagneticSwitch() && !isOnMagneticSwitch) {
             isOnMagneticSwitch = true;
-            trieurSubsystem.resetTargetMoulinMotor();
-            trieurSubsystem.incrementMoulinTargetPosition(INTERVALLE_TICKS_MOULIN_DOUBLE + OFFSET_MAGNETIC_POS);
+//            trieurSubsystem.resetTargetMoulinMotor();
+            trieurSubsystem.resetMoulinEncoderTarget();
+            trieurSubsystem.incrementMoulinEncoderTargetPosition(INTERVALLE_TICKS_MOULIN_DOUBLE + OFFSET_MAGNETIC_POS);
             trieurSubsystem.setMoulinPosition(Moulin.getNPreviousPosition(MAGNETIC_ON_MOULIN_POSITION, 1));
         }
 
