@@ -69,19 +69,19 @@ public class TrieurSubsystem extends SubsystemBase {
     // 1° = 5.1 ticks
     public static double getDegreesFromTicks(int ticks){
         return TICKS_TO_DEGREE * ticks;}
-    public static int getTicksFromDegrees(double degrees){
-        return (int) (degrees / TICKS_TO_DEGREE);}
+    public static double getTicksFromDegrees(double degrees){
+        return  degrees / TICKS_TO_DEGREE;}
 
     public static final double POWER_MOULIN_ROTATION = 1;
     public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
     public static double ABSOLUTE_TOLERANCE_DEGREES = 4;
-    public static int MOULIN_POSITION_TOLERANCE = getTicksFromDegrees(ABSOLUTE_TOLERANCE_DEGREES);
+    public static double MOULIN_POSITION_TOLERANCE = getTicksFromDegrees(ABSOLUTE_TOLERANCE_DEGREES);
     public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
     public static double VERY_LOOSE_DEGREES = 2.5;
 
-    public static final int MOULIN_POSITION_VERY_LOOSE_TOLERANCE = getTicksFromDegrees(VERY_LOOSE_DEGREES);
+    public static final double MOULIN_POSITION_VERY_LOOSE_TOLERANCE = getTicksFromDegrees(VERY_LOOSE_DEGREES);
 
-    public static final int MOULIN_ROTATE_SPEED_CONTINUOUS = 5 * (MOULIN_POSITION_TOLERANCE + 2);
+    public static final double MOULIN_ROTATE_SPEED_CONTINUOUS = 5 * (MOULIN_POSITION_TOLERANCE + 2);
     public static int MOULIN_ROTATE_SPEED_CALIBRATION = 18;
     public static int OFFSET_MAGNETIC_POS = (int) Math.round(REVOLUTION_MOULIN_TICKS * 0.0226);
     public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
@@ -91,7 +91,7 @@ public class TrieurSubsystem extends SubsystemBase {
     public static int WAIT_HIGH_SPEED_TRIEUR = 185;
     public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.2;
     public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1;
-    public static final int OVER_CURRENT_BACKOFF_TICKS = - getTicksFromDegrees(10); // Ticks to back off when over-current detected
+    public static final double OVER_CURRENT_BACKOFF_TICKS = - getTicksFromDegrees(10); // Ticks to back off when over-current detected
     public static final int MAX_OVERCURRENT_COUNT = 15;
     public static long WAIT_FOR_3BALL = 3800;
 

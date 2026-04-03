@@ -84,7 +84,7 @@ public class Moulin {
         setTargetMotorPosition(getMotorPosition());
         dcMotorEx.setMode(RUN_TO_POSITION);
         dcMotorEx.setZeroPowerBehavior(BRAKE);
-        setTargetMotorPositionTolerance(MOULIN_POSITION_TOLERANCE);
+        setTargetMotorPositionTolerance((int) Math.round(MOULIN_POSITION_TOLERANCE));
         setPIDF(P_MOULIN_AGGRESSIVE, I_MOULIN_AGGRESSIVE, D_MOULIN_AGGRESSIVE, F_MOULIN_AGGRESSIVE);
 
     }
