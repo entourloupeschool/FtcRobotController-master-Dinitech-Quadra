@@ -30,16 +30,13 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Sto
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.TeleShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SwitchUsageStateShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedIntel;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinHighSpeedRevolution;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.MoulinHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.PrepShootTrieur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.ToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetection;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAllAnyWay;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootGreen;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootPurple;
@@ -88,7 +85,9 @@ public class TeleOpBase extends GornetixGamepads {
 
             setupGamePadsButtonBindings();
 
-            new MoulinCalibrationSequence(trieurSubsystem).schedule();
+            new SequentialCommandGroup(
+                    new InstantCommand(),
+                    new MoulinCalibrationSequence(trieurSubsystem)).schedule();
     }
 
     @Override
@@ -134,8 +133,8 @@ public class TeleOpBase extends GornetixGamepads {
         m_Driver.bump_right.whenPressed(new SwitchAimLockType(drivePedroSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
 
         // Operator controls
-//        m_Operator.dpad_up.whenPressed(new MoulinHighSpeedIntel(trieurSubsystem, shooterSubsystem));
-        m_Operator.dpad_up.whenPressed(new MoulinRevolution(trieurSubsystem));
+        m_Operator.dpad_up.whenPressed(new MoulinHighSpeedIntel(trieurSubsystem, shooterSubsystem));
+//        m_Operator.dpad_up.whenPressed(new MoulinRevolution(trieurSubsystem));
 
         m_Operator.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
         m_Operator.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));

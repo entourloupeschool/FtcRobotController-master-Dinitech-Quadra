@@ -22,7 +22,7 @@ public class MoulinPrevious extends MoulinToPositionMargin {
      */
     public MoulinPrevious(TrieurSubsystem trieurSubsystem){
         // The target is set dynamically, but we default to using the shortest path.
-        super(trieurSubsystem, -1, true, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
+        super(trieurSubsystem, -1);
     }
 
     /**

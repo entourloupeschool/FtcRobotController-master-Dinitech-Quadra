@@ -58,10 +58,13 @@ public class Moulin {
 
     public static final double POWER_MOULIN_ROTATION = 1;
     public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
-    public static double ABSOLUTE_TOLERANCE_DEGREES = 1;
+    public static double ABSOLUTE_TOLERANCE_DEGREES = 0.5;
     public static double MOULIN_POSITION_TOLERANCE = getTicksFromDegrees(ABSOLUTE_TOLERANCE_DEGREES);
-    public static final int MOULIN_SPEED_TOLERANCE = 3; //10;
-    public static double VERY_LOOSE_DEGREES = 2.5;
+    public static final int MOULIN_SPEED_TOLERANCE = 3;
+    public static double LOOSE_DEGREES = 1.2;
+    public static final double MOULIN_POSITION_LOOSE_TOLERANCE = getTicksFromDegrees(LOOSE_DEGREES);
+
+    public static double VERY_LOOSE_DEGREES = 3.5;
 
     public static final double MOULIN_POSITION_VERY_LOOSE_TOLERANCE = getTicksFromDegrees(VERY_LOOSE_DEGREES);
 

@@ -23,7 +23,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class DinitechPredictiveFollower {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)
-            .headingPIDFCoefficients(new PIDFCoefficients(1.2, 0.75, 0.1, 0.13))
+            .headingPIDFCoefficients(new PIDFCoefficients(1.2, 0.75, 0.1, 0.08))
             .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.24, 0.1153178675, 0.0022423725))
             .centripetalScaling(0);
 

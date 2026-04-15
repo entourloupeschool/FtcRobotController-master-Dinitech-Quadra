@@ -28,7 +28,7 @@ public class MoulinNextArtefactShootWaitVelocity extends MoulinToPositionMargin 
      */
     public MoulinNextArtefactShootWaitVelocity(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
         // The actual target position is determined at execution time.
-        super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
+        super(trieurSubsystem, -1);
         this.shooterSubsystem = shooterSubsystem;
         this.hasLaunched = false;
     }

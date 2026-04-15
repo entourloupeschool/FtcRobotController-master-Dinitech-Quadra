@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
+package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitOpenTrappe;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.WaitShoot;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 

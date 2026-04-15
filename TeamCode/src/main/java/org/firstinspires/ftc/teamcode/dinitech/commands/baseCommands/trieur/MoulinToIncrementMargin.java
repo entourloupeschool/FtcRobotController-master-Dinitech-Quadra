@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.OVER_CURRENT_BACKOFF_TICKS;
 
 import com.arcrobotics.ftclib.command.CommandBase;
@@ -17,10 +18,9 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  * is detected. It also includes logic to stop the motor and reset its target if the command
  * is interrupted, preventing unwanted movement.
  */
-public class MoulinToPositionMargin extends CommandBase {
+public class MoulinToIncrementMargin extends CommandBase {
     protected final TrieurSubsystem trieurSubsystem;
-    protected int moulinTargetPosition;
-    protected boolean makeShort;
+    protected double moulinIncrement;
     protected double margin;
     private boolean inCorrectionOfOvercurrent;
 
@@ -28,17 +28,19 @@ public class MoulinToPositionMargin extends CommandBase {
      * Creates a new MoulinToPosition command.
      *
      * @param trieurSubsystem      The sorter subsystem to control.
-     * @param moulinTargetPosition The target logical position (1-6) for the moulin.
-     * @param makeShort            If true, the moulin will take the shortest path; otherwise, it will rotate forward.
+     * @param moulinIncrement      The increment of the moulin.
      * @param margin               Margin to reach to end the command.
      */
-    public MoulinToPositionMargin(TrieurSubsystem trieurSubsystem, int moulinTargetPosition, boolean makeShort, double margin) {
+    public MoulinToIncrementMargin(TrieurSubsystem trieurSubsystem, double moulinIncrement, double margin) {
         this.trieurSubsystem = trieurSubsystem;
-        this.moulinTargetPosition = moulinTargetPosition;
-        this.makeShort = makeShort;
+        this.moulinIncrement = moulinIncrement;
         this.margin = margin;
 
         addRequirements(trieurSubsystem);
+    }
+
+    public MoulinToIncrementMargin(TrieurSubsystem trieurSubsystem, double moulinIncrement) {
+        this(trieurSubsystem, moulinIncrement, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
     }
 
     /**
@@ -46,9 +48,7 @@ public class MoulinToPositionMargin extends CommandBase {
      */
     @Override
     public void initialize() {
-        if (moulinTargetPosition != -1){
-            trieurSubsystem.moulinRotateToPosition(moulinTargetPosition, makeShort);
-        }
+        trieurSubsystem.incrementMoulinEncoderTargetPosition(moulinIncrement);
         inCorrectionOfOvercurrent = false;
     }
 
@@ -62,10 +62,10 @@ public class MoulinToPositionMargin extends CommandBase {
             inCorrectionOfOvercurrent = true;
         }
         if (inCorrectionOfOvercurrent) {
-            trieurSubsystem.setMoulinMotorTargetPosition(targetCorrection);
+            trieurSubsystem.setMoulinEncoderTargetPosition(targetCorrection);
             if (trieurSubsystem.isMoulinEncoderCloseToTarget(margin)){
                 inCorrectionOfOvercurrent = false;
-                trieurSubsystem.setMoulinMotorTargetPosition(beforeOverCurrentTarget);
+                trieurSubsystem.setMoulinEncoderTargetPosition(beforeOverCurrentTarget);
             }
         }
     }
@@ -77,6 +77,6 @@ public class MoulinToPositionMargin extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return (moulinTargetPosition == -1 || trieurSubsystem.isMoulinEncoderCloseToTarget(margin)) && !inCorrectionOfOvercurrent;
+        return trieurSubsystem.isMoulinEncoderCloseToTarget(margin) && !inCorrectionOfOvercurrent;
     }
 }

@@ -50,6 +50,10 @@ public class TrieurSubsystem extends SubsystemBase {
         moulin.resetEncoderTarget();
     }
 
+    public void setMoulinEncoderTargetPosition(double targetCorrection) {
+        moulin.setTargetEncoderPos(targetCorrection);
+    }
+
     /**
      * Represents the possible colors of an artifact.
      */

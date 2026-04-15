@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 public class MoulinNextArtefactShoot extends MoulinToPositionMargin {
     public MoulinNextArtefactShoot(TrieurSubsystem trieurSubsystem) {
         // The actual target position is determined at execution time.
-        super(trieurSubsystem, -1, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
+        super(trieurSubsystem, -1);
     }
 
     @Override

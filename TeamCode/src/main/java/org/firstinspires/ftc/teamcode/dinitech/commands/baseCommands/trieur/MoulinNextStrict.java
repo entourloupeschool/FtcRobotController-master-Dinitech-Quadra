@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MOULIN_POSITION_LOOSE_TOLERANCE;
+
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 /**
@@ -22,7 +24,7 @@ public class MoulinNextStrict extends MoulinToPositionMargin {
      */
     public MoulinNextStrict(TrieurSubsystem trieurSubsystem) {
         // The actual target position is determined at execution time.
-        super(trieurSubsystem, -1, false, 1);
+        super(trieurSubsystem, -1, false, MOULIN_POSITION_LOOSE_TOLERANCE);
     }
 
     /**
