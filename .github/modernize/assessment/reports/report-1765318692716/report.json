@@ -1,0 +1,2615 @@
+{
+  "version": "1.0.0",
+  "producer": "Java AppCAT CLI",
+  "metadata": {
+    "analysisStartTime": "2025-12-09T22:18:12.716421Z",
+    "analysisEndTime": "2025-12-09T22:40:02.308781Z",
+    "privacyMode": "Protected",
+    "privacyModeHelpUrl": "https://aka.ms/appcat-privacy-mode",
+    "targetIds": [
+      "azure-aks",
+      "azure-appservice",
+      "azure-container-apps"
+    ],
+    "targetDisplayNames": [
+      "Azure Kubernetes Service",
+      "Azure App Service",
+      "Azure Container Apps"
+    ],
+    "capabilities": [],
+    "os": [],
+    "id": "1765318692716",
+    "name": "Report_202512092318",
+    "status": "completed",
+    "domains": [
+      "cloud-readiness",
+      "java-upgrade"
+    ],
+    "mode": "issue-only"
+  },
+  "summary": {
+    "totalProjects": 1,
+    "totalIssues": 14,
+    "totalIncidents": 228,
+    "totalEffort": 29,
+    "charts": {
+      "severity": {
+        "mandatory": 1,
+        "optional": 4,
+        "potential": 0,
+        "information": 223
+      },
+      "category": {
+        "containerization": 1,
+        "local-resource-access": 4
+      }
+    },
+    "security": {}
+  },
+  "projects": [
+    {
+      "path": ".",
+      "issues": 14,
+      "storyPoints": 29,
+      "properties": {
+        "appName": "FtcRobotController-master-Dinitech&Quadra",
+        "jdkVersion": "Unknown",
+        "frameworks": null,
+        "languages": [
+          "Java"
+        ],
+        "tools": [
+          "Gradle"
+        ]
+      },
+      "incidents": [
+        {
+          "ruleId": "localhost-00004",
+          "incidentId": "f623f346-5bb1-481c-879a-8fa653bfd609",
+          "location": "FtcRobotController/build/intermediates/incremental/release/mergeReleaseResources/merged.dir/values/values.xml",
+          "locationKind": "File",
+          "line": 896,
+          "column": 0,
+          "targets": {
+            "azure-aks": {
+              "effort": 7,
+              "severity": "optional"
+            },
+            "azure-appservice": {
+              "effort": 7,
+              "severity": "optional"
+            },
+            "azure-container-apps": {
+              "effort": 7,
+              "severity": "optional"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=cloud-readiness"
+          ]
+        },
+        {
+          "ruleId": "localhost-00004",
+          "incidentId": "ca749874-5df3-4cd3-a145-490b81a9c7d6",
+          "location": "FtcRobotController/build/intermediates/merged_res/release/mergeReleaseResources/values/values.xml",
+          "locationKind": "File",
+          "line": 896,
+          "column": 0,
+          "targets": {
+            "azure-aks": {
+              "effort": 7,
+              "severity": "optional"
+            },
+            "azure-appservice": {
+              "effort": 7,
+              "severity": "optional"
+            },
+            "azure-container-apps": {
+              "effort": 7,
+              "severity": "optional"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=cloud-readiness"
+          ]
+        },
+        {
+          "ruleId": "localhost-00004",
+          "incidentId": "77d4b33a-7da3-49bb-bdfb-c297977fabf4",
+          "location": "TeamCode/build/intermediates/incremental/debug/mergeDebugResources/merged.dir/values/values.xml",
+          "locationKind": "File",
+          "line": 902,
+          "column": 0,
+          "targets": {
+            "azure-aks": {
+              "effort": 7,
+              "severity": "optional"
+            },
+            "azure-appservice": {
+              "effort": 7,
+              "severity": "optional"
+            },
+            "azure-container-apps": {
+              "effort": 7,
+              "severity": "optional"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=cloud-readiness"
+          ]
+        },
+        {
+          "ruleId": "localhost-00004",
+          "incidentId": "b7b9602d-02ae-473c-b297-d93be7cdac34",
+          "location": "TeamCode/build/intermediates/incremental/release/mergeReleaseResources/merged.dir/values/values.xml",
+          "locationKind": "File",
+          "line": 902,
+          "column": 0,
+          "targets": {
+            "azure-aks": {
+              "effort": 7,
+              "severity": "optional"
+            },
+            "azure-appservice": {
+              "effort": 7,
+              "severity": "optional"
+            },
+            "azure-container-apps": {
+              "effort": 7,
+              "severity": "optional"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=cloud-readiness"
+          ]
+        },
+        {
+          "ruleId": "dockerfile-00000",
+          "incidentId": "46fc614f-7121-4367-be87-bf928d1afe2f",
+          "location": "",
+          "locationKind": "",
+          "targets": {
+            "azure-aks": {
+              "effort": 1,
+              "severity": "mandatory"
+            },
+            "azure-container-apps": {
+              "effort": 1,
+              "severity": "mandatory"
+            }
+          },
+          "labels": [
+            "type=violation",
+            "ruleset=cloud-readiness"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "9cc2cf14-0274-4b80-b637-e16979a66618",
+          "location": "FtcRobotController/build/generated/source/buildConfig/debug/com/qualcomm/ftcrobotcontroller/BuildConfig.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "9b6fb703-8847-4c3d-95f8-58d0ee5f255d",
+          "location": "FtcRobotController/build/generated/source/buildConfig/release/com/qualcomm/ftcrobotcontroller/BuildConfig.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "9af1520c-408b-4795-a150-45ee2d587929",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/BasicOmniOpMode_Linear.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "4b310ae1-7361-45c7-80cd-e6c28d21d114",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/BasicOpMode_Iterative.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "2ba0bf99-dc34-4275-b56e-e0bf8f2ec9e6",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/BasicOpMode_Linear.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "3bd44d24-e6b5-48d5-aef8-f0d659d81376",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptAprilTag.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "54e70f29-de34-42ac-8809-f292be36b479",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptAprilTagEasy.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "ae2fc1fe-3788-4edb-9b49-3dfd4499a056",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptAprilTagLocalization.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "26de83cc-0dab-4248-b395-f06bcd0324d5",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptAprilTagMultiPortal.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "554f177c-fc8b-41b9-8707-fd05e7c3abd8",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptAprilTagOptimizeExposure.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "e0dfc7c4-4d25-4a9c-b489-53aabde99a4a",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptAprilTagSwitchableCameras.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "9e0f3de1-a937-44d3-9672-3bee9fffe1fb",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptBlackboard.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "1ae3a29c-2df2-4571-aa34-de50b6f4558b",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptExploringIMUOrientation.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "343e25fd-9371-47f1-920d-50591216b826",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptGamepadEdgeDetection.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "efc7721d-639b-4939-9085-d0842936bddd",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptGamepadRumble.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "2749479d-62c8-489c-9f58-6a381af08971",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptGamepadTouchpad.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "00121651-c606-4d26-9479-b6f8f39741b0",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptLEDStick.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "f51d2920-fcf6-4f10-82ab-a57960fc5f7d",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptMotorBulkRead.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "7829b139-2f4f-44a2-8703-583e2b29171d",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptNullOp.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "61664f93-a719-49dd-a0ae-9069b9b39e15",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptRampMotorSpeed.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "f646e24b-62ea-4ff3-b30e-ac540229718f",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptRevLED.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "2bdac988-0723-404c-b2e7-ec4131184027",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptRevSPARKMini.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "f18241c1-1821-4a64-900f-02eb18459027",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptScanServo.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "17fd1ffb-a46e-40fd-bad6-ffffaf8eab18",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptSoundsASJava.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "0e7c1bd0-7c07-41d3-bed5-1bc77642d7ba",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptSoundsOnBotJava.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "c7fe1a1e-ed86-4c90-a83a-1f5989f10010",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptSoundsSKYSTONE.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "aa4919a7-caf1-48ec-b8a8-df67efcdc5ed",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptTelemetry.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "fb68d2a9-2d60-4b97-9661-a38d5d172aee",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptVisionColorLocator_Circle.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "84d32de4-ff64-42e9-a92b-b46c092557fd",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptVisionColorLocator_Rectangle.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "c3ddc86f-7b38-45e3-b891-40afbd2da8d5",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/ConceptVisionColorSensor.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "b52b8f2c-2297-440c-b177-4ac0436a59f1",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveByEncoder_Linear.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "52d9b0a9-3a63-4889-81b7-a053fff7dc81",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveByGyro_Linear.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "00d35044-e2d5-4c30-8bc1-db2cc92a90a3",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveByTime_Linear.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "a7365446-09c7-4330-9f86-8f9de89aedf4",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveToAprilTagOmni.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "66d9c1bb-9e86-4a28-96e7-129ef746247a",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveToAprilTagTank.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "129a4590-1101-4005-9614-4a5531002006",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotAutoDriveToLine_Linear.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "73b2e136-85a2-4878-9a45-c44686ed5787",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotTeleopMecanumFieldRelativeDrive.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "2a1bf09f-c7f9-4856-b64c-15f80ec6d49f",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotTeleopPOV_Linear.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "75509def-1d19-4887-9961-24b6069c908b",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/RobotTeleopTank_Iterative.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "85fbd476-67ea-4db5-86d8-0e2f6aedf7e4",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SampleRevBlinkinLedDriver.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "0e43b092-089a-4bc1-8780-629e27b1f538",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorAndyMarkIMUNonOrthogonal.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "6f4452b9-152a-4da0-90b3-a987c002de08",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorAndyMarkIMUOrthogonal.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "b8c50ca6-c565-4540-a939-61a96e511e3a",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorAndyMarkTOF.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "92e526bf-0fc6-4975-8d10-b7cbe6571d11",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorBNO055IMU.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "7e205811-d43d-4684-9382-ef4a93a6299b",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorBNO055IMUCalibration.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "3bb04416-99dc-407c-9dc1-6d1603e6bb70",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorColor.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "20077fd4-ce21-422e-88ab-a01e3fb0923f",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorDigitalTouch.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "0a0c94bb-2830-4e40-98df-32af915e3f14",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorGoBildaPinpoint.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "97bc9234-e5b4-4c53-a4b2-3fa5fcf75946",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorHuskyLens.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "f6330792-9466-42f6-a5d8-b7d155c730a7",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorIMUNonOrthogonal.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "4bb7d38a-cdc6-4d99-b6bc-00c5a2109f89",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorIMUOrthogonal.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "ed52c33e-693a-456e-9e9d-6ddff57873ca",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorKLNavxMicro.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "acb8fea5-8566-4be4-9da5-9d55f775a57a",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorLimelight3A.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "d4817cca-fbde-4aa6-a56b-f71c0303c370",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRColor.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "600d95f5-77d2-4b8e-af1d-e7a36a65aa71",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRGyro.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "829580c7-ed75-4146-bccd-3133bf43b76c",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorMROpticalDistance.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "456751e6-c8c0-42ee-90ad-50d81bb02ff3",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorMRRangeSensor.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "c6c89843-555a-4f68-957f-d1e531c1292d",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorOctoQuad.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "017f3745-e7ec-42ee-a0c3-ebc71771972d",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorOctoQuadAdv.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "0eb1c589-6c28-40d5-abbf-661367ee6146",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorOctoQuadLocalization.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "ef658228-3f34-4c7f-a89f-9ef780885374",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorREV2mDistance.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "a53a9c75-184b-4011-8292-0b62da711aca",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorSparkFunOTOS.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "ea5c8fef-fdf5-4273-bffe-8cbc3ada9ba8",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/SensorTouch.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "ed63fa40-b6b6-45d2-9aee-abce1411372b",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/UtilityCameraFrameCapture.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "001197c0-01ed-4628-aac6-d7bda019125d",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/UtilityOctoQuadConfigMenu.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "d511742d-49b1-42fb-85db-2d72540628fc",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/externalhardware/ConceptExternalHardwareClass.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "2a9bdcdb-3934-43fe-a0ef-6a630497e78a",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples/externalhardware/RobotHardware.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "5f07739f-0ad3-442b-b359-0bb75b1bb7dc",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/internal/FtcOpModeRegister.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "03377cff-687e-4291-942f-b50aa4e2f4b4",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/internal/FtcRobotControllerActivity.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "4b7bf327-71d0-42b4-bbe1-30f0647296a2",
+          "location": "FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/internal/PermissionValidatorWrapper.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "ff6cbd64-292c-403f-a273-52a4d7e61858",
+          "location": "MeepMeepTesting/src/main/java/com/example/meepmeeptesting/MeepMeepTesting.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "8f482c6f-a58f-491c-9ddb-2b86b5989dd9",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/AprilTagLocalizer.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "ea025e41-325d-4675-b778-dda616fdd633",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Drawing.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "a712b363-23f9-43c4-bdba-03a60bb767da",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Localizer.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "48aeb22d-c732-4321-8dbe-019ea7b1ddeb",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumDrive.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "f441d08a-c1ce-43f0-9720-098117b365a5",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/OTOSLocalizer.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "0256c28a-7cd1-4f26-8484-9b564a0dbba0",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/PinpointLocalizer.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "38350951-9132-430f-8173-4fbb0ed12c10",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/TankDrive.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "cc0ac137-d790-410b-bc30-2c2cbc0f4eda",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/ThreeDeadWheelLocalizer.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "99612245-d201-4a9b-ba15-c0d407552157",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/TwoDeadWheelLocalizer.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "af21a5d3-a6e9-45be-9aa0-11bd66c46799",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/StopRobot.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "b189eacf-d9e3-4641-a73c-6439c14fba1f",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/chargeur/IncrementPowerChargeur.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "5aed1d4c-6347-486f-99ee-8a9f57b4bbeb",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/chargeur/InverseMaxPowerChargeur.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "ebcebddb-2dd5-4190-b63c-cddb7d59a237",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/chargeur/MaxPowerChargeur.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "11bc36bd-5c9e-4c32-ba46-021ed2850783",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/chargeur/StopChargeur.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "05d65771-7a71-44e2-b99c-c74cefb9d243",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/chargeur/ToggleChargeur.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "fba52ea3-4eb5-4f32-82e6-79d1a28db182",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/drive/FollowTrajectory.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "336ded0f-31fd-4a10-81fd-014ee0e64d6b",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/drive/TeleDrive.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "49472e5e-251c-44df-a5cc-875aac27bfc6",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/drive/TeleDriveLocked.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "717e5c82-d4ae-4f2c-9cb4-47330b63972c",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/drive/TeleSlowDrive.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "18f06ab3-230c-4109-a8fb-f1b45162fa96",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/drive/TestCircles.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "7fd75a68-bed0-414d-8915-5ec1967d47ee",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/drive/ToggleSlowDrive.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "b5bad3d9-c0be-42f0-ba02-6f31c9818a1b",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/drive/ToggleVisionDrive.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "1f5128e2-b2f5-4c31-82a4-382e91229b44",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/gamepad/ContinuousRumbleCustom.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "8c0ba2bf-dfe9-4bad-b663-164605b59655",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/gamepad/InstantRumbleCustom.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "92d12c68-67dd-4c63-a5a0-b625d63f6491",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/gamepad/Rumble.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "3cedf8f9-4295-4a7f-9f0c-eef4306969cc",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/shooter/IncrementSpeedShooter.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "3ad6525c-3f9e-4747-9776-c012b1100175",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/shooter/MaxSpeedShooter.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "c5eaa3c8-5876-45b0-a7ff-fafa44463b25",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/shooter/StopShooter.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "eb5663d3-bdf4-4287-9819-04cbceb7d287",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/shooter/TeleShooter.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "642928d5-c499-4669-98c0-0bd11efb0b4f",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/shooter/ToggleShooter.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "4191b573-e2eb-445b-ba09-f85350f28fce",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/ClearMoulinShootingPos.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "26835e75-8bac-4ffe-a108-8b2f14538b45",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/CloseTrappe.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "3533b3cf-c2d6-4d52-acfe-687a2058d389",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/MoulinAntiRotate.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "2de448f1-462d-4c22-a9b5-fa0e24ae9ac9",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/MoulinCalibrate.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "53e5e2ce-434e-452f-a490-044f112403c6",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/MoulinCorrectOverCurrent.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "65869378-17c8-4d21-b952-5620046585dc",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/MoulinNext.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "0ce5ecd6-87bb-4c45-81c0-5304d1b0cbfa",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/MoulinNextNext.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "011f6029-d85c-4c5b-b29e-06d3542773db",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/MoulinPrevious.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "987cede0-9555-49f4-a84c-181e53f9e19e",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/MoulinRevolution.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "ef92fe92-0289-4d18-97e8-b337d1be742d",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/MoulinRotate.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "13773e55-23ad-433e-a01e-7ced5bde3bcb",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/MoulinToPosition.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "45141275-4f96-4968-abb2-20da171cc728",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/OpenTrappe.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "b84399e3-7fc4-4e6a-8635-233a07f20933",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/ReadyMotif.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "b70dbc88-ec5a-42e1-b073-75df013f2772",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/ReadyMotifAuto.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "d86c8774-d83b-41c5-aaac-054dbd7325a6",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/StopMoulin.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "e8f10561-c44c-475c-8a02-fb04ec4c386d",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/ToggleTrappe.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "b876a492-3359-4d7d-aa4c-2d95ce1e8676",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/TrieurAutoTuner.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "51b154c4-a74f-4f91-9332-e9c28ae488e7",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/trieur/UpdateColorSensorsDetections.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "d66ac3b8-9800-4be0-bb74-c9a5bf04a3a9",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/vision/ContinuousUpdateAprilTagsDetections.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "8af7b41e-44d4-4382-965f-f9a118bf24a0",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/basecommands/vision/UpdateAprilTagsDetections.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "548d199b-e043-4ecb-b23b-8197d60651a1",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/ArtefactPickAway.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "b97d04ac-1fde-4fcb-b0da-cb254ecd1505",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/AutomaticArtefactPickAway.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "d228f322-4c65-4e43-a813-4a44f67092c6",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/ColoredArtefactPickAway.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "79b4f705-87d3-4df8-a735-4257782b87da",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/DetectArtefact.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "3d217eaf-1351-439f-a4e0-3ab2d60d2b27",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/ReadyShootMotif.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "4c050e68-3c52-4412-a3c0-d3daa077ca07",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/ReadyShootMotifAuto.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "1175631b-42b0-4296-971c-95cc5c2222ce",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/ShootAny.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "36d3d75b-e50d-4ae0-abb8-2c1aff148253",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/ShootColor.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "58ec58b6-1e7f-4dd5-99b1-4c8530025941",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/ShootMotif.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "f4814367-28f6-422c-9a87-0fe17edfcd9d",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/ShootMoulinState.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "f35ed87d-8699-4733-9345-0fe43ff03923",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/ShootMoulinStateWithVision.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "1e4d3dfb-7e57-4fc6-935b-3b35a0849145",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/ShootRevolution.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "b27744d4-ff07-43c2-9241-9d6989aeef49",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/ShootRevolutionWithVision.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "ecb4d2da-27c2-4ca4-90d0-a4df1f22cb4f",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/commands/groups/VisionShooter.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "bb0db41f-c689-4ec3-a3cd-051b6402a061",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/DinitechRobotBase.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "162f5738-671f-4db6-9b2e-e34b70a8defc",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/auto/GornetixAutoBlueGoal.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "8af7b1f0-6db2-4f1f-af92-85e4e4e01f6c",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tele/GornetixTeleOp.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "a1661ec3-1b92-4abb-a2b0-681cf971c391",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/BasicAprilTagDetection.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "7ea49e21-7b36-4ad0-8af3-db15e8f2a3d3",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/BasicColorDetectionCamera.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "581e8baf-0bbd-4834-b2e0-d561d2b88208",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/BasicColorSensor.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "037804b4-94ed-4eab-a9f5-563d77654dd3",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/BasicMagneticSwitch.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "40b5c12a-8986-46cd-a64b-1337b0506125",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/BasicMecanumDrive.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "76d0f6ae-22b8-4b6c-9440-d7e6ac7c34ab",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/BasicMotorServo.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "dd6f194c-f659-43ac-9375-b8859c471a12",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/BasicServo.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "ce6830d9-5fc2-4095-91bb-cbf2bf0a6456",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/BasicVisionMecanumDrive.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "d767a661-0efa-44e1-9d7e-2d1b937d0aa4",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/ShooterBasic.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "e2234d9d-4cf2-4347-9505-96ec6d7d2493",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/TestGamepads.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "005bf906-c515-467d-9668-b53386761872",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/TrieurAutoTunerOpMode.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "70167c74-1b63-4a53-8170-58140936cfae",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/TrieurBasic.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "2739c03a-4d9a-4792-bcd1-2077087c116f",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/TrieurChar.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "11936982-8f2a-45a7-bb71-cab5ebaa224d",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/opmodes/tests/TrieurDebut.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "ee5494a5-d885-48bb-ba68-a264b08724fb",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/other/Globals.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "a6d32c12-294c-4411-abec-ca00a6b1c600",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/other/StepResponseAnalyzer.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "680fe3d1-cc0b-4a77-b4e2-54a9a2e71c8f",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/ChargeurSubsystem.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "d6308f24-c40d-4dfb-829a-478ce93f48f2",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/DriveSubsystem.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "fac7c50c-8a4d-48d1-b770-50614b6366d2",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/GamepadSubsystem.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "2c013567-20be-44d6-a012-b6f59e2bfc30",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/ShooterSubsystem.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "35ce353f-0e0f-4c6b-992d-d55a133a997f",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/TrieurSubsystem.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "813bba7f-34f0-4459-9286-600180015fb9",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/VisionSubsystem.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "c912d371-fb1f-4636-b6ce-508fccf1b1bc",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/devices/AveragingColorSensor.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "32c76f12-a1fc-472c-a61e-f9b262ab6c75",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/devices/DinitechMecanumDrive.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "a69382bc-cecf-4374-9e8c-b2d9bad92e2e",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/devices/GamepadWrapper.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "a5102a7c-4291-46e0-bd6e-75e73d8f51e6",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/devices/MagneticSwitch.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "dc2718a6-8178-4167-89c5-ce38c2c16f4a",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/devices/Moulin.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "449bbda6-47ca-46f7-b2a3-0fa62b4bf1fc",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/devices/SingleServo.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "bed537d2-0107-446c-a860-c0b1a9ff4ee1",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/devices/Trappe.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "6780b499-f9c4-4ecb-ad19-071a20e4cfbd",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/dinitech/subsytems/devices/TripleColorSensors.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "68891d89-1ad7-4886-966b-b5a274b70258",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/messages/DriveCommandMessage.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "7d122205-e491-4a5f-b60c-6bf65cfecfbd",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/messages/MecanumCommandMessage.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "c75f8e2f-b202-4666-8988-dcdea299f6d8",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/messages/MecanumLocalizerInputsMessage.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "54d7d4dd-3f44-462b-8591-f35ac14e3b61",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/messages/PoseMessage.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "6a729167-3c1c-48b2-a6b1-ea600338f909",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/messages/TankCommandMessage.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "640c0a11-8f48-43fc-9094-4a82c358a4fc",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/messages/TankLocalizerInputsMessage.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "160c4719-5830-45eb-9973-e16248838440",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/messages/ThreeDeadWheelInputsMessage.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "36e7958d-bbb2-4023-9115-2ed731ff50f6",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/messages/TwoDeadWheelInputsMessage.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "a254fd11-d405-4e6a-8bf7-35b2cc342cb6",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tuning/LocalizationTest.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "f9ba3abd-f11a-4f7b-8d21-51158c9bd91c",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tuning/ManualFeedbackTuner.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "3ae5797b-d739-43f1-9e9b-ae343748cf02",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tuning/SplineTest.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-java-files",
+          "incidentId": "fbd342d1-1442-4b55-8317-c8fec690ead8",
+          "location": "TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tuning/TuningOpModes.java",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-gradle-xml",
+          "incidentId": "9f37c0c1-28ec-4ff4-b903-c3a5c687e623",
+          "location": "FtcRobotController/build.gradle",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-gradle-xml",
+          "incidentId": "b94ed182-7cd5-4f51-96c2-160ac4b7a7d1",
+          "location": "MeepMeepTesting/build.gradle",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-gradle-xml",
+          "incidentId": "3cdb932f-454b-49b5-919a-15874255c382",
+          "location": "TeamCode/build.gradle",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-gradle-xml",
+          "incidentId": "73100739-a3fb-43fb-bb05-b1080f99fa5d",
+          "location": "build.gradle",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "c8fac4da-fdf4-4383-a69d-4f893e7f13c7",
+          "location": "FtcRobotController/build/intermediates/aar_metadata/debug/writeDebugAarMetadata/aar-metadata.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "b4a110e2-ef25-48ee-9196-18cff3d27281",
+          "location": "FtcRobotController/build/intermediates/aar_metadata/release/writeReleaseAarMetadata/aar-metadata.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "7196fa5f-1932-4e66-b939-a30529cca6e1",
+          "location": "FtcRobotController/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "7236a60c-a6db-4d0c-b216-4d30580fb9b2",
+          "location": "FtcRobotController/build/intermediates/incremental/release/mergeReleaseResources/compile-file-map.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "9609d3c5-8942-4537-ac62-95af3386329e",
+          "location": "FtcRobotController/build/intermediates/incremental/release/packageReleaseResources/compile-file-map.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "d6a9afba-190a-46f5-97b0-7ca36d6db8db",
+          "location": "FtcRobotController/build/intermediates/lint_model_metadata/debug/writeDebugLintModelMetadata/lint-model-metadata.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "eee4bcb9-93f5-4500-8881-efc221d48398",
+          "location": "FtcRobotController/build/intermediates/lint_model_metadata/release/writeReleaseLintModelMetadata/lint-model-metadata.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "c3d46e08-4dff-40d9-82c5-8649e2ae3495",
+          "location": "TeamCode/build/intermediates/app_metadata/debug/writeDebugAppMetadata/app-metadata.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "bc3b17c5-bdee-445b-8003-33e18b63d61f",
+          "location": "TeamCode/build/intermediates/app_metadata/release/writeReleaseAppMetadata/app-metadata.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "a1ca0013-ab7a-4c01-ad3b-35cb9005251f",
+          "location": "TeamCode/build/intermediates/incremental/debug/mergeDebugResources/compile-file-map.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "3c6d8a3a-5b84-4efd-8b97-8cbce282e6bd",
+          "location": "TeamCode/build/intermediates/incremental/release/mergeReleaseResources/compile-file-map.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "778e18b9-1730-4c07-a00c-78e9da77b963",
+          "location": "gradle.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-properties-file",
+          "incidentId": "87df5090-eb12-4e00-a808-e13acb6e4d93",
+          "location": "local.properties",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "discover-manifest-file",
+          "incidentId": "02cb3686-6b6c-411a-a6c0-1515f6302292",
+          "location": "MeepMeepTesting/build/tmp/jar/MANIFEST.MF",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=discovery-rules"
+          ]
+        },
+        {
+          "ruleId": "technology-usage-3rd-party-12000",
+          "incidentId": "9dc5e25f-1663-425c-8e52-b8dcf2fa3975",
+          "location": "",
+          "locationKind": "",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "c4133c35-5486-4dc6-86cf-1e7897ed3af6",
+          "location": "TeamCode/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/blocks/sparkfun_led_stick.js.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "1459b09e-2ccd-440e-b671-6bba9af8805f",
+          "location": "TeamCode/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/blocks/sparkfun_otos.js.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "aae22396-1a04-4cbe-9f78-42cba9ec399e",
+          "location": "TeamCode/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/toolbox/sparkfun_otos.xml.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "d07b8c3a-4ec3-45da-a2a3-1cde0ab157d3",
+          "location": "TeamCode/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/toolbox/sparkfun_otos_pose2d.xml.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "62bb6305-2917-412f-b7dc-ad94d3a7e098",
+          "location": "TeamCode/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/toolbox/sparkfun_otos_signalprocessconfig.xml.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "bbc8f97b-e8d2-4483-8414-2fb02428bfa3",
+          "location": "TeamCode/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/toolbox/sparkfun_otos_status.xml.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "66ba99e7-f489-43eb-b52c-18a0f506c819",
+          "location": "TeamCode/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/toolbox/sparkfun_otos_version.xml.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "ae07e6d8-5964-44f2-a258-b78b911c950a",
+          "location": "TeamCode/build/intermediates/compressed_assets/release/compressReleaseAssets/out/assets/blocks/sparkfun_led_stick.js.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "b3b39c6c-0a60-4454-96f6-3c473cff0927",
+          "location": "TeamCode/build/intermediates/compressed_assets/release/compressReleaseAssets/out/assets/blocks/sparkfun_otos.js.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "58b877a1-fecc-4afc-a2b0-5cbdaea68f7c",
+          "location": "TeamCode/build/intermediates/compressed_assets/release/compressReleaseAssets/out/assets/toolbox/sparkfun_otos.xml.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "1f3915a1-7755-467a-8d72-c5251e1501bb",
+          "location": "TeamCode/build/intermediates/compressed_assets/release/compressReleaseAssets/out/assets/toolbox/sparkfun_otos_pose2d.xml.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "f487dd59-6a89-4ff8-8ad4-1827a6b4e1c3",
+          "location": "TeamCode/build/intermediates/compressed_assets/release/compressReleaseAssets/out/assets/toolbox/sparkfun_otos_signalprocessconfig.xml.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "a3deb0d9-d102-4d76-aa37-fdee6e12dc6d",
+          "location": "TeamCode/build/intermediates/compressed_assets/release/compressReleaseAssets/out/assets/toolbox/sparkfun_otos_status.xml.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-01900",
+          "incidentId": "d99bc8e8-4018-4b2a-873b-e4273b11be26",
+          "location": "TeamCode/build/intermediates/compressed_assets/release/compressReleaseAssets/out/assets/toolbox/sparkfun_otos_version.xml.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-02200",
+          "incidentId": "940432ff-ffbe-42fe-ab7c-da47df0eb131",
+          "location": "TeamCode/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/dash/assets/play_arrow.95e2d7e4.svg.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-02200",
+          "incidentId": "6f0694d7-ed68-4d7d-8edf-2ecb054b6095",
+          "location": "TeamCode/build/intermediates/compressed_assets/release/compressReleaseAssets/out/assets/dash/assets/play_arrow.95e2d7e4.svg.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-04000",
+          "incidentId": "962e73d2-94f3-4e92-a09d-cc4b94852b28",
+          "location": "TeamCode/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/blocks/angular_velocity.js.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-04000",
+          "incidentId": "5df1d23b-3528-41f7-85a8-038a34b6aa2b",
+          "location": "TeamCode/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/blocks/velocity.js.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-04000",
+          "incidentId": "19266afb-6386-43fe-9110-3a609ec7f274",
+          "location": "TeamCode/build/intermediates/compressed_assets/release/compressReleaseAssets/out/assets/blocks/angular_velocity.js.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "mvc-04000",
+          "incidentId": "bbd1061e-5b31-468f-a078-85307a64fa3b",
+          "location": "TeamCode/build/intermediates/compressed_assets/release/compressReleaseAssets/out/assets/blocks/velocity.js.jar",
+          "locationKind": "File",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "non-xml-technology-usage-20000",
+          "incidentId": "11f6a86c-cb5c-4c6f-b785-2d86a24f5ecd",
+          "location": "",
+          "locationKind": "",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "technology-usage-mvc-01900",
+          "incidentId": "95fb6497-1429-4f8b-bed4-00c4d826d02d",
+          "location": "",
+          "locationKind": "",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "technology-usage-mvc-02200",
+          "incidentId": "84a1ac10-8150-4700-a5a1-23c3ac9f29dc",
+          "location": "",
+          "locationKind": "",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        },
+        {
+          "ruleId": "technology-usage-mvc-04000",
+          "incidentId": "cfcc66d1-fed1-44fd-997b-79fab440273d",
+          "location": "",
+          "locationKind": "",
+          "labels": [
+            "type=insight",
+            "ruleset=technology-usage"
+          ]
+        }
+      ]
+    }
+  ],
+  "rules": {
+    "discover-gradle-xml": {
+      "id": "discover-gradle-xml",
+      "description": "",
+      "title": "Gradle groovy file",
+      "severity": "information",
+      "effort": 0,
+      "labels": [
+        "discovery",
+        "tag=Gradle Groovy"
+      ]
+    },
+    "discover-java-files": {
+      "id": "discover-java-files",
+      "description": "",
+      "title": "Java source files",
+      "severity": "information",
+      "effort": 0,
+      "labels": [
+        "discovery",
+        "tag=Java Source"
+      ]
+    },
+    "discover-manifest-file": {
+      "id": "discover-manifest-file",
+      "description": "",
+      "title": "Manifest file",
+      "severity": "information",
+      "effort": 0,
+      "labels": [
+        "discovery",
+        "tag=Manifest"
+      ]
+    },
+    "discover-properties-file": {
+      "id": "discover-properties-file",
+      "description": "",
+      "title": "Properties file",
+      "severity": "information",
+      "effort": 0,
+      "labels": [
+        "discovery",
+        "tag=Properties"
+      ]
+    },
+    "dockerfile-00000": {
+      "id": "dockerfile-00000",
+      "description": "No Dockerfile was found in the project. This suggests the application may not yet be containerized. \nConsider creating a Dockerfile to enable container-based replatforming to Azure services such as Azure Container Apps or AKS.",
+      "title": "No Dockerfile found",
+      "severity": "mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://www.baeldung.com/java-dockerize-app",
+          "title": "Dockerizing a Java Application"
+        }
+      ],
+      "labels": [
+        "target=azure-aks",
+        "target=azure-container-apps",
+        "capability=containerization",
+        "source",
+        "domain=cloud-readiness",
+        "category=containerization",
+        "containerization",
+        "os=windows",
+        "os=linux"
+      ]
+    },
+    "localhost-00004": {
+      "id": "localhost-00004",
+      "description": "The app is trying to use localhost, please try to migrate the resource to cloud",
+      "title": "Localhost Usage",
+      "severity": "optional",
+      "effort": 7,
+      "labels": [
+        "target=azure-aks",
+        "target=azure-container-apps",
+        "target=azure-appservice",
+        "capability=containerization",
+        "source",
+        "domain=cloud-readiness",
+        "category=local-resource-access",
+        "localhost",
+        "containerization",
+        "os=windows",
+        "os=linux"
+      ]
+    },
+    "mvc-01900": {
+      "id": "mvc-01900",
+      "description": "",
+      "title": "Embedded library - Spark",
+      "severity": "information",
+      "effort": 0,
+      "labels": [
+        "discovery",
+        "tag=Spark",
+        "tag=Embedded library - Spark"
+      ]
+    },
+    "mvc-02200": {
+      "id": "mvc-02200",
+      "description": "",
+      "title": "Embedded library - Play",
+      "severity": "information",
+      "effort": 0,
+      "labels": [
+        "discovery",
+        "tag=Play",
+        "tag=Embedded library - Play"
+      ]
+    },
+    "mvc-04000": {
+      "id": "mvc-04000",
+      "description": "",
+      "title": "Embedded library - Apache Velocity",
+      "severity": "information",
+      "effort": 0,
+      "labels": [
+        "discovery",
+        "tag=Velocity",
+        "tag=Embedded library - Apache Velocity"
+      ]
+    },
+    "non-xml-technology-usage-20000": {
+      "id": "non-xml-technology-usage-20000",
+      "description": "",
+      "title": "Properties",
+      "severity": "information",
+      "effort": 0,
+      "labels": [
+        "discovery",
+        "tag=Sustain=Properties",
+        "tag=Embedded=Properties",
+        "tag=Other=Properties"
+      ]
+    },
+    "technology-usage-3rd-party-12000": {
+      "id": "technology-usage-3rd-party-12000",
+      "description": "",
+      "title": "Spark",
+      "severity": "information",
+      "effort": 0,
+      "labels": [
+        "discovery",
+        "tag=3rd party=Spark",
+        "tag=Execute=Spark",
+        "tag=Embedded=Spark"
+      ]
+    },
+    "technology-usage-mvc-01900": {
+      "id": "technology-usage-mvc-01900",
+      "description": "",
+      "title": "Spark",
+      "severity": "information",
+      "effort": 0,
+      "labels": [
+        "discovery",
+        "tag=View=Spark",
+        "tag=Embedded=Spark",
+        "tag=MVC=Spark"
+      ]
+    },
+    "technology-usage-mvc-02200": {
+      "id": "technology-usage-mvc-02200",
+      "description": "",
+      "title": "Play",
+      "severity": "information",
+      "effort": 0,
+      "labels": [
+        "discovery",
+        "tag=MVC=Play",
+        "tag=View=Play",
+        "tag=Embedded=Play"
+      ]
+    },
+    "technology-usage-mvc-04000": {
+      "id": "technology-usage-mvc-04000",
+      "description": "",
+      "title": "Velocity",
+      "severity": "information",
+      "effort": 0,
+      "labels": [
+        "discovery",
+        "tag=Embedded=Velocity",
+        "tag=MVC=Velocity",
+        "tag=View=Velocity"
+      ]
+    }
+  },
+  "security": []
+}
