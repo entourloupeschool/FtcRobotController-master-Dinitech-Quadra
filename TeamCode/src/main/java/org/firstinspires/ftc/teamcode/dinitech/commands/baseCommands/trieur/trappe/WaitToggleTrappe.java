@@ -8,13 +8,15 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Trappe;
 
-public class WaitCloseTrappe extends ConditionalCommand {
-    public WaitCloseTrappe(TrieurSubsystem trieurSubsystem) {
+public class WaitToggleTrappe extends ConditionalCommand {
+    public WaitToggleTrappe(TrieurSubsystem trieurSubsystem) {
         super(
                 new SequentialCommandGroup(
                         new CloseTrappe(trieurSubsystem),
                         new WaitCommand(Trappe.TRAPPE_CLOSE_TIME)),
-                new InstantCommand(),
+                new SequentialCommandGroup(
+                        new OpenTrappe(trieurSubsystem),
+                        new WaitCommand(Trappe.TRAPPE_OPEN_TIME)),
                 trieurSubsystem::isTrappeOpen);
     }
 }

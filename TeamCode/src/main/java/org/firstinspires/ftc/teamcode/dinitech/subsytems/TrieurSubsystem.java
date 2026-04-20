@@ -680,6 +680,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
 //        printMagneticTelemetryManager(telemetryM);
         printMoulinTelemetryManager(telemetryM);
+        printTrappeTelemetryManager(telemetryM);
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
 //        printDistanceTelemetryManager(telemetryM);

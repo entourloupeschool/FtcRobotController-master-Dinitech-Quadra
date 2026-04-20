@@ -39,8 +39,7 @@ public class ClearMoulinShootingPos extends CommandBase {
         }
 
         // Determine which storage slot corresponds to the shooting position and clear it.
-        int storagePosToClear = Moulin.getOppositePosition(shootingPos);
-        trieurSubsystem.clearMoulinStoragePositionColor(storagePosToClear);
+        trieurSubsystem.clearMoulinStoragePositionColor(Moulin.getOppositePosition(shootingPos));
     }
 
     /**
