@@ -76,10 +76,7 @@ public class ToClosestShootPose extends OptimalPath {
 
     @Override
     public Command interruptOn(BooleanSupplier condition) {
-        BooleanSupplier reunion = ()->
-                Math.hypot(gamepadSubsystem.getDriver().getLeftX(), gamepadSubsystem.getDriver().getLeftY()) > 0.02
-                || Math.hypot(gamepadSubsystem.getDriver().getRightX(), gamepadSubsystem.getDriver().getRightY()) > 0.02
-                || condition.getAsBoolean();
+        BooleanSupplier reunion = ()-> gamepadSubsystem.getDriver().usingSticks() || condition.getAsBoolean();
         return super.interruptOn(reunion);
     }
 

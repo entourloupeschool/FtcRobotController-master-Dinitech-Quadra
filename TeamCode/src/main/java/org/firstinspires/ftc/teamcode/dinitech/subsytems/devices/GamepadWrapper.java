@@ -184,6 +184,11 @@ public class GamepadWrapper {
         return getRightX || getRightY;
     }
 
+
+    public boolean usingSticks(){
+        return usingLeftStick() || usingRightStick();
+    }
+    
     /**
      * Gets the current value of the left trigger.
      * @return The left trigger value, from 0.0 (unpressed) to 1.0 (fully pressed).

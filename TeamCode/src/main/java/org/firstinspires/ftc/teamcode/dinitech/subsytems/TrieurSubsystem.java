@@ -223,10 +223,6 @@ public class TrieurSubsystem extends SubsystemBase {
     public void setMoulinPower(double power) {
         moulin.setPower(power);
     }
-    
-    private double getMoulinSpeed(){
-        return moulin.getSpeed();
-    }
 
     /**
      * Increments the moulin motor's target position.
@@ -254,10 +250,6 @@ public class TrieurSubsystem extends SubsystemBase {
      */
     public boolean shouldMoulinStopPower() {
         return moulin.shouldStopPower();
-    }
-
-    public boolean isMoulinMotorCloseToTarget(double margin){
-        return moulin.isCloseToTarget(margin);
     }
 
     public boolean isMoulinEncoderCloseToTarget(double margin){
@@ -461,28 +453,6 @@ public class TrieurSubsystem extends SubsystemBase {
         return Moulin.getOppositePosition(posWithColor);
     }
 
-
-    /**
-     * Finds the closest shooting position for any available artifact.
-     *
-     * @return The closest shooting position for any color, or -1 if the moulin is empty.
-     */
-    public int getClosestShootingPositionAnyColor() {
-        int[] anyColorPositions = new int[3];
-        int greenShootingPosition = getClosestShootingPositionForColor(ArtifactColor.GREEN);
-        int purpleShootingPosition = getClosestShootingPositionForColor(ArtifactColor.PURPLE);
-        int unknownShootingPosition = getClosestShootingPositionForColor(ArtifactColor.UNKNOWN);
-
-        int index = 0;
-        if (greenShootingPosition != -1) anyColorPositions[index++] = greenShootingPosition;
-        if (purpleShootingPosition != -1) anyColorPositions[index++] = purpleShootingPosition;
-        if (unknownShootingPosition != -1) anyColorPositions[index++] = unknownShootingPosition;
-        
-        int[] availablePositions = Arrays.copyOf(anyColorPositions, index);
-
-        return Moulin.getClosestPositionToShoot(getMoulinPosition(), availablePositions);
-    }
-
     /**
      * Checks if the moulin motor is currently experiencing an over-current condition.
      * @return True if over-current is detected.
@@ -558,9 +528,6 @@ public class TrieurSubsystem extends SubsystemBase {
         newColoredRegister = coloredRegister;
     }
 
-    public boolean getNewColoredRegister(){
-        return newColoredRegister;
-    }
 
     public boolean isFull() {
         return getHowManyArtefacts() == 3;
@@ -574,10 +541,6 @@ public class TrieurSubsystem extends SubsystemBase {
 
     private boolean isMoulinRestAtTarget(){
         return !isMoulinBusy() && lastMoulinMotorTicks.getStd() == 0;
-    }
-
-    private double getMoulinVoltage(){
-        return moulin.getVoltage();
     }
 
 

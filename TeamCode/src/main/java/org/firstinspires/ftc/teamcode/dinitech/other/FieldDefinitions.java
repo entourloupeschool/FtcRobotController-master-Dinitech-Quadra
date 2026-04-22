@@ -6,7 +6,7 @@ public class FieldDefinitions {
     public static final double TILE_DIM = 24;
     public static final double FIELD_SIDE_LENGTH = TILE_DIM * 6;
     public static final Pose FIELD_CENTER_90HEADING_POSE = new Pose(72, 72, Math.PI/2);
-
+    public static final Globals.Vec2 middleFieldVec = new Globals.Vec2(FIELD_SIDE_LENGTH/2, FIELD_SIDE_LENGTH/2);
 
     /**
      * A launch zone is a triangular surface from which the robot is allowed to shoot. It is defined by 3 vectors. Inside the triangle, the robot can shoot.

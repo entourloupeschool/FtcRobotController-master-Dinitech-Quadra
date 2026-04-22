@@ -64,23 +64,17 @@ public class ToPickPose extends OptimalPath {
 
     @Override
     public Command interruptOn(BooleanSupplier condition) {
-        BooleanSupplier reunion = ()->
-                Math.hypot(gamepadSubsystem.getDriver().getLeftX(), gamepadSubsystem.getDriver().getLeftY()) > 0.02
-                || Math.hypot(gamepadSubsystem.getDriver().getRightX(), gamepadSubsystem.getDriver().getRightY()) > 0.02
-                || condition.getAsBoolean();
+        BooleanSupplier reunion = ()-> gamepadSubsystem.getDriver().usingSticks() || condition.getAsBoolean();
         return super.interruptOn(reunion);
     }
 
     private static Pose computePickPose(GamepadWrapper driver, HubsSubsystem hubsSubsystem) {
-        Globals.Vec2 middleFieldVec = new Globals.Vec2(FieldDefinitions.FIELD_SIDE_LENGTH/2, FieldDefinitions.FIELD_SIDE_LENGTH/2);
-
         Pose pickPose;
 
         if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE) pickPose = getPedroPoseFromUnitNormalized(- driver.getTouchpadFinger1Y() * SCALER_TO_PICK_POSE, driver.getTouchpadFinger1X() * SCALER_TO_PICK_POSE, 0);
         else pickPose = getPedroPoseFromUnitNormalized(driver.getTouchpadFinger1Y() * SCALER_TO_PICK_POSE, - driver.getTouchpadFinger1X() * SCALER_TO_PICK_POSE, 0);
 
-        Globals.Vec2 pickVec = new Globals.Vec2(pickPose.getX(), pickPose.getY());
-        Globals.Vec2 pickPoseVec = middleFieldVec.subtract(pickVec);
+        Globals.Vec2 pickPoseVec = FieldDefinitions.middleFieldVec.subtract(new Globals.Vec2(pickPose.getX(), pickPose.getY()));
 
         pickPose = pickPose.withHeading(Math.atan2(pickPoseVec.y, pickPoseVec.x));
 
