@@ -70,7 +70,7 @@ public class Moulin {
 
     public static final double MOULIN_ROTATE_SPEED_CONTINUOUS = getTicksFromDegrees(1.5);
     public static final double MOULIN_ROTATE_SPEED_CALIBRATION = getTicksFromDegrees(1.8);
-    public static int OFFSET_MAGNETIC_POS = (int) getTicksFromDegrees(5.9765625);//=500
+    public static int OFFSET_MAGNETIC_POS = (int) getTicksFromDegrees(-7.03125);//=-800
     public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
     public static double SCALE_RECALIBRATION = getTicksFromDegrees(3);
     public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
