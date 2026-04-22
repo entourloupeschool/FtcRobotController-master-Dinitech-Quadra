@@ -577,7 +577,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
         } else if (isMagneticSwitch() && wentRecalibrationOpposite() && hasInitCalibration()) {
             setWentRecalibrationOpposite(false);
-            recalibrateMoulin();
+//            recalibrateMoulin();
 
         }
     }

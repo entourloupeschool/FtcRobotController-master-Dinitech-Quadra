@@ -58,7 +58,7 @@ public class Moulin {
 
     public static final double POWER_MOULIN_ROTATION = 1;
     public static final double POWER_MOULIN_ROTATION_OVERCURRENT = 0.5;
-    public static double ABSOLUTE_TOLERANCE_DEGREES = 0.5;
+    public static double ABSOLUTE_TOLERANCE_DEGREES = 0.01;
     public static double MOULIN_POSITION_TOLERANCE = getTicksFromDegrees(ABSOLUTE_TOLERANCE_DEGREES);
     public static final int MOULIN_SPEED_TOLERANCE = 3;
     public static double LOOSE_DEGREES = 1.2;
@@ -68,9 +68,9 @@ public class Moulin {
 
     public static final double MOULIN_POSITION_VERY_LOOSE_TOLERANCE = getTicksFromDegrees(VERY_LOOSE_DEGREES);
 
-    public static final double MOULIN_ROTATE_SPEED_CONTINUOUS = 5 * (MOULIN_POSITION_TOLERANCE + 2);
-    public static double MOULIN_ROTATE_SPEED_CALIBRATION = 300;
-    public static int OFFSET_MAGNETIC_POS = -200;
+    public static final double MOULIN_ROTATE_SPEED_CONTINUOUS = getTicksFromDegrees(1.5);
+    public static final double MOULIN_ROTATE_SPEED_CALIBRATION = getTicksFromDegrees(1.8);
+    public static int OFFSET_MAGNETIC_POS = (int) getTicksFromDegrees(5.9765625);//=500
     public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
     public static double SCALE_RECALIBRATION = getTicksFromDegrees(3);
     public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
@@ -88,9 +88,10 @@ public class Moulin {
     public static double D_MOULIN_AGGRESSIVE = 3.4;//0.7
     public static double F_MOULIN_AGGRESSIVE = 0.0;//1.493
 
-    public static double P_MOULIN_ENCODER = 0.00036;
-    public static double I_MOULIN_ENCODER = 0.076;
-    public static double D_MOULIN_ENCODER = 0.000018;
+    public static double P_MOULIN_ENCODER = 0.0003;
+    public static double I_MOULIN_ENCODER = 0.16;
+    public static double D_MOULIN_ENCODER = 0.000005;
+    public static double F_MOULIN_ENCODER = 0.000005;
 
     public static double ADJUST_CONSTANT = 0.0015;
     public static final String MOTOR_NAME = "moulin";
@@ -119,7 +120,7 @@ public class Moulin {
         dcMotorEx.setZeroPowerBehavior(BRAKE);
         dcMotorEx.setMode(RUN_WITHOUT_ENCODER);
 
-        pidfController = new PIDFController(P_MOULIN_ENCODER, I_MOULIN_ENCODER, D_MOULIN_ENCODER, 0);
+        pidfController = new PIDFController(P_MOULIN_ENCODER, I_MOULIN_ENCODER, D_MOULIN_ENCODER, F_MOULIN_ENCODER);
         pidfController.setSetPoint(getMotorPosition());
         pidfController.setTolerance(MOULIN_POSITION_TOLERANCE);
 

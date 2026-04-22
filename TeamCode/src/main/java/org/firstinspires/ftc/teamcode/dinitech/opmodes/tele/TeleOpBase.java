@@ -106,8 +106,8 @@ public class TeleOpBase extends GornetixGamepads {
 
         double rightTriggerValue = m_Operator.getRightTriggerValue();
         double leftTriggerValue = m_Operator.getLeftTriggerValue();
-        if (rightTriggerValue > 0.05)trieurSubsystem.incrementMoulinTargetPosition(rightTriggerValue * rightTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
-        if (leftTriggerValue > 0.05)trieurSubsystem.incrementMoulinTargetPosition(-leftTriggerValue * leftTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
+        if (rightTriggerValue > 0.05)trieurSubsystem.incrementMoulinEncoderTargetPosition(rightTriggerValue * rightTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
+        if (leftTriggerValue > 0.05)trieurSubsystem.incrementMoulinEncoderTargetPosition(-leftTriggerValue * leftTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
 
         super.run();
     }
