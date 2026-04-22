@@ -114,8 +114,8 @@ public class TeleOpBase extends GornetixGamepads {
 
     private void setupGamePadsButtonBindings() {
         // Full stop robot
-        m_Driver.touchpadButton.whenActive(new StopRobot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem));
-        m_Operator.touchpadButton.whenActive(new StopRobot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem));
+        m_Driver.psButton.whenActive(new StopRobot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem));
+        m_Operator.psButton.whenActive(new StopRobot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem));
 
         // Driver controls
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
@@ -175,13 +175,11 @@ public class TeleOpBase extends GornetixGamepads {
         new StopChargeur(chargeurSubsystem).schedule();
     }
 
-    private void modeRamassage() {
+    protected void modeRamassage() {
         new InstantCommand(() -> shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem)), shooterSubsystem).schedule();
         new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)), drivePedroSubsystem).schedule();
         new SequentialCommandGroup(
                 new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
-                new MoulinCalibrationSequence(trieurSubsystem),
-                new WaitCommand(100),
                 new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false)).schedule();
     }
 

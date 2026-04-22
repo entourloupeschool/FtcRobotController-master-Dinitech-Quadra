@@ -40,10 +40,7 @@ public class GamepadWrapper {
     // Bumpers
     public final Button bump_left;
     public final Button bump_right;
-    
-    // Triggers
-//    public final Button trig_left;
-//    public final Button trig_right;
+
     
     // Additional buttons
     public final Button start;
@@ -83,7 +80,8 @@ public class GamepadWrapper {
         // Initialize bumpers
         bump_left = new GamepadButton(gamepadEx, GamepadKeys.Button.LEFT_BUMPER);
         bump_right = new GamepadButton(gamepadEx, GamepadKeys.Button.RIGHT_BUMPER);
-        
+
+
         // Initialize triggers with threshold
 //        trig_left = new Trigger(() -> gamepadEx.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > triggerThreshold);
 //        trig_right = new Trigger(() -> gamepadEx.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > triggerThreshold);
@@ -191,7 +189,7 @@ public class GamepadWrapper {
      * @return The left trigger value, from 0.0 (unpressed) to 1.0 (fully pressed).
      */
     public double getLeftTriggerValue() {
-        return gamepadEx.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER);
+        return gamepadEx.gamepad.left_trigger;
     }
     
     /**
@@ -199,8 +197,25 @@ public class GamepadWrapper {
      * @return The right trigger value, from 0.0 (unpressed) to 1.0 (fully pressed).
      */
     public double getRightTriggerValue() {
-        return gamepadEx.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
+        return gamepadEx.gamepad.right_trigger;
     }
+
+    /**
+     * Gets the wether the left trigger is pressed or not.
+     * @return true or false, depending on whether the left trigger is pressed or not.
+     */
+    public boolean isLeftTriggerPressed() {
+        return gamepadEx.gamepad.left_trigger_pressed;
+    }
+
+    /**
+     * Gets the wether the right trigger is pressed or not.
+     * @return true or false, depending on whether the right trigger is pressed or not.
+     */
+    public boolean isRightTriggerPressed() {
+        return gamepadEx.gamepad.right_trigger_pressed;
+    }
+
 
     /**
      * Gets the X position of the first finger on the touchpad.

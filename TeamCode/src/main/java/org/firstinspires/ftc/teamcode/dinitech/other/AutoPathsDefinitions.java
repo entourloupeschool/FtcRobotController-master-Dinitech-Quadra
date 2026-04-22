@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.dinitech.other;
 import static org.firstinspires.ftc.teamcode.dinitech.other.FieldDefinitions.TILE_DIM;
 
 import com.bylazar.configurables.annotations.Configurable;
+import com.pedropathing.geometry.Pose;
 
 @Configurable
 public class AutoPathsDefinitions {
@@ -40,4 +41,13 @@ public class AutoPathsDefinitions {
 
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
     public static final double GATEPICK_POWER = MAX_POWER_ROW_PICK_ARTEFACTS;
+
+    public static final double SCALER_TO_PICK_POSE = 0.8;
+    public static double getPedroFieldFromUnitNormalized(double unitNormalized){
+        return (unitNormalized + 1) * FieldDefinitions.FIELD_SIDE_LENGTH/2;
+    }
+
+    public static Pose getPedroPoseFromUnitNormalized(double x, double y, double heading){
+        return new Pose(getPedroFieldFromUnitNormalized(x), getPedroFieldFromUnitNormalized(y), heading);
+    }
 }

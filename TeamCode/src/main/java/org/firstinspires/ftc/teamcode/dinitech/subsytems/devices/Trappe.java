@@ -36,7 +36,6 @@ public class Trappe extends SingleServo {
      */
     public Trappe(final HardwareMap hardwareMap){
         super(hardwareMap);
-
     }
 
 
@@ -68,19 +67,5 @@ public class Trappe extends SingleServo {
     public void toggleTrappe(){
         if(getTrappeIsOpen()) close();
         else open();
-    }
-
-    /**
-     * Incrementally rotates the trappe upwards by a predefined amount.
-     */
-    public void incrementalRotationUp() {
-        incrementalRotation(TRAPPE_TELE_INCREMENT);
-    }
-
-    /**
-     * Incrementally rotates the trappe downwards by a predefined amount.
-     */
-    public void incrementalRotationDown() {
-        incrementalRotation(- TRAPPE_TELE_INCREMENT);
     }
 }

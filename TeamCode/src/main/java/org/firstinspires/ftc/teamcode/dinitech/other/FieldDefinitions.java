@@ -4,7 +4,7 @@ import com.pedropathing.geometry.Pose;
 
 public class FieldDefinitions {
     public static final double TILE_DIM = 24;
-    public static final double FIELD_SIDE_LENGTH = 144.0;
+    public static final double FIELD_SIDE_LENGTH = TILE_DIM * 6;
     public static final Pose FIELD_CENTER_90HEADING_POSE = new Pose(72, 72, Math.PI/2);
 
 
