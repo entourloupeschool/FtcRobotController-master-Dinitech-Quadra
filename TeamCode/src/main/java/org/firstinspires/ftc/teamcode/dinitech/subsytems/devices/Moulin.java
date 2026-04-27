@@ -79,7 +79,7 @@ public class Moulin {
     public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.2;
     public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1;
     public static final double OVER_CURRENT_BACKOFF_TICKS = getTicksFromDegrees(-18); // Ticks to back off when over-current detected
-    public static final int MAX_OVERCURRENT_COUNT = 15;
+    public static final int MAX_OVERCURRENT_COUNT = 2;
     public static long WAIT_FOR_3BALL = 3800;
 
     //PIDF MOULIN (TURRET)

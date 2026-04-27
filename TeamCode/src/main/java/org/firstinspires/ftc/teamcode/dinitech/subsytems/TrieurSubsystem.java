@@ -17,6 +17,8 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrent;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrentExec;
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.MagneticSwitch;
@@ -561,10 +563,9 @@ public class TrieurSubsystem extends SubsystemBase {
 
                 setOvercurrentCounts(getOvercurrentCounts() + 1);
 
-//                if (getOvercurrentCounts() > MAX_OVERCURRENT_COUNT){
-//                    setMoulinPower(0);
-//                    resetMoulinEncoderTarget();
-//                }
+                if (getOvercurrentCounts() > MAX_OVERCURRENT_COUNT){
+                    new MoulinCorrectOverCurrent(this).schedule();
+                }
 
                 telemetryM.addLine("Moulin Over Current");
                 return;
