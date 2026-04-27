@@ -43,6 +43,6 @@ public class MoulinRotate extends CommandBase {
     public void execute() {
         double rightTriggerValue = operator.getRightTriggerValue();
 
-        trieurSubsystem.incrementMoulinTargetPosition(rightTriggerValue * rightTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
+        trieurSubsystem.incrementMoulinEncoderTargetPosition(rightTriggerValue * rightTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
     }
 }

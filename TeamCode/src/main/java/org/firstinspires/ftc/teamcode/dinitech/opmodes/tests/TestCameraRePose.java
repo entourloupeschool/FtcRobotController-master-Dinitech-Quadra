@@ -8,6 +8,7 @@ import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.CancelFollowPath;
@@ -20,8 +21,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-//@TeleOp(name = "CameraRePoseTest - Dinitech", group = "Test")
-@Disabled
+@TeleOp(name = "CameraRePoseTest - Dinitech", group = "Test")
+//@Disabled
 
 public class TestCameraRePose extends RobotBase {
     private GamepadSubsystem gamepadSubsystem;

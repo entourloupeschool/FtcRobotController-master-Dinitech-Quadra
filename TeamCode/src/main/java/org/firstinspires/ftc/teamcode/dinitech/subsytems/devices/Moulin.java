@@ -64,13 +64,13 @@ public class Moulin {
     public static double LOOSE_DEGREES = 1.2;
     public static final double MOULIN_POSITION_LOOSE_TOLERANCE = getTicksFromDegrees(LOOSE_DEGREES);
 
-    public static double VERY_LOOSE_DEGREES = 3.5;
+    public static double VERY_LOOSE_DEGREES = 2;
 
     public static final double MOULIN_POSITION_VERY_LOOSE_TOLERANCE = getTicksFromDegrees(VERY_LOOSE_DEGREES);
 
     public static final double MOULIN_ROTATE_SPEED_CONTINUOUS = getTicksFromDegrees(1.5);
     public static final double MOULIN_ROTATE_SPEED_CALIBRATION = getTicksFromDegrees(1.8);
-    public static int OFFSET_MAGNETIC_POS = (int) getTicksFromDegrees(-7.03125);//=-800
+    public static int OFFSET_MAGNETIC_POS = (int) getTicksFromDegrees(9.66796875);//=1100
     public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
     public static double SCALE_RECALIBRATION = getTicksFromDegrees(3);
     public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
@@ -78,7 +78,7 @@ public class Moulin {
     public static int WAIT_HIGH_SPEED_TRIEUR = 200;
     public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.2;
     public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1;
-    public static final double OVER_CURRENT_BACKOFF_TICKS = - getTicksFromDegrees(10); // Ticks to back off when over-current detected
+    public static final double OVER_CURRENT_BACKOFF_TICKS = getTicksFromDegrees(-18); // Ticks to back off when over-current detected
     public static final int MAX_OVERCURRENT_COUNT = 15;
     public static long WAIT_FOR_3BALL = 3800;
 
@@ -88,12 +88,12 @@ public class Moulin {
     public static double D_MOULIN_AGGRESSIVE = 3.4;//0.7
     public static double F_MOULIN_AGGRESSIVE = 0.0;//1.493
 
-    public static double P_MOULIN_ENCODER = 0.0003;
-    public static double I_MOULIN_ENCODER = 0.16;
-    public static double D_MOULIN_ENCODER = 0.000005;
-    public static double F_MOULIN_ENCODER = 0.000005;
+    public static double P_MOULIN_ENCODER = 0.000135;
+    public static double I_MOULIN_ENCODER = 0.0805;
+    public static double D_MOULIN_ENCODER = 0.000001;
+    public static double F_MOULIN_ENCODER = 0.0;
 
-    public static double ADJUST_CONSTANT = 0.0015;
+    public static double ADJUST_CONSTANT = 0.00015;
     public static final String MOTOR_NAME = "moulin";
 
     public static final int MIN_POSITION = 1;
@@ -548,5 +548,16 @@ public class Moulin {
 
     public void resetEncoderTarget() {
         pidfController.setSetPoint(getMotorPosition());
+    }
+
+    public void resetEncoderPos(){
+        dcMotorEx.setMode(STOP_AND_RESET_ENCODER);
+        dcMotorEx.setZeroPowerBehavior(BRAKE);
+        dcMotorEx.setMode(RUN_WITHOUT_ENCODER);
+    }
+
+    public void resetMoulin(){
+        resetEncoderPos();
+        resetEncoderTarget();
     }
 }

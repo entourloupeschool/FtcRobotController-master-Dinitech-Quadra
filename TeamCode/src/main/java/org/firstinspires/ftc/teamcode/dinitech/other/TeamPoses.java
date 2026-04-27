@@ -18,7 +18,7 @@ public class TeamPoses {
     public static final Pose RESET_POSE_BLUE = RESET_POSE_RED.mirror(FIELD_SIDE_LENGTH);
     public static final Pose ROTATED_RESET_POSE_BLUE = RESET_POSE_BLUE.rotate(BLUE_TEAM_HEADING, true);
 
-    public static final Pose BLUE_BASKET_POSE = new Pose(8, 136, 0);
+    public static final Pose BLUE_BASKET_POSE = new Pose(10, 134, 0);
     public static final Pose ROTATED_BLUE_BASKET_POSE = BLUE_BASKET_POSE.rotate(BLUE_TEAM_HEADING, true);
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 21, Math.toRadians(112.5));

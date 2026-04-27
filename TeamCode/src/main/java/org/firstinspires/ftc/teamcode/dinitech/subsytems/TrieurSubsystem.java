@@ -190,6 +190,10 @@ public class TrieurSubsystem extends SubsystemBase {
         return moulin.getTargetMotorPosition();
     }
 
+    public double getMoulinEncoderTargetPosition(){
+        return moulin.getTargetEncoderPos();
+    }
+
     /**
      * Gets the remaining distance to the target position for the moulin motor.
      * @return The remaining distance in ticks.
@@ -553,16 +557,14 @@ public class TrieurSubsystem extends SubsystemBase {
 
         moulin.setPower(moulin.getPIDFRun(getMoulinMotorPosition()));
 
-        if (isMoulinRestAtTarget()) {
-
-        } else if (isMoulinOverCurrent()) {
+        if (isMoulinOverCurrent()) {
 
                 setOvercurrentCounts(getOvercurrentCounts() + 1);
 
-                if (getOvercurrentCounts() > MAX_OVERCURRENT_COUNT){
-                    setMoulinPower(0);
-                    resetTargetMoulinMotor();
-                }
+//                if (getOvercurrentCounts() > MAX_OVERCURRENT_COUNT){
+//                    setMoulinPower(0);
+//                    resetMoulinEncoderTarget();
+//                }
 
                 telemetryM.addLine("Moulin Over Current");
                 return;
@@ -606,7 +608,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
         double scaler = Math.pow(Math.min(diffTicks/SCALE_RECALIBRATION, 0.9), POWER_SCALER_RECALIBRATION);
 
-        incrementMoulinTargetPosition(differenceToIntRounded > 0 ? - diffTicks * scaler : diffTicks * scaler);
+        incrementMoulinEncoderTargetPosition(differenceToIntRounded > 0 ? - diffTicks * scaler : diffTicks * scaler);
     }
 
     /**
@@ -644,6 +646,7 @@ public class TrieurSubsystem extends SubsystemBase {
 //        printMagneticTelemetryManager(telemetryM);
         printMoulinTelemetryManager(telemetryM);
         printTrappeTelemetryManager(telemetryM);
+        telemetryM.addData("overcurrentCounts", getOvercurrentCounts());
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
 //        printDistanceTelemetryManager(telemetryM);

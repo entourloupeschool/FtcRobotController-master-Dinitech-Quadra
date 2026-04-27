@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dinitech.other;
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.RobotDefinitions.ROBOT_LENGTH_INCH;
 import static org.firstinspires.ftc.teamcode.dinitech.other.RobotDefinitions.ROBOT_WIDTH_INCH;
+import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.BLUE_TEAM_HEADING;
 
 import com.bylazar.field.FieldManager;
 import com.bylazar.field.PanelsField;
@@ -48,7 +49,7 @@ public class DrawingDinitech {
             drawRobot(new Pose(closestPoint.getX(), closestPoint.getY(), follower.getCurrentPath().getHeadingGoal(follower.getCurrentPath().getClosestPointTValue())), robotLook);
         }
         drawPoseHistory(follower.getPoseHistory(), historyLook);
-        drawRobot(follower.getPose(), historyLook);
+        drawRobot(follower.getPose().rotate(BLUE_TEAM_HEADING, true), historyLook);
 
         sendPacket();
     }

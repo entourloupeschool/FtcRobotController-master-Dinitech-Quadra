@@ -48,6 +48,7 @@ public class TripleColorSensors {
     public TripleColorSensors(HardwareMap hardwareMap) {
         this.colorSensor1 = new AveragingColorSensor(hardwareMap.get(NormalizedColorSensor.class, CS1_NAME));
         this.colorSensor2 = new AveragingColorSensor(hardwareMap.get(NormalizedColorSensor.class, CS2_NAME));
+        clearSamplesAllSensors();
     }
 
     /**
@@ -79,8 +80,8 @@ public class TripleColorSensors {
      * Clears the collected samples for all three color sensors.
      */
     public void clearSamplesAllSensors() {
-        colorSensor1.clearSamples();
-        colorSensor2.clearSamples();
+        clearSensor(1);
+        clearSensor(2);
     }
 
     /**

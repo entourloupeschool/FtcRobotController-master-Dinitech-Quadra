@@ -46,15 +46,12 @@ public class MoulinToPositionMargin extends CommandBase {
         this(trieurSubsystem, moulinTargetPosition, false, MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
     }
 
-
     /**
      * Initiates the rotation by commanding the subsystem to move to the target position.
      */
     @Override
     public void initialize() {
-        if (moulinTargetPosition != -1){
-            trieurSubsystem.moulinRotateToPosition(moulinTargetPosition, makeShort);
-        }
+        if (moulinTargetPosition != -1) trieurSubsystem.moulinRotateToPosition(moulinTargetPosition, makeShort);
         inCorrectionOfOvercurrent = false;
     }
 
@@ -83,6 +80,6 @@ public class MoulinToPositionMargin extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return (moulinTargetPosition == -1 || trieurSubsystem.isMoulinEncoderCloseToTarget(margin)) && !inCorrectionOfOvercurrent;
+            return (moulinTargetPosition == -1 || trieurSubsystem.isMoulinEncoderCloseToTarget(margin)) && !inCorrectionOfOvercurrent;
     }
 }

@@ -39,6 +39,6 @@ public class MoulinAntiRotate extends CommandBase {
     public void execute() {
         double leftTriggerValue = operator.getLeftTriggerValue();
 
-        trieurSubsystem.incrementMoulinTargetPosition(- leftTriggerValue * leftTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
+        trieurSubsystem.incrementMoulinEncoderTargetPosition(- leftTriggerValue * leftTriggerValue * MOULIN_ROTATE_SPEED_CONTINUOUS);
     }
 }

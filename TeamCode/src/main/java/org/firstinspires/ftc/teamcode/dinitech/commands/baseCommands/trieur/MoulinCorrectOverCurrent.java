@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.OVER_CURRENT_BACKOFF_TICKS;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.POWER_MOULIN_ROTATION;
 
@@ -22,7 +23,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  */
 public class MoulinCorrectOverCurrent extends CommandBase {
     private final TrieurSubsystem trieurSubsystem;
-    private int originalMotorTargetPosition;
+    private double originalMotorTargetPosition;
 
     /**
      * Creates a new MoulinCorrectOverCurrent command.
@@ -41,12 +42,11 @@ public class MoulinCorrectOverCurrent extends CommandBase {
     @Override
     public void initialize() {
         // Save the distance remaining to the original target.
-        originalMotorTargetPosition = trieurSubsystem.getMoulinMotorTargetPosition();
+        originalMotorTargetPosition = trieurSubsystem.getMoulinEncoderTargetPosition();
 
         // Back the motor off by reducing the target position.
-        trieurSubsystem.resetTargetMoulinMotor();
-        trieurSubsystem.incrementMoulinTargetPosition(-OVER_CURRENT_BACKOFF_TICKS);
-        trieurSubsystem.setMoulinPower(POWER_MOULIN_ROTATION);
+        trieurSubsystem.resetMoulinEncoderTarget();
+        trieurSubsystem.incrementMoulinEncoderTargetPosition(OVER_CURRENT_BACKOFF_TICKS);
     }
 
     /**
@@ -56,7 +56,7 @@ public class MoulinCorrectOverCurrent extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return trieurSubsystem.shouldMoulinStopPower();
+        return trieurSubsystem.isMoulinEncoderCloseToTarget(MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
     }
 
     /**
@@ -67,6 +67,8 @@ public class MoulinCorrectOverCurrent extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         // Restore the original target by adding back the saved remaining distance.
-        trieurSubsystem.setMoulinMotorTargetPosition(originalMotorTargetPosition);
+
+        if (!interrupted)trieurSubsystem.setMoulinEncoderTargetPosition(originalMotorTargetPosition);
+
     }
 }

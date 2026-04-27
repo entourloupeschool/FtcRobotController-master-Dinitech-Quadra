@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.OVER_CURRENT_BACKOFF_TICKS;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.POWER_MOULIN_ROTATION;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 /**
@@ -21,8 +20,9 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
  *     initially interrupted, allowing it to try again.</li>
  * </ol>
  */
-public class MoulinCorrectOverCurrent extends CommandBase {
+public class MoulinCorrectOverCurrentExec extends CommandBase {
     private final TrieurSubsystem trieurSubsystem;
+    private final GamepadSubsystem gamepadSubsystem;
     private double originalMotorTargetPosition;
 
     /**
@@ -30,8 +30,9 @@ public class MoulinCorrectOverCurrent extends CommandBase {
      *
      * @param trieurSubsystem The sorter subsystem to control.
      */
-    public MoulinCorrectOverCurrent(TrieurSubsystem trieurSubsystem) {
+    public MoulinCorrectOverCurrentExec(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
         this.trieurSubsystem = trieurSubsystem;
+        this.gamepadSubsystem = gamepadSubsystem;
 
         addRequirements(trieurSubsystem);
     }
@@ -46,7 +47,11 @@ public class MoulinCorrectOverCurrent extends CommandBase {
 
         // Back the motor off by reducing the target position.
         trieurSubsystem.resetMoulinEncoderTarget();
-        trieurSubsystem.incrementMoulinEncoderTargetPosition(OVER_CURRENT_BACKOFF_TICKS);
+    }
+
+    @Override
+    public void execute(){
+        trieurSubsystem.incrementMoulinEncoderTargetPosition(OVER_CURRENT_BACKOFF_TICKS/10);
     }
 
     /**
@@ -56,7 +61,7 @@ public class MoulinCorrectOverCurrent extends CommandBase {
      */
     @Override
     public boolean isFinished() {
-        return trieurSubsystem.isMoulinEncoderCloseToTarget(MOULIN_POSITION_VERY_LOOSE_TOLERANCE);
+        return !gamepadSubsystem.getOperator().circle.get();
     }
 
     /**

@@ -30,6 +30,8 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Sto
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.TeleShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SwitchUsageStateShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrent;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrentExec;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.MoulinHighSpeedIntel;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
@@ -161,9 +163,7 @@ public class TeleOpBase extends GornetixGamepads {
         m_Operator.triangle.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
                 new StopShooter(shooterSubsystem), true);
 
-        m_Operator.circle.whenPressed(new SequentialCommandGroup(
-                new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true)),
-                new PrepShootTrieur(trieurSubsystem, visionSubsystem, gamepadSubsystem)));
+        m_Operator.circle.whenPressed(new MoulinCorrectOverCurrentExec(trieurSubsystem, gamepadSubsystem));
 
         m_Operator.bump_right.whenPressed(new ShootPurple(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
         m_Operator.bump_left.whenPressed(new ShootGreen(trieurSubsystem, shooterSubsystem, gamepadSubsystem));
