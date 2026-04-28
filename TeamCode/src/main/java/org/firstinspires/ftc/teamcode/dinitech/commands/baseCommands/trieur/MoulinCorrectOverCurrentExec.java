@@ -51,7 +51,7 @@ public class MoulinCorrectOverCurrentExec extends CommandBase {
 
     @Override
     public void execute(){
-        trieurSubsystem.incrementMoulinEncoderTargetPosition(OVER_CURRENT_BACKOFF_TICKS/10);
+        trieurSubsystem.incrementMoulinEncoderTargetPosition(OVER_CURRENT_BACKOFF_TICKS * 0.08);
     }
 
     /**
@@ -72,8 +72,6 @@ public class MoulinCorrectOverCurrentExec extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         // Restore the original target by adding back the saved remaining distance.
-
         if (!interrupted)trieurSubsystem.setMoulinEncoderTargetPosition(originalMotorTargetPosition);
-
     }
 }

@@ -55,23 +55,23 @@ public class MoulinToPositionMargin extends CommandBase {
         inCorrectionOfOvercurrent = false;
     }
 
-    @Override
-    public void execute(){
-        double beforeOverCurrentTarget = 0;
-        double targetCorrection = 0;
-        if (trieurSubsystem.getOvercurrentCounts() == 10 && !inCorrectionOfOvercurrent) {
-            beforeOverCurrentTarget = trieurSubsystem.getMoulinMotorTargetTicks();
-            targetCorrection = trieurSubsystem.getMoulinMotorPosition() + OVER_CURRENT_BACKOFF_TICKS;
-            inCorrectionOfOvercurrent = true;
-        }
-        if (inCorrectionOfOvercurrent) {
-            trieurSubsystem.setMoulinMotorTargetPosition(targetCorrection);
-            if (trieurSubsystem.isMoulinEncoderCloseToTarget(margin)){
-                inCorrectionOfOvercurrent = false;
-                trieurSubsystem.setMoulinMotorTargetPosition(beforeOverCurrentTarget);
-            }
-        }
-    }
+//    @Override
+//    public void execute(){
+//        double beforeOverCurrentTarget = 0;
+//        double targetCorrection = 0;
+//        if (trieurSubsystem.getOvercurrentCounts() == 10 && !inCorrectionOfOvercurrent) {
+//            beforeOverCurrentTarget = trieurSubsystem.getMoulinMotorTargetTicks();
+//            targetCorrection = trieurSubsystem.getMoulinMotorPosition() + OVER_CURRENT_BACKOFF_TICKS;
+//            inCorrectionOfOvercurrent = true;
+//        }
+//        if (inCorrectionOfOvercurrent) {
+//            trieurSubsystem.setMoulinMotorTargetPosition(targetCorrection);
+//            if (trieurSubsystem.isMoulinEncoderCloseToTarget(margin)){
+//                inCorrectionOfOvercurrent = false;
+//                trieurSubsystem.setMoulinMotorTargetPosition(beforeOverCurrentTarget);
+//            }
+//        }
+//    }
 
     /**
      * The command is finished when the subsystem indicates that motor power should be cut.
