@@ -30,7 +30,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 public class ShooterSubsystem extends SubsystemBase {
     public static final String SHOOTER_MOTOR_NAME = "shooter";
     public static final int RUNNING_AVERAGE_SHOOTER_CURRENT_SIZE = 5;
-    public static final int CURRENT_SHOOT_OVERFLOW = 1500;
+    public static final int CURRENT_SHOOT_OVERFLOW = 1400;
     public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
     public static final double SPEED_MARGIN = 15;
     public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 3;
@@ -51,8 +51,8 @@ public class ShooterSubsystem extends SubsystemBase {
     public static final long SHOOT_REVOLUTION_THEN_WAIT = 300;
 
 
-    public static double a_Pedro = 5.85; // 5.95;
-    public static double b_Pedro = 940; // 1060;
+    public static double a_Pedro = 5.95; // 5.95;
+    public static double b_Pedro = 925; // 1060;
 
     /**
      * Gives back a linear speed from a range in inches
@@ -343,7 +343,7 @@ public class ShooterSubsystem extends SubsystemBase {
 //        telemetryM.addData("Shooter PIDF profile", activeVelocityPidProfile);
 //        telemetryM.addData("targetReachedSUPERINTEL", isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL));
 //        telemetryM.addData("targetSpeedStabilized", isTargetSpeedStabilized());
-//        telemetryM.addData("current", getVoltage());
+        telemetryM.addData("current", getVoltage());
 
     }
 }

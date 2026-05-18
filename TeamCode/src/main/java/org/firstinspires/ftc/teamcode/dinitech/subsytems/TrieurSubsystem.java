@@ -5,7 +5,6 @@ import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.D
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.INTERVALLE_TICKS_MOULIN_DOUBLE;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MAX_OVERCURRENT_COUNT;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.OFFSET_MAGNETIC_POS;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.POWER_MOULIN_ROTATION;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.POWER_SCALER_RECALIBRATION;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.SCALE_RECALIBRATION;
@@ -18,20 +17,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrent;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrentExec;
 import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.MagneticSwitch;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Trappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
-
-import java.util.Arrays;
 
 /**
  * A command-based subsystem for managing the Trieur (sorter) mechanism.
  * <p>
  * This subsystem orchestrates the complex interactions between the {@link Moulin} (rotating carousel),
- * {@link Trappe} (door), {@link TripleColorSensors}, and a {@link MagneticSwitch} to create a complete
+ * {@link TripleColorSensors}, and a {@link MagneticSwitch} to create a complete
  * automated sorting system for game artifacts.
  * <p>
  * Key responsibilities include:
@@ -66,8 +61,6 @@ public class TrieurSubsystem extends SubsystemBase {
         PURPLE, // Purple artifact
         UNKNOWN // Artifact of an undetermined color
     }
-
-    private final Trappe trappe;
     private final Moulin moulin;
     private final Globals.RunningAverage lastMoulinMotorTicks = new Globals.RunningAverage(5);
 
@@ -134,7 +127,6 @@ public class TrieurSubsystem extends SubsystemBase {
      * @param telemetryM   The telemetryM object for logging.
      */
     public TrieurSubsystem(HardwareMap hardwareMap, final TelemetryManager telemetryM) {
-        trappe = new Trappe(hardwareMap);
         moulin = new Moulin(hardwareMap);
         tripleColorSensors = new TripleColorSensors(hardwareMap);
         magneticSwitch = new MagneticSwitch(hardwareMap);
@@ -149,7 +141,6 @@ public class TrieurSubsystem extends SubsystemBase {
         setHowManyArtefacts(0);
         setHasInitCalibration(false);
 
-//        setMoulinPower(POWER_MOULIN_ROTATION);
     }
 
     /**
@@ -468,53 +459,6 @@ public class TrieurSubsystem extends SubsystemBase {
     }
 
     /**
-     * Opens the trappe.
-     */
-    public void closeTrappe() {
-        trappe.close();
-    }
-
-    /**
-     * Closes the trappe.
-     */
-    public void openTrappe() {
-        trappe.open();
-    }
-    public void toggleTrappe() {
-        trappe.toggleTrappe();
-    }
-
-    /**
-     * Incrementally opens the trappe.
-     */
-    public void incrOpenTrappe() {
-        incrTrappe(Trappe.TRAPPE_TELE_INCREMENT);
-    }
-
-    /**
-     * Incrementally closes the trappe.
-     */
-    public void incrCloseTrappe() {
-        incrTrappe(-Trappe.TRAPPE_TELE_INCREMENT);
-    }
-
-    /**
-     * Incrementally moves the trappe.
-     * @param increment The amount to move the trappe servo.
-     */
-    public void incrTrappe(double increment){
-        trappe.incrementalRotation(increment);
-    }
-
-    /**
-     * Checks if the trappe is open.
-     * @return True if the trappe is open.
-     */
-    public boolean isTrappeOpen(){
-        return trappe.getTrappeIsOpen();
-    }
-
-    /**
      * Checks if the magnetic switch is activated.
      * @return True if the switch is pressed.
      */
@@ -646,16 +590,11 @@ public class TrieurSubsystem extends SubsystemBase {
 
 //        printMagneticTelemetryManager(telemetryM);
         printMoulinTelemetryManager(telemetryM);
-        printTrappeTelemetryManager(telemetryM);
         telemetryM.addData("overcurrentCounts", getOvercurrentCounts());
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
 //        printDistanceTelemetryManager(telemetryM);
 //        printColorTelemetryManager(telemetryM);
-    }
-
-    private void printTrappeTelemetryManager(final TelemetryManager telemetryM) {
-        telemetryM.addData("trappe ouverte ?", trappe.getTrappeIsOpen());
     }
 
     private void printMagneticTelemetryManager(final TelemetryManager telemetryM) {

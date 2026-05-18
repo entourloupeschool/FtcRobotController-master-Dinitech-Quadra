@@ -53,7 +53,6 @@ public class MoulinCalibrate extends CommandBase {
 
         if (trieurSubsystem.isMagneticSwitch() && !isOnMagneticSwitch) {
             isOnMagneticSwitch = true;
-//            trieurSubsystem.resetTargetMoulinMotor();
             trieurSubsystem.resetMoulinEncoderTarget();
             trieurSubsystem.incrementMoulinEncoderTargetPosition(INTERVALLE_TICKS_MOULIN_DOUBLE + OFFSET_MAGNETIC_POS);
             trieurSubsystem.setMoulinPosition(Moulin.getNPreviousPosition(MAGNETIC_ON_MOULIN_POSITION, 1));

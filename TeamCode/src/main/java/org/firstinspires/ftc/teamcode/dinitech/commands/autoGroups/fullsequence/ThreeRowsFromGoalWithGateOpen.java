@@ -25,11 +25,11 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ThreeRowsFromGoalWithGateOpen extends SequentialCommandGroup {
-
     public ThreeRowsFromGoalWithGateOpen(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, double rowPower){
         Pose closeShootPose = hubsSubsystem.getTeam().getCloseShootPose();
         addCommands(
-                new InitToPedroShootV2(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem, closeShootPose),
+                new InitToPedroShootV2(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem,
+                        closeShootPose, hubsSubsystem.getTeam().getCloseShootVelocity()),
 
                 new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem),
 
@@ -37,9 +37,10 @@ public class ThreeRowsFromGoalWithGateOpen extends SequentialCommandGroup {
 
                 new ToRowToGateToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem,
                         hubsSubsystem.getTeam().getSecondRowPose(), closeShootPose, hubsSubsystem.getTeam().getRampPose(),
-                        LENGTH_X_ROW, rowPower, false, 200),
+                        LENGTH_X_ROW, rowPower, false, 400),
 
                 new InstantCommand(()->trieurSubsystem.setDetectionTimeout((int) (MODE_RAMASSAGE_AUTO_TIMEOUT * 1.5)), trieurSubsystem),
+
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem,
                         hubsSubsystem.getTeam().getThirdRowPose(), closeShootPose,
                         LENGTH_X_ROW_3RD, rowPower, false),

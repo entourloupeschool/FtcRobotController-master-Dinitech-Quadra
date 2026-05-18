@@ -7,7 +7,6 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.MaxSpeedShooter;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitOpenTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 /**
@@ -36,7 +35,6 @@ public class ShootRevolution extends SequentialCommandGroup {
     public ShootRevolution(TrieurSubsystem trieurSubsystem, Command shooterCommand) {
         addCommands(
                 shooterCommand, // Rev up the shooter
-                new WaitOpenTrappe(trieurSubsystem), // Wait for the trappe to open fully
                 new MoulinRevolution(trieurSubsystem), // Perform a full revolution
                 new InstantCommand(trieurSubsystem::clearAllStoredColors)
         );
@@ -44,7 +42,6 @@ public class ShootRevolution extends SequentialCommandGroup {
 
     public ShootRevolution(TrieurSubsystem trieurSubsystem) {
         addCommands(
-                new WaitOpenTrappe(trieurSubsystem), // Wait for the trappe to open fully
                 new MoulinRevolution(trieurSubsystem), // Perform a full revolution
                 new InstantCommand(trieurSubsystem::clearAllStoredColors)
         );

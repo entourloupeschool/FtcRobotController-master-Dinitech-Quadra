@@ -2,10 +2,10 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 
 import com.arcrobotics.ftclib.command.ConditionalCommand;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextStorage;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitCloseTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 
@@ -22,11 +22,10 @@ public class ReadyTrieurForPick extends ConditionalCommand {
     public ReadyTrieurForPick(TrieurSubsystem trieurSubsystem) {
         super(
                 // if condition is true.
-                new WaitCloseTrappe(trieurSubsystem),
+                new InstantCommand(),
                 // if condition is false.
-                new SequentialCommandGroup(
-                        new WaitCloseTrappe(trieurSubsystem),
-                        new MoulinNextStorage(trieurSubsystem)),
+
+                new MoulinNextStorage(trieurSubsystem),
                 // Condition.
                 () -> Moulin.isStoragePosition(trieurSubsystem.getMoulinPosition())
         );

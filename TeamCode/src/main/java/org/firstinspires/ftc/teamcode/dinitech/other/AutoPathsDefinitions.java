@@ -17,7 +17,7 @@ public class AutoPathsDefinitions {
     public static final double LENGTH_X_ROW_3RD = TILE_DIM * 1;
     public static final double T_PARAMETRIC_DONT_SHOOT = 0.55;
     public static final long WAIT_INIT_SHOOTER = 5;
-    public static long WAIT_INIT_PEDRO_SHOOTER = 150;
+    public static long WAIT_INIT_PEDRO_SHOOTER = 550;
     public static final double UNSHORTCUT_LENGTH = 10;
     public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 30.0;
 

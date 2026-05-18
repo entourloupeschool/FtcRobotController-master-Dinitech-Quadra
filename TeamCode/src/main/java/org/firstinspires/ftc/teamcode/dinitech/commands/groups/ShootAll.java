@@ -16,7 +16,6 @@ import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextArtefactShootWaitVelocity;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextArtefactShoot;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitOpenTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -31,25 +30,19 @@ public class ShootAll extends SelectCommand {
                 put(0, new InstantCommand());
 
                 put(1, new SequentialCommandGroup(
-                        new ParallelCommandGroup(
-                                new WaitOpenTrappe(trieurSubsystem),
-                                new ArtefactSure(trieurSubsystem, chargeurSubsystem)),
+                        new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
                         new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));
 
                 put(2, new SequentialCommandGroup(
-                        new ParallelCommandGroup(
-                                new WaitOpenTrappe(trieurSubsystem),
-                                new ArtefactSure(trieurSubsystem, chargeurSubsystem)),
+                        new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
                         new WaitShoot(shooterSubsystem, trieurSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
                         new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));
 
                 put(3, new SequentialCommandGroup(
-                        new ParallelCommandGroup(
-                                new WaitOpenTrappe(trieurSubsystem),
-                                new ArtefactSure(trieurSubsystem, chargeurSubsystem)),
+                        new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
                         new WaitShoot(shooterSubsystem, trieurSubsystem),
                         new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
@@ -68,7 +61,6 @@ public class ShootAll extends SelectCommand {
 
                     put(1, new SequentialCommandGroup(
                             new ParallelCommandGroup(
-                                    new WaitOpenTrappe(trieurSubsystem),
                                     new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                                     new ConditionalCommand(
                                             new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL)),
@@ -80,7 +72,6 @@ public class ShootAll extends SelectCommand {
 
                     put(2, new SequentialCommandGroup(
                             new ParallelCommandGroup(
-                                    new WaitOpenTrappe(trieurSubsystem),
                                     new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                                     new ConditionalCommand(
                                             new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL)),
@@ -93,7 +84,6 @@ public class ShootAll extends SelectCommand {
 
                     put(3, new SequentialCommandGroup(
                             new ParallelCommandGroup(
-                                    new WaitOpenTrappe(trieurSubsystem),
                                     new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                                     new ConditionalCommand(
                                             new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL)),
@@ -117,25 +107,21 @@ public class ShootAll extends SelectCommand {
                     put(0, new InstantCommand());
 
                     put(1, new SequentialCommandGroup(
-                            new ParallelCommandGroup(
-                                    new WaitOpenTrappe(trieurSubsystem),
-                                    new ArtefactSure(trieurSubsystem, chargeurSubsystem)),
+                            new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                             new MoulinNextArtefactShoot(trieurSubsystem),
                             new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));
 
                     put(2, new SequentialCommandGroup(
-                            new ParallelCommandGroup(
-                                    new WaitOpenTrappe(trieurSubsystem),
-                                    new ArtefactSure(trieurSubsystem, chargeurSubsystem)),
+
+                            new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                             new MoulinNextArtefactShoot(trieurSubsystem),
                             new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
                             new MoulinNextArtefactShoot(trieurSubsystem),
                             new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*1.5))));
 
                     put(3, new SequentialCommandGroup(
-                            new ParallelCommandGroup(
-                                    new WaitOpenTrappe(trieurSubsystem),
-                                    new ArtefactSure(trieurSubsystem, chargeurSubsystem)),
+
+                            new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                             new MoulinNextArtefactShoot(trieurSubsystem),
                             new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
                             new MoulinNextArtefactShoot(trieurSubsystem),

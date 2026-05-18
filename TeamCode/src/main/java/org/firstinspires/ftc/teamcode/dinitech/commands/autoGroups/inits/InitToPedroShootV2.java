@@ -19,11 +19,11 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 public class InitToPedroShootV2 extends ParallelCommandGroup {
 
-    public InitToPedroShootV2(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, Pose shootPose){
+    public InitToPedroShootV2(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, Pose shootPose, double shootVelocity){
         addCommands(
                 new SequentialCommandGroup(
                         new InstantCommand(),
-                        new SetVelocityShooterRequire(shooterSubsystem, shootPose.distanceFrom(hubsSubsystem.getTeam().getBasketPose())),
+                        new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
                         new WaitCommand(WAIT_INIT_PEDRO_SHOOTER),
                         new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, false)),
 

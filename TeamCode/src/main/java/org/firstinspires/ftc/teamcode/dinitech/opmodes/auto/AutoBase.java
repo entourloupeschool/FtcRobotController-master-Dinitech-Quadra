@@ -19,7 +19,6 @@ public class AutoBase extends Gornetix {
     public void initialize() {
             super.initialize();
 
-            trieurSubsystem.openTrappe();
 
             drivePedroSubsystem.setFollowerTEnd(FOLLOWER_T_POSITION_END);
 

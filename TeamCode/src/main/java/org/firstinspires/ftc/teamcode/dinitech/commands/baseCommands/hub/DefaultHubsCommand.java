@@ -16,9 +16,6 @@ import java.util.concurrent.TimeUnit;
 @Configurable
 public class DefaultHubsCommand extends CommandBase {
     private final HubsSubsystem hubsSubsystem;
-    private final TrieurSubsystem trieurSubsystem;
-
-    private boolean lastTrappeOpen = false;
     private boolean lastIsBlue = false;
     private boolean patternSet = false;
 
@@ -41,7 +38,6 @@ public class DefaultHubsCommand extends CommandBase {
 
     public DefaultHubsCommand(HubsSubsystem hubsSubsystem, TrieurSubsystem trieurSubsystem) {
         this.hubsSubsystem = hubsSubsystem;
-        this.trieurSubsystem = trieurSubsystem;
         addRequirements(hubsSubsystem);
     }
 
@@ -69,35 +65,27 @@ public class DefaultHubsCommand extends CommandBase {
         }
 
         // Set initial pattern
-        updatePattern(trieurSubsystem.isTrappeOpen(), hubsSubsystem.getTeam() == TeamPoses.Team.BLUE);
+        updatePattern( hubsSubsystem.getTeam() == TeamPoses.Team.BLUE);
     }
     @Override
     public void execute() {
-        boolean currentTrappeOpen = trieurSubsystem.isTrappeOpen();
         boolean currentIsBlue = hubsSubsystem.getTeam() == TeamPoses.Team.BLUE;
 
         // Only update pattern when trappe state or team color changes
-        if (!patternSet || currentTrappeOpen != lastTrappeOpen || currentIsBlue != lastIsBlue) {
-            updatePattern(currentTrappeOpen, currentIsBlue);
-            lastTrappeOpen = currentTrappeOpen;
+        if (!patternSet || currentIsBlue != lastIsBlue) {
+            updatePattern(currentIsBlue);
             lastIsBlue = currentIsBlue;
             patternSet = true;
         }
     }
 
-    private void updatePattern(boolean isTrappeOpen, boolean isBlue) {
+    private void updatePattern( boolean isBlue) {
         if (isBlue) {
-            if (isTrappeOpen) {
-                hubsSubsystem.setPattern(patternBlueOpen);
-            } else {
+
                 hubsSubsystem.setPattern(patternBlueDecay);
-            }
         } else {
-            if (isTrappeOpen) {
-                hubsSubsystem.setPattern(patternRedOpen);
-            } else {
+
                 hubsSubsystem.setPattern(patternRedDecay);
-            }
         }
     }
 }

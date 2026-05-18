@@ -4,7 +4,6 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextShoot;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitOpenTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
@@ -31,7 +30,6 @@ public class MoulinHighSpeedRevolution extends SequentialCommandGroup {
 
     public MoulinHighSpeedRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
         addCommands(
-                new WaitOpenTrappe(trieurSubsystem),
                 new MoulinNextShoot(trieurSubsystem),
                 new WaitShoot(shooterSubsystem, trieurSubsystem),
                 new MoulinNextShoot(trieurSubsystem),
