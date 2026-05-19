@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
-public class TryDetectArtefactRumble extends TryDetectArtefact {
+public class TryDetectArtefactOptimizedRumble extends TryDetectArtefactOptimized {
 
     private final GamepadSubsystem gamepadSubsystem;
 
-    public TryDetectArtefactRumble(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
+    public TryDetectArtefactOptimizedRumble(TrieurSubsystem trieurSubsystem, GamepadSubsystem gamepadSubsystem) {
         super(trieurSubsystem);
         this.gamepadSubsystem = gamepadSubsystem;
     }

@@ -335,14 +335,9 @@ public class TrieurSubsystem extends SubsystemBase {
      */
     private ArtifactColor detectBottomArtifactColor() {
         boolean cs1Purple = tripleColorSensors.isPurple(1);
-        boolean cs1Neither = tripleColorSensors.isNeither(1);
-
         boolean cs2Purple = tripleColorSensors.isPurple(2);
-        boolean cs2Neither = tripleColorSensors.isNeither(2);
 
-        if ((cs1Purple && cs2Purple) || (cs1Purple && cs2Neither) || (cs2Purple && cs1Neither)) {
-            return ArtifactColor.PURPLE;
-        }
+        if (cs1Purple || cs2Purple) return ArtifactColor.PURPLE;
 
         return ArtifactColor.GREEN;
     }
@@ -498,28 +493,20 @@ public class TrieurSubsystem extends SubsystemBase {
         moulin.moulinPeriodicLogic();
 
         if (isMoulinOverCurrent()) {
-
                 setOvercurrentCounts(getOvercurrentCounts() + 1);
 
-                if (getOvercurrentCounts() > MAX_OVERCURRENT_COUNT){
-                    new MoulinCorrectOverCurrent(this).schedule();
-                }
+                if (getOvercurrentCounts() > MAX_OVERCURRENT_COUNT) new MoulinCorrectOverCurrent(this).schedule();
 
                 telemetryM.addLine("Moulin Over Current");
                 return;
 
-        } else {
-            setOvercurrentCounts(0);
+        } else setOvercurrentCounts(0);
 
-        }
+        if (!isMagneticSwitch()) setWentRecalibrationOpposite(true);
 
-        if (!isMagneticSwitch()){
-            setWentRecalibrationOpposite(true);
-
-        } else if (isMagneticSwitch() && wentRecalibrationOpposite() && hasInitCalibration()) {
+        else if (isMagneticSwitch() && wentRecalibrationOpposite() && hasInitCalibration()) {
             setWentRecalibrationOpposite(false);
             recalibrateMoulin();
-
         }
     }
 
@@ -637,8 +624,6 @@ public class TrieurSubsystem extends SubsystemBase {
     }
 
     private void printDistanceTelemetryManager(final TelemetryManager telemetryM) {
-        updateColorSensors();
-        telemetryM.addData("Artefact in Trieur", isArtefactInTrieur());
         telemetryM.addData("CS1 Distance", tripleColorSensors.getDistance(1));
         telemetryM.addData("CS2 Distance", tripleColorSensors.getDistance(2));
     }
