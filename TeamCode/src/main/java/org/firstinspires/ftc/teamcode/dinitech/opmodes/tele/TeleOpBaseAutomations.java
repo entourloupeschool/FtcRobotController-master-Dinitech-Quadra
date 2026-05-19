@@ -34,19 +34,19 @@ public class TeleOpBaseAutomations extends TeleOpBase {
                 new ToClosestShootPose(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem, gamepadSubsystem)));
     }
 
-    /**
-     * Overrider modeRamassage()
-     */
-    @Override
-    public void modeRamassage(){
-        schedule(
-                new InstantCommand(() -> shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem)), shooterSubsystem),
-                new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)), drivePedroSubsystem),
-                new ParallelCommandGroup(
-                        new ToPickPose(drivePedroSubsystem, hubsSubsystem, gamepadSubsystem),
-                        new SequentialCommandGroup(
-                                new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
-                                new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false))));
-
-    }
+//    /**
+//     * Overrider modeRamassage()
+//     */
+//    @Override
+//    public void modeRamassage(){
+//        schedule(
+//                new InstantCommand(() -> shooterSubsystem.setDefaultCommand(new TeleShooter(shooterSubsystem, gamepadSubsystem)), shooterSubsystem),
+//                new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)), drivePedroSubsystem),
+//                new ParallelCommandGroup(
+//                        new ToPickPose(drivePedroSubsystem, hubsSubsystem, gamepadSubsystem),
+//                        new SequentialCommandGroup(
+//                                new WaitCommand(SHOOT_REVOLUTION_THEN_WAIT),
+//                                new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false))));
+//
+//    }
 }

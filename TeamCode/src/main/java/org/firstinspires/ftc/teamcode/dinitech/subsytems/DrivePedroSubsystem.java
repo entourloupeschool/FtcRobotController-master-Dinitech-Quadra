@@ -71,7 +71,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
     public boolean isPathQuasiDone() {
         if (followerTEnd <= FOLLOWER_T_POSITION_END) return follower.getCurrentTValue() > followerTEnd;
 
-        return follower.getCurrentTValue() >= followerTEnd && follower.getHeadingError() < follower.getCurrentPath().getPathEndHeadingConstraint()*SCALE_HEADING_CONSTRAINT_TELEOP;
+        return follower.getCurrentTValue() > followerTEnd && follower.getHeadingError() < follower.getCurrentPath().getPathEndHeadingConstraint()*SCALE_HEADING_CONSTRAINT_TELEOP;
     }
 
     public void pausePathFollowing() {

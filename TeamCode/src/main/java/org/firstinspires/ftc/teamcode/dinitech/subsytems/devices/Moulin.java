@@ -77,7 +77,7 @@ public class Moulin {
     public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
     public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
     public static int WAIT_HIGH_SPEED_TRIEUR = 340; //400;
-    public static double SCALE_AFTER_HIGH_SPEED_SHOOT = 1.65; //1.5;
+    public static double SCALE_AFTER_HIGH_SPEED_SHOOT = 1.8; //1.5;
     public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.3;
     public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
     public static double OVER_CURRENT_BACKOFF_TICKS = getTicksFromDegrees(-30); // Ticks to back off when over-current detected

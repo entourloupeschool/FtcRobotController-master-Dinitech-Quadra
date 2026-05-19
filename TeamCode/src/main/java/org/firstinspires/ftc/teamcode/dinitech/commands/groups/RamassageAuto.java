@@ -26,17 +26,17 @@ public class RamassageAuto extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
                         new MaxPowerChargeur(chargeurSubsystem)),
-                new TryDetectArtefactRumble(trieurSubsystem, gamepadSubsystem),
+                new TryDetectArtefactOptimizedRumble(trieurSubsystem, gamepadSubsystem),
                 new ConditionalCommand(
                         new SequentialCommandGroup(
                                 new MoulinNextEmptyStorage(trieurSubsystem),
-                                new TryDetectArtefactRumble(trieurSubsystem, gamepadSubsystem)),
+                                new TryDetectArtefactOptimizedRumble(trieurSubsystem, gamepadSubsystem)),
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),
                 new ConditionalCommand(
                         new SequentialCommandGroup(
                                 new MoulinNextEmptyStorage(trieurSubsystem),
-                                new TryDetectArtefactRumble(trieurSubsystem, gamepadSubsystem)),
+                                new TryDetectArtefactOptimizedRumble(trieurSubsystem, gamepadSubsystem)),
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),
                 new ConditionalCommand(
@@ -57,17 +57,17 @@ public class RamassageAuto extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
                         new MaxPowerChargeur(chargeurSubsystem)),
-                new TryDetectArtefact(trieurSubsystem),
+                new TryDetectArtefactOptimized(trieurSubsystem),
                 new ConditionalCommand(
                         new SequentialCommandGroup(
                                 new MoulinNextEmptyStorage(trieurSubsystem),
-                                new TryDetectArtefact(trieurSubsystem)),
+                                new TryDetectArtefactOptimized(trieurSubsystem)),
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),
                 new ConditionalCommand(
                         new SequentialCommandGroup(
                                 new MoulinNextEmptyStorage(trieurSubsystem),
-                                new TryDetectArtefact(trieurSubsystem)),
+                                new TryDetectArtefactOptimized(trieurSubsystem)),
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),
                 new ConditionalCommand(

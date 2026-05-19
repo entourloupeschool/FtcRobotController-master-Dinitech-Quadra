@@ -574,7 +574,7 @@ public class TrieurSubsystem extends SubsystemBase {
 //        telemetryM.addData("overcurrentCounts", getOvercurrentCounts());
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
-//        printDistanceTelemetryManager(telemetryM);
+        printDistanceTelemetryManager(telemetryM);
 //        printColorTelemetryManager(telemetryM);
     }
 
