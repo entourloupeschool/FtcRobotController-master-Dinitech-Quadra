@@ -42,7 +42,7 @@ public class AutoPathsDefinitions {
     public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
     public static final double GATEPICK_POWER = MAX_POWER_ROW_PICK_ARTEFACTS;
 
-    public static final double SCALER_TO_PICK_POSE = 0.8;
+    public static final double SCALER_TO_PICK_POSE = 0.65;
     public static double getPedroFieldFromUnitNormalized(double unitNormalized){
         return (unitNormalized + 1) * FieldDefinitions.FIELD_SIDE_LENGTH/2;
     }

@@ -140,7 +140,7 @@ public class ChargeurSubsystem extends SubsystemBase {
     public void periodic(){
         // Automatically stop the motor if an over-current condition is detected.
         if (isOverCurrent()){
-            motorEx.set(0);
+            motorEx.set(0.5);
             telemetryM.addLine("chargeur motor over current");
 
         } else {

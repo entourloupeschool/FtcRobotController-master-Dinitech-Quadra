@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
 
 /**
  * Represents the Moulin mechanism, a rotating system with 6 discrete positions for handling game elements.
@@ -75,9 +76,10 @@ public class Moulin {
     public static double SCALE_RECALIBRATION = getTicksFromDegrees(3);
     public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
     public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
-    public static int WAIT_HIGH_SPEED_TRIEUR = 400;
-    public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.2;
-    public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1;
+    public static int WAIT_HIGH_SPEED_TRIEUR = 340; //400;
+    public static double SCALE_AFTER_HIGH_SPEED_SHOOT = 1.65; //1.5;
+    public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.3;
+    public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
     public static double OVER_CURRENT_BACKOFF_TICKS = getTicksFromDegrees(-30); // Ticks to back off when over-current detected
     public static final int MAX_OVERCURRENT_COUNT = 2;
     public static long WAIT_FOR_3BALL = 3800;
@@ -544,6 +546,10 @@ public class Moulin {
 
     public double getPIDFRun(double currentPos) {
         return pidfController.calculate(currentPos);
+    }
+
+    public void moulinPeriodicLogic(){
+        setPower(getPIDFRun(getMotorPosition()));
     }
 
     public void resetEncoderTarget() {

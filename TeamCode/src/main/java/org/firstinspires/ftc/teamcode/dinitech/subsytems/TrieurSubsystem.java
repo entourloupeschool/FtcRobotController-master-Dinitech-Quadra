@@ -62,7 +62,6 @@ public class TrieurSubsystem extends SubsystemBase {
         UNKNOWN // Artifact of an undetermined color
     }
     private final Moulin moulin;
-    private final Globals.RunningAverage lastMoulinMotorTicks = new Globals.RunningAverage(5);
 
     private final TripleColorSensors tripleColorSensors;
     private final MagneticSwitch magneticSwitch;
@@ -489,9 +488,6 @@ public class TrieurSubsystem extends SubsystemBase {
         return moulin.isBusy();
     }
 
-    private boolean isMoulinRestAtTarget(){
-        return !isMoulinBusy() && lastMoulinMotorTicks.getStd() == 0;
-    }
 
 
     /**
@@ -499,9 +495,7 @@ public class TrieurSubsystem extends SubsystemBase {
      * This should be called periodically.
      */
     private void moulinLogic() {
-        lastMoulinMotorTicks.add(getMoulinMotorPosition());
-
-        moulin.setPower(moulin.getPIDFRun(getMoulinMotorPosition()));
+        moulin.moulinPeriodicLogic();
 
         if (isMoulinOverCurrent()) {
 
@@ -586,11 +580,11 @@ public class TrieurSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         moulinLogic();
-        telemetryM.addData("wantsMotif", wantsMotifShoot());
+//        telemetryM.addData("wantsMotif", wantsMotifShoot());
 
 //        printMagneticTelemetryManager(telemetryM);
         printMoulinTelemetryManager(telemetryM);
-        telemetryM.addData("overcurrentCounts", getOvercurrentCounts());
+//        telemetryM.addData("overcurrentCounts", getOvercurrentCounts());
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
 //        printDistanceTelemetryManager(telemetryM);
