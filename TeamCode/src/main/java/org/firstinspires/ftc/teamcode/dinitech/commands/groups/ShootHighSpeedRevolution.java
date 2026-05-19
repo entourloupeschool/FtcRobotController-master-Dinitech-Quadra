@@ -37,7 +37,7 @@ public class ShootHighSpeedRevolution extends SequentialCommandGroup {
 
     public ShootHighSpeedRevolution(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
         addCommands(
-                new MoulinHighSpeedRevolution(trieurSubsystem, new WaitCommand(WAIT_HIGH_SPEED_TRIEUR), new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL))), // Perform a full revolution
+                    new MoulinHighSpeedRevolution(trieurSubsystem, new WaitCommand(WAIT_HIGH_SPEED_TRIEUR), new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL))), // Perform a full revolution
                 new InstantCommand(trieurSubsystem::clearAllStoredColors)
         );
     }

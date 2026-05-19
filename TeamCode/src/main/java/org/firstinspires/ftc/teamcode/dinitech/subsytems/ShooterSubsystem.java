@@ -33,7 +33,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public static final int CURRENT_SHOOT_OVERFLOW = 1400;
     public static final double MAX_SHOOT_SPEED = 2800; // Ticks per second.
     public static final double SPEED_MARGIN = 15;
-    public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 3;
+    public static double SPEED_MARGIN_SUPER_INTEL =  SPEED_MARGIN * 3.5;
     public static final double SPEED_INCREMENT_SHOOTER = 10;
     public static final double MAX_RANGE_TO_SHOOT_CM = 345;
     public static final double MIN_RANGE_TO_SHOOT_CM = 97;
