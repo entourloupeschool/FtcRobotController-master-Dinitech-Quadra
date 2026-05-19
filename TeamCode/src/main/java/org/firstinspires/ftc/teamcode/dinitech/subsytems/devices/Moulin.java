@@ -90,9 +90,9 @@ public class Moulin {
     public static double D_MOULIN_AGGRESSIVE = 3.4;//0.7
     public static double F_MOULIN_AGGRESSIVE = 0.0;//1.493
 
-    public static double P_MOULIN_ENCODER = 0.000135;
-    public static double I_MOULIN_ENCODER = 0.0805;
-    public static double D_MOULIN_ENCODER = 0.000001;
+    public static double P_MOULIN_ENCODER = 0.000224;
+    public static double I_MOULIN_ENCODER = 0.08072;
+    public static double D_MOULIN_ENCODER = 0.000002;
     public static double F_MOULIN_ENCODER = 0.0;
 
     public static double ADJUST_CONSTANT = 0.00015;

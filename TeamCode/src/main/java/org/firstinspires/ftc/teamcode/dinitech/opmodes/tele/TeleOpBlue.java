@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 
 @TeleOp(name = "TeleOpBlue", group = "TeleOp")
-public class TeleOpBlue extends TeleOpBaseAutomations {
+public class TeleOpBlue extends TeleOpBase {
     @Override
     public void initialize() {
             super.initialize();
