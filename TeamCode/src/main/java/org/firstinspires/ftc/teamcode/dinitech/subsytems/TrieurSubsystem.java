@@ -570,7 +570,7 @@ public class TrieurSubsystem extends SubsystemBase {
 //        telemetryM.addData("wantsMotif", wantsMotifShoot());
 
 //        printMagneticTelemetryManager(telemetryM);
-        printMoulinTelemetryManager(telemetryM);
+//        printMoulinTelemetryManager(telemetryM);
 //        telemetryM.addData("overcurrentCounts", getOvercurrentCounts());
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
@@ -584,7 +584,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
     private void printMoulinTelemetryManager(final TelemetryManager telemetryM) {
         telemetryM.addData("moulin ticks", getMoulinMotorPosition());
-        telemetryM.addData("moulinMotorTarget Double", moulin.getTargetTick());
+        telemetryM.addData("moulinMotorTarget Double", moulin.getTargetEncoderPos());
 //        telemetryM.addData("moulinMotorTarget Int", moulin.getTargetMotorPosition());
 //        telemetryM.addData("moulinTarget", getMoulinMotorTargetPosition());
 //        telemetryM.addData("moulinSpeed", getMoulinSpeed());
