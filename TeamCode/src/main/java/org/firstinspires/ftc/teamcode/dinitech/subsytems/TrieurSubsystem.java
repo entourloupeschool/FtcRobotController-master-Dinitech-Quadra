@@ -4,7 +4,9 @@ import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.D
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.INTERVALLE_TICKS_MOULIN_DOUBLE;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MAX_OVERCURRENT_COUNT;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.OFFSET_MAGNETIC_POS;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.OVER_CURRENT_BACKOFF_TICKS;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.POWER_SCALER_RECALIBRATION;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.SCALE_RECALIBRATION;
@@ -42,6 +44,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 public class TrieurSubsystem extends SubsystemBase {
     public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
     public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 23;
+    public static boolean correctingOvercurrent = false;
 
     public void resetMoulinEncoderTarget() {
         moulin.resetEncoderTarget();
@@ -492,22 +495,37 @@ public class TrieurSubsystem extends SubsystemBase {
     private void moulinLogic() {
         moulin.moulinPeriodicLogic();
 
-        if (isMoulinOverCurrent()) {
+        if (isMoulinOverCurrent() || correctingOvercurrent) {
+                telemetryM.addData("Moulin OVC-Counts", getOvercurrentCounts());
+
+                correctingOvercurrent = true;
                 setOvercurrentCounts(getOvercurrentCounts() + 1);
 
-                if (getOvercurrentCounts() > MAX_OVERCURRENT_COUNT) new MoulinCorrectOverCurrent(this).schedule();
+                double originalMotorTargetPosition = getMoulinEncoderTargetPosition();
+                if (getOvercurrentCounts() == MAX_OVERCURRENT_COUNT) {
+                    // Back the motor off by reducing the target position.
+                    resetMoulinEncoderTarget();
+                    incrementMoulinEncoderTargetPosition(OVER_CURRENT_BACKOFF_TICKS);
+                    return;
+                }
 
-                telemetryM.addLine("Moulin Over Current");
-                return;
+                if (isMoulinEncoderCloseToTarget(MOULIN_POSITION_VERY_LOOSE_TOLERANCE)) {
+                    setMoulinEncoderTargetPosition(originalMotorTargetPosition);
+                    correctingOvercurrent = false;
+                }
 
-        } else setOvercurrentCounts(0);
+        } else {
+            setOvercurrentCounts(0);
 
-        if (!isMagneticSwitch()) setWentRecalibrationOpposite(true);
+            if (!isMagneticSwitch()) setWentRecalibrationOpposite(true);
 
-        else if (isMagneticSwitch() && wentRecalibrationOpposite() && hasInitCalibration()) {
-            setWentRecalibrationOpposite(false);
-            recalibrateMoulin();
+            else if (isMagneticSwitch() && wentRecalibrationOpposite() && hasInitCalibration()) {
+                setWentRecalibrationOpposite(false);
+                recalibrateMoulin();
+            }
         }
+
+
     }
 
     /**
@@ -570,7 +588,7 @@ public class TrieurSubsystem extends SubsystemBase {
 //        telemetryM.addData("wantsMotif", wantsMotifShoot());
 
 //        printMagneticTelemetryManager(telemetryM);
-        printMoulinTelemetryManager(telemetryM);
+//        printMoulinTelemetryManager(telemetryM);
 //        telemetryM.addData("overcurrentCounts", getOvercurrentCounts());
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        updateColorSensors();
@@ -584,7 +602,7 @@ public class TrieurSubsystem extends SubsystemBase {
 
     private void printMoulinTelemetryManager(final TelemetryManager telemetryM) {
         telemetryM.addData("moulin ticks", getMoulinMotorPosition());
-        telemetryM.addData("moulinMotorTarget Double", moulin.getTargetEncoderPos());
+        telemetryM.addData("moulin encoder target", moulin.getTargetEncoderPos());
 //        telemetryM.addData("moulinMotorTarget Int", moulin.getTargetMotorPosition());
 //        telemetryM.addData("moulinTarget", getMoulinMotorTargetPosition());
 //        telemetryM.addData("moulinSpeed", getMoulinSpeed());

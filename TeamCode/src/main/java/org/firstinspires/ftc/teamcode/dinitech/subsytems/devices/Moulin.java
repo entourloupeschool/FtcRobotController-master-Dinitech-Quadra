@@ -81,7 +81,7 @@ public class Moulin {
     public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.3;
     public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
     public static double OVER_CURRENT_BACKOFF_TICKS = getTicksFromDegrees(-30); // Ticks to back off when over-current detected
-    public static final int MAX_OVERCURRENT_COUNT = 2;
+    public static final int MAX_OVERCURRENT_COUNT = 1;
     public static long WAIT_FOR_3BALL = 3800;
 
     //PIDF MOULIN (TURRET)
@@ -90,9 +90,9 @@ public class Moulin {
     public static double D_MOULIN_AGGRESSIVE = 3.4;//0.7
     public static double F_MOULIN_AGGRESSIVE = 0.0;//1.493
 
-    public static double P_MOULIN_ENCODER = 0.000224;
-    public static double I_MOULIN_ENCODER = 0.08072;
-    public static double D_MOULIN_ENCODER = 0.000002;
+    public static double P_MOULIN_ENCODER = 0.000395;
+    public static double I_MOULIN_ENCODER = 0.0115;
+    public static double D_MOULIN_ENCODER = 0.000012;
     public static double F_MOULIN_ENCODER = 0.0;
 
     public static double ADJUST_CONSTANT = 0.00015;
