@@ -47,7 +47,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                 () -> {if (trieurSubsystem.isEmpty()) this.cancel();})),
                         new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false)),
 
-                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,false)
         );
     }
 }

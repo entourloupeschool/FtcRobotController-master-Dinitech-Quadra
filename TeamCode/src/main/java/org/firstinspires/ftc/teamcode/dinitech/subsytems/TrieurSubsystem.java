@@ -502,6 +502,9 @@ public class TrieurSubsystem extends SubsystemBase {
                 setOvercurrentCounts(getOvercurrentCounts() + 1);
 
                 double originalMotorTargetPosition = getMoulinEncoderTargetPosition();
+
+                this.getCurrentCommand().cancel();
+
                 if (getOvercurrentCounts() == MAX_OVERCURRENT_COUNT) {
                     // Back the motor off by reducing the target position.
                     resetMoulinEncoderTarget();

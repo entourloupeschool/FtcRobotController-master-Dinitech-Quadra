@@ -63,7 +63,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                                 shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
                                                 () -> {if (trieurSubsystem.isEmpty()) this.cancel();}))),
 
-                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,false)
         );
     }
 }

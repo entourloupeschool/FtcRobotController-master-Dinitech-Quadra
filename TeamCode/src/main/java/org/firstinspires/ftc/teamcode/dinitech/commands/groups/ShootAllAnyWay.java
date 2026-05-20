@@ -11,7 +11,7 @@ public class ShootAllAnyWay extends ConditionalCommand {
     public ShootAllAnyWay(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem) {
         super(
                 new MoulinHighSpeedRevolution(trieurSubsystem, shooterSubsystem),
-                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem),
+                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, false),
                 trieurSubsystem::isEmpty);
     }
 }

@@ -27,4 +27,21 @@ public class WaitShoot extends SequentialCommandGroup {
                         trieurSubsystem::wantsMotifShoot)
         );
     }
+
+    public WaitShoot(ShooterSubsystem shooterSubsystem, TrieurSubsystem trieurSubsystem, boolean onlyCurrentOverflow) {
+        addCommands(
+                new ConditionalCommand(
+                        new ParallelRaceGroup(
+                                new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
+                                new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
+                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
+                        ()-> onlyCurrentOverflow
+                ),
+
+                new ConditionalCommand(
+                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
+                        new InstantCommand(),
+                        trieurSubsystem::wantsMotifShoot)
+        );
+    }
 }

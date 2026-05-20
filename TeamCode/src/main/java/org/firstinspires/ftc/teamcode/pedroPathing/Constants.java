@@ -23,7 +23,7 @@ public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)
             .headingPIDFCoefficients(new PIDFCoefficients(0.85, 0.01, 0.08, 0.038))
-            .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.23, 0.0977, 0.00245))
+            .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.24, 0.0977, 0.00245))
             .centripetalScaling(0);
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);

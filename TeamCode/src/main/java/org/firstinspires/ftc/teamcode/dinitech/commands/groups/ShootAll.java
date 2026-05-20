@@ -92,9 +92,9 @@ public class ShootAll extends SelectCommand {
                                             ()->waitSpeed)),
 
                             new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitShoot(shooterSubsystem, trieurSubsystem),
+                            new WaitShoot(shooterSubsystem, trieurSubsystem, false),
                             new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitShoot(shooterSubsystem, trieurSubsystem),
+                            new WaitShoot(shooterSubsystem, trieurSubsystem, false),
                             new MoulinNextArtefactShoot(trieurSubsystem),
                             new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*SCALE_AFTER_HIGH_SPEED_SHOOT))));}},
 

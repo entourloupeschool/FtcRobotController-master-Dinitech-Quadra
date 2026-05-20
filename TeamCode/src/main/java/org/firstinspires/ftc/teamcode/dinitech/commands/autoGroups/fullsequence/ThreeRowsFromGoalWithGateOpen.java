@@ -37,7 +37,7 @@ public class ThreeRowsFromGoalWithGateOpen extends SequentialCommandGroup {
 
                 new ToRowToGateToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem,
                         hubsSubsystem.getTeam().getSecondRowPose(), closeShootPose, hubsSubsystem.getTeam().getRampPose(),
-                        LENGTH_X_ROW, rowPower, false, 400),
+                        LENGTH_X_ROW, rowPower, false, 800),
 
                 new InstantCommand(()->trieurSubsystem.setDetectionTimeout((int) (MODE_RAMASSAGE_AUTO_TIMEOUT * 1.5)), trieurSubsystem),
 

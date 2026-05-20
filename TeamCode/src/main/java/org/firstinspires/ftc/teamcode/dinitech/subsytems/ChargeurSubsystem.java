@@ -23,7 +23,10 @@ public class ChargeurSubsystem extends SubsystemBase {
     public static final double ROULEAU_MOTOR_MAX_POWER = 0.85;
     private final MotorEx motorEx;
     public final TelemetryManager telemetryM;
-
+    private int overcurrentCounts = 0;
+    public int getOvercurrentCounts() {
+        return overcurrentCounts;
+    }
     private double targetPower;
     public double getTargetPower(){
         return targetPower;
@@ -140,12 +143,14 @@ public class ChargeurSubsystem extends SubsystemBase {
     public void periodic(){
         // Automatically stop the motor if an over-current condition is detected.
         if (isOverCurrent()){
-            motorEx.set(0.5);
+            overcurrentCounts = getOvercurrentCounts() + 1;
             telemetryM.addLine("chargeur motor over current");
+
+            if (getOvercurrentCounts() > 10) setMotorPower(0);
 
         } else {
             setMotorPower(targetPower);
-
+            overcurrentCounts = 0;
         }
 
 
