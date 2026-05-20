@@ -56,6 +56,8 @@ public class TeleOpBase extends GornetixGamepads {
     public void initialize() {
             super.initialize();
 
+            trieurSubsystem.setWantsMotifShoot(false);
+
             drivePedroSubsystem.setPose(FIELD_CENTER_90HEADING_POSE);
             drivePedroSubsystem.setFollowerTEnd(FOLLOWER_T_POSITION_END_TELEOP);
             drivePedroSubsystem.startTeleOpDrive(true);
@@ -144,7 +146,13 @@ public class TeleOpBase extends GornetixGamepads {
                 new InverseMaxPowerChargeur(chargeurSubsystem),
                 new StopChargeur(chargeurSubsystem), true);
 
-        m_Operator.back.whenPressed(new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(!trieurSubsystem.wantsMotifShoot())));
+        m_Operator.back.whenPressed(new InstantCommand(()->{
+            if (trieurSubsystem.wantsMotifShoot())trieurSubsystem.setWantsMotifShoot(false);
+            else {
+                trieurSubsystem.setWantsMotifShoot(true);
+                gamepadSubsystem.getOperator().rumble(1);
+            }
+        }));
 
         m_Operator.start.whenPressed(new InstantCommand(()->{
             trieurSubsystem.setHowManyArtefacts(0);
