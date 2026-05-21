@@ -588,7 +588,7 @@ public class TrieurSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         moulinLogic();
-//        telemetryM.addData("wantsMotif", wantsMotifShoot());
+        telemetryM.addData("wantsMotif", wantsMotifShoot());
 
 //        printMagneticTelemetryManager(telemetryM);
 //        printMoulinTelemetryManager(telemetryM);

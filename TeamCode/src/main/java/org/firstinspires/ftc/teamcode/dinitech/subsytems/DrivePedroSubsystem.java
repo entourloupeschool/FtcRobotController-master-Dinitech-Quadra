@@ -95,6 +95,15 @@ public class DrivePedroSubsystem extends SubsystemBase {
         follower.update();
     }
 
+    private boolean pedroAimLockedUsePIDF = false;
+
+    public void setPedroAimLockedUsePIDF(boolean newPedroAimLockedUsePIDF){
+        pedroAimLockedUsePIDF = newPedroAimLockedUsePIDF;
+    }
+    public boolean getPedroAimLockedUsePIDF() {
+        return pedroAimLockedUsePIDF;
+    }
+
 
     /**
      * Defines the operational state of the drive.

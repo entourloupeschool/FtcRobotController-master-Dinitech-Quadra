@@ -150,15 +150,21 @@ public class TeleOpBase extends GornetixGamepads {
             if (trieurSubsystem.wantsMotifShoot())trieurSubsystem.setWantsMotifShoot(false);
             else {
                 trieurSubsystem.setWantsMotifShoot(true);
-                gamepadSubsystem.getOperator().rumble(1);
+                gamepadSubsystem.getOperator().rumble(3);
             }
         }));
 
         m_Operator.start.whenPressed(new InstantCommand(()->{
             trieurSubsystem.setHowManyArtefacts(0);
-            trieurSubsystem.clearAllStoredColors();}));
+            trieurSubsystem.clearAllStoredColors();
+            trieurSubsystem.setMoulinPosition(1);},
+                trieurSubsystem));
 
         m_Operator.right_stick_button.whenPressed(new SwitchUsageStateShooter(shooterSubsystem, drivePedroSubsystem, visionSubsystem, gamepadSubsystem, hubsSubsystem));
+
+        m_Operator.left_stick_button.whenPressed(new InstantCommand(()->{
+            drivePedroSubsystem.setPedroAimLockedUsePIDF(!drivePedroSubsystem.getPedroAimLockedUsePIDF());
+        }, drivePedroSubsystem));
 
         m_Operator.square.toggleWhenPressed(new WaitVelocityShooter(shooterSubsystem, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY),
                 new StopShooter(shooterSubsystem), true);
