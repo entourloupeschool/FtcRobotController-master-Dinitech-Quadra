@@ -45,6 +45,7 @@ public class TryDetectArtefactOptimized extends CommandBase {
 
     @Override
     public void execute() {
+
         // Check for artifact presence FIRST (cheap distance/sensor operation)
         if (trieurSubsystem.isArtefactInTrieur() && !isFound) {
             // Only update color sensors when artifact is detected (expensive operation)

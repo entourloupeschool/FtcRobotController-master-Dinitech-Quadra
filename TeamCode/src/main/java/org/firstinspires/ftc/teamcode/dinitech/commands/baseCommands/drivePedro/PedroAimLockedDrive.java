@@ -35,13 +35,12 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
  */
 @Configurable
 public class PedroAimLockedDrive extends CommandBase {
-    public static double AIM_LOCK_PIDF_MAX_ROTATION_CORRECTION = 0.9;
 
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final HubsSubsystem hubsSubsystem;
+    private static double HEADING_ERROR_THRESHOLD = Math.PI/3;
 
     private final GamepadWrapper driver;
-    private final PIDFController headingPidfController;
     private Pose basketPose;
 
     /**
@@ -56,7 +55,6 @@ public class PedroAimLockedDrive extends CommandBase {
         this.drivePedroSubsystem = drivePedroSubsystem;
         this.hubsSubsystem = hubsSubsystem;
         this.driver = gamepadSubsystem.getDriver();
-        this.headingPidfController = new PIDFController(0, 0, 0, 0);
         this.basketPose = hubsSubsystem.getTeam().getBasketPose();
 
         addRequirements(drivePedroSubsystem);
@@ -64,13 +62,6 @@ public class PedroAimLockedDrive extends CommandBase {
 
     @Override
     public void initialize() {
-        headingPidfController.setSetPoint(0);
-
-        headingPidfController.setPIDF(DinitechPredictiveFollower.followerConstants.coefficientsHeadingPIDF.P,
-                DinitechPredictiveFollower.followerConstants.coefficientsHeadingPIDF.I,
-                DinitechPredictiveFollower.followerConstants.coefficientsHeadingPIDF.D,
-                DinitechPredictiveFollower.followerConstants.coefficientsHeadingPIDF.F);
-
         drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.TELE);
         drivePedroSubsystem.setDriveReference(DrivePedroSubsystem.DriveReference.FC);
         drivePedroSubsystem.setDriveAimLockType(DrivePedroSubsystem.DriveAimLockType.PEDRO_AIM);
@@ -95,15 +86,8 @@ public class PedroAimLockedDrive extends CommandBase {
         double headingError = MathFunctions.getTurnDirection(currentPose.getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(currentPose.getHeading(), headingGoal);
         double clampedError = Math.max(Math.min(headingError, CLAMPING_HEADING_ERROR), -CLAMPING_HEADING_ERROR);
 
-        double autoAimPower;
-        if (drivePedroSubsystem.getPedroAimLockedUsePIDF()) {
-            headingPidfController.setSetPoint(headingError);
-            autoAimPower = headingPidfController.calculate(0);
-            autoAimPower = Math.max(Math.min(autoAimPower, AIM_LOCK_PIDF_MAX_ROTATION_CORRECTION), -AIM_LOCK_PIDF_MAX_ROTATION_CORRECTION);
-        } else {
-            autoAimPower = Math.pow(clampedError, NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED);
-        }
-
+        double autoAimPower = Math.pow(clampedError, NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED);
+        
         drivePedroSubsystem.teleDriveHybrid(driver.getLeftX(), driver.getLeftY(),autoAimPower * (1 - Math.abs(rightX)) + rightX, driver.getRightTriggerValue(), drivePedroSubsystem.getDriveReference() == DrivePedroSubsystem.DriveReference.FC);
     }
 }

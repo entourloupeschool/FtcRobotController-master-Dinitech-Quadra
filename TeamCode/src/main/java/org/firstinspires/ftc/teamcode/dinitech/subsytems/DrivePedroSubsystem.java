@@ -27,8 +27,8 @@ public class DrivePedroSubsystem extends SubsystemBase {
     public static final double ENCODER_RESOLUTION = THROUGH_BORE_ENCODER_COUNTS_PER_REV / (DEAD_WHEEL_DIAMETER_MM * Math.PI);
     public static final double PAR_POD_Y_MM = -142.2; // -144.5;
     public static final double PERP_POD_X_MM = 143.2; //147;//143;
-    public static final double CLAMPING_HEADING_ERROR = 0.39;
-    public static final int NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED = 3;
+    public static double CLAMPING_HEADING_ERROR = 0.39; //0.39
+    public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED = 3;
     public static double SCALE_HEADING_CONSTRAINT_TELEOP = 0.1;
 
     private final Follower follower;

@@ -27,7 +27,8 @@ public class InitToQuickShoot extends ParallelCommandGroup {
                                 new MaxPowerChargeur(chargeurSubsystem),
                                 new SetVelocityShooterRequire(shooterSubsystem, shootVelocity)),
                         new WaitCommand(WAIT_INIT_SHOOTER),
-                        new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true)),
+                        new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, false, false, false)
+),
                 OptimalPath.line(drivePedroSubsystem, shootPose, 1, true)
 
         );

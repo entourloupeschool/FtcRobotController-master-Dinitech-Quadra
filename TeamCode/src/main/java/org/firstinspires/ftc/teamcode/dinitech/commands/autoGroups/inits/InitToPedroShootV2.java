@@ -25,7 +25,8 @@ public class InitToPedroShootV2 extends ParallelCommandGroup {
                         new InstantCommand(),
                         new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
                         new WaitCommand(WAIT_INIT_PEDRO_SHOOTER),
-                        new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, false)),
+                        new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, false, false, false)
+),
 
                 OptimalPath.line(drivePedroSubsystem, shootPose, 1, true)
         );

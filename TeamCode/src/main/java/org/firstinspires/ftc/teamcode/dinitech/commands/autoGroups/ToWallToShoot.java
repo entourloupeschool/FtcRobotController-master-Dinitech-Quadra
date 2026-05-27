@@ -48,7 +48,7 @@ public class ToWallToShoot extends SequentialCommandGroup {
                                         .withParametricCallback(T_PARAMETRIC_DONT_SHOOT, () -> {
                                             if (trieurSubsystem.isEmpty()) this.cancel();}))),
 
-                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true)
+                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true, false, false)
         );
     }
 }

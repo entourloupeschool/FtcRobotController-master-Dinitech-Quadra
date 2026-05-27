@@ -51,8 +51,8 @@ public class ShooterSubsystem extends SubsystemBase {
     public static final long SHOOT_REVOLUTION_THEN_WAIT = 300;
 
 
-    public static double a_Pedro = 5.95; // 5.95;
-    public static double b_Pedro = 925; // 1060;
+    public static double a_Pedro = 5.9; // 5.95;
+    public static double b_Pedro = 927; // 1060;
 
     /**
      * Gives back a linear speed from a range in inches

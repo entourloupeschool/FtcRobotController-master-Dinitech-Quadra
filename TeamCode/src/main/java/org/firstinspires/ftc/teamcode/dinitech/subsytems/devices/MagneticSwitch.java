@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
 
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors.MAGNETIC_SWITCH_NAME;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -16,6 +14,8 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 public class MagneticSwitch {
     /** The underlying touch sensor that represents the magnetic switch. */
     public final TouchSensor magneticSwitch;
+    public static final String MAGNETIC_SWITCH_NAME = "m_s";
+
 
     /**
      * Constructs a new MagneticSwitch instance.

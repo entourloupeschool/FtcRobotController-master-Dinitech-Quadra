@@ -23,7 +23,7 @@ public class TeamPoses {
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 21, Math.toRadians(112.5));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.9, 121.1,3 * Math.PI / 4);
-    public static double X_OPEN_RAMP_POSE = 16.5;
+    public static double X_OPEN_RAMP_POSE = 17.1;
     public static double Y_OPEN_RAMP_POSE = 61.5;
     public static final Pose BLUE_RAMP_POSE = new Pose(X_OPEN_RAMP_POSE, Y_OPEN_RAMP_POSE, 0); // heading = -0.162
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
@@ -34,8 +34,7 @@ public class TeamPoses {
     public static final Pose LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE = new Pose(55, 85, Math.toRadians(61));
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));
     public static final double AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(BLUE_AUDIENCE_SHOOT_POSE.distanceFrom(BLUE_BASKET_POSE));
-    public static final double INIT_SHOOT_AUTO_SHOOTER_VELOCITY = 3;
-    public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43.2, 82, 0);
+    public static final Pose FIRST_ROW_BLUE_POSE = new Pose(43.5, 82, 0);
     public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE
             .withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM);
     public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE

@@ -11,13 +11,13 @@ public class AutoPathsDefinitions {
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.55;
 
 
-    public static final double FOLLOWER_T_POSITION_END = 0.9;//0.91;
+    public static double FOLLOWER_T_POSITION_END = 0.87;//0.91;
     public static double FOLLOWER_T_POSITION_END_TELEOP = 0.96;
-    public static final double LENGTH_X_ROW = TILE_DIM * 0.86;
-    public static final double LENGTH_X_ROW_3RD = TILE_DIM * 1;
+    public static final double LENGTH_X_ROW = TILE_DIM * 0.9;
+    public static final double LENGTH_X_ROW_3RD = TILE_DIM * 0.95;
     public static final double T_PARAMETRIC_DONT_SHOOT = 0.55;
     public static final long WAIT_INIT_SHOOTER = 5;
-    public static long WAIT_INIT_PEDRO_SHOOTER = 550;
+    public static long WAIT_INIT_PEDRO_SHOOTER = 50;
     public static final double UNSHORTCUT_LENGTH = 10;
     public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 30.0;
 
@@ -39,7 +39,7 @@ public class AutoPathsDefinitions {
     }
 
 
-    public static final double MAX_POWER_ROW_PICK_ARTEFACTS = 0.23;
+    public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.4;
     public static final double GATEPICK_POWER = MAX_POWER_ROW_PICK_ARTEFACTS;
 
     public static final double SCALER_TO_PICK_POSE = 0.65;

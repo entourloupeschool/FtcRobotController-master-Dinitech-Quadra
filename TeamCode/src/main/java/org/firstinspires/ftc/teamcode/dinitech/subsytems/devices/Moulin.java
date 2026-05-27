@@ -76,10 +76,11 @@ public class Moulin {
     public static double SCALE_RECALIBRATION = getTicksFromDegrees(3);
     public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
     public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
-    public static int WAIT_HIGH_SPEED_TRIEUR = 200; //400;
+    public static int WAIT_HIGH_SPEED_TRIEUR = 220; //400;
+    public static int END_WAIT_HIGH_SPEED_TRIEUR = 580;
     public static double SCALE_AFTER_HIGH_SPEED_SHOOT = 1.8; //1.5;
-    public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.3;
-    public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.1;
+    public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.35;
+    public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.15;
     public static double OVER_CURRENT_BACKOFF_TICKS = getTicksFromDegrees(-30); // Ticks to back off when over-current detected
     public static final int MAX_OVERCURRENT_COUNT = 1;
     public static long WAIT_FOR_3BALL = 3800;

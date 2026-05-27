@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.OptimalPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitOpenTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ReadyMotif;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
@@ -42,11 +43,13 @@ public class InitToMotifShoot extends SequentialCommandGroup {
                                                 new WaitUntilCommand(drivePedroSubsystem::isPathQuasiDone)),
                                         // Only run ReadyMotif if hasColorOrder became true, otherwise skip
                                         new ConditionalCommand(
-                                                new ReadyMotif(trieurSubsystem, visionSubsystem),
-                                                new InstantCommand(),
+                                                new SequentialCommandGroup(
+                                                        new ReadyMotif(trieurSubsystem, visionSubsystem),
+                                                        new WaitOpenTrappe(trieurSubsystem)),
+                                                new WaitOpenTrappe(trieurSubsystem),
                                                 visionSubsystem::hasMotif)))),
 
-                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem)
+                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true, true, false)
         );
     }
 }

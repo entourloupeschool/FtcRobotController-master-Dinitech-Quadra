@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextStorage;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitCloseTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 
@@ -21,7 +22,7 @@ public class TrieurReadyEmptyStorage extends SequentialCommandGroup {
      */
     public TrieurReadyEmptyStorage(TrieurSubsystem trieurSubsystem) {
         addCommands(
-                // if condition is false.
+                new WaitCloseTrappe(trieurSubsystem),
                 new MoulinNextEmptyStorage(trieurSubsystem)
         );
     }

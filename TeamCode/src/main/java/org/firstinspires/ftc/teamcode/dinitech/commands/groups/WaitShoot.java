@@ -28,14 +28,16 @@ public class WaitShoot extends SequentialCommandGroup {
         );
     }
 
-    public WaitShoot(ShooterSubsystem shooterSubsystem, TrieurSubsystem trieurSubsystem, boolean onlyCurrentOverflow) {
+
+
+    public WaitShoot(ShooterSubsystem shooterSubsystem, TrieurSubsystem trieurSubsystem, boolean withCurrentOverflow) {
         addCommands(
                 new ConditionalCommand(
                         new ParallelRaceGroup(
                                 new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
                                 new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
                         new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
-                        ()-> onlyCurrentOverflow
+                        ()-> withCurrentOverflow
                 ),
 
                 new ConditionalCommand(

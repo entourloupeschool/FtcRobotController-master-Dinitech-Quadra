@@ -44,10 +44,10 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                 OptimalPath.curve(drivePedroSubsystem,
                                         openRampPose
                                                 .withX(backupForGatePush)
-                                                .withY(openRampPose.getY() -4),
+                                                .withY(openRampPose.getY() - 2),
                                         openRampPose
                                                 .withX(backupForGatePush)
-                                                .withY(openRampPose.getY() +  4),
+                                                .withY(openRampPose.getY() + 2),
                                         openRampPose, 1, true),
 
                                 new WaitCommand(timeAtGate),
@@ -63,7 +63,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                                 shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
                                                 () -> {if (trieurSubsystem.isEmpty()) this.cancel();}))),
 
-                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,false)
+                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,true, false, false)
         );
     }
 }

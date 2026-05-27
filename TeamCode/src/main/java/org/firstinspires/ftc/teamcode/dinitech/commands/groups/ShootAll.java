@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem.SPEED_MARGIN_SUPER_INTEL;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.END_WAIT_HIGH_SPEED_TRIEUR;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.SCALE_AFTER_HIGH_SPEED_SHOOT;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.WAIT_HIGH_SPEED_TRIEUR;
 
@@ -17,6 +18,7 @@ import com.arcrobotics.ftclib.command.WaitUntilCommand;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextArtefactShootWaitVelocity;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextArtefactShoot;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitOpenTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
@@ -25,113 +27,71 @@ import java.util.HashMap;
 
 
 public class ShootAll extends SelectCommand {
-    public ShootAll(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem) {
-        super(
-            new HashMap<Object, Command>(){{
-                put(0, new InstantCommand());
-
-                put(1, new SequentialCommandGroup(
-                        new ArtefactSure(trieurSubsystem, chargeurSubsystem),
-                        new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                        new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*SCALE_AFTER_HIGH_SPEED_SHOOT))));
-
-                put(2, new SequentialCommandGroup(
-                        new ArtefactSure(trieurSubsystem, chargeurSubsystem),
-                        new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                        new WaitShoot(shooterSubsystem, trieurSubsystem),
-                        new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                        new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*SCALE_AFTER_HIGH_SPEED_SHOOT))));
-
-                put(3, new SequentialCommandGroup(
-                        new ArtefactSure(trieurSubsystem, chargeurSubsystem),
-                        new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                        new WaitShoot(shooterSubsystem, trieurSubsystem),
-                        new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                        new WaitShoot(shooterSubsystem, trieurSubsystem),
-                        new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                        new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*SCALE_AFTER_HIGH_SPEED_SHOOT))));}},
-
-            trieurSubsystem::getHowManyArtefacts
-        );
-    }
-
-    public ShootAll(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, boolean waitSpeed) {
+    public ShootAll(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, boolean waitInitSpeed, boolean waitEachSpeed, boolean withShooterOvercurrent) {
         super(
                 new HashMap<Object, Command>(){{
                     put(0, new InstantCommand());
 
                     put(1, new SequentialCommandGroup(
                             new ParallelCommandGroup(
+                                    new WaitOpenTrappe(trieurSubsystem),
                                     new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                                     new ConditionalCommand(
                                             new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL)),
                                             new InstantCommand(),
-                                            ()->waitSpeed)),
+                                            ()->waitInitSpeed)),
 
-                            new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*SCALE_AFTER_HIGH_SPEED_SHOOT))));
+                            new ConditionalCommand(
+                                    new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
+                                    new MoulinNextArtefactShoot(trieurSubsystem),
+                                    ()->waitEachSpeed),
+                            new WaitCommand(END_WAIT_HIGH_SPEED_TRIEUR)));
 
                     put(2, new SequentialCommandGroup(
                             new ParallelCommandGroup(
+                                    new WaitOpenTrappe(trieurSubsystem),
                                     new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                                     new ConditionalCommand(
                                             new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL)),
                                             new InstantCommand(),
-                                            ()->waitSpeed)),
-                            new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitShoot(shooterSubsystem, trieurSubsystem),
-                            new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*SCALE_AFTER_HIGH_SPEED_SHOOT))));
+                                            ()->waitInitSpeed)),
+                            new ConditionalCommand(
+                                    new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
+                                    new MoulinNextArtefactShoot(trieurSubsystem),
+                                    ()->waitEachSpeed),
+                            new WaitShoot(shooterSubsystem, trieurSubsystem, withShooterOvercurrent),
+                            new ConditionalCommand(
+                                    new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
+                                    new MoulinNextArtefactShoot(trieurSubsystem),
+                                    ()->waitEachSpeed),
+                            new WaitCommand(END_WAIT_HIGH_SPEED_TRIEUR)));
 
                     put(3, new SequentialCommandGroup(
                             new ParallelCommandGroup(
+                                    new WaitOpenTrappe(trieurSubsystem),
                                     new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                                     new ConditionalCommand(
                                             new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL)),
                                             new InstantCommand(),
-                                            ()->waitSpeed)),
+                                            ()->waitInitSpeed)),
 
-                            new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitShoot(shooterSubsystem, trieurSubsystem, false),
-                            new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitShoot(shooterSubsystem, trieurSubsystem, false),
-                            new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*SCALE_AFTER_HIGH_SPEED_SHOOT))));}},
+                            new ConditionalCommand(
+                                    new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
+                                    new MoulinNextArtefactShoot(trieurSubsystem),
+                                    ()->waitEachSpeed),
+                            new WaitShoot(shooterSubsystem, trieurSubsystem, withShooterOvercurrent),
+                            new ConditionalCommand(
+                                    new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
+                                    new MoulinNextArtefactShoot(trieurSubsystem),
+                                    ()->waitEachSpeed),
+                            new WaitShoot(shooterSubsystem, trieurSubsystem, withShooterOvercurrent),
+                            new ConditionalCommand(
+                                    new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
+                                    new MoulinNextArtefactShoot(trieurSubsystem),
+                                    ()->waitEachSpeed),
+                            new WaitCommand(END_WAIT_HIGH_SPEED_TRIEUR)));}},
 
                 trieurSubsystem::getHowManyArtefacts
         );
     }
-
-    public ShootAll(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem) {
-        super(
-                new HashMap<Object, Command>(){{
-                    put(0, new InstantCommand());
-
-                    put(1, new SequentialCommandGroup(
-                            new ArtefactSure(trieurSubsystem, chargeurSubsystem),
-                            new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*SCALE_AFTER_HIGH_SPEED_SHOOT))));
-
-                    put(2, new SequentialCommandGroup(
-
-                            new ArtefactSure(trieurSubsystem, chargeurSubsystem),
-                            new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
-                            new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*SCALE_AFTER_HIGH_SPEED_SHOOT))));
-
-                    put(3, new SequentialCommandGroup(
-
-                            new ArtefactSure(trieurSubsystem, chargeurSubsystem),
-                            new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
-                            new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
-                            new MoulinNextArtefactShoot(trieurSubsystem),
-                            new WaitCommand((long) (WAIT_HIGH_SPEED_TRIEUR*SCALE_AFTER_HIGH_SPEED_SHOOT))));}},
-
-                trieurSubsystem::getHowManyArtefacts
-        );
-    }
-
 }

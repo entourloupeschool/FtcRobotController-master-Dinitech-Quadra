@@ -18,8 +18,7 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrent;
-import org.firstinspires.ftc.teamcode.dinitech.other.Globals;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Trappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.MagneticSwitch;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
@@ -43,7 +42,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 @Configurable
 public class TrieurSubsystem extends SubsystemBase {
     public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
-    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 23;
+    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 28;
     public static boolean correctingOvercurrent = false;
 
     public void resetMoulinEncoderTarget() {
@@ -64,6 +63,8 @@ public class TrieurSubsystem extends SubsystemBase {
         PURPLE, // Purple artifact
         UNKNOWN // Artifact of an undetermined color
     }
+    private final Trappe trappe;
+
     private final Moulin moulin;
 
     private final TripleColorSensors tripleColorSensors;
@@ -129,6 +130,7 @@ public class TrieurSubsystem extends SubsystemBase {
      * @param telemetryM   The telemetryM object for logging.
      */
     public TrieurSubsystem(HardwareMap hardwareMap, final TelemetryManager telemetryM) {
+        trappe = new Trappe(hardwareMap);
         moulin = new Moulin(hardwareMap);
         tripleColorSensors = new TripleColorSensors(hardwareMap);
         magneticSwitch = new MagneticSwitch(hardwareMap);
@@ -287,6 +289,8 @@ public class TrieurSubsystem extends SubsystemBase {
                         DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR);
     }
 
+
+
     /**
      * Updates the readings for all color sensors.
      */
@@ -316,7 +320,8 @@ public class TrieurSubsystem extends SubsystemBase {
     public void registerArtefact() {
         setHowManyArtefacts(getHowManyArtefacts() + 1);
 
-        ArtifactColor detectedColor = detectBottomArtifactColor();
+        ArtifactColor detectedColor = ArtifactColor.PURPLE;
+        if (wantsMotifShoot()) detectedColor = detectBottomArtifactColor();
         clearSamplesColorSensors();
 
 
@@ -337,10 +342,7 @@ public class TrieurSubsystem extends SubsystemBase {
      * @return The detected artifact color.
      */
     private ArtifactColor detectBottomArtifactColor() {
-        boolean cs1Purple = tripleColorSensors.isPurple(1);
-        boolean cs2Purple = tripleColorSensors.isPurple(2);
-
-        if (cs1Purple || cs2Purple) return ArtifactColor.PURPLE;
+        if (tripleColorSensors.isPurple(1) || tripleColorSensors.isPurple(2)) return ArtifactColor.PURPLE;
 
         return ArtifactColor.GREEN;
     }
@@ -453,6 +455,53 @@ public class TrieurSubsystem extends SubsystemBase {
      */
     public boolean isMoulinOverCurrent() {
         return moulin.isOverCurrent();
+    }
+
+    /**
+     * Opens the trappe.
+     */
+    public void closeTrappe() {
+        trappe.close();
+    }
+
+    /**
+     * Closes the trappe.
+     */
+    public void openTrappe() {
+        trappe.open();
+    }
+    public void toggleTrappe() {
+        trappe.toggleTrappe();
+    }
+
+    /**
+     * Incrementally opens the trappe.
+     */
+    public void incrOpenTrappe() {
+        incrTrappe(Trappe.TRAPPE_TELE_INCREMENT);
+    }
+
+    /**
+     * Incrementally closes the trappe.
+     */
+    public void incrCloseTrappe() {
+        incrTrappe(-Trappe.TRAPPE_TELE_INCREMENT);
+    }
+
+    /**
+     * Incrementally moves the trappe.
+     * @param increment The amount to move the trappe servo.
+     */
+    public void incrTrappe(double increment){
+        trappe.incrementalRotation(increment);
+    }
+
+    /**
+     * Checks if the trappe is open.
+     * @return True if the trappe is open.
+     */
+    public boolean isTrappeOpen(){
+        return trappe.getTrappeIsOpen();
     }
 
     /**
@@ -594,8 +643,9 @@ public class TrieurSubsystem extends SubsystemBase {
 //        printMoulinTelemetryManager(telemetryM);
 //        telemetryM.addData("overcurrentCounts", getOvercurrentCounts());
 //        printStoredArtifactsTelemetryManager(telemetryM);
-//        updateColorSensors();
+//        telemetryM.addData("greenPos", getPosWithColor(TrieurSubsystem.ArtifactColor.GREEN));
 //        printDistanceTelemetryManager(telemetryM);
+//        telemetryM.addData("ArtefactInTrieur", isArtefactInTrieur());
 //        printColorTelemetryManager(telemetryM);
     }
 
@@ -630,7 +680,7 @@ public class TrieurSubsystem extends SubsystemBase {
     private void printColorTelemetryManager(final TelemetryManager telemetryM) {
         tripleColorSensors.updateAllSensors();
 
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i < 3; i++) {
             telemetryM.addData("Blue " + i, String.format("%.4f", tripleColorSensors.getAverageBlue(i)));
             telemetryM.addData("Red " + i, String.format("%.4f", tripleColorSensors.getAverageRed(i)));
             telemetryM.addData("Green " + i, String.format("%.4f",tripleColorSensors.getAverageGreen(i)));

@@ -257,7 +257,10 @@ public class VisionSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        aprilTagProcessorTelemetryManager();
+//        aprilTagProcessorTelemetryManager();
+        telemetryM.addData("Motif#", getCachedMotif());
+//        telemetryM.addData("hasDetectedMotif", hasMotif());
+
 //        telemetryM.addData("vision usage state", getUsageState());
     }
 
@@ -272,7 +275,6 @@ public class VisionSubsystem extends SubsystemBase {
 //            telemetryM.addData("yawRaw", getRobotPoseYaw());
 //        }
 
-        telemetryM.addData("hasDetectedMotif", hasMotif());
     }
 
     public int getCachedMotif() { return cachedMotif; }

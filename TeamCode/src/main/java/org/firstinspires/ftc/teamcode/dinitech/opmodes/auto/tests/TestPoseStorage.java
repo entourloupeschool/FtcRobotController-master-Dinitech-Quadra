@@ -8,6 +8,9 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitCloseTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitOpenTrappe;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.AutoBase;
 import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
 
@@ -25,8 +28,11 @@ public class TestPoseStorage extends AutoBase {
 
         new SequentialCommandGroup(
                 new InstantCommand(),
+                new WaitToggleTrappe(trieurSubsystem),
                 new WaitCommand(500),
-                new WaitCommand(500)
+                new WaitCloseTrappe(trieurSubsystem),
+                new WaitCommand(500),
+                new WaitOpenTrappe(trieurSubsystem)
         ).schedule();
 
     }
