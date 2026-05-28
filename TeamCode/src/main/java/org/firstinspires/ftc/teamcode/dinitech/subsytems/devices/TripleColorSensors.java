@@ -233,6 +233,15 @@ public class TripleColorSensors {
         }
     }
 
+    public double meanDistance(){
+        return (colorSensor1.getDistance() + colorSensor2.getDistance())/2;
+    }
+
+    public boolean isArtefactInTrieur(){
+        double meanDistance = meanDistance();
+        return meanDistance < 5.5 && meanDistance > 3.1;
+    }
+
     /**
      * Gets the number of samples collected by a specific sensor.
      *

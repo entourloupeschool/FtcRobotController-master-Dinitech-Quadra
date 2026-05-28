@@ -18,9 +18,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 public class ChargeurSubsystem extends SubsystemBase {
     public static final String CHARGEUR_MOTOR_NAME = "chargeur";
-    public static final String CHARGEUR_SERVO_GAUCHE_MOTOR_NAME = "chargeur_servo_gauche";
-    public static final String CHARGEUR_SERVO_DROITE_MOTOR_NAME = "chargeur_servo_droite";
-    public static final double ROULEAU_MOTOR_MAX_POWER = 0.85;
+    public static double ROULEAU_MOTOR_MAX_POWER = 0.86;
     private final MotorEx motorEx;
     public final TelemetryManager telemetryM;
     private int overcurrentCounts = 0;
@@ -144,7 +142,7 @@ public class ChargeurSubsystem extends SubsystemBase {
         // Automatically stop the motor if an over-current condition is detected.
         if (isOverCurrent()){
             overcurrentCounts = getOvercurrentCounts() + 1;
-            telemetryM.addLine("chargeur motor over current");
+            telemetryM.addData("chargeurOverCurrent", overcurrentCounts);
 
             if (getOvercurrentCounts() > 10) setMotorPower(0);
 

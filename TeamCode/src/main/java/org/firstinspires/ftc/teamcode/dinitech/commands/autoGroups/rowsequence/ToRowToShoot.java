@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToRowToShoot extends SequentialCommandGroup {
 
-    public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, HubsSubsystem hubsSubsystem, Pose rowPose, Pose shootPose, double lengthBackup, double rowPower, boolean shortcutBackPath){
+    public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, Pose rowPose, Pose shootPose, double shootVelocity, double lengthBackup, double rowPower, boolean shortcutBackPath){
         addCommands(
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
@@ -30,13 +30,12 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                 rowPose, 1, true)),
 
                 new ParallelCommandGroup(
+                        new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false),
                         new SequentialCommandGroup(
                                 OptimalPath.line(drivePedroSubsystem,
                                         rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? lengthBackup : -lengthBackup)), rowPower, true),
 
-                                new SetVelocityShooterRequire(shooterSubsystem,
-                                        ShooterSubsystem.linearSpeedFromPedroRange(
-                                                shootPose.distanceFrom(hubsSubsystem.getTeam().getBasketPose()))),
+                                new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
                                 shortcutBackPath ?
                                         OptimalPath.line(drivePedroSubsystem,
                                                 shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
@@ -44,8 +43,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                         : OptimalPath.curve(drivePedroSubsystem,
                                                 rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? -UNSHORTCUT_LENGTH : UNSHORTCUT_LENGTH)),
                                                 shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
-                                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();})),
-                        new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false)),
+                                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();}))),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,true, false, false)
         );

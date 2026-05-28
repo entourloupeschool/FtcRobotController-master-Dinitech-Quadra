@@ -24,7 +24,7 @@ public class TeamPoses {
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 21, Math.toRadians(112.5));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.9, 121.1,3 * Math.PI / 4);
     public static double X_OPEN_RAMP_POSE = 17.1;
-    public static double Y_OPEN_RAMP_POSE = 61.5;
+    public static double Y_OPEN_RAMP_POSE = 60.7;
     public static final Pose BLUE_RAMP_POSE = new Pose(X_OPEN_RAMP_POSE, Y_OPEN_RAMP_POSE, 0); // heading = -0.162
     public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
     public static double GATEPICK_LENGTH_BACKUP_Y = -2.9;

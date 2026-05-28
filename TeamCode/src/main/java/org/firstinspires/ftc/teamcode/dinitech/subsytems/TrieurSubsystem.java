@@ -42,7 +42,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
 @Configurable
 public class TrieurSubsystem extends SubsystemBase {
     public static final int MODE_RAMASSAGE_TELE_TIMEOUT = 300;
-    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 28;
+    public static final int MODE_RAMASSAGE_AUTO_TIMEOUT = 30;
     public static boolean correctingOvercurrent = false;
 
     public void resetMoulinEncoderTarget() {
@@ -284,9 +284,11 @@ public class TrieurSubsystem extends SubsystemBase {
      * @return True if an artifact is detected, false otherwise.
      */
     public boolean isArtefactInTrieur() {
-        return tripleColorSensors.isDistanceBetween(1, DISTANCE_ARTEFACT_IN_TRIEUR * SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF, DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR)
-                || tripleColorSensors.isDistanceBetween(2, DISTANCE_ARTEFACT_IN_TRIEUR * SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF,
-                        DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR);
+//        return tripleColorSensors.isDistanceBetween(1, DISTANCE_ARTEFACT_IN_TRIEUR * SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF, DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR)
+//                || tripleColorSensors.isDistanceBetween(2, DISTANCE_ARTEFACT_IN_TRIEUR * SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF,
+//                        DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR);
+
+        return tripleColorSensors.isArtefactInTrieur();
     }
 
 
@@ -322,15 +324,12 @@ public class TrieurSubsystem extends SubsystemBase {
 
         ArtifactColor detectedColor = ArtifactColor.PURPLE;
         if (wantsMotifShoot()) detectedColor = detectBottomArtifactColor();
-        clearSamplesColorSensors();
-
 
         // Store the color at the current moulin storage Pos
         setMoulinStoragePositionColor(getMoulinPosition(), detectedColor);
 
-        if (detectedColor == ArtifactColor.GREEN || detectedColor == ArtifactColor.PURPLE) {
-            setNewColoredRegister(true);
-        }
+        if (detectedColor == ArtifactColor.GREEN || detectedColor == ArtifactColor.PURPLE) setNewColoredRegister(true);
+
         setNewRegister(true);
 
         lastDetectedColor = detectedColor;
@@ -342,6 +341,8 @@ public class TrieurSubsystem extends SubsystemBase {
      * @return The detected artifact color.
      */
     private ArtifactColor detectBottomArtifactColor() {
+        updateColorSensors();
+
         if (tripleColorSensors.isPurple(1) || tripleColorSensors.isPurple(2)) return ArtifactColor.PURPLE;
 
         return ArtifactColor.GREEN;
@@ -645,7 +646,7 @@ public class TrieurSubsystem extends SubsystemBase {
 //        printStoredArtifactsTelemetryManager(telemetryM);
 //        telemetryM.addData("greenPos", getPosWithColor(TrieurSubsystem.ArtifactColor.GREEN));
 //        printDistanceTelemetryManager(telemetryM);
-//        telemetryM.addData("ArtefactInTrieur", isArtefactInTrieur());
+        telemetryM.addData("ArtefactInTrieur", isArtefactInTrieur());
 //        printColorTelemetryManager(telemetryM);
     }
 

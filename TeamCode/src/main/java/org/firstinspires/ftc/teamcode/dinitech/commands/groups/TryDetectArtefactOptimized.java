@@ -49,7 +49,6 @@ public class TryDetectArtefactOptimized extends CommandBase {
         // Check for artifact presence FIRST (cheap distance/sensor operation)
         if (trieurSubsystem.isArtefactInTrieur() && !isFound) {
             // Only update color sensors when artifact is detected (expensive operation)
-            if (trieurSubsystem.wantsMotifShoot()) trieurSubsystem.updateColorSensors();
             trieurSubsystem.registerArtefact();
             isFound = true;
         } else if (timeout == 0) {

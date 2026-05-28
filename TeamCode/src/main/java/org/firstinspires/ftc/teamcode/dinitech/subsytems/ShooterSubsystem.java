@@ -52,7 +52,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
 
     public static double a_Pedro = 5.9; // 5.95;
-    public static double b_Pedro = 927; // 1060;
+    public static double b_Pedro = 930; // 1060;
 
     /**
      * Gives back a linear speed from a range in inches

@@ -29,7 +29,7 @@ public class DrivePedroSubsystem extends SubsystemBase {
     public static final double PERP_POD_X_MM = 143.2; //147;//143;
     public static double CLAMPING_HEADING_ERROR = 0.39; //0.39
     public static int NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED = 3;
-    public static double SCALE_HEADING_CONSTRAINT_TELEOP = 0.1;
+    public static double SCALE_HEADING_CONSTRAINT_TELEOP = 1;
 
     private final Follower follower;
     private double followerTEnd = FOLLOWER_T_POSITION_END;

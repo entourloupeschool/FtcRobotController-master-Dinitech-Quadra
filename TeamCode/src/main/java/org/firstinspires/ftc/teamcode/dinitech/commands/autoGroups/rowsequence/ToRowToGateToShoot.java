@@ -28,8 +28,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToRowToGateToShoot extends SequentialCommandGroup {
-    public ToRowToGateToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, HubsSubsystem hubsSubsystem, Pose rowPose, Pose shootPose, Pose openRampPose, double lengthBackup, double rowPower, boolean shortcutBackPath, long timeAtGate){
-        double backupForGatePush = openRampPose.getX() + (openRampPose.getX() > 72 ? -TILE_DIM / 1.5 : TILE_DIM / 1.5);
+    public ToRowToGateToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, Pose rowPose, Pose shootPose, Pose openRampPose, double shooterVelocity, double lengthBackup, double rowPower, boolean shortcutBackPath, long timeAtGate){
+        double backupForGatePush = openRampPose.getX() + (openRampPose.getX() > 72 ? -TILE_DIM / 1.55 : TILE_DIM / 1.55);
         addCommands(
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
@@ -44,16 +44,14 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                 OptimalPath.curve(drivePedroSubsystem,
                                         openRampPose
                                                 .withX(backupForGatePush)
-                                                .withY(openRampPose.getY() - 2),
+                                                .withY(openRampPose.getY() - 2.5),
                                         openRampPose
                                                 .withX(backupForGatePush)
-                                                .withY(openRampPose.getY() + 2),
+                                                .withY(openRampPose.getY() + 2.5),
                                         openRampPose, 1, true),
 
                                 new WaitCommand(timeAtGate),
-                                new SetVelocityShooterRequire(shooterSubsystem,
-                                        ShooterSubsystem.linearSpeedFromPedroRange(
-                                                shootPose.distanceFrom(hubsSubsystem.getTeam().getBasketPose()))),
+                                new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
                                 shortcutBackPath ?
                                         OptimalPath.line(drivePedroSubsystem,
                                                 shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,

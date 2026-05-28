@@ -22,7 +22,7 @@ public class WaitShoot extends SequentialCommandGroup {
                         new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
                         new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
                 new ConditionalCommand(
-                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
+                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR * 2L),
                         new InstantCommand(),
                         trieurSubsystem::wantsMotifShoot)
         );

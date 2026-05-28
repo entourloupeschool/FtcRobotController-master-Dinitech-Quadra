@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToGatePickToShoot extends SequentialCommandGroup {
 
-    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, HubsSubsystem hubsSubsystem, Pose GatePickPose, Pose shootPose, boolean shortcutBackPath){
+    public ToGatePickToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, Pose GatePickPose, Pose shootPose, double shooterVelocity, boolean shortcutBackPath){
         addCommands(
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
@@ -40,7 +40,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                         new SequentialCommandGroup(
                                 OptimalPath.line(drivePedroSubsystem,
                                         GatePickPose.withY(GatePickPose.getY() - 2).withHeading(GatePickPose.getHeading() / 2), 1, true),
-                                new SetVelocityShooter(shooterSubsystem, ShooterSubsystem.linearSpeedFromPedroRange(shootPose.distanceFrom(hubsSubsystem.getTeam().getBasketPose()))),
+                                new SetVelocityShooter(shooterSubsystem, shooterVelocity),
                                 new ParallelRaceGroup(
                                         new WaitCommand(WAIT_FOR_3BALL),
                                         new WaitUntilCommand(trieurSubsystem::isFull)),
