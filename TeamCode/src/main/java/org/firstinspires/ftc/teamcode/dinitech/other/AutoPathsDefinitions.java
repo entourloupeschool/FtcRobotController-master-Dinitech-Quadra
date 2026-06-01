@@ -21,6 +21,9 @@ public class AutoPathsDefinitions {
     public static final double UNSHORTCUT_LENGTH = 10;
     public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 30.0;
 
+    public static double RADIUS_RAMP_PICK = TILE_DIM/6;
+    public static long TIME_AT_GATE_GATE_PICK = 250;
+
     public static double getBrakingStrengthScaleFromRange(double range) {
         if (range < MIN_RANGE_SCALE_BRAKING_STRENGTH){
             return 0.6;
@@ -40,7 +43,7 @@ public class AutoPathsDefinitions {
 
 
     public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.7;
-    public static final double GATEPICK_POWER = MAX_POWER_ROW_PICK_ARTEFACTS;
+    public static final double GATEPICK_POWER = 1;
 
     public static final double SCALER_TO_PICK_POSE = 0.65;
     public static double getPedroFieldFromUnitNormalized(double unitNormalized){

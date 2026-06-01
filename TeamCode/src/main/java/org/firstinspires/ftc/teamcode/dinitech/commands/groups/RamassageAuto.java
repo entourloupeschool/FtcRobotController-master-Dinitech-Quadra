@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem.INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO;
+
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.InverseMaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
@@ -50,7 +53,9 @@ public class RamassageAuto extends SequentialCommandGroup {
 
                         new SequentialCommandGroup(
                                 new ConditionalCommand(
-                                        new InverseMaxPowerChargeur(chargeurSubsystem),
+                                        new SequentialCommandGroup(
+                                                new InverseMaxPowerChargeur(chargeurSubsystem),
+                                                new WaitCommand(INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO)),
                                         new InstantCommand(),
                                         ()->shouldInversePowerChargeur && trieurSubsystem.isFull()),
                                 new StopChargeur(chargeurSubsystem)))
@@ -87,7 +92,9 @@ public class RamassageAuto extends SequentialCommandGroup {
 
                         new SequentialCommandGroup(
                                 new ConditionalCommand(
-                                        new InverseMaxPowerChargeur(chargeurSubsystem),
+                                        new SequentialCommandGroup(
+                                                new InverseMaxPowerChargeur(chargeurSubsystem),
+                                                new WaitCommand(INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO)),
                                         new InstantCommand(),
                                         ()->shouldInversePowerChargeur && trieurSubsystem.isFull()),
                                 new StopChargeur(chargeurSubsystem)))

@@ -35,7 +35,7 @@ public class ThreeRowsFromAudience extends SequentialCommandGroup {
                         hubsSubsystem.getTeam().getSecondRowPose(), closeShootPose, closeShootShooterVelocity,
                         LENGTH_X_ROW, rowPower, true),
 
-                new RampEnd(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getRampPose())
+                new RampEnd(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getOpenRampPose())
         );
     }
 }

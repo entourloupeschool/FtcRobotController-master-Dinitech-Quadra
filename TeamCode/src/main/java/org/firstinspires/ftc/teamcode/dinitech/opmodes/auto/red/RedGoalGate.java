@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.red;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.MAX_POWER_ROW_PICK_ARTEFACTS;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.TwoGatePickFromGoal;
@@ -12,6 +14,6 @@ public class RedGoalGate extends RedGoalAutoBase {
     public void initialize() {
             super.initialize();
 
-            new TwoGatePickFromGoal(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem).schedule();
+            new TwoGatePickFromGoal(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem, MAX_POWER_ROW_PICK_ARTEFACTS).schedule();
     }
 }

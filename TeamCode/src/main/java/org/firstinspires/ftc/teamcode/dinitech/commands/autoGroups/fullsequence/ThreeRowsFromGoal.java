@@ -35,7 +35,7 @@ public class ThreeRowsFromGoal extends SequentialCommandGroup {
                         hubsSubsystem.getTeam().getThirdRowPose(), closeShootPose, closeShootShooterVelocity,
                         LENGTH_X_ROW, 0.7,true),
 
-                new RampEnd(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getRampPose())
+                new RampEnd(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getOpenRampPose())
         );
     }
 

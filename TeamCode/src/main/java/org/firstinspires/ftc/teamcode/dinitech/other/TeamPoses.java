@@ -25,11 +25,9 @@ public class TeamPoses {
     public static final Pose BLUE_GOAL_POSE = new Pose(21.9, 121.1,3 * Math.PI / 4);
     public static double X_OPEN_RAMP_POSE = 17.1;
     public static double Y_OPEN_RAMP_POSE = 60.7;
-    public static final Pose BLUE_RAMP_POSE = new Pose(X_OPEN_RAMP_POSE, Y_OPEN_RAMP_POSE, 0); // heading = -0.162
-    public static double GATEPICK_LENGTH_BACKUP_X = -2.2;
-    public static double GATEPICK_LENGTH_BACKUP_Y = -2.9;
-    public static final Pose BLUE_RAMP_END_POSE = new Pose(BLUE_RAMP_POSE.getX() + GATEPICK_LENGTH_BACKUP_X, BLUE_RAMP_POSE.getY() + GATEPICK_LENGTH_BACKUP_Y, -0.71);
-    public static final Pose BLUE_OPEN_RAMP_PICK_POSE = new Pose(14, 58.5, -0.75);
+    public static final Pose OPEN_RAMP_BLUE_POSE = new Pose(X_OPEN_RAMP_POSE, Y_OPEN_RAMP_POSE, 0); // heading = -0.162
+    public static final Pose BLUE_RAMP_END_POSE = new Pose(14.5, 59.2, -Math.toRadians(22));
+    public static final Pose RAMP_PICK_BLUE_POSE = new Pose(15.3, 53, -Math.toRadians(30));
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, Math.toRadians(134));
     public static final Pose LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE = new Pose(55, 85, Math.toRadians(61));
     public static final double CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY = linearSpeedFromPedroRange(CLOSE_SHOOT_BLUE_POSE.distanceFrom(BLUE_BASKET_POSE));
@@ -52,9 +50,9 @@ public class TeamPoses {
     public static final Pose RED_AUDIENCE_SHOOT_POSE = BLUE_AUDIENCE_SHOOT_POSE.mirror(FIELD_SIDE_LENGTH);
 
     public static final Pose RED_GOAL_POSE = BLUE_GOAL_POSE.mirror(FIELD_SIDE_LENGTH);
-    public static final Pose RED_RAMP_POSE = BLUE_RAMP_POSE.mirror(FIELD_SIDE_LENGTH);
+    public static final Pose OPEN_RAMP_RED_POSE = OPEN_RAMP_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
     public static final Pose RED_RAMP_END_POSE = BLUE_RAMP_END_POSE.mirror(FIELD_SIDE_LENGTH);
-    public static final Pose RED_OPEN_RAMP_PICK_POSE = BLUE_OPEN_RAMP_PICK_POSE.mirror(FIELD_SIDE_LENGTH);
+    public static final Pose RAMP_PICK_RED_POSE = RAMP_PICK_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
 
     public static final Pose CLOSE_SHOOT_RED_POSE = CLOSE_SHOOT_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
     public static final Pose LOOK_MOTIF_CLOSE_SHOOT_RED_POSE = LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE.mirror(FIELD_SIDE_LENGTH);
@@ -75,10 +73,10 @@ public class TeamPoses {
                 FIRST_ROW_BLUE_POSE,
                 SECOND_ROW_BLUE_POSE,
                 THIRD_ROW_BLUE_POSE,
-                BLUE_RAMP_POSE,
+                OPEN_RAMP_BLUE_POSE,
                 BLUE_RAMP_END_POSE,
                 BLUE_BASKET_POSE,
-                BLUE_OPEN_RAMP_PICK_POSE, BLUE_VOID_POSE, LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE, BLUE_WALL_PICK_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
+                RAMP_PICK_BLUE_POSE, BLUE_VOID_POSE, LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE, BLUE_WALL_PICK_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
         RED(RESET_POSE_RED,
                 RED_GOAL_POSE,
                 RED_AUDIENCE_POSE,
@@ -87,10 +85,10 @@ public class TeamPoses {
                 FIRST_ROW_RED_POSE,
                 SECOND_ROW_RED_POSE,
                 THIRD_ROW_RED_POSE,
-                RED_RAMP_POSE,
+                OPEN_RAMP_RED_POSE,
                 RED_RAMP_END_POSE,
                 RED_BASKET_POSE,
-                RED_OPEN_RAMP_PICK_POSE, RED_VOID_POSE, LOOK_MOTIF_CLOSE_SHOOT_RED_POSE, RED_WALL_PICK_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
+                RAMP_PICK_RED_POSE, RED_VOID_POSE, LOOK_MOTIF_CLOSE_SHOOT_RED_POSE, RED_WALL_PICK_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
         NONE(FIELD_CENTER_90HEADING_POSE, null, null, null,null , null, null, null,null, null, null, null, null, null, null, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY);
 
@@ -104,10 +102,10 @@ public class TeamPoses {
         private final Pose secondRowPose;
 
         private final Pose thirdRowPose;
-        private final Pose rampPose;
+        private final Pose openRampPose;
         private final Pose endRampPose;
         private final Pose basketPose;
-        private final Pose openRampPickPose;
+        private final Pose rampPickPose;
         private final Pose voidPose;
         private final Pose lookMotifPose;
         private final Pose wallPickPose;
@@ -115,7 +113,7 @@ public class TeamPoses {
         private final double audienceShootVelocity;
 
 
-        Team(Pose resetPose, Pose goalInitPose, Pose audienceInitPose, Pose closeShootPose, Pose audienceShootPose, Pose firstRowPose, Pose secondRowPose, Pose thirdRowPose, Pose rampPose, Pose endRampPose, Pose basketPose, Pose openRampPickPose, Pose voidPose, Pose lookMotifPose, Pose wallPickPose, double closeShootVelocity, double audienceShootVelocity) {
+        Team(Pose resetPose, Pose goalInitPose, Pose audienceInitPose, Pose closeShootPose, Pose audienceShootPose, Pose firstRowPose, Pose secondRowPose, Pose thirdRowPose, Pose openRampPose, Pose endRampPose, Pose basketPose, Pose rampPickPose, Pose voidPose, Pose lookMotifPose, Pose wallPickPose, double closeShootVelocity, double audienceShootVelocity) {
             this.resetPose = resetPose;
             this.goalInitPose = goalInitPose;
             this.audienceInitPose = audienceInitPose;
@@ -124,10 +122,10 @@ public class TeamPoses {
             this.firstRowPose = firstRowPose;
             this.secondRowPose = secondRowPose;
             this.thirdRowPose = thirdRowPose;
-            this.rampPose = rampPose;
+            this.openRampPose = openRampPose;
             this.endRampPose = endRampPose;
             this.basketPose = basketPose;
-            this.openRampPickPose = openRampPickPose;
+            this.rampPickPose = rampPickPose;
             this.voidPose = voidPose;
             this.lookMotifPose = lookMotifPose;
             this.wallPickPose = wallPickPose;
@@ -165,7 +163,7 @@ public class TeamPoses {
 
         public Pose getThirdRowPose(){return thirdRowPose;}
 
-        public Pose getRampPose(){return rampPose;}
+        public Pose getOpenRampPose(){return openRampPose;}
 
         public Pose getEndRampPose(){return endRampPose;}
 
@@ -174,7 +172,7 @@ public class TeamPoses {
         public Pose getGoalInitPose() {return goalInitPose;}
         public Pose getAudienceInitPose() {return audienceInitPose;}
         public Pose getBasketPose() {return basketPose;}
-        public Pose getOpenRampPickPose() {return openRampPickPose;}
+        public Pose getRampPickPose() {return rampPickPose;}
         public Pose getVoidPose(){return voidPose;}
     }
 
