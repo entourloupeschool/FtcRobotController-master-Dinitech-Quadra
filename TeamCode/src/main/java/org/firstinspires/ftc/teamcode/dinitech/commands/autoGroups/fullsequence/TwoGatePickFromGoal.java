@@ -29,7 +29,7 @@ public class TwoGatePickFromGoal extends SequentialCommandGroup {
         double closeShootShooterVelocity = hubsSubsystem.getTeam().getCloseShootVelocity();
 
         addCommands(
-                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, closeShootPose, closeShootShooterVelocity),
+                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, closeShootPose, closeShootShooterVelocity, false, false),
 
                 new LookMotifPath(drivePedroSubsystem, hubsSubsystem.getTeam().getLookMotifPose()),
 

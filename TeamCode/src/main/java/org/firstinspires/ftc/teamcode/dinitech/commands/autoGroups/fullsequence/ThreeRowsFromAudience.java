@@ -21,21 +21,21 @@ public class ThreeRowsFromAudience extends SequentialCommandGroup {
         Pose closeShootPose = hubsSubsystem.getTeam().getCloseShootPose();
         double closeShootShooterVelocity = hubsSubsystem.getTeam().getCloseShootVelocity();
         addCommands(
-                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(), hubsSubsystem.getTeam().getAudienceShootVelocity()),
+                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(), hubsSubsystem.getTeam().getAudienceShootVelocity(), true, true),
 
                 new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true)),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
                         hubsSubsystem.getTeam().getThirdRowPose(), closeShootPose, closeShootShooterVelocity,
-                        LENGTH_X_ROW, 0.7, false),
+                        LENGTH_X_ROW, rowPower, false),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
                         hubsSubsystem.getTeam().getFirstRowPose(), closeShootPose, closeShootShooterVelocity,
-                        LENGTH_X_ROW, 0.7, true),
+                        LENGTH_X_ROW, rowPower, true),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
                         hubsSubsystem.getTeam().getSecondRowPose(), closeShootPose, closeShootShooterVelocity,
-                        LENGTH_X_ROW, 0.7, true),
+                        LENGTH_X_ROW, rowPower, true),
 
                 new RampEnd(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getRampPose())
         );

@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 public class InitToQuickShoot extends ParallelCommandGroup {
 
-    public InitToQuickShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, Pose shootPose, double shootVelocity){
+    public InitToQuickShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, Pose shootPose, double shootVelocity, boolean waitInitShooterSpeed, boolean waitEachShooterSpeed){
         addCommands(
                 new SequentialCommandGroup(
                         new InstantCommand(),
@@ -27,7 +27,7 @@ public class InitToQuickShoot extends ParallelCommandGroup {
                                 new MaxPowerChargeur(chargeurSubsystem),
                                 new SetVelocityShooterRequire(shooterSubsystem, shootVelocity)),
                         new WaitCommand(WAIT_INIT_SHOOTER),
-                        new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, false, false, false)
+                        new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, waitInitShooterSpeed, waitEachShooterSpeed, false)
 ),
                 OptimalPath.line(drivePedroSubsystem, shootPose, 1, true)
 

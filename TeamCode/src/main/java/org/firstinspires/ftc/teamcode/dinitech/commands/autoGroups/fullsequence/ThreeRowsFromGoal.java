@@ -21,7 +21,7 @@ public class ThreeRowsFromGoal extends SequentialCommandGroup {
         Pose closeShootPose = hubsSubsystem.getTeam().getCloseShootPose();
         double closeShootShooterVelocity = hubsSubsystem.getTeam().getCloseShootVelocity();
         addCommands(
-                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, closeShootPose, closeShootShooterVelocity),
+                new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, closeShootPose, closeShootShooterVelocity, false, false),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
                         hubsSubsystem.getTeam().getFirstRowPose(), closeShootPose, closeShootShooterVelocity,

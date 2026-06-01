@@ -21,7 +21,7 @@ public class TeamPoses {
     public static final Pose BLUE_BASKET_POSE = new Pose(10, 134, 0);
     public static final Pose ROTATED_BLUE_BASKET_POSE = BLUE_BASKET_POSE.rotate(BLUE_TEAM_HEADING, true);
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
-    public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 21, Math.toRadians(112.5));
+    public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 21, Math.toRadians(113.5));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.9, 121.1,3 * Math.PI / 4);
     public static double X_OPEN_RAMP_POSE = 17.1;
     public static double Y_OPEN_RAMP_POSE = 60.7;
@@ -38,7 +38,7 @@ public class TeamPoses {
     public static final Pose SECOND_ROW_BLUE_POSE = FIRST_ROW_BLUE_POSE
             .withY(FIRST_ROW_BLUE_POSE.getY() - TILE_DIM);
     public static final Pose THIRD_ROW_BLUE_POSE = SECOND_ROW_BLUE_POSE
-            .withY(SECOND_ROW_BLUE_POSE.getY() - TILE_DIM * 1.04);
+            .withY(SECOND_ROW_BLUE_POSE.getY() - TILE_DIM);
     public static final Pose BLUE_VOID_POSE = new Pose(50, 62, Math.PI);
     public static final Pose BLUE_WALL_PICK_POSE = new Pose(14.5, 20, Math.toRadians(-55));
 
