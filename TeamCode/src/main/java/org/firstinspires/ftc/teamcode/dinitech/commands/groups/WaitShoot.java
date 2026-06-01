@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.WAIT_HIGH_SPEED_TRIEUR;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.WAIT_MOTIF_HIGH_SPEED_TRIEUR;
 
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -22,7 +23,7 @@ public class WaitShoot extends SequentialCommandGroup {
                         new WaitUntilCommand(shooterSubsystem::isCurrentOverflow),
                         new WaitCommand(WAIT_HIGH_SPEED_TRIEUR)),
                 new ConditionalCommand(
-                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR * 2L),
+                        new WaitCommand(WAIT_MOTIF_HIGH_SPEED_TRIEUR),
                         new InstantCommand(),
                         trieurSubsystem::wantsMotifShoot)
         );
@@ -41,7 +42,7 @@ public class WaitShoot extends SequentialCommandGroup {
                 ),
 
                 new ConditionalCommand(
-                        new WaitCommand(WAIT_HIGH_SPEED_TRIEUR),
+                        new WaitCommand(WAIT_MOTIF_HIGH_SPEED_TRIEUR),
                         new InstantCommand(),
                         trieurSubsystem::wantsMotifShoot)
         );

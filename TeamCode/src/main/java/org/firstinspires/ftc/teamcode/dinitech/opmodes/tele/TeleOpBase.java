@@ -129,8 +129,14 @@ public class TeleOpBase extends GornetixGamepads {
 
         m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false));
 
-        m_Driver.start.whenPressed(new ResetPoseFCDrive(drivePedroSubsystem, hubsSubsystem));
-        m_Driver.back.whenPressed(new ResetHeadingFCDrive(drivePedroSubsystem));
+        m_Driver.start.whenPressed(new SequentialCommandGroup(
+                new ResetPoseFCDrive(drivePedroSubsystem, hubsSubsystem),
+                new InstantCommand(()-> drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)), drivePedroSubsystem))
+        );
+        m_Driver.back.whenPressed(new SequentialCommandGroup(
+                        new ResetHeadingFCDrive(drivePedroSubsystem),
+                new InstantCommand(()-> drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)), drivePedroSubsystem)
+        ));
 
         m_Driver.bump_left.toggleWhenPressed(
                 new SlowDrive(drivePedroSubsystem),
