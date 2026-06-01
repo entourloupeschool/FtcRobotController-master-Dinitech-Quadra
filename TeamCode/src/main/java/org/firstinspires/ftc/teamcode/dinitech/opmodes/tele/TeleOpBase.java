@@ -134,7 +134,7 @@ public class TeleOpBase extends GornetixGamepads {
                 new InstantCommand(()-> drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)), drivePedroSubsystem))
         );
         m_Driver.back.whenPressed(new SequentialCommandGroup(
-                        new ResetHeadingFCDrive(drivePedroSubsystem),
+                new ResetHeadingFCDrive(drivePedroSubsystem),
                 new InstantCommand(()-> drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem)), drivePedroSubsystem)
         ));
 

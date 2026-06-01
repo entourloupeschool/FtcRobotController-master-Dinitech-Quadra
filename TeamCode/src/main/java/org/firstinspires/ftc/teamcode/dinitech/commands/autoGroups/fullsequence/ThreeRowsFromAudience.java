@@ -23,8 +23,6 @@ public class ThreeRowsFromAudience extends SequentialCommandGroup {
         addCommands(
                 new InitToQuickShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem.getTeam().getAudienceShootPose(), hubsSubsystem.getTeam().getAudienceShootVelocity(), true, true),
 
-                new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true)),
-
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
                         hubsSubsystem.getTeam().getThirdRowPose(), closeShootPose, closeShootShooterVelocity,
                         LENGTH_X_ROW, rowPower, false),
