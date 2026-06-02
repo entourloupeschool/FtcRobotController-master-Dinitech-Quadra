@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence;
 
-import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.LINEAR_HEADING_INTERPOLATION_END_TIME;
-import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT;
+
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.T_PARAMETRIC_DONT_SHOOT;
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.UNSHORTCUT_LENGTH;
 import static org.firstinspires.ftc.teamcode.dinitech.other.FieldDefinitions.TILE_DIM;
@@ -9,12 +8,9 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.FieldDefinitions.TIL
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.pedropathing.geometry.BezierCurve;
-import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.HeadingInterpolator;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.FollowPath;
+import com.pedropathing.geometry.Pose;
+
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.OptimalPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
@@ -22,7 +18,6 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.TrieurReadyEmptyStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
-import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;

@@ -24,8 +24,7 @@ public class DinitechPredictiveFollower {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)
             .headingPIDFCoefficients(new PIDFCoefficients(0.85, 0.035, 0.085, 0.035))
-
-            .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.255, 0.0977, 0.00245))
+            .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.25, 0.0977, 0.00245))
             .centripetalScaling(0);
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);

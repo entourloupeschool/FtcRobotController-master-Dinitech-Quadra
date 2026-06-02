@@ -56,4 +56,36 @@ public class TwoGatePickFromGoal extends SequentialCommandGroup {
                 new RampEnd(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, openRampPose)
         );
     }
+
+    public TwoGatePickFromGoal(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, double rowPower) {
+        Pose openRampPose = hubsSubsystem.getTeam().getOpenRampPose();
+        Pose gatePickPose = hubsSubsystem.getTeam().getRampPickPose();
+        Pose endRampPose = hubsSubsystem.getTeam().getEndRampPose();
+        Pose closeShootPose = hubsSubsystem.getTeam().getCloseShootPose();
+        double closeShootShooterVelocity = hubsSubsystem.getTeam().getCloseShootVelocity();
+
+        addCommands(
+                new InitToPedroShootV2(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem,
+                        closeShootPose, closeShootShooterVelocity),
+
+                new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
+                        hubsSubsystem.getTeam().getSecondRowPose(), closeShootPose,
+                        closeShootShooterVelocity,
+                        LENGTH_X_ROW_3RD, rowPower, false),
+
+                new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem),
+
+                new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
+                        openRampPose, endRampPose, closeShootPose, closeShootShooterVelocity, false),
+
+                new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT), trieurSubsystem),
+
+                new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
+                        hubsSubsystem.getTeam().getFirstRowPose(), closeShootPose,
+                        closeShootShooterVelocity,
+                        LENGTH_X_ROW, 1, true),
+
+                new RampEnd(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, openRampPose)
+        );
+    }
 }

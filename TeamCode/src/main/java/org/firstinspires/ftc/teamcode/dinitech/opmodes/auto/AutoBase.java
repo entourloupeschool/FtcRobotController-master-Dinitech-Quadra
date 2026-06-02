@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.dinitech.opmodes.auto;
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.FOLLOWER_T_POSITION_END;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MODE_RAMASSAGE_AUTO_TIMEOUT;
 
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetection;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
@@ -11,19 +12,26 @@ import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class AutoBase extends Gornetix {
+    public VisionSubsystem visionSubsystem;
+
     private int lastHowManyArtefacts = 0;
 
     @Override
     public void initialize() {
             super.initialize();
 
+            if (shouldInitializeVisionSubsystem()) {
+                visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
+                register(visionSubsystem);
+                visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));
+            }
 
             drivePedroSubsystem.setFollowerTEnd(FOLLOWER_T_POSITION_END);
 
             drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);
-//            visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));
 
             autoSetArtefactColors();
 
@@ -44,7 +52,7 @@ public class AutoBase extends Gornetix {
                 MoulinPositionColorsStorage.setLastMoulinPositionColors(trieurSubsystem.getMoulinStoragePositionColors(), trieurSubsystem.getHowManyArtefacts());
             }
 
-            if (MotifStorage.getMotifNumber() == -1){
+            if (visionSubsystem != null && MotifStorage.getMotifNumber() == -1){
                 if (visionSubsystem.hasMotif()) MotifStorage.setMotifNumber(visionSubsystem.getCachedMotif());
             }
 
@@ -56,5 +64,9 @@ public class AutoBase extends Gornetix {
             trieurSubsystem.setMoulinStoragePositionColor(3, TrieurSubsystem.ArtifactColor.PURPLE);
             trieurSubsystem.setMoulinStoragePositionColor(5, TrieurSubsystem.ArtifactColor.PURPLE);
             trieurSubsystem.setHowManyArtefacts(3);
+    }
+
+    protected boolean shouldInitializeVisionSubsystem() {
+            return true;
     }
 }

@@ -22,8 +22,9 @@ public class AutoPathsDefinitions {
     public static final double UNSHORTCUT_LENGTH = 10;
     public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 30.0;
 
-    public static double RADIUS_RAMP_PICK = TILE_DIM/3.5;
+    public static double RADIUS_RAMP_PICK = TILE_DIM/3.9;
     public static long TIME_AT_GATE_GATE_PICK = 250;
+    public static double GATE_UNSHORTCUT_SCALE = 1.6;
 
     public static double getBrakingStrengthScaleFromRange(double range) {
         if (range < MIN_RANGE_SCALE_BRAKING_STRENGTH){

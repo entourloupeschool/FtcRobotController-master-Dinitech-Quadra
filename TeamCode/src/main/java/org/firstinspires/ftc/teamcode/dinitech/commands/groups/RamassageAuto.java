@@ -101,4 +101,36 @@ public class RamassageAuto extends SequentialCommandGroup {
 
         );
     }
+
+    public RamassageAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem, boolean shouldInversePowerChargeur) {
+        addCommands(
+                new ParallelCommandGroup(
+                        new TrieurReadyEmptyStorage(trieurSubsystem),
+                        new MaxPowerChargeur(chargeurSubsystem)),
+                new TryDetectArtefactOptimized(trieurSubsystem),
+                new ConditionalCommand(
+                        new SequentialCommandGroup(
+                                new MoulinNextEmptyStorage(trieurSubsystem),
+                                new TryDetectArtefactOptimized(trieurSubsystem)),
+                        new InstantCommand(),
+                        trieurSubsystem::getNewRegister),
+                new ConditionalCommand(
+                        new SequentialCommandGroup(
+                                new MoulinNextEmptyStorage(trieurSubsystem),
+                                new TryDetectArtefactOptimized(trieurSubsystem)),
+                        new InstantCommand(),
+                        trieurSubsystem::getNewRegister),
+                new ParallelCommandGroup(
+                        new WaitOpenTrappe(trieurSubsystem),
+                        new SequentialCommandGroup(
+                                new ConditionalCommand(
+                                        new SequentialCommandGroup(
+                                                new InverseMaxPowerChargeur(chargeurSubsystem),
+                                                new WaitCommand(INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO)),
+                                        new InstantCommand(),
+                                        ()->shouldInversePowerChargeur && trieurSubsystem.isFull()),
+                                new StopChargeur(chargeurSubsystem)))
+
+        );
+    }
 }

@@ -9,11 +9,16 @@ import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.RedGoalAutoBase;
 
 @Autonomous(name = "RedGoalGate", group = "Red")
 public class RedGoalGate extends RedGoalAutoBase {
+    @Override
+    protected boolean shouldInitializeVisionSubsystem() {
+        return false;
+    }
 
     @Override
     public void initialize() {
-            super.initialize();
 
-            new TwoGatePickFromGoal(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem, hubsSubsystem, MAX_POWER_ROW_PICK_ARTEFACTS).schedule();
+        super.initialize();
+
+        new TwoGatePickFromGoal(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem, MAX_POWER_ROW_PICK_ARTEFACTS).schedule();
     }
 }

@@ -62,6 +62,12 @@ public class TeleOpBase extends GornetixGamepads {
             visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
             register(visionSubsystem);
 
+            if (MotifStorage.getMotifNumber() != -1){
+                visionSubsystem.setCachedMotif(MotifStorage.getMotifNumber());
+                MotifStorage.clearMotifNumber();
+            } else {visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));}
+
+
             trieurSubsystem.setWantsMotifShoot(false);
 
             drivePedroSubsystem.setPose(FIELD_CENTER_90HEADING_POSE);
@@ -82,11 +88,6 @@ public class TeleOpBase extends GornetixGamepads {
                 lastHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
                 MoulinPositionColorsStorage.clearHowManyArtefactStorage();
             }
-
-            if (MotifStorage.getMotifNumber() != -1){
-                visionSubsystem.setCachedMotif(MotifStorage.getMotifNumber());
-                MotifStorage.clearMotifNumber();
-            } else {visionSubsystem.setDefaultCommand(new OnlyMotifDetection(visionSubsystem));}
 
             gamepadSubsystem.setDefaultCommand(new DefaultGamepadCommand(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, gamepadSubsystem));
             drivePedroSubsystem.setDefaultCommand(new FieldCentricDrive(drivePedroSubsystem, gamepadSubsystem));
