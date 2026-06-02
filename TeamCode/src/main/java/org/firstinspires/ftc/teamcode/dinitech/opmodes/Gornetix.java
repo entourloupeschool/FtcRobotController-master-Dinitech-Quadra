@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
 public class Gornetix extends RobotBase {
     public TrieurSubsystem trieurSubsystem;
-    public VisionSubsystem visionSubsystem;
     public ShooterSubsystem shooterSubsystem;
     public ChargeurSubsystem chargeurSubsystem;
     public DrivePedroSubsystem drivePedroSubsystem;
@@ -24,9 +23,6 @@ public class Gornetix extends RobotBase {
     @Override
     public void initialize() {
         super.initialize();
-
-        visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
-        register(visionSubsystem);
 
         drivePedroSubsystem = new DrivePedroSubsystem(hardwareMap, telemetryM);
         register(drivePedroSubsystem);

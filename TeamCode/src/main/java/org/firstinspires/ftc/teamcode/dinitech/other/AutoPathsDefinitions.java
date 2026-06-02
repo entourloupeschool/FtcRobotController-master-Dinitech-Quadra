@@ -11,8 +11,9 @@ public class AutoPathsDefinitions {
     public static final double LINEAR_HEADING_INTERPOLATION_END_TIME_VERY_SHORT = 0.55;
 
 
-    public static double FOLLOWER_T_POSITION_END = 0.96;//0.91;
+    public static double FOLLOWER_T_POSITION_END = 0.97;//0.91;
     public static double FOLLOWER_T_POSITION_END_TELEOP = 0.985;
+    public static double GATE_PICK_FOLLOWER_T_POSITION_END = 0.9;
     public static final double LENGTH_X_ROW = TILE_DIM * 0.97;
     public static final double LENGTH_X_ROW_3RD = TILE_DIM * 0.98;
     public static final double T_PARAMETRIC_DONT_SHOOT = 0.55;
@@ -21,7 +22,7 @@ public class AutoPathsDefinitions {
     public static final double UNSHORTCUT_LENGTH = 10;
     public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 30.0;
 
-    public static double RADIUS_RAMP_PICK = TILE_DIM/6;
+    public static double RADIUS_RAMP_PICK = TILE_DIM/3.5;
     public static long TIME_AT_GATE_GATE_PICK = 250;
 
     public static double getBrakingStrengthScaleFromRange(double range) {
@@ -42,7 +43,7 @@ public class AutoPathsDefinitions {
     }
 
 
-    public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.7;
+    public static double MAX_POWER_ROW_PICK_ARTEFACTS = 0.85;
     public static final double GATEPICK_POWER = 1;
 
     public static final double SCALER_TO_PICK_POSE = 0.65;

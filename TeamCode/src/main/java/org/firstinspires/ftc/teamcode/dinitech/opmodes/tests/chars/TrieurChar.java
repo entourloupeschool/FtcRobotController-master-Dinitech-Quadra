@@ -13,8 +13,6 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.Moul
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNextStrict;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextStrict;
-import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRevolution;
-import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixGamepads;
 
 @TeleOp(name = "TrieurChar - Dinitech", group = "Char")

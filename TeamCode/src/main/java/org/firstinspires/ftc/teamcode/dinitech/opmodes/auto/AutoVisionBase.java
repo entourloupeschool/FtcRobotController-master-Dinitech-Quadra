@@ -5,19 +5,24 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MODE_RAMASSAGE_AUTO_TIMEOUT;
 
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
+import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.PoseStorage;
-import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
-
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-public class AutoBase extends Gornetix {
+public class AutoVisionBase extends Gornetix {
+    public VisionSubsystem visionSubsystem;
+
     private int lastHowManyArtefacts = 0;
 
     @Override
     public void initialize() {
             super.initialize();
+            
+            visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
+            register(visionSubsystem);
 
 
             drivePedroSubsystem.setFollowerTEnd(FOLLOWER_T_POSITION_END);

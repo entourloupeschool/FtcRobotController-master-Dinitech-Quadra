@@ -48,15 +48,19 @@ import org.firstinspires.ftc.teamcode.dinitech.opmodes.GornetixGamepads;
 import org.firstinspires.ftc.teamcode.dinitech.other.MotifStorage;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class TeleOpBase extends GornetixGamepads {
-
+    public VisionSubsystem visionSubsystem;
     private int lastHowManyArtefacts = 0;
     private int currentGetHowManyArtefacts = 0;
 
     @Override
     public void initialize() {
             super.initialize();
+
+            visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
+            register(visionSubsystem);
 
             trieurSubsystem.setWantsMotifShoot(false);
 

@@ -21,7 +21,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class ChargeurSubsystem extends SubsystemBase {
     public static final String CHARGEUR_MOTOR_NAME = "chargeur";
     public static double ROULEAU_MOTOR_MAX_POWER = 1;
-    public static long INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO = 200;
+    public static long INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO = 300;
     private final MotorEx motorEx;
     public final TelemetryManager telemetryM;
     private int overcurrentCounts = 0;

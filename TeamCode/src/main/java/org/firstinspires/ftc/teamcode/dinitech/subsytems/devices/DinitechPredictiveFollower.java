@@ -21,14 +21,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @Configurable
 public class DinitechPredictiveFollower {
-    public static double quadraticFriction = 0.00255;
-    public static double propotionalGain = 0.26;
-
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(12)
             .headingPIDFCoefficients(new PIDFCoefficients(0.85, 0.035, 0.085, 0.035))
 
-            .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(propotionalGain, 0.0977, quadraticFriction))
+            .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.255, 0.0977, 0.00245))
             .centripetalScaling(0);
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);

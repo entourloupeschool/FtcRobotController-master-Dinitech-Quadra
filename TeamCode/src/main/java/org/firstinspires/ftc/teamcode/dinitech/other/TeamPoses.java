@@ -23,10 +23,10 @@ public class TeamPoses {
     public static final Pose BLUE_AUDIENCE_POSE = new Pose(57, 9.3, Math.PI/2);
     public static final Pose BLUE_AUDIENCE_SHOOT_POSE = new Pose(58, 21, Math.toRadians(113.5));
     public static final Pose BLUE_GOAL_POSE = new Pose(21.9, 121.1,3 * Math.PI / 4);
-    public static double X_OPEN_RAMP_POSE = 17.1;
-    public static double Y_OPEN_RAMP_POSE = 60.7;
+    public static double X_OPEN_RAMP_POSE = 17.3;
+    public static double Y_OPEN_RAMP_POSE = 60.4;
     public static final Pose OPEN_RAMP_BLUE_POSE = new Pose(X_OPEN_RAMP_POSE, Y_OPEN_RAMP_POSE, 0); // heading = -0.162
-    public static final Pose BLUE_RAMP_END_POSE = new Pose(14.5, 59.2, -Math.toRadians(22));
+    public static final Pose BLUE_RAMP_END_POSE = new Pose(14.2, 58.3, -Math.toRadians(20));
     public static final Pose RAMP_PICK_BLUE_POSE = new Pose(15.3, 53, -Math.toRadians(30));
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, Math.toRadians(134));
     public static final Pose LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE = new Pose(55, 85, Math.toRadians(61));
