@@ -35,11 +35,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
  */
 @Configurable
 public class PedroAimLockedDrive extends CommandBase {
-
     private final DrivePedroSubsystem drivePedroSubsystem;
     private final HubsSubsystem hubsSubsystem;
-    private static double HEADING_ERROR_THRESHOLD = Math.PI/3;
-
     private final GamepadWrapper driver;
     private Pose basketPose;
 

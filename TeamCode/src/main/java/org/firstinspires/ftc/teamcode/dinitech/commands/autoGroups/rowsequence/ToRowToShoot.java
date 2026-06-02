@@ -33,7 +33,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                         new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false),
                         new SequentialCommandGroup(
                                 OptimalPath.line(drivePedroSubsystem,
-                                        rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? lengthBackup : -lengthBackup)), rowPower, true),
+                                        rowPose.withX(rowPose.getX() + lengthBackup*(rowPose.getX() > 72 ? 1 : -1)), rowPower, true),
 
                                 new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
                                 shortcutBackPath ?
@@ -41,7 +41,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                 shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
                                                 () -> {if (trieurSubsystem.isEmpty()) this.cancel();})
                                         : OptimalPath.curve(drivePedroSubsystem,
-                                                rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? -UNSHORTCUT_LENGTH : UNSHORTCUT_LENGTH)),
+                                                rowPose.withX(rowPose.getX() + UNSHORTCUT_LENGTH*(rowPose.getX() > 72 ? -1 : 1)),
                                                 shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
                                                 () -> {if (trieurSubsystem.isEmpty()) this.cancel();}))),
 
@@ -60,7 +60,7 @@ public class ToRowToShoot extends SequentialCommandGroup {
                         new RamassageAuto(trieurSubsystem, chargeurSubsystem, false),
                         new SequentialCommandGroup(
                                 OptimalPath.line(drivePedroSubsystem,
-                                        rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? lengthBackup : -lengthBackup)), rowPower, true),
+                                        rowPose.withX(rowPose.getX() + lengthBackup*(rowPose.getX() > 72 ? 1 : -1)), rowPower, true),
 
                                 new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
                                 shortcutBackPath ?
@@ -68,9 +68,10 @@ public class ToRowToShoot extends SequentialCommandGroup {
                                                 shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
                                                 () -> {if (trieurSubsystem.isEmpty()) this.cancel();})
                                         : OptimalPath.curve(drivePedroSubsystem,
-                                        rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? -UNSHORTCUT_LENGTH : UNSHORTCUT_LENGTH)),
-                                        shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
-                                        () -> {if (trieurSubsystem.isEmpty()) this.cancel();}))),
+                                        rowPose.withX(rowPose.getX() + UNSHORTCUT_LENGTH*(rowPose.getX() > 72 ? -1 : 1)),
+                                        shootPose, 1, true)
+                                        .withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
+                                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();}))),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,true, false, false)
         );

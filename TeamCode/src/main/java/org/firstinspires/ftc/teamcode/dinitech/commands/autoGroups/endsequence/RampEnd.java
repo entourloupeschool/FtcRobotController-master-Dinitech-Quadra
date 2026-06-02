@@ -19,7 +19,7 @@ public class RampEnd extends ParallelCommandGroup {
     public RampEnd(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, Pose rampPose){
         addCommands(
                 OptimalPath.line(drivePedroSubsystem,
-                        rampPose.withX(rampPose.getX() + (rampPose.getX() > 72 ? -8 : 8)), 1, true),
+                        rampPose.withX(rampPose.getX() + 8*(rampPose.getX() > 72 ? -1 : 1)), 1, true),
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
                         new StopChargeur(chargeurSubsystem),

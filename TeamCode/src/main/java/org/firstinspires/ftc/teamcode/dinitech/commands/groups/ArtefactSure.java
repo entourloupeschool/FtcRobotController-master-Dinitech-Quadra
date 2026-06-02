@@ -15,7 +15,7 @@ public class ArtefactSure extends SequentialCommandGroup {
     public ArtefactSure(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem) {
         addCommands(
                 new ParallelRaceGroup(
-                        new RunCommand(trieurSubsystem::updateColorSensors),
+//                        new RunCommand(trieurSubsystem::updateColorSensors),
                         new WaitUntilCommand(trieurSubsystem::isArtefactInTrieur),
                         new MaxPowerChargeur(chargeurSubsystem)),
                 new StopChargeur(chargeurSubsystem)

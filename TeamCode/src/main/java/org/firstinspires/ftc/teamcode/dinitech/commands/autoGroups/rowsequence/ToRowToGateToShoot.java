@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
 public class ToRowToGateToShoot extends SequentialCommandGroup {
     public ToRowToGateToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, Pose rowPose, Pose shootPose, Pose openRampPose, double shooterVelocity, double lengthBackup, double rowPower, boolean shortcutBackPath, long timeAtGate){
-        double backupForGatePush = openRampPose.getX() + (openRampPose.getX() > 72 ? -TILE_DIM / 1.55 : TILE_DIM / 1.55);
+        double backupForGatePush = openRampPose.getX() + TILE_DIM / 1.55*(openRampPose.getX() > 72 ? -1 : 1);
         addCommands(
                 new ParallelCommandGroup(
                         new TrieurReadyEmptyStorage(trieurSubsystem),
@@ -35,7 +35,7 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                         new RamassageAuto(trieurSubsystem, visionSubsystem, chargeurSubsystem, false),
                         new SequentialCommandGroup(
                                 OptimalPath.line(drivePedroSubsystem,
-                                        rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? lengthBackup : -lengthBackup)), rowPower, true),
+                                        rowPose.withX(rowPose.getX() + lengthBackup*(rowPose.getX() > 72 ? 1 : -1)), rowPower, true),
                                 OptimalPath.curve(drivePedroSubsystem,
                                         openRampPose
                                                 .withX(backupForGatePush)
@@ -49,12 +49,14 @@ public class ToRowToGateToShoot extends SequentialCommandGroup {
                                 new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
                                 shortcutBackPath ?
                                         OptimalPath.line(drivePedroSubsystem,
-                                                shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
-                                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();}) :
+                                                shootPose, 1, true)
+                                                .withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
+                                                        () -> {if (trieurSubsystem.isEmpty()) this.cancel();}) :
                                         OptimalPath.curve(drivePedroSubsystem,
-                                                rowPose.withX(rowPose.getX() + (rowPose.getX() > 72 ? -UNSHORTCUT_LENGTH : UNSHORTCUT_LENGTH)),
-                                                shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
-                                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();}))),
+                                                rowPose.withX(rowPose.getX() + UNSHORTCUT_LENGTH*(rowPose.getX() > 72 ? -1 : 1)),
+                                                shootPose, 1, true)
+                                                .withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
+                                                        () -> {if (trieurSubsystem.isEmpty()) this.cancel();}))),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,true, false, false)
         );

@@ -16,14 +16,14 @@ public class OnlyOpenGate extends SequentialCommandGroup {
         addCommands(
                 OptimalPath.curve(
                         drivePedroSubsystem,
-                        gatePickPose.withX(gatePickPose.getX() + (gatePickPose.getX() > 72 ? -1.5*TILE_DIM : 1.5*TILE_DIM)),
+                        gatePickPose.withX(gatePickPose.getX() + 1.5*TILE_DIM*(gatePickPose.getX() > 72 ? -1 : 1)),
                         gatePickPose, 1, true),
 
                 OptimalPath.line(drivePedroSubsystem,
                         gatePickPose.withHeading(Math.abs(gatePickPose.getHeading()) < Math.PI/2 ? 0 : Math.PI), 1, true),
                 new WaitCommand(5000),
                 OptimalPath.line(drivePedroSubsystem,
-                        gatePickPose.withX(gatePickPose.getX() + (gatePickPose.getX() > 72 ? -1.7*TILE_DIM : 1.7*TILE_DIM)), 1, true)
+                        gatePickPose.withX(gatePickPose.getX() + 1.7*TILE_DIM*(gatePickPose.getX() > 72 ? -1 : 1)), 1, true)
 
         );
     }
