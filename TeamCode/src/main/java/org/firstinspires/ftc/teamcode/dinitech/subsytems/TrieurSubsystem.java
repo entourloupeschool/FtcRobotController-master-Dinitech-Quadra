@@ -18,6 +18,7 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Finger;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Trappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.TripleColorSensors;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.MagneticSwitch;
@@ -64,6 +65,7 @@ public class TrieurSubsystem extends SubsystemBase {
         UNKNOWN // Artifact of an undetermined color
     }
     private final Trappe trappe;
+    private final Finger finger;
 
     private final Moulin moulin;
 
@@ -131,6 +133,7 @@ public class TrieurSubsystem extends SubsystemBase {
      */
     public TrieurSubsystem(HardwareMap hardwareMap, final TelemetryManager telemetryM) {
         trappe = new Trappe(hardwareMap);
+        finger = new Finger(hardwareMap);
         moulin = new Moulin(hardwareMap);
         tripleColorSensors = new TripleColorSensors(hardwareMap);
         magneticSwitch = new MagneticSwitch(hardwareMap);
@@ -504,6 +507,13 @@ public class TrieurSubsystem extends SubsystemBase {
     public boolean isTrappeOpen(){
         return trappe.getTrappeIsOpen();
     }
+
+    public void closeFinger(){finger.close();}
+    public void openFinger(){finger.open();}
+    public void toggleFinger(){finger.toggleFinger();}
+    public void incrOpenFinger(){incrFinger(Finger.FINGER_TELE_INCREMENT);}
+    public void incrCloseFinger(){incrFinger(Finger.FINGER_TELE_INCREMENT);}
+    public void incrFinger(double increment){finger.incrementalRotation(increment);}
 
     /**
      * Checks if the magnetic switch is activated.
