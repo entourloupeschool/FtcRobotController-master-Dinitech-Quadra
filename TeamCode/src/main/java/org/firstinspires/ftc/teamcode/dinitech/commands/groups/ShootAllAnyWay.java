@@ -17,9 +17,9 @@ public class ShootAllAnyWay extends ConditionalCommand {
     public ShootAllAnyWay(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem) {
         super(
                 new SequentialCommandGroup(
-                        new WaitReadyShootTrappeFinger(trieurSubsystem),
+                        ShootAll.BeginShootAll(trieurSubsystem, chargeurSubsystem, shooterSubsystem, false),
                         new MoulinHighSpeedRevolution(trieurSubsystem, shooterSubsystem),
-                        new WaitCommand(END_WAIT_HIGH_SPEED_TRIEUR)),
+                        ShootAll.EndShootAll()),
                 new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true, false, false),
                 trieurSubsystem::isEmpty);
     }

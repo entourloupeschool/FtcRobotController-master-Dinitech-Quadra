@@ -28,9 +28,6 @@ public class WaitShoot extends SequentialCommandGroup {
                         trieurSubsystem::wantsMotifShoot)
         );
     }
-
-
-
     public WaitShoot(ShooterSubsystem shooterSubsystem, TrieurSubsystem trieurSubsystem, boolean withCurrentOverflow) {
         addCommands(
                 new ConditionalCommand(

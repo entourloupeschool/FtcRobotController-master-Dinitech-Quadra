@@ -34,70 +34,49 @@ public class ShootAll extends SelectCommand {
                     put(0, new InstantCommand());
 
                     put(1, new SequentialCommandGroup(
-                            new ParallelCommandGroup(
-                                    new WaitReadyShootTrappeFinger(trieurSubsystem),
-                                    new ArtefactSure(trieurSubsystem, chargeurSubsystem),
-                                    new ConditionalCommand(
-                                            new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL)),
-                                            new InstantCommand(),
-                                            ()->waitInitSpeed)),
-
-                            new ConditionalCommand(
-                                    new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                                    new MoulinNextArtefactShoot(trieurSubsystem),
-                                    ()->waitEachSpeed),
-                            new WaitCommand(END_WAIT_HIGH_SPEED_TRIEUR)));
+                            BeginShootAll(trieurSubsystem, chargeurSubsystem, shooterSubsystem, waitInitSpeed),
+                            ShootAllVeloCondition(trieurSubsystem, shooterSubsystem, waitEachSpeed),
+                            EndShootAll()));
 
                     put(2, new SequentialCommandGroup(
-                            new ParallelCommandGroup(
-                                    new WaitReadyShootTrappeFinger(trieurSubsystem),
-                                    new ArtefactSure(trieurSubsystem, chargeurSubsystem),
-                                    new ConditionalCommand(
-                                            new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL)),
-                                            new InstantCommand(),
-                                            ()->waitInitSpeed)),
-                            new ConditionalCommand(
-                                    new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                                    new MoulinNextArtefactShoot(trieurSubsystem),
-                                    ()->waitEachSpeed),
+                            BeginShootAll(trieurSubsystem, chargeurSubsystem, shooterSubsystem, waitInitSpeed),
+                            ShootAllVeloCondition(trieurSubsystem, shooterSubsystem, waitEachSpeed),
                             new WaitShoot(shooterSubsystem, trieurSubsystem, withShooterOvercurrent),
-                            new ConditionalCommand(
-                                    new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                                    new MoulinNextArtefactShoot(trieurSubsystem),
-                                    ()->waitEachSpeed),
-                            new WaitCommand(END_WAIT_HIGH_SPEED_TRIEUR)));
+                            ShootAllVeloCondition(trieurSubsystem, shooterSubsystem, waitEachSpeed),
+                            EndShootAll()));
 
                     put(3, new SequentialCommandGroup(
-                            new BeginShootAll(trieurSubsystem, chargeurSubsystem, shooterSubsystem, waitInitSpeed),
-
-                            new ConditionalCommand(
-                                    new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                                    new MoulinNextArtefactShoot(trieurSubsystem),
-                                    ()->waitEachSpeed),
+                            BeginShootAll(trieurSubsystem, chargeurSubsystem, shooterSubsystem, waitInitSpeed),
+                            ShootAllVeloCondition(trieurSubsystem, shooterSubsystem, waitEachSpeed),
                             new WaitShoot(shooterSubsystem, trieurSubsystem, withShooterOvercurrent),
-                            new ConditionalCommand(
-                                    new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                                    new MoulinNextArtefactShoot(trieurSubsystem),
-                                    ()->waitEachSpeed),
+                            ShootAllVeloCondition(trieurSubsystem, shooterSubsystem, waitEachSpeed),
                             new WaitShoot(shooterSubsystem, trieurSubsystem, withShooterOvercurrent),
-                            new ConditionalCommand(
-                                    new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
-                                    new MoulinNextArtefactShoot(trieurSubsystem),
-                                    ()->waitEachSpeed),
-                            new WaitCommand(END_WAIT_HIGH_SPEED_TRIEUR)));}},
+                            ShootAllVeloCondition(trieurSubsystem, shooterSubsystem, waitEachSpeed),
+                            EndShootAll()));}},
 
                 trieurSubsystem::getHowManyArtefacts
         );
     }
-    private static ParallelCommandGroup BeginShootAll(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem, ShooterSubsystem shooterSubsystem, boolean waitInitSpeed){
-        return (new ParallelCommandGroup(
+    public static ParallelCommandGroup BeginShootAll(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem, ShooterSubsystem shooterSubsystem, boolean waitInitSpeed){
+        return new ParallelCommandGroup(
                 new WaitReadyShootTrappeFinger(trieurSubsystem),
                 new ArtefactSure(trieurSubsystem, chargeurSubsystem),
                 new ConditionalCommand(
                         new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL)),
                         new InstantCommand(),
                         ()->waitInitSpeed)
-        ));
+        );
+    }
+
+    public static ConditionalCommand ShootAllVeloCondition(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, boolean waitEachSpeed){
+        return new ConditionalCommand(
+                new MoulinNextArtefactShootWaitVelocity(trieurSubsystem, shooterSubsystem),
+                new MoulinNextArtefactShoot(trieurSubsystem),
+                ()->waitEachSpeed);
+    }
+    
+    public static WaitCommand EndShootAll(){
+        return new WaitCommand(END_WAIT_HIGH_SPEED_TRIEUR);
     }
 }
 
