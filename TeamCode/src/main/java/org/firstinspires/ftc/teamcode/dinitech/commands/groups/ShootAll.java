@@ -64,8 +64,7 @@ public class ShootAll extends SelectCommand {
                 new ConditionalCommand(
                         new WaitUntilCommand(()->shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN_SUPER_INTEL)),
                         new InstantCommand(),
-                        ()->waitInitSpeed)
-        );
+                        ()->waitInitSpeed));
     }
 
     public static ConditionalCommand ShootAllVeloCondition(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, boolean waitEachSpeed){
