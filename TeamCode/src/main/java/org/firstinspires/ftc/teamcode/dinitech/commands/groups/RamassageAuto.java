@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.In
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.MaxPowerChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.StopChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextEmptyStorage;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.WaitReadyShootTrappeFinger;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitOpenTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.GamepadSubsystem;
@@ -44,21 +45,8 @@ public class RamassageAuto extends SequentialCommandGroup {
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),
                 new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new ConditionalCommand(
-                                        new ReadyMotif(trieurSubsystem, visionSubsystem),
-                                        new InstantCommand(),
-                                        ()->trieurSubsystem.wantsMotifShoot()),
-                                new WaitOpenTrappe(trieurSubsystem)),
-
-                        new SequentialCommandGroup(
-                                new ConditionalCommand(
-                                        new SequentialCommandGroup(
-                                                new InverseMaxPowerChargeur(chargeurSubsystem),
-                                                new WaitCommand(INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO)),
-                                        new InstantCommand(),
-                                        ()->shouldInversePowerChargeur && trieurSubsystem.isFull()),
-                                new StopChargeur(chargeurSubsystem)))
+                        new PrepShootTrieur(trieurSubsystem, visionSubsystem, gamepadSubsystem),
+                        new RemovePotentialArtefactChargeur(trieurSubsystem, chargeurSubsystem, shouldInversePowerChargeur))
 
         );
     }
@@ -83,22 +71,8 @@ public class RamassageAuto extends SequentialCommandGroup {
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),
                 new ParallelCommandGroup(
-                        new SequentialCommandGroup(
-                                new ConditionalCommand(
-                                        new ReadyMotif(trieurSubsystem, visionSubsystem),
-                                        new InstantCommand(),
-                                        ()->trieurSubsystem.wantsMotifShoot()),
-                                new WaitOpenTrappe(trieurSubsystem)),
-
-                        new SequentialCommandGroup(
-                                new ConditionalCommand(
-                                        new SequentialCommandGroup(
-                                                new InverseMaxPowerChargeur(chargeurSubsystem),
-                                                new WaitCommand(INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO)),
-                                        new InstantCommand(),
-                                        ()->shouldInversePowerChargeur && trieurSubsystem.isFull()),
-                                new StopChargeur(chargeurSubsystem)))
-
+                        new PrepShootTrieur(trieurSubsystem, visionSubsystem),
+                        new RemovePotentialArtefactChargeur(trieurSubsystem, chargeurSubsystem, shouldInversePowerChargeur))
         );
     }
 
@@ -121,15 +95,8 @@ public class RamassageAuto extends SequentialCommandGroup {
                         new InstantCommand(),
                         trieurSubsystem::getNewRegister),
                 new ParallelCommandGroup(
-                        new WaitOpenTrappe(trieurSubsystem),
-                        new SequentialCommandGroup(
-                                new ConditionalCommand(
-                                        new SequentialCommandGroup(
-                                                new InverseMaxPowerChargeur(chargeurSubsystem),
-                                                new WaitCommand(INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO)),
-                                        new InstantCommand(),
-                                        ()->shouldInversePowerChargeur && trieurSubsystem.isFull()),
-                                new StopChargeur(chargeurSubsystem)))
+                        new WaitReadyShootTrappeFinger(trieurSubsystem),
+                        new RemovePotentialArtefactChargeur(trieurSubsystem, chargeurSubsystem, shouldInversePowerChargeur))
 
         );
     }

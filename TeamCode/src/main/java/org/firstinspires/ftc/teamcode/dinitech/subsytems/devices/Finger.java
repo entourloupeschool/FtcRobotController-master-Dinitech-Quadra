@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Finger extends SingleServo {
     public static final String FINGER_SERVO_NAME = "doigt";
     public static double FINGER_OPEN_POSITION = -10;
-    public static double FINGER_CLOSE_POSITION = 10;
+    public static double FINGER_CLOSE_POSITION = 18;
     public static long FINGER_OPEN_TIME = 625;
     public static long FINGER_CLOSE_TIME = FINGER_OPEN_TIME+50;
     public static double FINGER_TELE_INCREMENT = 1;

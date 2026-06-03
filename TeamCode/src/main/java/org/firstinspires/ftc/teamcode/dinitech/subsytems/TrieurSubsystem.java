@@ -511,7 +511,7 @@ public class TrieurSubsystem extends SubsystemBase {
     public void closeFinger(){finger.close();}
     public void openFinger(){finger.open();}
     public void toggleFinger(){finger.toggleFinger();}
-    public void incrOpenFinger(){incrFinger(Finger.FINGER_TELE_INCREMENT);}
+    public void incrOpenFinger(){incrFinger(-Finger.FINGER_TELE_INCREMENT);}
     public void incrCloseFinger(){incrFinger(Finger.FINGER_TELE_INCREMENT);}
     public void incrFinger(double increment){finger.incrementalRotation(increment);}
     public boolean isFingerOpen(){return finger.getFingerIsOpen();}

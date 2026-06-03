@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitCloseTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Trappe;
 
 /**
  * A command group that performs a full calibration sequence for the moulin.
@@ -33,8 +35,11 @@ public class MoulinCalibrationSequence extends SequentialCommandGroup {
      */
     public MoulinCalibrationSequence(TrieurSubsystem trieurSubsystem) {
         addCommands(
-                new InstantCommand(()-> trieurSubsystem.openFinger(), trieurSubsystem),
-                new WaitCloseTrappe(trieurSubsystem),
+                new InstantCommand(()-> {
+                    trieurSubsystem.openFinger();
+                    trieurSubsystem.closeTrappe();
+                }, trieurSubsystem),
+                new WaitCommand(Trappe.TRAPPE_CLOSE_TIME),
                 new MoulinCalibrate(trieurSubsystem)
         );
     }
