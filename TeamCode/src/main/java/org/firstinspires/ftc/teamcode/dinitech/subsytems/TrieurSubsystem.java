@@ -514,6 +514,8 @@ public class TrieurSubsystem extends SubsystemBase {
     public void incrOpenFinger(){incrFinger(Finger.FINGER_TELE_INCREMENT);}
     public void incrCloseFinger(){incrFinger(Finger.FINGER_TELE_INCREMENT);}
     public void incrFinger(double increment){finger.incrementalRotation(increment);}
+    public boolean isFingerOpen(){return finger.getFingerIsOpen();}
+    public double fingerAngle(){return finger.getAngle();}
 
     /**
      * Checks if the magnetic switch is activated.

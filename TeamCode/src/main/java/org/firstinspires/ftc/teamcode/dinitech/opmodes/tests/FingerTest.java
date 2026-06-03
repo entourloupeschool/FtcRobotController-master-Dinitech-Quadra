@@ -1,18 +1,23 @@
 package org.firstinspires.ftc.teamcode.dinitech.opmodes.tests;
 
 
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.ToggleChargeur;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinAntiRotate;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
-import org.firstinspires.ftc.teamcode.dinitech.commands.groups.MoulinHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextNext;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinNextStorage;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinRotate;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.finger.WaitCloseFinger;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.finger.WaitOpenFinger;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.finger.WaitToggleFinger;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.ContinuousUpdatesAprilTagsDetections;
+import org.firstinspires.ftc.teamcode.dinitech.commands.groups.MoulinHighSpeedRevolution;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.RamassageAuto;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.RobotBase;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
@@ -21,14 +26,12 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.GamepadWrapper;
 
-//@TeleOp(name = "TrieurDebut - Dinitech", group = "Test")
-@Disabled
+@TeleOp(name = "FingerTest - Dinitech", group = "Test")
+//@Disabled
 
-public class TrieurDebut extends RobotBase {
+public class FingerTest extends RobotBase {
     private GamepadSubsystem gamepadSubsystem;
     private TrieurSubsystem trieurSubsystem;
-    private ChargeurSubsystem chargeurSubsystem;
-    private VisionSubsystem visionSubsystem;
 
     /**
      * Initialize the teleop OpMode, gamepads, buttons, and default commands.
@@ -40,21 +43,11 @@ public class TrieurDebut extends RobotBase {
         gamepadSubsystem = new GamepadSubsystem(gamepad1, gamepad2, telemetryM);
         register(gamepadSubsystem);
 
-        visionSubsystem = new VisionSubsystem(hardwareMap, telemetryM);
-        register(visionSubsystem);
-        visionSubsystem.setDefaultCommand(new ContinuousUpdatesAprilTagsDetections(visionSubsystem));
 
         trieurSubsystem = new TrieurSubsystem(hardwareMap, telemetryM);
         register(trieurSubsystem);
 
-        chargeurSubsystem = new ChargeurSubsystem(hardwareMap, telemetryM);
-        register(chargeurSubsystem);
-
         setupGamePadsButtonBindings();
-
-//                new MoulinCalibrate(trieurSubsystem);
-        new MoulinCalibrationSequence(trieurSubsystem).schedule();
-
     }
 
     /**
@@ -62,9 +55,8 @@ public class TrieurDebut extends RobotBase {
      */
     @Override
     public void run() {
-        telemetryM.addData("chargeurPower", chargeurSubsystem.getMotorPower());
-        telemetryM.addData("targetPower", chargeurSubsystem.getTargetPower());
         super.run();
+        telemetryM.addData("finger", trieurSubsystem.fingerAngle());
     }
 
     /**
@@ -75,19 +67,15 @@ public class TrieurDebut extends RobotBase {
         GamepadWrapper m_Operator = gamepadSubsystem.getOperator();
 
         // Driver controls
-        m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false));
 
-        m_Driver.square.whenPressed(new ToggleChargeur(chargeurSubsystem));
+        m_Driver.square.whenPressed(new WaitToggleFinger(trieurSubsystem));
 
-        m_Driver.dpad_right.whenPressed(new MoulinNextNext(trieurSubsystem));
-        m_Driver.dpad_left.whenPressed(new MoulinNext(trieurSubsystem));
-        m_Driver.dpad_up.whenPressed(new MoulinHighSpeedRevolution(trieurSubsystem));
+        m_Driver.dpad_right.whenPressed(new WaitCloseFinger(trieurSubsystem));
+        m_Driver.dpad_left.whenPressed(new WaitOpenFinger(trieurSubsystem));
 
-        m_Driver.bump_right.whileHeld(new MoulinRotate(trieurSubsystem, gamepadSubsystem));
-        m_Driver.bump_left.whileHeld(new MoulinAntiRotate(trieurSubsystem, gamepadSubsystem));
+        m_Driver.bump_right.whileHeld(new RunCommand(()->trieurSubsystem.incrCloseFinger(), trieurSubsystem));
+        m_Driver.bump_left.whileHeld(new RunCommand(()->trieurSubsystem.incrOpenFinger(), trieurSubsystem));
 
-        m_Operator.dpad_left.whenPressed(new MoulinNextShoot(trieurSubsystem));
-        m_Operator.dpad_right.whenPressed(new MoulinNextStorage(trieurSubsystem));
 
     }
 }
