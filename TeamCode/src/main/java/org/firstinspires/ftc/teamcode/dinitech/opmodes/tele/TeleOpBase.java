@@ -32,6 +32,7 @@ import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.Swi
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrent;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCorrectOverCurrentExec;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.WaitToggleTrappeFinger;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.ToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.WaitToggleTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.MoulinHighSpeedIntel;
@@ -132,7 +133,7 @@ public class TeleOpBase extends GornetixGamepads {
         // Driver controls
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
 
-        m_Driver.triangle.whenPressed(new WaitToggleTrappe(trieurSubsystem));
+        m_Driver.triangle.whenPressed(new WaitToggleTrappeFinger(trieurSubsystem));
         m_Driver.square.whenPressed(new ShootAllAnyWay(trieurSubsystem, shooterSubsystem, chargeurSubsystem));
 //        m_Driver.square.whenPressed(new ShootAlmostRevolution(trieurSubsystem));
         m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false));
