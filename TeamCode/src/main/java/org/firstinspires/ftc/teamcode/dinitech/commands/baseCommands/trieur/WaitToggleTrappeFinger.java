@@ -16,12 +16,16 @@ public class WaitToggleTrappeFinger extends ConditionalCommand {
     public WaitToggleTrappeFinger(TrieurSubsystem trieurSubsystem) {
         super(
                 new SequentialCommandGroup(
-                        new OpenTrappe(trieurSubsystem),
-                        new CloseFinger(trieurSubsystem),
+                        new InstantCommand(()->{
+                            trieurSubsystem.openTrappe();
+                            trieurSubsystem.closeFinger();
+                        }, trieurSubsystem),
                         new WaitCommand(Trappe.TRAPPE_OPEN_TIME)),
                 new SequentialCommandGroup(
-                        new CloseTrappe(trieurSubsystem),
-                        new OpenFinger(trieurSubsystem),
+                        new InstantCommand(()->{
+                            trieurSubsystem.closeTrappe();
+                            trieurSubsystem.openFinger();
+                        }, trieurSubsystem),
                         new WaitCommand(Trappe.TRAPPE_CLOSE_TIME)),
                 ()->!trieurSubsystem.isTrappeOpen() || trieurSubsystem.isFingerOpen());
     }

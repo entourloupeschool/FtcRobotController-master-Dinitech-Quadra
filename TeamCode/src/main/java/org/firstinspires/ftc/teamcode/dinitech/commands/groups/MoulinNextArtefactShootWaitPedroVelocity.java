@@ -1,8 +1,16 @@
-package org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur;
+package org.firstinspires.ftc.teamcode.dinitech.commands.groups;
 
+import static org.firstinspires.ftc.teamcode.dinitech.other.Globals.cmToInch;
+import static org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses.ROTATED_BLUE_BASKET_POSE;
+import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem.MIN_RANGE_TO_SHOOT_CM;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem.SPEED_MARGIN;
-import static org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin.MOULIN_POSITION_VERY_LOOSE_TOLERANCE;
 
+import com.pedropathing.geometry.Pose;
+
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinToPositionMargin;
+import org.firstinspires.ftc.teamcode.dinitech.other.TeamPoses;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
+import org.firstinspires.ftc.teamcode.dinitech.subsytems.HubsSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
@@ -18,18 +26,23 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.devices.Moulin;
  * <p>
  * This command always rotates in the positive (forward) direction.
  */
-public class MoulinNextArtefactShootWaitVelocity extends MoulinToPositionMargin {
+public class MoulinNextArtefactShootWaitPedroVelocity extends MoulinToPositionMargin {
     private final ShooterSubsystem shooterSubsystem;
+    private final DrivePedroSubsystem drivePedroSubsystem;
+    private final HubsSubsystem hubsSubsystem;
     private boolean hasLaunched;
+    private double distance;
     /**
      * Creates a new MoulinNext command.
      *
      * @param trieurSubsystem The sorter subsystem that controls the moulin.
      */
-    public MoulinNextArtefactShootWaitVelocity(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem) {
+    public MoulinNextArtefactShootWaitPedroVelocity(TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, DrivePedroSubsystem drivePedroSubsystem, HubsSubsystem hubsSubsystem) {
         // The actual target position is determined at execution time.
         super(trieurSubsystem, -1);
         this.shooterSubsystem = shooterSubsystem;
+        this.drivePedroSubsystem = drivePedroSubsystem;
+        this.hubsSubsystem = hubsSubsystem;
         this.hasLaunched = false;
     }
 
@@ -40,6 +53,15 @@ public class MoulinNextArtefactShootWaitVelocity extends MoulinToPositionMargin 
     @Override
     public void initialize() {
         hasLaunched = false;
+
+        Pose basketPose;
+        if (hubsSubsystem.getTeam() == TeamPoses.Team.BLUE && drivePedroSubsystem.getDriveUsage() == DrivePedroSubsystem.DriveUsage.TELE){
+            basketPose = ROTATED_BLUE_BASKET_POSE;
+        } else {
+            basketPose = hubsSubsystem.getTeam().getBasketPose();
+        }
+
+        distance = drivePedroSubsystem.getPose().distanceFrom(basketPose);
 
         int currentPos = trieurSubsystem.getMoulinPosition();
 
@@ -61,9 +83,14 @@ public class MoulinNextArtefactShootWaitVelocity extends MoulinToPositionMargin 
 
     @Override
     public void execute(){
-        if (shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN) && !hasLaunched){
-            super.initialize();
-            hasLaunched = true;
+        if (!hasLaunched){
+            if (distance < 101){
+                super.initialize();
+                hasLaunched = true;
+            } else if (shooterSubsystem.isAroundTargetSpeed(SPEED_MARGIN)) {
+                super.initialize();
+                hasLaunched = true;
+            }
         }
     }
 

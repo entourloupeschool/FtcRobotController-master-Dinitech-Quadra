@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.dinitech.subsytems.devices;
+import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -10,13 +11,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  *
  * @see SingleServo
  */
+@Configurable
 public class Trappe extends SingleServo {
     public static final String TRAPPE_SERVO_NAME = "porte";
-    public static final double TRAPPE_OPEN_POSITION = 0;
+    public static final double TRAPPE_OPEN_POSITION = 5;
     public static final double TRAPPE_CLOSE_POSITION = -130;
     public static final double TRAPPE_TELE_INCREMENT = 0.5;
-    public static final long TRAPPE_OPEN_TIME = 625;
-    public static final long TRAPPE_CLOSE_TIME = TRAPPE_OPEN_TIME+50;
+    public static long TRAPPE_OPEN_TIME = 500;
+    public static final long TRAPPE_CLOSE_TIME = TRAPPE_OPEN_TIME;
 
     /** State of the door (open/closed) */
     private boolean trappeIsOpen = false;

@@ -16,8 +16,10 @@ public class WaitReadyRamassageTrappeFinger extends ConditionalCommand {
     public WaitReadyRamassageTrappeFinger(TrieurSubsystem trieurSubsystem) {
         super(
                 new SequentialCommandGroup(
-                        new CloseTrappe(trieurSubsystem),
-                        new OpenFinger(trieurSubsystem),
+                        new InstantCommand(()->{
+                            trieurSubsystem.closeTrappe();
+                            trieurSubsystem.openFinger();
+                        }, trieurSubsystem),
                         new WaitCommand(Trappe.TRAPPE_CLOSE_TIME)),
                 new InstantCommand(),
                 ()->trieurSubsystem.isTrappeOpen() || !trieurSubsystem.isFingerOpen());

@@ -134,7 +134,7 @@ public class TeleOpBase extends GornetixGamepads {
         m_Driver.cross.whenPressed(new ToggleChargeur(chargeurSubsystem));
 
         m_Driver.triangle.whenPressed(new WaitToggleTrappeFinger(trieurSubsystem));
-        m_Driver.square.whenPressed(new ShootAllAnyWay(trieurSubsystem, shooterSubsystem, chargeurSubsystem));
+        m_Driver.square.whenPressed(new ShootAllAnyWay(trieurSubsystem, shooterSubsystem, chargeurSubsystem, drivePedroSubsystem, hubsSubsystem));
 //        m_Driver.square.whenPressed(new ShootAlmostRevolution(trieurSubsystem));
         m_Driver.circle.toggleWhenPressed(new RamassageAuto(trieurSubsystem, visionSubsystem, gamepadSubsystem, chargeurSubsystem, false));
 

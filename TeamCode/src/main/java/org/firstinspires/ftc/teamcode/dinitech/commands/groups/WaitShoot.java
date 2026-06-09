@@ -44,4 +44,12 @@ public class WaitShoot extends SequentialCommandGroup {
                         trieurSubsystem::wantsMotifShoot)
         );
     }
+
+    public static ConditionalCommand WaitShootFinger(TrieurSubsystem trieurSubsystem){
+        return new ConditionalCommand(
+                new WaitCommand(WAIT_MOTIF_HIGH_SPEED_TRIEUR),
+                new InstantCommand(),
+                trieurSubsystem::wantsMotifShoot);
+    }
 }
+

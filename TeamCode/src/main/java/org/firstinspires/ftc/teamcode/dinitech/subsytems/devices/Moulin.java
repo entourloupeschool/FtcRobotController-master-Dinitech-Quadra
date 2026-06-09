@@ -65,7 +65,7 @@ public class Moulin {
     public static double LOOSE_DEGREES = 1.2;
     public static final double MOULIN_POSITION_LOOSE_TOLERANCE = getTicksFromDegrees(LOOSE_DEGREES);
 
-    public static double VERY_LOOSE_DEGREES = 2;
+    public static double VERY_LOOSE_DEGREES = 3;
 
     public static final double MOULIN_POSITION_VERY_LOOSE_TOLERANCE = getTicksFromDegrees(VERY_LOOSE_DEGREES);
 
