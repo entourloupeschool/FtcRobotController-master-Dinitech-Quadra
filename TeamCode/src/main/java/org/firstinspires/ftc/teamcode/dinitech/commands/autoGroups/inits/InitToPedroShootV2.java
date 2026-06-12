@@ -10,6 +10,7 @@ import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.OptimalPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.WaitReadyShootTrappeFinger;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.finger.CloseFinger;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.finger.OpenFinger;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenTrappe;
@@ -28,10 +29,7 @@ public class InitToPedroShootV2 extends ParallelCommandGroup {
                         new InstantCommand(),
                         new ParallelCommandGroup(
                                 new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
-                                new SequentialCommandGroup(
-                                        new OpenFinger(trieurSubsystem),
-                                        new OpenTrappe(trieurSubsystem),
-                                        new CloseFinger(trieurSubsystem))),
+                                new WaitReadyShootTrappeFinger(trieurSubsystem)),
 
                         new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, false, false, false)),
 
@@ -45,10 +43,7 @@ public class InitToPedroShootV2 extends ParallelCommandGroup {
                         new InstantCommand(),
                         new ParallelCommandGroup(
                                 new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
-                                new SequentialCommandGroup(
-                                        new OpenFinger(trieurSubsystem),
-                                        new OpenTrappe(trieurSubsystem),
-                                        new CloseFinger(trieurSubsystem))),
+                                new WaitReadyShootTrappeFinger(trieurSubsystem)),
 
                         new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, waitInitSpeed, false, false)),
 
