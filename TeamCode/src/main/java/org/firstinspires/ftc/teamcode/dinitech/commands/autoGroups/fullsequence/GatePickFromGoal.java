@@ -27,13 +27,12 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 public class TwoGatePickFromGoal extends SequentialCommandGroup {
     public TwoGatePickFromGoal(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, HubsSubsystem hubsSubsystem, double rowPower) {
         Pose openRampPose = hubsSubsystem.getTeam().getOpenRampPose();
-        Pose gatePickPose = hubsSubsystem.getTeam().getRampPickPose();
         Pose endRampPose = hubsSubsystem.getTeam().getEndRampPose();
         Pose closeShootPose = hubsSubsystem.getTeam().getCloseShootPose();
         double closeShootShooterVelocity = hubsSubsystem.getTeam().getCloseShootVelocity();
 
         addCommands(
-                new InitToPedroShootV2(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem,
+                new InitToPedroShootV2(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
                         closeShootPose, closeShootShooterVelocity),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
@@ -41,7 +40,7 @@ public class TwoGatePickFromGoal extends SequentialCommandGroup {
                         closeShootShooterVelocity,
                         LENGTH_X_ROW_3RD, rowPower, false),
 
-                new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem),
+//                new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem), // ALSO REQUIRES TRUE ON USE VISION SUBSYSTEM
 
                 new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
                         openRampPose, endRampPose, closeShootPose, closeShootShooterVelocity, false),
@@ -59,13 +58,12 @@ public class TwoGatePickFromGoal extends SequentialCommandGroup {
 
     public TwoGatePickFromGoal(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, double rowPower) {
         Pose openRampPose = hubsSubsystem.getTeam().getOpenRampPose();
-        Pose gatePickPose = hubsSubsystem.getTeam().getRampPickPose();
         Pose endRampPose = hubsSubsystem.getTeam().getEndRampPose();
         Pose closeShootPose = hubsSubsystem.getTeam().getCloseShootPose();
         double closeShootShooterVelocity = hubsSubsystem.getTeam().getCloseShootVelocity();
 
         addCommands(
-                new InitToPedroShootV2(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem,
+                new InitToPedroShootV2(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
                         closeShootPose, closeShootShooterVelocity),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
@@ -73,12 +71,9 @@ public class TwoGatePickFromGoal extends SequentialCommandGroup {
                         closeShootShooterVelocity,
                         LENGTH_X_ROW_3RD, rowPower, false),
 
-                new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem),
+//                new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem), // ALSO REQUIRES TRUE ON USE VISION SUBSYSTEM
 
-                new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
-                        openRampPose, endRampPose, closeShootPose, closeShootShooterVelocity, false),
-
-                new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT), trieurSubsystem),
+                new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, openRampPose, endRampPose, closeShootPose, closeShootShooterVelocity, false),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
                         hubsSubsystem.getTeam().getFirstRowPose(), closeShootPose,
