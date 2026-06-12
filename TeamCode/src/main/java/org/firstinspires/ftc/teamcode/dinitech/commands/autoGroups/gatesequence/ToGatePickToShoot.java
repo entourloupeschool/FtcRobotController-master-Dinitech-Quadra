@@ -11,11 +11,8 @@ import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-
-import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.InverseMaxPowerChargeur;
@@ -42,19 +39,6 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                 .withX(endRampPose.getX() + RADIUS_RAMP_PICK*(endRampPose.getX() > 72 ? -1 : 1))
                 .withY((endRampPose.getY() + openRampPose.getY()) / 2);
 
-        OptimalPath curveToEndRamp = OptimalPath.curve(drivePedroSubsystem,
-                        interRampPose,
-                        endRampPose,
-                        GATEPICK_POWER, false);
-
-        OptimalPath curveToOpenRamp = OptimalPath.curve(drivePedroSubsystem,
-                        interRampPose,
-                        openRampPose,
-                        GATEPICK_POWER, false);
-
-        SequentialCommandGroup curveStayRamp = new SequentialCommandGroup(
-                curveToEndRamp,
-                curveToOpenRamp);
 
         addCommands(
                 new ParallelCommandGroup(
@@ -87,14 +71,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
 
                                 new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT), trieurSubsystem)),
 
-                        new WaitUntilCommand(()->trieurSubsystem.isFull() || drivePedroSubsystem.getFollower().isRobotStuck()),
-
-                        new SequentialCommandGroup(
-                                curveStayRamp,
-                                curveStayRamp,
-                                curveStayRamp,
-                                curveStayRamp,
-                                curveStayRamp)),
+                        createCurveStayRampPass(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose, openRampPose)),
 
                 new ParallelCommandGroup(
                         new ParallelCommandGroup(
@@ -132,19 +109,6 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                 .withX(endRampPose.getX() + RADIUS_RAMP_PICK*(endRampPose.getX() > 72 ? -1 : 1))
                 .withY((endRampPose.getY() + openRampPose.getY()) / 2);
 
-        OptimalPath curveToEndRamp = OptimalPath.curve(drivePedroSubsystem,
-                        interRampPose,
-                        endRampPose,
-                        GATEPICK_POWER, false);
-
-        OptimalPath curveToOpenRamp = OptimalPath.curve(drivePedroSubsystem,
-                        interRampPose,
-                        openRampPose,
-                        GATEPICK_POWER, false);
-
-        SequentialCommandGroup curveStayRamp = new SequentialCommandGroup(
-                        curveToEndRamp,
-                        curveToOpenRamp);
 
         addCommands(
                 new ParallelCommandGroup(
@@ -153,7 +117,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                 openRampPose.withX(openRampPose.getX() + GATE_UNSHORTCUT_SCALE*TILE_DIM*(openRampPose.getX() > 72 ? -1 : 1)),
                                 openRampPose, 1, true)),
 
-                new ParallelRaceGroup(
+                new ParallelCommandGroup(
                         new SequentialCommandGroup(
                                 new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT * 4), trieurSubsystem),
                                 new ParallelCommandGroup(
@@ -177,14 +141,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
 
                                 new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT), trieurSubsystem)),
 
-                        new WaitUntilCommand(()->trieurSubsystem.isFull() || drivePedroSubsystem.getFollower().isRobotStuck()),
-
-                        new SequentialCommandGroup(
-                                curveStayRamp,
-                                curveStayRamp,
-                                curveStayRamp,
-                                curveStayRamp,
-                                curveStayRamp)),
+                        createCurveStayRampPass(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose, openRampPose)),
 
                 new ParallelCommandGroup(
                         // Go to Shooting Pos
@@ -211,5 +168,49 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true, false, false)
         );
+    }
+
+    private static SequentialCommandGroup createCurveStayRampPass(
+            DrivePedroSubsystem drivePedroSubsystem,
+            TrieurSubsystem trieurSubsystem,
+            Pose interRampPose,
+            Pose endRampPose,
+            Pose openRampPose) {
+        OptimalPath toEnd1 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose);
+        OptimalPath toOpen1 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose);
+        OptimalPath toEnd2 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose);
+        OptimalPath toOpen2 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose);
+        OptimalPath toEnd3 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose);
+        OptimalPath toOpen3 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose);
+        OptimalPath toEnd4 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose);
+        OptimalPath toOpen4 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose);
+        OptimalPath toEnd5 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose);
+        OptimalPath toOpen5 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose);
+
+        return new SequentialCommandGroup(
+                toEnd1,
+                toOpen1,
+                toEnd2,
+                toOpen2,
+                toEnd3,
+                toOpen3,
+                toEnd4,
+                toOpen4,
+                toEnd5,
+                toOpen5);
+    }
+
+    private static OptimalPath createAbortableCurve(
+            DrivePedroSubsystem drivePedroSubsystem,
+            TrieurSubsystem trieurSubsystem,
+            Pose interRampPose,
+            Pose targetPose) {
+        OptimalPath path = OptimalPath.curve(drivePedroSubsystem, interRampPose, targetPose, GATEPICK_POWER, false);
+        path.addTemporalCallbacks(() -> {
+            if (trieurSubsystem.isFull() || drivePedroSubsystem.getFollower().isRobotStuck()) {
+                path.cancel();
+            }
+        }, 1, 100, 300, 800, 1500);
+        return path;
     }
 }

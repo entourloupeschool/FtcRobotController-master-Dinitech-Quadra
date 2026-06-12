@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.MoulinCalibrationSequence;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.finger.OpenFinger;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.vision.OnlyMotifDetection;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.Gornetix;
 import org.firstinspires.ftc.teamcode.dinitech.other.MoulinPositionColorsStorage;
@@ -43,6 +44,10 @@ public class AutoBase extends Gornetix {
             lastHowManyArtefacts = trieurSubsystem.getHowManyArtefacts();
 
             trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT);
+
+            schedule(new SequentialCommandGroup(
+                    new InstantCommand(),
+                    new OpenFinger(trieurSubsystem)));
     }
 
     @Override
