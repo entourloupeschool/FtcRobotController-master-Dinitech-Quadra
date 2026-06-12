@@ -73,12 +73,12 @@ public class Moulin {
     public static double MOULIN_ROTATE_SPEED_CALIBRATION = 1830;
     public static int OFFSET_MAGNETIC_POS = (int) getTicksFromDegrees(8.8);//=1100
     public static final int MAGNETIC_ON_MOULIN_POSITION = 2;
-    public static double SCALE_RECALIBRATION = getTicksFromDegrees(3);
-    public static double POWER_SCALER_RECALIBRATION = 2; // = 15.2750000028
+    public static double SCALE_RECALIBRATION = getTicksFromDegrees(5);
+    public static double POWER_SCALER_RECALIBRATION = 1; // = 15.2750000028
     public static final double SCALE_DISTANCE_ARTEFACT_IN_TRIEUR_COEF = 1;
     public static int WAIT_HIGH_SPEED_TRIEUR = 5; //400;
-    public static int WAIT_MOTIF_HIGH_SPEED_TRIEUR = 550;
-    public static int END_WAIT_HIGH_SPEED_TRIEUR = 580;
+    public static int WAIT_MOTIF_HIGH_SPEED_TRIEUR = 430;
+    public static int END_WAIT_HIGH_SPEED_TRIEUR = 540;
     public static double SCALE_AFTER_HIGH_SPEED_SHOOT = 1.8; //1.5;
     public static double DISTANCE_ARTEFACT_IN_TRIEUR = 4.35;
     public static double DISTANCE_MARGIN_ARTEFACT_IN_TRIEUR = 1.15;

@@ -74,6 +74,16 @@ public class OptimalPath extends FollowPath {
         return this;
     }
 
+    public OptimalPath addParametricCallback(double t, Runnable runnable) {
+        return withParametricCallback(t, runnable);
+    }
+
+    @Override
+    public OptimalPath addTemporalCallback(double millis, Runnable action) {
+        super.addTemporalCallback(millis, action);
+        return this;
+    }
+
     public static OptimalPath line(DrivePedroSubsystem drivePedroSubsystem, Pose targetPose, double maxPower, boolean holdEnd) {
         List<ParametricCallbackEntry> callbacks = new ArrayList<>();
         PathSupplier supplier = createLineSupplier(

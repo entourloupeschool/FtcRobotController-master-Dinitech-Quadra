@@ -10,6 +10,9 @@ import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.drivePedro.paths.OptimalPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.shooter.SetVelocityShooterRequire;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.finger.CloseFinger;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.finger.OpenFinger;
+import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.trieur.trappe.OpenTrappe;
 import org.firstinspires.ftc.teamcode.dinitech.commands.groups.ShootAll;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -19,12 +22,18 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 
 public class InitToPedroShootV2 extends ParallelCommandGroup {
 
-    public InitToPedroShootV2(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, Pose shootPose, double shootVelocity){
+    public InitToPedroShootV2(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, Pose shootPose, double shootVelocity){
         addCommands(
                 new SequentialCommandGroup(
                         new InstantCommand(),
-                        new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
-//                        new WaitCommand(WAIT_INIT_PEDRO_SHOOTER),
+                        new ParallelCommandGroup(
+                                new SequentialCommandGroup(
+                                        new OpenFinger(trieurSubsystem),
+                                        new OpenTrappe(trieurSubsystem),
+                                        new CloseFinger(trieurSubsystem),
+                                new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
+                                new WaitCommand(WAIT_INIT_PEDRO_SHOOTER))),
+
                         new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, false, false, false)
 ),
 

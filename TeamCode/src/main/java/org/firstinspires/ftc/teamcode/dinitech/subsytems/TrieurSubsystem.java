@@ -615,9 +615,9 @@ public class TrieurSubsystem extends SubsystemBase {
         double diffTicks = Math.abs(differenceToIntRounded) * INTERVALLE_TICKS_MOULIN_DOUBLE;
         lastRecalibrationIncrement = diffTicks;
 
-        double scaler = Math.pow(Math.min(diffTicks/SCALE_RECALIBRATION, 0.9), POWER_SCALER_RECALIBRATION);
+        double scaler = Math.min(diffTicks/SCALE_RECALIBRATION, 1);
 
-        incrementMoulinEncoderTargetPosition(differenceToIntRounded > 0 ? - diffTicks * scaler : diffTicks * scaler);
+        incrementMoulinEncoderTargetPosition(diffTicks * scaler * (differenceToIntRounded > 0 ? -1 : 1));
     }
 
     /**

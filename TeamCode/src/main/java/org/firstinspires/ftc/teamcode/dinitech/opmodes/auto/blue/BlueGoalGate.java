@@ -5,7 +5,7 @@ import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.TwoGatePickFromGoal;
+import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence.GatePickFromGoal;
 import org.firstinspires.ftc.teamcode.dinitech.opmodes.auto.BlueGoalAutoBase;
 
 @Autonomous(name = "BlueGoalGate", group = "Blue")
@@ -20,7 +20,7 @@ public class BlueGoalGate extends BlueGoalAutoBase {
 
         super.initialize();
 
-        new TwoGatePickFromGoal(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem, MAX_POWER_ROW_PICK_ARTEFACTS).schedule();
+        new GatePickFromGoal(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem, MAX_POWER_ROW_PICK_ARTEFACTS).schedule();
     }
 
 

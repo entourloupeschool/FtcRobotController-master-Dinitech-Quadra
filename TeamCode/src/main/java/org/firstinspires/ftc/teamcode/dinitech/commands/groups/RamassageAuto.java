@@ -68,8 +68,8 @@ public class RamassageAuto extends SequentialCommandGroup {
         };
     }
 
-    public static ParallelCommandGroup BeginRamassageAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem){
-        return new ParallelCommandGroup(
+    public static SequentialCommandGroup BeginRamassageAuto(TrieurSubsystem trieurSubsystem, ChargeurSubsystem chargeurSubsystem){
+        return new SequentialCommandGroup(
                 new TrieurReadyEmptyStorage(trieurSubsystem),
                 new MaxPowerChargeur(chargeurSubsystem));
     }

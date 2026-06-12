@@ -201,7 +201,6 @@ public class TeleOpBase extends GornetixGamepads {
     protected void modeShoot(){
         new InstantCommand(()->shooterSubsystem.setDefaultCommand(new PedroShooter(shooterSubsystem, drivePedroSubsystem, hubsSubsystem)), shooterSubsystem).schedule();
         new InstantCommand(()->drivePedroSubsystem.setDefaultCommand(new PedroAimLockedDrive(drivePedroSubsystem, gamepadSubsystem, hubsSubsystem)), drivePedroSubsystem).schedule();
-        new StopChargeur(chargeurSubsystem).schedule();
     }
 
     protected void modeRamassage() {

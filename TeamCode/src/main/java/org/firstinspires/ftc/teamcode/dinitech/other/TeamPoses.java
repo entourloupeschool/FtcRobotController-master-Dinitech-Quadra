@@ -26,7 +26,7 @@ public class TeamPoses {
     public static double X_OPEN_RAMP_POSE = 17.3;
     public static double Y_OPEN_RAMP_POSE = 60.4;
     public static final Pose OPEN_RAMP_BLUE_POSE = new Pose(X_OPEN_RAMP_POSE, Y_OPEN_RAMP_POSE, 0); // heading = -0.162
-    public static final Pose BLUE_RAMP_END_POSE = new Pose(14.3, 58.3, -Math.toRadians(20));
+    public static final Pose BLUE_RAMP_END_POSE = new Pose(14.3, 58.4, -Math.toRadians(22));
     public static final Pose RAMP_PICK_BLUE_POSE = new Pose(15.3, 53, -Math.toRadians(30));
     public static final Pose CLOSE_SHOOT_BLUE_POSE = new Pose(48.3, 95, Math.toRadians(134));
     public static final Pose LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE = new Pose(55, 85, Math.toRadians(61));

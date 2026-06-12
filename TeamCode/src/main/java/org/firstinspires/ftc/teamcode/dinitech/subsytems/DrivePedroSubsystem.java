@@ -261,6 +261,8 @@ public class DrivePedroSubsystem extends SubsystemBase {
         // This method is called periodically by the CommandScheduler.
 //        printDriveTelemetry(telemetryM);
 //        debugPedro(telemetryM);
+        telemetryM.addData("TEnd", getFollowerTEnd());
+        if (follower.isBusy()) telemetryM.addData("pathLength", follower.getCurrentPath().length());
     }
 
     private void debugPedro(TelemetryManager telemetryM) {

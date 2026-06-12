@@ -27,7 +27,7 @@ public class ThreeRowsFromGoalWithGateOpen extends SequentialCommandGroup {
         Pose closeShootPose = hubsSubsystem.getTeam().getCloseShootPose();
         double closeShootShooterVelocity = hubsSubsystem.getTeam().getCloseShootVelocity();
         addCommands(
-                new InitToPedroShootV2(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, hubsSubsystem,
+                new InitToPedroShootV2(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
                         closeShootPose, closeShootShooterVelocity),
 
                 new ParallelCommandGroup(

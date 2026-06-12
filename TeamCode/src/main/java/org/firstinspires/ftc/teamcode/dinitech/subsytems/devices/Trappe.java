@@ -17,8 +17,8 @@ public class Trappe extends SingleServo {
     public static final double TRAPPE_OPEN_POSITION = 5;
     public static final double TRAPPE_CLOSE_POSITION = -130;
     public static final double TRAPPE_TELE_INCREMENT = 0.5;
-    public static long TRAPPE_OPEN_TIME = 500;
-    public static final long TRAPPE_CLOSE_TIME = TRAPPE_OPEN_TIME;
+    public static long TRAPPE_OPEN_TIME = 400;
+    public static final long TRAPPE_CLOSE_TIME = 800;
 
     /** State of the door (open/closed) */
     private boolean trappeIsOpen = false;

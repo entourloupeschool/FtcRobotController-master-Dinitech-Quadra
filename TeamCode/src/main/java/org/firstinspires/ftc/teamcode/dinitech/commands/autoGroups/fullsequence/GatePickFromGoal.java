@@ -3,19 +3,15 @@ package org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.fullsequence
 
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.LENGTH_X_ROW;
 import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.LENGTH_X_ROW_3RD;
-import static org.firstinspires.ftc.teamcode.dinitech.other.AutoPathsDefinitions.TIME_AT_GATE_GATE_PICK;
 import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.MODE_RAMASSAGE_AUTO_TIMEOUT;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.Pose;
 
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.LookMotifPath;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.endsequence.RampEnd;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.gatesequence.ToGatePickToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToPedroShootV2;
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.inits.InitToQuickShoot;
-import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.ToRowToGateToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.commands.autoGroups.rowsequence.ToRowToShoot;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.ChargeurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.DrivePedroSubsystem;
@@ -24,8 +20,8 @@ import org.firstinspires.ftc.teamcode.dinitech.subsytems.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem;
 import org.firstinspires.ftc.teamcode.dinitech.subsytems.VisionSubsystem;
 
-public class TwoGatePickFromGoal extends SequentialCommandGroup {
-    public TwoGatePickFromGoal(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, HubsSubsystem hubsSubsystem, double rowPower) {
+public class GatePickFromGoal extends SequentialCommandGroup {
+    public GatePickFromGoal(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, VisionSubsystem visionSubsystem, HubsSubsystem hubsSubsystem, double rowPower) {
         Pose openRampPose = hubsSubsystem.getTeam().getOpenRampPose();
         Pose endRampPose = hubsSubsystem.getTeam().getEndRampPose();
         Pose closeShootPose = hubsSubsystem.getTeam().getCloseShootPose();
@@ -56,7 +52,7 @@ public class TwoGatePickFromGoal extends SequentialCommandGroup {
         );
     }
 
-    public TwoGatePickFromGoal(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, double rowPower) {
+    public GatePickFromGoal(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, HubsSubsystem hubsSubsystem, double rowPower) {
         Pose openRampPose = hubsSubsystem.getTeam().getOpenRampPose();
         Pose endRampPose = hubsSubsystem.getTeam().getEndRampPose();
         Pose closeShootPose = hubsSubsystem.getTeam().getCloseShootPose();
