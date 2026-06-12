@@ -118,6 +118,13 @@ public class FollowPath extends CommandBase {
         return this;
     }
 
+    public FollowPath addTemporalCallbacks(Runnable action, double... millisValues) {
+        for (double millisValue : millisValues) {
+            addTemporalCallback(millisValue, action);
+        }
+        return this;
+    }
+
     @Override
     public void initialize() {
         drivePedroSubsystem.setDriveUsage(DrivePedroSubsystem.DriveUsage.AUTO);

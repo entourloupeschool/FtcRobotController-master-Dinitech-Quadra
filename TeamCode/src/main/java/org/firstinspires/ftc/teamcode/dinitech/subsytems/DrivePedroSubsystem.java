@@ -42,6 +42,8 @@ public class DrivePedroSubsystem extends SubsystemBase {
         return followerTEnd;
     }
 
+    public Follower getFollower() {return follower;}
+
 
     /**
      * Telemetry for reporting drive status.
