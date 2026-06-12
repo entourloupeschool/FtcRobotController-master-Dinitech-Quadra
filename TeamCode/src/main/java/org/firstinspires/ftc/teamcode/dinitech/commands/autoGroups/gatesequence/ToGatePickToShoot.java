@@ -106,9 +106,10 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                         ()->trieurSubsystem.isFull()),
                                                 new StopChargeur(chargeurSubsystem)))),
 
-                        curveStayRamp,
-                        curveStayRamp,
-                        curveStayRamp),
+                        new SequentialCommandGroup(
+                                curveStayRamp,
+                                curveStayRamp,
+                                curveStayRamp)),
 
                 // Go to Shooting Pos
                 shortcutBackPath ?
@@ -145,8 +146,8 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
 
 
         SequentialCommandGroup curveStayRamp = new SequentialCommandGroup(
-                curveToEndRamp,
-                curveToOpenRamp);
+                        curveToEndRamp,
+                        curveToOpenRamp);
 
         addCommands(
                 new ParallelCommandGroup(
@@ -191,9 +192,10 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                         ()->trieurSubsystem.isFull()),
                                                 new StopChargeur(chargeurSubsystem)))),
 
-                        curveStayRamp,
-                        curveStayRamp,
-                        curveStayRamp),
+                        new SequentialCommandGroup(
+                                curveStayRamp,
+                                curveStayRamp,
+                                curveStayRamp)),
 
                 // Go to Shooting Pos
                 shortcutBackPath ?
@@ -227,10 +229,10 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                         GATEPICK_POWER, false)
                 .addTemporalCallbacks(() -> {if (trieurSubsystem.isFull() || drivePedroSubsystem.getFollower().isRobotStuck()) this.cancel();}, 10, 200, 800, 1500);
 
-
         SequentialCommandGroup lineStayRamp = new SequentialCommandGroup(
-                        lineToInterRamp,
-                        lineToEndRamp);
+                lineToInterRamp,
+                lineToEndRamp);
+
 
         addCommands(
                 new ParallelCommandGroup(
@@ -274,9 +276,10 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                                         ()->trieurSubsystem.isFull()),
                                                 new StopChargeur(chargeurSubsystem)))),
 
-                        lineStayRamp,
-                        lineStayRamp,
-                        lineStayRamp),
+                        new SequentialCommandGroup(
+                                lineStayRamp,
+                                lineStayRamp,
+                                lineStayRamp)),
 
                 // Go to Shooting Pos
                 shortcutBackPath ?

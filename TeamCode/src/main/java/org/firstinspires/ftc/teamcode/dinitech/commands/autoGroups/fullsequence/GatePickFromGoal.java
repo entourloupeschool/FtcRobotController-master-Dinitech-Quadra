@@ -29,7 +29,7 @@ public class GatePickFromGoal extends SequentialCommandGroup {
 
         addCommands(
                 new InitToPedroShootV2(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
-                        closeShootPose, closeShootShooterVelocity),
+                        closeShootPose, closeShootShooterVelocity, false),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, visionSubsystem,
                         hubsSubsystem.getTeam().getSecondRowPose(), closeShootPose,
@@ -60,7 +60,7 @@ public class GatePickFromGoal extends SequentialCommandGroup {
 
         addCommands(
                 new InitToPedroShootV2(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
-                        closeShootPose, closeShootShooterVelocity),
+                        closeShootPose, closeShootShooterVelocity, false),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
                         hubsSubsystem.getTeam().getSecondRowPose(), closeShootPose,
@@ -69,7 +69,8 @@ public class GatePickFromGoal extends SequentialCommandGroup {
 
 //                new InstantCommand(()->trieurSubsystem.setWantsMotifShoot(true), trieurSubsystem), // ALSO REQUIRES TRUE ON USE VISION SUBSYSTEM
 
-                new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, openRampPose, endRampPose, closeShootPose, closeShootShooterVelocity, false),
+                new ToGatePickToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem, openRampPose, endRampPose, closeShootPose,
+                        closeShootShooterVelocity, false),
 
                 new ToRowToShoot(drivePedroSubsystem, trieurSubsystem, shooterSubsystem, chargeurSubsystem,
                         hubsSubsystem.getTeam().getFirstRowPose(), closeShootPose,

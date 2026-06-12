@@ -27,15 +27,30 @@ public class InitToPedroShootV2 extends ParallelCommandGroup {
                 new SequentialCommandGroup(
                         new InstantCommand(),
                         new ParallelCommandGroup(
+                                new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
                                 new SequentialCommandGroup(
                                         new OpenFinger(trieurSubsystem),
                                         new OpenTrappe(trieurSubsystem),
-                                        new CloseFinger(trieurSubsystem),
-                                new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
-                                new WaitCommand(WAIT_INIT_PEDRO_SHOOTER))),
+                                        new CloseFinger(trieurSubsystem))),
 
-                        new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, false, false, false)
-),
+                        new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, false, false, false)),
+
+                OptimalPath.line(drivePedroSubsystem, shootPose, 1, true)
+        );
+    }
+
+    public InitToPedroShootV2(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, Pose shootPose, double shootVelocity, boolean waitInitSpeed){
+        addCommands(
+                new SequentialCommandGroup(
+                        new InstantCommand(),
+                        new ParallelCommandGroup(
+                                new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
+                                new SequentialCommandGroup(
+                                        new OpenFinger(trieurSubsystem),
+                                        new OpenTrappe(trieurSubsystem),
+                                        new CloseFinger(trieurSubsystem))),
+
+                        new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, waitInitSpeed, false, false)),
 
                 OptimalPath.line(drivePedroSubsystem, shootPose, 1, true)
         );

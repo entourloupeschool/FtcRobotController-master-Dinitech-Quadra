@@ -13,12 +13,12 @@ public class AutoPathsDefinitions {
 
     public static double FOLLOWER_T_POSITION_END = 0.97;//0.91;
     public static double FOLLOWER_T_POSITION_END_TELEOP = 0.985;
-    public static double LINEAR_B_FOLLOWER_T_END = 0.81;
-    public static double LINEAR_A_FOLLOWER_T_END = 0.0021;
+    public static double LINEAR_B_FOLLOWER_T_END = 0.87;
+    public static double LINEAR_A_FOLLOWER_T_END = 0.00095;
     public static final double LENGTH_X_ROW = TILE_DIM * 0.97;
     public static final double LENGTH_X_ROW_3RD = TILE_DIM * 0.98;
     public static final double T_PARAMETRIC_DONT_SHOOT = 0.55;
-    public static long WAIT_INIT_PEDRO_SHOOTER = 70;
+    public static long WAIT_INIT_PEDRO_SHOOTER = 140;
     public static final double UNSHORTCUT_LENGTH = 10;
     public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 30.0;
 
@@ -57,10 +57,7 @@ public class AutoPathsDefinitions {
     }
 
     public static double getDynamicTEndFollower(double distance){
-        if (distance < 10) return 0.011*distance + 0.7;
-
-        double linear = LINEAR_A_FOLLOWER_T_END * distance + LINEAR_B_FOLLOWER_T_END;
-
-        return Math.max(Math.min(linear, FOLLOWER_T_POSITION_END), LINEAR_B_FOLLOWER_T_END);
+        double poly3 = 0.0000053808466*Math.pow(distance, 3) - 0.0005707698495 * Math.pow(distance, 2) + 0.0252925010549 * distance + 0.48778638388;
+        return Math.min(poly3, FOLLOWER_T_POSITION_END);
     }
 }
