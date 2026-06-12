@@ -11,9 +11,11 @@ import static org.firstinspires.ftc.teamcode.dinitech.subsytems.TrieurSubsystem.
 import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
+import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.teamcode.dinitech.commands.baseCommands.chargeur.InverseMaxPowerChargeur;
@@ -43,17 +45,12 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
         OptimalPath curveToEndRamp = OptimalPath.curve(drivePedroSubsystem,
                         interRampPose,
                         endRampPose,
-                        GATEPICK_POWER, false)
-                .addTemporalCallbacks(() -> {if (trieurSubsystem.isFull() || drivePedroSubsystem.getFollower().isRobotStuck()) this.cancel();},
-                        10, 200, 800, 1500);
+                        GATEPICK_POWER, false);
 
         OptimalPath curveToOpenRamp = OptimalPath.curve(drivePedroSubsystem,
                         interRampPose,
                         openRampPose,
-                        GATEPICK_POWER, false)
-                .addTemporalCallbacks(() -> {if (trieurSubsystem.isFull() || drivePedroSubsystem.getFollower().isRobotStuck()) this.cancel();},
-                        10, 200, 800, 1500);
-
+                        GATEPICK_POWER, false);
 
         SequentialCommandGroup curveStayRamp = new SequentialCommandGroup(
                 curveToEndRamp,
@@ -88,23 +85,9 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                         new InstantCommand(),
                                         trieurSubsystem::getNewRegister),
 
-                                new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT), trieurSubsystem),
+                                new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT), trieurSubsystem)),
 
-                                new ParallelCommandGroup(
-                                        new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
-                                        new SequentialCommandGroup(
-                                                new ConditionalCommand(
-                                                        new ReadyMotif(trieurSubsystem, visionSubsystem),
-                                                        new InstantCommand(),
-                                                        ()->trieurSubsystem.wantsMotifShoot()),
-                                                new WaitReadyShootTrappeFinger(trieurSubsystem),
-                                                new ConditionalCommand(
-                                                        new SequentialCommandGroup(
-                                                                new InverseMaxPowerChargeur(chargeurSubsystem),
-                                                                new WaitCommand(INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO)),
-                                                        new InstantCommand(),
-                                                        ()->trieurSubsystem.isFull()),
-                                                new StopChargeur(chargeurSubsystem)))),
+                        new WaitUntilCommand(()->trieurSubsystem.isFull() || drivePedroSubsystem.getFollower().isRobotStuck()),
 
                         new SequentialCommandGroup(
                                 curveStayRamp,
@@ -113,16 +96,32 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                 curveStayRamp,
                                 curveStayRamp)),
 
-                // Go to Shooting Pos
-                shortcutBackPath ?
-                        OptimalPath.line(drivePedroSubsystem,
-                                shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
-                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();}) :
-                        OptimalPath.curve(drivePedroSubsystem,
+                new ParallelCommandGroup(
+                        new ParallelCommandGroup(
+                                new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
+                                new SequentialCommandGroup(
+                                        new ConditionalCommand(
+                                                new ReadyMotif(trieurSubsystem, visionSubsystem),
+                                                new InstantCommand(),
+                                                ()->trieurSubsystem.wantsMotifShoot()),
+                                        new WaitReadyShootTrappeFinger(trieurSubsystem),
+                                        new ConditionalCommand(
+                                                new SequentialCommandGroup(
+                                                        new InverseMaxPowerChargeur(chargeurSubsystem),
+                                                        new WaitCommand(INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO)),
+                                                new InstantCommand(),
+                                                ()->trieurSubsystem.isFull()),
+                                        new StopChargeur(chargeurSubsystem))),
+                        // Go to Shooting Pos
+                        shortcutBackPath ?
+                                OptimalPath.line(drivePedroSubsystem,
+                                        shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
+                                        () -> {if (trieurSubsystem.isEmpty()) this.cancel();}) :
+                                OptimalPath.curve(drivePedroSubsystem,
                                         openRampPose.withX(openRampPose.getX() + GATE_UNSHORTCUT_SCALE*TILE_DIM*(openRampPose.getX() > 72 ? -1 : 1)),
                                         shootPose, 1, true)
                                 .withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
-                                        () -> {if (trieurSubsystem.isEmpty()) this.cancel();}),
+                                        () -> {if (trieurSubsystem.isEmpty()) this.cancel();})),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true, false, false)
         );
@@ -136,16 +135,12 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
         OptimalPath curveToEndRamp = OptimalPath.curve(drivePedroSubsystem,
                         interRampPose,
                         endRampPose,
-                        GATEPICK_POWER, false)
-                .addTemporalCallbacks(() -> {if (trieurSubsystem.isFull() || drivePedroSubsystem.getFollower().isRobotStuck()) this.cancel();}, 10, 200, 800, 1500);
-
+                        GATEPICK_POWER, false);
 
         OptimalPath curveToOpenRamp = OptimalPath.curve(drivePedroSubsystem,
                         interRampPose,
                         openRampPose,
-                        GATEPICK_POWER, false)
-                .addTemporalCallbacks(() -> {if (trieurSubsystem.isFull() || drivePedroSubsystem.getFollower().isRobotStuck()) this.cancel();}, 10, 200, 800, 1500);
-
+                        GATEPICK_POWER, false);
 
         SequentialCommandGroup curveStayRamp = new SequentialCommandGroup(
                         curveToEndRamp,
@@ -158,7 +153,7 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                 openRampPose.withX(openRampPose.getX() + GATE_UNSHORTCUT_SCALE*TILE_DIM*(openRampPose.getX() > 72 ? -1 : 1)),
                                 openRampPose, 1, true)),
 
-                new ParallelCommandGroup(
+                new ParallelRaceGroup(
                         new SequentialCommandGroup(
                                 new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT * 4), trieurSubsystem),
                                 new ParallelCommandGroup(
@@ -180,19 +175,9 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                         new InstantCommand(),
                                         trieurSubsystem::getNewRegister),
 
-                                new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT), trieurSubsystem),
+                                new InstantCommand(()->trieurSubsystem.setDetectionTimeout(MODE_RAMASSAGE_AUTO_TIMEOUT), trieurSubsystem)),
 
-                                new ParallelCommandGroup(
-                                        new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
-                                        new SequentialCommandGroup(
-                                                new WaitReadyShootTrappeFinger(trieurSubsystem),
-                                                new ConditionalCommand(
-                                                        new SequentialCommandGroup(
-                                                                new InverseMaxPowerChargeur(chargeurSubsystem),
-                                                                new WaitCommand(INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO)),
-                                                        new InstantCommand(),
-                                                        ()->trieurSubsystem.isFull()),
-                                                new StopChargeur(chargeurSubsystem)))),
+                        new WaitUntilCommand(()->trieurSubsystem.isFull() || drivePedroSubsystem.getFollower().isRobotStuck()),
 
                         new SequentialCommandGroup(
                                 curveStayRamp,
@@ -201,16 +186,28 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
                                 curveStayRamp,
                                 curveStayRamp)),
 
-                // Go to Shooting Pos
-                shortcutBackPath ?
-                        OptimalPath.line(drivePedroSubsystem,
-                                shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
-                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();}) :
-                        OptimalPath.curve(drivePedroSubsystem,
+                new ParallelCommandGroup(
+                        // Go to Shooting Pos
+                        shortcutBackPath ?
+                                OptimalPath.line(drivePedroSubsystem,
+                                        shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
+                                        () -> {if (trieurSubsystem.isEmpty()) this.cancel();}) :
+                                OptimalPath.curve(drivePedroSubsystem,
                                         openRampPose.withX(openRampPose.getX() + GATE_UNSHORTCUT_SCALE*TILE_DIM*(openRampPose.getX() > 72 ? -1 : 1)),
                                         shootPose, 1, true)
-                                    .withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
+                                .withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
                                         () -> {if (trieurSubsystem.isEmpty()) this.cancel();}),
+                        new ParallelCommandGroup(
+                                new SetVelocityShooterRequire(shooterSubsystem, shooterVelocity),
+                                new SequentialCommandGroup(
+                                        new WaitReadyShootTrappeFinger(trieurSubsystem),
+                                        new ConditionalCommand(
+                                                new SequentialCommandGroup(
+                                                        new InverseMaxPowerChargeur(chargeurSubsystem),
+                                                        new WaitCommand(INVERSE_MAX_POWER_DURATION_RAMASSAGE_AUTO)),
+                                                new InstantCommand(),
+                                                ()->trieurSubsystem.isFull()),
+                                        new StopChargeur(chargeurSubsystem)))),
 
                 new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem, true, false, false)
         );
