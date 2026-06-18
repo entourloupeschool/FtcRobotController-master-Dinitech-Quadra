@@ -176,28 +176,16 @@ public class ToGatePickToShoot extends SequentialCommandGroup {
             Pose interRampPose,
             Pose endRampPose,
             Pose openRampPose) {
-        OptimalPath toEnd1 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose);
-        OptimalPath toOpen1 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose);
-        OptimalPath toEnd2 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose);
-        OptimalPath toOpen2 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose);
-        OptimalPath toEnd3 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose);
-        OptimalPath toOpen3 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose);
-        OptimalPath toEnd4 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose);
-        OptimalPath toOpen4 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose);
-        OptimalPath toEnd5 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose);
-        OptimalPath toOpen5 = createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose);
 
         return new SequentialCommandGroup(
-                toEnd1,
-                toOpen1,
-                toEnd2,
-                toOpen2,
-                toEnd3,
-                toOpen3,
-                toEnd4,
-                toOpen4,
-                toEnd5,
-                toOpen5);
+                createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose),
+                createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose),
+                createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose),
+                createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose),
+                createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose),
+                createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose),
+                createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, endRampPose),
+                createAbortableCurve(drivePedroSubsystem, trieurSubsystem, interRampPose, openRampPose));
     }
 
     private static OptimalPath createAbortableCurve(

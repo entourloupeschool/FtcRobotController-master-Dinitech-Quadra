@@ -37,6 +37,7 @@ public class TeamPoses {
             .withY(SECOND_ROW_BLUE_POSE.getY() - TILE_DIM);
     public static final Pose BLUE_VOID_POSE = new Pose(50, 62, Math.PI);
     public static final Pose BLUE_WALL_PICK_POSE = new Pose(14.5, 20, Math.toRadians(-55));
+    public static final Pose BLUE_PLAYER_PICK_POSE = new Pose(15, 15, Math.toRadians(15));
 
 
 
@@ -60,6 +61,7 @@ public class TeamPoses {
 
     public static final Pose RED_VOID_POSE = BLUE_VOID_POSE.mirror(FIELD_SIDE_LENGTH);
     public static final Pose RED_WALL_PICK_POSE = BLUE_WALL_PICK_POSE.mirror(FIELD_SIDE_LENGTH);
+    public static final Pose RED_PLAYER_PICK_POSE = BLUE_PLAYER_PICK_POSE.mirror(FIELD_SIDE_LENGTH);
     public static final double LENGTH_WALL_PICK = 20;
 
     public enum Team {
@@ -74,7 +76,7 @@ public class TeamPoses {
                 OPEN_RAMP_BLUE_POSE,
                 BLUE_RAMP_END_POSE,
                 BLUE_BASKET_POSE,
-                RAMP_PICK_BLUE_POSE, BLUE_VOID_POSE, LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE, BLUE_WALL_PICK_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
+                RAMP_PICK_BLUE_POSE, BLUE_VOID_POSE, LOOK_MOTIF_CLOSE_SHOOT_BLUE_POSE, BLUE_WALL_PICK_POSE, BLUE_PLAYER_PICK_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
         RED(RESET_POSE_RED,
                 RED_GOAL_POSE,
                 RED_AUDIENCE_POSE,
@@ -86,9 +88,9 @@ public class TeamPoses {
                 OPEN_RAMP_RED_POSE,
                 RED_RAMP_END_POSE,
                 RED_BASKET_POSE,
-                RAMP_PICK_RED_POSE, RED_VOID_POSE, LOOK_MOTIF_CLOSE_SHOOT_RED_POSE, RED_WALL_PICK_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
+                RAMP_PICK_RED_POSE, RED_VOID_POSE, LOOK_MOTIF_CLOSE_SHOOT_RED_POSE, RED_WALL_PICK_POSE, RED_PLAYER_PICK_POSE, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY),
 
-        NONE(FIELD_CENTER_90HEADING_POSE, null, null, null,null , null, null, null,null, null, null, null, null, null, null, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY);
+        NONE(FIELD_CENTER_90HEADING_POSE, null, null, null,null , null, null, null,null, null, null, null, null, null, null, null, CLOSE_SHOOT_AUTO_SHOOTER_VELOCITY, AUDIENCE_SHOOT_AUTO_SHOOTER_VELOCITY);
 
         private final Pose resetPose;
         private final Pose goalInitPose;
@@ -107,11 +109,12 @@ public class TeamPoses {
         private final Pose voidPose;
         private final Pose lookMotifPose;
         private final Pose wallPickPose;
+        private final Pose playerPickPose;
         private final double closeShootVelocity;
         private final double audienceShootVelocity;
 
 
-        Team(Pose resetPose, Pose goalInitPose, Pose audienceInitPose, Pose closeShootPose, Pose audienceShootPose, Pose firstRowPose, Pose secondRowPose, Pose thirdRowPose, Pose openRampPose, Pose endRampPose, Pose basketPose, Pose rampPickPose, Pose voidPose, Pose lookMotifPose, Pose wallPickPose, double closeShootVelocity, double audienceShootVelocity) {
+        Team(Pose resetPose, Pose goalInitPose, Pose audienceInitPose, Pose closeShootPose, Pose audienceShootPose, Pose firstRowPose, Pose secondRowPose, Pose thirdRowPose, Pose openRampPose, Pose endRampPose, Pose basketPose, Pose rampPickPose, Pose voidPose, Pose lookMotifPose, Pose wallPickPose, Pose playerPickPose, double closeShootVelocity, double audienceShootVelocity) {
             this.resetPose = resetPose;
             this.goalInitPose = goalInitPose;
             this.audienceInitPose = audienceInitPose;
@@ -127,6 +130,7 @@ public class TeamPoses {
             this.voidPose = voidPose;
             this.lookMotifPose = lookMotifPose;
             this.wallPickPose = wallPickPose;
+            this.playerPickPose = playerPickPose;
             this.closeShootVelocity = closeShootVelocity;
             this.audienceShootVelocity = audienceShootVelocity;
         }
@@ -172,6 +176,8 @@ public class TeamPoses {
         public Pose getBasketPose() {return basketPose;}
         public Pose getRampPickPose() {return rampPickPose;}
         public Pose getVoidPose(){return voidPose;}
+
+        public Pose getPlayerPickPose(){return playerPickPose;}
     }
 
 

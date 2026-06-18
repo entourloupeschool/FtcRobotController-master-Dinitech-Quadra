@@ -20,6 +20,7 @@ public class AutoPathsDefinitions {
     public static final double T_PARAMETRIC_DONT_SHOOT = 0.55;
     public static long WAIT_INIT_PEDRO_SHOOTER = 140;
     public static final double UNSHORTCUT_LENGTH = 10;
+    public static double PLAYER_PICK_RAMASSAGE_LENGTH = 3;
     public static final double MIN_RANGE_SCALE_BRAKING_STRENGTH = 30.0;
 
     public static double RADIUS_RAMP_PICK = TILE_DIM/6.5;//TILE_DIM/4;

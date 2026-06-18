@@ -39,6 +39,7 @@ public class PedroAimLockedDrive extends CommandBase {
     private final HubsSubsystem hubsSubsystem;
     private final GamepadWrapper driver;
     private Pose basketPose;
+    private static double AIM_LOCKED_ALIGNED = 0.1;
 
     /**
      * Creates a new TeleDriveLocked command.
@@ -82,6 +83,8 @@ public class PedroAimLockedDrive extends CommandBase {
         double headingGoal = Math.atan2(currentPose.getY() - basketPose.getY(), currentPose.getX() - basketPose.getX());
         double headingError = MathFunctions.getTurnDirection(currentPose.getHeading(), headingGoal) * MathFunctions.getSmallestAngleDifference(currentPose.getHeading(), headingGoal);
         double clampedError = Math.max(Math.min(headingError, CLAMPING_HEADING_ERROR), -CLAMPING_HEADING_ERROR);
+
+        if (Math.abs(clampedError) < AIM_LOCKED_ALIGNED && !driver.isRumbling()) driver.runCustomRumble(GamepadSubsystem.aimLockDriveAlignedRumble);
 
         double autoAimPower = Math.pow(clampedError, NUMBER_CUSTOM_POWER_FUNC_DRIVE_PEDRO_LOCKED);
         

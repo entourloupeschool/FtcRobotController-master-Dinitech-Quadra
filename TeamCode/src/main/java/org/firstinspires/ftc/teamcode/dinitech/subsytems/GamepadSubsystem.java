@@ -75,6 +75,14 @@ public class GamepadSubsystem extends SubsystemBase {
                 .addStep(0.15, 0, RUMBLE_DURATION_3)
                 .build();
 
+    public static final Gamepad.RumbleEffect aimLockDriveAlignedRumble = new Gamepad.RumbleEffect.Builder()
+            .addStep(0, 0.15, RUMBLE_DURATION_3)
+            .addStep(0.15, 0.30, RUMBLE_DURATION_3)
+            .addStep(0.30, 0.45, RUMBLE_DURATION_3)
+            .addStep(0.45, 0.30, RUMBLE_DURATION_3)
+            .addStep(0.30, 0.15, RUMBLE_DURATION_3)
+            .addStep(0.15,0, RUMBLE_DURATION_3)
+            .build();
     /**
      * Constructs a new GamepadSubsystem.
      *

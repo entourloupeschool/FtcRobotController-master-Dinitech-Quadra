@@ -76,4 +76,32 @@ public class ToRowToShoot extends SequentialCommandGroup {
                 new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,true, false, false)
         );
     }
+
+    public ToRowToShoot(DrivePedroSubsystem drivePedroSubsystem, TrieurSubsystem trieurSubsystem, ShooterSubsystem shooterSubsystem, ChargeurSubsystem chargeurSubsystem, Pose rowPose, Pose shootPose, double shootVelocity, double lengthBackup, double rowPower, boolean shortcutBackPath, boolean waitInitSpeed, boolean waitEachSpeed){
+        addCommands(
+                new ParallelCommandGroup(
+                        new TrieurReadyEmptyStorage(trieurSubsystem),
+                        OptimalPath.line(drivePedroSubsystem,
+                                rowPose, 1, true)),
+
+                new ParallelCommandGroup(
+                        new RamassageAuto(trieurSubsystem, chargeurSubsystem, false),
+                        new SequentialCommandGroup(
+                                OptimalPath.line(drivePedroSubsystem,
+                                        rowPose.withX(rowPose.getX() + lengthBackup*(rowPose.getX() > 72 ? 1 : -1)), rowPower, true),
+
+                                new SetVelocityShooterRequire(shooterSubsystem, shootVelocity),
+                                shortcutBackPath ?
+                                        OptimalPath.line(drivePedroSubsystem,
+                                                shootPose, 1, true).withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
+                                                () -> {if (trieurSubsystem.isEmpty()) this.cancel();})
+                                        : OptimalPath.curve(drivePedroSubsystem,
+                                        rowPose.withX(rowPose.getX() + UNSHORTCUT_LENGTH*(rowPose.getX() > 72 ? -1 : 1)),
+                                        shootPose, 1, true)
+                                          .withParametricCallback(T_PARAMETRIC_DONT_SHOOT,
+                                                  () -> {if (trieurSubsystem.isEmpty()) this.cancel();}))),
+
+                new ShootAll(trieurSubsystem, shooterSubsystem, chargeurSubsystem,waitInitSpeed, waitEachSpeed, false)
+        );
+    }
 }
