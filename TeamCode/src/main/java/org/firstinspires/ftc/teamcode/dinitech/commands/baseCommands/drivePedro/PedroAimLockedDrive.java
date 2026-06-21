@@ -39,7 +39,7 @@ public class PedroAimLockedDrive extends CommandBase {
     private final HubsSubsystem hubsSubsystem;
     private final GamepadWrapper driver;
     private Pose basketPose;
-    private static double AIM_LOCKED_ALIGNED = 0.1;
+    private static double AIM_LOCKED_ALIGNED = 0.2;
 
     /**
      * Creates a new TeleDriveLocked command.
